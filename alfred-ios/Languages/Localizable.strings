@@ -1,0 +1,13 @@
+"EMAIL" = "Email";
+"PASSWORD" = "Password";
+"CONFIRM_PASSWORD" = "Confirm password";
+"LOG_IN" = "Log in";
+"LOG_OUT" = "Log out";
+"REGISTER" = "Register";
+"LOG_IN_CTA" = "Already have an account? Log in";
+"REGISTER_CTA" = "Register";
+"HOME" = "Home";
+"HELLO" = "Hello";
+"SETTINGS" = "Settings";
+"HELLO_NAME" = "Hello, %@";
+"CLOSE" = "Close";

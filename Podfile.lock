@@ -1,0 +1,52 @@
+PODS:
+  - Alamofire (4.9.1)
+  - BonMot (5.5)
+  - Charts (3.4.0):
+    - Charts/Core (= 3.4.0)
+  - Charts/Core (3.4.0)
+  - CodableAlamofire (1.1.2):
+    - Alamofire (~> 4.0)
+  - Crashlytics (3.14.0):
+    - Fabric (~> 1.10.2)
+  - EasyPeasy (1.9.0)
+  - Fabric (1.10.2)
+  - SVProgressHUD (2.2.5)
+  - UIColor_Hex_Swift (5.1.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - BonMot (= 5.5)
+  - Charts (= 3.4.0)
+  - CodableAlamofire
+  - Crashlytics
+  - EasyPeasy
+  - Fabric
+  - SVProgressHUD
+  - UIColor_Hex_Swift
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - BonMot
+    - Charts
+    - CodableAlamofire
+    - Crashlytics
+    - EasyPeasy
+    - Fabric
+    - SVProgressHUD
+    - UIColor_Hex_Swift
+
+SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  BonMot: 58a86daf442518ff78e00cf54430fd03de37945a
+  Charts: 74c9f256eaf0460c0c416522d1cf8c634ea6b286
+  CodableAlamofire: b7adfb2e5e980392014b4b3f3b8b62c01b9de4aa
+  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
+  EasyPeasy: 19a84ef8f8bbcf925b9fecc29d1d78b7dab96718
+  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  UIColor_Hex_Swift: 8be7432edacb7fa91c78aa05ef3c30b66e4f9415
+
+PODFILE CHECKSUM: 6b15c4da5e2b54982b9f160379b18f515b727479
+
+COCOAPODS: 1.9.3

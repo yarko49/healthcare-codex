@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AnswerView" customModule="alfred_ios" customModuleProvider="target">
+            <connections>
+                <outlet property="answerBtn" destination="SDG-PJ-guk" id="5qE-Up-WDu"/>
+                <outlet property="contentView" destination="fX3-g4-O18" id="feA-kD-xKZ"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="fX3-g4-O18">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9dv-52-LhQ">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="SDG-PJ-guk">
+                            <rect key="frame" x="0.0" y="8" width="414" height="24"/>
+                            <inset key="titleEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="Button" image="radioBtnUnselected">
+                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstItem="SDG-PJ-guk" firstAttribute="leading" secondItem="9dv-52-LhQ" secondAttribute="leading" id="8P7-IT-eBu"/>
+                        <constraint firstAttribute="trailing" secondItem="SDG-PJ-guk" secondAttribute="trailing" id="Buu-yI-zju"/>
+                        <constraint firstItem="SDG-PJ-guk" firstAttribute="centerY" secondItem="9dv-52-LhQ" secondAttribute="centerY" id="DWd-DZ-mMN"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="9dv-52-LhQ" firstAttribute="top" secondItem="fX3-g4-O18" secondAttribute="top" id="RgW-6S-y7c"/>
+                <constraint firstAttribute="trailing" secondItem="9dv-52-LhQ" secondAttribute="trailing" id="dkk-2o-NML"/>
+                <constraint firstAttribute="bottom" secondItem="9dv-52-LhQ" secondAttribute="bottom" id="gEd-bX-UZs"/>
+                <constraint firstItem="9dv-52-LhQ" firstAttribute="leading" secondItem="fX3-g4-O18" secondAttribute="leading" id="yp6-Os-xvi"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="N1f-Bb-UgL"/>
+            <point key="canvasLocation" x="137.68115942028987" y="141.29464285714286"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="radioBtnUnselected" width="24" height="24"/>
+    </resources>
+</document>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegisterVC" customModule="alfred-ios" customModuleProvider="target">
+            <connections>
+                <outlet property="confirmPasswordField" destination="Wk2-3M-qlc" id="VIT-wX-1i6"/>
+                <outlet property="emailField" destination="f6F-5R-7oW" id="ib0-FJ-zhQ"/>
+                <outlet property="loginBtn" destination="h0b-VU-XcM" id="qOt-Is-C2D"/>
+                <outlet property="passwordField" destination="1ot-ha-rda" id="Vbw-bV-VSQ"/>
+                <outlet property="registerBtn" destination="D6q-OA-IzW" id="wvV-zg-6m9"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f6F-5R-7oW">
+                    <rect key="frame" x="20" y="120" width="335" height="30"/>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1ot-ha-rda">
+                    <rect key="frame" x="20" y="162" width="335" height="30"/>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wk2-3M-qlc">
+                    <rect key="frame" x="20" y="204" width="335" height="30"/>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h0b-VU-XcM">
+                    <rect key="frame" x="164.5" y="296" width="46" height="30"/>
+                    <state key="normal" title="Button"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D6q-OA-IzW">
+                    <rect key="frame" x="164.5" y="254" width="46" height="30"/>
+                    <state key="normal" title="Button"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="1ot-ha-rda" firstAttribute="trailing" secondItem="f6F-5R-7oW" secondAttribute="trailing" id="2D7-pZ-sNO"/>
+                <constraint firstItem="h0b-VU-XcM" firstAttribute="top" secondItem="D6q-OA-IzW" secondAttribute="bottom" constant="12" id="512-rb-NWX"/>
+                <constraint firstItem="f6F-5R-7oW" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="100" id="6MQ-oB-haC"/>
+                <constraint firstItem="1ot-ha-rda" firstAttribute="top" secondItem="f6F-5R-7oW" secondAttribute="bottom" constant="12" id="KyU-rs-IZQ"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="f6F-5R-7oW" secondAttribute="trailing" constant="20" id="Lzw-eg-96c"/>
+                <constraint firstItem="Wk2-3M-qlc" firstAttribute="trailing" secondItem="1ot-ha-rda" secondAttribute="trailing" id="MZx-0c-IPu"/>
+                <constraint firstItem="1ot-ha-rda" firstAttribute="leading" secondItem="f6F-5R-7oW" secondAttribute="leading" id="Z0t-8Y-BA8"/>
+                <constraint firstItem="D6q-OA-IzW" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="fxy-1d-PoX"/>
+                <constraint firstItem="Wk2-3M-qlc" firstAttribute="top" secondItem="1ot-ha-rda" secondAttribute="bottom" constant="12" id="hTo-ND-nw3"/>
+                <constraint firstItem="f6F-5R-7oW" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="ito-YI-VUZ"/>
+                <constraint firstItem="h0b-VU-XcM" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="swj-x8-hH3"/>
+                <constraint firstItem="Wk2-3M-qlc" firstAttribute="leading" secondItem="1ot-ha-rda" secondAttribute="leading" id="vgd-ki-Dxl"/>
+                <constraint firstItem="D6q-OA-IzW" firstAttribute="top" secondItem="Wk2-3M-qlc" secondAttribute="bottom" constant="20" id="wx0-sk-pQD"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+        </view>
+    </objects>
+</document>
