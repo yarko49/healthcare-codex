@@ -64,9 +64,9 @@ Environment.xcconfig
 
 # Automation
 .bundle
-Gemfile
+# Gemfile
 Gemfile.lock
-fastlane
+# fastlane
 vendor
 
 
