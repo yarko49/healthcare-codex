@@ -1,52 +1,141 @@
 PODS:
   - Alamofire (4.9.1)
+  - AppAuth (1.4.0):
+    - AppAuth/Core (= 1.4.0)
+    - AppAuth/ExternalUserAgent (= 1.4.0)
+  - AppAuth/Core (1.4.0)
+  - AppAuth/ExternalUserAgent (1.4.0)
   - BonMot (5.5)
   - Charts (3.4.0):
     - Charts/Core (= 3.4.0)
   - Charts/Core (3.4.0)
   - CodableAlamofire (1.1.2):
     - Alamofire (~> 4.0)
-  - Crashlytics (3.14.0):
-    - Fabric (~> 1.10.2)
   - EasyPeasy (1.9.0)
-  - Fabric (1.10.2)
+  - Firebase/Auth (6.21.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (~> 6.5.1)
+  - Firebase/CoreOnly (6.21.0):
+    - FirebaseCore (= 6.6.5)
+  - FirebaseAuth (6.5.1):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.6)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.5)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseAuthInterop (1.1.0)
+  - FirebaseCore (6.6.5):
+    - FirebaseCoreDiagnostics (~> 1.2)
+    - FirebaseCoreDiagnosticsInterop (~> 1.2)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Logger (~> 6.5)
+  - FirebaseCoreDiagnostics (1.2.2):
+    - FirebaseCoreDiagnosticsInterop (~> 1.2)
+    - GoogleDataTransportCCTSupport (~> 2.0)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Logger (~> 6.5)
+    - nanopb (~> 0.3.901)
+  - FirebaseCoreDiagnosticsInterop (1.2.0)
+  - GoogleDataTransport (5.1.0)
+  - GoogleDataTransportCCTSupport (2.0.1):
+    - GoogleDataTransport (~> 5.1)
+    - nanopb (~> 0.3.901)
+  - GoogleSignIn (5.0.2):
+    - AppAuth (~> 1.2)
+    - GTMAppAuth (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleUtilities/AppDelegateSwizzler (6.5.2):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (6.5.2)
+  - GoogleUtilities/Logger (6.5.2):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/Network (6.5.2):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (6.5.2)"
+  - GoogleUtilities/Reachability (6.5.2):
+    - GoogleUtilities/Logger
+  - GTMAppAuth (1.0.0):
+    - AppAuth/Core (~> 1.0)
+    - GTMSessionFetcher (~> 1.1)
+  - GTMSessionFetcher (1.3.1):
+    - GTMSessionFetcher/Full (= 1.3.1)
+  - GTMSessionFetcher/Core (1.3.1)
+  - GTMSessionFetcher/Full (1.3.1):
+    - GTMSessionFetcher/Core (= 1.3.1)
+  - IQKeyboardManagerSwift (6.5.5)
+  - nanopb (0.3.9011):
+    - nanopb/decode (= 0.3.9011)
+    - nanopb/encode (= 0.3.9011)
+  - nanopb/decode (0.3.9011)
+  - nanopb/encode (0.3.9011)
   - SVProgressHUD (2.2.5)
   - UIColor_Hex_Swift (5.1.0)
 
 DEPENDENCIES:
-  - Alamofire
+  - Alamofire (= 4.9.1)
   - BonMot (= 5.5)
   - Charts (= 3.4.0)
-  - CodableAlamofire
-  - Crashlytics
-  - EasyPeasy
-  - Fabric
-  - SVProgressHUD
-  - UIColor_Hex_Swift
+  - CodableAlamofire (= 1.1.2)
+  - EasyPeasy (= 1.9.0)
+  - Firebase/Auth (= 6.21.0)
+  - GoogleSignIn (= 5.0.2)
+  - IQKeyboardManagerSwift (= 6.5.5)
+  - SVProgressHUD (= 2.2.5)
+  - UIColor_Hex_Swift (= 5.1.0)
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - AppAuth
     - BonMot
     - Charts
     - CodableAlamofire
-    - Crashlytics
     - EasyPeasy
-    - Fabric
+    - Firebase
+    - FirebaseAuth
+    - FirebaseAuthInterop
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseCoreDiagnosticsInterop
+    - GoogleDataTransport
+    - GoogleDataTransportCCTSupport
+    - GoogleSignIn
+    - GoogleUtilities
+    - GTMAppAuth
+    - GTMSessionFetcher
+    - IQKeyboardManagerSwift
+    - nanopb
     - SVProgressHUD
     - UIColor_Hex_Swift
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   BonMot: 58a86daf442518ff78e00cf54430fd03de37945a
   Charts: 74c9f256eaf0460c0c416522d1cf8c634ea6b286
   CodableAlamofire: b7adfb2e5e980392014b4b3f3b8b62c01b9de4aa
-  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   EasyPeasy: 19a84ef8f8bbcf925b9fecc29d1d78b7dab96718
-  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
+  Firebase: f378c80340dd41c0ad0914af740c021eb282a04b
+  FirebaseAuth: a6da11d78dfd956b7f7af3222a0f0b1c93ef8fc9
+  FirebaseAuthInterop: a0f37ae05833af156e72028f648d313f7e7592e9
+  FirebaseCore: 9f495d3afacb7b558711e6218ebb14b1c51b5802
+  FirebaseCoreDiagnostics: e9b4cd8ba60dee0f2d13347332e4b7898cca5b61
+  FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
+  GoogleDataTransport: b29a21d813e906014ca16c00897827e40e4a24ab
+  GoogleDataTransportCCTSupport: 6f15a89b0ca35d6fa523e1f752ef818588885988
+  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
+  GoogleUtilities: ad0f3b691c67909d03a3327cc205222ab8f42e0e
+  GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
+  GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
+  IQKeyboardManagerSwift: 0fb93310284665245591f50f7a5e38de615960b7
+  nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   UIColor_Hex_Swift: 8be7432edacb7fa91c78aa05ef3c30b66e4f9415
 
-PODFILE CHECKSUM: 6b15c4da5e2b54982b9f160379b18f515b727479
+PODFILE CHECKSUM: d6a6d5caad026296b661e6393ec60451657a967b
 
 COCOAPODS: 1.9.3

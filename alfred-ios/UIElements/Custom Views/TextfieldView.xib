@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TextfieldView" customModule="alfred_ios" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="gdI-lb-ULq" id="tG6-I2-cGV"/>
+                <outlet property="textfield" destination="iyI-Ab-X5Z" id="aTT-Q6-Fhh"/>
+                <outlet property="titleLbl" destination="nQI-4Y-fJI" id="UtD-wl-MAp"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="gdI-lb-ULq">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="51"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hk2-kR-Y8v">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nQI-4Y-fJI">
+                            <rect key="frame" x="15" y="0.0" width="290" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iyI-Ab-X5Z">
+                            <rect key="frame" x="15" y="26" width="290" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" textContentType="email"/>
+                        </textField>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FLu-9w-4Lb">
+                            <rect key="frame" x="15" y="48" width="290" height="1"/>
+                            <color key="backgroundColor" name="LightGrey"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="vhK-R3-Sxk"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="iyI-Ab-X5Z" secondAttribute="trailing" constant="15" id="2cj-Oy-xUd"/>
+                        <constraint firstItem="FLu-9w-4Lb" firstAttribute="leading" secondItem="iyI-Ab-X5Z" secondAttribute="leading" id="5rZ-kW-jHb"/>
+                        <constraint firstItem="iyI-Ab-X5Z" firstAttribute="leading" secondItem="Hk2-kR-Y8v" secondAttribute="leading" constant="15" id="VeP-Zw-G60"/>
+                        <constraint firstItem="iyI-Ab-X5Z" firstAttribute="top" secondItem="nQI-4Y-fJI" secondAttribute="bottom" constant="5" id="ZMU-3S-3i2"/>
+                        <constraint firstItem="FLu-9w-4Lb" firstAttribute="top" secondItem="iyI-Ab-X5Z" secondAttribute="bottom" constant="5" id="czn-bp-iam"/>
+                        <constraint firstItem="nQI-4Y-fJI" firstAttribute="trailing" secondItem="iyI-Ab-X5Z" secondAttribute="trailing" id="eit-8V-vBq"/>
+                        <constraint firstItem="FLu-9w-4Lb" firstAttribute="trailing" secondItem="iyI-Ab-X5Z" secondAttribute="trailing" id="gnT-F0-G1T"/>
+                        <constraint firstItem="nQI-4Y-fJI" firstAttribute="top" secondItem="Hk2-kR-Y8v" secondAttribute="top" id="l4U-7K-Kmx"/>
+                        <constraint firstAttribute="bottom" secondItem="FLu-9w-4Lb" secondAttribute="bottom" id="uP6-cs-YtW"/>
+                        <constraint firstItem="nQI-4Y-fJI" firstAttribute="leading" secondItem="iyI-Ab-X5Z" secondAttribute="leading" id="w7f-qj-2uh"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Hk2-kR-Y8v" firstAttribute="leading" secondItem="gdI-lb-ULq" secondAttribute="leading" id="6JQ-u6-XvS"/>
+                <constraint firstItem="Nnk-yI-szf" firstAttribute="trailing" secondItem="Hk2-kR-Y8v" secondAttribute="trailing" id="qhF-2O-IQC"/>
+                <constraint firstItem="Hk2-kR-Y8v" firstAttribute="top" secondItem="gdI-lb-ULq" secondAttribute="top" id="xao-v3-FtY"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="Nnk-yI-szf"/>
+            <point key="canvasLocation" x="303" y="-113"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="LightGrey">
+            <color red="0.56862745098039214" green="0.58039215686274515" blue="0.67843137254901964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

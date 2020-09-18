@@ -13,6 +13,24 @@ import UIKit
         }
     }
     
+    @IBInspectable var roundedBackgroundColor: CGColor? = UIColor.blue?.cgColor {
+        didSet {
+            setBackgroundColor()
+        }
+    }
+    
+    @IBInspectable var roundedTitleColor: UIColor? = .white {
+        didSet {
+            setTitleColor()
+        }
+    }
+    
+    @IBInspectable var roundedBorderColor: CGColor? = UIColor.blue?.cgColor {
+        didSet {
+            setBorderColor()
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         sharedInit()
@@ -33,10 +51,24 @@ import UIKit
     }
     
     func setupColors() {
-        self.layer.backgroundColor = UIColor.blue.cgColor
-        self.setTitleColor(.white, for: .normal)
+        setBackgroundColor()
+        setTitleColor()
+        setBorderColor()
     }
     
+    func setBackgroundColor() {
+        self.layer.backgroundColor = roundedBackgroundColor
+    }
+    
+    func setTitleColor() {
+        self.setTitleColor(roundedTitleColor, for: .normal)
+    }
+    
+    func setBorderColor() {
+        self.layer.borderWidth = 2
+        self.layer.borderColor = roundedBorderColor
+    }
+
     func refreshCorners(value: CGFloat) {
         self.layer.cornerRadius = value
     }

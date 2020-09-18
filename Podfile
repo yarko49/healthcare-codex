@@ -8,14 +8,15 @@ target 'alfred-ios' do
   use_frameworks!
 
   # Pods for alfred-ios
-  pod 'Fabric'
-  pod 'Crashlytics'
-  pod 'Alamofire'
-  pod 'CodableAlamofire'
-  pod 'SVProgressHUD'
-  pod 'EasyPeasy'
-  pod 'UIColor_Hex_Swift'
+  pod 'Alamofire', '4.9.1'
+  pod 'CodableAlamofire', '1.1.2'
+  pod 'SVProgressHUD', '2.2.5'
+  pod 'EasyPeasy', '1.9.0'
+  pod 'UIColor_Hex_Swift', '5.1.0'
   pod 'Charts', '3.4.0'
   pod 'BonMot', '5.5'
+  pod 'GoogleSignIn', '5.0.2'
+  pod 'Firebase/Auth', '6.21.0'
+  pod 'IQKeyboardManagerSwift', '6.5.5'
 
 end

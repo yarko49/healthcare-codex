@@ -1,0 +1,96 @@
+{
+   "data":[
+      {
+         "name":"Card1",
+         "data":{
+            "backgroundColor": "ORANGE",
+            "expires": "Aug 2",
+            "icon": "ACTIVITY",
+            "uuid": "1",
+            "sampledTime": "Yesterday",
+            "status": "Vigorous",
+            "statusColor": "GREEN",
+            "text": "12,000",
+            "title": "Activity",
+            "ttl": "Something",
+            "type": "MEASUREMENT"
+         }
+      },
+      {
+         "name":"Card3",
+         "data":{
+            "backgroundColor": "BLUE",
+            "expires": "Aug 2",
+            "icon": "SCALE",
+            "previewText": "Your smart scale is not connected to Alfred. Can we help you troubleshoot?",
+            "previewTitle": "Weight",
+            "uuid": "3",
+            "text": "Will put later",
+            "title": "Troubleshooting",
+            "ttl": "Something",
+            "type": "COACH"
+         }
+      },
+      {
+         "name":"Card3",
+         "data":{
+            "backgroundColor": "ORANGE",
+            "expires": "Aug 2",
+            "icon": "SCALE",
+            "previewText": "Your smart scale is not connected to Alfred. Can we help you troubleshoot?",
+            "previewTitle": "Weight",
+            "uuid": "5",
+            "text": "Will put later",
+            "title": "Troubleshooting",
+            "ttl": "Something",
+            "type": "COACH"
+         }
+      },
+      {
+         "name":"Card3",
+         "data":{
+            "backgroundColor": "GREEN",
+            "expires": "Aug 2",
+            "icon": "SCALE",
+            "previewText": "Your smart scale is not connected to Alfred. Can we help you troubleshoot?",
+            "previewTitle": "Weight",
+            "uuid": "6",
+            "text": "Will put later",
+            "title": "Troubleshooting",
+            "ttl": "Something",
+            "type": "COACH"
+         }
+      },
+      {
+         "name":"Card2",
+         "data":{
+            "backgroundColor": "BLUE",
+            "expires": "Aug 2",
+            "icon": "SCALE",
+            "uuid": "2",
+            "sampledTime": "Aug 3",
+            "status": "Heavy",
+            "statusColor": "YELLOW",
+            "text": "206 lbs",
+            "title": "Weight",
+            "ttl": "Something",
+            "type": "MEASUREMENT"
+         }
+      },
+      {
+         "name":"Card4",
+         "data":{
+            "backgroundColor": "RED",
+            "expires": "Aug 2",
+            "icon": "SCALE",
+            "previewText": "We have not received BP data from your smart blood pressure meter in 'X' days. Can we help you troubleshoot?",
+            "previewTitle": "Blood Pressure",
+            "uuid": "4",
+            "text": "Will put later",
+            "title": "Troubleshooting",
+            "ttl": "Something",
+            "type": "COACH"
+         }
+      }
+   ]
+}

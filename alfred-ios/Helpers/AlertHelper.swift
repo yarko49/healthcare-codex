@@ -24,6 +24,13 @@ class AlertHelper {
        SVProgressHUD.dismiss()
     }
     
+    static func showSendLoader() {
+        SVProgressHUD.setDefaultStyle(.dark)
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.setBackgroundColor(.clear)
+        SVProgressHUD.show()
+    }
+    
     static func showAlert(title: String?, detailText: String?, actions: [AlertAction], style: UIAlertController.Style = .alert, fillProportionally: Bool = false, from viewController: UIViewController? = UIApplication.shared.keyWindow?.visibleViewController()) {
         hideLoader()
         let alertVC = UIAlertController(title: title, message: detailText, preferredStyle: style)

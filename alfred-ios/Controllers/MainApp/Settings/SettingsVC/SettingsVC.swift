@@ -2,16 +2,111 @@ import UIKit
 
 class SettingsVC: BaseVC {
     
-    var closeAction: (()->())?
+    var accountDetailsAction: (()->())?
+    var myDevicesAction: (()->())?
+    var notificationsAction: (()->())?
+    var systemAuthorizationAction: (()->())?
+    var feedbackAction: (()->())?
+    var privacyPolicyAction: (()->())?
+    var termsOfServiceAction: (()->())?
+    var logoutAction: (()->())?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        let closeBtn = UIBarButtonItem(title: Str.close, style: .plain, target: self, action: #selector(closeTapped(_:)))
-        navigationItem.leftBarButtonItem = closeBtn
+    // MARK: - Properties
+    var settings: [Settings] = Settings.allValues
+    let rowHeight: CGFloat = 60
+    let footerHeight: CGFloat = 110
+    
+    // MARK: - IBOutlets
+    @IBOutlet weak var settingsTV: UITableView!
+    
+    // MARK: - Setup
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
+    
+    override func setupView() {
+        super.setupView()
+        title = Str.settings
+        setupTableView()
+        setupFooter()
+    }
+    
+    private func setupTableView() {
+        settingsTV.register(UINib(nibName: "SettingsCell", bundle: nil), forCellReuseIdentifier: "SettingsCell")
+        settingsTV.rowHeight = rowHeight
+        settingsTV.dataSource = self
+        settingsTV.delegate = self
+        settingsTV.isScrollEnabled = true
+        settingsTV.layoutMargins = UIEdgeInsets.zero
+        settingsTV.separatorInset = UIEdgeInsets.zero
+    }
+    
+    private func setupFooter() {
+        let settingsFooter = SettingsFooterView(viewHeight: footerHeight)
+        settingsFooter.delegate = self
+        settingsTV.tableFooterView = settingsFooter
+        settingsTV.separatorStyle = .singleLine
+    }
+    
+    override func populateData() {
+        super.populateData()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard let footerView = self.settingsTV.tableFooterView else {
+          return
+        }
+        
+        let guide = view.safeAreaLayoutGuide
+        let height = guide.layoutFrame.size.height
+        let heightCheck = height - CGFloat(settings.count)*rowHeight
+        let fHeight = heightCheck < footerHeight ? footerHeight : heightCheck
+        if footerView.frame.size.height != fHeight {
+          footerView.frame.size.height = fHeight
+          self.settingsTV.tableFooterView = footerView
+        }
+    }
+    
+    //MARK: - Actions
+}
+// MARK: - UITableViewDataSource & UITableViewDelegate
+extension SettingsVC: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return settings.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath) as! SettingsCell
+        cell.layoutMargins = UIEdgeInsets.zero
+        
+        cell.setup(name: settings[indexPath.row].description)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch settings[indexPath.row] {
+        case .accountDetails:
+            accountDetailsAction?()
+        case .myDevices:
+            myDevicesAction?()
+        case .notifications:
+            notificationsAction?()
+        case .systemAuthorization:
+            systemAuthorizationAction?()
+        case .feedback:
+            feedbackAction?()
+        case .privacyPolicy:
+            privacyPolicyAction?()
+        case .termsOfService:
+            termsOfServiceAction?()
+        }
+    }
+}
 
-    @objc private func closeTapped(_ sender: UIBarButtonItem) {
-        closeAction?()
+extension SettingsVC: SettingsFooterViewDelegate {
+    func didTapLogout() {
+        logoutAction?()
     }
 }

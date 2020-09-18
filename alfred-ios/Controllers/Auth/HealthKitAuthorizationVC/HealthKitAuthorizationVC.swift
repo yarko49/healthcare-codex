@@ -7,6 +7,7 @@ import Foundation
 import UIKit
 
 class HealthKitAuthorizationVC: BaseVC {
+    
     // MARK - Coordinator Actions
     var authorizeAction: (()->())?
     
@@ -16,6 +17,8 @@ class HealthKitAuthorizationVC: BaseVC {
     
     // MARK: - ViewController Setup
     override func setupView() {
+        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.layoutIfNeeded()
         super.setupView()
     }
 

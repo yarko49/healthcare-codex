@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EmailSignInVC" customModule="alfred_ios" customModuleProvider="target">
+            <connections>
+                <outlet property="emailView" destination="nnV-BY-8cL" id="qf1-gC-t9x"/>
+                <outlet property="forgotPasswordBtn" destination="gQu-WL-taL" id="jWW-gj-hnB"/>
+                <outlet property="passwordView" destination="FPY-ha-4Zz" id="H8P-ta-JRY"/>
+                <outlet property="screen" destination="PmU-jL-OKw" id="hnK-HR-ufJ"/>
+                <outlet property="signInBtn" destination="64F-27-cED" id="31w-AK-fyL"/>
+                <outlet property="stackView" destination="6QJ-cv-YCx" id="cXF-Z5-bEl"/>
+                <outlet property="view" destination="ref-TK-mvv" id="2Dx-Xx-NyW"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="ref-TK-mvv">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="daM-Ce-iaj">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PmU-jL-OKw">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="6QJ-cv-YCx">
+                                    <rect key="frame" x="0.0" y="110" width="414" height="152"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nnV-BY-8cL" customClass="TextfieldView" customModule="alfred_ios" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FPY-ha-4Zz" customClass="TextfieldView" customModule="alfred_ios" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="101" width="414" height="51"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="152" id="Go5-3F-Okw"/>
+                                    </constraints>
+                                </stackView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gQu-WL-taL">
+                                    <rect key="frame" x="15" y="269" width="384" height="30"/>
+                                    <state key="normal" title="Button"/>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="64F-27-cED">
+                                    <rect key="frame" x="37" y="377" width="340" height="68"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="68" id="x0a-NN-jth"/>
+                                    </constraints>
+                                    <state key="normal" title="Button"/>
+                                    <connections>
+                                        <action selector="signInBtnTapped:" destination="-1" eventType="touchUpInside" id="PmB-um-YAu"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <constraints>
+                                <constraint firstItem="gQu-WL-taL" firstAttribute="top" secondItem="6QJ-cv-YCx" secondAttribute="bottom" constant="7" id="VOe-y4-K8N"/>
+                                <constraint firstAttribute="trailing" secondItem="gQu-WL-taL" secondAttribute="trailing" constant="15" id="Vw9-Q4-Ktk"/>
+                                <constraint firstItem="gQu-WL-taL" firstAttribute="leading" secondItem="PmU-jL-OKw" secondAttribute="leading" constant="15" id="cng-JX-oUb"/>
+                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="64F-27-cED" secondAttribute="bottom" priority="250" id="ctU-RZ-1kf"/>
+                                <constraint firstAttribute="trailing" secondItem="6QJ-cv-YCx" secondAttribute="trailing" id="jfZ-0o-DMr"/>
+                                <constraint firstItem="64F-27-cED" firstAttribute="top" secondItem="gQu-WL-taL" secondAttribute="bottom" constant="78" id="jge-19-sgn"/>
+                                <constraint firstItem="6QJ-cv-YCx" firstAttribute="top" secondItem="PmU-jL-OKw" secondAttribute="top" constant="110" id="meC-IF-Auw"/>
+                                <constraint firstAttribute="trailing" secondItem="64F-27-cED" secondAttribute="trailing" constant="37" id="pv9-WS-CK5"/>
+                                <constraint firstItem="64F-27-cED" firstAttribute="leading" secondItem="PmU-jL-OKw" secondAttribute="leading" constant="37" id="qFi-RS-c7I"/>
+                                <constraint firstItem="6QJ-cv-YCx" firstAttribute="leading" secondItem="PmU-jL-OKw" secondAttribute="leading" id="xHo-R7-m6h"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="PmU-jL-OKw" firstAttribute="leading" secondItem="daM-Ce-iaj" secondAttribute="leading" id="Fcl-NH-TP3"/>
+                        <constraint firstAttribute="trailing" secondItem="PmU-jL-OKw" secondAttribute="trailing" id="Jpn-At-ttd"/>
+                        <constraint firstAttribute="bottom" secondItem="PmU-jL-OKw" secondAttribute="bottom" id="Srk-MR-bRc"/>
+                        <constraint firstItem="PmU-jL-OKw" firstAttribute="top" secondItem="daM-Ce-iaj" secondAttribute="top" id="d9m-hb-NBa"/>
+                    </constraints>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="daM-Ce-iaj" firstAttribute="top" secondItem="ref-TK-mvv" secondAttribute="top" id="YPo-XK-Q8U"/>
+                <constraint firstAttribute="bottom" secondItem="daM-Ce-iaj" secondAttribute="bottom" id="db7-BN-Kby"/>
+                <constraint firstItem="daM-Ce-iaj" firstAttribute="leading" secondItem="ref-TK-mvv" secondAttribute="leading" id="iCb-b6-BKQ"/>
+                <constraint firstItem="PmU-jL-OKw" firstAttribute="width" secondItem="ref-TK-mvv" secondAttribute="width" id="mab-th-sIy"/>
+                <constraint firstAttribute="trailing" secondItem="daM-Ce-iaj" secondAttribute="trailing" id="z7J-Qh-c23"/>
+            </constraints>
+            <point key="canvasLocation" x="-442" y="-78"/>
+        </view>
+    </objects>
+</document>

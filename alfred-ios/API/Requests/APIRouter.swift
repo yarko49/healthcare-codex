@@ -4,17 +4,20 @@ import Alamofire
 enum APIRouter: URLRequestConvertible {
     static let baseURLPath = AppConfig.apiBaseUrl
     
-    case test
+    case getQuestionnaire
+    case postObservation(observation: ObservationBE)
     
     var method: HTTPMethod {
         switch self {
-        case .test: return .get
+        case .getQuestionnaire: return .get
+        case .postObservation: return .post
         }
     }
     
     var path: String {
         switch self {
-        case .test: return "/todos/1"
+        case .getQuestionnaire: return "/fhir/Questionnaire"
+        case .postObservation: return "/fhir/Observation"
         }
         
     }
@@ -30,19 +33,25 @@ enum APIRouter: URLRequestConvertible {
     
     var headers: [String : String] {
         var headers = [
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "x-api-key": AppConfig.apiKey
         ]
+        if let authToken = DataContext.shared.authToken {
+            headers["Authorization"] = "Bearer " + authToken
+        }
         switch self {
-        case .test:
-            headers["Some-Other-Header"] = "Some Other Value"
+        case .getQuestionnaire:
+            break
+        case .postObservation:
+            headers["Content-Type"] = "application/fhir+json"
         }
         return headers
     }
     
     var parameters: Parameters? {
         switch self {
-        case .test:
-            return ["param": "value"]
+        case .getQuestionnaire, .postObservation:
+            return nil
         }
     }
     
@@ -52,6 +61,14 @@ enum APIRouter: URLRequestConvertible {
         var request = URLRequest(url: url.appendingPathComponent(path))
         request.httpMethod = method.rawValue
         request.allHTTPHeaderFields = headers
+        
+        switch self {
+        case .postObservation(let observation):
+            let jsonBody = try JSONEncoder().encode(observation)
+            request.httpBody = jsonBody
+        default:
+            break
+        }
         
         return try encoding.encode(request, with: parameters)
     }

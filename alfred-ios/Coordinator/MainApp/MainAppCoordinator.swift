@@ -1,12 +1,14 @@
 import UIKit
+import HealthKit
+import HealthKitToFhir
+import FHIR
 
-class MainAppCoordinator: NSObject, Coordinator {
-    
+class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDelegate {
     
     internal var navigationController: UINavigationController?
     internal var childCoordinators: [CoordinatorKey:Coordinator]
     internal weak var parentCoordinator: MasterCoordinator?
-    
+  
     var rootViewController: UIViewController? {
         return navigationController
     }
@@ -17,13 +19,14 @@ class MainAppCoordinator: NSObject, Coordinator {
         self.childCoordinators = [:]
         super.init()
         navigationController?.delegate = self
+      
         start()
     }
     
     internal func start() {
         showHome()
     }
-    
+   
     internal func showHome() {
         let homeVC = HomeVC()
         
@@ -31,33 +34,18 @@ class MainAppCoordinator: NSObject, Coordinator {
             AlertHelper.showLoader()
             DataContext.shared.testGetHomeNotifications { (notificationList) in
                 AlertHelper.hideLoader()
-                guard let notificationList = notificationList else { return }
-                homeVC.notificationsList = notificationList
-                homeVC.notificationsCollectionView.reloadData()
+                homeVC.setupCards(with: notificationList)
             }
         }
         
-        let questionaireAction: (()->())? = { [weak self] in
-            self?.goToQuestionaire()
-        }
-        
-        let behavioralNudgeAction: (()->())? = { [weak self] in
-            self?.goToCharts()
+        let questionnaireAction: (()->())? = { [weak self] in
+            self?.goToQuestionnaire()
         }
         
         homeVC.testRequestAction = testRequestAction
-        homeVC.questionaireAction = questionaireAction
-        homeVC.behavioralNudgeAction = behavioralNudgeAction
-        
+        homeVC.questionnaireAction = questionnaireAction
         self.navigate(to: homeVC, with: .push)
-        
     }
-    
-    //    internal func showFetchedContent(_ content: [String:Any]) {
-    //        let alertVC = UIAlertController(title: "RESULT", message: content.description, preferredStyle: .alert)
-    //        alertVC.addAction(UIAlertAction(title: "OK BOOMER", style: .default, handler: nil))
-    //        navigate(to: alertVC, with: .present)
-    //    }
     
     internal func gotoSettings() {
         let settingsCoord = SettingsCoordinator(with: self)
@@ -65,56 +53,90 @@ class MainAppCoordinator: NSObject, Coordinator {
         settingsCoord.start()
     }
     
-    internal func goToQuestionaire() {
-        let questionaireCoord = QuestionaireCoordinator(with: self)
-        addChild(coordinator: questionaireCoord, with: .questionaireCoordinator)
-        questionaireCoord.start()
+    internal func goToQuestionnaire() {
+        let questionnaireCoord = QuestionnaireCoordinator(with: self)
+        addChild(coordinator: questionnaireCoord, with: .questionnaireCoordinator)
+        questionnaireCoord.start()
     }
-    
-    internal func goToCharts() {
-        let questionaireCoord = ChartsCoordinator(with: self)
-        addChild(coordinator: questionaireCoord, with: .chartsCoordinator)
-        questionaireCoord.start()
+
+    internal func goToProfile() {
+        let profileVC = ProfileVC()
+        
+        profileVC.refreshHKDataAction = { [weak profileVC] startDate, endDate in
+            // TODO: Get only data that user gave authorization for
+            let group = DispatchGroup()
+            DataContext.shared.userAuthorizedQuantities.forEach { (healthKitQuantityType) in
+                if healthKitQuantityType == .bloodPressure {
+                    
+                    
+                } else {
+                    group.enter()
+                    HealthKitManager.shared.getAverageHighLowValues(for: healthKitQuantityType.getHKitQuantityType(), from: startDate, to: endDate) { (avg, max, min) in
+                        profileVC?.currentHKData[healthKitQuantityType] = PatientTrendCellData(averageValue: avg, highValue: max, lowValue: min)
+                        group.leave()
+                    }
+                }
+            }
+            
+            group.notify(queue: .main) { [weak profileVC] in
+                profileVC?.patientTrendsTV.reloadData()
+            }
+        }
+        
+        profileVC.backBtnAction = { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+        
+        navigate(to: profileVC, with: .push)
     }
     
     internal func logout() {
-        AlertHelper.showLoader()
-        DataContext.shared.logout { [weak self] (success) in
-            AlertHelper.hideLoader()
-            self?.parentCoordinator?.goToAuth()
-        }
+        self.parentCoordinator?.goToAuth()
     }
     
     deinit {
-        navigationController = nil
+        navigationController?.viewControllers = []
+        rootViewController?.dismiss(animated: true, completion: nil)
     }
     
     @objc internal func didTapSettings(){
         self.gotoSettings()
     }
     
-    @objc internal func didTapLogout(){
-        self.logout()
+    @objc internal func didTapProfileBtn(){
+        self.goToProfile()
     }
+    
+    @objc internal func backAction(){
+        self.navigationController?.popViewController(animated: true)
+    }
+    
 }
-
 extension MainAppCoordinator: UINavigationControllerDelegate {
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController is HomeVC {
+            if viewController.navigationItem.leftBarButtonItem == nil {
+                let profileBtn = UIBarButtonItem(image: UIImage(named: "iconProfile")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapProfileBtn))
+                profileBtn.tintColor = UIColor.black
+                viewController.navigationItem.setLeftBarButton(profileBtn, animated: true)
+            }
+            
+        } else if viewController is ProfileVC {
+            
             if viewController.navigationItem.rightBarButtonItem == nil {
-                let logoutBtn = UIBarButtonItem(image: UIImage(named: "gear")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapLogout))
-                logoutBtn.tintColor = UIColor.grey
-                viewController.navigationItem.setRightBarButton(logoutBtn, animated: true)
+                let settingsBtn = UIBarButtonItem(image: UIImage(named: "gear")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapSettings))
+                settingsBtn.tintColor = .black
+                viewController.navigationItem.setRightBarButton(settingsBtn, animated: true)
             }
             
             if viewController.navigationItem.leftBarButtonItem == nil {
-                let settingsBtn = UIBarButtonItem(image: UIImage(named: "menu")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapSettings))
-                settingsBtn.tintColor = UIColor.grey
-                viewController.navigationItem.setLeftBarButton(settingsBtn, animated: true)
+                let backBtn = UIBarButtonItem(image: UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(backAction))
+                backBtn.tintColor = .black
+                viewController.navigationItem.setLeftBarButton(backBtn, animated: true)
             }
+            
         }
     }
     
 }
-

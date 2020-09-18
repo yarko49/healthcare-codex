@@ -172,6 +172,10 @@ public extension UIWindow {
             }
         }
     }
+    
+    static func keyWindow() -> UIWindow? {
+        return UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+    }
 }
 
 internal extension UIViewController {

@@ -6,7 +6,6 @@ enum CoordinatorKey: String {
     case mainAppCoordinator
     case homeCoordinator
     case settingsCoordinator
-    case questionaireCoordinator
-    case chartsCoordinator
+    case questionnaireCoordinator
 }
 

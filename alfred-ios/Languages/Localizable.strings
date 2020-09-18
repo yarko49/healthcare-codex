@@ -1,13 +1,136 @@
+//Login screen
+
 "EMAIL" = "Email";
 "PASSWORD" = "Password";
+"CONFIRM_EMAIL_ADDRESS" = "Confirm email address";
 "CONFIRM_PASSWORD" = "Confirm password";
-"LOG_IN" = "Log in";
-"LOG_OUT" = "Log out";
 "REGISTER" = "Register";
 "LOG_IN_CTA" = "Already have an account? Log in";
 "REGISTER_CTA" = "Register";
 "HOME" = "Home";
 "HELLO" = "Hello";
-"SETTINGS" = "Settings";
 "HELLO_NAME" = "Hello, %@";
 "CLOSE" = "Close";
+"CANCEL" = "Cancel";
+"SIGN_IN_WITH_GOOGLE" = "Sign in with Google";
+"SIGN_IN_WITH_APPLE" = "Sign in with Apple";
+"SIGN_IN_WITH_YOUR_EMAIL" = "Sign in with your email";
+"FORGOT_PASSWORD" = "Forgot password?";
+"SIGN_IN" = "SIGN IN";
+"SIGN_UP" = "Sign up";
+"SAVE" = "SAVE";
+"RESET_PASSWORD" = "Reset Password";
+"WELCOME_BACK" = "Welcome Back";
+"WE_WILL_EMAIL_YOU_A_LINK_TO_RESET_YOUR_PASSWORD" = "We will email you a link to \n reset your password";
+"BY_REGISTERING_I_ACCEPT_THE_TERMS_OF_SERVICES_AND_PRIVACY_POLICY" = "By registering, I accept the Terms \n of Services and Privacy Policy";
+"SIGN_UP_FOR_ALFRED_WITH_YOUR_EMAIL" = "Sign up for Alfred with your email";
+
+// Onboarding
+
+"SLIDE_1_TITLE" = "Alfred";
+"SLIDE_1_DESC" = "Your Personal Health Assistant";
+"SLIDE_2_TITLE" = "Daily Data for a Healthier You";
+"SLIDE_2_DESC" = "Track your weight, steps, BP and heart rate daily";
+"SLIDE_3_TITLE" = "A Better Health Partnership";
+"SLIDE_3_DESC" = "Facilitates collaboration with your doctor";
+"ALREADY_HAVE_ACCOUNT" = "Already have an Account?";
+"SIGN_UP" = "Sign up";
+"LOG_IN" = "Log in";
+
+// Sign up
+
+"FIRST_NAME" = "First Name";
+"LAST_NAME" = "Last Name";
+"MY_PROFILE" = "My Profile";
+"GENDER_IDENTITY" = "Gender Identity";
+"SEX" = "Sex";
+"MALE" = "Male";
+"FEMALE" = "Female";
+"TRANS" = "Trans";
+"CIS" = "CIS";
+"NEXT" = "NEXT";
+"THIS_INFORMATION_HELPS_US_PROVIDE_CUSTOM_RECOMMENDATIONS" = "This information helps us provide \n custom recommendations.";
+"DATE_OF_BIRTH" = "Date of birth";
+"HEIGHT" = "Height";
+"FAILED_TO_CONFIRM_EMAIL" = "Failed to confirm email";
+
+// Sign in
+
+"IF_YOUR_ACCOUNT_IS_ASSOCIATED_WITH_THIS_EMAIL_ADDRESS_YOU_WILL_RECEIVE_AN_EMAIL_TO_RESET_YOUR_PASSWORD_IF_YOU_DON'T_PLEASE_TRY_ANOTHER_EMAIL_ADDRESS" = "if your account is associated with this \n email address you will receive an email \n to reset your pasword. If you don't, \n please try another email address";
+"INVALID_EMAIL_ADDRESS" = "Invalid email address";
+"INVALID_PASSWORD" = "Invalid Password";
+"PLEASE_ENTER_EMAIL_ADDRESS" = "Please enter email address";
+"PLEASE_ENTER_PASSWORD" = "Please enter password";
+"OK" = "OK";
+"BACK_TO_SIGN_IN" = "Back to Sign in";
+
+// Profile stats
+"TODAY" = "Today";
+"WK" = "Wk";
+"MO" = "Mo";
+"YR" = "Yr";
+"HIGH" = "High";
+"LOW" = "Low";
+"DAILY_AVERAGE" = "Daily Average";
+"MONTHLY_AVERAGE" = "Monthly Average";
+"WEEKLY_AVERAGE" = "Weekly Average";
+"YEARLY_AVERAGE" = "Yearly Average";
+"EDIT" = "EDIT";
+"PROFILE" = "Profile";
+"HEALTHY" = "Healthy";
+"HEAVY" = "Heavy";
+"OBESE" = "Obese";
+"LIGHT" = "Light";
+"MODERATE" = "Moderate";
+"VIGOROUS" = "Vigorous";
+"NORMAL" = "Normal";
+"LOW" = "Low";
+"ELEVATED" = "Elevated";
+"HYPERTENSION_(STAGE_1)" = "Hypertension (Stage 1)";
+"HYPERTENSION_(STAGE_2)" = "Hypertension (Stage 2)";
+"HYPERTENSIVE_CRISIS" = "Hypertensive crisis";
+
+
+"WEIGHT" = "Weight";
+"ACTIVITY" = "Activity";
+"BLOOD_PRESSURE" = "Blood Pressure";
+"RESTING_HEART_RATE" = "Resting Heart Rate";
+"HEART_RATE" = "Heart Rate";
+
+// Settings
+"SETTINGS" = "Settings";
+"LOG_OUT" = "Log out";
+"ACCOUNT_DETAILS" = "Account Details";
+"MY_DEVICES" = "My Devices";
+"NOTIFICATIONS" = "Notifications";
+"SYSTEM_AUTHORIZATION" = "System Authorization";
+"FEEDBACK" = "Feedback";
+"PRIVACY_POLICY" = "Privacy Policy";
+"TERMS_OF_SERVICE" = "Terms of Service";
+"VERSION" = "Version %@";
+"FIRST_NAME" = "First Name";
+"LAST_NAME" = "Last Name";
+"EMAIL_ADDRESS" = "Email Address";
+"RESET_PASSWORD" = "Reset Password";
+"SEND" = "Send";
+"RESET_PASSWORD_DESC" = "We will email you a link to reset your password";
+"RESET_PASSWORD_RESPONSE" = "If your account is associated with this email address you will receive an email to reset your password. If you don’t, please try another email address.";
+
+//My Devices
+"SMART_SCALE" = "Smart scale";
+"SMART_BLOCK_PRESSURE_CUFF" = "Smart block pressure cuff";
+"SMART_PEDOMETER" = "Smart pedometer";
+"SMART_WATCH" = "Smart watch";
+
+// My Notifications
+"MY_NOTIFICATIONS" = "My Notifications";
+"ACTIVITY_PUSH_NOTIFICATIONS" = "Activity Push Notifications";
+"BLOOD_PRESSURE_PUSH_NOTIFICATIONS" = "Blood Pressure Push Notifications";
+"WEIGHT_IN_PUSH_NOTIFICATIONS" = "Weight in Push Notifications";
+"SURVEY_PUSH_NOTIFICATIONS" = "Survey Push Notifications";
+
+// Questionnaire
+"OF_PARTS" = "%d of %d parts";
+"QUESTION" = "Question %d";
+"PREVIOUS" = "Previous";
+

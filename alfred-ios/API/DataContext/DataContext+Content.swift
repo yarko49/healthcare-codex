@@ -1,77 +1,39 @@
 import Foundation
 
 extension DataContext {
-    func testRequest(completion: @escaping (([String:Any]?) -> Void)) {
-        Requests.testRequest { (someContent) in
-            completion(someContent)
+    
+    func testGetHomeNotifications(completion: @escaping ([NotificationCard]?)->Void) {
+        
+        if let filepath = Bundle.main.path(forResource: "HomeNotificationJSON", ofType: "txt") {
+            do {
+                let jsonString = try String(contentsOfFile: filepath)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    if let jsonData = jsonString.data(using: .utf8) {
+                        let result = try? JSONDecoder().decode(CardList.self, from: jsonData)
+                        
+                        if let list = result?.data {
+                            completion(list)
+                        }
+                    }
+                    completion(nil)
+                }
+            } catch {
+                print("Content of HomeNotificationJson.rtf could not be loaded")
+            }
+        } else {
+            print("HomeNotificationJson.rtf not found")
         }
     }
     
-    func testGetHomeNotifications(completion: @escaping ([HomeNotification]?)->Void) {
-        let jsonString = """
-        {
-          "data": [
-            {
-              "text": "Your doctor would like you to complete the KCCQ",
-              "type": "questionaire"
-            },
-            {
-              "text": "It's been 2 weeks since your weight has been updated",
-              "type": "behavioralNudge"
-            },
-            {
-              "text": "It's been 2 weeks since your weight has been updated",
-              "type": "behavioralNudge"
-            },
-            {
-              "text": "It's been 2 weeks since your weight has been updated",
-              "type": "behavioralNudge"
-            },
-            {
-              "text": "Your doctor would like you to complete the KCCQ",
-              "type": "questionaire"
-            },
-            {
-              "text": "It's been 2 weeks since your weight has been updated",
-              "type": "behavioralNudge"
-            },
-            {
-              "text": "It's been 2 weeks since your weight has been updated",
-              "type": "behavioralNudge"
-            },
-            {
-              "text": "It's been 2 weeks since your weight has been updated",
-              "type": "behavioralNudge"
-            },
-            {
-              "text": "It's been 2 weeks since your weight has been updated",
-              "type": "behavioralNudge"
-            },
-            {
-              "text": "It's been 2 weeks since your weight has been updated",
-              "type": "behavioralNudge"
-            },
-            {
-              "text": "It's been 2 weeks since your weight has been updated",
-              "type": "behavioralNudge"
-            },
-            {
-              "text": "It's been 2 weeks since your weight has been updated",
-              "type": "behavioralNudge"
+    func getQuestionnaire(completion: @escaping ([Item]?)->Void) {
+        Requests.getQuestionnaire { (questionnaire) in
+            if let questionnaire = questionnaire?.item {
+                completion(questionnaire)
+            } else {
+                completion(nil)
             }
-          ]
-        }
-        """
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            if let jsonData = jsonString.data(using: .utf8) {
-                let result = try? JSONDecoder().decode(HomeNotificationList.self, from: jsonData)
-                
-                if let list = result?.data {
-                    completion(list)
-                }
-            }
-            completion(nil)
         }
     }
+    
 }

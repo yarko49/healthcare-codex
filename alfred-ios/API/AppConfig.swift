@@ -10,12 +10,12 @@ final class AppConfig {
         return path("CFBundleIdentifier")!
     }
     
-    static var fabricAPIKey: String? {
-        return path("Fabric","APIKey")
-    }
-    
     static var apiBaseUrl: String {
         return path("Environment", "API Base URL")!
+    }
+    
+    static var apiKey: String {
+        return path("Environment", "API Key")!
     }
     
     static func path(_ keys: String...) -> String? {

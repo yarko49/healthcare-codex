@@ -39,11 +39,10 @@ class MasterCoordinator: Coordinator {
         
     }
     
-
     public func goToAuth() {
         removeChild(.mainAppCoordinator)
         DataContext.shared.clearAll()
-        let authCoordinator = AuthCoordinator(withParent: self)
+        let authCoordinator = AuthCoordinator(withParent : self)
         addChild(coordinator: authCoordinator, with: .authCoordinator)
         self.window.rootViewController = authCoordinator.rootViewController
     }
@@ -54,5 +53,4 @@ class MasterCoordinator: Coordinator {
         addChild(coordinator: mainAppCoordinator, with: .mainAppCoordinator)
         self.window.rootViewController = mainAppCoordinator.rootViewController
     }
-   
 }

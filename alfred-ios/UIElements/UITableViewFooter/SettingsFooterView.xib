@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsFooterView" customModule="alfred_ios" customModuleProvider="target">
+            <connections>
+                <outlet property="appVersionLbl" destination="rQW-1T-VAw" id="1Y0-9f-NEi"/>
+                <outlet property="contentView" destination="72x-ee-suF" id="cBf-ql-7dT"/>
+                <outlet property="logOutBtn" destination="cCU-v3-ePL" id="rY2-lB-bhk"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="72x-ee-suF">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F1H-3Q-MoX">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cCU-v3-ePL" customClass="BottomButton" customModule="alfred_ios" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="50" width="414" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="1qt-OB-FLw"/>
+                            </constraints>
+                            <state key="normal" title="Log out"/>
+                            <connections>
+                                <action selector="logoutAction:" destination="-1" eventType="touchUpInside" id="QZ2-ov-fdy"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 00.001.0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rQW-1T-VAw">
+                            <rect key="frame" x="0.0" y="10" width="414" height="20"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="cCU-v3-ePL" secondAttribute="bottom" id="1Ec-bw-w8H"/>
+                        <constraint firstItem="cCU-v3-ePL" firstAttribute="top" secondItem="rQW-1T-VAw" secondAttribute="bottom" constant="20" id="1cz-YK-LEV"/>
+                        <constraint firstItem="cCU-v3-ePL" firstAttribute="leading" secondItem="F1H-3Q-MoX" secondAttribute="leading" id="Iwk-FH-fHy"/>
+                        <constraint firstAttribute="trailing" secondItem="rQW-1T-VAw" secondAttribute="trailing" id="JAx-vx-qBi"/>
+                        <constraint firstItem="rQW-1T-VAw" firstAttribute="leading" secondItem="F1H-3Q-MoX" secondAttribute="leading" id="m02-Vc-57J"/>
+                        <constraint firstAttribute="trailing" secondItem="cCU-v3-ePL" secondAttribute="trailing" id="yN9-Fp-Gky"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="F1H-3Q-MoX" secondAttribute="trailing" id="3lM-qX-k0c"/>
+                <constraint firstItem="F1H-3Q-MoX" firstAttribute="top" secondItem="72x-ee-suF" secondAttribute="top" id="Iwk-3P-cDI"/>
+                <constraint firstItem="F1H-3Q-MoX" firstAttribute="leading" secondItem="72x-ee-suF" secondAttribute="leading" id="aN6-xa-ulA"/>
+                <constraint firstAttribute="bottom" secondItem="F1H-3Q-MoX" secondAttribute="bottom" id="y8M-H4-zUg"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="NPb-dH-AIw"/>
+            <point key="canvasLocation" x="140.57971014492756" y="104.46428571428571"/>
+        </view>
+    </objects>
+</document>

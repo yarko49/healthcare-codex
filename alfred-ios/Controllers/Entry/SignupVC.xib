@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignupVC" customModule="alfred_ios" customModuleProvider="target">
+            <connections>
+                <outlet property="confirmView" destination="qAQ-m1-H9H" id="xeO-D3-j2m"/>
+                <outlet property="contentView" destination="R44-ez-swe" id="ZsP-PZ-dME"/>
+                <outlet property="emailView" destination="yxQ-46-dTH" id="qQR-bz-0tv"/>
+                <outlet property="passwordView" destination="kYN-fy-T5s" id="n38-xe-f6q"/>
+                <outlet property="scrollView" destination="jMy-8W-kDP" id="t5K-g6-5EW"/>
+                <outlet property="signupBtn" destination="N1l-5v-bLg" id="DDy-Iq-EKl"/>
+                <outlet property="signupmessage" destination="N7n-09-Yd8" id="pw7-Rc-R4B"/>
+                <outlet property="stackView" destination="ApR-FE-PLC" id="rQk-wL-j9X"/>
+                <outlet property="textView" destination="oZa-Of-ZiA" id="aDP-9Y-C3H"/>
+                <outlet property="view" destination="c4R-OQ-TCr" id="drh-VA-9zW"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="c4R-OQ-TCr">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jMy-8W-kDP">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R44-ez-swe">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N7n-09-Yd8">
+                                    <rect key="frame" x="47" y="50" width="320" height="20.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N1l-5v-bLg" customClass="BottomButton" customModule="alfred_ios" customModuleProvider="target">
+                                    <rect key="frame" x="37" y="426.5" width="340" height="68"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="68" id="eMX-3x-e9s"/>
+                                    </constraints>
+                                    <state key="normal" title="Button"/>
+                                    <connections>
+                                        <action selector="signUpBtnTapped:" destination="-1" eventType="touchUpInside" id="ZJm-lN-Q9V"/>
+                                        <action selector="signupTapped:" destination="-1" eventType="touchUpInside" id="EEg-X7-yja"/>
+                                    </connections>
+                                </button>
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oZa-Of-ZiA">
+                                    <rect key="frame" x="64" y="546" width="286" height="21"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                </textView>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="ApR-FE-PLC">
+                                    <rect key="frame" x="0.0" y="93.5" width="414" height="253"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yxQ-46-dTH" customClass="TextfieldView" customModule="alfred_ios" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qAQ-m1-H9H" customClass="TextfieldView" customModule="alfred_ios" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="101" width="414" height="51"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kYN-fy-T5s" customClass="TextfieldView" customModule="alfred_ios" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="202" width="414" height="51"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="253" id="xBE-5K-Xci"/>
+                                    </constraints>
+                                </stackView>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <constraints>
+                                <constraint firstItem="oZa-Of-ZiA" firstAttribute="top" secondItem="N1l-5v-bLg" secondAttribute="bottom" constant="51" id="7wc-D9-gYc"/>
+                                <constraint firstItem="N1l-5v-bLg" firstAttribute="top" secondItem="ApR-FE-PLC" secondAttribute="bottom" constant="80" id="Eb2-7l-OB3"/>
+                                <constraint firstAttribute="trailing" secondItem="N1l-5v-bLg" secondAttribute="trailing" constant="37" id="FBD-Mx-SoV"/>
+                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="oZa-Of-ZiA" secondAttribute="bottom" priority="250" constant="30" id="H47-RL-TWG"/>
+                                <constraint firstItem="ApR-FE-PLC" firstAttribute="top" secondItem="N7n-09-Yd8" secondAttribute="bottom" constant="23" id="KeK-8H-xjB"/>
+                                <constraint firstItem="oZa-Of-ZiA" firstAttribute="leading" secondItem="R44-ez-swe" secondAttribute="leading" constant="64" id="as3-7u-7Q3"/>
+                                <constraint firstAttribute="trailing" secondItem="ApR-FE-PLC" secondAttribute="trailing" id="eKY-8m-tey"/>
+                                <constraint firstAttribute="trailing" secondItem="N7n-09-Yd8" secondAttribute="trailing" constant="47" id="ldH-Y0-m5f"/>
+                                <constraint firstItem="N7n-09-Yd8" firstAttribute="leading" secondItem="R44-ez-swe" secondAttribute="leading" constant="47" id="oo9-nQ-HeJ"/>
+                                <constraint firstItem="N1l-5v-bLg" firstAttribute="leading" secondItem="R44-ez-swe" secondAttribute="leading" constant="37" id="qGp-C3-LV1"/>
+                                <constraint firstItem="N7n-09-Yd8" firstAttribute="top" secondItem="R44-ez-swe" secondAttribute="top" constant="50" id="sIY-Fl-z9n"/>
+                                <constraint firstItem="ApR-FE-PLC" firstAttribute="leading" secondItem="R44-ez-swe" secondAttribute="leading" id="ucZ-On-iZ6"/>
+                                <constraint firstAttribute="trailing" secondItem="oZa-Of-ZiA" secondAttribute="trailing" constant="64" id="zoL-N9-QVH"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="R44-ez-swe" firstAttribute="leading" secondItem="jMy-8W-kDP" secondAttribute="leading" id="Dts-mO-Ru6"/>
+                        <constraint firstAttribute="trailing" secondItem="R44-ez-swe" secondAttribute="trailing" id="e0K-p1-RDB"/>
+                        <constraint firstAttribute="bottom" secondItem="R44-ez-swe" secondAttribute="bottom" id="gPU-7X-jQw"/>
+                        <constraint firstItem="R44-ez-swe" firstAttribute="top" secondItem="jMy-8W-kDP" secondAttribute="top" id="jx3-Bo-MhP"/>
+                    </constraints>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="jMy-8W-kDP" secondAttribute="trailing" id="Hhg-il-IpA"/>
+                <constraint firstAttribute="bottom" secondItem="jMy-8W-kDP" secondAttribute="bottom" id="I5M-sd-bA3"/>
+                <constraint firstItem="R44-ez-swe" firstAttribute="width" secondItem="c4R-OQ-TCr" secondAttribute="width" id="Ygh-SZ-dXA"/>
+                <constraint firstItem="jMy-8W-kDP" firstAttribute="top" secondItem="c4R-OQ-TCr" secondAttribute="top" id="oxh-bO-PdA"/>
+                <constraint firstItem="jMy-8W-kDP" firstAttribute="leading" secondItem="c4R-OQ-TCr" secondAttribute="leading" id="pXK-kg-gaU"/>
+            </constraints>
+            <point key="canvasLocation" x="19" y="-87"/>
+        </view>
+    </objects>
+</document>

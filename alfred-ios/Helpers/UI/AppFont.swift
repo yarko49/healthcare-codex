@@ -6,8 +6,19 @@
 import UIKit
 
 enum Font: String {
-    case example = "Example-Font"
-
+    case sfProMedium = "SFProText-Medium"
+    case sfProLight = "SFProText-Light"
+    case sfProRegular = "SFProText-Regular"
+    case sfProSemiboldItalic = "SFProText-SemiboldItalic"
+    case sfProHeavy = "SFProText-Heavy"
+    case sfProRegularItalic = "SFProText-RegularItalic"
+    case sfProBold = "SFProText-Bold"
+    case sfProMediumItalic = "SFProText-MediumItalic"
+    case sfProBoldItalic = "SFProText-BoldItalic"
+    case sfProSemibold = "SFProText-Semibold"
+    case sfProLightItalic = "SFProText-LightItalic"
+    case sfProHeavyItalic = "SFProText-HeavyItalic"
+    case sfProThin = "SFProText-Thin"
     
     func of(size: CGFloat) -> UIFont {
         guard let font = UIFont(name: self.rawValue, size: size) else {
