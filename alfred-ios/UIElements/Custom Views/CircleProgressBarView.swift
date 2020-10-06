@@ -48,27 +48,27 @@ class CircleProgressBarView: UIView {
         contentView.fixInView(self)
     }
     
-    func setup(color: BackgroundColor) {
+    func setup(color: String, opacity: Float, icon: IconType) {
         
-        switch color {
-        case .blue:
-            progressClr = .weightBG
+        switch icon {
+        case .scale:
             iconIV.image = UIImage(named: "weightCardIcon")
-        case .orange:
-            progressClr = .activityBG
+        case .activity:
             iconIV.image = UIImage(named: "activityCardIcon")
-        case .red:
-            progressClr = .bloodPressureBG
+        case .heart:
             iconIV.image = UIImage(named: "bloodPressureCardIcon")
-        case .green:
-            progressClr = .surveyBG
+        case .questionnaire:
             iconIV.image = UIImage(named: "surveyCardIcon")
         }
         
-        trackClr = progressClr.withAlphaComponent(0.25)
+        if let color = UIColor(hex: color) {
+          progressClr = color
+        }
+        
+        trackClr = progressClr.withAlphaComponent(CGFloat(opacity)/4.0)
         makeCircularPath()
         
-        self.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        self.backgroundColor = UIColor.white.withAlphaComponent(CGFloat(opacity)/2.0)
     }
     
     private func makeCircularPath() {

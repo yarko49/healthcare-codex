@@ -15,9 +15,13 @@
 "SIGN_IN_WITH_GOOGLE" = "Sign in with Google";
 "SIGN_IN_WITH_APPLE" = "Sign in with Apple";
 "SIGN_IN_WITH_YOUR_EMAIL" = "Sign in with your email";
+"SIGN_UP_WITH_GOOGLE" = "Sign up with Google";
+"SIGN_UP_WITH_APPLE" = "Sign up with Apple";
+"SIGN_UP_WITH_YOUR_EMAIL" = "Sign up with your email";
 "FORGOT_PASSWORD" = "Forgot password?";
 "SIGN_IN" = "SIGN IN";
 "SIGN_UP" = "Sign up";
+"SIGN_IN_MODAL" = "Sign in";
 "SAVE" = "SAVE";
 "RESET_PASSWORD" = "Reset Password";
 "WELCOME_BACK" = "Welcome Back";
@@ -53,6 +57,13 @@
 "DATE_OF_BIRTH" = "Date of birth";
 "HEIGHT" = "Height";
 "FAILED_TO_CONFIRM_EMAIL" = "Failed to confirm email";
+"INVALID_TEXT" = "Invalid text";
+"TEXT_SHOULD_NOT_CONTAIN_SPECIAL_CHARACTERS_OR_NUMBERS" = "Text should neither be empty nor contain special characters or numbers";
+"SIGN_UP_FAILED" = "Sign up failed..";
+"INVALID_OPTION" = "Invalid option";
+"PLEASE_SELECT_GENDER" = "Please select gender";
+"FIELDS_CANNOT_BE_EMPTY" = "Fields cannot be empty";
+"INVALID_INPUT" = "invalid input";
 
 // Sign in
 
@@ -63,6 +74,12 @@
 "PLEASE_ENTER_PASSWORD" = "Please enter password";
 "OK" = "OK";
 "BACK_TO_SIGN_IN" = "Back to Sign in";
+"SIGN_IN_FAILED" = "Sign in failed..";
+
+//Reset Password
+
+"FAILED_TO_SEND_VERIFICATION_EMAIL_THE_ACCOUNT_MAY_HAVE_BEEN_DELETED_OR_DOES_NOT_EXIST" = "Failed to send verification email, the account may have been deleted or does not exist.";
+"ERROR" = "Error";
 
 // Profile stats
 "TODAY" = "Today";
@@ -89,19 +106,41 @@
 "HYPERTENSION_(STAGE_1)" = "Hypertension (Stage 1)";
 "HYPERTENSION_(STAGE_2)" = "Hypertension (Stage 2)";
 "HYPERTENSIVE_CRISIS" = "Hypertensive crisis";
-
-
 "WEIGHT" = "Weight";
 "ACTIVITY" = "Activity";
 "BLOOD_PRESSURE" = "Blood Pressure";
 "RESTING_HEART_RATE" = "Resting Heart Rate";
 "HEART_RATE" = "Heart Rate";
 
+// Today
+"NOW" = "Now";
+"YESTERDAY" = "Yesterday";
+"GET_MORE_INFORMATION" = "Get more information";
+"SYS_DIA" = "Sys: %d   Dia: %d";
+"LBS_DEC" = "%d.%d lbs";
+"LBS" = "%d lbs";
+"GOAL_WEIGHT" = "Goal Weight";
+"DEFAULT_TIME" = "12:00 AM";
+"DEFAULT_DATE" = "January 1, 1980";
+"DATE" = "Date";
+"TIME" = "Time";
+"LB" = "Lb";
+"SYS" = "Sys";
+"DIA" = "Dia";
+"ADD" = "Add";
+"FEET" = "ft";
+"COMPLETE_SURVEY" = "Complete Survey";
+"WEIGHT_UNIT" = "lbs";
+"HEIGHT_UNIT" = "feet";
+"PRSSURE_UNIT" = "mmHg";
+"ENTER_BP" = "Enter BP";
+"ENTER_WEIGHT" = "Enter Weight";
+
 // Settings
 "SETTINGS" = "Settings";
 "LOG_OUT" = "Log out";
 "ACCOUNT_DETAILS" = "Account Details";
-"MY_DEVICES" = "My Devices";
+"DEVICES" = "Devices";
 "NOTIFICATIONS" = "Notifications";
 "SYSTEM_AUTHORIZATION" = "System Authorization";
 "FEEDBACK" = "Feedback";
@@ -118,9 +157,9 @@
 
 //My Devices
 "SMART_SCALE" = "Smart scale";
-"SMART_BLOCK_PRESSURE_CUFF" = "Smart block pressure cuff";
-"SMART_PEDOMETER" = "Smart pedometer";
-"SMART_WATCH" = "Smart watch";
+"SMART_BLOCK_PRESSURE_CUFF" = "Smart blood pressure meter";
+"SMART_PEDOMETER" = "Smart pedometer/tracker (no HR)";
+"SMART_WATCH" = "Smart watch/tracker (with HR)";
 
 // My Notifications
 "MY_NOTIFICATIONS" = "My Notifications";
@@ -134,3 +173,7 @@
 "QUESTION" = "Question %d";
 "PREVIOUS" = "Previous";
 
+// My profile
+"CREATE_PATIENT_FAILED" = "The creating of patient's profile failed..";
+"CREATE_PROFILE_FAILED" = "The creating of your profile failed..";
+"CREATE_BUNDLE_FAILED" = "Weight/Height submission failed.";

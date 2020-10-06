@@ -10,11 +10,8 @@ class PickerTF : UIView {
     
      
     @IBOutlet weak var textfield: UITextField!
-    
     @IBOutlet weak var titleLbl: UILabel!
-    
     @IBOutlet var contentView: UIView!
-    
     @IBOutlet weak var lineView: UIView!
     
     var labelTitle: String? {
@@ -28,13 +25,19 @@ class PickerTF : UIView {
             return textfield.text
         }
         set{
-            textfield.attributedText = newValue?.with(style: .regular17, andColor: .black, andLetterSpacing: 0.38)
+            textfield.attributedText = newValue?.with(style: .regular17, andColor: .lightGray, andLetterSpacing: 0.38)
         }
     }
     
-    var isEnabled : Bool = true {
+    var state: State? {
         didSet {
-            textfield.isEnabled = isEnabled
+            if state == .normal {
+                titleLbl.textColor = .gray
+                lineView.backgroundColor = .lightGray
+            } else {
+                titleLbl.textColor = .red
+                lineView.backgroundColor = .red
+            }
         }
     }
     
@@ -72,6 +75,7 @@ class PickerTF : UIView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
         self.addGestureRecognizer(tap)
         textfield.delegate = self
+        textfield.isEnabled = false
         textfield.tintColor = .orange
         textfield.textAlignment = .right
         titleLbl.attributedText = labelTitle?.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.078)
@@ -95,4 +99,8 @@ extension PickerTF : UITextFieldDelegate {
     }
 }
 
-
+extension PickerTF {
+    enum State {
+        case normal, error
+    }
+}

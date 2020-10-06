@@ -2,13 +2,13 @@ import UIKit
 
 
 class HomeVC: BaseVC {
-    var panScrollable: UIScrollView?
-    //var healthStatsVC: HealthStatsVC?
     
     // MARK: - Coordinator Actions
-    var testRequestAction: (()->())?
+    var getCardsAction: (()->())?
     var questionnaireAction: (()->())?
-    var tapped : (()->())?
+    var troubleshootingAction: ((String?, String?, String?, IconType?)->())?
+    var measurementCellAction: ((InputType)->())?
+    
     // MARK: - Properties
     
     var measurementCardsList: [NotificationCard] = []
@@ -22,6 +22,8 @@ class HomeVC: BaseVC {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollViewHeight: NSLayoutConstraint!
     
+    var refreshControl = UIRefreshControl()
+    
     // MARK: - Initializer
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -30,8 +32,13 @@ class HomeVC: BaseVC {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+        cardCollectionView.alwaysBounceVertical = true
+        cardCollectionView.addSubview(refreshControl)
 
     }
     
@@ -69,7 +76,7 @@ class HomeVC: BaseVC {
     
     override func populateData() {
         super.populateData()
-        testRequestAction?()
+        getCardsAction?()
     }
     
     func setupCards(with notificationList: [NotificationCard]?) {
@@ -107,6 +114,10 @@ class HomeVC: BaseVC {
         }
     }
     
+    @objc func refresh(_ sender: AnyObject) {
+        getCardsAction?()
+    }
+    
 }
 
 
@@ -122,8 +133,18 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //TODO: Add actions for each type
-        questionnaireAction?()
+        switch measurementCardsList[indexPath.row].data.action {
+        case .activity:
+            break
+        case .bloodPressure:
+            measurementCellAction?(.bloodPressure)
+        case .weight:
+            measurementCellAction?(.weight)
+        case .questionnaire:
+            questionnaireAction?()
+        case .none:
+            break
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets{
@@ -137,9 +158,8 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
 }
 
 extension HomeVC: CoachCardViewDelegate {
-    func actionBtnTapped() {
-        //TODO: Add actions
-        testRequestAction?()
+    func actionBtnTapped(previewTitle: String?, title: String?, text: String?, icon: IconType?) {
+        troubleshootingAction?(previewTitle, title, text, icon)
     }
     
     func closeBtnTapped(uuid: String) {

@@ -6,19 +6,12 @@
 import Foundation
 
 struct CardList: Codable {
-    let data: [NotificationCard]
+    let notifications: [NotificationCard]
 }
 
 enum CardType: String, Codable {
     case coach = "COACH"
     case measurement = "MEASUREMENT"
-}
-
-enum BackgroundColor: String, Codable {
-    case blue = "BLUE"
-    case orange = "ORANGE"
-    case red = "RED"
-    case green = "GREEN"
 }
 
 enum IconType: String, Codable {
@@ -28,32 +21,34 @@ enum IconType: String, Codable {
     case scale = "SCALE"
 }
 
-enum StatusColor: String, Codable {
-    case brown = "BROWN"
-    case green = "GREEN"
-    case red = "RED"
-    case yellow = "YELLOW"
+enum CardAction: String, Codable {
+    case activity = "ACTIVITY"
+    case bloodPressure = "BLOOD_PRESSURE"
+    case weight = "WEIGHT"
+    case questionnaire = "QUESTIONNAIRE"
 }
 
 struct NotificationCard: Codable {
-    
     let name: String
     let data: NotificationCardData
 }
 
 struct NotificationCardData: Codable {
-    
-    let backgroundColor: BackgroundColor
+    let action: CardAction?
+    let backgroundColor: String
     let expires: String
-    let icon: IconType
+    let icon: IconType?
     let previewText: String?
     let previewTitle: String?
     let sampledTime: String?
     let status: String?
-    let statusColor: StatusColor?
+    let statusColor: String?
     let uuid: String
-    let text: String
-    let title: String
+    let text: String?
+    let title: String?
     let ttl: String
     let type: CardType
+    let progressOpacity: Float?
+    let progressPercent: Float?
+    let progressColor: String?
 }

@@ -1,7 +1,5 @@
 import UIKit
 import HealthKit
-import HealthKitToFhir
-import FHIR
 
 class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDelegate {
     
@@ -13,6 +11,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
         return navigationController
     }
     
+    var observation: Resource?
+    var bundle: BundleModel?
+
     init(with parent: MasterCoordinator?){
         self.navigationController = HomeNC()
         self.parentCoordinator = parent
@@ -30,11 +31,14 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
     internal func showHome() {
         let homeVC = HomeVC()
         
-        let testRequestAction: (()->())? = {
+        let getCardsAction: (()->())? = {
             AlertHelper.showLoader()
-            DataContext.shared.testGetHomeNotifications { (notificationList) in
+            DataContext.shared.getNotifications { (notificationList) in
                 AlertHelper.hideLoader()
                 homeVC.setupCards(with: notificationList)
+            }
+            DispatchQueue.main.async {
+                homeVC.refreshControl.endRefreshing()
             }
         }
         
@@ -42,8 +46,18 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
             self?.goToQuestionnaire()
         }
         
-        homeVC.testRequestAction = testRequestAction
+        let measurementCellAction: ((InputType)->())? = { [weak self] (inputType) in
+            self?.goToInput(with: inputType)
+        }
+        
+        let troubleshootingAction: ((String?, String?, String?, IconType?)->())? = { [weak self] (previewTitle, title, text, icon) in
+            self?.goToTroubleshooting(previewTitle: previewTitle, title: title, text: text, icon: icon)
+        }
+        
+        homeVC.getCardsAction = getCardsAction
         homeVC.questionnaireAction = questionnaireAction
+        homeVC.measurementCellAction = measurementCellAction
+        homeVC.troubleshootingAction = troubleshootingAction
         self.navigate(to: homeVC, with: .push)
     }
     
@@ -57,6 +71,27 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
         let questionnaireCoord = QuestionnaireCoordinator(with: self)
         addChild(coordinator: questionnaireCoord, with: .questionnaireCoordinator)
         questionnaireCoord.start()
+    }
+    
+    internal func goToTroubleshooting(previewTitle: String?, title: String?, text: String?, icon: IconType?) {
+        let troubleshootingVC = TroubleshootingVC()
+        
+        troubleshootingVC.titleText = title ?? ""
+        troubleshootingVC.previewTitle = previewTitle ?? ""
+        troubleshootingVC.text = text ?? ""
+        
+        navigate(to:troubleshootingVC, with: .push)
+    }
+    
+    internal func goToInput(with type: InputType) {
+        let todayInputVC = TodayInputVC()
+        todayInputVC.inputType = type
+        let inputAction: ((Resource?, BundleModel?)->())? = { [weak self] (observation, bundle) in
+            self?.observation = observation
+            self?.bundle = bundle
+        }
+        todayInputVC.inputAction = inputAction
+        navigate(to: todayInputVC, with: .push)
     }
 
     internal func goToProfile() {
@@ -111,6 +146,28 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc internal func addAction(){
+        if let observation = observation {
+            AlertHelper.showLoader()
+            DataContext.shared.postObservation(observation: observation) { (response) in
+                AlertHelper.hideLoader()
+                if let _ = response {
+                    self.observation = nil
+                    self.showHome()
+                }
+            }
+        } else if let bundle = bundle {
+            AlertHelper.showLoader()
+            DataContext.shared.postBundle(bundle: bundle) { (response) in
+                AlertHelper.hideLoader()
+                if let _ = response {
+                    self.bundle = nil
+                    self.showHome()
+                }
+            }
+        }
+    }
+    
 }
 extension MainAppCoordinator: UINavigationControllerDelegate {
     
@@ -122,12 +179,16 @@ extension MainAppCoordinator: UINavigationControllerDelegate {
                 viewController.navigationItem.setLeftBarButton(profileBtn, animated: true)
             }
             
-        } else if viewController is ProfileVC {
+        } else if viewController is ProfileVC || viewController is TroubleshootingVC || viewController is TodayInputVC {
             
-            if viewController.navigationItem.rightBarButtonItem == nil {
+            if viewController is ProfileVC && viewController.navigationItem.rightBarButtonItem == nil {
                 let settingsBtn = UIBarButtonItem(image: UIImage(named: "gear")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapSettings))
                 settingsBtn.tintColor = .black
                 viewController.navigationItem.setRightBarButton(settingsBtn, animated: true)
+            } else if viewController is TodayInputVC && viewController.navigationItem.rightBarButtonItem == nil {
+                let addBtn = UIBarButtonItem(title: Str.add, style:UIBarButtonItem.Style.plain, target: self, action: #selector(addAction))
+                addBtn.tintColor = UIColor.cursorOrange
+                viewController.navigationItem.setRightBarButton(addBtn, animated: true)
             }
             
             if viewController.navigationItem.leftBarButtonItem == nil {

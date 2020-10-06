@@ -26,6 +26,7 @@ enum DevicesSettings: CustomStringConvertible {
             return ""
         }
     }
-    
-static let allValues = [smartScale, smartBlockPressureCuff, smartPedometer]
+
+static let allValues = [smartScale, smartBlockPressureCuff, smartWatch, smartPedometer]
+
 }

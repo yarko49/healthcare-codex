@@ -18,5 +18,4 @@ target 'alfred-ios' do
   pod 'GoogleSignIn', '5.0.2'
   pod 'Firebase/Auth', '6.21.0'
   pod 'IQKeyboardManagerSwift', '6.5.5'
-
 end

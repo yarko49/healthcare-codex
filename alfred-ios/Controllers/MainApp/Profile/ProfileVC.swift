@@ -126,9 +126,9 @@ class ProfileVC: BaseVC {
     private func updateDateLbl() {
         switch currentDateInterval {
         case .daily:
-             dateLbl.attributedText = "\(DateFormatter.mmdd.string(from: startDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
+             dateLbl.attributedText = "\(DateFormatter.MMMdd.string(from: startDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
         case .weekly, .monthly:
-            dateLbl.attributedText = "\(DateFormatter.mmdd.string(from: startDate))-\(DateFormatter.mmdd.string(from: endDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
+            dateLbl.attributedText = "\(DateFormatter.MMMdd.string(from: startDate))-\(DateFormatter.MMMdd.string(from: endDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
         case .yearly:
             dateLbl.attributedText = "\(DateFormatter.yyyy.string(from: startDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
         }

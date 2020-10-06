@@ -47,7 +47,7 @@ class AccountDetailsVC: BaseVC {
         textfieldSV.addArrangedSubview(TextfieldView(labelTitle: Str.firstName, tfText: "", textIsPassword: false))
         textfieldSV.addArrangedSubview(TextfieldView(labelTitle: Str.lastName, tfText: "", textIsPassword: false))
         textfieldSV.addArrangedSubview(TextfieldView(labelTitle: Str.emailAddress, tfText: "", textIsPassword: false))
-        passwordTF.isUserInteractionEnabled = false
+        passwordTF.isUserInteractionEnabled = true
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -16,7 +16,9 @@ struct TextStyle {
         case regular16
         case regular17
         case regular20
+        case regular24
         case regular26
+        case regular28
         case medium13
         case medium17
         case semibold17
@@ -33,7 +35,9 @@ struct TextStyle {
             case .regular16: return regular16Style
             case .regular17: return regular17Style
             case .regular20: return regular20Style
+            case .regular24: return regular24Style
             case .regular26: return regular26Style
+            case .regular28: return regular28Style
             case .medium13: return medium13Style
             case .medium17: return medium17Style
             case .semibold17: return semibold17Style
@@ -51,7 +55,9 @@ struct TextStyle {
     static let regular16Style = StringStyle(.font(Font.sfProRegular.of(size: 16)))
     static let regular17Style = StringStyle(.font(Font.sfProRegular.of(size: 17)))
     static let regular20Style = StringStyle(.font(Font.sfProRegular.of(size: 20)))
+    static let regular24Style = StringStyle(.font(Font.sfProRegular.of(size: 24)))
     static let regular26Style = StringStyle(.font(Font.sfProRegular.of(size: 26)))
+    static let regular28Style = StringStyle(.font(Font.sfProRegular.of(size: 28)))
     static let medium13Style = StringStyle(.font(Font.sfProMedium.of(size: 13)))
     static let medium17Style = StringStyle(.font(Font.sfProMedium.of(size: 17)))
 

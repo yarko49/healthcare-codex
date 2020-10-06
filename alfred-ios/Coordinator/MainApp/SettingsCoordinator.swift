@@ -3,8 +3,6 @@ import FirebaseAuth
 
 class SettingsCoordinator: NSObject, Coordinator {
     
-    
-    
     internal var navigationController: UINavigationController?
     internal var childCoordinators: [CoordinatorKey:Coordinator]
     internal weak var parentCoordinator: MainAppCoordinator?
@@ -65,7 +63,7 @@ class SettingsCoordinator: NSObject, Coordinator {
             self?.navigationController?.popViewController(animated: true)
         }
         
-        accountDetailsVC.resetPasswordAction = { [weak self] in
+        accountDetailsVC.resetPasswordAction = {[weak self] in
             self?.goToPasswordReset()
         }
         
@@ -74,22 +72,28 @@ class SettingsCoordinator: NSObject, Coordinator {
     
     internal func goToPasswordReset() {
         let accountResetPasswordVC = AccountResetPasswordVC()
-
+        
         accountResetPasswordVC.backBtnAction = { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
+        accountResetPasswordVC.sendEmailAction = { [weak self, weak accountResetPasswordVC] (email) in
+            self?.resetPassword(accountResetPasswordVC: accountResetPasswordVC, email:email)
+        }
         
-        //TODO: Functionality is currently missing, we'll get to it when it's available.
-        accountResetPasswordVC.sendEmailAction = { [weak accountResetPasswordVC] in
-            AlertHelper.showSendLoader()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        navigate(to: accountResetPasswordVC, with: .pushFullScreen)
+    }
+    
+    internal func resetPassword(accountResetPasswordVC: AccountResetPasswordVC?, email: String?){
+        AlertHelper.showSendLoader()
+        Auth.auth().sendPasswordReset(withEmail: email ?? "") { error in
+            if error != nil {
+                print(error ?? "")
+                AlertHelper.showAlert(title: Str.error, detailText: Str.invalidEmail, actions: [AlertHelper.AlertAction.init(withTitle: Str.ok)])
+            } else {
                 AlertHelper.hideLoader()
                 accountResetPasswordVC?.showCompletionMessage()
             }
         }
-        
-        navigate(to: accountResetPasswordVC, with: .pushFullScreen)
-        
     }
     
     internal func goToMyDevices() {

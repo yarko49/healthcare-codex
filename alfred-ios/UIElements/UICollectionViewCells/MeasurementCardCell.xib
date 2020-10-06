@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -21,7 +22,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PgD-Bc-KEA" customClass="CircleProgressBarView" customModule="alfred_ios" customModuleProvider="target">
                                 <rect key="frame" x="11.5" y="13.5" width="65" height="65"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="65" id="AKj-dJ-bFa"/>
                                     <constraint firstAttribute="height" constant="65" id="cxF-WM-wRy"/>
@@ -58,20 +59,46 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add" translatesAutoresizingMaskIntoConstraints="NO" id="ICU-OK-GGd">
+                                <rect key="frame" x="290.5" y="41.5" width="22.5" height="22.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="22.5" id="6DR-nF-3iX"/>
+                                    <constraint firstAttribute="height" constant="22.5" id="Wel-FT-hAn"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A62-HQ-PFR">
+                                <rect key="frame" x="267" y="62.5" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ctaBtn" translatesAutoresizingMaskIntoConstraints="NO" id="VH9-zn-Tcq">
+                                <rect key="frame" x="316" y="67" width="12" height="12"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="12" id="AGa-zI-jLn"/>
+                                    <constraint firstAttribute="width" constant="12" id="lqR-ff-5M2"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ICU-OK-GGd" secondAttribute="trailing" constant="30" id="1qg-Mp-5ll"/>
                             <constraint firstItem="bLM-r6-zPU" firstAttribute="top" secondItem="EBg-9M-59p" secondAttribute="bottom" constant="10" id="CwV-Wp-Sv3"/>
+                            <constraint firstItem="A62-HQ-PFR" firstAttribute="centerY" secondItem="VH9-zn-Tcq" secondAttribute="centerY" id="DZg-FC-x9f"/>
                             <constraint firstItem="aVz-VL-h0z" firstAttribute="leading" secondItem="bLM-r6-zPU" secondAttribute="trailing" constant="5" id="KMV-rW-aYV"/>
                             <constraint firstItem="M7I-UL-vSh" firstAttribute="top" secondItem="cgS-G8-efk" secondAttribute="top" constant="12" id="N3s-EQ-kWO"/>
                             <constraint firstItem="8gk-sm-9Fs" firstAttribute="leading" secondItem="PgD-Bc-KEA" secondAttribute="trailing" constant="16" id="PrR-ce-r36"/>
                             <constraint firstItem="aVz-VL-h0z" firstAttribute="centerY" secondItem="bLM-r6-zPU" secondAttribute="centerY" id="Q5A-Ce-Uq5"/>
                             <constraint firstAttribute="trailing" secondItem="M7I-UL-vSh" secondAttribute="trailing" constant="15" id="RdE-QW-XPn"/>
+                            <constraint firstAttribute="bottom" secondItem="VH9-zn-Tcq" secondAttribute="bottom" constant="15" id="SRk-2D-oj0"/>
                             <constraint firstItem="8gk-sm-9Fs" firstAttribute="top" secondItem="PgD-Bc-KEA" secondAttribute="top" id="Xk3-ZA-lPs"/>
                             <constraint firstItem="EBg-9M-59p" firstAttribute="centerY" secondItem="PgD-Bc-KEA" secondAttribute="centerY" id="dAM-Zs-JLo"/>
+                            <constraint firstAttribute="bottom" secondItem="ICU-OK-GGd" secondAttribute="bottom" constant="30" id="eQf-Qo-7dX"/>
                             <constraint firstItem="bLM-r6-zPU" firstAttribute="leading" secondItem="PgD-Bc-KEA" secondAttribute="trailing" constant="16" id="eVy-dG-rLk"/>
                             <constraint firstItem="PgD-Bc-KEA" firstAttribute="leading" secondItem="cgS-G8-efk" secondAttribute="leading" constant="11.5" id="iI5-cl-xvt"/>
+                            <constraint firstItem="VH9-zn-Tcq" firstAttribute="leading" secondItem="A62-HQ-PFR" secondAttribute="trailing" constant="7" id="k4u-aP-abA"/>
                             <constraint firstAttribute="height" constant="94" id="kXq-DP-HGO"/>
+                            <constraint firstAttribute="trailing" secondItem="VH9-zn-Tcq" secondAttribute="trailing" constant="15" id="pW5-iY-bb2"/>
                             <constraint firstItem="EBg-9M-59p" firstAttribute="leading" secondItem="PgD-Bc-KEA" secondAttribute="trailing" constant="16" id="tIu-ne-rbz"/>
                             <constraint firstItem="PgD-Bc-KEA" firstAttribute="top" secondItem="cgS-G8-efk" secondAttribute="top" constant="13.5" id="yWu-dR-YX2"/>
                         </constraints>
@@ -86,18 +113,29 @@
             </constraints>
             <size key="customSize" width="353" height="56"/>
             <connections>
+                <outlet property="addIV" destination="ICU-OK-GGd" id="NlV-9U-IjV"/>
                 <outlet property="iconView" destination="PgD-Bc-KEA" id="5TS-pu-boN"/>
                 <outlet property="mainView" destination="cgS-G8-efk" id="Z1q-AB-Qnv"/>
                 <outlet property="statusIV" destination="bLM-r6-zPU" id="Daa-K4-Xrs"/>
                 <outlet property="statusLbl" destination="aVz-VL-h0z" id="oMr-oh-j7w"/>
+                <outlet property="surveyIV" destination="VH9-zn-Tcq" id="AWC-Af-VNe"/>
+                <outlet property="surveyLbl" destination="A62-HQ-PFR" id="xoI-lj-Tum"/>
                 <outlet property="textLbl" destination="EBg-9M-59p" id="A4a-ak-Oou"/>
                 <outlet property="timeLbl" destination="M7I-UL-vSh" id="jTR-Nn-HDP"/>
                 <outlet property="titleLbl" destination="8gk-sm-9Fs" id="mMM-IV-y1p"/>
             </connections>
-            <point key="canvasLocation" x="86" y="14"/>
+            <point key="canvasLocation" x="-18.115942028985508" y="95.758928571428569"/>
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="add" width="24" height="24"/>
+        <image name="ctaBtn" width="8" height="14"/>
         <image name="statusIndicator" width="10" height="10"/>
+        <systemColor name="groupTableViewBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

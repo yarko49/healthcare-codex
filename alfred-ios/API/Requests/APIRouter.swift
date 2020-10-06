@@ -5,12 +5,25 @@ enum APIRouter: URLRequestConvertible {
     static let baseURLPath = AppConfig.apiBaseUrl
     
     case getQuestionnaire
-    case postObservation(observation: ObservationBE)
+    case postPatient(patient: Resource)
+    case getProfile
+    case postProfile(profile: ProfileModel)
+    case postObservation(observation: Resource)
+    case getNotifications
+    case postPatientSearch
+    case postBundle(bundle: BundleModel)
     
     var method: HTTPMethod {
         switch self {
         case .getQuestionnaire: return .get
         case .postObservation: return .post
+        case .postPatient: return .post
+        case .getProfile: return .get
+        case .postProfile: return .post
+        case .getNotifications: return .get
+        case .postPatientSearch: return .post
+        case .postBundle: return .post
+            
         }
     }
     
@@ -18,6 +31,11 @@ enum APIRouter: URLRequestConvertible {
         switch self {
         case .getQuestionnaire: return "/fhir/Questionnaire"
         case .postObservation: return "/fhir/Observation"
+        case .postPatient: return "/fhir/Patient"
+        case .getProfile, .postProfile: return "/profile"
+        case .getNotifications: return "/notifications"
+        case .postPatientSearch: return "/fhir/Patient/_search"
+        case .postBundle: return "/fhir/Bundle"
         }
         
     }
@@ -40,9 +58,9 @@ enum APIRouter: URLRequestConvertible {
             headers["Authorization"] = "Bearer " + authToken
         }
         switch self {
-        case .getQuestionnaire:
+        case .getQuestionnaire, .getNotifications,.getProfile, .postProfile:
             break
-        case .postObservation:
+        case .postObservation, .postPatient, .postPatientSearch, .postBundle:
             headers["Content-Type"] = "application/fhir+json"
         }
         return headers
@@ -50,7 +68,7 @@ enum APIRouter: URLRequestConvertible {
     
     var parameters: Parameters? {
         switch self {
-        case .getQuestionnaire, .postObservation:
+        case .getQuestionnaire, .postObservation, .postPatient, .getProfile, .postProfile, .getNotifications, .postPatientSearch, .postBundle:
             return nil
         }
     }
@@ -66,10 +84,18 @@ enum APIRouter: URLRequestConvertible {
         case .postObservation(let observation):
             let jsonBody = try JSONEncoder().encode(observation)
             request.httpBody = jsonBody
+        case .postPatient(let patient):
+            let jsonBody = try JSONEncoder().encode(patient)
+            request.httpBody = jsonBody
+        case .postProfile(let profile):
+            let jsonBody = try JSONEncoder().encode(profile)
+            request.httpBody = jsonBody
+        case .postBundle(let bundle):
+            let jsonBody = try JSONEncoder().encode(bundle)
+            request.httpBody = jsonBody
         default:
             break
         }
-        
         return try encoding.encode(request, with: parameters)
     }
 }

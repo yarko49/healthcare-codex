@@ -13,6 +13,7 @@ class EmailSignInVC: BaseVC {
     var backBtnAction : (()->())?
     var resetPasswordAction : (()->())?
     var signInWithEP: ((_ email : String, _ password : String)->())?
+    var alertAction: ((_ title: String? , _ detail: String?, _ textfield: TextfieldView)->())?
     
     //-MARK: IBOutlets
     
@@ -54,36 +55,17 @@ class EmailSignInVC: BaseVC {
     }
     
     @IBAction func signInBtnTapped(_ sender: Any) {
-        
-        guard let email = emailView.tfText, !email.isEmpty else {
-            showAlert(title : Str.invalidEmail, message: Str.enterEmail, type : 0)
+        guard let email = emailView.tfText, !email.isEmpty, email.isValidEmail() else {
+            alertAction?(Str.invalidEmail, Str.enterEmail, emailView)
             return
         }
         
         guard let password = passwordView.tfText, !password.isEmpty else {
-            showAlert(title: Str.invalidPw, message: Str.enterPw, type : 1)
+            alertAction?(Str.invalidPw, Str.enterPw, passwordView)
             return
         }
         
-        signInWithEP?(email , password )
-    }
-    
-    
-    func showAlert(title : String, message : String, type : Int ){
-        
-        let alert = UIAlertController(title: title, message: message , preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Str.ok , style: .default, handler: {[weak self] _ in
-            self?.responder(idx : type)
-        }))
-        self.present(alert,animated: true)
-    }
-    
-    func responder(idx : Int){
-        if idx == 0 {
-            self.emailView.focus()
-        } else {
-            self.passwordView.focus()
-        }
+        signInWithEP?(email, password )
     }
     
     @objc func forgotPasswordTapped(){

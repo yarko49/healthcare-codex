@@ -13,6 +13,7 @@ class SignupVC : BaseVC, UITextViewDelegate, UIGestureRecognizerDelegate {
     var goToTermsOfService : (()->())?
     var goToPrivacyPolicy: (()->())?
     var signUpWithEP: ((_ email : String, _ password : String)->())?
+    var alertAction: ((_ title: String? , _ detail: String?, _ textfield: TextfieldView)->())?
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -36,7 +37,7 @@ class SignupVC : BaseVC, UITextViewDelegate, UIGestureRecognizerDelegate {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"back"), style: .plain, target: self, action: #selector(backBtnTapped))
         self.navigationItem.leftBarButtonItem?.tintColor = UIColor.black
     
-        emailView.setupValues(labelTitle: Str.email, text: "", textIsPassword: false)
+        emailView.setupValues(labelTitle: Str.emailAddress, text: "", textIsPassword: false)
         confirmView.setupValues(labelTitle: Str.confirmEmailAddress, text: "", textIsPassword: false)
         passwordView.setupValues(labelTitle: Str.password, text: "", textIsPassword: true)
          signupBtn.setAttributedTitle(Str.signup.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 0.3), for: .normal)
@@ -75,45 +76,23 @@ class SignupVC : BaseVC, UITextViewDelegate, UIGestureRecognizerDelegate {
     }
     
     @IBAction func signupTapped(_ sender: Any) {
-        
-        guard let email = emailView.tfText, !email.isEmpty else {
-            showAlert(title : Str.invalidEmail, message: Str.enterEmail, type : 0)
+        guard let email = emailView.tfText, !email.isEmpty, email.isValidEmail() else {
+            alertAction?(Str.invalidEmail, Str.enterEmail, emailView)
             return
         }
         
-        guard let confirm = confirmView.tfText, confirm == email ,!confirm.isEmpty else {
-            showAlert(title : Str.invalidConfirmationEmail, message: Str.enterEmail, type : 1)
+        guard let confirm = confirmView.tfText, !confirm.isEmpty, confirm == email  else {
+            alertAction?(Str.invalidEmail, Str.invalidConfirmationEmail, confirmView )
             return
         }
         
         guard let password = passwordView.tfText, !password.isEmpty else {
-            showAlert(title: Str.invalidPw, message: Str.enterPw, type : 2)
+            alertAction?(Str.invalidPw, Str.enterPw, passwordView )
             return
         }
         
         signUpWithEP?(email, password)
     }
-    
-    
-    func showAlert(title : String, message : String, type : Int ){
-        
-        let alert = UIAlertController(title: title, message: message , preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Str.ok , style: .default, handler: {[weak self] _ in
-            self?.responder(idx : type)
-        }))
-        self.present(alert,animated: true)
-    }
-    
-    func responder(idx : Int){
-        if idx == 0 {
-            self.emailView.focus()
-        } else if idx == 1{
-            self.confirmView.focus()
-        }else if idx == 2{
-            self.passwordView.focus()
-        }
-    }
-    
     
     @objc func backBtnTapped(){
         navigationController?.navigationBar.isHidden = true
@@ -124,8 +103,4 @@ class SignupVC : BaseVC, UITextViewDelegate, UIGestureRecognizerDelegate {
     @IBAction func signUpBtnTapped(_ sender: Any) {
         nextBtnAction?()
     }
-    
-    
 }
-
-

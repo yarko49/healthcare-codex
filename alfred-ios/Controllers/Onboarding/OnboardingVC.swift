@@ -11,7 +11,7 @@ import AuthenticationServices
 import CryptoKit
 
 class OnboardingVC: BaseVC , UIViewControllerTransitioningDelegate  {
-     
+    
     var signInWithAppleAction: (() -> ())?
     var signInWithEmailAction: (()->())?
     var signupAction : (()->())?
@@ -20,7 +20,7 @@ class OnboardingVC: BaseVC , UIViewControllerTransitioningDelegate  {
     @IBOutlet weak var googleSignInBtn: GoogleSignInButton!
     @IBOutlet weak var appleSignInBtn: AAPLSignInButton!
     @IBOutlet weak var subView: UIView!
-    @IBOutlet weak var signupBtn: UIButton!
+    @IBOutlet weak var signLbl: UILabel!
     @IBOutlet weak var signUpBottomBtn: BottomButton!
     @IBOutlet weak var cancelBtn: UIButton!
     @IBOutlet var contentView: UIView!
@@ -80,22 +80,14 @@ class OnboardingVC: BaseVC , UIViewControllerTransitioningDelegate  {
         self.subView.layer.cornerRadius = 16.0
         self.subView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         self.subView.clipsToBounds = true
-        
-        let signup = UILabel()
-        signup.attributedText = Str.signup.with(style: .semibold17, andColor: UIColor.black , andLetterSpacing: -0.408)
-        signupBtn.setAttributedTitle(signup.attributedText, for: .normal)
         let cancel = UILabel()
         cancel.attributedText = Str.cancel.with(style: .regular17, andColor: UIColor.veryLightGrey ?? UIColor.lightGrey , andLetterSpacing: -0.408)
-        
         cancelBtn.setAttributedTitle(cancel.attributedText, for: .normal)
         cancelBtn.addTarget(self, action: #selector(hideModal), for: .touchUpInside)
         swipe.backgroundColor = UIColor.swipeColor
         swipe.layer.cornerRadius = 5.0
-        let lbl = UILabel()
-        lbl.attributedText = Str.signInWithYourEmail.with(style: .regular20, andColor: UIColor.grey, andLetterSpacing: 0.38)
-        emailSignInBtn.setAttributedTitle(lbl.attributedText, for: .normal)
     }
-    
+
     private func setupOnboarding() {
         let titles = [Str.slide1Title, Str.slide2Title, Str.slide3Title]
         let descriptions = [Str.slide1Desc, Str.slide2Desc, Str.slide3Desc]
@@ -126,7 +118,17 @@ class OnboardingVC: BaseVC , UIViewControllerTransitioningDelegate  {
         self.shadowView.isHidden = true
     }
     
-    @objc func showModal(){
+    
+    
+    @objc func showModal(type : Int){
+        
+        if type == 0 {
+            setupModal(string : Str.signup, email : Str.signUpWithYourEmail, apple : Str.signUpWithApple, google : Str.signUpWithGoogle)
+        } else {
+            
+            setupModal(string : Str.signInModal, email : Str.signInWithYourEmail, apple : Str.signInWithApple, google : Str.signInWithGoogle)
+        }
+        
         UIView.animate(withDuration: 0.3,
                        delay: 0.0,
                        options: [],
@@ -136,29 +138,42 @@ class OnboardingVC: BaseVC , UIViewControllerTransitioningDelegate  {
         })
         self.bottomConstraint.constant = 0
         self.shadowView.isHidden = false
+        
     }
     
+    func setupModal(string : String, email : String, apple : String, google : String){
+        
+        var attributedText = string.with(style: .semibold17, andColor: UIColor.black , andLetterSpacing: -0.408)
+        signLbl.attributedText = attributedText
+        attributedText = email.with(style: .regular20, andColor: UIColor.grey, andLetterSpacing: 0.38)
+        emailSignInBtn.setAttributedTitle(attributedText, for: .normal)
+        googleSignInBtn.setupValues(labelTitle: google)
+        appleSignInBtn.setupValues(labelTitle: apple)
+        
+    }
     
     @objc func signInWithApple(){
         signInWithAppleAction?()
     }
-
+    
     @IBAction func signUpBottomBtnTapped(_ sender: Any) {
-        //TODO: Add the Sign up flow here
-        signupAction?()
+        showModal(type : 0)
     }
     
     @IBAction func signInWIthEmail(_ sender: Any) {
-        signInWithEmailAction?()
+        
+        if emailSignInBtn.titleLabel?.text == Str.signInWithYourEmail{
+            signInWithEmailAction?()
+        }else if emailSignInBtn.titleLabel?.text == Str.signUpWithYourEmail{
+            signupAction?()
+        }
     }
-    
-    
+
     @IBAction func signInBtnTapped(_ sender: Any) {
-        showModal()
+        showModal(type : 1)
     }
     
     @IBAction func signup(_ sender: Any) {
-        signupAction?()
     }
 }
 

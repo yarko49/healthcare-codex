@@ -8,11 +8,10 @@ import Foundation
 
 class ResetVC: BaseVC {
     
-    
     //-MARK: Coordinator Actions
     
     var backBtnAction : (()->())?
-    var nextAction: (()->())?
+    var nextAction: ((_ email: String?)->())?
     
     //-MARK:IBOutlets
     
@@ -20,6 +19,7 @@ class ResetVC: BaseVC {
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var resetLbl: UILabel!
     @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var emailTF: TextfieldView!
     
     override func setupView() {
         super.setupView()
@@ -38,10 +38,10 @@ class ResetVC: BaseVC {
     }
     
     func setup(){
-        stackView.addArrangedSubview(TextfieldView(labelTitle: Str.email, tfText: "", textIsPassword: false))
-        let save = UILabel()
-        save.attributedText = Str.save.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: 3)
-        saveBtn.setAttributedTitle(save.attributedText, for: .normal)
+        
+        emailTF.setupValues(labelTitle: Str.emailAddress, text: "", textIsPassword: false)
+        let attrText = Str.save.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: 3)
+        saveBtn.setAttributedTitle(attrText, for: .normal)
         saveBtn.layer.cornerRadius = 28.5
         saveBtn.backgroundColor = UIColor.white
         saveBtn.layer.borderWidth = 2.0
@@ -50,9 +50,8 @@ class ResetVC: BaseVC {
         resetLbl.numberOfLines = 0
     }
     
-    
     @IBAction func saveBtnTapped(_ sender: Any) {
-        nextAction?()
+        nextAction?(emailTF.tfText)
     }
     
     @objc func backBtnTapped(){

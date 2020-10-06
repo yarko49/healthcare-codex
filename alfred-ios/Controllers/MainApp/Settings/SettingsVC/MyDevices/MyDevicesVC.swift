@@ -5,11 +5,13 @@
 
 import Foundation
 import UIKit
+import HealthKit
 
 class MyDevicesVC: BaseVC {
     
     //MARK: Coordinator Actions
     var backBtnAction: (()->())?
+    var profileRequestAction: (()->())?
     
     // MARK: - Properties
     
@@ -17,30 +19,32 @@ class MyDevicesVC: BaseVC {
     let rowHeight: CGFloat = 60
     
     // MARK: - IBOutlets
-    
+    @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var nextBtn: BottomButton!
     @IBOutlet weak var devicesSettingsTV: UITableView!
     
     // MARK: - Setup
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let backBtn = UIBarButtonItem(image: UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(backBtnTapped))
-        backBtn.tintColor = .black
-        
-        self.navigationItem.leftBarButtonItem = backBtn
     }
     
     override func setupView() {
         super.setupView()
         
         title = Str.myDevices
-        
+        let backBtn = UIBarButtonItem(image: UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(backBtnTapped))
+        backBtn.tintColor = .black
+        self.navigationItem.leftBarButtonItem = backBtn
+        bottomView.backgroundColor = UIColor.grey
+        nextBtn.backgroundColor = UIColor.next
+        nextBtn.setAttributedTitle(Str.next.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 5), for: .normal)
+        nextBtn.refreshCorners(value: 0)
+        nextBtn.setupButton()
+        setupTableView()
+    }
+    
+    func setupTableView() {
         devicesSettingsTV.register(UINib(nibName: "SettingsSwitchCell", bundle: nil), forCellReuseIdentifier: "SettingsSwitchCell")
         devicesSettingsTV.rowHeight = rowHeight
         devicesSettingsTV.dataSource = self
@@ -53,6 +57,7 @@ class MyDevicesVC: BaseVC {
         devicesSettingsTV.allowsSelection = false
     }
     
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
@@ -62,6 +67,14 @@ class MyDevicesVC: BaseVC {
     }
     
     //MARK: - Actions
+    
+    @IBAction func nextBtnTapped(_ sender: Any) {
+        profileRequestAction?()
+    }
+    
+    @objc func allowDevices(){
+        
+    }
     
     @objc func backBtnTapped() {
         backBtnAction?()

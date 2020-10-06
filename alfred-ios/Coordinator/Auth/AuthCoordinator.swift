@@ -12,7 +12,8 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
     internal weak var parentCoordinator: MasterCoordinator?
     
     var currentNonce : String?
-    var emailSignIn : EmailSignInVC?
+    var emailrequest: String?
+    var bundleIdentifier: String?
     
     var rootViewController: UIViewController? {
         return navigationController
@@ -29,16 +30,10 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
     }
     
     internal func start() {
-        //TODO: We should direct a user that has already signed up, logged in or not, to the respective flow.
-        if DataContext.shared.hasCompletedOnboarding {
-            self.showOnboarding()
-        } else {
-            self.showOnboarding()
-        }
+        self.showOnboarding()
     }
     
     internal func showOnboarding(){
-        
         let onboardingVC = OnboardingVC()
         onboardingVC.signInWithAppleAction = {[weak self] in
             self?.signInWithApple()
@@ -49,33 +44,10 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
         }
         onboardingVC.signupAction = { [weak self] in
             self?.goToSignup()
+           
         }
         
         self.navigate(to: onboardingVC, with: .push)
-    }
-    
-    
-    internal func goToHealthKitAuthorization() {
-        
-        let healthKitAuthorizationVC = HealthKitAuthorizationVC()
-        healthKitAuthorizationVC.authorizeAction = { [weak self] in
-            HealthKitManager.shared.authorizeHealthKit { (authorized, error) in
-                guard authorized else {
-                    let baseMessage = "HealthKit Authorization Failed"
-                    if let error = error {
-                        print("\(baseMessage). Reason: \(error.localizedDescription)")
-                    } else {
-                        print(baseMessage)
-                    }
-                    return
-                }
-                print("HealthKit Successfully Authorized.")
-                DispatchQueue.main.async {
-                    self?.goToMainApp()
-                }
-            }
-        }
-        navigate(to: healthKitAuthorizationVC, with: .push, animated: false)
     }
     
     internal func goToEmailSignIn(){
@@ -87,40 +59,59 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
         emailSignInVC.backBtnAction = { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
+        
+        emailSignInVC.alertAction = { [weak self] (title, detail, tv) in
+            let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
+                tv.focus()
+            }
+            self?.showAlert(title: title, detailText: detail, actions: [okAction], fillProportionally: false)
+        }
+        
         emailSignInVC.signInWithEP = {[weak self] (email, password) in
             self?.goToSignInWithEmail(email : email, password : password)
         }
         navigate(to: emailSignInVC , with: .push)
     }
     
-    internal func goToSignInWithEmail(email : String, password: String){
+    internal func goToSignInWithEmail(email : String, password: String) {
+        AlertHelper.showLoader()
+        emailrequest = email
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             self?.getFirebaseToken(authResult: authResult, error: error) {[weak self] in
-                DispatchQueue.main.async {
-                    self?.goToHealthKitAuthorization()
-                }
+                self?.checkIfUserExists(authResult: authResult)
             }
         }
     }
     
     internal func goToReset() {
-        
         let resetVC = ResetVC()
         resetVC.backBtnAction = { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
-        resetVC.nextAction = {[weak self] in
-            self?.goToResetMessage()
+        resetVC.nextAction = {[weak self] (email) in
+            self?.resetPassword(email:email)
         }
         navigate(to: resetVC , with: .push)
     }
     
+    internal func resetPassword(email:String?){
+        AlertHelper.showSendLoader()
+        Auth.auth().sendPasswordReset(withEmail: email ?? "") { error in
+            if error != nil {
+                AlertHelper.showAlert(title: Str.error, detailText: Str.invalidEmail, actions: [AlertHelper.AlertAction.init(withTitle: Str.ok)])
+            } else {
+                AlertHelper.hideLoader()
+                self.goToResetMessage()
+            }
+        }
+    }
+    
     internal func goToResetMessage() {
-        
         let resetMessageVC = ResetMessageVC()
         resetMessageVC.backBtnAction = {[weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
+        
         resetMessageVC.backToSignInAction = {[weak self] in
             self?.navigationController?.popViewController(animated: false)
             self?.navigationController?.popViewController(animated: true)
@@ -128,6 +119,70 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
         navigate(to: resetMessageVC , with: .push)
     }
     
+    internal func getPatientInfo() {
+        //TODO: We might have to recheck this once we have cleaned the BE db from test accounts without the proper info.
+        AlertHelper.showLoader()
+        DataContext.shared.postPatientSearch { (response) in
+            if let response = response, let entries = response.entry, let id = entries[0].resource?.id, let name = entries[0].resource?.name , let email = self.emailrequest  {
+                DataContext.shared.userModel = UserModel(userID: id, email: email, name: name)
+                self.getProfile()
+            } else {
+                AlertHelper.hideLoader()
+                self.goToMyProfileFirstVC(from: .signIn)
+            }
+        }
+    }
+    
+    internal func getProfile() {
+        DataContext.shared.getProfile { (profile) in
+            AlertHelper.hideLoader()
+            if let profile = profile, let healthMeasurements = profile.healthMeasurements {
+                if let weight = healthMeasurements.weight {
+                    DataContext.shared.hasSmartScale = weight.available ?? false
+                    DataContext.shared.weightInPushNotificationsIsOn = weight.notificationsEnabled ?? false
+                }
+                if let diastolicBP = healthMeasurements.diastolicBloodPressure, let systolicBP = healthMeasurements.systolicBloodPressure {
+                    DataContext.shared.hasSmartBlockPressureCuff = (diastolicBP.available ?? false) || (systolicBP.available ?? false)
+                    DataContext.shared.bloodPressurePushNotificationsIsOn = (diastolicBP.notificationsEnabled ?? false) || (systolicBP.notificationsEnabled ?? false)
+                }
+                
+                if let heartRate = healthMeasurements.heartRate, let restingHeartRate = healthMeasurements.restingHeartRate , let steps = healthMeasurements.steps{
+                    DataContext.shared.hasSmartWatch = (heartRate.available ?? false) || (restingHeartRate.available ?? false) || (steps.available ?? false )
+                    DataContext.shared.hasSmartPedometer = steps.available ?? false
+                    DataContext.shared.activityPushNotificationsIsOn = steps.notificationsEnabled ?? false
+                    DataContext.shared.surveyPushNotificationsIsOn = (heartRate.notificationsEnabled ?? false) || (restingHeartRate.notificationsEnabled ?? false)
+                }
+                
+                DataContext.shared.signUpCompleted = profile.signUpCompleted ?? false
+                
+                if DataContext.shared.signUpCompleted {
+                    self.goToHealthKitAuthorization()
+                } else {
+                    self.goToMyProfileFirstVC(from: .signIn)
+                }
+            } else {
+                self.goToMyProfileFirstVC(from: .signIn)
+            }
+        }
+    }
+    
+    internal func goToHealthKitAuthorization() {
+        HealthKitManager.shared.authorizeHealthKit { (authorized, error) in
+            guard authorized else {
+                let baseMessage = "HealthKit Authorization Failed"
+                if let error = error {
+                    print("\(baseMessage). Reason: \(error.localizedDescription)")
+                } else {
+                    print(baseMessage)
+                }
+                return
+            }
+            print("HealthKit Successfully Authorized.")
+            DispatchQueue.main.async {
+                self.goToMainApp()
+            }
+        }
+    }
     
     public func goToMainApp() {
         parentCoordinator?.goToMainApp()
@@ -146,50 +201,184 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
             self?.goToPrivacyPolicy()
         }
         
+        signupVC.alertAction = { [weak self] (title, detail, tv) in
+            let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
+                tv.focus()
+            }
+            self?.showAlert(title: title, detailText: detail, actions: [okAction], fillProportionally: false)
+        }
+        
         signupVC.signUpWithEP = { [weak self](email, password) in
             self?.goToSignUpWithEP(email: email, password: password)
         }
+        
         navigate(to: signupVC, with: .push)
     }
     
     
     internal func goToSignUpWithEP(email : String, password : String) {
+        AlertHelper.showLoader()
         Auth.auth().createUser(withEmail: email, password: password) {[weak self] authResult, error in
-            print("Created user")
-            self?.getFirebaseToken(authResult: authResult, error: error) {[weak self] in
-                print("redirect to Myprofile")
-                self?.goToMyProfileFirstVC()
+            if let error = error {
+                print(error)
+                AlertHelper.showAlert(title: Str.error, detailText: Str.signUpFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+            } else {
+                print("Created user")
+                self?.getFirebaseToken(authResult: authResult, error: error) {[weak self] in
+                    self?.goToMyProfileFirstVC()
+                }
             }
         }
     }
-    
-    internal func goToMyProfileFirstVC(){
-        
+
+    internal func goToMyProfileFirstVC(from screen: ComingFrom = .signUp){
         let myProfileFirstVC = MyProfileFirstVC()
+        
+        myProfileFirstVC.comingFrom = screen
         
         myProfileFirstVC.backBtnAction = { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
         
-        myProfileFirstVC.nextBtnAction = {[weak self] in
-            self?.goToMyProfileSecondVC()
+        let sendDataAction: ((String, String, [String])->())? = {[weak self](gender, family, given) in
+            self?.goToMyProfileSecondVC(gender: gender, family: family, given: given)
         }
         
-        navigate(to: myProfileFirstVC, with: .push)
+        myProfileFirstVC.alertAction = { [weak self] (tv) in
+            let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
+                tv?.focus()
+            }
+            self?.showAlert(title: Str.invalidText, detailText: Str.invalidTextMsg, actions: [okAction])
+        }
         
+        myProfileFirstVC.sendDataAction = sendDataAction
+        navigate(to: myProfileFirstVC, with: .push)
     }
     
-    internal func goToMyProfileSecondVC(){
-        
+    
+    internal func goToMyProfileSecondVC(gender : String, family: String, given: [String]){
         let myProfileSecondVC = MyProfileSecondVC()
+        
         myProfileSecondVC.backBtnAction = {[weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
-    
+        
+        myProfileSecondVC.patientRequestAction = {[weak self](resourceType, birthdate, weight, height, date) in
+            let name = Name(use: "official", family: family, given: given)
+            let patient = Resource(code: nil, effectiveDateTime: nil, id: nil, identifier: nil, meta: nil, resourceType: resourceType, status: nil, subject: nil, valueQuantity: nil, birthDate: birthdate, gender: gender, name: [name])
+        
+            self?.goToMyDevices(patient: patient, weight: weight, height: height, date: date)
+        }
+        
+        myProfileSecondVC.alertAction = { [weak self] (tv) in
+            let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
+                
+            }
+            self?.showAlert(title: Str.invalidInput, detailText: Str.emptyPickerField , actions: [okAction])
+            
+        }
+        
         navigate(to: myProfileSecondVC, with: .push)
     }
     
     
+    internal func goToMyDevices(patient: Resource, weight: Int, height: Int, date: String) {
+        let devicesVC = MyDevicesVC()
+        
+        devicesVC.backBtnAction = { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+        
+        devicesVC.profileRequestAction = {[weak self] in
+            self?.patientAPI(patient: patient, weight: weight , height: height, date: date)
+          
+        }
+        navigate(to: devicesVC, with: .pushFullScreen)
+    }
+    
+    internal func patientAPI(patient: Resource, weight: Int, height: Int, date: String){
+        AlertHelper.showLoader()
+        DataContext.shared.postPatient(patient: patient) {[weak self] (patientResponse) in
+            if let _ = patientResponse {
+                print("OK STATUS FOR PATIENT : 200")
+                let defaultName = Name(use: "", family: "", given: [""])
+                DataContext.shared.userModel = UserModel(userID: patientResponse?.id ?? "", email: self?.emailrequest ?? "", name: patientResponse?.name ?? [defaultName])
+                print(DataContext.shared.userModel!)
+                self?.getHeightWeight(weight: weight,height: height ,date: date)
+                
+            } else {
+                print("request failed")
+                AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+                return
+            }
+        }
+    }
+    
+    
+    internal func getHeightWeight(weight: Int, height: Int, date: String){
+        var displayName = ""
+               let referenceId = "Patient/\(DataContext.shared.userModel?.userID ?? "")"
+               if let names = DataContext.shared.userModel?.name {
+                   for (index,name) in names.enumerated() {
+                       guard let givens = name.given, let family = name.family else {return}
+                       for given in givens {
+                           displayName.append(given)
+                           displayName.append(" ")
+                       }
+                       displayName.append(family)
+                       
+                       if index != names.count - 1 {
+                           displayName.append(" ")
+                       }
+                   }
+               }
+        
+        let weightObservation = Resource(code: DataContext.shared.weightCode, effectiveDateTime: date, id: nil, identifier: nil , meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil)
+        
+        let weightEntry = Entry(fullURL: nil, resource: weightObservation, request: Request(method: "POST", url: "Observation"), search: nil, response: nil)
+        print(weightEntry)
+        
+        let heightObservation = Resource(code: DataContext.shared.heightCode, effectiveDateTime: date, id: nil, identifier: nil , meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: height, unit: Str.heightUnit), birthDate: nil, gender: nil, name: nil)
+        
+        let heightEntry = Entry(fullURL: nil, resource: heightObservation, request: Request(method: "POST", url: "Observation"), search: nil, response: nil)
+        
+        let bundle = BundleModel(entry: [weightEntry, heightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
+        
+        bundleAction(bundle: bundle)
+    }
+    
+
+    internal func bundleAction(bundle: BundleModel){
+        DataContext.shared.postBundle(bundle: bundle) { (response) in
+            if let response = response {
+                print(response)
+                DataContext.shared.signUpCompleted = true
+                let profile = DataContext.shared.createProfileModel()
+                self.profileRequest(profile: profile)
+                
+            } else {
+                AlertHelper.hideLoader()
+                print("request failed")
+                AlertHelper.showAlert(title: Str.error, detailText: Str.createBundleFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+            }
+        }
+        
+    }
+    
+    internal func profileRequest(profile: ProfileModel) {
+        DataContext.shared.postProfile(profile: profile) { [weak self] success in
+            if success {
+                print(profile)
+                print("OK STATUS FOR PROFILE: 200", DataContext.shared.signUpCompleted)
+                AlertHelper.hideLoader()
+                self?.goToHealthKitAuthorization()
+            } else {
+                print("request failed")
+                AlertHelper.showAlert(title: Str.error, detailText: Str.createProfileFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+            }
+        }
+    }
+
     internal func goToPrivacyPolicy() {
         let privacyPolicyVC = PrivacyPolicyVC()
         
@@ -200,7 +389,6 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
     }
     
     internal func goToTermsOfService() {
-        
         let termsOfServiceVC = TermsOfServiceVC()
         
         termsOfServiceVC.backBtnAction = { [weak self] in
@@ -239,16 +427,30 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
     private func getFirebaseToken(authResult: AuthDataResult?, error: Error?, completionHandler: @escaping () -> ()) {
         if let error = error {
             print(error)
+            AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
         } else if let authResult = authResult {
             authResult.user.getIDToken(completion: { (firebaseToken, error) in
                 if let error = error {
                     print(error)
+                    AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
                 } else if let firebaseToken = firebaseToken {
+                    AlertHelper.hideLoader()
+                    self.emailrequest = Auth.auth().currentUser?.email
                     DataContext.shared.authToken = firebaseToken
                     print(firebaseToken)
                     completionHandler()
                 }
             })
+        }
+    }
+    
+    private func checkIfUserExists(authResult: AuthDataResult?) {
+        let newUser = authResult?.additionalUserInfo?.isNewUser
+        if newUser == true {
+            goToMyProfileFirstVC()
+        }
+        else {
+            getPatientInfo()
         }
     }
 }
@@ -271,9 +473,7 @@ extension AuthCoordinator: GIDSignInDelegate {
         
         Auth.auth().signIn(with: credential) {[weak self] (authResult, error) in
             self?.getFirebaseToken(authResult: authResult, error: error) {[weak self] in
-                DispatchQueue.main.async {
-                    self?.goToHealthKitAuthorization()
-                }
+                self?.checkIfUserExists(authResult: authResult)
             }
         }
     }
@@ -302,9 +502,7 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
             Auth.auth().signIn(with: credential)  {[weak self] (authResult, error) in
                 self?.getFirebaseToken(authResult: authResult, error: error) {[weak self] in
-                    DispatchQueue.main.async {
-                        self?.goToHealthKitAuthorization()
-                    }
+                    self?.checkIfUserExists(authResult: authResult)
                 }
             }
         }
@@ -317,7 +515,6 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
     
     
     func signOut(){
-        
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()

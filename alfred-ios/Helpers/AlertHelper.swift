@@ -14,8 +14,7 @@ class AlertHelper {
             self.action = action
         }
     }
-    
-   
+
     static func showLoader() {
        SVProgressHUD.show()
     }
@@ -42,7 +41,6 @@ class AlertHelper {
         }
         present(alertVC, from: viewController)
     }
-    
     
     static func present(_ modalViewController: UIViewController?, from viewController: UIViewController? = UIApplication.shared.keyWindow?.visibleViewController()) {
         guard let modalViewController = modalViewController else { return }

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ResetVC" customModule="alfred_ios" customModuleProvider="target">
             <connections>
+                <outlet property="emailTF" destination="F2O-dx-cEy" id="kLE-mD-wiE"/>
                 <outlet property="resetLbl" destination="zVo-Ut-ru9" id="PPi-Pn-qdc"/>
                 <outlet property="saveBtn" destination="9dG-ra-OTg" id="OxL-d7-bLa"/>
                 <outlet property="scrollView" destination="8K5-du-5y5" id="yRw-fQ-Jo6"/>
@@ -29,6 +30,12 @@
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="O6X-nR-XOU">
                                     <rect key="frame" x="0.0" y="110" width="414" height="51"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F2O-dx-cEy" customClass="TextfieldView" customModule="alfred_ios" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        </view>
+                                    </subviews>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="51" id="2Dg-bF-6nO"/>
                                     </constraints>

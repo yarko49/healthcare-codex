@@ -17,8 +17,12 @@ class MeasurementCardCell: UICollectionViewCell {
     @IBOutlet weak var textLbl: UILabel!
     @IBOutlet weak var statusIV: UIImageView!
     @IBOutlet weak var statusLbl: UILabel!
+    @IBOutlet weak var addIV: UIImageView!
+    @IBOutlet weak var surveyLbl: UILabel!
+    @IBOutlet weak var surveyIV: UIImageView!
     
     // MARK: - Vars
+    var card: NotificationCardData?
     
     var backgroundClr = UIColor.white {
         didSet {
@@ -29,6 +33,55 @@ class MeasurementCardCell: UICollectionViewCell {
     var statusClr = UIColor.white {
         didSet {
             statusIV.tintColor = statusClr
+        }
+    }
+    
+    var title: String? {
+        didSet {
+            if let title = title {
+                titleLbl.attributedText = title.with(style: .regular13, andColor: .black, andLetterSpacing: -0.408)
+            }
+        }
+    }
+    
+    var timestamp: String? {
+        didSet {
+            if let timestamp = timestamp, let date = DateFormatter.wholeDate.date(from: timestamp) {
+                var dateString = ""
+                
+                if Calendar.current.isDateInToday(date) {
+                    let diffComponents = Calendar.current.dateComponents([.hour, .minute], from: date, to: Date())
+                    let hours = diffComponents.hour
+                    dateString = hours == 0 ? Str.now : DateFormatter.HHmm.string(from: date)
+                } else if Calendar.current.isDateInYesterday(date) {
+                    dateString = Str.yesterday
+                } else {
+                    dateString = DateFormatter.MMMdd.string(from: date)
+                }
+                
+                timeLbl.attributedText = dateString.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+            }
+        }
+    }
+    
+    var status: String? {
+        didSet {
+            if let status = status {
+               statusLbl.attributedText = status.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+            }
+        }
+    }
+    
+    var text: String? {
+        didSet {
+            if let text = text {
+                textLbl.attributedText = setAttributedString(for: text)
+                setAppearanceForDataInput(flag: false)
+            } else {
+                setCellForDataInput()
+                setAppearanceForDataInput(flag: true)
+            }
+            
         }
     }
     
@@ -67,47 +120,73 @@ class MeasurementCardCell: UICollectionViewCell {
     func setupCell(with card: NotificationCardData) {
         setupView()
         
-        switch card.backgroundColor {
-        case .blue:
-            backgroundClr = .weightDataBG
-        case .orange:
-            backgroundClr = .activityDataBG
-        case .red:
-            backgroundClr = .bloodPressureDataBG
-        case .green:
-            backgroundClr = .surveyDataBG
+        self.card = card
+        
+        if let color = UIColor(hex: card.backgroundColor) {
+            backgroundClr = color
         }
         
         statusIV.image = statusIV.image?.withRenderingMode(.alwaysTemplate)
         
-        switch card.statusColor {
-        case .brown:
-            statusClr = .statusLow
-        case .green:
-            statusClr = .statusGreen
-        case .red:
-            statusClr = .statusRed
-        case .yellow:
-            statusClr = .statusYellow
-        case .none:
-            break
+        if let statusColorHex = card.statusColor, let color = UIColor(hex: statusColorHex) {
+            statusClr = color
         }
         
-        iconView.setup(color: card.backgroundColor)
-        iconView.setProgressWithAnimation(value: 0.65)
+        if let color = card.progressColor, let opacity = card.progressOpacity, let progress = card.progressPercent, let icon = card.icon {
+            iconView.setup(color: color, opacity: opacity, icon: icon)
+            iconView.setProgressWithAnimation(value: progress)
+        }
         
-        titleLbl.attributedText = card.title.with(style: .regular13, andColor: .black, andLetterSpacing: -0.408)
-        timeLbl.attributedText = card.sampledTime?.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
-        statusLbl.attributedText = card.status?.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+        surveyLbl.attributedText = Str.completeSurvey.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+        let surveyImage = surveyIV.image?.withRenderingMode(.alwaysTemplate)
+        surveyIV.image = surveyImage
+        surveyIV.tintColor = .lightGrey
         
-        let array = card.text.components(separatedBy: " ")
-        let attributedString = card.text.with(style: .regular26, andColor: .black, andLetterSpacing: -0.16) as! NSMutableAttributedString
+        self.title = card.title
+        self.timestamp = card.sampledTime
+        self.status = card.status
+        self.text = card.text
+        setAppeareanceOnAction(action: card.action)
+    }
+    
+    private func setAttributedString(for text: String) -> NSMutableAttributedString {
+        let array = text.components(separatedBy: " ")
+        let attributedString = text.with(style: .regular26, andColor: .black, andLetterSpacing: -0.16) as! NSMutableAttributedString
         if array.count > 1 {
-            let range = (card.text as NSString).range(of: array[1])
+            let range = (text as NSString).range(of: array[1])
             attributedString.addAttribute(NSAttributedString.Key.font, value: Font.sfProThin.of(size: 26) , range: range)
         }
-        textLbl.attributedText = attributedString
-        
+        return attributedString
+    }
+    
+    private func setCellForDataInput() {
+        switch card?.action {
+        case .bloodPressure:
+            textLbl.attributedText = Str.enterBP.with(style: .regular24, andColor: .enterGrey, andLetterSpacing: -0.16)
+        case .weight:
+            textLbl.attributedText = Str.enterWeight.with(style: .regular24, andColor: .enterGrey, andLetterSpacing: -0.16)
+        default:
+            break
+        }
+    }
+    
+    private func setAppeareanceOnAction(action: CardAction?) {
+        let questionnaireFlag = action == .questionnaire
+        if questionnaireFlag {
+            statusLbl.isHidden = questionnaireFlag
+            statusIV.isHidden = questionnaireFlag
+            timeLbl.isHidden = questionnaireFlag
+            addIV.isHidden = questionnaireFlag
+        }
+        surveyIV.isHidden = !questionnaireFlag
+        surveyLbl.isHidden = !questionnaireFlag
+    }
+    
+    private func setAppearanceForDataInput(flag: Bool) {
+        addIV.isHidden = !flag
+        statusIV.isHidden = flag
+        statusLbl.isHidden = flag
+        timeLbl.isHidden = flag
     }
     
 }

@@ -9,8 +9,9 @@ import UIKit
 class AccountResetPasswordVC: BaseVC {
     
     //MARK: Coordinator Actions
+    
     var backBtnAction: (()->())?
-    var sendEmailAction: (()->())?
+    var sendEmailAction: ((_ email: String?)->())?
     
     // MARK: - Properties
     
@@ -19,6 +20,8 @@ class AccountResetPasswordVC: BaseVC {
     @IBOutlet weak var sendBtn: RoundedButton!
     @IBOutlet weak var resetPasswordDescLbl: UILabel!
     @IBOutlet weak var completionLbl: UILabel!
+    
+    @IBOutlet weak var emailTF: TextfieldView!
     
     // MARK: - IBOutlets
     
@@ -37,14 +40,13 @@ class AccountResetPasswordVC: BaseVC {
         backBtn.tintColor = .black
         
         self.navigationItem.leftBarButtonItem = backBtn
+        
     }
     
     override func setupView() {
         super.setupView()
-        
         title = Str.resetPassword
-        
-        textfieldSV.addArrangedSubview(TextfieldView(labelTitle: Str.emailAddress, tfText: "", textIsPassword: false))
+        emailTF.setupValues(labelTitle: Str.emailAddress, text: "", textIsPassword: false)
         completionLbl.isHidden = true
         sendBtn.cornerRadius = 29
         sendBtn.roundedBorderColor = UIColor.grey.cgColor
@@ -54,9 +56,8 @@ class AccountResetPasswordVC: BaseVC {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
     }
-    
+
     override func localize() {
         super.localize()
         
@@ -81,8 +82,7 @@ class AccountResetPasswordVC: BaseVC {
     }
     
     @IBAction func passwordResetTapped(_ sender: Any) {
-        sendEmailAction?()
+        sendEmailAction?(emailTF.tfText)
     }
-    
 }
 

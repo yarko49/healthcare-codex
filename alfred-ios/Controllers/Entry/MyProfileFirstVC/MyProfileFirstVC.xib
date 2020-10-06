@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,18 +12,14 @@
             <connections>
                 <outlet property="bottomConstraint" destination="k8Z-Ff-QTW" id="aQo-7N-UTv"/>
                 <outlet property="bottomView" destination="e1d-lR-yah" id="yGX-4Q-FqE"/>
-                <outlet property="cisBtn" destination="BRU-RQ-JU8" id="PFR-tx-g6q"/>
                 <outlet property="femaleBtn" destination="EVO-HH-9gl" id="fvg-Wf-slH"/>
                 <outlet property="firstNameTF" destination="ykp-28-uLl" id="nHh-Qa-xUG"/>
-                <outlet property="genderIDSV" destination="5Mq-Ol-0eL" id="PFI-Qq-Qaf"/>
-                <outlet property="genderLbl" destination="GOx-eH-wVS" id="AGm-UI-Loh"/>
                 <outlet property="lastNameTF" destination="I4X-4n-YGo" id="fnh-Ng-eNt"/>
                 <outlet property="maleBtn" destination="ktl-mY-KR1" id="vnr-4f-Phq"/>
                 <outlet property="nextBtn" destination="OMl-Cu-BSP" id="frc-sa-osN"/>
                 <outlet property="scrollView" destination="b0n-u3-X7v" id="Sxh-q7-eNF"/>
                 <outlet property="sexLbl" destination="mJF-st-mYq" id="MN4-wg-dHb"/>
                 <outlet property="sexSV" destination="ALZ-hZ-SEj" id="hC7-FS-z9F"/>
-                <outlet property="transBtn" destination="a8f-VG-fh3" id="few-rW-r7x"/>
                 <outlet property="view" destination="jMZ-Wb-8gg" id="OUv-Lb-hVr"/>
             </connections>
         </placeholder>
@@ -82,34 +78,6 @@
                                         <constraint firstAttribute="width" constant="162" id="RFZ-Xv-v0r"/>
                                     </constraints>
                                 </stackView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GOx-eH-wVS">
-                                    <rect key="frame" x="21" y="363" width="190" height="20.5"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Mq-Ol-0eL">
-                                    <rect key="frame" x="228" y="363.5" width="162" height="30"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a8f-VG-fh3">
-                                            <rect key="frame" x="0.0" y="0.0" width="72.5" height="30"/>
-                                            <state key="normal" title="Button"/>
-                                            <connections>
-                                                <action selector="selectedOption:" destination="-1" eventType="touchUpInside" id="oqv-vh-jlg"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BRU-RQ-JU8">
-                                            <rect key="frame" x="89.5" y="0.0" width="72.5" height="30"/>
-                                            <state key="normal" title="Button"/>
-                                            <connections>
-                                                <action selector="selectedOption:" destination="-1" eventType="touchUpInside" id="cMn-7O-k0P"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="162" id="rgZ-Jd-f8d"/>
-                                    </constraints>
-                                </stackView>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e1d-lR-yah">
                                     <rect key="frame" x="0.0" y="826" width="414" height="70"/>
                                     <subviews>
@@ -136,22 +104,15 @@
                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             <constraints>
                                 <constraint firstItem="O0h-rh-lWI" firstAttribute="top" secondItem="peN-q6-NlT" secondAttribute="top" constant="93.5" id="1Mx-TA-vPM"/>
-                                <constraint firstItem="GOx-eH-wVS" firstAttribute="top" secondItem="mJF-st-mYq" secondAttribute="bottom" constant="40" id="4CH-B8-zUJ"/>
                                 <constraint firstItem="ALZ-hZ-SEj" firstAttribute="top" secondItem="O0h-rh-lWI" secondAttribute="bottom" constant="54" id="5MC-fn-0T9"/>
                                 <constraint firstItem="O0h-rh-lWI" firstAttribute="leading" secondItem="peN-q6-NlT" secondAttribute="leading" id="9gK-A7-jWP"/>
-                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="5Mq-Ol-0eL" secondAttribute="bottom" constant="100" id="Fu1-bY-YM8"/>
                                 <constraint firstItem="mJF-st-mYq" firstAttribute="leading" secondItem="peN-q6-NlT" secondAttribute="leading" constant="21" id="Gtb-YX-2ud"/>
-                                <constraint firstAttribute="trailing" secondItem="5Mq-Ol-0eL" secondAttribute="trailing" constant="24" id="Jzx-kC-X2P"/>
-                                <constraint firstItem="5Mq-Ol-0eL" firstAttribute="top" secondItem="ALZ-hZ-SEj" secondAttribute="bottom" constant="34" id="Mqa-IE-iwG"/>
                                 <constraint firstItem="mJF-st-mYq" firstAttribute="top" secondItem="O0h-rh-lWI" secondAttribute="bottom" constant="57" id="RST-wb-nvL"/>
                                 <constraint firstAttribute="trailing" secondItem="ALZ-hZ-SEj" secondAttribute="trailing" constant="24" id="Uyd-eW-dQ3"/>
-                                <constraint firstItem="GOx-eH-wVS" firstAttribute="leading" secondItem="peN-q6-NlT" secondAttribute="leading" constant="21" id="VZc-1U-1Xb"/>
                                 <constraint firstItem="e1d-lR-yah" firstAttribute="leading" secondItem="peN-q6-NlT" secondAttribute="leading" id="cfM-Bx-bDz"/>
                                 <constraint firstAttribute="trailing" secondItem="e1d-lR-yah" secondAttribute="trailing" id="eeh-bL-0QW"/>
                                 <constraint firstItem="ALZ-hZ-SEj" firstAttribute="leading" secondItem="mJF-st-mYq" secondAttribute="trailing" constant="17" id="f84-ca-2Zh"/>
                                 <constraint firstAttribute="trailing" secondItem="O0h-rh-lWI" secondAttribute="trailing" id="fuj-G1-THL"/>
-                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="GOx-eH-wVS" secondAttribute="bottom" constant="100" id="gaB-SE-KtX"/>
-                                <constraint firstItem="5Mq-Ol-0eL" firstAttribute="leading" secondItem="GOx-eH-wVS" secondAttribute="trailing" constant="17" id="mmk-FM-HWA"/>
                                 <constraint firstAttribute="bottom" secondItem="e1d-lR-yah" secondAttribute="bottom" id="wgV-Yh-nbm"/>
                             </constraints>
                         </view>
@@ -176,7 +137,7 @@
                 <constraint firstAttribute="trailing" secondItem="b0n-u3-X7v" secondAttribute="trailing" id="ybH-g8-2IM"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="iLz-Z2-zAG"/>
-            <point key="canvasLocation" x="-2413" y="-3846"/>
+            <point key="canvasLocation" x="-2229" y="-3835"/>
         </view>
     </objects>
 </document>

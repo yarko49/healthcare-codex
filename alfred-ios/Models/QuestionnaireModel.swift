@@ -22,11 +22,6 @@ struct QuestionnaireIdentifier: Codable {
     let use, value: String?
 }
 
-// MARK: - Assigner
-struct Assigner: Codable {
-    let reference: String?
-}
-
 // MARK: - IdentifierID
 struct IdentifierID: Codable {
     let text: String?

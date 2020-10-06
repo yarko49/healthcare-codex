@@ -29,6 +29,7 @@ extension UIColor {
     static let cursorOrange = UIColor(named: "CursorOrange")!
     static let restingHR = UIColor(named: "RestingHRColor2")
     static let weightLblColor = UIColor(named: "WeightLblColor")
+    static let enterGrey = UIColor(named: "EnterGrey")!
     //Coach Cards
     static let weightBG = UIColor(named: "WeightBG")!
     static let activityBG = UIColor(named: "ActivityBG")!

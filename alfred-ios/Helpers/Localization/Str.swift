@@ -19,9 +19,13 @@ internal enum Str {
     internal static let signInWithGoogle = Languages.tr("SIGN_IN_WITH_GOOGLE")
     internal static let signInWithApple = Languages.tr("SIGN_IN_WITH_APPLE")
     internal static let signup = Languages.tr("SIGN_UP")
+    internal static let signUpWithGoogle = Languages.tr("SIGN_UP_WITH_GOOGLE")
+    internal static let signUpWithApple = Languages.tr("SIGN_UP_WITH_APPLE")
+    internal static let signUpWithYourEmail = Languages.tr("SIGN_UP_WITH_YOUR_EMAIL")
     internal static let signInWithYourEmail = Languages.tr("SIGN_IN_WITH_YOUR_EMAIL")
     internal static let forgotPassword = Languages.tr("FORGOT_PASSWORD")
     internal static let signin = Languages.tr("SIGN_IN")
+    internal static let signInModal = Languages.tr("SIGN_IN_MODAL")
     internal static let save = Languages.tr("SAVE")
     internal static let welcomeBack = Languages.tr("WELCOME_BACK")
     internal static let resetMessage = Languages.tr("WE_WILL_EMAIL_YOU_A_LINK_TO_RESET_YOUR_PASSWORD")
@@ -55,6 +59,11 @@ internal enum Str {
     
     // Sign up
     internal static let invalidConfirmationEmail = Languages.tr("FAILED_TO_CONFIRM_EMAIL")
+    internal static let invalidText = Languages.tr("INVALID_TEXT")
+    internal static let invalidTextMsg = Languages.tr("TEXT_SHOULD_NOT_CONTAIN_SPECIAL_CHARACTERS_OR_NUMBERS")
+    internal static let signUpFailed = Languages.tr("SIGN_UP_FAILED")
+    internal static let invalidInput = Languages.tr("INVALID_INPUT")
+    internal static let emptyPickerField = Languages.tr("FIELDS_CANNOT_BE_EMPTY")
      
     //  - Profile
     internal static let myProfile = Languages.tr("MY_PROFILE")
@@ -68,6 +77,8 @@ internal enum Str {
     internal static let information = Languages.tr("THIS_INFORMATION_HELPS_US_PROVIDE_CUSTOM_RECOMMENDATIONS")
     internal static let dob = Languages.tr("DATE_OF_BIRTH")
     internal static let height = Languages.tr("HEIGHT")
+    internal static let invalidOption = Languages.tr("INVALID_OPTION")
+    internal static let selectGender = Languages.tr("PLEASE_SELECT_GENDER")
     
     // Sign In
     internal static let longResetMessage = Languages.tr("IF_YOUR_ACCOUNT_IS_ASSOCIATED_WITH_THIS_EMAIL_ADDRESS_YOU_WILL_RECEIVE_AN_EMAIL_TO_RESET_YOUR_PASSWORD_IF_YOU_DON'T_PLEASE_TRY_ANOTHER_EMAIL_ADDRESS")
@@ -77,6 +88,11 @@ internal enum Str {
     internal static let enterEmail = Languages.tr("PLEASE_ENTER_EMAIL_ADDRESS")
     internal static let enterPw = Languages.tr("PLEASE_ENTER_PASSWORD")
     internal static let ok = Languages.tr("OK")
+    internal static let signInFailed = Languages.tr("SIGN_IN_FAILED")
+    
+    //Reset Password
+    internal static let error = Languages.tr("ERROR")
+    internal static let emailFailed = Languages.tr("FAILED_TO_SEND_VERIFICATION_EMAIL_THE_ACCOUNT_MAY_HAVE_BEEN_DELETED_OR_DOES_NOT_EXIST")
 
     //Profile
     internal static let edit = Languages.tr("EDIT")
@@ -93,11 +109,44 @@ internal enum Str {
     internal static let hypertension2 = Languages.tr("HYPERTENSION_(STAGE_2)")
     internal static let hypercrisis = Languages.tr("HYPERTENSION_CRISIS")
         
+    // Today
+    
+    internal static let now = Languages.tr("NOW")
+    internal static let yesterday = Languages.tr("YESTERDAY")
+    internal static let getMoreInformation = Languages.tr("GET_MORE_INFORMATION")
+    internal static func sysDia(_ p1: Int, _ p2: Int) -> String {
+        return Languages.tr("SYS_DIA", [p1, p2])
+    }
+    internal static func lbsDec(_ p1: Int, _ p2: Int) -> String {
+        return Languages.tr("LBS_DEC", [p1, p2])
+    }
+    internal static func lbs(_ p1: Int) -> String {
+        return Languages.tr("LBS", [p1])
+    }
+    internal static func feet(_ p1: Int, _ p2: Int) -> String {
+        return Languages.tr("FEET", [p1,p2])
+    }
+    internal static let goalWeight = Languages.tr("GOAL_WEIGHT")
+    internal static let defaultTime = Languages.tr("DEFAULT_TIME")
+    internal static let defaultDate = Languages.tr("DEFAULT_DATE")
+    internal static let date = Languages.tr("DATE")
+    internal static let time = Languages.tr("TIME")
+    internal static let lb = Languages.tr("LB")
+    internal static let dia = Languages.tr("DIA")
+    internal static let sys = Languages.tr("SYS")
+    internal static let add = Languages.tr("ADD")
+    internal static let completeSurvey = Languages.tr("COMPLETE_SURVEY")
+    internal static let weightUnit = Languages.tr("WEIGHT_UNIT")
+    internal static let heightUnit = Languages.tr("HEIGHT_UNIT")
+    internal static let pressureUnit = Languages.tr("PRESSURE_UNIT")
+    internal static let enterBP = Languages.tr("ENTER_BP")
+    internal static let enterWeight = Languages.tr("ENTER_WEIGHT")
+    
     // Settings
     internal static let settings = Languages.tr("SETTINGS")
     internal static let logout = Languages.tr("LOG_OUT")
     internal static let accountDetails = Languages.tr("ACCOUNT_DETAILS")
-    internal static let myDevices = Languages.tr("MY_DEVICES")
+    internal static let myDevices = Languages.tr("DEVICES")
     internal static let notifications = Languages.tr("NOTIFICATIONS")
     internal static let systemAuthorization = Languages.tr("SYSTEM_AUTHORIZATION")
     internal static let feedback = Languages.tr("FEEDBACK")
@@ -126,6 +175,11 @@ internal enum Str {
     internal static let bloodPressurePushNotifications = Languages.tr("BLOOD_PRESSURE_PUSH_NOTIFICATIONS")
     internal static let weightInPushNotifications = Languages.tr("WEIGHT_IN_PUSH_NOTIFICATIONS")
     internal static let surveyPushNotifications = Languages.tr("SURVEY_PUSH_NOTIFICATIONS")
+    
+    // My profile
+    internal static let createPatientFailed = Languages.tr("CREATE_PATIENT_FAILED")
+    internal static let createProfileFailed = Languages.tr("CREATE_PROFILE_FAILED")
+    internal static let createBundleFailed = Languages.tr("CREATE_BUNDLE_FAILED")
     
     // Questionnaire
     internal static func ofParts(_ p1: Int, _ p2: Int) -> String {
