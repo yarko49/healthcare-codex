@@ -44,7 +44,7 @@ class HomeVC: BaseVC {
     
     override func viewWillAppear(_ animated : Bool){
         super.viewWillAppear(animated)
-       
+        getCardsAction?()
     }
    
     override func viewDidAppear(_ animated: Bool) {
@@ -76,7 +76,6 @@ class HomeVC: BaseVC {
     
     override func populateData() {
         super.populateData()
-        getCardsAction?()
     }
     
     func setupCards(with notificationList: [NotificationCard]?) {
@@ -133,17 +132,25 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch measurementCardsList[indexPath.row].data.action {
-        case .activity:
-            break
-        case .bloodPressure:
-            measurementCellAction?(.bloodPressure)
-        case .weight:
-            measurementCellAction?(.weight)
-        case .questionnaire:
-            questionnaireAction?()
-        case .none:
-            break
+        if let action = measurementCardsList[indexPath.row].data.action {
+            switch action {
+            case .activity:
+                break
+            case .bloodPressure:
+                measurementCellAction?(.bloodPressure)
+            case .weight:
+                measurementCellAction?(.weight)
+            case .questionnaire:
+                if measurementCardsList[indexPath.row].data.progressPercent != 1 {
+                    questionnaireAction?()
+                }
+            case .heartRate:
+                break
+            case .heartRateResting:
+                break
+            case .other:
+                break
+            }
         }
     }
     

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,22 +18,22 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="DAg-1r-Fwi">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
+            <rect key="frame" x="0.0" y="0.0" width="325" height="62"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7lh-yr-pjf">
-                    <rect key="frame" x="15" y="0.0" width="42" height="20.5"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <rect key="frame" x="15" y="0.0" width="42" height="20"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8fM-8w-IW7">
-                    <rect key="frame" x="64" y="0.0" width="241" height="42"/>
+                    <rect key="frame" x="64" y="0.0" width="246" height="50"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bxg-hd-3kx">
-                    <rect key="frame" x="15" y="49" width="290" height="1"/>
+                    <rect key="frame" x="15" y="59" width="295" height="1"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="HmS-p9-tZZ"/>
@@ -44,17 +44,17 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Bxg-hd-3kx" secondAttribute="trailing" constant="15" id="0TG-RI-6If"/>
                 <constraint firstAttribute="trailing" secondItem="8fM-8w-IW7" secondAttribute="trailing" constant="15" id="24h-dP-ruo"/>
-                <constraint firstAttribute="bottom" secondItem="Bxg-hd-3kx" secondAttribute="bottom" constant="4" id="6el-N2-5yH"/>
+                <constraint firstItem="Bxg-hd-3kx" firstAttribute="top" secondItem="8fM-8w-IW7" secondAttribute="bottom" constant="9" id="Q0t-6T-pwd"/>
                 <constraint firstItem="7lh-yr-pjf" firstAttribute="top" secondItem="DAg-1r-Fwi" secondAttribute="top" id="RDD-ib-Abg"/>
+                <constraint firstItem="xXD-0s-x6K" firstAttribute="bottom" secondItem="Bxg-hd-3kx" secondAttribute="bottom" constant="2" id="YOE-av-FWW"/>
                 <constraint firstItem="7lh-yr-pjf" firstAttribute="leading" secondItem="DAg-1r-Fwi" secondAttribute="leading" constant="15" id="cAP-HI-Pva"/>
-                <constraint firstItem="Bxg-hd-3kx" firstAttribute="top" secondItem="8fM-8w-IW7" secondAttribute="bottom" constant="7" id="ijb-rS-u0F"/>
                 <constraint firstItem="8fM-8w-IW7" firstAttribute="top" secondItem="DAg-1r-Fwi" secondAttribute="top" id="oQx-Pu-sRg"/>
                 <constraint firstItem="Bxg-hd-3kx" firstAttribute="leading" secondItem="DAg-1r-Fwi" secondAttribute="leading" constant="15" id="opu-sD-Hvi"/>
                 <constraint firstItem="8fM-8w-IW7" firstAttribute="leading" secondItem="7lh-yr-pjf" secondAttribute="trailing" constant="7" id="wqa-oG-JU2"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="xXD-0s-x6K"/>
-            <point key="canvasLocation" x="119" y="-404"/>
+            <point key="canvasLocation" x="-126.81159420289856" y="-387.72321428571428"/>
         </view>
     </objects>
 </document>

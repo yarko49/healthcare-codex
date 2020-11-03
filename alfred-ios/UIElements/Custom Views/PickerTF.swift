@@ -16,7 +16,7 @@ class PickerTF : UIView {
     
     var labelTitle: String? {
         didSet {
-            titleLbl.attributedText =  labelTitle?.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.078)
+            titleLbl.attributedText =  labelTitle?.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.41)
         }
     }
     
@@ -25,7 +25,7 @@ class PickerTF : UIView {
             return textfield.text
         }
         set{
-            textfield.attributedText = newValue?.with(style: .regular17, andColor: .lightGray, andLetterSpacing: 0.38)
+            textfield.attributedText = newValue?.with(style: .regular20, andColor: .lightGray, andLetterSpacing: -0.41)
         }
     }
     
@@ -78,8 +78,8 @@ class PickerTF : UIView {
         textfield.isEnabled = false
         textfield.tintColor = .orange
         textfield.textAlignment = .right
-        titleLbl.attributedText = labelTitle?.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.078)
-        textfield.attributedText = tfText?.with(style: .regular17, andColor: .black, andLetterSpacing: 0.38)
+        titleLbl.attributedText = labelTitle?.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.41)
+        textfield.attributedText = tfText?.with(style: .regular20, andColor: .black, andLetterSpacing: -0.41)
         lineView.backgroundColor = .lightGrey
     }
     

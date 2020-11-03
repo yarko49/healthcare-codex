@@ -1,15 +1,7 @@
-//
-//  MyProfileFirstVC.swift
-//  alfred-ios
 
 import UIKit
 import Firebase
 import FirebaseAuth
-
-enum ComingFrom: String, Codable {
-    case signIn
-    case signUp
-}
 
 class MyProfileFirstVC : BaseVC , UITextViewDelegate, UIGestureRecognizerDelegate {
     
@@ -22,15 +14,28 @@ class MyProfileFirstVC : BaseVC , UITextViewDelegate, UIGestureRecognizerDelegat
     @IBOutlet weak var sexLbl: UILabel!
     @IBOutlet weak var maleBtn: UIButton!
     @IBOutlet weak var femaleBtn: UIButton!
-    @IBOutlet weak var nextBtn: BottomButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var lastNameTF: TextfieldView!
     @IBOutlet weak var firstNameTF: TextfieldView!
+    @IBOutlet weak var nextBtn: BottomButton!
     @IBOutlet weak var bottomView: UIView!
-    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
-    var gender : String = ""
+    var gender : Gender?
     var comingFrom: ComingFrom = .signUp
+    var firstText : String = ""
+    var lastText : String = ""
+    
+    private var selectedGender: Gender? {
+        didSet {
+            if selectedGender == .female {
+                setupSexBtn(maleTxtColor : .activityBG , maleBG : .white, femaleTxtColor : .white , femaleBG : .activityBG)
+            } else if selectedGender == .male {
+                setupSexBtn(maleTxtColor : .white , maleBG : .activityBG, femaleTxtColor : .activityBG , femaleBG : .white)
+            } else {
+                setupSexBtn(maleTxtColor : .activityBG , maleBG : .white, femaleTxtColor : .activityBG , femaleBG : .white)
+            }
+        }
+    }
 
     override func setupView() {
         super.setupView()
@@ -51,21 +56,22 @@ class MyProfileFirstVC : BaseVC , UITextViewDelegate, UIGestureRecognizerDelegat
         navBar?.shadowImage = UIImage()
         navBar?.isHidden = false
         navBar?.isTranslucent = false
-        
-        firstNameTF.setupValues(labelTitle: Str.firstName, text: "", textIsPassword: false)
-        lastNameTF.setupValues(labelTitle: Str.lastName, text: "", textIsPassword: false)
-        bottomView.backgroundColor = UIColor.grey
-        nextBtn.backgroundColor = UIColor.next
+    
+        firstNameTF.setupValues(labelTitle: Str.firstName, text: firstText, textIsPassword: false)
+        lastNameTF.setupValues(labelTitle: Str.lastName, text: lastText, textIsPassword: false)
+
         nextBtn.setAttributedTitle(Str.next.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 5), for: .normal)
         nextBtn.refreshCorners(value: 0)
         nextBtn.setupButton()
+        bottomView.backgroundColor = UIColor.next
+        nextBtn.backgroundColor = UIColor.next
+
         self.view.isUserInteractionEnabled = true
         self.view.layoutIfNeeded()
-        bottomConstraint.constant = UIWindow.keyWindow()?.safeAreaInsets.bottom ?? 0
-        setUpView()
+        setButtons()
     }
     
-    func setUpView(){
+    func setButtons() {
         sexLbl.attributedText = Str.sex.with(style: .regular20, andColor: .grey, andLetterSpacing: -0.408)
         maleBtn.layer.cornerRadius = 14.0
         femaleBtn.layer.cornerRadius = 14.0
@@ -73,7 +79,11 @@ class MyProfileFirstVC : BaseVC , UITextViewDelegate, UIGestureRecognizerDelegat
         femaleBtn.layer.borderWidth = 1
         maleBtn.layer.borderColor = UIColor.activityBG.cgColor
         femaleBtn.layer.borderColor = UIColor.activityBG.cgColor
-        setupSexBtn(maleTxtColor : UIColor.activityBG , maleBG : UIColor.white, femaleTxtColor : UIColor.activityBG, femaleBG : UIColor.white)
+        if let gender = gender {
+            selectedGender = gender
+        } else {
+            selectedGender = nil
+        }
     }
     
     
@@ -94,11 +104,9 @@ class MyProfileFirstVC : BaseVC , UITextViewDelegate, UIGestureRecognizerDelegat
     
     @IBAction func selectedOption(_ sender : UIButton) {
         if sender == maleBtn {
-            setupSexBtn(maleTxtColor : .white , maleBG : .activityBG, femaleTxtColor : .activityBG , femaleBG : .white)
-            gender = "male"
+            selectedGender = .male
         } else if sender == femaleBtn {
-            setupSexBtn(maleTxtColor : .activityBG , maleBG : .white, femaleTxtColor : .white , femaleBG : .activityBG)
-            gender = "female"
+            selectedGender = .female
         }
     }
     
@@ -111,6 +119,7 @@ class MyProfileFirstVC : BaseVC , UITextViewDelegate, UIGestureRecognizerDelegat
     }
     
     @IBAction func nextBtnTapped(_ sender: Any) {
+        
         let firstName = firstNameTF.textfield.text ?? ""
         let lastName = lastNameTF.textfield.text ?? ""
         
@@ -118,17 +127,18 @@ class MyProfileFirstVC : BaseVC , UITextViewDelegate, UIGestureRecognizerDelegat
             alertAction?(firstNameTF)
             return
         }
-        
         if !lastName.isValidText() || lastName.isEmpty {
             alertAction?(lastNameTF)
         }
         
-        if gender == "" { alertAction?(nil)}
+        guard let selectedGender = self.selectedGender else {
+            alertAction?(nil)
+            return
+        }
         
-    
         let givenNames = firstName.components(separatedBy:" ")
         
         print(firstName,lastName,givenNames)
-        sendDataAction?(gender, lastName, givenNames)
+        sendDataAction?(selectedGender.rawValue , lastName, givenNames)
     }
 }

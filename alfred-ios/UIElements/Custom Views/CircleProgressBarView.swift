@@ -19,12 +19,12 @@ class CircleProgressBarView: UIView {
     private var progressLyr = CAShapeLayer()
     private var trackLyr = CAShapeLayer()
     
-    var progressClr = UIColor.white {
+    var progressClr = UIColor.black {
         didSet {
             progressLyr.strokeColor = progressClr.cgColor
         }
     }
-    var trackClr = UIColor.white {
+    var trackClr = UIColor.black {
         didSet {
             trackLyr.strokeColor = trackClr.cgColor
         }
@@ -59,6 +59,12 @@ class CircleProgressBarView: UIView {
             iconIV.image = UIImage(named: "bloodPressureCardIcon")
         case .questionnaire:
             iconIV.image = UIImage(named: "surveyCardIcon")
+        case .heartRate:
+            iconIV.image = UIImage(named: "heartRateCardIcon")
+        case .heartRateResting:
+            iconIV.image = UIImage(named: "restingHeartRateCardIcon")
+        case .other:
+            iconIV.image = UIImage(named: "defaultCardIcon")
         }
         
         if let color = UIColor(hex: color) {

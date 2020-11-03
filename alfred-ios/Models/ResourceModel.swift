@@ -17,6 +17,13 @@ struct Resource: Codable {
     let valueQuantity: ValueQuantity?
     let birthDate, gender: String?
     let name: [Name]?
+    let component: [Component]?
+}
+
+// MARK: - Component
+struct Component: Codable {
+    let code: Code?
+    let valueQuantity: ValueQuantity?
 }
 
 // MARK: - Name

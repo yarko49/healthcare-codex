@@ -22,7 +22,7 @@ class TodayInputVC: BaseVC {
     
     // MARK: - Coordinator Actions
     
-    var inputAction: ((Resource?, BundleModel?)->())?
+    var inputAction: ((Int?,Int?,String?,InputType)->())?
     
     // MARK: - Properties
     
@@ -30,7 +30,7 @@ class TodayInputVC: BaseVC {
     var weightPicker = UIPickerView()
     var goalWeightPicker = UIPickerView()
     var bloodPressurePicker = UIPickerView()
-    var lbsData : [[Int]] = [Array(0...300), Array(0...9)]
+    var lbsData : [[Int]] = [Array(25...300), Array(0...9)]
     var pressureData: [[Int]] = [Array(0...200), Array(0...200)]
     var weightPTF = PickerTF()
     var goalWeightPTF = PickerTF()
@@ -41,7 +41,7 @@ class TodayInputVC: BaseVC {
     private let datePicker: UIDatePicker = {
         let calendar = Calendar(identifier: .gregorian)
         let components: NSDateComponents = NSDateComponents()
-        components.year = 1980
+        components.year = 1970
         components.month = 1
         components.day = 1
         var startDate : Date = Date()
@@ -133,6 +133,12 @@ class TodayInputVC: BaseVC {
         for component in 0..<numberOfComponents(in: picker) {
             picker.selectRow(0, inComponent: component, animated: false)
         }
+        
+        if picker == weightPicker {
+            picker.selectRow(125, inComponent: 0, animated: false)
+            picker.selectRow(0, inComponent: 1, animated: false)
+        }
+        
         viewTF.setupValues(labelTitle: title, text: "")
         let tap = PickerTapGesture(target: self, action: #selector(self.managePicker))
         tap.picker = picker
@@ -189,67 +195,18 @@ class TodayInputVC: BaseVC {
     
     private func setupObservation() {
         var effectiveDateTime = ""
-        if let date = self.getDate() {
+        if let date = DataContext.shared.getDate() {
             effectiveDateTime = DateFormatter.wholeDateRequest.string(from: date)
         } else {
             return
         }
-        
-        var displayName = ""
-        let referenceId = "Patient/\(DataContext.shared.userModel?.userID ?? "")"
-        if let names = DataContext.shared.userModel?.name {
-            for (index,name) in names.enumerated() {
-                guard let givens = name.given, let family = name.family else {return}
-                for given in givens {
-                    displayName.append(given)
-                    displayName.append(" ")
-                }
-                displayName.append(family)
-
-                if index != names.count - 1 {
-                    displayName.append(" ")
-                }
-            }
-        }
-        
         switch inputType {
         case .bloodPressure:
-            let sys = bloodPressurePicker.selectedRow(inComponent: 0)
-            let dia = bloodPressurePicker.selectedRow(inComponent: 1)
-            let sysObservation = Resource(code: DataContext.shared.systolicBPCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type:"Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: sys, unit: Str.pressureUnit), birthDate: nil, gender: nil, name: nil)
-            let diaObservation = Resource(code: DataContext.shared.diastolicBPCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type:"Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: dia, unit: Str.pressureUnit), birthDate: nil, gender: nil, name: nil)
-            
-            let sysEntry = Entry(fullURL: nil, resource: sysObservation, request: Request(method: "POST", url: "Observation"), search: nil, response: nil)
-            let diaEntry = Entry(fullURL: nil, resource: diaObservation, request: Request(method: "POST", url: "Observation"), search: nil, response: nil)
-            
-            let bundle = BundleModel(entry: [sysEntry,diaEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
-            
-        inputAction?(nil, bundle)
+            inputAction?(bloodPressurePicker.selectedRow(inComponent: 0), bloodPressurePicker.selectedRow(inComponent: 1), effectiveDateTime, inputType)
         case .weight:
-            let weight = weightPicker.selectedRow(inComponent: 0)
-            let observation = Resource(code: DataContext.shared.weightCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type:"Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil)
-            inputAction?(observation, nil)
+            inputAction?(weightPicker.selectedRow(inComponent: 0), goalWeightPicker.selectedRow(inComponent: 0), effectiveDateTime, inputType)
         }
         
-    }
-    
-    func getDate() -> Date? {
-        let date = datePicker.date
-        let time = timePicker.date
-        let calendar = Calendar.current
-        let dateComponents = calendar.dateComponents([.day, .month, .year], from: date)
-        let timeComponents = calendar.dateComponents([.hour, .minute, .second], from: time)
-        
-        var newComponents = DateComponents()
-        newComponents.timeZone = .current
-        newComponents.day = dateComponents.day
-        newComponents.month = dateComponents.month
-        newComponents.year = dateComponents.year
-        newComponents.hour = timeComponents.hour
-        newComponents.minute = timeComponents.minute
-        newComponents.second = timeComponents.second
-        
-        return calendar.date(from: newComponents)
     }
     
     @objc func managePicker(sender: PickerTapGesture) {

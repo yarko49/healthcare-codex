@@ -1,7 +1,3 @@
-//
-//  Chart.swift
-//  alfred-ios
-
 import Foundation
 import UIKit
 import Charts
@@ -61,7 +57,6 @@ class ChartView : UIView  {
             switch type {
             case .daily :
                 print("nothing")
-                
             case .weekly:
                 yVals = [182, 185, 183, 189, 190, 192, 185]
                 minimum = yVals.min()!
@@ -77,13 +72,12 @@ class ChartView : UIView  {
                 minimum = yVals.min()!
                 maximum = yVals.max()!
                 setLineChart(xValues: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"], yValues: [yVals])
-                
             }
         } else {
             return
         }
     }
- 
+    
     
     @available(iOS 13.0, *)
     
@@ -108,7 +102,7 @@ class ChartView : UIView  {
         line.lineWidth = 2.0
         line.drawCircleHoleEnabled = true
         line.setCircleColor(.systemBlue)
-        line.colors = [UIColor.weightBG ?? UIColor.black]
+        line.colors = [UIColor.weightBG]
         lineChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: xValues)
         
         setupLineChartView()
@@ -141,12 +135,12 @@ class ChartView : UIView  {
         lineChartView.rightAxis.enabled = false
         lineChartView.legend.enabled = false
         lineChartView.xAxis.labelPosition = .top
-        lineChartView.xAxis.labelTextColor = UIColor.weightBG ?? UIColor.black
+        lineChartView.xAxis.labelTextColor = UIColor.weightBG
         lineChartView.xAxis.granularity = 1
         lineChartView.highlightPerTapEnabled = true
         lineChartView.xAxis.drawAxisLineEnabled = false
         lineChartView.xAxis.gridLineDashLengths = [3,3]
-        lineChartView.xAxis.gridColor = UIColor.weightBG ?? UIColor.black
+        lineChartView.xAxis.gridColor = UIColor.weightBG
         lineChartView.xAxis.gridLineDashPhase = 0
         lineChartView.leftAxis.drawAxisLineEnabled = false
         lineChartView.leftAxis.gridLineDashLengths = []
@@ -159,6 +153,4 @@ class ChartView : UIView  {
     }
     
 }
-
-
 

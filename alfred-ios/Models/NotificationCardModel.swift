@@ -19,6 +19,13 @@ enum IconType: String, Codable {
     case heart = "HEART"
     case questionnaire = "QUESTIONNAIRE"
     case scale = "SCALE"
+    case heartRate = "HEART_RATE"
+    case heartRateResting = "HEART_RATE_RESTING"
+    case other
+}
+
+extension IconType: UnknownCaseRepresentable {
+    static let unknownCase: IconType = .other
 }
 
 enum CardAction: String, Codable {
@@ -26,6 +33,12 @@ enum CardAction: String, Codable {
     case bloodPressure = "BLOOD_PRESSURE"
     case weight = "WEIGHT"
     case questionnaire = "QUESTIONNAIRE"
+    case heartRate = "HEART_RATE"
+    case heartRateResting = "HEART_RATE_RESTING"
+    case other
+}
+extension CardAction: UnknownCaseRepresentable {
+    static let unknownCase: CardAction = .other
 }
 
 struct NotificationCard: Codable {

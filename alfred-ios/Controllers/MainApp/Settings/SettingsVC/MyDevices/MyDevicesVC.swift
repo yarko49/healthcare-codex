@@ -35,12 +35,12 @@ class MyDevicesVC: BaseVC {
         title = Str.myDevices
         let backBtn = UIBarButtonItem(image: UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(backBtnTapped))
         backBtn.tintColor = .black
+         nextBtn.setupButton()
         self.navigationItem.leftBarButtonItem = backBtn
-        bottomView.backgroundColor = UIColor.grey
+        bottomView.backgroundColor = UIColor.next
         nextBtn.backgroundColor = UIColor.next
         nextBtn.setAttributedTitle(Str.next.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 5), for: .normal)
         nextBtn.refreshCorners(value: 0)
-        nextBtn.setupButton()
         setupTableView()
     }
     

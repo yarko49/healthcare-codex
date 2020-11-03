@@ -1,4 +1,4 @@
-//
+
 //  DevicesModel.swift
 //  alfred-ios
 //

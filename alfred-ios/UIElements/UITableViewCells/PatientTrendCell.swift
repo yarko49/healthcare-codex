@@ -6,10 +6,15 @@
 import UIKit
 
 struct PatientTrendCellData {
-    var averageValue: Double?
-    var highValue: Double?
-    var lowValue: Double?
+    var averageValue: Int?
+    var highValue: Int?
+    var lowValue: Int?
     
+}
+
+struct ChartData {
+    var xValues: [String]?
+    var yValues: [Int]?
 }
 
 protocol PatientTrendCellDelegate: NSObject {
@@ -20,7 +25,6 @@ class PatientTrendCell: UITableViewCell {
     
     @IBOutlet weak var detailsChartStackView: UIStackView!
     @IBOutlet weak var detailsView: UIView!
-   
     @IBOutlet weak var chartView: ChartView!
     @IBOutlet weak var trendCategoryImgView: UIImageView!
     @IBOutlet weak var trendTitleLbl: UILabel!
@@ -67,7 +71,7 @@ class PatientTrendCell: UITableViewCell {
     
     func setupCell(data: PatientTrendCellData,
                    type: HealthKitQuantityType,
-                   healthStatsDateIntervalType: HealthStatsDateIntervalType,
+                   healthStatsDateIntervalType: HealthStatsDateIntervalType, chartData: ChartData,
                    shouldShowChart: Bool) {
         
         var text = ""
@@ -104,7 +108,7 @@ class PatientTrendCell: UITableViewCell {
             expandCellImgView.isHidden = false
             expandCellImgView.image = UIImage(named:"expandBtn")
             addTapGestureForExpanding()
-            setupChart(shouldShowChart: shouldShowChart, type : healthStatsDateIntervalType)
+            setupChart(shouldShowChart: shouldShowChart, type : healthStatsDateIntervalType, data: chartData)
             setupCollapsedCellValues(type: type, data: data, healthStatsDateIntervalType: healthStatsDateIntervalType)
         }
         
@@ -148,12 +152,12 @@ class PatientTrendCell: UITableViewCell {
     func getAvg(type : HealthKitQuantityType, int : HealthStatsDateIntervalType) -> NSMutableAttributedString {
         
         var title = NSMutableAttributedString(string: "")
-        var val = "0"
+        var val = ""
         highValueTitle.attributedText = Str.high.with(style: .regular15, andColor: .lightGray, andLetterSpacing: -0.408)
         lowValueTitle.attributedText = Str.low.with(style: .regular15, andColor: .lightGray, andLetterSpacing: -0.408)
         switch type {
         case .weight:
-            val = "184"
+            val = ""
             switch int {
             case .daily:
                 
@@ -161,53 +165,53 @@ class PatientTrendCell: UITableViewCell {
                 
             default:
                 changeVisibilityViews(show: true)
-                highVal = "250 lbs"
-                lowVal = "165 lbs"
+//                highVal = ""
+//                lowVal = ""
             }
         case .activity:
             switch int {
             case .daily:
-                val = "9,000"
+                val = ""
                 changeVisibilityViews(show: false)
                 
             case .weekly, .monthly, .yearly:
-                val = "11,564"
+                val = ""
                 changeVisibilityViews(show: true)
-                highVal = "13,000"
-                lowVal = "9,000"
+//                highVal = ""
+//                lowVal = ""
             }
         case .bloodPressure:
-            val = "120/79"
+            val = ""
             switch int{
             case .daily:
                 changeVisibilityViews(show: false)
             default:
                 changeVisibilityViews(show: true)
-                highVal = "130/90"
-                lowVal = "98/66"
+//                highVal = ""
+//                lowVal = ""
             }
         case .restingHR:
             switch int {
             case .daily:
-                val = "73"
+                val = ""
                 changeVisibilityViews(show: false)
             case .weekly, .monthly, .yearly:
-                val = "62"
+                //val = ""
                 changeVisibilityViews(show: true)
-                highVal = "99 bpm"
-                lowVal = "30 bpm"
+                highVal = ""
+                lowVal = ""
             }
         case .heartRate:
             switch int{
                 
             case .daily:
-                val = "56"
+                //val = "56"
                 changeVisibilityViews(show: false)
             default:
                 val = "56"
                 changeVisibilityViews(show: true)
-                highVal = "76 bpm"
-                lowVal = "45 bpm"
+//                highVal = "76 bpm"
+//                lowVal = "45 bpm"
             }
         }
         
@@ -255,7 +259,7 @@ class PatientTrendCell: UITableViewCell {
         return dailyString
     }
     
-    private func setupChart(shouldShowChart: Bool, type: HealthStatsDateIntervalType) {
+    private func setupChart(shouldShowChart: Bool, type: HealthStatsDateIntervalType, data: ChartData) {
         chartView.isHidden = !shouldShowChart
         expandCellImgView.transform = CGAffineTransform(rotationAngle: shouldShowChart ? CGFloat.pi : 0)
         chartView.refreshChart(type : type)

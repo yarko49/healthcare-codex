@@ -38,13 +38,13 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I9d-ig-t3i">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="156"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Weo-Cf-rHP">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Weo-Cf-rHP">
                                     <rect key="frame" x="24" y="70" width="376" height="32"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uwP-1v-8sO">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uwP-1v-8sO">
                                     <rect key="frame" x="24" y="117" width="310" height="18"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
@@ -53,6 +53,9 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B5s-GF-faz">
                                     <rect key="frame" x="345" y="111" width="46" height="30"/>
                                     <state key="normal" title="Button"/>
+                                    <connections>
+                                        <action selector="editBtnTapped:" destination="-1" eventType="touchUpInside" id="9CA-fB-qio"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -163,7 +166,7 @@
                 <constraint firstItem="hwu-ja-Ezf" firstAttribute="trailing" secondItem="hTG-SI-LD5" secondAttribute="trailing" id="yM7-1G-Fhj"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="hwu-ja-Ezf"/>
-            <point key="canvasLocation" x="-623.1884057971015" y="-144.64285714285714"/>
+            <point key="canvasLocation" x="-917" y="-202"/>
         </view>
     </objects>
     <resources>

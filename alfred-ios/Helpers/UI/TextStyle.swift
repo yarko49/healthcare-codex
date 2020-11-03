@@ -26,6 +26,8 @@ struct TextStyle {
         case bold28
         case bold16
         case bold17
+        case bold20
+        case bold24
 
         func stringStyle() -> StringStyle {
             switch self {
@@ -45,6 +47,8 @@ struct TextStyle {
             case .bold28: return bold28Style
             case .bold16: return bold16Style
             case .bold17: return bold17Style
+            case .bold20: return bold20Style
+            case .bold24: return bold24Style
             }
         }
     }
@@ -66,6 +70,8 @@ struct TextStyle {
     static let bold28Style = StringStyle(.font(Font.sfProBold.of(size: 28)))
     static let bold16Style = StringStyle(.font(Font.sfProBold.of(size: 16)))
     static let bold17Style = StringStyle(.font(Font.sfProBold.of(size: 17)))
+    static let bold20Style = StringStyle(.font(Font.sfProBold.of(size: 20)))
+    static let bold24Style = StringStyle(.font(Font.sfProBold.of(size: 24)))
     
     static func combineAttributedStrings(string1: NSAttributedString, string2: NSAttributedString) -> NSAttributedString {
         let ss = NSMutableAttributedString(attributedString: string1)

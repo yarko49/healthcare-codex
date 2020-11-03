@@ -64,7 +64,17 @@ internal enum Str {
     internal static let signUpFailed = Languages.tr("SIGN_UP_FAILED")
     internal static let invalidInput = Languages.tr("INVALID_INPUT")
     internal static let emptyPickerField = Languages.tr("FIELDS_CANNOT_BE_EMPTY")
-     
+    internal static let appleHealthSelect = Languages.tr("SELECT_DEVICES")
+    internal static let appleSelectMessage = Languages.tr("SELECT_DEVICES_MESSAGE")
+    internal static let appleHealthImport = Languages.tr("IMPORT_DATA")
+    internal static let appleImportMessage = Languages.tr("IMPORT_DATA_MESSAGE")
+    internal static let synced = Languages.tr("SYNCED")
+    internal static let done = Languages.tr("DONE")
+    internal static let importingHealthData = Languages.tr("IMPORTING_HEALTH_DATA")
+    internal static let justASec = Languages.tr("JUST_A_SEC")
+    internal static let uploadHealthDataFailed = Languages.tr("UPLOAD_HEALTH_DATA_FAILED")
+    internal static let importHealthDataFailed = Languages.tr("IMPORT_HEALTH_DATA_FAILED")
+    
     //  - Profile
     internal static let myProfile = Languages.tr("MY_PROFILE")
     internal static let gender = Languages.tr("GENDER_IDENTITY")
@@ -108,6 +118,7 @@ internal enum Str {
     internal static let hypertension1 = Languages.tr("HYPERTENSION_(STAGE_1)")
     internal static let hypertension2 = Languages.tr("HYPERTENSION_(STAGE_2)")
     internal static let hypercrisis = Languages.tr("HYPERTENSION_CRISIS")
+    internal static let years = Languages.tr("YEARS")
         
     // Today
     
@@ -127,11 +138,15 @@ internal enum Str {
         return Languages.tr("FEET", [p1,p2])
     }
     internal static let goalWeight = Languages.tr("GOAL_WEIGHT")
+    internal static let defaultWeight = Languages.tr("DEFAULT_WEIGHT")
+    internal static let defaultHeight = Languages.tr("DEFAULT_HEIGHT")
     internal static let defaultTime = Languages.tr("DEFAULT_TIME")
     internal static let defaultDate = Languages.tr("DEFAULT_DATE")
+     internal static let inches = Languages.tr("INCHES")
     internal static let date = Languages.tr("DATE")
     internal static let time = Languages.tr("TIME")
     internal static let lb = Languages.tr("LB")
+    internal static let ft = Languages.tr("FEET")
     internal static let dia = Languages.tr("DIA")
     internal static let sys = Languages.tr("SYS")
     internal static let add = Languages.tr("ADD")
@@ -162,6 +177,8 @@ internal enum Str {
     internal static let send = Languages.tr("SEND")
     internal static let resetPasswordDesc = Languages.tr("RESET_PASSWORD_DESC")
     internal static let resetPasswordResponse = Languages.tr("RESET_PASSWORD_RESPONSE")
+    internal static let notNow = Languages.tr("NOT_NOW")
+    internal static let activate = Languages.tr("ACTIVATE")
     
     // My Devices
     internal static let smartScale = Languages.tr("SMART_SCALE")
@@ -189,5 +206,8 @@ internal enum Str {
         return Languages.tr("QUESTION", [p1])
     }
     internal static let previous = Languages.tr("PREVIOUS")
+    internal static let submit = Languages.tr("SUBMIT")
+    internal static let thankYou = Languages.tr("THANK_YOU")
+    internal static let surveySubmit = Languages.tr("SURVEY_SUBMIT")
 }
 

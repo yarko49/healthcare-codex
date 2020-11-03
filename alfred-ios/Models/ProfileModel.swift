@@ -26,12 +26,12 @@ struct AdditionalProp: Codable {
 
 // MARK: - HealthMeasurements
 struct HealthMeasurements: Codable {
-    let diastolicBloodPressure, heartRate, restingHeartRate, steps: DiastolicBloodPressure?
-    let systolicBloodPressure, weight: DiastolicBloodPressure?
+    let heartRate, restingHeartRate, steps: Measuremement?
+    let weight, bloodPressure: Measuremement?
 }
 
 // MARK: - DiastolicBloodPressure
-struct DiastolicBloodPressure: Codable {
+struct Measuremement: Codable {
     let notificationsEnabled, available: Bool?
 }
 
@@ -40,4 +40,5 @@ struct DiastolicBloodPressure: Codable {
 struct ProfileResponse: Codable {
     
 }
+
 

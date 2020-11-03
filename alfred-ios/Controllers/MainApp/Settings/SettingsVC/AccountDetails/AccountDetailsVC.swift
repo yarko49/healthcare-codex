@@ -14,7 +14,10 @@ class AccountDetailsVC: BaseVC {
     
     // MARK: - Properties
     
-    
+    var firstNameTV = TextfieldView()
+    var lastNameTV = TextfieldView()
+    var emailTV = TextfieldView()
+
     // MARK: - IBOutlets
     
     @IBOutlet weak var textfieldSV: UIStackView!
@@ -41,25 +44,32 @@ class AccountDetailsVC: BaseVC {
         super.setupView()
         
         title = Str.accountDetails
+    
+        let firstName = DataContext.shared.getDisplayFirstName()
+        let lastName = DataContext.shared.getDisplayLastName()
+        guard let email = DataContext.shared.userModel?.email else { return }
         
-        //TODO: Add tfText when we get it.
-        
-        textfieldSV.addArrangedSubview(TextfieldView(labelTitle: Str.firstName, tfText: "", textIsPassword: false))
-        textfieldSV.addArrangedSubview(TextfieldView(labelTitle: Str.lastName, tfText: "", textIsPassword: false))
-        textfieldSV.addArrangedSubview(TextfieldView(labelTitle: Str.emailAddress, tfText: "", textIsPassword: false))
-        passwordTF.isUserInteractionEnabled = true
+        firstNameTV.setupValues(labelTitle: Str.firstName, text: firstName, textIsPassword: false)
+        lastNameTV.setupValues(labelTitle: Str.lastName, text: lastName, textIsPassword: false)
+        emailTV.setupValues(labelTitle: Str.email, text: email, textIsPassword: false)
+    
+        textfieldSV.addArrangedSubview(firstNameTV)
+        textfieldSV.addArrangedSubview(lastNameTV)
+        textfieldSV.addArrangedSubview(emailTV)
+        passwordTF.isUserInteractionEnabled = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
     }
     
     override func localize() {
         super.localize()
     
         passwordLbl.attributedText = Str.password.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.078)
-        passwordTF.attributedText = "".with(style: .regular17, andColor: .black, andLetterSpacing: 0.38)
+        passwordTF.isSecureTextEntry = true
+        passwordTF.attributedText = "1234567890".with(style: .regular17, andColor: .black, andLetterSpacing: 0.38)
+       
     }
     
     override func populateData() {

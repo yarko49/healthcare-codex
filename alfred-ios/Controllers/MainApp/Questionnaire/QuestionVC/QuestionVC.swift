@@ -22,6 +22,7 @@ class QuestionVC: BaseVC {
     var currentQuestionIndex = 0
     var totalQuestions = 0
     var allSubQuestionsAnswered = false
+    var multi = false
     
     // MARK: - IBOutlets
     @IBOutlet weak var progressBar: UIProgressView!
@@ -58,8 +59,10 @@ class QuestionVC: BaseVC {
     
     override func viewDidLayoutSubviews() {
         for view in multiPartQuestionsSV.arrangedSubviews {
-            view.setShadow()
-            view.layer.backgroundColor = UIColor.clear.cgColor
+            if multi {
+                view.setShadow()
+                view.layer.backgroundColor = UIColor.clear.cgColor
+            }
         }
         
         continueView.setShadow()
@@ -103,8 +106,8 @@ class QuestionVC: BaseVC {
         default:
             break
         }
-        
-        self.setupQuestions(with: question.type == .group)
+        multi = question.type == .group
+        self.setupQuestions()
     }
     
     private func setupProgressBar() {
@@ -121,7 +124,7 @@ class QuestionVC: BaseVC {
         progressBar.setProgress(progress, animated: false)
     }
     
-    func setupQuestions(with multi: Bool) {
+    func setupQuestions() {
         
         guard let question = question else {return}
         
@@ -147,6 +150,12 @@ class QuestionVC: BaseVC {
         
         if let maxHeight = (views.max { $0.height < $1.height })?.height {
             questionHeightContraint.constant = maxHeight
+        }
+        
+        if currentQuestionIndex < totalQuestions - 1 {
+            nextQuestionBtn.setTitle(Str.next,for: .normal)
+        } else {
+            nextQuestionBtn.setTitle(Str.submit,for: .normal)
         }
     }
     

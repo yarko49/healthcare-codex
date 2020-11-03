@@ -5,6 +5,13 @@
 
 import UIKit
 
+enum Coming {
+    case today
+    case edit
+    case signup
+}
+
+
 enum HealthStatsDateIntervalType {
     case daily
     case weekly
@@ -16,7 +23,10 @@ class ProfileVC: BaseVC {
     
     //MARK: Coordinator Actions
     var backBtnAction: (()->())?
-    var refreshHKDataAction: ((Date, Date)->())?
+    var editBtnAction: ((Int, Int)->())?
+    var profileInputAction: (()->(Resource?, BundleModel?))?
+    var comingFrom : Coming = .today
+    var getData: (()->())?
    
     //MARK: IBOutlets
     @IBOutlet weak var patientTrendsTV: UITableView!
@@ -36,12 +46,19 @@ class ProfileVC: BaseVC {
     var endDate: Date = Date()
     var expandedIndexPath: IndexPath?
     var currentHKData: [HealthKitQuantityType : PatientTrendCellData] = [:]
+    var chartData: [HealthKitQuantityType : ChartData] = [:]
+    var age : Int?
+    var weight : Int?
+    var height : Int?
+    var ageDiff : Int = 0
+    var feet : Int = 0
+    var inches : Int = 0
+    var lastName: String = ""
     
     //MARK: SetupVC
     override func setupView() {
         title = Str.profile
-        let name = "Edward"
-        
+        let name = ProfileHelper.getFirstName()
         navigationController?.navigationBar.isHidden = false
         let navBar = navigationController?.navigationBar
         navBar?.setBackgroundImage(UIImage(), for: .default)
@@ -53,21 +70,33 @@ class ProfileVC: BaseVC {
         topView.backgroundColor = UIColor.profile
         separatorLineView.backgroundColor = UIColor.swipeColor
         nameLbl.attributedText = name.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
-        let details = "49 years old | 5 ft. 8 in. | 184 lbs"
-        detailsLbl.attributedText = details.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: 0.36)
+    
         editBtn.setTitle( Str.edit, for: .normal)
         editBtn.setTitleColor(UIColor.cursorOrange , for: .normal)
-        
-        
         patientTrendsTV.register(UINib(nibName: "PatientTrendCell", bundle: nil), forCellReuseIdentifier: "PatientTrendCell")
         patientTrendsTV.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
         patientTrendsTV.estimatedRowHeight = 300
         patientTrendsTV.rowHeight = UITableView.automaticDimension
         patientTrendsTV.delegate = self
         patientTrendsTV.dataSource = self
-        
         setupInitialDateInterval()
         refreshHKData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        getData?()
+        age = ProfileHelper.getBirthdate()
+        let date = Date()
+        let calendar = Calendar.current
+        ageDiff = calendar.component(.year, from: date) - (age ?? 0)
+    }
+    
+    func createDetailsLabel() {
+        (feet,inches) = ProfileHelper.computeHeight(value: height ?? 0)
+        
+        let details = "\(ageDiff) \(Str.years) | \(feet)' \(inches )'' | \(weight ?? 0) \(Str.weightUnit)"
+        detailsLbl.attributedText = details.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: 0.36)
     }
     
     override func localize() {
@@ -135,7 +164,7 @@ class ProfileVC: BaseVC {
     }
     
     private func refreshHKData() {
-        refreshHKDataAction?(startDate, endDate)
+        patientTrendsTV.reloadData()
     }
     
     //MARK: Actions
@@ -168,6 +197,11 @@ class ProfileVC: BaseVC {
         resetDates()
         refreshHKData()
     }
+    
+    
+    @IBAction func editBtnTapped(_ sender: Any) {
+        editBtnAction?(weight ?? 0, height ?? 0)
+    }
 }
 
 extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
@@ -182,7 +216,7 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
         cell.selectionStyle = .none
         cell.setupCell(data: currentHKData[type] ?? PatientTrendCellData(averageValue: nil, highValue: nil, lowValue: nil),
                        type: type,
-                       healthStatsDateIntervalType: currentDateInterval,
+                       healthStatsDateIntervalType: currentDateInterval, chartData: chartData[type] ?? ChartData(xValues: [""], yValues: []),
                        shouldShowChart: indexPath == expandedIndexPath)
         cell.delegate = self
         return cell

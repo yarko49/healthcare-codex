@@ -3,6 +3,7 @@ import Firebase
 import FirebaseAuth
 import GoogleSignIn
 import IQKeyboardManagerSwift
+import FirebaseCrashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,9 +17,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        Crashlytics.crashlytics()
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         IQKeyboardManager.shared.enable = true
       
+// Background delivery
+//        if DataContext.shared.signUpCompleted {
+//            HealthKitManager.shared.authorizeHealthKit { (success, error) in
+//                if success {
+//                    print("HERE")
+//                }
+//            }
+//        }
+//        
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .black
         appCoordinator.start()

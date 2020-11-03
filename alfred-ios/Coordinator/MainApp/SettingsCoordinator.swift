@@ -103,14 +103,34 @@ class SettingsCoordinator: NSObject, Coordinator {
             self?.navigationController?.popViewController(animated: true)
         }
         
+        devicesVC.profileRequestAction = {[weak self] in
+            let profile = DataContext.shared.createProfileModel()
+            self?.profileRequest(profile: profile)
+        }
+        
         navigate(to: devicesVC, with: .pushFullScreen)
     }
+
+    
+    internal func profileRequest(profile: ProfileModel) {
+           DataContext.shared.postProfile(profile: profile) { [weak self] success in
+               if success {
+                   print("OK STATUS FOR PROFILE: 200", DataContext.shared.signUpCompleted)
+                   AlertHelper.hideLoader()
+                self?.navigationController?.popViewController(animated: true)
+               } else {
+                   print("request failed")
+                   AlertHelper.showAlert(title: Str.error, detailText: Str.createProfileFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+               }
+           }
+       }
     
     internal func goToNotifications() {
         let myNotificationsVC = MyNotificationsVC()
         
         myNotificationsVC.backBtnAction = { [weak self] in
-            self?.navigationController?.popViewController(animated: true)
+            let profile = DataContext.shared.createProfileModel()
+            self?.profileRequest(profile: profile)
         }
         
         navigate(to: myNotificationsVC, with: .pushFullScreen)

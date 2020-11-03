@@ -1,4 +1,3 @@
-
 import UIKit
 import Foundation
 import IQKeyboardManagerSwift
@@ -13,222 +12,244 @@ class MyProfileSecondVC : BaseVC, UIGestureRecognizerDelegate{
     var backBtnAction : (()->())?
     var alertAction: ((_ tv: PickerTF)->())?
     var patientRequestAction : ((_ resourceType: String, _ birthdate: String, _ weight : Int , _ height: Int, _ date : String)->())?
-
+    
     @IBOutlet weak var infoLbl: UILabel!
     @IBOutlet weak var pickerSV: UIStackView!
     @IBOutlet weak var nextBtn: BottomButton!
     @IBOutlet weak var bottomView: UIView!
     
     var inputType: Input = .weight
-    var date: String?
+    var dobDate: String?
     var identifier: String?
-    var heightInt: Int = 0
-    var weightInt: Int = 0
     var effectiveDate: String?
-    
-    
-    //let feetData = [["0 ft", "1 ft", "2 ft", "3 ft", "4 ft", "5 ft", "6 ft", "7 ft", "8 ft"],["0 in ", "1 in", "2 in", "3 in", "4 in", "5 in", "6 in", "7 in", "8 in","9 in","10 in","11 in","12 in"]]
-    
-    let feetData = [Array(0...300), Array(0...9)]
-    
-    //var lbData = (0...300).map { "\($0) lbs" }
-    
-    var lbData = Array(0...300)
-    
+    var comingFrom : ComingFrom = .signUp
+    let feetData = [Array(3...8), Array(0...12)]
+    var feet : Int?
+    var inches : Int?
+    var lbData = Array(25...300)
+    var defaultIndexesFeetData = [2, 6]
+    var defaultIndexLbData = 125
+    var profileHeight : Int = 56
+    var profileWeight: Int = 150
+    var datePicker = UIDatePicker()
     var weightPicker = UIPickerView()
     var heightPicker = UIPickerView()
-    var dateHidden : Bool = true
-    var heightHidden : Bool = true
-    var weightHidden : Bool = true
     var dateTextView = PickerTF()
     var weightTextView = PickerTF()
     var heightTextView = PickerTF()
     
-    private let datePicker: UIDatePicker = {
-        let calendar = Calendar(identifier: .gregorian)
-        let components: NSDateComponents = NSDateComponents()
-        components.year = 1980
-        components.month = 1
-        components.day = 1
-        var startDate : Date = Date()
-        
-        let defaultDate: NSDate? = calendar.date(from: components as DateComponents) as NSDate?
-        let picker = UIDatePicker()
-        picker.datePickerMode = .date
-        picker.backgroundColor = UIColor.white
-        picker.maximumDate = Date()
-        picker.setDate((defaultDate as Date?) ?? Date(), animated: false)
-        return picker
-    }()
-    
     override func setupView() {
         super.setupView()
-        
-        setupSubviews()
-        
+        setupDefaultIndexes()
+        setupDatePicker()
+        setupDatePickerAndView(picker: datePicker, viewTF: dateTextView, title: Str.dob)
+        setupPickerAndView(picker: heightPicker, viewTF: heightTextView, title: Str.height)
+        setupPickerAndView(picker: weightPicker, viewTF: weightTextView, title: Str.weight)
         title = Str.profile
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backBtnTapped))
         self.navigationItem.leftBarButtonItem?.tintColor = UIColor.black
-        self.view.isUserInteractionEnabled = true
+        infoLbl.attributedText = Str.information.with(style: .regular17, andColor: UIColor.lightGray, andLetterSpacing: -0.32)
+        infoLbl.numberOfLines = 0
         nextBtn.setAttributedTitle(Str.next.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 5), for: .normal)
         nextBtn.refreshCorners(value: 0)
         nextBtn.setupButton()
-        bottomView.backgroundColor = UIColor.grey
+        nextBtn.backgroundColor = .next
+        bottomView.backgroundColor = UIColor.next
         datePicker.addTarget(self, action: #selector(datePickerDateChanged(_:)), for: .valueChanged)
         
-        let tapDate = UITapGestureRecognizer(target: self, action: #selector(self.manageDatePicker))
-        dateTextView.addGestureRecognizer(tapDate)
-        
-        let tapWeight = UITapGestureRecognizer(target: self, action: #selector(self.manageWeightPicker))
-        weightTextView.addGestureRecognizer(tapWeight)
-        
-        let tapHeight = UITapGestureRecognizer(target: self, action: #selector(self.manageHeightPicker))
-        heightTextView.addGestureRecognizer(tapHeight)
-    
         self.view.isUserInteractionEnabled = true
         self.view.layoutIfNeeded()
         view.layoutIfNeeded()
-        setupDelegates()
-       setupObservation()
     }
     
-    func setupSubviews(){
+    func setupDefaultIndexes() {
+        guard let selectedIndex = lbData.firstIndex(of: profileWeight) else{
+            return
+        }
+        defaultIndexLbData = selectedIndex
+        weightPicker.selectRow(selectedIndex, inComponent: 0, animated: false)
         
-        arrangePickers()
-        populatePickers()
-        infoLbl.attributedText = Str.information.with(style: .regular17, andColor: UIColor.lightGray, andLetterSpacing: -0.32)
-        infoLbl.numberOfLines = 0
+        let heightProfileString = String(profileHeight)
+        if heightProfileString.count == 0 {
+            feet = 3
+            inches = 0
+        } else if heightProfileString.count == 1 {
+            feet = Int(heightProfileString)
+            inches = 0
+        }else if heightProfileString.count == 2 {
+            feet = Int(heightProfileString.prefix(1))
+            inches = Int(heightProfileString.suffix(1))
+        }else {
+            feet = Int(heightProfileString.prefix(1))
+            inches = Int(heightProfileString.suffix(2))
+        }
+        
+        guard let selectedIndexFt = feetData[0].firstIndex(of: feet ?? 2) else{
+            return
+        }
+        
+        guard let selectedIndexInch = feetData[1].firstIndex(of: inches ?? 6) else{
+            return
+        }
+        
+        defaultIndexesFeetData = [selectedIndexFt, selectedIndexInch]
+    }
+       
+    func setupDatePicker() {
+        let picker = UIDatePicker()
+        var birthDate: Date?
+        var defaultDate = Date()
+        let calendar = Calendar(identifier: .gregorian)
+        let components: NSDateComponents = NSDateComponents()
+        components.year = 1970
+        components.month = 1
+        components.day = 1
+        
+        if let dob = DataContext.shared.userModel?.dob {
+            birthDate = DateFormatter.yyyyMMdd.date(from: dob) ?? Date()
+        }
+        defaultDate = calendar.date(from: components as DateComponents) ?? Date()
+        
+        picker.datePickerMode = .date
+        picker.backgroundColor = UIColor.white
+        components.year = -50
+        components.month = 0
+        components.day = 0
+        let minDate = calendar.date(byAdding: components as DateComponents , to: defaultDate)
+        components.year = 70
+        let maxDate = calendar.date(byAdding: components as DateComponents, to: defaultDate)
+        picker.minimumDate = minDate
+        picker.maximumDate = maxDate
+        picker.setDate(birthDate ?? defaultDate, animated: false)
+        
+        datePicker = picker
     }
     
-    func populatePickers(){
+    override func populateData() {
+        super.populateData()
+    }
+
+    private func setupPickerAndView(picker: UIPickerView, viewTF: PickerTF, title: String) {
+        picker.delegate = self
+        picker.dataSource = self
+        for component in 0..<numberOfComponents(in: picker) {
+            picker.selectRow(0, inComponent: component, animated: false)
+        }
+        if picker == weightPicker {
+            viewTF.setupValues(labelTitle: title, text: Str.lbs(profileWeight ))
+            picker.selectRow(defaultIndexLbData, inComponent: 0, animated: false)
+        } else if picker == heightPicker {
+            if profileHeight >= 100 {
+                viewTF.setupValues(labelTitle: title, text: "\((profileHeight ) / 100 ) ft \((profileHeight ) % 100)")
+                picker.selectRow(defaultIndexesFeetData[0], inComponent: 0, animated: false)
+                picker.selectRow(defaultIndexesFeetData[1], inComponent: 1, animated: false)
+            } else {
+                viewTF.setupValues(labelTitle: title, text: "\((profileHeight ) / 10) ft \((profileHeight ) % 10)")
+                picker.selectRow(defaultIndexesFeetData[0], inComponent: 0, animated: false)
+                picker.selectRow(defaultIndexesFeetData[1], inComponent: 1, animated: false)
+            }
+        }
+        viewTF.textfield.textColor = .black
         
-        dateTextView.setupValues(labelTitle: Str.dob, text: "")
-        weightTextView.setupValues(labelTitle: Str.weight, text: "" )
-        heightTextView.setupValues(labelTitle: Str.height, text: "")
-      
+        let tap = PickerTapGesture(target: self, action: #selector(self.managePicker))
+        tap.picker = picker
+        tap.viewTF = viewTF
+        viewTF.addGestureRecognizer(tap)
+        pickerSV.addArrangedSubview(viewTF)
+        pickerSV.addArrangedSubview(picker)
+        picker.isHidden = true
+        
+        fixLabelsInPlace(with: picker)
+    }
+    
+    private func setupDatePickerAndView(picker: UIDatePicker, viewTF: PickerTF, title: String) {
+        viewTF.setupValues(labelTitle: title, text: DataContext.shared.userModel?.dob ?? "")
+        let tap = PickerTapGesture(target: self, action: #selector(self.managePicker))
+        tap.datePicker = picker
+        tap.viewTF = viewTF
+        dateTextView.state = .normal
+        viewTF.addGestureRecognizer(tap)
+        pickerSV.addArrangedSubview(viewTF)
+        pickerSV.addArrangedSubview(picker)
+        picker.isHidden = true
+        datePickerDateChanged(datePicker)
+        dateTextView.textfield.textColor = .black
+    }
+    
+    @objc func managePicker(sender: PickerTapGesture) {
+        
+        guard let viewTF = sender.viewTF else {return}
+        let picker = (sender.picker == nil) ? sender.datePicker : sender.picker
+
+        if let picker = picker {
+            UIPickerView.transition(with: picker, duration: 0.1,
+                                    options: .curveEaseOut,
+                                    animations: {
+                                        picker.isHidden.toggle()
+            })
+
+            viewTF.textfield.textColor = picker.isHidden ? .black : .lightGray
+        }
+        
+        for view in pickerSV.arrangedSubviews {
+            if view != picker && (view is UIPickerView || view is UIDatePicker) {
+                view.isHidden = true
+            } else if let view = view as? PickerTF, view != viewTF {
+                view.textfield.textColor = .black
+            }
+        }
     }
     
     private func setupObservation() {
         effectiveDate = ""
-        if let date = self.getDate() {
+        if let date = DataContext.shared.getDate() {
             effectiveDate = DateFormatter.wholeDateRequest.string(from: date)
         } else {
             return
         }
     }
-    
-    func getDate() -> Date? {
-        let date = datePicker.date
-        let calendar = Calendar.current
-        let dateComponents = calendar.dateComponents([.day, .month, .year], from: date)
-    
-        var newComponents = DateComponents()
-        newComponents.timeZone = .current
-        newComponents.day = dateComponents.day
-        newComponents.month = dateComponents.month
-        newComponents.year = dateComponents.year
-        return calendar.date(from: newComponents)
-    }
+ 
+    private func fixLabelsInPlace(with picker: UIPickerView) {
+        let font = Font.sfProBold.of(size: 12)
+        let fontSize: CGFloat = font.pointSize
+        let componentWidth: CGFloat = self.view.frame.width / CGFloat(picker.numberOfComponents)
+        let y = (picker.frame.size.height / 2) - (fontSize / 2)
 
-    
-    func arrangePickers(){
-        
-        let subviews = [dateTextView,datePicker,heightTextView,heightPicker,weightTextView,weightPicker]
-        for subview in subviews {
-            pickerSV.addArrangedSubview(subview)
+        if picker == heightPicker {
+            let label = UILabel(frame: CGRect(x: componentWidth * 0.625, y: y, width: componentWidth * 0.4, height: fontSize))
+            label.font = font
+            label.textAlignment = .left
+            label.text = "ft"
+            label.textColor = .black
+            picker.addSubview(label)
+            
+            let label2 = UILabel(frame: CGRect(x: componentWidth * 1.6 , y: y, width: componentWidth * 0.4, height: fontSize))
+            label2.font = font
+            label2.textAlignment = .left
+            label2.text = "in"
+            label2.textColor = .black
+            picker.addSubview(label2)
         }
-        
-        datePicker.isHidden = dateHidden
-        heightPicker.isHidden = heightHidden
-        weightPicker.isHidden = weightHidden
+        else if picker == weightPicker {
+            let label = UILabel(frame: CGRect(x: componentWidth * 0.6, y: y, width: componentWidth * 0.4, height: fontSize))
+            label.font = font
+            label.textAlignment = .left
+            label.text = Str.lb
+            label.textColor = .black
+            picker.addSubview(label)
+        }
     }
     
     
-    func setupDelegates() {
-        weightPicker.delegate = self
-        weightPicker.dataSource = self
-        heightPicker.delegate = self
-        heightPicker.dataSource = self
-    }
-    
-    @objc func manageDatePicker() {
-        setupCollapsedPickers(picker: weightPicker, textfield: weightTextView.textfield)
-        setupCollapsedPickers(picker: heightPicker, textfield: heightTextView.textfield)
-        weightHidden = true
-        heightHidden = true
-        
-        if dateHidden, dateTextView.tfText?.isEmpty == true {
-            datePickerDateChanged(datePicker)
-        }
-        
-        UIPickerView.transition(with: datePicker, duration: 0.1,
-                                options: .curveEaseOut,
-                                animations: {
-                                    self.datePicker.isHidden = !self.dateHidden
-                                    self.dateHidden = !self.dateHidden
-        })
-        dateTextView.textfield.textColor = dateHidden == false ? .lightGray : .black
-    }
-    
-    @objc func manageWeightPicker(){
-        
-        setupCollapsedPickers(picker: heightPicker, textfield: heightTextView.textfield)
-        setupCollapsedDate(picker: datePicker)
-        dateHidden = true
-        heightHidden = true
-        
-        if weightHidden, weightTextView.tfText?.isEmpty == true {
-            weightTextView.tfText = Str.lbs(lbData[0])
-        }
-
-        UIPickerView.transition(with: weightPicker, duration: 0.1,
-                                options: .curveEaseOut,
-                                animations: {
-                                    self.weightPicker.isHidden = !self.weightHidden
-                                    self.weightHidden = !self.weightHidden
-        })
-        weightTextView.textfield.textColor = dateHidden == false ? .lightGray : .black
-    }
-    
-    @objc func manageHeightPicker() {
-        
-        setupCollapsedPickers(picker: weightPicker, textfield: weightTextView.textfield)
-        setupCollapsedDate(picker: datePicker)
-        weightHidden = true
-        dateHidden = true
-        
-        if heightHidden, heightTextView.tfText?.isEmpty == true {
-            heightTextView.tfText = "\(feetData[0][0]) ft \(feetData[1][0])"
-        }
-        
-        UIPickerView.transition(with: heightPicker, duration: 0.1,
-                                options: .curveEaseOut,
-                                animations: {
-                                    self.heightPicker.isHidden = !self.heightHidden
-                                    self.heightHidden = !self.heightHidden
-        })
-        heightTextView.textfield.textColor = heightHidden == false ? .lightGray : .black
+    @objc private func datePickerDateChanged(_ sender: UIDatePicker) {
+        let calendarDate = DateFormatter.ddMMyyyy.string(from: sender.date)
+        dateTextView.textfield.attributedText = calendarDate.with(style: .regular20, andColor: .lightGray, andLetterSpacing: -0.41)
+        dobDate = DateFormatter.yyyyMMdd.string(from: sender.date)
+        dateTextView.state = .normal
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
-    }
-    
-    @objc private func datePickerDateChanged(_ sender: UIDatePicker) {
-        dateTextView.textfield.text = DateFormatter.ddMMyyyy.string(from: sender.date)
-        date = DateFormatter.yyyyMMdd.string(from: sender.date)
-    }
-    
-    
-    func setupCollapsedDate(picker : UIDatePicker){
-        datePicker.isHidden = true
-        dateHidden = true
-        dateTextView.textfield.textColor = .black
-    }
-    
-    func setupCollapsedPickers(picker : UIPickerView, textfield : UITextField){
-        picker.isHidden = true
-        textfield.textColor = .black
     }
     
     override func didReceiveMemoryWarning() {
@@ -237,29 +258,18 @@ class MyProfileSecondVC : BaseVC, UIGestureRecognizerDelegate{
     
     @IBAction func nextBtnTapped(_ sender: Any) {
         
-        guard let dateTF = dateTextView.tfText, !dateTF.isEmpty else {
-            dateTextView.state = .error
-            self.alertAction?(dateTextView)
-            return
+        let views = [dateTextView, heightTextView, weightTextView]
+        for view in views {
+            guard let tf = view.tfText, !tf.isEmpty else {
+                view.state = .error
+                self.alertAction?(view)
+                return
+            }
+            view.state = .normal
         }
-        dateTextView.state = .normal
         
-        guard let weight = weightTextView.tfText, !weight.isEmpty else {
-            weightTextView.state = .error
-            self.alertAction?(weightTextView)
-            return
-        }
-        weightTextView.state = .normal
-        
-        guard let height = heightTextView.tfText, !height.isEmpty else{
-            heightTextView.state = .error
-            self.alertAction?(heightTextView)
-            return
-        }
-        heightTextView.state = .normal
-        
-        patientRequestAction?("Patient", date ?? "", weightInt , heightInt , effectiveDate ?? "")
-        
+        setupObservation()
+        patientRequestAction?("Patient", dobDate ?? "", profileWeight , profileHeight , effectiveDate ?? "")
     }
     
     @objc func backBtnTapped(){
@@ -295,26 +305,31 @@ extension MyProfileSecondVC : UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         var rowData : String = ""
         
-        if pickerView == heightPicker{
+        if pickerView == heightPicker {
             rowData = "\(feetData[component][row])"
-            heightInt = feetData[component][row]
-        } else if pickerView == weightPicker{
+        } else if pickerView == weightPicker {
             rowData = "\(lbData[row])"
-            weightInt = lbData[row]
-            
         }
         return rowData
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView == datePicker {
-        } else if pickerView == weightPicker {
+        var stringHeight: String = ""
+        if pickerView == weightPicker {
+            profileWeight = lbData[row]
             weightTextView.tfText = Str.lbs(lbData[row])
+            weightTextView.state = .normal
         } else if pickerView == heightPicker {
-            let feet =  feetData[0][pickerView.selectedRow(inComponent: 0)]
-            let inches = feetData[1][pickerView.selectedRow(inComponent: 1)]
-            
-            heightTextView.tfText = "\(feet) ft \(inches)"
+            feet = feetData[0][pickerView.selectedRow(inComponent: 0)]
+            inches = feetData[1][pickerView.selectedRow(inComponent: 1)]
+            if let ft = feet, let inc = inches {
+                stringHeight = String(ft) + String(inc)
+                profileHeight =  Int(stringHeight) ?? 56
+                heightTextView.tfText = "\(ft) ft \(inc)"
+                heightTextView.state = .normal
+            } else {
+
+            }
         }
     }
 }

@@ -5,8 +5,10 @@ import CodableAlamofire
 class Requests {
     
     static let sessionManager: SessionManager = {
-        let sessMan = SessionManager()
-        sessMan.session.configuration.timeoutIntervalForRequest = 30
+        let configuration = URLSessionConfiguration.default
+        configuration.httpMaximumConnectionsPerHost = 1
+        configuration.timeoutIntervalForRequest = 120
+        let sessMan = SessionManager(configuration: configuration)
         return sessMan
     }()
     
@@ -14,8 +16,8 @@ class Requests {
         completion(true)
     }
     
-    static func getQuestionnaire(completion: @escaping (QuestionnaireResponse?) -> Void) {
-        sessionManager.request(APIRouter.getQuestionnaire).validate().responseDecodableObject { (response: DataResponse<QuestionnaireResponse>) in
+    static func getQuestionnaire(completion: @escaping (Questionnaire?) -> Void) {
+        sessionManager.request(APIRouter.getQuestionnaire).validate().responseDecodableObject { (response: DataResponse<Questionnaire>) in
             switch response.result {
             case .success(let value):
                 completion(value)
@@ -25,6 +27,22 @@ class Requests {
             }
         }
     }
+    
+    static func postQuestionnaireResponse(questionnaireResponse: QuestionnaireResponse, completion: @escaping (SubmittedQuestionnaire?)->Void) {
+        sessionManager.request(APIRouter.postQuestionnaireResponse(response: questionnaireResponse))
+            .validate().responseDecodableObject { (response: DataResponse<SubmittedQuestionnaire>) in
+                switch response.result {
+                case .success(let submissionResponse):
+                    response.data?.prettyPrint()
+                    completion(submissionResponse)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    completion(nil)
+                    break
+                }
+            }
+    }
+    
     
     static func postObservation(observation: Resource, completion: @escaping (Resource?)->Void) {
         sessionManager.request(APIRouter.postObservation(observation: observation))
@@ -124,4 +142,34 @@ class Requests {
         }
     }
     
+    
+    static func postObservationSearch(search: SearchParameter, completion: @escaping (BundleModel?)->Void){
+        sessionManager.request(APIRouter.postObservationSearch(search: search))
+        .validate().responseDecodableObject{(response: DataResponse<BundleModel>) in
+            switch response.result {
+            case .success(let bundle):
+                response.data?.prettyPrint()
+                completion(bundle)
+            case .failure(let error):
+                print(error.localizedDescription)
+                completion(nil)
+                break
+            }
+        }
+    }
+ 
+    static func patchPatient(patient: [UpdatePatientModel], completion: @escaping (Resource?)->Void){
+        sessionManager.request(APIRouter.patchPatient(patient: patient))
+            .validate().responseDecodableObject { (response: DataResponse<Resource>) in
+                switch response.result {
+                case .success(let resource):
+                    response.data?.prettyPrint()
+                    completion(resource)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    completion(nil)
+                    break
+                }
+        }
+    }
 }

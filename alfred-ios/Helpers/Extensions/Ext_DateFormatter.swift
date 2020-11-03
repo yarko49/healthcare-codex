@@ -18,9 +18,21 @@ extension DateFormatter {
         return formatter
     }
     
+    static var iso8601: DateFormatter {
+           let formatter = DateFormatter()
+           formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS+'Z'"
+           return formatter
+       }
+    
     static var wholeDateRequest: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        return formatter
+    }
+    
+    static var wholeDateNoTimeZoneRequest: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
         return formatter
     }
 

@@ -24,13 +24,13 @@ class MeasurementCardCell: UICollectionViewCell {
     // MARK: - Vars
     var card: NotificationCardData?
     
-    var backgroundClr = UIColor.white {
+    var backgroundClr = UIColor.defaultDataBG {
         didSet {
             mainView.backgroundColor = backgroundClr
         }
     }
     
-    var statusClr = UIColor.white {
+    var statusClr = UIColor.statusGreen {
         didSet {
             statusIV.tintColor = statusClr
         }
@@ -39,27 +39,37 @@ class MeasurementCardCell: UICollectionViewCell {
     var title: String? {
         didSet {
             if let title = title {
+                titleLbl.isHidden = false
                 titleLbl.attributedText = title.with(style: .regular13, andColor: .black, andLetterSpacing: -0.408)
+            } else {
+                titleLbl.isHidden = true
             }
         }
     }
     
     var timestamp: String? {
         didSet {
-            if let timestamp = timestamp, let date = DateFormatter.wholeDate.date(from: timestamp) {
-                var dateString = ""
-                
-                if Calendar.current.isDateInToday(date) {
-                    let diffComponents = Calendar.current.dateComponents([.hour, .minute], from: date, to: Date())
-                    let hours = diffComponents.hour
-                    dateString = hours == 0 ? Str.now : DateFormatter.HHmm.string(from: date)
-                } else if Calendar.current.isDateInYesterday(date) {
-                    dateString = Str.yesterday
-                } else {
-                    dateString = DateFormatter.MMMdd.string(from: date)
+            timeLbl.isHidden = true
+            // TODO: This should change, it's a temporary fix because there are multiple formats from BE rn
+            if let timestamp = timestamp {
+                var date = DateFormatter.wholeDateNoTimeZoneRequest.date(from: timestamp)
+                if date == nil {
+                    date = DateFormatter.wholeDateRequest.date(from: timestamp)
                 }
-                
-                timeLbl.attributedText = dateString.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+                if let date = date {
+                    var dateString = ""
+                    if Calendar.current.isDateInToday(date) {
+                        let diffComponents = Calendar.current.dateComponents([.hour, .minute], from: date, to: Date())
+                        let hours = diffComponents.hour
+                        dateString = hours == 0 ? Str.now : DateFormatter.HHmm.string(from: date)
+                    } else if Calendar.current.isDateInYesterday(date) {
+                        dateString = Str.yesterday
+                    } else {
+                        dateString = DateFormatter.MMMdd.string(from: date)
+                    }
+                    
+                    timeLbl.attributedText = dateString.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+                }
             }
         }
     }
@@ -67,7 +77,10 @@ class MeasurementCardCell: UICollectionViewCell {
     var status: String? {
         didSet {
             if let status = status {
+                statusLbl.isHidden = false
                statusLbl.attributedText = status.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+            } else {
+                statusLbl.isHidden = true
             }
         }
     }
@@ -75,13 +88,13 @@ class MeasurementCardCell: UICollectionViewCell {
     var text: String? {
         didSet {
             if let text = text {
+                textLbl.isHidden = false
                 textLbl.attributedText = setAttributedString(for: text)
                 setAppearanceForDataInput(flag: false)
             } else {
-                setCellForDataInput()
                 setAppearanceForDataInput(flag: true)
+                setCellForDataInput()
             }
-            
         }
     }
     
@@ -135,6 +148,9 @@ class MeasurementCardCell: UICollectionViewCell {
         if let color = card.progressColor, let opacity = card.progressOpacity, let progress = card.progressPercent, let icon = card.icon {
             iconView.setup(color: color, opacity: opacity, icon: icon)
             iconView.setProgressWithAnimation(value: progress)
+        } else {
+            iconView.setup(color: "#000000", opacity: 1.0, icon: IconType(rawValue: "default"))
+            iconView.setProgressWithAnimation(value: 0)
         }
         
         surveyLbl.attributedText = Str.completeSurvey.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
@@ -163,23 +179,37 @@ class MeasurementCardCell: UICollectionViewCell {
         switch card?.action {
         case .bloodPressure:
             textLbl.attributedText = Str.enterBP.with(style: .regular24, andColor: .enterGrey, andLetterSpacing: -0.16)
+            return
         case .weight:
             textLbl.attributedText = Str.enterWeight.with(style: .regular24, andColor: .enterGrey, andLetterSpacing: -0.16)
+            return
         default:
             break
         }
+        textLbl.isHidden = true
+        addIV.isHidden = true
     }
     
     private func setAppeareanceOnAction(action: CardAction?) {
         let questionnaireFlag = action == .questionnaire
-        if questionnaireFlag {
-            statusLbl.isHidden = questionnaireFlag
-            statusIV.isHidden = questionnaireFlag
-            timeLbl.isHidden = questionnaireFlag
-            addIV.isHidden = questionnaireFlag
-        }
+        
         surveyIV.isHidden = !questionnaireFlag
         surveyLbl.isHidden = !questionnaireFlag
+        if questionnaireFlag {
+            if card?.progressPercent == 1 {
+                statusLbl.isHidden = false
+                statusIV.isHidden = false
+                timeLbl.isHidden = false
+                addIV.isHidden = true
+                surveyIV.isHidden = true
+                surveyLbl.isHidden = true
+            } else {
+                statusLbl.isHidden = questionnaireFlag
+                statusIV.isHidden = questionnaireFlag
+                timeLbl.isHidden = questionnaireFlag
+                addIV.isHidden = questionnaireFlag
+            }
+        }
     }
     
     private func setAppearanceForDataInput(flag: Bool) {

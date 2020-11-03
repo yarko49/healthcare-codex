@@ -52,7 +52,7 @@
 "FEMALE" = "Female";
 "TRANS" = "Trans";
 "CIS" = "CIS";
-"NEXT" = "NEXT";
+"NEXT" = "Next";
 "THIS_INFORMATION_HELPS_US_PROVIDE_CUSTOM_RECOMMENDATIONS" = "This information helps us provide \n custom recommendations.";
 "DATE_OF_BIRTH" = "Date of birth";
 "HEIGHT" = "Height";
@@ -64,6 +64,16 @@
 "PLEASE_SELECT_GENDER" = "Please select gender";
 "FIELDS_CANNOT_BE_EMPTY" = "Fields cannot be empty";
 "INVALID_INPUT" = "invalid input";
+"SELECT_DEVICES" = "Select your smart Devices";
+"SELECT_DEVICES_MESSAGE" = "This allows Alfred to collect your daily health data automatically,making it easy to track your health and provide the best care for you. We will always keep your data private and secure.";
+"IMPORT_DATA" = "Activate Apple Health to import & export data that can help you track your healthier you.";
+"IMPORT_DATA_MESSAGE" = "This will allow Alfred to compare different measurements to give you the right type of assistance.";
+"SYNCED" = "We are all setup!! Alfred is now in sync with Health!";
+"DONE" = "Done";
+"IMPORTING_HEALTH_DATA" = "We’re importing your Health data.";
+"JUST_A_SEC" = "Just a sec...";
+"UPLOAD_HEALTH_DATA_FAILED" = "Some Apple Health data failed to be uploaded.";
+"IMPORT_HEALTH_DATA_FAILED" = "Some Apple Health data failed to be imported.";
 
 // Sign in
 
@@ -111,6 +121,7 @@
 "BLOOD_PRESSURE" = "Blood Pressure";
 "RESTING_HEART_RATE" = "Resting Heart Rate";
 "HEART_RATE" = "Heart Rate";
+"YEARS" = "years";
 
 // Today
 "NOW" = "Now";
@@ -121,18 +132,21 @@
 "LBS" = "%d lbs";
 "GOAL_WEIGHT" = "Goal Weight";
 "DEFAULT_TIME" = "12:00 AM";
-"DEFAULT_DATE" = "January 1, 1980";
+"DEFAULT_DATE" = "January 1, 1970";
+"DEFAULT_WEIGHT" = "150 lb";
+"DEFAULT_HEIGHT" = "5 ft 6";
 "DATE" = "Date";
 "TIME" = "Time";
-"LB" = "Lb";
+"LB" = "lb";
 "SYS" = "Sys";
 "DIA" = "Dia";
 "ADD" = "Add";
 "FEET" = "ft";
+"INCHES" = "in";
 "COMPLETE_SURVEY" = "Complete Survey";
 "WEIGHT_UNIT" = "lbs";
 "HEIGHT_UNIT" = "feet";
-"PRSSURE_UNIT" = "mmHg";
+"PRESSURE_UNIT" = "mmHg";
 "ENTER_BP" = "Enter BP";
 "ENTER_WEIGHT" = "Enter Weight";
 
@@ -154,6 +168,8 @@
 "SEND" = "Send";
 "RESET_PASSWORD_DESC" = "We will email you a link to reset your password";
 "RESET_PASSWORD_RESPONSE" = "If your account is associated with this email address you will receive an email to reset your password. If you don’t, please try another email address.";
+"NOT_NOW" = "Not now";
+"ACTIVATE" = "Activate";
 
 //My Devices
 "SMART_SCALE" = "Smart scale";
@@ -172,8 +188,11 @@
 "OF_PARTS" = "%d of %d parts";
 "QUESTION" = "Question %d";
 "PREVIOUS" = "Previous";
+"SUBMIT" = "Submit";
+"THANK_YOU" = "Thank You!";
+"SURVEY_SUBMIT" = "Your survey has been submitted!";
 
 // My profile
-"CREATE_PATIENT_FAILED" = "The creating of patient's profile failed..";
-"CREATE_PROFILE_FAILED" = "The creating of your profile failed..";
+"CREATE_PATIENT_FAILED" = "Failed to create patient record";
+"CREATE_PROFILE_FAILED" = "Failed to create patient profile";
 "CREATE_BUNDLE_FAILED" = "Weight/Height submission failed.";

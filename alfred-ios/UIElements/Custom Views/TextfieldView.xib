@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -22,7 +23,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hk2-kR-Y8v">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="50.5"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="57.5"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nQI-4Y-fJI">
                             <rect key="frame" x="15" y="0.0" width="290" height="21"/>
@@ -31,19 +32,19 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iyI-Ab-X5Z">
-                            <rect key="frame" x="15" y="26" width="290" height="18.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <rect key="frame" x="15" y="26" width="290" height="25.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <textInputTraits key="textInputTraits" textContentType="email"/>
                         </textField>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FLu-9w-4Lb">
-                            <rect key="frame" x="15" y="49.5" width="290" height="1"/>
+                            <rect key="frame" x="15" y="56.5" width="290" height="1"/>
                             <color key="backgroundColor" name="LightGrey"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="vhK-R3-Sxk"/>
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="iyI-Ab-X5Z" secondAttribute="trailing" constant="15" id="2cj-Oy-xUd"/>
                         <constraint firstItem="FLu-9w-4Lb" firstAttribute="leading" secondItem="iyI-Ab-X5Z" secondAttribute="leading" id="5rZ-kW-jHb"/>
@@ -58,6 +59,7 @@
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="Nnk-yI-szf"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Hk2-kR-Y8v" firstAttribute="leading" secondItem="gdI-lb-ULq" secondAttribute="leading" id="6JQ-u6-XvS"/>
@@ -65,7 +67,6 @@
                 <constraint firstItem="Hk2-kR-Y8v" firstAttribute="top" secondItem="gdI-lb-ULq" secondAttribute="top" id="xao-v3-FtY"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="Nnk-yI-szf"/>
             <point key="canvasLocation" x="303" y="-113"/>
         </view>
     </objects>
@@ -73,5 +74,8 @@
         <namedColor name="LightGrey">
             <color red="0.56862745098039214" green="0.58039215686274515" blue="0.67843137254901964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

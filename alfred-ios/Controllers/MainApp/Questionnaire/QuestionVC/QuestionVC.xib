@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -112,7 +113,7 @@ Please indicate how much you are limited by heart failure (shortness of breath o
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VEP-it-ZGW">
                             <rect key="frame" x="0.0" y="724" width="414" height="128"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6HU-1W-hZw" customClass="RoundedButton" customModule="alfred_ios" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6HU-1W-hZw" customClass="RoundedButton" customModule="alfred_ios" customModuleProvider="target">
                                     <rect key="frame" x="24" y="24" width="366" height="65"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="65" id="v6X-uw-g8M"/>
@@ -124,7 +125,7 @@ Please indicate how much you are limited by heart failure (shortness of breath o
                                     </connections>
                                 </button>
                             </subviews>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstItem="6HU-1W-hZw" firstAttribute="leading" secondItem="VEP-it-ZGW" secondAttribute="leading" constant="24" id="0fa-IJ-EaN"/>
                                 <constraint firstAttribute="trailing" secondItem="6HU-1W-hZw" secondAttribute="trailing" constant="24" id="PoC-mi-r4M"/>
@@ -150,6 +151,7 @@ Please indicate how much you are limited by heart failure (shortness of breath o
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="n6v-GR-8dt"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="Iaa-Sw-GGk" secondAttribute="bottom" id="To3-jT-dH6"/>
@@ -157,13 +159,20 @@ Please indicate how much you are limited by heart failure (shortness of breath o
                 <constraint firstItem="n6v-GR-8dt" firstAttribute="trailing" secondItem="Iaa-Sw-GGk" secondAttribute="trailing" id="w9W-Zp-iO4"/>
                 <constraint firstItem="Iaa-Sw-GGk" firstAttribute="leading" secondItem="n6v-GR-8dt" secondAttribute="leading" id="yTe-mM-gfg"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="n6v-GR-8dt"/>
             <point key="canvasLocation" x="124.6376811594203" y="39.508928571428569"/>
         </view>
     </objects>
+    <designables>
+        <designable name="6HU-1W-hZw">
+            <size key="intrinsicContentSize" width="122" height="34"/>
+        </designable>
+    </designables>
     <resources>
         <namedColor name="LightBackground">
             <color red="0.96078431372549022" green="0.97647058823529409" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

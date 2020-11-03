@@ -5,23 +5,22 @@ extension DataContext {
     
     func createProfileModel() -> ProfileModel {
         let device = HKDevice.local()
-        let dateNow = DateFormatter.yyyyMMddTHHmmssDashed.string(from: Date())
+        let lastSyncTime = DataContext.shared.getDate() ?? Date()
+        let dateNow = DateFormatter.wholeDateRequest.string(from: lastSyncTime)
         
-        let diastolicBP = DiastolicBloodPressure(notificationsEnabled: DataContext.shared.bloodPressurePushNotificationsIsOn , available: DataContext.shared.hasSmartBlockPressureCuff)
-        let heartRate = DiastolicBloodPressure(notificationsEnabled: DataContext.shared.surveyPushNotificationsIsOn , available: DataContext.shared.hasSmartWatch)
-        let restingHR = DiastolicBloodPressure(notificationsEnabled: DataContext.shared.surveyPushNotificationsIsOn , available: DataContext.shared.hasSmartWatch)
-        let steps = DiastolicBloodPressure(notificationsEnabled: DataContext.shared.activityPushNotificationsIsOn , available: DataContext.shared.hasSmartPedometer || DataContext.shared.hasSmartWatch)
-        let systolicBP = DiastolicBloodPressure(notificationsEnabled: DataContext.shared.bloodPressurePushNotificationsIsOn , available: DataContext.shared.hasSmartBlockPressureCuff)
-        let weight = DiastolicBloodPressure(notificationsEnabled: DataContext.shared.weightInPushNotificationsIsOn , available: DataContext.shared.hasSmartScale)
+        let bloodPressure = Measuremement(notificationsEnabled: DataContext.shared.bloodPressurePushNotificationsIsOn , available: DataContext.shared.hasSmartBlockPressureCuff)
+        let heartRate = Measuremement(notificationsEnabled: DataContext.shared.surveyPushNotificationsIsOn , available: DataContext.shared.hasSmartWatch)
+        let restingHR = Measuremement(notificationsEnabled: DataContext.shared.surveyPushNotificationsIsOn , available: DataContext.shared.hasSmartWatch)
+        let steps = Measuremement(notificationsEnabled: DataContext.shared.activityPushNotificationsIsOn , available: DataContext.shared.hasSmartPedometer || DataContext.shared.hasSmartWatch)
+        let weight = Measuremement(notificationsEnabled: DataContext.shared.weightInPushNotificationsIsOn , available: DataContext.shared.hasSmartScale)
         
-        let healthMeasurements = HealthMeasurements(diastolicBloodPressure: diastolicBP, heartRate: heartRate, restingHeartRate: restingHR, steps: steps, systolicBloodPressure: systolicBP, weight: weight)
+        let healthMeasurements = HealthMeasurements(heartRate: heartRate, restingHeartRate: restingHR, steps: steps, weight: weight, bloodPressure: bloodPressure)
         
         let additionalProp1 = AdditionalProp(deviceModel: device.model ?? "", deviceVersion: device.firmwareVersion ?? "", id: device.udiDeviceIdentifier ?? "", lastSyncTime: dateNow, manufacturer: "Apple", softwareName: "software", softwareVersion: device.softwareVersion ?? "")
         let devices = Devices(additionalProp1: additionalProp1, additionalProp2: AdditionalProp(deviceModel: "", deviceVersion: "", id: "", lastSyncTime: dateNow, manufacturer: "", softwareName: "", softwareVersion: ""), additionalProp3: AdditionalProp(deviceModel: "", deviceVersion: "", id: "", lastSyncTime: dateNow, manufacturer: "", softwareName: "", softwareVersion: ""))
         
         let profile = ProfileModel(notificationsEnabled: true, registrationToken: "", healthMeasurements: healthMeasurements, devices: devices, signUpCompleted: signUpCompleted)
         
-        print(profile)
         return profile
     }
     
@@ -29,6 +28,16 @@ extension DataContext {
         Requests.getQuestionnaire { (questionnaire) in
             if let questionnaire = questionnaire?.item {
                 completion(questionnaire)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func postQuestionnaireResponse(response: QuestionnaireResponse, completion: @escaping (SubmittedQuestionnaire?)->Void) {
+        Requests.postQuestionnaireResponse(questionnaireResponse: response){(submissionResponse) in
+            if let submissionResponse = submissionResponse {
+                completion(submissionResponse)
             } else {
                 completion(nil)
             }
@@ -65,6 +74,7 @@ extension DataContext {
         Requests.getProfile { (profile) in
             if let profile = profile {
                 completion(profile)
+                print(profile)
             } else {
                 completion(nil)
             }
@@ -94,6 +104,26 @@ extension DataContext {
     func postBundle(bundle: BundleModel, completion: @escaping (BundleModel?)->Void) {
         Requests.postBundle(bundle: bundle) { (bundleResponse) in
             if let response = bundleResponse {
+                completion(response)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func postObservationSearch(search: SearchParameter, completion: @escaping (BundleModel?)->Void){
+        Requests.postObservationSearch(search: search) { (bundleResponse) in
+            if let response = bundleResponse{
+                completion(response)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func patchPatient(patient: [UpdatePatientModel], completion: @escaping (Resource?)->Void){
+        Requests.patchPatient(patient: patient) {(resourceResponse) in
+            if let response = resourceResponse{
                 completion(response)
             } else {
                 completion(nil)

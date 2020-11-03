@@ -66,16 +66,19 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
         questionVC.totalQuestions = questions.count
         questionVC.currentQuestionIndex = currentQuestionIndex
 
-        questionVC.nextQuestionAction = {
+        questionVC.nextQuestionAction = { [weak self] in
             let nextQuestionIndex = currentQuestionIndex + 1
             
-            self.questions[currentQuestionIndex] = answeredQuestion
+            self?.questions[currentQuestionIndex] = answeredQuestion
             
             if nextQuestionIndex < questions.count {
-                self.showQuestion(with: self.questions, currentQuestion: self.questions[nextQuestionIndex])
+                if let questions = self?.questions {
+                    self?.showQuestion(with: questions, currentQuestion: questions[nextQuestionIndex])
+                }
             } else {
-                //TODO: Completion Screen
-                print(self.questions)
+                if let questionnaireResponse = self?.createQuestionnaireResponse() {
+                    self?.postRequest(with: questionnaireResponse)
+                }
             }
         }
         
@@ -108,11 +111,52 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
         }
     }
     
+    internal func createQuestionnaireResponse() -> QuestionnaireResponse? {
+        var items: [Item] = []
+        for question in self.questions {
+            var subAnswers: [Answer] = []
+            if let questionPart = question.item {
+                for part in questionPart {
+                    let answer = Answer(valueBoolean: nil, valueDecimal: nil, valueInteger: nil, valueDate: nil, valueDateTime: nil, valueTime: nil, valueString: part.selectedAnswerId, valueURI: nil, valueQuantity: nil)
+                    subAnswers.append(answer)
+                }
+            } else {
+                subAnswers = [Answer(valueBoolean: nil, valueDecimal: nil, valueInteger: nil, valueDate: nil, valueDateTime: nil, valueTime: nil, valueString: question.selectedAnswerId, valueURI: nil, valueQuantity: nil)]
+            }
+            let item = Item(linkID: question.linkID, code: nil, itemPrefix: nil, definition: nil, text: nil, type: nil, selectedAnswerId: nil, itemRequired: nil, answerOption: nil, answer: subAnswers, item: nil)
+            items.append(item)
+        }
+        
+        let questionnaireResponse = QuestionnaireResponse(resourceType: "QuestionnaireResponse", identifier: QuestionnaireIdentifier(assigner: nil, system: nil, type: IdentifierID(text: "", value: "", coding: DataContext.shared.hrCode.coding), use: nil, value: nil), questionnaire: "string", status: "completed", authored: DateFormatter.wholeDateRequest.string(from: Date()), author: Assigner(reference: DataContext.shared.getPatientID()), source: Subject(reference: DataContext.shared.getPatientID(), type: "Patient", identifier: nil, display: DataContext.shared.getDisplayName()), item: items)
+        return questionnaireResponse
+    }
+    
+    internal func postRequest(with questionnaireResponse: QuestionnaireResponse) {
+        AlertHelper.showLoader()
+        DataContext.shared.postQuestionnaireResponse(response: questionnaireResponse) { [weak self] (questionnaireResponse) in
+            AlertHelper.hideLoader()
+            if let _ = questionnaireResponse {
+                self?.goToQuestionnaireCompletion()
+            }
+        }
+    }
+    
+    internal func goToQuestionnaireCompletion() {
+        let questionnaireCompletionVC = QuestionnaireCompletionVC()
+        questionnaireCompletionVC.closeAction = { [weak self] in
+            self?.navigationController?.popViewController(animated: false)
+            self?.cancelAction()
+        }
+        navigate(to: questionnaireCompletionVC, with: .pushFullScreen)
+    }
     
     internal func stop() {
         rootViewController?.dismiss(animated: true, completion: { [weak self] in
             guard let self = self else { return }
             self.parentCoordinator?.removeChild(.questionnaireCoordinator)
+            if let visibleController = self.parentCoordinator?.navigationController?.visibleViewController, let homeVC = visibleController as? HomeVC {
+                homeVC.viewWillAppear(true)
+            }
         })
     }
  

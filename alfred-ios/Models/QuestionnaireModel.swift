@@ -6,7 +6,7 @@
 import Foundation
 
 // MARK: - QuestionnaireResponse
-struct QuestionnaireResponse: Codable {
+struct Questionnaire: Codable {
     let resourceType: String?
     let identifier: [QuestionnaireIdentifier]?
     let version, name, title, status: String?
@@ -24,7 +24,8 @@ struct QuestionnaireIdentifier: Codable {
 
 // MARK: - IdentifierID
 struct IdentifierID: Codable {
-    let text: String?
+    let text, value: String?
+    let coding: [Coding]?
 }
 
 // MARK: - Item
@@ -36,6 +37,7 @@ struct Item: Codable {
     var selectedAnswerId: String?
     let itemRequired: Bool?
     let answerOption: [AnswerOption]?
+    let answer: [Answer]?
     var item: [Item]?
 
     enum CodingKeys: String, CodingKey {
@@ -44,7 +46,22 @@ struct Item: Codable {
         case itemPrefix = "prefix"
         case text, type
         case itemRequired = "required"
-        case answerOption, item, selectedAnswerId
+        case answerOption, item, selectedAnswerId, answer
+    }
+}
+
+// MARK: - Answer
+struct Answer: Codable {
+    let valueBoolean: Bool?
+    let valueDecimal, valueInteger: Int?
+    let valueDate, valueDateTime, valueTime, valueString: String?
+    let valueURI: String?
+    let valueQuantity: ValueQuantity?
+
+    enum CodingKeys: String, CodingKey {
+        case valueBoolean, valueDecimal, valueInteger, valueDate, valueDateTime, valueTime, valueString
+        case valueURI = "valueUri"
+        case valueQuantity
     }
 }
 

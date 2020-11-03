@@ -43,6 +43,7 @@ extension UIColor {
     static let bloodPressureDataBG = UIColor(named: "BloodPressureDataBG")!
     static let surveyDataBG = UIColor(named: "SurveyDataBG")!
     static let medicationDataBG = UIColor(named: "MedicationDataBG")!
+    static let defaultDataBG = UIColor(named: "DefaultDataBG")!
     
     // Status
     static let statusLow = UIColor(named: "StatusLow")!

@@ -5,6 +5,7 @@ enum APIRouter: URLRequestConvertible {
     static let baseURLPath = AppConfig.apiBaseUrl
     
     case getQuestionnaire
+    case postQuestionnaireResponse(response: QuestionnaireResponse)
     case postPatient(patient: Resource)
     case getProfile
     case postProfile(profile: ProfileModel)
@@ -12,10 +13,13 @@ enum APIRouter: URLRequestConvertible {
     case getNotifications
     case postPatientSearch
     case postBundle(bundle: BundleModel)
+    case postObservationSearch(search: SearchParameter)
+    case patchPatient(patient: Edit)
     
     var method: HTTPMethod {
         switch self {
         case .getQuestionnaire: return .get
+        case .postQuestionnaireResponse: return .post
         case .postObservation: return .post
         case .postPatient: return .post
         case .getProfile: return .get
@@ -23,19 +27,23 @@ enum APIRouter: URLRequestConvertible {
         case .getNotifications: return .get
         case .postPatientSearch: return .post
         case .postBundle: return .post
-            
+        case .postObservationSearch: return .post
+        case .patchPatient: return .patch
         }
     }
     
     var path: String {
         switch self {
         case .getQuestionnaire: return "/fhir/Questionnaire"
+        case .postQuestionnaireResponse: return "/fhir/QuestionnaireResponse"
         case .postObservation: return "/fhir/Observation"
         case .postPatient: return "/fhir/Patient"
         case .getProfile, .postProfile: return "/profile"
         case .getNotifications: return "/notifications"
         case .postPatientSearch: return "/fhir/Patient/_search"
         case .postBundle: return "/fhir/Bundle"
+        case .postObservationSearch: return "/fhir/Observation/_search"
+        case .patchPatient: return "/fhir/Patient"
         }
         
     }
@@ -60,15 +68,18 @@ enum APIRouter: URLRequestConvertible {
         switch self {
         case .getQuestionnaire, .getNotifications,.getProfile, .postProfile:
             break
-        case .postObservation, .postPatient, .postPatientSearch, .postBundle:
+        case .postObservation, .postPatient, .postPatientSearch, .postBundle, .postQuestionnaireResponse, .postObservationSearch:
             headers["Content-Type"] = "application/fhir+json"
+        case .patchPatient:
+            headers["Content-Type"] = "application/json-patch+json"
+            
         }
         return headers
     }
     
     var parameters: Parameters? {
         switch self {
-        case .getQuestionnaire, .postObservation, .postPatient, .getProfile, .postProfile, .getNotifications, .postPatientSearch, .postBundle:
+        case .getQuestionnaire, .postQuestionnaireResponse, .postObservation, .postPatient, .getProfile, .postProfile, .getNotifications, .postPatientSearch, .postBundle, .postObservationSearch, .patchPatient:
             return nil
         }
     }
@@ -93,6 +104,16 @@ enum APIRouter: URLRequestConvertible {
         case .postBundle(let bundle):
             let jsonBody = try JSONEncoder().encode(bundle)
             request.httpBody = jsonBody
+        case .postObservationSearch(let search):
+            let jsonBody = try JSONEncoder().encode(search)
+            request.httpBody = jsonBody
+        case .postQuestionnaireResponse(let response):
+            let jsonBody = try JSONEncoder().encode(response)
+            request.httpBody = jsonBody
+        case .patchPatient(let editResponse):
+            let jsonBody = try JSONEncoder().encode(editResponse)
+            request.httpBody = jsonBody
+            
         default:
             break
         }
