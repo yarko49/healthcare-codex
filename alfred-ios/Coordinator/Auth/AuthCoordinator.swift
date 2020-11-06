@@ -15,7 +15,7 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
     var emailrequest: String?
     var bundleIdentifier: String?
     var healthDataSuccessfullyUploaded = true
-    var chunkSize = 2000
+    var chunkSize = 4500
     
     var rootViewController: UIViewController? {
         return navigationController
@@ -348,9 +348,9 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
     internal func startInitialUpload() {
         let hkDataUploadVC = HKDataUploadVC()
         hkDataUploadVC.queryAction = { [weak self] in
-            HealthKitManager.shared.searchHKData { [weak self] (importSuccess) in
+            HealthKitManager.shared.searchHKData { [weak self, weak hkDataUploadVC] (importSuccess) in
                 if importSuccess {
-                    hkDataUploadVC.maxProgress = HealthKitManager.shared.numberOfData
+                    hkDataUploadVC?.maxProgress = HealthKitManager.shared.numberOfData
                     self?.uploadHKData(for: hkDataUploadVC, completion: { [weak self] (uploadSuccess) in
                         self?.goToAppleHealthVCFromActivate()
                     })
@@ -365,13 +365,25 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
         navigate(to: hkDataUploadVC, with: .push)
     }
     
-    func uploadHKData(for hkDataUploadVC: HKDataUploadVC, completion: @escaping (Bool)-> Void) {
-        let uploadGroup = DispatchGroup()
-        uploadDataForQuantity(for: hkDataUploadVC, index: 0, group: uploadGroup)
-        
-        uploadGroup.notify(queue:.main) {
-            //TODO: We probably need a retry screen or something, in case of failure.
-            if !self.healthDataSuccessfullyUploaded {
+    func uploadHKData(for hkDataUploadVC: HKDataUploadVC?, completion: @escaping (Bool)-> Void) {
+        let chunkedEntries = HealthKitManager.shared.returnAllEntries().chunked(into: chunkSize)
+        let chunkGroup = DispatchGroup()
+        let entriesToUploadCount = HealthKitManager.shared.returnAllEntries().count
+        hkDataUploadVC?.maxProgress = entriesToUploadCount
+        var uploaded = 0
+        chunkedEntries.enumerated().forEach { (index, element) in
+            let timeOffset: TimeInterval = Double(index) * 1.5
+            chunkGroup.enter()
+            DispatchQueue.main.asyncAfter(deadline: .now() + timeOffset) { [weak self] in
+                self?.postBundleRequest(for: element) { (success) in
+                    uploaded += success ? element.count : 0
+                    hkDataUploadVC?.progress = uploaded
+                    chunkGroup.leave()
+                }
+            }
+        }
+        chunkGroup.notify(queue:.main) {
+            if uploaded < entriesToUploadCount {
                 let okAction = AlertHelper.AlertAction(withTitle: Str.ok)
                 AlertHelper.showAlert(title: Str.error, detailText: Str.uploadHealthDataFailed, actions: [okAction])
             }
@@ -379,60 +391,12 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
         }
     }
     
-    private func uploadDataForQuantity(for hkDataUploadVC: HKDataUploadVC, index: Int, group: DispatchGroup) {
-        group.enter()
-        var entries: [Entry] = []
-        var ids: [String] = []
-        switch HealthKitDataType.allValues[index] {
-        case .bodyMass:
-            entries = HealthKitManager.shared.weightEntries
-            ids = HealthKitManager.shared.weightIds
-        case .heartRate:
-            entries = HealthKitManager.shared.hrEntries
-            ids = HealthKitManager.shared.hrIds
-        case .restingHeartRate:
-            entries = HealthKitManager.shared.rhrEntries
-            ids = HealthKitManager.shared.rhrIds
-        case .stepCount:
-            entries = HealthKitManager.shared.stepsEntries
-            ids = HealthKitManager.shared.stepsIds
-        case .bloodPressure:
-            entries = HealthKitManager.shared.bpEntries
-            ids = HealthKitManager.shared.bpIds
-        }
-        let chunkedEntries = entries.chunked(into: chunkSize)
-        let chunkedIds = ids.chunked(into: chunkSize)
-        
-        let chunkGroup = DispatchGroup()
-        if chunkedEntries.count > 0 && chunkedIds.count > 0 {
-            postBundleRequest(for: chunkedEntries, with: chunkGroup, chunkedIds: chunkedIds, index: 0, on: hkDataUploadVC)
-        }
-                    
-        chunkGroup.notify(queue:.main) { [weak self] in
-            if HealthKitDataType.allValues.count - 1 > index {
-                self?.uploadDataForQuantity(for: hkDataUploadVC, index: index + 1, group: group)
-            }
-            group.leave()
+    private func postBundleRequest(for entries: [Entry], completion: @escaping (Bool)->()) {
+        let bundle = BundleModel(entry: entries, link: nil, resourceType: "Bundle", total: nil, type: "transaction")
+        DataContext.shared.postBundle(bundle: bundle) { (resp) in
+            completion(resp != nil)
         }
     }
-    
-    private func postBundleRequest(for entries: [[Entry]], with group: DispatchGroup, chunkedIds: [[String]], index: Int, on hkDataUploadVC: HKDataUploadVC) {
-        let bundle = BundleModel(entry: entries[index], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
-        group.enter()
-        DataContext.shared.postBundle(bundle: bundle) { [weak self] (response) in
-            if let _ = response {
-                print("HK Data uploaded")
-                hkDataUploadVC.progress = hkDataUploadVC.progress + entries[index].count
-            } else {
-                self?.healthDataSuccessfullyUploaded = false
-            }
-            if ((entries.count - 1) > index && (chunkedIds.count - 1) > index) {
-                self?.postBundleRequest(for: entries, with: group, chunkedIds: chunkedIds, index: index + 1, on: hkDataUploadVC)
-            }
-            group.leave()
-        }
-    }
-    
     
     internal func goToAppleHealthVCFromActivate(){
         
@@ -462,6 +426,10 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
     
     internal func patientAPI(patient: Resource, weight: Int, height: Int, date: String){
         AlertHelper.showLoader()
+        guard DataContext.shared.userModel == nil else {
+            getHeightWeight(weight: weight,height: height ,date: date)
+            return
+        }
         DataContext.shared.postPatient(patient: patient) {[weak self] (patientResponse) in
             AlertHelper.hideLoader()
             DataContext.shared.patient = patient

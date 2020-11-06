@@ -18,7 +18,7 @@ class SelectChunkSizeVC: BaseVC {
     
     @IBOutlet weak var textField: UITextField!
     
-    var number = 2000
+    var number = 4500
     
     // MARK: - Setup
     override func setupView() {

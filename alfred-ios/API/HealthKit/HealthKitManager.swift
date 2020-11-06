@@ -138,23 +138,31 @@ class HealthKitManager {
         
     }
     
+    func returnAllEntries() -> [Entry] {
+        return stepsEntries + bpEntries + hrEntries + rhrEntries + weightEntries
+    }
+    
+    func returnAllDataIds() -> [String] {
+        return stepsIds + bpIds + hrIds + rhrIds + weightIds
+    }
     
     func searchHKData(completion: @escaping (Bool)-> Void) {
         let importGroup = DispatchGroup()
+        guard let date = Calendar.current.date(byAdding: .year, value: -1, to: Date()) else {
+            completion(false)
+            return
+        }
+        var results: [Bool] = []
         for quantity in HealthKitDataType.allValues {
             importGroup.enter()
             if quantity == .bloodPressure {
-                self.getBloodPressure { [weak self] (success, ids) in
+                self.getBloodPressure(from: date) { [weak self] (success, ids) in
                     self?.bpIds = ids
-                    if success {
-                        print("Quantity \(quantity.description) successfully imported")
-                        importGroup.leave()
-                    } else {
-                        completion(success)
-                    }
+                    results.append(success)
+                    importGroup.leave()
                 }
             } else {
-                self.getHealthData(for: quantity) { [weak self] (success, ids) in
+                self.getHealthData(for: quantity, from: date) { [weak self] (success, ids) in
                     switch quantity {
                     case .bodyMass:
                         self?.weightIds = ids
@@ -167,17 +175,13 @@ class HealthKitManager {
                     case .bloodPressure:
                         break
                     }
-                    if success {
-                        print("Quantity \(quantity.description) successfully imported")
-                        importGroup.leave()
-                    } else {
-                        completion(success)
-                    }
+                    results.append(success)
+                    importGroup.leave()
                 }
             }
         }
         importGroup.notify(queue:.main) {
-            completion(true)
+            completion(results.allSatisfy({$0}))
         }
     }
     
@@ -186,7 +190,7 @@ class HealthKitManager {
     func getHealthData(for quantity: HealthKitDataType, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [String])-> Void) {
         guard let sampleType = quantity.type[0] else {return}
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
-        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
         var ids: [String] = []
         let query = HKSampleQuery.init(sampleType: sampleType,
                                        predicate: predicate,
@@ -223,7 +227,7 @@ class HealthKitManager {
         guard let bloodPressureDiastolic = HealthKitDataType.bloodPressure.type[0], let bloodPressureSystolic = HealthKitDataType.bloodPressure.type[1], let bloodPressure = HKQuantityType.correlationType(forIdentifier: .bloodPressure) else { return }
         
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
-        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
         var ids: [String] = []
         let query = HKSampleQuery(sampleType: bloodPressure,
                                   predicate: predicate,

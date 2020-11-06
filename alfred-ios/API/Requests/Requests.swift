@@ -6,7 +6,7 @@ class Requests {
     
     static let sessionManager: SessionManager = {
         let configuration = URLSessionConfiguration.default
-        configuration.httpMaximumConnectionsPerHost = 1
+        configuration.httpMaximumConnectionsPerHost = 50
         configuration.timeoutIntervalForRequest = 120
         let sessMan = SessionManager(configuration: configuration)
         return sessMan

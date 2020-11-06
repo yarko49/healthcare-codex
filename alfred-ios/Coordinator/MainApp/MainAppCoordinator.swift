@@ -125,32 +125,26 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
         
         profileVC.getData = {[weak self] in
             AlertHelper.showLoader()
-            self?.postGetData(search: SearchParameter(sort : "date", count: 1), completion: {(response) in
-                AlertHelper.hideLoader()
-                if let response = response {
-                    DataContext.shared.weightArray = []
-                    DataContext.shared.heightArray = []
-                    response.entry?.forEach { entry in
-                        
-                        if let entryCoding = entry.resource?.code?.coding, !entryCoding.isEmpty {
-                            
-                            if  entryCoding.first?.code == DataContext.shared.weightCode.coding?.first?.code {
-                                DataContext.shared.weightArray.append(entry.resource?.valueQuantity?.value ?? 0)
-                            }
-                            
-                            if  entryCoding.first?.code == DataContext.shared.heightCode.coding?.first?.code {
-                                DataContext.shared.heightArray.append(entry.resource?.valueQuantity?.value ?? 0)
-                            }
-                        }
-                        
-                    }
-                }
-                self?.profileVC?.weight = DataContext.shared.weightArray.first
-                self?.profileVC?.height = DataContext.shared.heightArray.first
-                self?.profileVC?.createDetailsLabel()
-                
+            let group = DispatchGroup()
+            var weight: Int? = 0
+            var height: Int? = 0
+            let weightParam = SearchParameter(sort: "-date", count: 1, code: DataContext.shared.weightCode.coding?.first?.code)
+            group.enter()
+            self?.postGetData(search: weightParam, completion: { (response) in
+                group.leave()
+                weight = response?.entry?.first?.resource?.valueQuantity?.value
             })
-
+            let heightParam = SearchParameter(sort: "-date", count: 1, code: DataContext.shared.heightCode.coding?.first?.code)
+            group.enter()
+            self?.postGetData(search: heightParam, completion: { (response) in
+                group.leave()
+                height = response?.entry?.first?.resource?.valueQuantity?.value
+            })
+            group.notify(queue: .main) { [weak self] in
+                self?.profileVC?.weight = weight
+                self?.profileVC?.height = height
+                self?.profileVC?.createDetailsLabel()
+            }
             self?.profileVC?.patientTrendsTV.reloadData()
         }
 
