@@ -252,6 +252,45 @@ class HealthKitManager {
         HKHealthStore().execute(query)
     }
     
+    func getMostRecentEntry(identifier: HKQuantityTypeIdentifier, completion: @escaping (HKSample?) -> Void) {
+        
+        guard let type = HKSampleType.quantityType(forIdentifier: identifier) else {
+            completion(nil)
+            return
+        }
+        print(type)
+        let predicate = HKQuery.predicateForSamples(withStart: Date.distantPast,
+                                                    end: Date(),
+                                                    options: [])
+        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate,
+                                              ascending: false)
+        let limit = 1
+        let query = HKSampleQuery(sampleType: type, predicate: predicate, limit: limit, sortDescriptors: [sortDescriptor]) { (query, samples, error) in
+            let sample = samples?.first
+            DispatchQueue.main.async {
+                completion(sample)
+            }
+        }
+        HKHealthStore().execute(query)
+    }
+    
+    func getTodaySteps(completion: @escaping (HKStatistics?)->(Void)) {
+        guard let stepsQuantityType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
+            completion(nil)
+            return
+        }
+        
+        let now = Date()
+        let startOfDay = Calendar.current.startOfDay(for: now)
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
+        
+        let query = HKStatisticsQuery(quantityType: stepsQuantityType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
+            completion(result)
+        }
+        
+        HKHealthStore().execute(query)
+    }
+  
 // Background delivery
 //    func getHealthDataFromObserver(for quantities: [HealthKitDataType], completion: @escaping (Bool)-> Void) {
 //        for quantity in quantities {

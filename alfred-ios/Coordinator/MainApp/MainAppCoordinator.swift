@@ -147,6 +147,44 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
             }
             self?.profileVC?.patientTrendsTV.reloadData()
         }
+        
+        var todayData: [HealthKitQuantityType : [Any]] = [:]
+        let topGroup = DispatchGroup()
+        DataContext.shared.userAuthorizedQuantities.forEach({ quantityType in
+            if quantityType != .activity {
+                print(quantityType.identifiers)
+            topGroup.enter()
+            let innergroup = DispatchGroup()
+            var values: [Any] = []
+            quantityType.identifiers.forEach({ identifier in
+                innergroup.enter()
+
+                HealthKitManager.shared.getMostRecentEntry(identifier: identifier) { (sample) in
+                    if let quantitySample = sample as? HKQuantitySample {
+                        values.append(quantitySample)
+                    }
+                    innergroup.leave()
+                }
+            })
+            
+            innergroup.notify(queue: .main) {
+                todayData[quantityType] = values
+                topGroup.leave()
+            }
+            } else {
+                topGroup.enter()
+                HealthKitManager.shared.getTodaySteps { (statistics) -> (Void) in
+                    if let statistics = statistics {
+                        todayData[quantityType] = [statistics]
+                    }
+                    topGroup.leave()
+                }
+            }
+        })
+        
+        topGroup.notify(queue: .main) { [weak profileVC] in
+            profileVC?.todayHKData = todayData
+        }
 
         profileVC.editBtnAction = {[weak self] (weight, height) in
             self?.goToMyProfileFirstVC(source : .profile, weight: weight , height: height)

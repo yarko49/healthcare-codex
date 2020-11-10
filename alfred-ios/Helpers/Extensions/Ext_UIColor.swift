@@ -30,6 +30,7 @@ extension UIColor {
     static let restingHR = UIColor(named: "RestingHRColor2")
     static let weightLblColor = UIColor(named: "WeightLblColor")
     static let enterGrey = UIColor(named: "EnterGrey")!
+    static let tableViewSeparatorColor = UIColor(named: "TableViewSeparatorColor")
     //Coach Cards
     static let weightBG = UIColor(named: "WeightBG")!
     static let activityBG = UIColor(named: "ActivityBG")!
@@ -49,7 +50,9 @@ extension UIColor {
     static let statusLow = UIColor(named: "StatusLow")!
     static let statusGreen = UIColor(named: "StatusGreen")!
     static let statusYellow = UIColor(named: "StatusYellow")!
+    static let statusOrange = UIColor(named: "StatusOrange")!
     static let statusRed = UIColor(named: "StatusRed")!
+    static let statusDeepRed = UIColor(named: "StatusDeepRed")!
     
     public convenience init?(hex: String) {
         let r, g, b, a: CGFloat

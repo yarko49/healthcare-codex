@@ -121,7 +121,9 @@ class MyProfileSecondVC : BaseVC, UIGestureRecognizerDelegate{
         picker.minimumDate = minDate
         picker.maximumDate = maxDate
         picker.setDate(birthDate ?? defaultDate, animated: false)
-        
+        if #available(iOS 13.4, *) {
+            picker.preferredDatePickerStyle = .wheels
+        }
         datePicker = picker
     }
     

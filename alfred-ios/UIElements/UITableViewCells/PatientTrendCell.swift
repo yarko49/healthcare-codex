@@ -4,6 +4,12 @@
 //
 
 import UIKit
+import HealthKit
+struct TodaySampleModel {
+    let samples: [HKQuantitySample]
+    let description: String
+    let date: Date
+}
 
 struct PatientTrendCellData {
     var averageValue: Int?
@@ -271,4 +277,83 @@ class PatientTrendCell: UITableViewCell {
         delegate?.didTapDetailsView(cell: self)
     }
     
+    func setup(for quantityType: HealthKitQuantityType, with data: [HKQuantitySample]) {
+        highView.isHidden = true
+        lowView.isHidden = true
+        chartView.isHidden = true
+        trendTitleLbl.attributedText = quantityType.rawValue.with(style: .semibold20, andColor: quantityType.getColor())
+        trendCategoryImgView.image = quantityType.getImage()
+        switch quantityType {
+        case .weight, .heartRate, .restingHR:
+            averageValueLbl.attributedText = data.first?.description.with(style: .regular26 , andColor: .black)
+        case .bloodPressure where data.count == 2:
+            let pressureData = data.sorted { (sample1, sample2) -> Bool in
+                let sample1Double = sample1.quantity.doubleValue(for: .millimeterOfMercury())
+                let sample2Double = sample2.quantity.doubleValue(for: .millimeterOfMercury())
+                return sample1Double > sample2Double
+            }.map({Int($0.quantity.doubleValue(for: .millimeterOfMercury()))})
+            guard let systolic = pressureData.first, let diastolic = pressureData.last else { return }
+            averageValueLbl.attributedText = "\(systolic)/\(diastolic)\(quantityType.hkUnit.description)".with(style: .regular26 , andColor: .black)
+        default:
+                break
+        }
+        averageValueLbl.attributedText = data.description.with(style: .regular26 , andColor: .black)
+    }
+    
+    func setupStatusMessage(type : HealthKitQuantityType, value1 : Double, value2: Double) -> NSMutableAttributedString {
+           switch type {
+           case .weight:
+               if value1 < 110.0 {
+               return getStatusMessage(message: "Below normal", image: UIImage(named: "obese"))
+               }else if value1 < 180 && value1 > 110 {
+                   return getStatusMessage(message: Str.healthy, image: UIImage(named: "healthy"))
+               }
+               else if value1 < 220 {
+                   return getStatusMessage(message: Str.heavy, image: UIImage(named: "heavy"))
+               }
+               else {
+                   return getStatusMessage(message: Str.obese, image: UIImage(named: "obese"))
+               }
+           case .activity:
+               if value1 < 500{
+               return getStatusMessage(message: "Below Normal", image: UIImage(named: "obese"))
+               } else if value1 < 5000{
+                   return getStatusMessage(message: "On Track", image: UIImage(named: "heavy"))
+               }else {
+                   return getStatusMessage(message: "On Track", image: UIImage(named: "healthy"))
+               }
+           case .bloodPressure:
+               if value1 > 16.0 || value1 < 8.0 || value2 > 9.0 || value2 < 4.0 {
+               return getStatusMessage(message: Str.high, image: UIImage(named: "obese"))
+               }else if value1 > 14.0 || value1 < 9.0 || value2 > 8.0 || value2 < 5.0{
+                   return getStatusMessage(message: Str.elevated, image: UIImage(named: "heavy"))
+               }else {
+                   return getStatusMessage(message: Str.healthy, image: UIImage(named: "healthy"))
+               }
+           case .restingHR:
+               if value1 < 30 || value1 > 90 {
+                   return getStatusMessage(message:"Not normal", image: UIImage(named: "heavy"))
+               }else {
+               return getStatusMessage(message: Str.healthy, image: UIImage(named: "healthy"))
+               }
+           case .heartRate:
+               if value1 < 50 || value1 > 110 {
+                   return getStatusMessage(message:"Not normal", image: UIImage(named: "heavy"))
+               }else {
+               return getStatusMessage(message: Str.healthy, image: UIImage(named: "healthy"))
+               }
+           }
+       }
+       
+       private func getStatusMessage(message: String, image: UIImage?) -> NSMutableAttributedString {
+           let dailyString = NSMutableAttributedString(string:"")
+           let dailyAttachment = NSTextAttachment()
+           dailyAttachment.image = image
+           let imageString = NSAttributedString(attachment: dailyAttachment)
+           dailyString.append(imageString)
+           dailyString.append(NSAttributedString(string:" "))
+           dailyString.append(NSAttributedString(string: message))
+           return dailyString
+       }
+
 }

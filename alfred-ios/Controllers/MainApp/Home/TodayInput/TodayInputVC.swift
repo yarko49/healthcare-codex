@@ -48,14 +48,14 @@ class TodayInputVC: BaseVC {
         
         let defaultDate: NSDate = calendar.date(from: components as DateComponents)! as NSDate
         let picker = UIDatePicker()
+        if #available(iOS 13.4, *) {
+            picker.preferredDatePickerStyle = .wheels
+        }
         picker.datePickerMode = .date
         picker.backgroundColor = UIColor.white
         picker.maximumDate = Date()
         picker.setDate(defaultDate as Date, animated: false)
 
-//        if #available(iOS 13.4, *) {
-//            picker.preferredDatePickerStyle = .wheels
-//        }
         return picker
     }()
     
@@ -66,13 +66,13 @@ class TodayInputVC: BaseVC {
         
         let defaultDate: NSDate = calendar.date(from: components as DateComponents)! as NSDate
         let picker = UIDatePicker()
+        if #available(iOS 13.4, *) {
+            picker.preferredDatePickerStyle = .wheels
+        }
         picker.datePickerMode = .time
         picker.backgroundColor = UIColor.white
         picker.maximumDate = Date()
         picker.setDate(defaultDate as Date, animated: false)
-//        if #available(iOS 13.4, *) {
-//            picker.preferredDatePickerStyle = .wheels
-//        }
         return picker
     }()
     
@@ -238,7 +238,7 @@ class TodayInputVC: BaseVC {
     }
     
     @objc private func timePickerDateChanged(_ sender: UIDatePicker) {
-       timePTF.textfield.text = DateFormatter.hmmaa.string(from: sender.date)
+       timePTF.textfield.text = DateFormatter.hmma.string(from: sender.date)
         setupObservation()
     }
     

@@ -196,3 +196,13 @@
 "CREATE_PATIENT_FAILED" = "Failed to create patient record";
 "CREATE_PROFILE_FAILED" = "Failed to create patient profile";
 "CREATE_BUNDLE_FAILED" = "Weight/Height submission failed.";
+
+// Profile Stats
+"NO_HEALTH_DATA_FOUND" = "No related health entries were found";
+"BLOOD_PRESSURE_ELEVATED" = "Elevated";
+"BLOOD_PRESSURE_HIGH" = "Hypertension stage 1";
+"BLOOD_PRESSURE_HIGH_2" = "Hypertension stage 2";
+"BLOOD_PRESSURE_CRISIS" = "Hypertensive crisis";
+"BELOW_NORMAL" = "Below normal";
+"ON_TRACK" = "On track";
+"NOT_NORMAL" = "Not normal";

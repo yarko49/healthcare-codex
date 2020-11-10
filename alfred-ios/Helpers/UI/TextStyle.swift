@@ -23,6 +23,7 @@ struct TextStyle {
         case medium17
         case semibold17
         case semibold20
+        case semibold26
         case bold28
         case bold16
         case bold17
@@ -45,6 +46,7 @@ struct TextStyle {
             case .semibold17: return semibold17Style
             case .semibold20: return semibold20Style
             case .bold28: return bold28Style
+            case .semibold26: return semibold26Style
             case .bold16: return bold16Style
             case .bold17: return bold17Style
             case .bold20: return bold20Style
@@ -67,6 +69,7 @@ struct TextStyle {
 
     static let semibold17Style = StringStyle(.font(Font.sfProSemibold.of(size: 17)))
     static let semibold20Style = StringStyle(.font(Font.sfProSemibold.of(size: 20)))
+    static let semibold26Style = StringStyle(.font(Font.sfProSemibold.of(size: 26)))
     static let bold28Style = StringStyle(.font(Font.sfProBold.of(size: 28)))
     static let bold16Style = StringStyle(.font(Font.sfProBold.of(size: 16)))
     static let bold17Style = StringStyle(.font(Font.sfProBold.of(size: 17)))

@@ -348,10 +348,14 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
     internal func startInitialUpload() {
         let hkDataUploadVC = HKDataUploadVC()
         hkDataUploadVC.queryAction = { [weak self] in
+            UIApplication.shared.isIdleTimerDisabled = true
             HealthKitManager.shared.searchHKData { [weak self, weak hkDataUploadVC] (importSuccess) in
+                UIApplication.shared.isIdleTimerDisabled = false
                 if importSuccess {
                     hkDataUploadVC?.maxProgress = HealthKitManager.shared.numberOfData
+                    UIApplication.shared.isIdleTimerDisabled = true
                     self?.uploadHKData(for: hkDataUploadVC, completion: { [weak self] (uploadSuccess) in
+                        UIApplication.shared.isIdleTimerDisabled = false
                         self?.goToAppleHealthVCFromActivate()
                     })
                 } else {
@@ -399,10 +403,8 @@ class AuthCoordinator: NSObject, Coordinator , UIViewControllerTransitioningDele
     }
     
     internal func goToAppleHealthVCFromActivate(){
-        
         let appleHealthVC = AppleHealthVC()
         appleHealthVC.comingFrom = .activate
-        
         appleHealthVC.nextBtnAction = { [weak self] in
             self?.goToMainApp()
         }

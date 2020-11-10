@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import HealthKit
 
 enum Coming {
     case today
@@ -39,13 +40,19 @@ class ProfileVC: BaseVC {
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var detailsLbl: UILabel!
     @IBOutlet weak var editBtn: UIButton!
+    @IBOutlet weak var prevBtn: UIButton!
     
     //MARK: Vars
     var currentDateInterval: HealthStatsDateIntervalType = .daily
     var startDate: Date = Date()
     var endDate: Date = Date()
     var expandedIndexPath: IndexPath?
-    var currentHKData: [HealthKitQuantityType : PatientTrendCellData] = [:]
+    var currentHKData: [HealthKitQuantityType: PatientTrendCellData] = [:]
+    var todayHKData: [HealthKitQuantityType : [Any]] = [:] {
+        didSet {
+            patientTrendsTV?.reloadData()
+        }
+    }
     var chartData: [HealthKitQuantityType : ChartData] = [:]
     var age : Int?
     var weight : Int?
@@ -74,6 +81,7 @@ class ProfileVC: BaseVC {
         editBtn.setTitle( Str.edit, for: .normal)
         editBtn.setTitleColor(UIColor.cursorOrange , for: .normal)
         patientTrendsTV.register(UINib(nibName: "PatientTrendCell", bundle: nil), forCellReuseIdentifier: "PatientTrendCell")
+        patientTrendsTV.register(UINib(nibName: "TodayStatCell", bundle: nil), forCellReuseIdentifier: "TodayStatCell")
         patientTrendsTV.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
         patientTrendsTV.estimatedRowHeight = 300
         patientTrendsTV.rowHeight = UITableView.automaticDimension
@@ -116,7 +124,7 @@ class ProfileVC: BaseVC {
     private func calulateIntervals(isMovingForward: Bool) {
         switch currentDateInterval {
         case .daily:
-            updateDates(calComponent: .day, value: isMovingForward ? 1 : -1)
+            break
         case .weekly:
             updateDates(calComponent: .day, value: isMovingForward ? 7 : -7)
         case .monthly:
@@ -155,12 +163,14 @@ class ProfileVC: BaseVC {
     private func updateDateLbl() {
         switch currentDateInterval {
         case .daily:
-             dateLbl.attributedText = "\(DateFormatter.MMMdd.string(from: startDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
+            dateLbl.attributedText = Str.today.with(style: .semibold20, andColor: UIColor.pcpColor)
         case .weekly, .monthly:
             dateLbl.attributedText = "\(DateFormatter.MMMdd.string(from: startDate))-\(DateFormatter.MMMdd.string(from: endDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
         case .yearly:
             dateLbl.attributedText = "\(DateFormatter.yyyy.string(from: startDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
         }
+        nextDateBtn.isHidden = currentDateInterval == .daily
+        previousDateBtn.isHidden = currentDateInterval == .daily
     }
     
     private func refreshHKData() {
@@ -211,15 +221,25 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PatientTrendCell", for: indexPath) as! PatientTrendCell
-        let type = DataContext.shared.userAuthorizedQuantities[indexPath.row]
-        cell.selectionStyle = .none
-        cell.setupCell(data: currentHKData[type] ?? PatientTrendCellData(averageValue: nil, highValue: nil, lowValue: nil),
-                       type: type,
-                       healthStatsDateIntervalType: currentDateInterval, chartData: chartData[type] ?? ChartData(xValues: [""], yValues: []),
-                       shouldShowChart: indexPath == expandedIndexPath)
-        cell.delegate = self
-        return cell
+        if currentDateInterval == .daily {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TodayStatCell", for: indexPath) as! TodayStatCell
+            let type = DataContext.shared.userAuthorizedQuantities[indexPath.row]
+            cell.selectionStyle = .none
+            cell.setup(for: type, with: todayHKData[type])
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PatientTrendCell", for: indexPath) as! PatientTrendCell
+                    let type = DataContext.shared.userAuthorizedQuantities[indexPath.row]
+                    cell.selectionStyle = .none
+                    cell.setupCell(data: currentHKData[type] ?? PatientTrendCellData(averageValue: nil, highValue: nil, lowValue: nil),
+                                   type: type,
+                                   healthStatsDateIntervalType: currentDateInterval, chartData: chartData[type] ?? ChartData(xValues: [""], yValues: []),
+                                   shouldShowChart: indexPath == expandedIndexPath)
+                    cell.delegate = self
+                    return cell
+
+        }
+
     }
     
 }

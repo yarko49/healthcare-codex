@@ -61,15 +61,9 @@ extension DateFormatter {
           return formatter
       }
     
-    static var HHmm: DateFormatter {
+    static var hmma: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        return formatter
-    }
-    
-    static var hmmaa: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "h:mm aa"
+        formatter.dateFormat = "h:mm a"
         return formatter
     }
 }

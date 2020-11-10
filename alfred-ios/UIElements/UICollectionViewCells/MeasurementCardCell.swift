@@ -61,7 +61,7 @@ class MeasurementCardCell: UICollectionViewCell {
                     if Calendar.current.isDateInToday(date) {
                         let diffComponents = Calendar.current.dateComponents([.hour, .minute], from: date, to: Date())
                         let hours = diffComponents.hour
-                        dateString = hours == 0 ? Str.now : DateFormatter.HHmm.string(from: date)
+                        dateString = hours == 0 ? Str.now : DateFormatter.hmma.string(from: date)
                     } else if Calendar.current.isDateInYesterday(date) {
                         dateString = Str.yesterday
                     } else {
