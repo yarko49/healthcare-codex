@@ -12,7 +12,7 @@ protocol SettingsFooterViewDelegate: AnyObject {
 class SettingsFooterView: UIView {
 	@IBOutlet var contentView: UIView!
 
-	let kCONTENT_XIB_NAME = "SettingsFooterView"
+	let contentXIBName = "SettingsFooterView"
 
 	// MARK: - IBOutlets
 
@@ -35,7 +35,7 @@ class SettingsFooterView: UIView {
 	}
 
 	func commonInit() {
-		Bundle.main.loadNibNamed(kCONTENT_XIB_NAME, owner: self, options: nil)
+		Bundle.main.loadNibNamed(contentXIBName, owner: self, options: nil)
 		contentView.fixInView(self)
 		setup()
 	}

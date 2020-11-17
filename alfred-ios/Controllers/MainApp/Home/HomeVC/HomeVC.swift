@@ -96,7 +96,7 @@ class HomeVC: BaseVC {
 	}
 
 	private func setupCoachCards() {
-		if coachCardsList.count > 0 {
+		if !coachCardsList.isEmpty {
 			scrollView.setContentOffset(CGPoint(x: CGFloat(0) * scrollView.frame.width, y: 0), animated: true)
 			scrollView.isHidden = false
 			coachCardSV.arrangedSubviews.filter { $0 is CoachCardView }.forEach { $0.removeFromSuperview() }

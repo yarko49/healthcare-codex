@@ -12,7 +12,7 @@ protocol AnswerViewViewDelegate: AnyObject {
 class AnswerView: UIView {
 	@IBOutlet var contentView: UIView!
 
-	let kCONTENT_XIB_NAME = "AnswerView"
+	let contentXIBName = "AnswerView"
 
 	// MARK: - IBOutlets
 
@@ -42,7 +42,7 @@ class AnswerView: UIView {
 	}
 
 	func commonInit() {
-		Bundle.main.loadNibNamed(kCONTENT_XIB_NAME, owner: self, options: nil)
+		Bundle.main.loadNibNamed(contentXIBName, owner: self, options: nil)
 		contentView.fixInView(self)
 		setup()
 	}
@@ -73,7 +73,7 @@ class AnswerView: UIView {
 	}
 
 	private func setColor() {
-		if let answer = answer?.answerOptionExtension, answer.count > 0, let colorString = answer[0].valueString?.rawValue {
+		if let answer = answer?.answerOptionExtension, !answer.isEmpty, let colorString = answer[0].valueString?.rawValue {
 			color = UIColor(hex: colorString)
 		}
 		selectionIV.image = UIImage(named: "radioBtnUnselected")?.withRenderingMode(.alwaysTemplate)

@@ -13,7 +13,7 @@ class ChartView: UIView {
 
 	var type = DataContext.shared.userAuthorizedQuantities
 
-	let kCONTENT_XIB_NAME = "ChartView"
+	let contentXIBName = "ChartView"
 	var minimum: Double = 0.0
 	var maximum: Double = 0.0
 
@@ -28,7 +28,7 @@ class ChartView: UIView {
 	}
 
 	func commonInit() {
-		Bundle.main.loadNibNamed(kCONTENT_XIB_NAME, owner: self, options: nil)
+		Bundle.main.loadNibNamed(contentXIBName, owner: self, options: nil)
 		contentView.fixInView(self)
 		contentView.insertSubview(lineChartView, aboveSubview: contentView)
 		contentView.isUserInteractionEnabled = true

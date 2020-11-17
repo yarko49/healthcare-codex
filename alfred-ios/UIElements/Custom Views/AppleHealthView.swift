@@ -5,7 +5,7 @@ import UIKit
 class AppleHealthView: UIView {
 	@IBOutlet var contentView: UIView!
 
-	let kCONTENT_XIB_NAME = "AppleHealthView"
+	let contentXIBName = "AppleHealthView"
 
 	// MARK: - IBOutlets
 
@@ -33,7 +33,7 @@ class AppleHealthView: UIView {
 	}
 
 	func commonInit() {
-		Bundle.main.loadNibNamed(kCONTENT_XIB_NAME, owner: self, options: nil)
+		Bundle.main.loadNibNamed(contentXIBName, owner: self, options: nil)
 		contentView.fixInView(self)
 		setup()
 	}

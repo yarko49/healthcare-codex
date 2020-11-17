@@ -173,14 +173,14 @@ class QuestionVC: BaseVC {
 	fileprivate func performAppearAnimation() {
 		UIView.animate(withDuration: 1, delay: 0.5, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
 			self.continueViewBottomConstraint.constant = 0
-			self.scrollViewBottomConstraint.constant = self.scrollViewBottomConstraint.constant + 40
+			self.scrollViewBottomConstraint.constant += 40
 		}, completion: nil)
 	}
 
 	fileprivate func performDisappearAnimation() {
 		UIView.animate(withDuration: 1, delay: 0.5, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
 			self.continueViewBottomConstraint.constant = -self.continueView.frame.height
-			self.scrollViewBottomConstraint.constant = self.scrollViewBottomConstraint.constant - 40
+			self.scrollViewBottomConstraint.constant -= 40
 		}, completion: nil)
 	}
 

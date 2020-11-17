@@ -1047,6 +1047,7 @@
 			buildPhases = (
 				F740E46B816C846BD0DBA2A8 /* [CP] Check Pods Manifest.lock */,
 				8471646225637D83002AD9AD /* Swift Format */,
+				8471648225638067002AD9AD /* Swift Lint */,
 				1234FD4E2215884400E73FFF /* Sources */,
 				1234FD4F2215884400E73FFF /* Frameworks */,
 				1234FD502215884400E73FFF /* Resources */,
@@ -1244,6 +1245,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftformat >/dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+		};
+		8471648225638067002AD9AD /* Swift Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Swift Lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		F740E46B816C846BD0DBA2A8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
