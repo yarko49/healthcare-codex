@@ -30,7 +30,7 @@ extension Coordinator {
 // MARK: Controller Navigation
 
 extension Coordinator {
-	func navigate(to viewController: UIViewController, with presentationStyle: navigationStyle, animated: Bool = true, resetingStack: Bool = false) {
+	func navigate(to viewController: UIViewController, with presentationStyle: NavigationStyle, animated: Bool = true, resetingStack: Bool = false) {
 		switch presentationStyle {
 		case .present:
 			navigationController?.present(viewController, animated: animated, completion: nil)
@@ -45,7 +45,7 @@ extension Coordinator {
 	}
 }
 
-enum navigationStyle {
+enum NavigationStyle {
 	case present
 	case pushFullScreen
 	case push

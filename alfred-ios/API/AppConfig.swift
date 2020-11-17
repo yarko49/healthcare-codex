@@ -21,10 +21,7 @@ final class AppConfig {
 		var current = Bundle.main.infoDictionary
 		for (index, key) in keys.enumerated() {
 			if index == keys.count - 1 {
-				guard let
-					result = (current?[key] as? String)?.replacingOccurrences(of: "\\", with: ""),
-					result.count > 0 else
-				{
+				guard let result = (current?[key] as? String)?.replacingOccurrences(of: "\\", with: ""), !result.isEmpty else {
 					return nil
 				}
 				return result

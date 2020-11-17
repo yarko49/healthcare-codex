@@ -69,7 +69,7 @@ class MyProfileSecondVC: BaseVC, UIGestureRecognizerDelegate {
 		weightPicker.selectRow(selectedIndex, inComponent: 0, animated: false)
 
 		let heightProfileString = String(profileHeight)
-		if heightProfileString.count == 0 {
+		if heightProfileString.isEmpty {
 			feet = 3
 			inches = 0
 		} else if heightProfileString.count == 1 {

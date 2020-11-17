@@ -6,8 +6,6 @@
 import Foundation
 import UIKit
 
-import UIKit
-
 class QuestionnaireVC: BaseVC {
 	// MARK: - Coordinator Actions
 

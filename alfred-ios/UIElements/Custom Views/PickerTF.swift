@@ -3,7 +3,7 @@ import Foundation
 import UIKit
 
 class PickerTF: UIView {
-	let kCONTENT_XIB_NAME = "PickerTF"
+	let contentXIBName = "PickerTF"
 
 	// MARK: - IBOutlets
 
@@ -64,7 +64,7 @@ class PickerTF: UIView {
 	}
 
 	func commonInit() {
-		Bundle.main.loadNibNamed(kCONTENT_XIB_NAME, owner: self, options: nil)
+		Bundle.main.loadNibNamed(contentXIBName, owner: self, options: nil)
 		contentView.fixInView(self)
 		setup()
 	}
