@@ -1046,12 +1046,13 @@
 			buildConfigurationList = 1234FD642215884700E73FFF /* Build configuration list for PBXNativeTarget "alfred-ios" */;
 			buildPhases = (
 				F740E46B816C846BD0DBA2A8 /* [CP] Check Pods Manifest.lock */,
+				8471646225637D83002AD9AD /* Swift Format */,
 				1234FD4E2215884400E73FFF /* Sources */,
 				1234FD4F2215884400E73FFF /* Frameworks */,
 				1234FD502215884400E73FFF /* Resources */,
 				50B0E5C3D27835239B70D53A /* [CP] Embed Pods Frameworks */,
 				3D19193036A37BC9139EEB9C /* [CP] Copy Pods Resources */,
-				06933147253ED31200669E87 /* ShellScript */,
+				06933147253ED31200669E87 /* Crashlytics */,
 			);
 			buildRules = (
 			);
@@ -1172,7 +1173,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		06933147253ED31200669E87 /* ShellScript */ = {
+		06933147253ED31200669E87 /* Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1183,6 +1184,7 @@
 				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
 			);
+			name = Crashlytics;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -1224,6 +1226,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-alfred-ios/Pods-alfred-ios-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		8471646225637D83002AD9AD /* Swift Format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Swift Format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
 		};
 		F740E46B816C846BD0DBA2A8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

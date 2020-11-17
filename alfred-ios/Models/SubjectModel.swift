@@ -6,26 +6,30 @@
 import Foundation
 
 // MARK: - Subject
+
 struct Subject: Codable {
-    let reference, type: String?
-    let identifier: Identifier?
-    let display: String?
+	let reference, type: String?
+	let identifier: Identifier?
+	let display: String?
 }
 
 // MARK: - Identifier
+
 struct Identifier: Codable {
-    let assigner: Assigner?
-    let use: String?
-    let type: TypeClass?
-    let system, value: String?
+	let assigner: Assigner?
+	let use: String?
+	let type: TypeClass?
+	let system, value: String?
 }
 
 // MARK: - TypeClass
+
 struct TypeClass: Codable {
-    let text: String?
+	let text: String?
 }
 
 // MARK: - Assigner
+
 struct Assigner: Codable {
-    let reference: String?
+	let reference: String?
 }
