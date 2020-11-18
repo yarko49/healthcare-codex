@@ -198,7 +198,8 @@
 "CREATE_BUNDLE_FAILED" = "Weight/Height submission failed.";
 
 // Profile Stats
-"NO_HEALTH_DATA_FOUND" = "No related health entries were found";
+"NO_HEALTH_DATA_FOUND_TODAY" = "No measurements found for today";
+"NO_HEALTH_DATA_FOUND_RANGE" = "No measurements found for this date range";
 "BLOOD_PRESSURE_ELEVATED" = "Elevated";
 "BLOOD_PRESSURE_HIGH" = "Hypertension stage 1";
 "BLOOD_PRESSURE_HIGH_2" = "Hypertension stage 2";
@@ -206,3 +207,10 @@
 "BELOW_NORMAL" = "Below normal";
 "ON_TRACK" = "On track";
 "NOT_NORMAL" = "Not normal";
+"WEEKLY_AVG" = "Weekly average";
+"MONTHLY_AVG" = "Monthly average";
+"YEARLY_AVG" = "Yearly average";
+"WEEK_TOTAL" = "Week total";
+"MONTH_TOTAL" = "Month total";
+"YEAR_TOTAL" = "Year total";
+

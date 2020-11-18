@@ -27,6 +27,8 @@ class ProfileVC: BaseVC {
 	var profileInputAction: (() -> (Resource?, BundleModel?))?
 	var comingFrom: Coming = .today
 	var getData: (() -> Void)?
+	var getRangeData: ((HealthStatsDateIntervalType, Date, Date, (([HealthKitQuantityType: [StatModel]]?) -> Void)?) -> Void)?
+	var getTodayData: (() -> Void)?
 
 	// MARK: IBOutlets
 
@@ -44,18 +46,32 @@ class ProfileVC: BaseVC {
 
 	// MARK: Vars
 
-	var currentDateInterval: HealthStatsDateIntervalType = .daily
-	var startDate = Date()
-	var endDate = Date()
+	var currentDateInterval: HealthStatsDateIntervalType = .daily {
+		didSet {
+			resetExpandState()
+			if currentDateInterval != .daily {
+				fetchData(newDateRange: (startDate, endDate))
+			} else {
+				updateDateLbl()
+				patientTrendsTV?.reloadData()
+			}
+		}
+	}
+
 	var expandedIndexPath: IndexPath?
-	var currentHKData: [HealthKitQuantityType: PatientTrendCellData] = [:]
+	var currentHKData: [HealthKitQuantityType: [StatModel]] = [:] {
+		didSet {
+			patientTrendsTV?.reloadData()
+		}
+	}
+
+	var expandColapseState: [HealthKitQuantityType: Bool] = [:]
 	var todayHKData: [HealthKitQuantityType: [Any]] = [:] {
 		didSet {
 			patientTrendsTV?.reloadData()
 		}
 	}
 
-	var chartData: [HealthKitQuantityType: ChartData] = [:]
 	var age: Int?
 	var weight: Int?
 	var height: Int?
@@ -63,6 +79,41 @@ class ProfileVC: BaseVC {
 	var feet: Int = 0
 	var inches: Int = 0
 	var lastName: String = ""
+	var currentWkDate = Date().startOfWeek ?? Date() {
+		didSet {
+			updateDateLbl()
+		}
+	}
+
+	var currentMonthDate = Date().startOfMonth ?? Date() {
+		didSet {
+			updateDateLbl()
+		}
+	}
+
+	var currentYearDate = Date().startOfYear ?? Date() {
+		didSet {
+			updateDateLbl()
+		}
+	}
+
+	var startDate: Date? {
+		switch currentDateInterval {
+		case .daily: return nil
+		case .weekly: return currentWkDate
+		case .monthly: return currentMonthDate
+		case .yearly: return currentYearDate
+		}
+	}
+
+	var endDate: Date? {
+		switch currentDateInterval {
+		case .daily: return nil
+		case .weekly: return startDate?.endOfWeek
+		case .monthly: return startDate?.endOfMonth
+		case .yearly: return startDate?.endOfYear
+		}
+	}
 
 	// MARK: SetupVC
 
@@ -77,21 +128,29 @@ class ProfileVC: BaseVC {
 		navBar?.isTranslucent = false
 		navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backBtnTapped))
 		navigationItem.leftBarButtonItem?.tintColor = UIColor.black
+		resetExpandState()
 		topView.backgroundColor = UIColor.profile
 		separatorLineView.backgroundColor = UIColor.swipeColor
 		nameLbl.attributedText = name.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 
 		editBtn.setTitle(Str.edit, for: .normal)
 		editBtn.setTitleColor(UIColor.cursorOrange, for: .normal)
-		patientTrendsTV.register(UINib(nibName: "PatientTrendCell", bundle: nil), forCellReuseIdentifier: "PatientTrendCell")
+		patientTrendsTV.register(UINib(nibName: "StatCell", bundle: nil), forCellReuseIdentifier: "StatCell")
 		patientTrendsTV.register(UINib(nibName: "TodayStatCell", bundle: nil), forCellReuseIdentifier: "TodayStatCell")
 		patientTrendsTV.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
 		patientTrendsTV.estimatedRowHeight = 300
+
 		patientTrendsTV.rowHeight = UITableView.automaticDimension
 		patientTrendsTV.delegate = self
 		patientTrendsTV.dataSource = self
 		setupInitialDateInterval()
-		refreshHKData()
+	}
+
+	private func resetExpandState() {
+		patientTrendsTV?.contentOffset = CGPoint.zero
+		DataContext.shared.userAuthorizedQuantities.forEach {
+			expandColapseState[$0] = false
+		}
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -120,46 +179,6 @@ class ProfileVC: BaseVC {
 	private func setupInitialDateInterval() {
 		dateIntervalSegmentedControl.selectedSegmentIndex = 0
 		currentDateInterval = .daily
-		resetDates()
-		updateDateLbl()
-	}
-
-	private func calulateIntervals(isMovingForward: Bool) {
-		switch currentDateInterval {
-		case .daily:
-			break
-		case .weekly:
-			updateDates(calComponent: .day, value: isMovingForward ? 7 : -7)
-		case .monthly:
-			updateDates(calComponent: .month, value: isMovingForward ? 1 : -1)
-		case .yearly:
-			updateDates(calComponent: .year, value: isMovingForward ? 1 : -1)
-		}
-		updateDateLbl()
-		refreshHKData()
-	}
-
-	private func updateDates(calComponent: Calendar.Component, value: Int) {
-		startDate = Calendar.current.date(byAdding: calComponent, value: value, to: startDate) ?? Date()
-		endDate = Calendar.current.date(byAdding: calComponent, value: value, to: endDate) ?? Date()
-	}
-
-	private func resetDates() {
-		switch currentDateInterval {
-		case .daily:
-			startDate = Calendar.current.startOfDay(for: Date())
-			endDate = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date()) ?? Date()
-		case .weekly:
-			startDate = Calendar.current.startOfDay(for: Date())
-			endDate = Calendar.current.date(byAdding: .day, value: 6, to: startDate) ?? Date()
-		case .monthly:
-			startDate = Calendar.current.startOfDay(for: Date())
-			endDate = Calendar.current.date(byAdding: .month, value: 1, to: startDate) ?? Date()
-		case .yearly:
-			let currYear = Calendar.current.component(.year, from: Date())
-			startDate = Calendar.current.date(from: DateComponents(year: currYear, month: 1, day: 1)) ?? Date()
-			endDate = Calendar.current.date(byAdding: .year, value: 1, to: startDate) ?? Date()
-		}
 		updateDateLbl()
 	}
 
@@ -168,30 +187,62 @@ class ProfileVC: BaseVC {
 		case .daily:
 			dateLbl.attributedText = Str.today.with(style: .semibold20, andColor: UIColor.pcpColor)
 		case .weekly, .monthly:
+			guard let startDate = startDate, let endDate = endDate else { return }
 			dateLbl.attributedText = "\(DateFormatter.MMMdd.string(from: startDate))-\(DateFormatter.MMMdd.string(from: endDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
 		case .yearly:
+			guard let startDate = startDate else { return }
 			dateLbl.attributedText = "\(DateFormatter.yyyy.string(from: startDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
 		}
 		nextDateBtn.isHidden = currentDateInterval == .daily
 		previousDateBtn.isHidden = currentDateInterval == .daily
 	}
 
-	private func refreshHKData() {
-		patientTrendsTV.reloadData()
-	}
-
 	// MARK: Actions
+
+	private func fetchData(newDateRange: (Date?, Date?)) {
+		guard let start = newDateRange.0, let end = newDateRange.1 else { return }
+		getRangeData?(currentDateInterval, start, end, { [weak self] newData in
+			guard let newData = newData else { return }
+			self?.currentHKData = newData
+			switch self?.currentDateInterval {
+			case .weekly: self?.currentWkDate = start
+			case .monthly: self?.currentMonthDate = start
+			case .yearly: self?.currentYearDate = start
+			default: break
+			}
+		})
+	}
 
 	@objc func backBtnTapped() {
 		backBtnAction?()
 	}
 
 	@IBAction func previousDateBtnTapped(_ sender: Any) {
-		calulateIntervals(isMovingForward: false)
+		let newDateRange = getNewFetchDates(isPrevious: true)
+		fetchData(newDateRange: newDateRange)
 	}
 
 	@IBAction func nextDateBtnTapped(_ sender: Any) {
-		calulateIntervals(isMovingForward: true)
+		let newDateRange = getNewFetchDates(isPrevious: false)
+		fetchData(newDateRange: newDateRange)
+	}
+
+	func getNewFetchDates(isPrevious: Bool) -> (Date?, Date?) {
+		var newStartDate: Date?
+		var newEndDate: Date?
+		switch currentDateInterval {
+		case .daily: break
+		case .weekly:
+			newStartDate = isPrevious ? currentWkDate.previousWeek : currentWkDate.nextWeek
+			newEndDate = newStartDate?.endOfWeek
+		case .monthly:
+			newStartDate = isPrevious ? currentMonthDate.previousMonth : currentMonthDate.startOfNextMonth
+			newEndDate = newStartDate?.endOfMonth
+		case .yearly:
+			newStartDate = isPrevious ? currentYearDate.previousYear : currentYearDate.startOfNextYear
+			newEndDate = newStartDate?.endOfYear
+		}
+		return (newStartDate, newEndDate)
 	}
 
 	@IBAction func dateIntervalValueChanged(_ sender: Any) {
@@ -207,8 +258,6 @@ class ProfileVC: BaseVC {
 		default:
 			break
 		}
-		resetDates()
-		refreshHKData()
 	}
 
 	@IBAction func editBtnTapped(_ sender: Any) {
@@ -222,31 +271,23 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let type = DataContext.shared.userAuthorizedQuantities[indexPath.row]
 		if currentDateInterval == .daily {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "TodayStatCell", for: indexPath) as! TodayStatCell
-			let type = DataContext.shared.userAuthorizedQuantities[indexPath.row]
 			cell.selectionStyle = .none
 			cell.setup(for: type, with: todayHKData[type])
 			return cell
 		} else {
-			let cell = tableView.dequeueReusableCell(withIdentifier: "PatientTrendCell", for: indexPath) as! PatientTrendCell
-			let type = DataContext.shared.userAuthorizedQuantities[indexPath.row]
+			let cell = tableView.dequeueReusableCell(withIdentifier: "StatCell", for: indexPath) as! StatCell
 			cell.selectionStyle = .none
-			cell.setupCell(data: currentHKData[type] ?? PatientTrendCellData(averageValue: nil, highValue: nil, lowValue: nil),
-			               type: type,
-			               healthStatsDateIntervalType: currentDateInterval, chartData: chartData[type] ?? ChartData(xValues: [""], yValues: []),
-			               shouldShowChart: indexPath == expandedIndexPath)
-			cell.delegate = self
+			cell.expandColapseAction = { [weak self] expanded in
+				let currentContentOffset = tableView.contentOffset
+				self?.expandColapseState[type] = expanded
+				tableView.reloadRows(at: [indexPath], with: .none)
+				tableView.contentOffset = currentContentOffset
+			}
+			cell.setup(for: type, with: currentHKData[type], intervalType: currentDateInterval, expanded: expandColapseState[type] ?? false)
 			return cell
 		}
-	}
-}
-
-extension ProfileVC: PatientTrendCellDelegate {
-	func didTapDetailsView(cell: PatientTrendCell) {
-		guard let indexPath = patientTrendsTV.indexPath(for: cell) else { return }
-		expandedIndexPath = indexPath == expandedIndexPath ? nil : indexPath
-		patientTrendsTV.reloadData()
-		patientTrendsTV.scrollToRow(at: indexPath, at: .top, animated: true)
 	}
 }

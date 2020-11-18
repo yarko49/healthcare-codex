@@ -32,7 +32,7 @@ class Requests {
 			.validate().responseDecodableObject { (response: DataResponse<SubmittedQuestionnaire>) in
 				switch response.result {
 				case .success(let submissionResponse):
-					response.data?.prettyPrint()
+					// response.data?.prettyPrint()
 					completion(submissionResponse)
 				case .failure(let error):
 					print(error.localizedDescription)
@@ -46,7 +46,7 @@ class Requests {
 			.validate().responseDecodableObject { (response: DataResponse<Resource>) in
 				switch response.result {
 				case .success(let observationResponse):
-					response.data?.prettyPrint()
+					// response.data?.prettyPrint()
 					completion(observationResponse)
 				case .failure(let error):
 					print(error.localizedDescription)
@@ -73,7 +73,7 @@ class Requests {
 			.validate().responseDecodableObject { (response: DataResponse<Resource>) in
 				switch response.result {
 				case .success(let patientResponse):
-					response.data?.prettyPrint()
+					// response.data?.prettyPrint()
 					completion(patientResponse)
 				case .failure(let error):
 					print(error.localizedDescription)
@@ -87,7 +87,7 @@ class Requests {
 			.validate().responseDecodableObject { (response: DataResponse<BundleModel>) in
 				switch response.result {
 				case .success(let patientResponse):
-					response.data?.prettyPrint()
+					// response.data?.prettyPrint()
 					completion(patientResponse)
 				case .failure(let error):
 					print(error.localizedDescription)
@@ -125,7 +125,7 @@ class Requests {
 			.validate().responseDecodableObject { (response: DataResponse<BundleModel>) in
 				switch response.result {
 				case .success(let bundle):
-					response.data?.prettyPrint()
+					// response.data?.prettyPrint()
 					completion(bundle)
 				case .failure(let error):
 					print(error.localizedDescription)
@@ -139,7 +139,7 @@ class Requests {
 			.validate().responseDecodableObject { (response: DataResponse<BundleModel>) in
 				switch response.result {
 				case .success(let bundle):
-					response.data?.prettyPrint()
+					// response.data?.prettyPrint()
 					completion(bundle)
 				case .failure(let error):
 					print(error.localizedDescription)
@@ -153,7 +153,7 @@ class Requests {
 			.validate().responseDecodableObject { (response: DataResponse<Resource>) in
 				switch response.result {
 				case .success(let resource):
-					response.data?.prettyPrint()
+					// response.data?.prettyPrint()
 					completion(resource)
 				case .failure(let error):
 					print(error.localizedDescription)

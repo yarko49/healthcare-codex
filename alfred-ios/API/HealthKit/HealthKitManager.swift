@@ -288,6 +288,44 @@ class HealthKitManager {
 		HKHealthStore().execute(query)
 	}
 
+	func getData(identifier: HKQuantityTypeIdentifier, startDate: Date, endDate: Date, intervalType: HealthStatsDateIntervalType, completion: @escaping (([StatsDataPoint]) -> Void)) {
+		guard let type = HKObjectType.quantityType(forIdentifier: identifier) else {
+			completion([])
+			return
+		}
+		var interval = DateComponents()
+		switch intervalType {
+		case .daily: break
+		case .weekly, .monthly: interval.day = 1
+		case .yearly: interval.month = 1
+		}
+
+		var anchorComponents = Calendar.current.dateComponents([.day, .month, .year], from: startDate)
+		anchorComponents.day = 1
+
+		let anchorDate = Calendar.current.date(from: anchorComponents)!
+		let options: HKStatisticsOptions = identifier == .stepCount ? .cumulativeSum : .discreteAverage
+		let query = HKStatisticsCollectionQuery(quantityType: type,
+		                                        quantitySamplePredicate: nil,
+		                                        options: options,
+		                                        anchorDate: anchorDate,
+		                                        intervalComponents: interval)
+		query.initialResultsHandler = { _, collection, _ in
+			guard let collection = collection else {
+				completion([])
+				return
+			}
+
+			var data: [StatsDataPoint] = []
+			collection.enumerateStatistics(from: startDate, to: endDate) { statistics, _ in
+				let value = identifier == .stepCount ? statistics.sumQuantity() : statistics.averageQuantity()
+				data.append(StatsDataPoint(date: statistics.startDate, value: value))
+			}
+			completion(data)
+		}
+		HKHealthStore().execute(query)
+	}
+
 	// Background delivery
 	//    func getHealthDataFromObserver(for quantities: [HealthKitDataType], completion: @escaping (Bool)-> Void) {
 	//        for quantity in quantities {

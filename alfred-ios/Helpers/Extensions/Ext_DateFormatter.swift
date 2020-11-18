@@ -45,7 +45,7 @@ extension DateFormatter {
 
 	static var yyyy: DateFormatter {
 		let formatter = DateFormatter()
-		formatter.dateFormat = "YYYY"
+		formatter.dateFormat = "yyyy"
 		return formatter
 	}
 
