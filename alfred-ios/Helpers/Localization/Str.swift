@@ -205,7 +205,8 @@ internal enum Str {
 	internal static let createBundleFailed = Languages.tr("CREATE_BUNDLE_FAILED")
 
 	// My profile stats
-	internal static let noEntriesFound = Languages.tr("NO_HEALTH_DATA_FOUND")
+	internal static let noEntriesFoundToday = Languages.tr("NO_HEALTH_DATA_FOUND_TODAY")
+	internal static let noEntriesFoundRange = Languages.tr("NO_HEALTH_DATA_FOUND_RANGE")
 	internal static let bpElevated = Languages.tr("BLOOD_PRESSURE_ELEVATED")
 	internal static let bpHigh = Languages.tr("BLOOD_PRESSURE_HIGH")
 	internal static let bpHigh2 = Languages.tr("BLOOD_PRESSURE_HIGH_2")
@@ -213,6 +214,12 @@ internal enum Str {
 	internal static let belowNormal = Languages.tr("BELOW_NORMAL")
 	internal static let onTrack = Languages.tr("ON_TRACK")
 	internal static let notNormal = Languages.tr("NOT_NORMAL")
+	internal static let weeklyAvg = Languages.tr("WEEKLY_AVG")
+	internal static let monthlyAvg = Languages.tr("MONTHLY_AVG")
+	internal static let yearlyAvg = Languages.tr("YEARLY_AVG")
+	internal static let weekTotal = Languages.tr("WEEK_TOTAL")
+	internal static let monthTotal = Languages.tr("MONTH_TOTAL")
+	internal static let yearTotal = Languages.tr("YEAR_TOTAL")
 
 	// Questionnaire
 	internal static func ofParts(_ p1: Int, _ p2: Int) -> String {

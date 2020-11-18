@@ -10,7 +10,7 @@ enum HealthKitQuantityType: String, CaseIterable {
 	case weight = "Weight"
 	case activity = "Activity"
 	case bloodPressure = "Blood Pressure"
-	case restingHR = "Resting Hearth Rate"
+	case restingHR = "Resting Heart Rate"
 	case heartRate = "Heart Rate"
 
 	func getHKitQuantityType() -> HKQuantityType? {

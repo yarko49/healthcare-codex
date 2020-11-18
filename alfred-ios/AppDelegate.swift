@@ -29,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		//            }
 		//        }
 //
+
 		window = UIWindow(frame: UIScreen.main.bounds)
 		window?.backgroundColor = .black
 		appCoordinator.start()

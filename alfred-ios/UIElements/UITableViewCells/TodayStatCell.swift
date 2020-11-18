@@ -60,7 +60,7 @@ class TodayStatCell: UITableViewCell {
 			statusLbl.attributedText = status.1.with(style: .regular13, andColor: .lightGrey)
 			statusIndicatorView.backgroundColor = status.0
 		default:
-			break
+			showNoData(for: quantityType)
 		}
 		dateLbl.attributedText = samples.first?.endDate.relationalString.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
 	}
@@ -90,7 +90,7 @@ class TodayStatCell: UITableViewCell {
 			valueLbl.attributedText = value
 			dateLbl.attributedText = Str.today.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
 		} else {
-			valueLbl.attributedText = Str.noEntriesFound.with(style: .regular16, andColor: .black)
+			valueLbl.attributedText = Str.noEntriesFoundToday.with(style: .regular16, andColor: .black)
 			dateLbl.text = ""
 		}
 		statusLbl.text = ""

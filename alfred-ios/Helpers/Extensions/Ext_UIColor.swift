@@ -54,6 +54,8 @@ extension UIColor {
 	static let statusRed = UIColor(named: "StatusRed")!
 	static let statusDeepRed = UIColor(named: "StatusDeepRed")!
 
+	static let dark60 = UIColor(named: "Dark60")!
+
 	public convenience init?(hex: String) {
 		let r, g, b, a: CGFloat
 

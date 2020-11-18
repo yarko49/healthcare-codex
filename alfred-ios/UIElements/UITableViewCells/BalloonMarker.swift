@@ -6,203 +6,93 @@ import Charts
 import Foundation
 import UIKit
 
-open class BalloonMarker: MarkerImage {
-	@objc open var color: UIColor
-	@objc open var arrowSize = CGSize(width: 5, height: 40)
-	@objc open var font: UIFont
-	@objc open var textColor: UIColor
-	@objc open var insets: UIEdgeInsets
-	@objc open var minimumSize = CGSize()
-	@objc open var lineChartView: LineChartView!
-	@objc open var lineData: LineChartDataSet!
+class BalloonMarker: MarkerImage {
+	private var color: UIColor
+	private var arrowSize = CGSize(width: 2, height: 60)
+	private var font: UIFont
+	private var textColor: UIColor
+	private var insets: UIEdgeInsets
+	private var unit: String
+	private var numberFormatter: NumberFormatter
+	private var intervalType: ChartIntervalType
+	private var circleSize = CGSize(width: 5, height: 5)
+	private var month: Int?
+	private var year: Int?
 
-	fileprivate var date = DateFormatter()
-	fileprivate var label: NSMutableAttributedString?
-	fileprivate var _labelSize = CGSize()
+	private var dateFormatter: DateFormatter = {
+		let df = DateFormatter()
+		df.timeStyle = .none
+		df.dateStyle = .short
+		return df
+	}()
 
-	@objc public init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets) {
+	private var balloonText: NSMutableAttributedString?
+	private var balloonSize: CGSize {
+		let textSize = balloonText?.size() ?? CGSize.zero
+		return CGSize(width: textSize.width + insets.right + insets.left, height: textSize.height + insets.top + insets.bottom)
+	}
+
+	init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets, unit: String, numberFormatter: NumberFormatter, intervalType: ChartIntervalType)
+	{
 		self.color = color
 		self.textColor = textColor
 		self.insets = insets
 		self.font = font
+		self.unit = unit
+		self.numberFormatter = numberFormatter
+		self.intervalType = intervalType
 		super.init()
 	}
 
-	override open func offsetForDrawing(atPoint point: CGPoint) -> CGPoint {
-		var offset = self.offset
-		var size = self.size
-
-		if size.width == 0.0, image != nil {
-			size.width = image!.size.width
-		}
-		if size.height == 0.0, image != nil {
-			size.height = image!.size.height
-		}
-
-		let width = size.width
-		let height = size.height
-		let padding: CGFloat = 40.0
-
-		var origin = point
-		origin.x -= width / 2
-		origin.y -= height
-
-		if origin.x + offset.x < 0.0 {
-			offset.x = -origin.x + padding
-		}
-		else if let chart = lineChartView,
-		        origin.x + width + offset.x > chart.bounds.size.width
-		{
-			offset.x = chart.bounds.size.width - origin.x - width - padding
-		}
-
-		if origin.y + offset.y < 0 {
-			offset.y = height + padding
-		}
-		else if let chart = lineChartView,
-		        origin.y + height + offset.y > chart.bounds.size.height
-		{
-			offset.y = chart.bounds.size.height - origin.y - height - padding
-		}
-
-		return offset
-	}
-
 	override open func draw(context context1: CGContext, point: CGPoint) {
-		guard let label = label else { return }
+		guard let balloonText = balloonText else { return }
+		let combinedSize = CGSize(width: balloonSize.width, height: balloonSize.height + arrowSize.height + (circleSize.height / 2))
 
-		let offset = offsetForDrawing(atPoint: point)
-		let size = self.size
+		let onTop = combinedSize.height < point.y
 
-		var rect = CGRect(
-			origin: CGPoint(
-				x: point.x + offset.x,
-				y: point.y + offset.y
-			),
-			size: size
-		)
-		rect.origin.x -= size.width / 2.0
-		rect.origin.y -= size.height
-
-		if offset.y > 0 {
-			rect.origin.y -= size.height - arrowSize.height
-		} else {
-			rect.origin.y -= size.height + arrowSize.height
+		var ballonY: CGFloat {
+			if onTop {
+				return point.y - (circleSize.height / 2) - arrowSize.height - balloonSize.height
+			} else {
+				return point.y + (circleSize.height / 2) + arrowSize.height
+			}
 		}
+
+		var balloonX: CGFloat {
+			let initialX = point.x - (balloonSize.width / 2)
+			let chartWidth = chartView?.bounds.size.width ?? UIScreen.main.bounds.width
+			if initialX < 0 {
+				return 0
+			} else if initialX + balloonSize.width > chartWidth {
+				return chartWidth - balloonSize.width
+			}
+			return initialX
+		}
+		var arrowY: CGFloat {
+			if onTop {
+				return point.y - (circleSize.height / 2) - arrowSize.height
+			} else {
+				return point.y + (circleSize.height / 2)
+			}
+		}
+		let balloonRect = CGRect(x: balloonX, y: ballonY, width: balloonSize.width, height: balloonSize.height)
+		let arrowRect = CGRect(x: point.x - (arrowSize.width / 2), y: arrowY, width: arrowSize.width, height: arrowSize.height)
+		let circleRect = CGRect(x: point.x - (circleSize.width / 2), y: point.y - (circleSize.height / 2), width: circleSize.width, height: circleSize.height)
+
+		if combinedSize.height > point.y {}
 
 		context1.saveGState()
-
-		let clipPath: CGPath = UIBezierPath(roundedRect: rect, cornerRadius: 3.0).cgPath
-
 		context1.setFillColor(color.cgColor)
+		context1.beginPath()
 
-		if offset.y > 0 {
-			context1.beginPath()
-
-			context1.move(to: CGPoint(
-				x: rect.origin.x,
-				y: rect.origin.y + arrowSize.height
-			))
-
-			context1.addLine(to: CGPoint(
-				x: rect.origin.x + (rect.size.width / 2.0),
-				y: rect.origin.y + arrowSize.height
-			))
-
-			context1.addLine(to: CGPoint(
-				x: point.x,
-				y: point.y
-			))
-
-			context1.addLine(to: CGPoint(
-				x: rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
-				y: rect.origin.y + arrowSize.height
-			))
-
-			context1.addLine(to: CGPoint(
-				x: rect.origin.x + rect.size.width,
-				y: rect.origin.y + arrowSize.height
-			))
-
-			context1.addLine(to: CGPoint(
-				x: rect.origin.x + rect.size.width,
-				y: rect.origin.y + rect.size.height
-			))
-
-			context1.addLine(to: CGPoint(
-				x: rect.origin.x,
-				y: rect.origin.y + rect.size.height
-			))
-
-			context1.addLine(to: CGPoint(
-				x: rect.origin.x,
-				y: rect.origin.y + arrowSize.height
-			))
-
-			context1.addPath(clipPath)
-
-			context1.fillPath()
-			context1.strokePath()
-		}
-		else {
-			context1.beginPath()
-
-			context1.move(to: CGPoint(
-				x: rect.origin.x,
-				y: rect.origin.y
-			))
-
-			context1.addLine(to: CGPoint(
-				x: rect.origin.x + rect.size.width,
-				y: rect.origin.y
-			))
-
-			context1.addLine(to: CGPoint(
-				x: rect.origin.x + rect.size.width,
-				y: rect.origin.y + rect.size.height - arrowSize.height
-			))
-
-			context1.addLine(to: CGPoint(
-				x: rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
-				y: rect.origin.y + rect.size.height - arrowSize.height
-			))
-
-			context1.addLine(to: CGPoint(
-				x: point.x,
-				y: point.y
-			))
-
-			context1.addLine(to: CGPoint(
-				x: rect.origin.x + (rect.size.width - arrowSize.width) / 2.0,
-				y: rect.origin.y + rect.size.height - arrowSize.height
-			))
-			glLineWidth(3.0)
-
-			context1.addLine(to: CGPoint(
-				x: rect.origin.x,
-				y: rect.origin.y + rect.size.height - arrowSize.height
-			))
-
-			context1.addLine(to: CGPoint(
-				x: rect.origin.x,
-				y: rect.origin.y
-			))
-
-			context1.addPath(clipPath)
-			context1.fillPath()
-			context1.strokePath()
-		}
-
-		if offset.y > 0 {
-			rect.origin.y += insets.top + arrowSize.height
-		} else {
-			rect.origin.y += insets.top
-		}
-
-		rect.size.height -= insets.top + insets.bottom
-
+		let balloonPath = UIBezierPath(roundedRect: balloonRect, cornerRadius: 3).cgPath
+		context1.addPath(balloonPath)
+		context1.addRect(arrowRect)
+		context1.addEllipse(in: circleRect)
+		context1.fillPath()
+		context1.strokePath()
 		UIGraphicsPushContext(context1)
-		label.draw(in: rect)
+		balloonText.draw(in: balloonRect)
 		UIGraphicsPopContext()
 		context1.restoreGState()
 	}
@@ -215,30 +105,39 @@ open class BalloonMarker: MarkerImage {
 		let normalFontAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 11), NSAttributedString.Key.paragraphStyle: paragraphStyle]
 
 		let combination = NSMutableAttributedString()
+		let numberString = numberFormatter.string(from: NSNumber(integerLiteral: Int(entry.y)))
+		let partOne = NSMutableAttributedString(string: numberString ?? "", attributes: boldFontAttributes)
+		let partTwo = NSMutableAttributedString(string: " ", attributes: normalFontAttributes)
+		let partThree = NSMutableAttributedString(string: unit, attributes: normalFontAttributes)
+		let partFour = NSMutableAttributedString(string: "\n", attributes: normalFontAttributes)
+		var dateString = ""
+		switch intervalType {
+		case .week:
+			dateString = dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: entry.x))
 
-		let partOne = NSMutableAttributedString(string: String(entry.y), attributes: boldFontAttributes)
-		let partTwo = NSMutableAttributedString(string: "lbs", attributes: normalFontAttributes)
-		let partThree = NSMutableAttributedString(string: " ", attributes: normalFontAttributes)
-		let partFour = NSMutableAttributedString(string: "\n", attributes: boldFontAttributes)
-		let partFive = NSMutableAttributedString(string: "13/7/20", attributes: normalFontAttributes)
+		case .month(let components):
+			var fullComponents = components
+			fullComponents.day = Int(entry.x)
+			let date = Calendar.current.date(from: fullComponents) ?? Date()
+			dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "MM/dd/yyyy", options: 0, locale: Locale.current)
+			dateString = dateFormatter.string(from: date)
+		case .year(let components):
+			var fullComponents = components
+			fullComponents.month = Int(entry.x)
+			let date = Calendar.current.date(from: fullComponents) ?? Date()
+			dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "MMM yyyy", options: 0, locale: Locale.current)
+			dateString = dateFormatter.string(from: date)
+		default:
+			break
+		}
 
+		let partFive = NSMutableAttributedString(string: dateString, attributes: normalFontAttributes)
 		combination.append(partOne)
 		combination.append(partTwo)
 		combination.append(partThree)
 		combination.append(partFour)
 		combination.append(partFive)
 
-		setLabel(combination)
-	}
-
-	@objc open func setLabel(_ newLabel: NSMutableAttributedString) {
-		label = newLabel
-		_labelSize = label?.size() ?? CGSize.zero
-		var size = CGSize()
-		size.width = _labelSize.width + insets.left + insets.right
-		size.height = _labelSize.height + insets.top + insets.bottom
-		size.width = max(minimumSize.width, size.width)
-		size.height = max(minimumSize.height, size.height)
-		self.size = size
+		balloonText = combination
 	}
 }
