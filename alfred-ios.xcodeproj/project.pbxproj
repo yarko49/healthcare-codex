@@ -127,7 +127,6 @@
 		12D42D872226A67E0039043F /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D42D862226A67E0039043F /* Requests.swift */; };
 		12D42D892226AAF60039043F /* Ext_UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D42D882226AAF60039043F /* Ext_UIColor.swift */; };
 		12D42D8B2226ACB60039043F /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D42D8A2226ACB60039043F /* AppConfig.swift */; };
-		12D42D8F2226BD370039043F /* Environment.xcconfig.example in Resources */ = {isa = PBXBuildFile; fileRef = 12D42D8E2226BD370039043F /* Environment.xcconfig.example */; };
 		12F8A2BF2551A6B500E48268 /* SelectChunkSizeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F8A2BD2551A6B500E48268 /* SelectChunkSizeVC.swift */; };
 		12F8A2C02551A6B500E48268 /* SelectChunkSizeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12F8A2BE2551A6B500E48268 /* SelectChunkSizeVC.xib */; };
 		462A9E1C252A5E04006B8715 /* Ext_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462A9E1B252A5E04006B8715 /* Ext_String.swift */; };
@@ -1161,7 +1160,6 @@
 				06A0775324FCE8E60046E691 /* AccountDetailsVC.xib in Resources */,
 				066B937524DBFEAF00949A83 /* SF-Pro-Text-BoldItalic.otf in Resources */,
 				066B937D24DBFEAF00949A83 /* SF-Pro-Text-RegularItalic.otf in Resources */,
-				12D42D8F2226BD370039043F /* Environment.xcconfig.example in Resources */,
 				06545B5F24924FB3003311E1 /* QuestionVC.xib in Resources */,
 				065E263D24F7E5A200D2A1FE /* PrivacyPolicyVC.xib in Resources */,
 				06AFF5B325061EF300AAF4EC /* CoachCardView.xib in Resources */,
@@ -1538,7 +1536,7 @@
 		};
 		1234FD652215884700E73FFF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB761C759F7722E11D639B5A /* Pods-alfred-ios.debug.xcconfig */;
+			baseConfigurationReference = 12D42D8C2226BCE10039043F /* Environment.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "alfred-ios/alfred-ios.entitlements";
@@ -1562,7 +1560,7 @@
 		};
 		1234FD662215884700E73FFF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 994B162196DC3B0F47E40712 /* Pods-alfred-ios.release.xcconfig */;
+			baseConfigurationReference = 12D42D8C2226BCE10039043F /* Environment.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "alfred-ios/alfred-ios.entitlements";
