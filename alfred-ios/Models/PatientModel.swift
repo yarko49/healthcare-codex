@@ -19,8 +19,6 @@ struct Name: Codable {
 	let given: [String]?
 }
 
-import Foundation
-
 // MARK: - PatientResponse
 
 struct PatientResponse: Codable {

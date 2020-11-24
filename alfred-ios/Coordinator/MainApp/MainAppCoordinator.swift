@@ -7,7 +7,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	internal weak var parentCoordinator: MasterCoordinator?
 
 	var rootViewController: UIViewController? {
-		return navigationController
+		navigationController
 	}
 
 	var observation: Resource?
@@ -209,8 +209,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		DataContext.shared.postObservationSearch(search: search) { response in
 			AlertHelper.hideLoader()
 			if response != nil {
-			}
-			else {
+			} else {
 				print("post Observation Search request failed")
 			}
 		}
@@ -295,7 +294,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		DataContext.shared.patchPatient(patient: patient) { [weak self] resourceResponse in
 			AlertHelper.hideLoader()
 			DataContext.shared.editPatient = patient
-			if let _ = resourceResponse {
+			if resourceResponse != nil {
 				print("OK STATUS FOR UPDATE PATIENT : 200")
 				DataContext.shared.userModel = UserModel(userID: DataContext.shared.userModel?.userID ?? "", email: DataContext.shared.userModel?.email, name: [Name(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? Gender(rawValue: "female"))
 				self?.profileVC?.nameLbl?.attributedText = ProfileHelper.getFirstName().with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
@@ -367,7 +366,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			AlertHelper.showLoader()
 			DataContext.shared.postObservation(observation: observation) { [weak self] response in
 				AlertHelper.hideLoader()
-				if let _ = response {
+				if response != nil {
 					self?.observation = nil
 					self?.navigationController?.popViewController(animated: true)
 				}
@@ -376,7 +375,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			AlertHelper.showLoader()
 			DataContext.shared.postBundle(bundle: bundle) { [weak self] response in
 				AlertHelper.hideLoader()
-				if let _ = response {
+				if response != nil {
 					self?.bundle = nil
 					self?.navigationController?.popViewController(animated: true)
 				}

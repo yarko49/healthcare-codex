@@ -229,8 +229,7 @@ class MyProfileSecondVC: BaseVC, UIGestureRecognizerDelegate {
 			label2.text = "in"
 			label2.textColor = .black
 			picker.addSubview(label2)
-		}
-		else if picker == weightPicker {
+		} else if picker == weightPicker {
 			let label = UILabel(frame: CGRect(x: componentWidth * 0.6, y: y, width: componentWidth * 0.4, height: fontSize))
 			label.font = font
 			label.textAlignment = .left

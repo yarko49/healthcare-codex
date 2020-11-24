@@ -37,6 +37,26 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8468B0B8256C66A000202A16"
+               BuildableName = "alfred-iosTests.xctest"
+               BlueprintName = "alfred-iosTests"
+               ReferencedContainer = "container:alfred-ios.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8468B0CF256C679000202A16"
+               BuildableName = "AlfrediOSTests.xctest"
+               BlueprintName = "AlfrediOSTests"
+               ReferencedContainer = "container:alfred-ios.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

@@ -32,8 +32,7 @@ class BalloonMarker: MarkerImage {
 		return CGSize(width: textSize.width + insets.right + insets.left, height: textSize.height + insets.top + insets.bottom)
 	}
 
-	init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets, unit: String, numberFormatter: NumberFormatter, intervalType: ChartIntervalType)
-	{
+	init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets, unit: String, numberFormatter: NumberFormatter, intervalType: ChartIntervalType) {
 		self.color = color
 		self.textColor = textColor
 		self.insets = insets

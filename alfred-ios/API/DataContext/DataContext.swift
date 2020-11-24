@@ -4,11 +4,11 @@ class DataContext {
 	static let shared = DataContext()
 
 	var hasRunOnce: Bool {
+		get {
+			UserDefaults.standard.bool(forKey: "HAS_RUN_ONCE")
+		}
 		set {
 			UserDefaults.standard.set(newValue, forKey: "HAS_RUN_ONCE")
-		}
-		get {
-			return UserDefaults.standard.bool(forKey: "HAS_RUN_ONCE")
 		}
 	}
 
@@ -21,11 +21,11 @@ class DataContext {
 	}
 
 	var hasCompletedOnboarding: Bool {
+		get {
+			UserDefaults.standard.bool(forKey: "HAS_COMPLETED_ONBOARDING")
+		}
 		set {
 			UserDefaults.standard.set(newValue, forKey: "HAS_COMPLETED_ONBOARDING")
-		}
-		get {
-			return UserDefaults.standard.bool(forKey: "HAS_COMPLETED_ONBOARDING")
 		}
 	}
 
@@ -33,7 +33,7 @@ class DataContext {
 	var healthKitIntervals: [HealthStatsDateIntervalType] = [.daily, .weekly, .monthly, .yearly]
 
 	var appVersion: String? {
-		return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+		Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
 	}
 
 	var hasSmartScale = Bool()
@@ -102,7 +102,7 @@ class DataContext {
 	}
 
 	func getPatientID() -> String {
-		return "Patient/\(userModel?.userID ?? "")"
+		"Patient/\(userModel?.userID ?? "")"
 	}
 
 	func getBirthday() -> Int {

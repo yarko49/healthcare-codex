@@ -4,6 +4,7 @@ import Foundation
 enum APIRouter: URLRequestConvertible {
 	static let baseURLPath = AppConfig.apiBaseUrl
 
+	case getCarePlan
 	case getQuestionnaire
 	case postQuestionnaireResponse(response: QuestionnaireResponse)
 	case postPatient(patient: Resource)
@@ -18,6 +19,7 @@ enum APIRouter: URLRequestConvertible {
 
 	var method: HTTPMethod {
 		switch self {
+		case .getCarePlan: return .get
 		case .getQuestionnaire: return .get
 		case .postQuestionnaireResponse: return .post
 		case .postObservation: return .post
@@ -34,6 +36,7 @@ enum APIRouter: URLRequestConvertible {
 
 	var path: String {
 		switch self {
+		case .getCarePlan: return "/carePlan"
 		case .getQuestionnaire: return "/fhir/Questionnaire"
 		case .postQuestionnaireResponse: return "/fhir/QuestionnaireResponse"
 		case .postObservation: return "/fhir/Observation"
@@ -57,15 +60,13 @@ enum APIRouter: URLRequestConvertible {
 	}
 
 	var headers: [String: String] {
-		var headers = [
-			"Content-Type": "application/json",
-			"x-api-key": AppConfig.apiKey,
-		]
+		var headers = ["Content-Type": "application/json",
+		               "x-api-key": AppConfig.apiKey]
 		if let authToken = DataContext.shared.authToken {
 			headers["Authorization"] = "Bearer " + authToken
 		}
 		switch self {
-		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile:
+		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile, .getCarePlan:
 			break
 		case .postObservation, .postPatient, .postPatientSearch, .postBundle, .postQuestionnaireResponse, .postObservationSearch:
 			headers["Content-Type"] = "application/fhir+json"
@@ -77,7 +78,7 @@ enum APIRouter: URLRequestConvertible {
 
 	var parameters: Parameters? {
 		switch self {
-		case .getQuestionnaire, .postQuestionnaireResponse, .postObservation, .postPatient, .getProfile, .postProfile, .getNotifications, .postPatientSearch, .postBundle, .postObservationSearch, .patchPatient:
+		case .getQuestionnaire, .postQuestionnaireResponse, .postObservation, .postPatient, .getProfile, .postProfile, .getNotifications, .postPatientSearch, .postBundle, .postObservationSearch, .patchPatient, .getCarePlan:
 			return nil
 		}
 	}

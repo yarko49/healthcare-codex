@@ -17,7 +17,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	var chunkSize = 4500
 
 	var rootViewController: UIViewController? {
-		return navigationController
+		navigationController
 	}
 
 	init(withParent parent: MasterCoordinator?) {
@@ -421,7 +421,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			AlertHelper.hideLoader()
 			DataContext.shared.patient = patient
 
-			if let _ = patientResponse {
+			if patientResponse != nil {
 				print("OK STATUS FOR PATIENT : 200")
 				let defaultName = Name(use: "", family: "", given: [""])
 				DataContext.shared.userModel = UserModel(userID: patientResponse?.id ?? "", email: self?.emailrequest ?? "", name: patientResponse?.name ?? [defaultName], dob: patient.birthDate, gender: Gender(rawValue: DataContext.shared.patient?.gender ?? ""))
@@ -548,8 +548,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		let newUser = authResult?.additionalUserInfo?.isNewUser
 		if newUser == true {
 			goToMyProfileFirstVC()
-		}
-		else {
+		} else {
 			getPatientInfo()
 		}
 	}
@@ -623,6 +622,6 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 extension AuthCoordinator: ASAuthorizationControllerPresentationContextProviding {
 	@available(iOS 13.0, *)
 	func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-		return navigationController?.visibleViewController?.view.window ?? UIWindow(frame: UIScreen.main.bounds)
+		navigationController?.visibleViewController?.view.window ?? UIWindow(frame: UIScreen.main.bounds)
 	}
 }

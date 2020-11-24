@@ -7,7 +7,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 	internal weak var parentCoordinator: MainAppCoordinator?
 
 	var rootViewController: UIViewController? {
-		return navigationController
+		navigationController
 	}
 
 	init(with parent: MainAppCoordinator?) {

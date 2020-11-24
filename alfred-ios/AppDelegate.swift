@@ -1,3 +1,5 @@
+import CareKit
+import CareKitStore
 import Firebase
 import FirebaseAuth
 import FirebaseCrashlytics
@@ -9,6 +11,11 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 	var window: UIWindow?
 
+	class var appDelegate: AppDelegate! {
+		UIApplication.shared.delegate as? AppDelegate
+	}
+
+	private(set) lazy var careManager = CareManager()
 	lazy var appCoordinator: MasterCoordinator = {
 		MasterCoordinator(in: self.window!)
 	}()
@@ -28,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		//                }
 		//            }
 		//        }
-//
+		//
 
 		window = UIWindow(frame: UIScreen.main.bounds)
 		window?.backgroundColor = .black
@@ -37,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-		return GIDSignIn.sharedInstance().handle(url)
+		GIDSignIn.sharedInstance().handle(url)
 	}
 
 	func applicationWillResignActive(_ application: UIApplication) {

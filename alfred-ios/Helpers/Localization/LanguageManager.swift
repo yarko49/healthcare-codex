@@ -4,7 +4,7 @@ enum Language: String {
 	case en
 
 	static var allLanguages: [Language] {
-		return [.en]
+		[.en]
 	}
 }
 
@@ -18,7 +18,7 @@ class LanguageManager {
 	static var appLanguages: [Language] = Language.allLanguages
 
 	var languageCode: String {
-		return language.rawValue
+		language.rawValue
 	}
 
 	var currentLanguage: Language {
@@ -103,6 +103,6 @@ class LanguageManager {
 
 extension String {
 	func truncate(length: Int, trailing: String = "") -> String {
-		return (count > length) ? prefix(length) + trailing : self
+		(count > length) ? prefix(length) + trailing : self
 	}
 }

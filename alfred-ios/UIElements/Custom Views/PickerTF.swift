@@ -1,4 +1,3 @@
-
 import Foundation
 import UIKit
 
@@ -20,7 +19,7 @@ class PickerTF: UIView {
 
 	var tfText: String? {
 		get {
-			return textfield.text
+			textfield.text
 		}
 		set {
 			textfield.attributedText = newValue?.with(style: .regular20, andColor: .lightGray, andLetterSpacing: -0.41)

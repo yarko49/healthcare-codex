@@ -7,14 +7,14 @@ import Foundation
 import UIKit
 
 class EmailSignInVC: BaseVC {
-	// -MARK: Coordinator Actions
+	// MARK: - Coordinator Actions
 
 	var backBtnAction: (() -> Void)?
 	var resetPasswordAction: (() -> Void)?
 	var signInWithEP: ((_ email: String, _ password: String) -> Void)?
 	var alertAction: ((_ title: String?, _ detail: String?, _ textfield: TextfieldView) -> Void)?
 
-	// -MARK: IBOutlets
+	// MARK: - IBOutlets
 
 	@IBOutlet var screen: UIView!
 	@IBOutlet var signInBtn: UIButton!

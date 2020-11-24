@@ -5,13 +5,13 @@ extension DataContext {
 		case authToken = "AUTH_TOKEN"
 
 		var key: String {
-			return rawValue
+			rawValue
 		}
 	}
 
 	var authToken: String? {
 		get {
-			return Keychain.read(valueWithKey: KeychainKey.authToken.key)
+			Keychain.read(valueWithKey: KeychainKey.authToken.key)
 		}
 		set {
 			guard let newValue = newValue else {

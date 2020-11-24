@@ -267,7 +267,7 @@ class ProfileVC: BaseVC {
 
 extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return DataContext.shared.userAuthorizedQuantities.count
+		DataContext.shared.userAuthorizedQuantities.count
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

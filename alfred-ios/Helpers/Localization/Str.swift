@@ -12,7 +12,7 @@ internal enum Str {
 	internal static let home = Languages.tr("HOME")
 	internal static let hello = Languages.tr("HELLO")
 	internal static func helloName(_ arg: String) -> String {
-		return Languages.tr("HELLO_NAME", [arg])
+		Languages.tr("HELLO_NAME", [arg])
 	}
 
 	internal static let close = Languages.tr("CLOSE")
@@ -127,19 +127,19 @@ internal enum Str {
 	internal static let yesterday = Languages.tr("YESTERDAY")
 	internal static let getMoreInformation = Languages.tr("GET_MORE_INFORMATION")
 	internal static func sysDia(_ p1: Int, _ p2: Int) -> String {
-		return Languages.tr("SYS_DIA", [p1, p2])
+		Languages.tr("SYS_DIA", [p1, p2])
 	}
 
 	internal static func lbsDec(_ p1: Int, _ p2: Int) -> String {
-		return Languages.tr("LBS_DEC", [p1, p2])
+		Languages.tr("LBS_DEC", [p1, p2])
 	}
 
 	internal static func lbs(_ p1: Int) -> String {
-		return Languages.tr("LBS", [p1])
+		Languages.tr("LBS", [p1])
 	}
 
 	internal static func feet(_ p1: Int, _ p2: Int) -> String {
-		return Languages.tr("FEET", [p1, p2])
+		Languages.tr("FEET", [p1, p2])
 	}
 
 	internal static let goalWeight = Languages.tr("GOAL_WEIGHT")
@@ -173,7 +173,7 @@ internal enum Str {
 	internal static let privacyPolicy = Languages.tr("PRIVACY_POLICY")
 	internal static let termsOfService = Languages.tr("TERMS_OF_SERVICE")
 	internal static func version(_ arg: String) -> String {
-		return Languages.tr("VERSION", [arg])
+		Languages.tr("VERSION", [arg])
 	}
 
 	internal static let firstName = Languages.tr("FIRST_NAME")
@@ -223,11 +223,11 @@ internal enum Str {
 
 	// Questionnaire
 	internal static func ofParts(_ p1: Int, _ p2: Int) -> String {
-		return Languages.tr("OF_PARTS", [p1, p2])
+		Languages.tr("OF_PARTS", [p1, p2])
 	}
 
 	internal static func question(_ p1: Int) -> String {
-		return Languages.tr("QUESTION", [p1])
+		Languages.tr("QUESTION", [p1])
 	}
 
 	internal static let previous = Languages.tr("PREVIOUS")

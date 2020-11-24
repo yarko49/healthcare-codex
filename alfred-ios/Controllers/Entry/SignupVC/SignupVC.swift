@@ -51,10 +51,10 @@ class SignupVC: BaseVC, UITextViewDelegate, UIGestureRecognizerDelegate {
 		textView.delegate = self
 		textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.orange]
 		let attrString = NSMutableAttributedString(string: Str.acceptingTSPP)
-		attrString.setAttributes([NSAttributedString.Key.foregroundColor: UIColor.lightGrey, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16.0, weight: .regular)], range: NSMakeRange(0, attrString.length))
-		attrString.addAttribute(NSAttributedString.Key.kern, value: -0.32, range: NSMakeRange(0, attrString.length))
-		attrString.addAttribute(.link, value: "1", range: NSMakeRange(28, 20))
-		attrString.addAttribute(.link, value: "2", range: NSMakeRange(52, 15))
+		attrString.setAttributes([NSAttributedString.Key.foregroundColor: UIColor.lightGrey, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16.0, weight: .regular)], range: NSRange(location: 0, length: attrString.length))
+		attrString.addAttribute(NSAttributedString.Key.kern, value: -0.32, range: NSRange(location: 0, length: attrString.length))
+		attrString.addAttribute(.link, value: "1", range: NSRange(location: 28, length: 20))
+		attrString.addAttribute(.link, value: "2", range: NSRange(location: 52, length: 15))
 		textView.attributedText = attrString
 		textView.isEditable = false
 		textView.isScrollEnabled = false

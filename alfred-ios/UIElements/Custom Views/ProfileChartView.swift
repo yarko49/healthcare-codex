@@ -166,7 +166,7 @@ private class XaxisValueFormatter: NSObject, IAxisValueFormatter {
 	}
 
 	public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-		return dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: value)).uppercased()
+		dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: value)).uppercased()
 	}
 }
 

@@ -41,7 +41,7 @@ public class CustomYAxisRenderer: YAxisRenderer {
 			return
 		}
 		if yAxis.limitLines.count > 1 {
-			var limitPositions = transformedLimitPositions()
+			let limitPositions = transformedLimitPositions()
 
 			let viewPortHandler = self.viewPortHandler
 
@@ -61,8 +61,7 @@ public class CustomYAxisRenderer: YAxisRenderer {
 
 			if yAxis.gridLineDashLengths != nil {
 				context.setLineDash(phase: yAxis.gridLineDashPhase, lengths: yAxis.gridLineDashLengths)
-			}
-			else {
+			} else {
 				context.setLineDash(phase: 0.0, lengths: [])
 			}
 

@@ -9,11 +9,11 @@ class ProfileHelper {
 	}
 
 	static func getFirstName() -> String {
-		return DataContext.shared.getDisplayFirstName()
+		DataContext.shared.getDisplayFirstName()
 	}
 
 	static func getBirthdate() -> Int {
-		return DataContext.shared.getBirthday()
+		DataContext.shared.getBirthday()
 	}
 
 	static func getGender() -> Gender {
