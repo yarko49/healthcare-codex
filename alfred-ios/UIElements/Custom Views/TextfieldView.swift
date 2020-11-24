@@ -28,7 +28,7 @@ class TextfieldView: UIView {
 
 	var tfText: String? {
 		get {
-			return textfield.text
+			textfield.text
 		}
 		set {
 			textfield.attributedText = newValue?.with(style: .regular20, andColor: .black, andLetterSpacing: 0.38)

@@ -7,7 +7,7 @@ class MasterCoordinator: Coordinator {
 	internal var navigationController: UINavigationController?
 
 	public var rootViewController: UIViewController? {
-		return navigationController
+		navigationController
 	}
 
 	init(in window: UIWindow) {

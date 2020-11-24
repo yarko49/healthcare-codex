@@ -115,11 +115,23 @@ class HomeVC: BaseVC {
 	@objc func refresh(_ sender: AnyObject) {
 		getCardsAction?()
 	}
+
+	let webService = CareWebService(session: URLSession(configuration: .default))
+	func getCarePlan() {
+		webService.getCarePlan { result in
+			switch result {
+			case .failure(let error):
+				log(.error, "Error fetching care plan data", error: error)
+			case .success:
+				log(.info, "Successfully fetch care plan")
+			}
+		}
+	}
 }
 
 extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return measurementCardsList.count
+		measurementCardsList.count
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -157,7 +169,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
 	}
 
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: cardCollectionView.frame.width - 32, height: 94)
+		CGSize(width: cardCollectionView.frame.width - 32, height: 94)
 	}
 }
 

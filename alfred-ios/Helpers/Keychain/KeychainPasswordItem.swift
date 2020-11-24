@@ -84,8 +84,7 @@ struct KeychainPasswordItem {
 
 			// Throw an error if an unexpected status was returned.
 			guard status == noErr else { throw KeychainError.unhandledError(status: status) }
-		}
-		catch KeychainError.noPassword {
+		} catch KeychainError.noPassword {
 			/*
 			 No password was found in the keychain. Create a dictionary to save
 			 as a new keychain item.

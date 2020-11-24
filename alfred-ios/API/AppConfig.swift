@@ -1,20 +1,20 @@
 import Foundation
 
-final class AppConfig {
+final class AppConfig: ObservableObject {
 	static var environmentName: String {
-		return path("Environment", "Environment Name")!
+		path("Environment", "Environment Name")!
 	}
 
 	static var appBundleID: String {
-		return path("CFBundleIdentifier")!
+		path("CFBundleIdentifier")!
 	}
 
 	static var apiBaseUrl: String {
-		return path("Environment", "API Base URL")!
+		path("Environment", "API Base URL")!
 	}
 
 	static var apiKey: String {
-		return path("Environment", "API Key")!
+		path("Environment", "API Key")!
 	}
 
 	static func path(_ keys: String...) -> String? {

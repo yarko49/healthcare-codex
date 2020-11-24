@@ -158,19 +158,17 @@ public extension UIWindow {
 			if let presentedViewController = vc.presentedViewController {
 				if let presentedViewController2 = presentedViewController.presentedViewController {
 					return UIWindow.getVisibleViewControllerFrom(vc: presentedViewController2)
-				}
-				else {
+				} else {
 					return vc
 				}
-			}
-			else {
+			} else {
 				return vc
 			}
 		}
 	}
 
 	static func keyWindow() -> UIWindow? {
-		return UIApplication.shared.windows.filter { $0.isKeyWindow }.first
+		UIApplication.shared.windows.filter { $0.isKeyWindow }.first
 	}
 }
 

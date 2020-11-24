@@ -6,8 +6,6 @@
 import Foundation
 import UIKit
 
-import UIKit
-
 class QuestionVC: BaseVC {
 	// MARK: - Coordinator Actions
 
@@ -60,11 +58,9 @@ class QuestionVC: BaseVC {
 	}
 
 	override func viewDidLayoutSubviews() {
-		for view in multiPartQuestionsSV.arrangedSubviews {
-			if multi {
-				view.setShadow()
-				view.layer.backgroundColor = UIColor.clear.cgColor
-			}
+		for view in multiPartQuestionsSV.arrangedSubviews where multi {
+			view.setShadow()
+			view.layer.backgroundColor = UIColor.clear.cgColor
 		}
 
 		continueView.setShadow()

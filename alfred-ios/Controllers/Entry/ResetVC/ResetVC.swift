@@ -7,12 +7,12 @@ import Foundation
 import UIKit
 
 class ResetVC: BaseVC {
-	// -MARK: Coordinator Actions
+	// MARK: - Coordinator Actions
 
 	var backBtnAction: (() -> Void)?
 	var nextAction: ((_ email: String?) -> Void)?
 
-	// -MARK:IBOutlets
+	// MARK: - IBOutlets
 
 	@IBOutlet var scrollView: UIScrollView!
 	@IBOutlet var saveBtn: UIButton!

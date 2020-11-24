@@ -83,28 +83,28 @@ struct TextStyle {
 
 extension String {
 	func with(_ style: TextStyle.Style) -> NSAttributedString {
-		return styled(with: style.stringStyle())
+		styled(with: style.stringStyle())
 	}
 
 	func with(style: TextStyle.Style, andColor: UIColor) -> NSAttributedString {
-		return styled(with: style.stringStyle(), .color(andColor))
+		styled(with: style.stringStyle(), .color(andColor))
 	}
 
 	func with(style: TextStyle.Style, andColor: UIColor, andLetterSpacing: CGFloat) -> NSAttributedString {
-		return styled(with: style.stringStyle(), .color(andColor), .tracking(.point(andLetterSpacing)))
+		styled(with: style.stringStyle(), .color(andColor), .tracking(.point(andLetterSpacing)))
 	}
 }
 
 extension NSAttributedString {
 	func with(_ style: TextStyle.Style) -> NSAttributedString {
-		return styled(with: style.stringStyle())
+		styled(with: style.stringStyle())
 	}
 
 	func with(style: TextStyle.Style, andColor: UIColor) -> NSAttributedString {
-		return styled(with: style.stringStyle(), .color(andColor))
+		styled(with: style.stringStyle(), .color(andColor))
 	}
 
 	func with(style: TextStyle.Style, andColor: UIColor, andLetterSpacing: CGFloat) -> NSAttributedString {
-		return styled(with: style.stringStyle(), .color(andColor), .tracking(.point(andLetterSpacing)))
+		styled(with: style.stringStyle(), .color(andColor), .tracking(.point(andLetterSpacing)))
 	}
 }

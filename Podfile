@@ -1,13 +1,9 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '14.0'
-
 install! 'cocoapods', :integrate_targets => true
 
-target 'alfred-ios' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
-  use_frameworks!
+platform :ios, '14.0'
 
-  # Pods for alfred-ios
+def common_pods_for_target
   pod 'Alamofire', '4.9.1'
   pod 'CodableAlamofire', '1.1.2'
   pod 'SVProgressHUD', '2.2.5'
@@ -21,6 +17,24 @@ target 'alfred-ios' do
   pod 'Firebase/Crashlytics', '6.21.0'
 end
 
+target 'alfred-ios' do
+  platform :ios, '14.0'
+  
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+  
+  common_pods_for_target
+end
+
+
+target 'AlfrediOSTests' do
+  platform :ios, '14.0'
+  
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+  
+  common_pods_for_target
+end
 
 # XCode 12 support, will remove when new cocoapods is released
 post_install do |installer|

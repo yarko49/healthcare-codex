@@ -12,7 +12,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 	internal weak var parentCoordinator: MainAppCoordinator?
 
 	var rootViewController: UIViewController? {
-		return navigationController
+		navigationController
 	}
 
 	var questions: [Item] = []
@@ -132,7 +132,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 		AlertHelper.showLoader()
 		DataContext.shared.postQuestionnaireResponse(response: questionnaireResponse) { [weak self] questionnaireResponse in
 			AlertHelper.hideLoader()
-			if let _ = questionnaireResponse {
+			if questionnaireResponse != nil {
 				self?.goToQuestionnaireCompletion()
 			}
 		}

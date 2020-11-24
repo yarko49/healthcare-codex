@@ -14,7 +14,7 @@ extension Date {
 	}
 
 	var startOfWeek: Date? {
-		return Calendar.current.date(from: Calendar.current.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self))
+		Calendar.current.date(from: Calendar.current.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self))
 	}
 
 	var endOfWeek: Date? {
@@ -28,11 +28,11 @@ extension Date {
 	}
 
 	var nextWeek: Date? {
-		return Calendar.current.date(byAdding: .day, value: 7, to: self)
+		Calendar.current.date(byAdding: .day, value: 7, to: self)
 	}
 
 	var previousWeek: Date? {
-		return Calendar.current.date(byAdding: .day, value: -7, to: self)
+		Calendar.current.date(byAdding: .day, value: -7, to: self)
 	}
 
 	var startOfMonth: Date? {

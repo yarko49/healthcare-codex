@@ -137,11 +137,11 @@ class HealthKitManager {
 	}
 
 	func returnAllEntries() -> [Entry] {
-		return stepsEntries + bpEntries + hrEntries + rhrEntries + weightEntries
+		stepsEntries + bpEntries + hrEntries + rhrEntries + weightEntries
 	}
 
 	func returnAllDataIds() -> [String] {
-		return stepsIds + bpIds + hrIds + rhrIds + weightIds
+		stepsIds + bpIds + hrIds + rhrIds + weightIds
 	}
 
 	func searchHKData(completion: @escaping (Bool) -> Void) {

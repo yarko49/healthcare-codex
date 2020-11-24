@@ -58,7 +58,7 @@ class MyDevicesVC: BaseVC {
 
 extension MyDevicesVC: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return devicesSettings.count
+		devicesSettings.count
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
