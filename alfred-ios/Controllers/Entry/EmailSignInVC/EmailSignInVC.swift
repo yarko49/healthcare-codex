@@ -35,6 +35,9 @@ class EmailSignInVC: BaseVC {
 		navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backBtnTapped))
 		navigationItem.leftBarButtonItem?.tintColor = UIColor.black
 		emailView.setupValues(labelTitle: Str.email, text: "", textIsPassword: false)
+		emailView.textfield.keyboardType = .emailAddress
+		emailView.textfield.autocapitalizationType = .none
+		emailView.textfield.autocorrectionType = .no
 		passwordView.setupValues(labelTitle: Str.password, text: "", textIsPassword: true)
 		forgotPasswordBtn.addTarget(self, action: #selector(forgotPasswordTapped), for: .touchUpInside)
 		setup()

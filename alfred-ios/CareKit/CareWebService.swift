@@ -68,7 +68,6 @@ public final class CareWebService {
 			try element.data.cws_validate(element.response).cws_validate()
 		}
 		.tryMap { (data) -> [String: Any] in
-			try data.write(to: URL(fileURLWithPath: "/tmp/carePlan.json"))
 			guard let jsonObject = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
 				throw URLError(.cannotDecodeContentData)
 			}

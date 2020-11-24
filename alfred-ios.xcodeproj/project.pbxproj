@@ -148,6 +148,8 @@
 		8453CF15256CC7EE00A3E6F0 /* CarePlanResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8453CF14256CC7EE00A3E6F0 /* CarePlanResponse.json */; };
 		8453CF1B256CD15300A3E6F0 /* RemoteSynchronizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453CF1A256CD15300A3E6F0 /* RemoteSynchronizationManager.swift */; };
 		8453CF1F256CD79500A3E6F0 /* CareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453CF1E256CD79500A3E6F0 /* CareManager.swift */; };
+		8453CF49256DC2D200A3E6F0 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453CF48256DC2D200A3E6F0 /* Clock.swift */; };
+		8453CF5B256DC7D500A3E6F0 /* ClockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453CF5A256DC7D500A3E6F0 /* ClockTests.swift */; };
 		8468B0B0256C624D00202A16 /* CareWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468B0AF256C624D00202A16 /* CareWebService.swift */; };
 		8468B0B3256C62C100202A16 /* Data+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468B0B2256C62C100202A16 /* Data+Validation.swift */; };
 		8468B0D3256C679000202A16 /* AlfrediOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468B0D2256C679000202A16 /* AlfrediOSTests.swift */; };
@@ -348,6 +350,8 @@
 		8453CF14256CC7EE00A3E6F0 /* CarePlanResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CarePlanResponse.json; sourceTree = "<group>"; };
 		8453CF1A256CD15300A3E6F0 /* RemoteSynchronizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSynchronizationManager.swift; sourceTree = "<group>"; };
 		8453CF1E256CD79500A3E6F0 /* CareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareManager.swift; sourceTree = "<group>"; };
+		8453CF48256DC2D200A3E6F0 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
+		8453CF5A256DC7D500A3E6F0 /* ClockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockTests.swift; sourceTree = "<group>"; };
 		8468B0AF256C624D00202A16 /* CareWebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareWebService.swift; sourceTree = "<group>"; };
 		8468B0B2256C62C100202A16 /* Data+Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Validation.swift"; sourceTree = "<group>"; };
 		8468B0D0256C679000202A16 /* AlfrediOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlfrediOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -974,6 +978,7 @@
 		8436019525678AD6000B4C55 /* CareKit */ = {
 			isa = PBXGroup;
 			children = (
+				8453CF27256DB9A300A3E6F0 /* Model */,
 				8453CF1E256CD79500A3E6F0 /* CareManager.swift */,
 				8453CF1A256CD15300A3E6F0 /* RemoteSynchronizationManager.swift */,
 				8436019A25678D7B000B4C55 /* Environment+StoreManager.swift */,
@@ -983,10 +988,19 @@
 			path = CareKit;
 			sourceTree = "<group>";
 		};
+		8453CF27256DB9A300A3E6F0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8453CF48256DC2D200A3E6F0 /* Clock.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		8468B0D1256C679000202A16 /* AlfrediOSTests */ = {
 			isa = PBXGroup;
 			children = (
 				8468B0D2256C679000202A16 /* AlfrediOSTests.swift */,
+				8453CF5A256DC7D500A3E6F0 /* ClockTests.swift */,
 				8453CF14256CC7EE00A3E6F0 /* CarePlanResponse.json */,
 				8468B0DC256C67B100202A16 /* URLProtocolMock.swift */,
 				8468B0D4256C679000202A16 /* Info.plist */,
@@ -1542,6 +1556,7 @@
 				0656CE63250FA0F300E457E3 /* QuestionnaireModel.swift in Sources */,
 				1234FD8222159D5000E73FFF /* DataContext+Auth.swift in Sources */,
 				C4112E4E253F167000C52C1C /* ComingFrom.swift in Sources */,
+				8453CF49256DC2D200A3E6F0 /* Clock.swift in Sources */,
 				1234FD862215A03A00E73FFF /* MainAppCoordinator.swift in Sources */,
 				12D42D892226AAF60039043F /* Ext_UIColor.swift in Sources */,
 				8468B0B3256C62C100202A16 /* Data+Validation.swift in Sources */,
@@ -1583,6 +1598,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8453CF5B256DC7D500A3E6F0 /* ClockTests.swift in Sources */,
 				8468B0D3256C679000202A16 /* AlfrediOSTests.swift in Sources */,
 				8468B0DD256C67B100202A16 /* URLProtocolMock.swift in Sources */,
 			);
