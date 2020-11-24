@@ -64,6 +64,9 @@ class AlfrediOSTests: XCTestCase {
 		let tasks = response["tasks"] as? [String: Any]
 		XCTAssertNotNil(tasks, "Missing Tasks")
 		testTasks(tasks: tasks!)
+		let vectorClock = response["vectorClock"] as? [String: Any]
+		XCTAssertNotNil(vectorClock, "Missing VectorClock")
+		testVectorClock(clock: vectorClock!)
 	}
 
 	func testCarePlans(plans: [String: Any]) {
@@ -80,6 +83,12 @@ class AlfrediOSTests: XCTestCase {
 
 		let task2 = tasks["defaultCarePlanA"] as? [String: Any]
 		XCTAssertNotNil(task2, "Missing Task 2")
+	}
+
+	func testVectorClock(clock: [String: Any]) {
+		let clockValue = clock["backend"] as? Int64
+		XCTAssertNotNil(clockValue, "Clock Value Missing")
+		XCTAssertEqual(clockValue, 0, "Values do not match")
 	}
 
 	func loadTestData(fileName: String) -> Data? {
