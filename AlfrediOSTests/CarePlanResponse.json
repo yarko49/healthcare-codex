@@ -1,424 +1,467 @@
 {
-    "carePlans": {
-        "defaultCarePlanA": {
-            "title": "Personal",
-            "groupIdentifier": "",
-            "remoteId": "1bdc3546-d6a9-501c-a6c8-7fc1a654d951",
-            "notes": {
-                "carePlanNoteA": {
-                    "author": "string",
-                    "title": "string",
-                    "content": "string",
-                    "groupIdentifier": "string",
-                    "remoteID": "string"
-                },
-                "carePlanNoteB": {
-                    "author": "string",
-                    "title": "string",
-                    "content": "string",
-                    "groupIdentifier": "string",
-                    "remoteID": "string"
-                }
-            },
-            "id": "defaultCarePlanA",
-            "effectiveDate": "2020-11-11T01:31:00.343Z"
+  "tasks" : {
+    "defaultCarePlanB" : {
+      "defaultTaskA" : {
+        "instructions" : "string",
+        "id" : "string",
+        "title" : "daily",
+        "carePlanID" : "defaultCarePlanB",
+        "impactsAdherence" : true,
+        "groupIdentifier" : "CHECKLIST",
+        "remoteID" : "13033acc-b51a-5d91-8edc-6c50535039eb",
+        "schedules" : {
+          "scheduleA" : {
+            "custom" : false,
+            "weekly" : false,
+            "hour" : 0,
+            "start" : "2020-11-11T01:31:00.343Z",
+            "daily" : true,
+            "weekday" : 0,
+            "targetValues" : [
+              {
+                "units" : "string",
+                "value" : "string"
+              }
+            ],
+            "duration" : 0,
+            "text" : "string",
+            "minutes" : 0,
+            "interval" : 0
+          }
         },
-        "defaultCarePlanB": {
-            "title": "Codex Default Care Plan",
-            "groupIdentifier": "",
-            "remoteId": "7cd5cdf6-8292-5c30-bcaa-3ce871a8a806",
-            "id": "defaultCarePlanB",
-            "effectiveDate": "2020-11-11T01:31:00.343Z"
-        }
+        "effectiveDate" : "2020-11-11T01:31:00.343Z"
+      }
     },
-    "tasks": {
-        "defaultCarePlanA": {
-            "defaultTask1": {
-                "title": "daily",
-                "schedules": {
-                    "scheduleA": {
-                        "custom": false,
-                        "daily": true,
-                        "weekly": false,
-                        "weekday": 0,
-                        "hour": 0,
-                        "minutes": 0,
-                        "duration": 0,
-                        "interval": 0,
-                        "text": "string",
-                        "targetValues": [
-                            {
-                                "units": "string",
-                                "value": "string"
-                            }
-                        ],
-                        "start": "2020-11-11T01:31:00.343Z"
-                    }
-                },
-                "carePlanID": "defaultCarePlanA",
-                "instructions": "string",
-                "impactsAdherence": true,
-                "groupIdentifier": "CHECKLIST",
-                "remoteID": "857a4a32-f4bb-5b5d-9b65-59b5ced7a38c",
-                "notes": {
-                    "noteA": {
-                        "author": "string",
-                        "title": "string",
-                        "content": "string",
-                        "groupIdentifier": "string",
-                        "remoteID": "string"
-                    }
-                },
-                "id": "string",
-                "effectiveDate": "2020-11-11T01:31:00.343Z"
-            },
-            "defaultTask2": {
-                "title": "daily",
-                "schedules": {
-                    "scheduleA": {
-                        "custom": false,
-                        "daily": true,
-                        "weekly": false,
-                        "weekday": 0,
-                        "hour": 0,
-                        "minutes": 0,
-                        "duration": 0,
-                        "interval": 0,
-                        "text": "string",
-                        "targetValues": [
-                            {
-                                "units": "string",
-                                "value": "string"
-                            }
-                        ],
-                        "start": "2020-11-11T01:31:00.343Z"
-                    }
-                },
-                "carePlanID": "defaultCarePlanA",
-                "instructions": "string",
-                "impactsAdherence": true,
-                "groupIdentifier": "FEATURED_CONTENT",
-                "remoteID": "05baa5b5-7db4-5187-8baf-a12482db8374",
-                "notes": {
-                    "noteA": {
-                        "author": "string",
-                        "title": "string",
-                        "content": "string",
-                        "groupIdentifier": "string",
-                        "remoteID": "string"
-                    }
-                },
-                "id": "string",
-                "effectiveDate": "2020-11-11T01:31:00.343Z"
-            },
-            "defaultTask3": {
-                "title": "daily",
-                "schedules": {
-                    "scheduleA": {
-                        "custom": false,
-                        "daily": true,
-                        "weekly": false,
-                        "weekday": 0,
-                        "hour": 0,
-                        "minutes": 0,
-                        "duration": 0,
-                        "interval": 0,
-                        "text": "string",
-                        "targetValues": [
-                            {
-                                "units": "string",
-                                "value": "string"
-                            }
-                        ],
-                        "start": "2020-11-11T01:31:00.343Z"
-                    }
-                },
-                "carePlanID": "defaultCarePlanA",
-                "instructions": "string",
-                "impactsAdherence": true,
-                "groupIdentifier": "GRID",
-                "remoteID": "3806f313-ff87-5430-a4ad-f09caa9ef8fa",
-                "notes": {
-                    "noteA": {
-                        "author": "string",
-                        "title": "string",
-                        "content": "string",
-                        "groupIdentifier": "string",
-                        "remoteID": "string"
-                    }
-                },
-                "id": "string",
-                "effectiveDate": "2020-11-11T01:31:00.343Z"
-            },
-            "defaultTask4": {
-                "title": "daily",
-                "schedules": {
-                    "scheduleA": {
-                        "custom": false,
-                        "daily": true,
-                        "weekly": false,
-                        "weekday": 0,
-                        "hour": 0,
-                        "minutes": 0,
-                        "duration": 0,
-                        "interval": 0,
-                        "text": "string",
-                        "targetValues": [
-                            {
-                                "units": "string",
-                                "value": "string"
-                            }
-                        ],
-                        "start": "2020-11-11T01:31:00.343Z"
-                    }
-                },
-                "carePlanID": "defaultCarePlanA",
-                "instructions": "string",
-                "impactsAdherence": true,
-                "groupIdentifier": "INSTRUCTION",
-                "remoteID": "a6ea5491-9799-5278-a87e-0d885c383a84",
-                "notes": {
-                    "noteA": {
-                        "author": "string",
-                        "title": "string",
-                        "content": "string",
-                        "groupIdentifier": "string",
-                        "remoteID": "string"
-                    }
-                },
-                "id": "string",
-                "effectiveDate": "2020-11-11T01:31:00.343Z"
-            },
-            "defaultTask5": {
-                "title": "daily",
-                "schedules": {
-                    "scheduleA": {
-                        "custom": false,
-                        "daily": true,
-                        "weekly": false,
-                        "weekday": 0,
-                        "hour": 0,
-                        "minutes": 0,
-                        "duration": 0,
-                        "interval": 0,
-                        "text": "string",
-                        "targetValues": [
-                            {
-                                "units": "string",
-                                "value": "string"
-                            }
-                        ],
-                        "start": "2020-11-11T01:31:00.343Z"
-                    }
-                },
-                "carePlanID": "defaultCarePlanA",
-                "instructions": "string",
-                "impactsAdherence": true,
-                "groupIdentifier": "LABELED_VALUE",
-                "remoteID": "7494a9b6-c8eb-5411-83ff-b8bcd8341515",
-                "notes": {
-                    "noteA": {
-                        "author": "string",
-                        "title": "string",
-                        "content": "string",
-                        "groupIdentifier": "string",
-                        "remoteID": "string"
-                    }
-                },
-                "id": "string",
-                "effectiveDate": "2020-11-11T01:31:00.343Z"
-            },
-            "defaultTask6": {
-                "title": "daily",
-                "schedules": {
-                    "scheduleA": {
-                        "custom": false,
-                        "daily": true,
-                        "weekly": false,
-                        "weekday": 0,
-                        "hour": 0,
-                        "minutes": 0,
-                        "duration": 0,
-                        "interval": 0,
-                        "text": "string",
-                        "targetValues": [
-                            {
-                                "units": "string",
-                                "value": "string"
-                            }
-                        ],
-                        "start": "2020-11-11T01:31:00.343Z"
-                    }
-                },
-                "carePlanID": "defaultCarePlanA",
-                "instructions": "string",
-                "impactsAdherence": true,
-                "groupIdentifier": "LINK",
-                "remoteID": "87e38af1-0687-5968-9bac-0a1d1d5f17f7",
-                "notes": {
-                    "noteA": {
-                        "author": "string",
-                        "title": "string",
-                        "content": "string",
-                        "groupIdentifier": "string",
-                        "remoteID": "string"
-                    }
-                },
-                "id": "string",
-                "effectiveDate": "2020-11-11T01:31:00.343Z"
-            },
-            "defaultTask7": {
-                "title": "daily",
-                "schedules": {
-                    "scheduleA": {
-                        "custom": false,
-                        "daily": true,
-                        "weekly": false,
-                        "weekday": 0,
-                        "hour": 0,
-                        "minutes": 0,
-                        "duration": 0,
-                        "interval": 0,
-                        "text": "string",
-                        "targetValues": [
-                            {
-                                "units": "lbs",
-                                "value": 155
-                            }
-                        ],
-                        "start": "2020-11-11T01:31:00.343Z"
-                    }
-                },
-                "carePlanID": "defaultCarePlanA",
-                "instructions": "string",
-                "impactsAdherence": true,
-                "groupIdentifier": "LOG",
-                "remoteID": "d4eed07f-c3bc-5217-ab17-cd89c00ee936",
-                "notes": {
-                    "noteA": {
-                        "author": "string",
-                        "title": "string",
-                        "content": "string",
-                        "groupIdentifier": "string",
-                        "remoteID": "string"
-                    }
-                },
-                "id": "string",
-                "effectiveDate": "2020-11-11T01:31:00.343Z"
-            },
-            "defaultTask8": {
-                "title": "daily",
-                "schedules": {
-                    "scheduleA": {
-                        "custom": false,
-                        "daily": true,
-                        "weekly": false,
-                        "weekday": 0,
-                        "hour": 0,
-                        "minutes": 0,
-                        "duration": 0,
-                        "interval": 0,
-                        "text": "string",
-                        "targetValues": [
-                            {
-                                "units": "string",
-                                "value": "string"
-                            }
-                        ],
-                        "start": "2020-11-11T01:31:00.343Z"
-                    }
-                },
-                "carePlanID": "defaultCarePlanA",
-                "instructions": "string",
-                "impactsAdherence": true,
-                "groupIdentifier": "NUMERIC_PROGRESS",
-                "remoteID": "0fcef0a8-6ab5-5bfc-bdb8-16f5d1a2a2a1",
-                "notes": {
-                    "noteA": {
-                        "author": "string",
-                        "title": "string",
-                        "content": "string",
-                        "groupIdentifier": "string",
-                        "remoteID": "string"
-                    }
-                },
-                "id": "string",
-                "effectiveDate": "2020-11-11T01:31:00.343Z"
-            },
-            "defaultTask9": {
-                "title": "daily",
-                "schedules": {
-                    "scheduleA": {
-                        "custom": false,
-                        "daily": false,
-                        "weekly": true,
-                        "weekday": 0,
-                        "hour": 0,
-                        "minutes": 0,
-                        "duration": 0,
-                        "interval": 0,
-                        "text": "string",
-                        "targetValues": [
-                            {
-                                "units": "string",
-                                "value": "string"
-                            }
-                        ],
-                        "start": "2020-11-11T01:31:00.343Z"
-                    }
-                },
-                "carePlanID": "defaultCarePlanA",
-                "instructions": "string",
-                "impactsAdherence": true,
-                "groupIdentifier": "SIMPLE",
-                "remoteID": "2009e41d-8db2-594b-a6dd-c7027b652635",
-                "notes": {
-                    "noteA": {
-                        "author": "string",
-                        "title": "string",
-                        "content": "string",
-                        "groupIdentifier": "string",
-                        "remoteID": "string"
-                    }
-                },
-                "id": "string",
-                "effectiveDate": "2020-11-11T01:31:00.343Z"
-            }
+    "defaultCarePlanA" : {
+      "defaultTask6" : {
+        "instructions" : "string",
+        "notes" : {
+          "noteA" : {
+            "author" : "string",
+            "content" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "remoteID" : "string",
+            "effectiveDate" : null
+          }
         },
-        "defaultCarePlanB": {
-            "defaultTaskA": {
-                "title": "daily",
-                "schedules": {
-                    "scheduleA": {
-                        "custom": false,
-                        "daily": true,
-                        "weekly": false,
-                        "weekday": 0,
-                        "hour": 0,
-                        "minutes": 0,
-                        "duration": 0,
-                        "interval": 0,
-                        "text": "string",
-                        "targetValues": [
-                            {
-                                "units": "string",
-                                "value": "string"
-                            }
-                        ],
-                        "start": "2020-11-11T01:31:00.343Z"
-                    }
-                },
-                "carePlanID": "defaultCarePlanB",
-                "instructions": "string",
-                "impactsAdherence": true,
-                "groupIdentifier": "CHECKLIST",
-                "remoteID": "13033acc-b51a-5d91-8edc-6c50535039eb",
-                "id": "string",
-                "effectiveDate": "2020-11-11T01:31:00.343Z"
-            }
-        }
-    },
-    "vectorClock": {
-        "backend": 0
+        "title" : "daily",
+        "carePlanID" : "defaultCarePlanA",
+        "impactsAdherence" : true,
+        "groupIdentifier" : "LINK",
+        "remoteID" : "87e38af1-0687-5968-9bac-0a1d1d5f17f7",
+        "id" : "string",
+        "schedules" : {
+          "scheduleA" : {
+            "custom" : false,
+            "weekly" : false,
+            "hour" : 0,
+            "start" : "2020-11-11T01:31:00.343Z",
+            "daily" : true,
+            "weekday" : 0,
+            "targetValues" : [
+              {
+                "units" : "string",
+                "value" : "string"
+              }
+            ],
+            "duration" : 0,
+            "text" : "string",
+            "minutes" : 0,
+            "interval" : 0
+          }
+        },
+        "effectiveDate" : "2020-11-11T01:31:00.343Z"
+      },
+      "defaultTask7" : {
+        "instructions" : "string",
+        "notes" : {
+          "noteA" : {
+            "author" : "string",
+            "content" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "remoteID" : "string",
+            "effectiveDate" : null
+          }
+        },
+        "title" : "daily",
+        "carePlanID" : "defaultCarePlanA",
+        "impactsAdherence" : true,
+        "groupIdentifier" : "LOG",
+        "remoteID" : "d4eed07f-c3bc-5217-ab17-cd89c00ee936",
+        "id" : "string",
+        "schedules" : {
+          "scheduleA" : {
+            "custom" : false,
+            "weekly" : false,
+            "hour" : 0,
+            "start" : "2020-11-11T01:31:00.343Z",
+            "daily" : true,
+            "weekday" : 0,
+            "targetValues" : [
+              {
+                "units" : "lbs",
+                "value" : 155
+              }
+            ],
+            "duration" : 0,
+            "text" : "string",
+            "minutes" : 0,
+            "interval" : 0
+          }
+        },
+        "effectiveDate" : "2020-11-11T01:31:00.343Z"
+      },
+      "defaultTask1" : {
+        "instructions" : "string",
+        "notes" : {
+          "noteA" : {
+            "author" : "string",
+            "content" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "remoteID" : "string",
+            "effectiveDate" : null
+          }
+        },
+        "title" : "daily",
+        "carePlanID" : "defaultCarePlanA",
+        "impactsAdherence" : true,
+        "groupIdentifier" : "CHECKLIST",
+        "remoteID" : "857a4a32-f4bb-5b5d-9b65-59b5ced7a38c",
+        "id" : "string",
+        "schedules" : {
+          "scheduleA" : {
+            "custom" : false,
+            "weekly" : false,
+            "hour" : 0,
+            "start" : "2020-11-11T01:31:00.343Z",
+            "daily" : true,
+            "weekday" : 0,
+            "targetValues" : [
+              {
+                "units" : "string",
+                "value" : "string"
+              }
+            ],
+            "duration" : 0,
+            "text" : "string",
+            "minutes" : 0,
+            "interval" : 0
+          }
+        },
+        "effectiveDate" : "2020-11-11T01:31:00.343Z"
+      },
+      "defaultTask8" : {
+        "instructions" : "string",
+        "notes" : {
+          "noteA" : {
+            "author" : "string",
+            "content" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "remoteID" : "string",
+            "effectiveDate" : null
+          }
+        },
+        "title" : "daily",
+        "carePlanID" : "defaultCarePlanA",
+        "impactsAdherence" : true,
+        "groupIdentifier" : "NUMERIC_PROGRESS",
+        "remoteID" : "0fcef0a8-6ab5-5bfc-bdb8-16f5d1a2a2a1",
+        "id" : "string",
+        "schedules" : {
+          "scheduleA" : {
+            "custom" : false,
+            "weekly" : false,
+            "hour" : 0,
+            "start" : "2020-11-11T01:31:00.343Z",
+            "daily" : true,
+            "weekday" : 0,
+            "targetValues" : [
+              {
+                "units" : "string",
+                "value" : "string"
+              }
+            ],
+            "duration" : 0,
+            "text" : "string",
+            "minutes" : 0,
+            "interval" : 0
+          }
+        },
+        "effectiveDate" : "2020-11-11T01:31:00.343Z"
+      },
+      "defaultTask2" : {
+        "instructions" : "string",
+        "notes" : {
+          "noteA" : {
+            "author" : "string",
+            "content" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "remoteID" : "string",
+            "effectiveDate" : null
+          }
+        },
+        "title" : "daily",
+        "carePlanID" : "defaultCarePlanA",
+        "impactsAdherence" : true,
+        "groupIdentifier" : "FEATURED_CONTENT",
+        "remoteID" : "05baa5b5-7db4-5187-8baf-a12482db8374",
+        "id" : "string",
+        "schedules" : {
+          "scheduleA" : {
+            "custom" : false,
+            "weekly" : false,
+            "hour" : 0,
+            "start" : "2020-11-11T01:31:00.343Z",
+            "daily" : true,
+            "weekday" : 0,
+            "targetValues" : [
+              {
+                "units" : "string",
+                "value" : "string"
+              }
+            ],
+            "duration" : 0,
+            "text" : "string",
+            "minutes" : 0,
+            "interval" : 0
+          }
+        },
+        "effectiveDate" : "2020-11-11T01:31:00.343Z"
+      },
+      "defaultTask9" : {
+        "instructions" : "string",
+        "notes" : {
+          "noteA" : {
+            "author" : "string",
+            "content" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "remoteID" : "string",
+            "effectiveDate" : null
+          }
+        },
+        "title" : "daily",
+        "carePlanID" : "defaultCarePlanA",
+        "impactsAdherence" : true,
+        "groupIdentifier" : "SIMPLE",
+        "remoteID" : "2009e41d-8db2-594b-a6dd-c7027b652635",
+        "id" : "string",
+        "schedules" : {
+          "scheduleA" : {
+            "custom" : false,
+            "weekly" : true,
+            "hour" : 0,
+            "start" : "2020-11-11T01:31:00.343Z",
+            "daily" : false,
+            "weekday" : 0,
+            "targetValues" : [
+              {
+                "units" : "string",
+                "value" : "string"
+              }
+            ],
+            "duration" : 0,
+            "text" : "string",
+            "minutes" : 0,
+            "interval" : 0
+          }
+        },
+        "effectiveDate" : "2020-11-11T01:31:00.343Z"
+      },
+      "defaultTask3" : {
+        "instructions" : "string",
+        "notes" : {
+          "noteA" : {
+            "author" : "string",
+            "content" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "remoteID" : "string",
+            "effectiveDate" : null
+          }
+        },
+        "title" : "daily",
+        "carePlanID" : "defaultCarePlanA",
+        "impactsAdherence" : true,
+        "groupIdentifier" : "GRID",
+        "remoteID" : "3806f313-ff87-5430-a4ad-f09caa9ef8fa",
+        "id" : "string",
+        "schedules" : {
+          "scheduleA" : {
+            "custom" : false,
+            "weekly" : false,
+            "hour" : 0,
+            "start" : "2020-11-11T01:31:00.343Z",
+            "daily" : true,
+            "weekday" : 0,
+            "targetValues" : [
+              {
+                "units" : "string",
+                "value" : "string"
+              }
+            ],
+            "duration" : 0,
+            "text" : "string",
+            "minutes" : 0,
+            "interval" : 0
+          }
+        },
+        "effectiveDate" : "2020-11-11T01:31:00.343Z"
+      },
+      "defaultTask4" : {
+        "instructions" : "string",
+        "notes" : {
+          "noteA" : {
+            "author" : "string",
+            "content" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "remoteID" : "string",
+            "effectiveDate" : null
+          }
+        },
+        "title" : "daily",
+        "carePlanID" : "defaultCarePlanA",
+        "impactsAdherence" : true,
+        "groupIdentifier" : "INSTRUCTION",
+        "remoteID" : "a6ea5491-9799-5278-a87e-0d885c383a84",
+        "id" : "string",
+        "schedules" : {
+          "scheduleA" : {
+            "custom" : false,
+            "weekly" : false,
+            "hour" : 0,
+            "start" : "2020-11-11T01:31:00.343Z",
+            "daily" : true,
+            "weekday" : 0,
+            "targetValues" : [
+              {
+                "units" : "string",
+                "value" : "string"
+              }
+            ],
+            "duration" : 0,
+            "text" : "string",
+            "minutes" : 0,
+            "interval" : 0
+          }
+        },
+        "effectiveDate" : "2020-11-11T01:31:00.343Z"
+      },
+      "defaultTask5" : {
+        "instructions" : "string",
+        "notes" : {
+          "noteA" : {
+            "author" : "string",
+            "content" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "remoteID" : "string",
+            "effectiveDate" : null
+          }
+        },
+        "title" : "daily",
+        "carePlanID" : "defaultCarePlanA",
+        "impactsAdherence" : true,
+        "groupIdentifier" : "LABELED_VALUE",
+        "remoteID" : "7494a9b6-c8eb-5411-83ff-b8bcd8341515",
+        "id" : "string",
+        "schedules" : {
+          "scheduleA" : {
+            "custom" : false,
+            "weekly" : false,
+            "hour" : 0,
+            "start" : "2020-11-11T01:31:00.343Z",
+            "daily" : true,
+            "weekday" : 0,
+            "targetValues" : [
+              {
+                "units" : "string",
+                "value" : "string"
+              }
+            ],
+            "duration" : 0,
+            "text" : "string",
+            "minutes" : 0,
+            "interval" : 0
+          }
+        },
+        "effectiveDate" : "2020-11-11T01:31:00.343Z"
+      }
     }
+  },
+  "patients" : {
+    "patientID" : {
+      "createdDate" : "2020-11-25T02:10:11.022Z",
+      "id" : "",
+      "groupIdentifier" : "string",
+      "updatedDate" : "2020-11-25T02:10:11.022Z",
+      "remoteID" : "string",
+      "birthday" : "2020-11-25T00:00:00Z",
+      "effectiveDate" : null,
+      "name" : {
+        "namePrefix" : "",
+        "givenName" : "string",
+        "nameSuffix" : "string",
+        "middleName" : "string",
+        "familyName" : "string",
+        "nickname" : ""
+      }
+    }
+  },
+  "carePlans" : {
+    "defaultCarePlanB" : {
+      "groupIdentifier" : "",
+      "id" : "defaultCarePlanB",
+      "title" : "Codex Default Care Plan",
+      "remoteId" : "7cd5cdf6-8292-5c30-bcaa-3ce871a8a806",
+      "effectiveDate" : "2020-11-11T01:31:00.343Z",
+      "remoteID" : ""
+    },
+    "defaultCarePlanA" : {
+      "id" : "defaultCarePlanA",
+      "remoteId" : "1bdc3546-d6a9-501c-a6c8-7fc1a654d951",
+      "title" : "Personal",
+      "groupIdentifier" : "",
+      "notes" : {
+        "carePlanNoteA" : {
+          "author" : "string",
+          "content" : "string",
+          "id" : "",
+          "title" : "string",
+          "groupIdentifier" : "string",
+          "remoteID" : "string",
+          "effectiveDate" : null
+        },
+        "carePlanNoteB" : {
+          "author" : "string",
+          "content" : "string",
+          "id" : "",
+          "title" : "string",
+          "groupIdentifier" : "string",
+          "remoteID" : "string",
+          "effectiveDate" : null
+        }
+      },
+      "remoteID" : "",
+      "effectiveDate" : "2020-11-11T01:31:00.343Z"
+    }
+  },
+  "vectorClock" : {
+    "backend" : 0
+  }
 }

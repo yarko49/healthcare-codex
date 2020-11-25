@@ -58,6 +58,9 @@ class AlfrediOSTests: XCTestCase {
 	}
 
 	func testCarePlanResponse(response: [String: Any]) {
+		let patients = response["patients"] as? [String: Any]
+		XCTAssertNotNil(patients, "Missing Patients")
+		testPatients(patients: patients!)
 		let carePlans = response["carePlans"] as? [String: Any]
 		XCTAssertNotNil(carePlans, "Missing Care Plans")
 		testCarePlans(plans: carePlans!)
@@ -67,6 +70,11 @@ class AlfrediOSTests: XCTestCase {
 		let vectorClock = response["vectorClock"] as? [String: Any]
 		XCTAssertNotNil(vectorClock, "Missing VectorClock")
 		testVectorClock(clock: vectorClock!)
+	}
+
+	func testPatients(patients: [String: Any]) {
+		let patient = patients["patientID"] as? [String: Any]
+		XCTAssertNotNil(patient, "Missing Patient")
 	}
 
 	func testCarePlans(plans: [String: Any]) {

@@ -138,6 +138,7 @@
 		462A9E1C252A5E04006B8715 /* Ext_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462A9E1B252A5E04006B8715 /* Ext_String.swift */; };
 		46BAA49025430A7B00C94AC2 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BAA48F25430A7B00C94AC2 /* Gender.swift */; };
 		46BAA49225432EE500C94AC2 /* UpdatePatientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BAA49125432EE500C94AC2 /* UpdatePatientModel.swift */; };
+		8415FB2C256E08670018FADB /* CarePlanResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8415FB2B256E08670018FADB /* CarePlanResponse.json */; };
 		8416998125677919005EF024 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 8416998025677919005EF024 /* CareKitFHIR */; };
 		8416998325677919005EF024 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8416998225677919005EF024 /* CareKit */; };
 		8416998525677919005EF024 /* CareKitStore in Frameworks */ = {isa = PBXBuildFile; productRef = 8416998425677919005EF024 /* CareKitStore */; };
@@ -145,7 +146,6 @@
 		8416998B25677958005EF024 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8416998925677958005EF024 /* Localizable.strings */; };
 		8416999025677A48005EF024 /* AlfredLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416998F25677A48005EF024 /* AlfredLog.swift */; };
 		8436019B25678D7B000B4C55 /* Environment+StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8436019A25678D7B000B4C55 /* Environment+StoreManager.swift */; };
-		8453CF15256CC7EE00A3E6F0 /* CarePlanResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8453CF14256CC7EE00A3E6F0 /* CarePlanResponse.json */; };
 		8453CF1B256CD15300A3E6F0 /* RemoteSynchronizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453CF1A256CD15300A3E6F0 /* RemoteSynchronizationManager.swift */; };
 		8453CF1F256CD79500A3E6F0 /* CareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453CF1E256CD79500A3E6F0 /* CareManager.swift */; };
 		8453CF49256DC2D200A3E6F0 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453CF48256DC2D200A3E6F0 /* Clock.swift */; };
@@ -344,10 +344,10 @@
 		46BAA48F25430A7B00C94AC2 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 		46BAA49125432EE500C94AC2 /* UpdatePatientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePatientModel.swift; sourceTree = "<group>"; };
 		69D144CEE436863C43F66938 /* Pods-AlfrediOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlfrediOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlfrediOSTests/Pods-AlfrediOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		8415FB2B256E08670018FADB /* CarePlanResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CarePlanResponse.json; sourceTree = "<group>"; };
 		8416998A25677958005EF024 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8416998F25677A48005EF024 /* AlfredLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredLog.swift; sourceTree = "<group>"; };
 		8436019A25678D7B000B4C55 /* Environment+StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+StoreManager.swift"; sourceTree = "<group>"; };
-		8453CF14256CC7EE00A3E6F0 /* CarePlanResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CarePlanResponse.json; sourceTree = "<group>"; };
 		8453CF1A256CD15300A3E6F0 /* RemoteSynchronizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSynchronizationManager.swift; sourceTree = "<group>"; };
 		8453CF1E256CD79500A3E6F0 /* CareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareManager.swift; sourceTree = "<group>"; };
 		8453CF48256DC2D200A3E6F0 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
@@ -999,9 +999,9 @@
 		8468B0D1256C679000202A16 /* AlfrediOSTests */ = {
 			isa = PBXGroup;
 			children = (
+				8415FB2B256E08670018FADB /* CarePlanResponse.json */,
 				8468B0D2256C679000202A16 /* AlfrediOSTests.swift */,
 				8453CF5A256DC7D500A3E6F0 /* ClockTests.swift */,
-				8453CF14256CC7EE00A3E6F0 /* CarePlanResponse.json */,
 				8468B0DC256C67B100202A16 /* URLProtocolMock.swift */,
 				8468B0D4256C679000202A16 /* Info.plist */,
 			);
@@ -1291,7 +1291,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8453CF15256CC7EE00A3E6F0 /* CarePlanResponse.json in Resources */,
+				8415FB2C256E08670018FADB /* CarePlanResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
