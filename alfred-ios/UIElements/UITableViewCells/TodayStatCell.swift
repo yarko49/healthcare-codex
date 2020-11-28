@@ -2,8 +2,6 @@
 //  TodayStatCell.swift
 //  alfred-ios
 //
-//  Created by John Spiropoulos on 10/11/20.
-//
 
 import HealthKit
 import UIKit

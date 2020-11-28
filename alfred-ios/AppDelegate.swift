@@ -1,5 +1,3 @@
-import CareKit
-import CareKitStore
 import Firebase
 import FirebaseAuth
 import FirebaseCrashlytics
@@ -15,27 +13,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		UIApplication.shared.delegate as? AppDelegate
 	}
 
-	private(set) lazy var careManager = CareManager()
+	var careManager = CareManager()
+
 	lazy var appCoordinator: MasterCoordinator = {
 		MasterCoordinator(in: self.window!)
 	}()
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-		// Override point for customization after application launch.
 		FirebaseApp.configure()
 		Crashlytics.crashlytics()
 		GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
 		IQKeyboardManager.shared.enable = true
-
-		// Background delivery
-		//        if DataContext.shared.signUpCompleted {
-		//            HealthKitManager.shared.authorizeHealthKit { (success, error) in
-		//                if success {
-		//                    print("HERE")
-		//                }
-		//            }
-		//        }
-		//
 
 		window = UIWindow(frame: UIScreen.main.bounds)
 		window?.backgroundColor = .black

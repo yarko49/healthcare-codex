@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import HealthKitToFhir
 import UIKit
 
 enum InputType: String, Codable {

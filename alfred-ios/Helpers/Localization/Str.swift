@@ -11,6 +11,15 @@ internal enum Str {
 	internal static let registerCTA = Languages.tr("REGISTER_CTA")
 	internal static let home = Languages.tr("HOME")
 	internal static let hello = Languages.tr("HELLO")
+	internal static let faceID = Languages.tr("FACE_ID")
+	internal static let touchID = Languages.tr("TOUCH_ID")
+	internal static let authWithBiometrics = Languages.tr("AUTHENTICATE_WITH_TOUCH_ID")
+	internal static let no = Languages.tr("NO")
+	internal static let automaticSignIn = Languages.tr("ENABLE_AUTOMATIC_SIGN_IN")
+	internal static func enroll(_ arg: String) -> String {
+		Languages.tr("BIOMETRICS_QUESTION_MESSAGE", [arg])
+	}
+
 	internal static func helloName(_ arg: String) -> String {
 		Languages.tr("HELLO_NAME", [arg])
 	}

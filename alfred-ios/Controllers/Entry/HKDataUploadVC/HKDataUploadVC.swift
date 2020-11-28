@@ -35,6 +35,8 @@ class HKDataUploadVC: BaseVC {
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
+
+		navigationController?.navigationBar.isHidden = true
 	}
 
 	override func setupView() {
