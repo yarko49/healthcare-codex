@@ -1,10 +1,14 @@
 import HealthKit
+import LocalAuthentication
 import UIKit
 
 class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDelegate {
 	internal var navigationController: UINavigationController?
 	internal var childCoordinators: [CoordinatorKey: Coordinator]
 	internal weak var parentCoordinator: MasterCoordinator?
+
+	var context = LAContext()
+	var error: NSError?
 
 	var rootViewController: UIViewController? {
 		navigationController
@@ -30,7 +34,35 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func start() {
+		if DataContext.shared.haveAskedUserforBiometrics() == false {
+			enrollWithBiometrics()
+		} else {
+			if DataContext.shared.isBiometricsEnabled == false {}
+		}
 		showHome()
+	}
+
+	internal func evaluateBiometrics() {
+		context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error)
+		if context.biometryType == .none {
+			print(error?.localizedDescription ?? "")
+			return
+		}
+		print(context.biometryType.rawValue)
+	}
+
+	func enrollWithBiometrics() {
+		evaluateBiometrics()
+		let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
+			DataContext.shared.isBiometricsEnabled = true
+		}
+		let noAction = AlertHelper.AlertAction(withTitle: Str.no) {
+			DataContext.shared.isBiometricsEnabled = false
+		}
+		DispatchQueue.main.async {
+			let biometricType = self.context.biometryType == .faceID ? Str.faceID : Str.touchID
+			AlertHelper.showAlert(title: Str.automaticSignIn, detailText: Str.enroll(biometricType), actions: [okAction, noAction])
+		}
 	}
 
 	internal func showHome() {
@@ -149,7 +181,6 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		let topGroup = DispatchGroup()
 		DataContext.shared.userAuthorizedQuantities.forEach { quantityType in
 			if quantityType != .activity {
-				print(quantityType.identifiers)
 				topGroup.enter()
 				let innergroup = DispatchGroup()
 				var values: [Any] = []
@@ -183,6 +214,35 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			profileVC?.todayHKData = todayData
 		}
 
+		profileVC.getRangeData = { interval, start, end, completion in
+			var chartData: [HealthKitQuantityType: [StatModel]] = [:]
+			AlertHelper.showLoader()
+			let chartGroup = DispatchGroup()
+			DataContext.shared.userAuthorizedQuantities.forEach { quantityType in
+				chartGroup.enter()
+				let innergroup = DispatchGroup()
+				var values: [StatModel] = []
+				quantityType.identifiers.forEach { identifier in
+					innergroup.enter()
+					HealthKitManager.shared.getData(identifier: identifier, startDate: start, endDate: end, intervalType: interval) { dataPoints in
+						let stat = StatModel(type: quantityType, dataPoints: dataPoints)
+						values.append(stat)
+						innergroup.leave()
+					}
+				}
+
+				innergroup.notify(queue: .main) {
+					chartData[quantityType] = values
+					chartGroup.leave()
+				}
+			}
+
+			chartGroup.notify(queue: .main) {
+				AlertHelper.hideLoader()
+				completion?(chartData)
+			}
+		}
+
 		profileVC.editBtnAction = { [weak self] weight, height in
 			self?.goToMyProfileFirstVC(source: .profile, weight: weight, height: height)
 		}
@@ -209,7 +269,8 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		DataContext.shared.postObservationSearch(search: search) { response in
 			AlertHelper.hideLoader()
 			if response != nil {
-			} else {
+			}
+			else {
 				print("post Observation Search request failed")
 			}
 		}
@@ -294,7 +355,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		DataContext.shared.patchPatient(patient: patient) { [weak self] resourceResponse in
 			AlertHelper.hideLoader()
 			DataContext.shared.editPatient = patient
-			if resourceResponse != nil {
+			if let _ = resourceResponse {
 				print("OK STATUS FOR UPDATE PATIENT : 200")
 				DataContext.shared.userModel = UserModel(userID: DataContext.shared.userModel?.userID ?? "", email: DataContext.shared.userModel?.email, name: [Name(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? Gender(rawValue: "female"))
 				self?.profileVC?.nameLbl?.attributedText = ProfileHelper.getFirstName().with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
@@ -341,6 +402,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func logout() {
+		DataContext.shared.removeBiometrics()
 		parentCoordinator?.goToAuth()
 	}
 
@@ -366,7 +428,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			AlertHelper.showLoader()
 			DataContext.shared.postObservation(observation: observation) { [weak self] response in
 				AlertHelper.hideLoader()
-				if response != nil {
+				if let _ = response {
 					self?.observation = nil
 					self?.navigationController?.popViewController(animated: true)
 				}
@@ -375,7 +437,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			AlertHelper.showLoader()
 			DataContext.shared.postBundle(bundle: bundle) { [weak self] response in
 				AlertHelper.hideLoader()
-				if response != nil {
+				if let _ = response {
 					self?.bundle = nil
 					self?.navigationController?.popViewController(animated: true)
 				}

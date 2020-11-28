@@ -3,10 +3,8 @@
 //  alfred-ios
 //
 
-import FHIR
 import Foundation
 import HealthKit
-import HealthKitToFhir
 import HealthKitUI
 import UIKit
 
@@ -87,19 +85,6 @@ enum HealthKitDataType: CustomStringConvertible {
 
 class HealthKitManager {
 	static let shared = HealthKitManager()
-	var numberOfData: Int = 0
-
-	var stepsEntries: [Entry] = []
-	var bpEntries: [Entry] = []
-	var hrEntries: [Entry] = []
-	var rhrEntries: [Entry] = []
-	var weightEntries: [Entry] = []
-
-	var stepsIds: [String] = []
-	var bpIds: [String] = []
-	var hrIds: [String] = []
-	var rhrIds: [String] = []
-	var weightIds: [String] = []
 
 	func authorizeHealthKit(completion: @escaping (Bool, Error?) -> Void) {
 		guard HKHealthStore.isHealthDataAvailable() else {
@@ -122,73 +107,16 @@ class HealthKitManager {
 		let healthKitTypesToRead: Set<HKQuantityType> = [bodyMass, heartRate, restingHeartRate, bloodPressureDiastolic, bloodPressureSystolic, stepCount]
 
 		HKHealthStore().requestAuthorization(toShare: healthKitTypesToWrite, read: healthKitTypesToRead) { success, error in
-			// Background delivery
-			//            if success {
-			//                self.getHealthDataFromObserver(for: HealthKitDataType.allValues) { (success) in
-			//                    if success {
-			//                        print("YES")
-			//                    } else {
-			//                        print("NO")
-			//                    }
-			//                }
-			//            }
 			completion(success, error)
 		}
 	}
 
-	func returnAllEntries() -> [Entry] {
-		stepsEntries + bpEntries + hrEntries + rhrEntries + weightEntries
-	}
-
-	func returnAllDataIds() -> [String] {
-		stepsIds + bpIds + hrIds + rhrIds + weightIds
-	}
-
-	func searchHKData(completion: @escaping (Bool) -> Void) {
-		let importGroup = DispatchGroup()
-		guard let date = Calendar.current.date(byAdding: .year, value: -1, to: Date()) else {
-			completion(false)
-			return
-		}
-		var results: [Bool] = []
-		for quantity in HealthKitDataType.allValues {
-			importGroup.enter()
-			if quantity == .bloodPressure {
-				getBloodPressure(from: date) { [weak self] success, ids in
-					self?.bpIds = ids
-					results.append(success)
-					importGroup.leave()
-				}
-			} else {
-				getHealthData(for: quantity, from: date) { [weak self] success, ids in
-					switch quantity {
-					case .bodyMass:
-						self?.weightIds = ids
-					case .heartRate:
-						self?.hrIds = ids
-					case .restingHeartRate:
-						self?.rhrIds = ids
-					case .stepCount:
-						self?.stepsIds = ids
-					case .bloodPressure:
-						break
-					}
-					results.append(success)
-					importGroup.leave()
-				}
-			}
-		}
-		importGroup.notify(queue: .main) {
-			completion(results.allSatisfy { $0 })
-		}
-	}
-
 	// Post Data from Health Kit to BE
-	func getHealthData(for quantity: HealthKitDataType, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [String]) -> Void) {
+	func getHealthData(initialUpload: Bool, for quantity: HealthKitDataType, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [Entry]) -> Void) {
 		guard let sampleType = quantity.type[0] else { return }
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
-		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
-		var ids: [String] = []
+		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: !initialUpload)
+		var entries: [Entry] = []
 		let query = HKSampleQuery(sampleType: sampleType,
 		                          predicate: predicate,
 		                          limit: HKObjectQueryNoLimit,
@@ -198,34 +126,21 @@ class HealthKitManager {
 					if let sample = data as? HKQuantitySample {
 						let resource = Resource(code: quantity.code, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.getPatientID(), type: "Patient", identifier: nil, display: DataContext.shared.getDisplayName()), valueQuantity: ValueQuantity(value: Int(sample.quantity.doubleValue(for: quantity.unit)), unit: quantity.unit.unitString), birthDate: nil, gender: nil, name: nil, component: nil)
 						let entry = Entry(fullURL: nil, resource: resource, request: Request(method: "POST", url: "Observation"), search: nil, response: nil)
-						switch quantity {
-						case .bodyMass:
-							self.weightEntries.append(entry)
-						case .heartRate:
-							self.hrEntries.append(entry)
-						case .restingHeartRate:
-							self.rhrEntries.append(entry)
-						case .stepCount:
-							self.stepsEntries.append(entry)
-						case .bloodPressure:
-							break
-						}
-						self.numberOfData += 1
-						ids.append(sample.uuid.uuidString)
+						entries.append(entry)
 					}
 				}
-				completion(true, ids)
 			}
+			completion(true, entries)
 		}
 		HKHealthStore().execute(query)
 	}
 
-	func getBloodPressure(from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [String]) -> Void) {
+	func getBloodPressure(initialUpload: Bool, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [Entry]) -> Void) {
 		guard let bloodPressureDiastolic = HealthKitDataType.bloodPressure.type[0], let bloodPressureSystolic = HealthKitDataType.bloodPressure.type[1], let bloodPressure = HKQuantityType.correlationType(forIdentifier: .bloodPressure) else { return }
 
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
-		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
-		var ids: [String] = []
+		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: !initialUpload)
+		var entries: [Entry] = []
 		let query = HKSampleQuery(sampleType: bloodPressure,
 		                          predicate: predicate,
 		                          limit: HKObjectQueryNoLimit,
@@ -239,13 +154,11 @@ class HealthKitManager {
 						let sysComponent = Component(code: DataContext.shared.systolicBPCode, valueQuantity: ValueQuantity(value: Int(sys.quantity.doubleValue(for: HKUnit.millimeterOfMercury())), unit: HKUnit.millimeterOfMercury().unitString))
 						let resource = Resource(code: DataContext.shared.bpCode, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.getPatientID(), type: "Patient", identifier: nil, display: DataContext.shared.getDisplayName()), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
 						let entry = Entry(fullURL: nil, resource: resource, request: Request(method: "POST", url: "Observation"), search: nil, response: nil)
-						self.bpEntries.append(entry)
-						self.numberOfData += 1
-						ids.append(dia.uuid.uuidString)
+						entries.append(entry)
 					}
 				}
-				completion(true, ids)
 			}
+			completion(true, entries)
 		}
 		HKHealthStore().execute(query)
 	}
@@ -325,51 +238,4 @@ class HealthKitManager {
 		}
 		HKHealthStore().execute(query)
 	}
-
-	// Background delivery
-	//    func getHealthDataFromObserver(for quantities: [HealthKitDataType], completion: @escaping (Bool)-> Void) {
-	//        for quantity in quantities {
-	//            guard let sampleType = quantity.type[0] else {return}
-	//            HKHealthStore().enableBackgroundDelivery(for: sampleType, frequency: .immediate) { (success, error) in
-	//                print(success)
-	//            }
-//
-	//            let query = HKObserverQuery(sampleType: sampleType,
-	//                                        predicate: nil) { [weak self] (query, completionHandler, error) in
-	//                self?.getMostRecentData(for: quantity) { (success) in
-	//                    if success {
-	//                        completionHandler()
-	//                    }
-	//                }
-//
-	//            }
-//
-	//            HKHealthStore().execute(query)
-	//        }
-	//    }
-//
-	//    func getMostRecentData(for quantity: HealthKitDataType, completion: @escaping (Bool)-> Void) {
-	//        guard let sampleType = quantity.type[0] else {return}
-	//        let predicate = HKQuery.predicateForSamples(withStart: Date.distantPast,
-	//                                                              end: Date(),
-	//                                                              options: [])
-	//        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate,
-	//                                              ascending: false)
-	//        let limit = 1
-	//        let query = HKSampleQuery.init(sampleType: sampleType,
-	//                                       predicate: predicate,
-	//                                       limit: limit,
-	//                                       sortDescriptors: [sortDescriptor]) { (query, results, error) in
-	//            if let dataList = results {
-	//                for data in dataList {
-	//                    if let sample = data as? HKQuantitySample {
-	//                        let resource = Resource(code: quantity.code, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.getPatientID(), type:"Patient", identifier: nil, display: DataContext.shared.getDisplayName()), valueQuantity: ValueQuantity(value: Int(sample.quantity.doubleValue(for: quantity.unit)), unit: quantity.unit.unitString), birthDate: nil, gender: nil, name: nil, component: nil)
-	//                        let entry = Entry(fullURL: nil, resource: resource, request: Request(method: "POST", url: "Observation"), search: nil, response: nil)
-	//                    }
-	//                }
-	//                completion(true)
-	//            }
-	//        }
-	//        HKHealthStore().execute(query)
-	//    }
 }

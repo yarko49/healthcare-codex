@@ -3,6 +3,7 @@ import CryptoKit
 import FirebaseAuth
 import GoogleSignIn
 import HealthKit
+import LocalAuthentication
 import UIKit
 
 class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDelegate {
@@ -46,7 +47,6 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		onboardingVC.signupAction = { [weak self] in
 			self?.goToSignup()
 		}
-
 		navigate(to: onboardingVC, with: .push)
 	}
 
@@ -120,40 +120,26 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func getPatientInfo() {
+		guard let user = Auth.auth().currentUser else {
+			return
+		}
+
 		AlertHelper.showLoader()
-		DataContext.shared.postPatientSearch { [weak self] response in
-			if let response = response, let entries = response.entry, let id = entries[0].resource?.id, let name = entries[0].resource?.name, let email = self?.emailrequest, let dob = entries[0].resource?.birthDate, let gender = entries[0].resource?.gender {
-				DataContext.shared.userModel = UserModel(userID: id, email: email, name: name, dob: dob, gender: Gender(rawValue: gender))
+		DataContext.shared.fetchData(user: user, completion: { [weak self] success in
+			AlertHelper.hideLoader()
+			if success {
 				self?.getProfile()
 			} else {
-				AlertHelper.hideLoader()
 				self?.goToMyProfileFirstVC(from: .signIn)
 			}
-		}
+		})
 	}
 
 	internal func getProfile() {
-		DataContext.shared.getProfile { [weak self] profile in
+		AlertHelper.showLoader()
+		DataContext.shared.getProfileAPI { [weak self] success in
 			AlertHelper.hideLoader()
-			if let profile = profile, let healthMeasurements = profile.healthMeasurements {
-				if let weight = healthMeasurements.weight {
-					DataContext.shared.hasSmartScale = weight.available ?? false
-					DataContext.shared.weightInPushNotificationsIsOn = weight.notificationsEnabled ?? false
-				}
-				if let bloodPressure = healthMeasurements.bloodPressure {
-					DataContext.shared.hasSmartBlockPressureCuff = (bloodPressure.available ?? false)
-					DataContext.shared.bloodPressurePushNotificationsIsOn = bloodPressure.notificationsEnabled ?? false
-				}
-
-				if let heartRate = healthMeasurements.heartRate, let restingHeartRate = healthMeasurements.restingHeartRate, let steps = healthMeasurements.steps {
-					DataContext.shared.hasSmartWatch = (heartRate.available ?? false) || (restingHeartRate.available ?? false) || (steps.available ?? false)
-					DataContext.shared.hasSmartPedometer = steps.available ?? false
-					DataContext.shared.activityPushNotificationsIsOn = steps.notificationsEnabled ?? false
-					DataContext.shared.surveyPushNotificationsIsOn = (heartRate.notificationsEnabled ?? false) || (restingHeartRate.notificationsEnabled ?? false)
-				}
-
-				DataContext.shared.signUpCompleted = profile.signUpCompleted ?? false
-
+			if success {
 				if DataContext.shared.signUpCompleted {
 					self?.goToHealthKitAuthorization()
 				} else {
@@ -178,7 +164,28 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			}
 			print("HealthKit Successfully Authorized.")
 			DispatchQueue.main.async {
-				self.goToMainApp()
+				self.syncHKData()
+			}
+		}
+	}
+
+	internal func syncHKData() {
+		var loadingShouldAppear = true
+		let hkDataUploadVC = HKDataUploadVC()
+		SyncManager.shared.syncData(initialUpload: false, chunkSize: chunkSize) { [weak self] uploaded, total in
+			if total > 500, loadingShouldAppear {
+				loadingShouldAppear = false
+				self?.navigate(to: hkDataUploadVC, with: .push)
+			} else if total > 500 {
+				hkDataUploadVC.progress = uploaded
+				hkDataUploadVC.maxProgress = total
+			}
+		} completion: { [weak self] success in
+			if success {
+				self?.goToMainApp()
+			} else {
+				AlertHelper.showAlert(title: Str.error, detailText: Str.importHealthDataFailed, actions: [])
+				self?.goToMainApp()
 			}
 		}
 	}
@@ -334,16 +341,12 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	internal func startInitialUpload() {
 		let hkDataUploadVC = HKDataUploadVC()
 		hkDataUploadVC.queryAction = { [weak self] in
-			UIApplication.shared.isIdleTimerDisabled = true
-			HealthKitManager.shared.searchHKData { [weak self, weak hkDataUploadVC] importSuccess in
-				UIApplication.shared.isIdleTimerDisabled = false
-				if importSuccess {
-					hkDataUploadVC?.maxProgress = HealthKitManager.shared.numberOfData
-					UIApplication.shared.isIdleTimerDisabled = true
-					self?.uploadHKData(for: hkDataUploadVC, completion: { [weak self] _ in
-						UIApplication.shared.isIdleTimerDisabled = false
-						self?.goToAppleHealthVCFromActivate()
-					})
+			SyncManager.shared.syncData(chunkSize: self?.chunkSize) { uploaded, total in
+				hkDataUploadVC.progress = uploaded
+				hkDataUploadVC.maxProgress = total
+			} completion: { success in
+				if success {
+					self?.goToAppleHealthVCFromActivate()
 				} else {
 					let okAction = AlertHelper.AlertAction(withTitle: Str.ok) { [weak self] in
 						self?.goToAppleHealthVCFromActivate()
@@ -353,39 +356,6 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			}
 		}
 		navigate(to: hkDataUploadVC, with: .push)
-	}
-
-	func uploadHKData(for hkDataUploadVC: HKDataUploadVC?, completion: @escaping (Bool) -> Void) {
-		let chunkedEntries = HealthKitManager.shared.returnAllEntries().chunked(into: chunkSize)
-		let chunkGroup = DispatchGroup()
-		let entriesToUploadCount = HealthKitManager.shared.returnAllEntries().count
-		hkDataUploadVC?.maxProgress = entriesToUploadCount
-		var uploaded = 0
-		chunkedEntries.enumerated().forEach { index, element in
-			let timeOffset: TimeInterval = Double(index) * 1.5
-			chunkGroup.enter()
-			DispatchQueue.main.asyncAfter(deadline: .now() + timeOffset) { [weak self] in
-				self?.postBundleRequest(for: element) { success in
-					uploaded += success ? element.count : 0
-					hkDataUploadVC?.progress = uploaded
-					chunkGroup.leave()
-				}
-			}
-		}
-		chunkGroup.notify(queue: .main) {
-			if uploaded < entriesToUploadCount {
-				let okAction = AlertHelper.AlertAction(withTitle: Str.ok)
-				AlertHelper.showAlert(title: Str.error, detailText: Str.uploadHealthDataFailed, actions: [okAction])
-			}
-			completion(true)
-		}
-	}
-
-	private func postBundleRequest(for entries: [Entry], completion: @escaping (Bool) -> Void) {
-		let bundle = BundleModel(entry: entries, link: nil, resourceType: "Bundle", total: nil, type: "transaction")
-		DataContext.shared.postBundle(bundle: bundle) { resp in
-			completion(resp != nil)
-		}
 	}
 
 	internal func goToAppleHealthVCFromActivate() {
@@ -421,7 +391,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			AlertHelper.hideLoader()
 			DataContext.shared.patient = patient
 
-			if patientResponse != nil {
+			if let _ = patientResponse {
 				print("OK STATUS FOR PATIENT : 200")
 				let defaultName = Name(use: "", family: "", given: [""])
 				DataContext.shared.userModel = UserModel(userID: patientResponse?.id ?? "", email: self?.emailrequest ?? "", name: patientResponse?.name ?? [defaultName], dob: patient.birthDate, gender: Gender(rawValue: DataContext.shared.patient?.gender ?? ""))
@@ -529,13 +499,14 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			print(error)
 			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 		} else if let authResult = authResult {
-			authResult.user.getIDToken(completion: { firebaseToken, error in
+			authResult.user.getIDToken(completion: { [weak self] firebaseToken, error in
+
 				if let error = error {
 					print(error)
 					AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 				} else if let firebaseToken = firebaseToken {
 					AlertHelper.hideLoader()
-					self.emailrequest = Auth.auth().currentUser?.email
+					self?.emailrequest = Auth.auth().currentUser?.email
 					DataContext.shared.authToken = firebaseToken
 					print(firebaseToken)
 					completionHandler()
@@ -548,7 +519,8 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		let newUser = authResult?.additionalUserInfo?.isNewUser
 		if newUser == true {
 			goToMyProfileFirstVC()
-		} else {
+		}
+		else {
 			getPatientInfo()
 		}
 	}

@@ -3,7 +3,6 @@
 //  alfred-ios
 //
 
-import FHIR
 import Foundation
 
 // MARK: - Resource

@@ -168,6 +168,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 		do {
 			try firebaseAuth.signOut()
 			parentCoordinator?.logout()
+			DataContext.shared.clearAll()
 		} catch let signOutError as NSError {
 			print("Error signing out: %@", signOutError)
 		}

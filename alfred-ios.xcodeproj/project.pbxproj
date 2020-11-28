@@ -138,6 +138,7 @@
 		462A9E1C252A5E04006B8715 /* Ext_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462A9E1B252A5E04006B8715 /* Ext_String.swift */; };
 		46BAA49025430A7B00C94AC2 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BAA48F25430A7B00C94AC2 /* Gender.swift */; };
 		46BAA49225432EE500C94AC2 /* UpdatePatientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BAA49125432EE500C94AC2 /* UpdatePatientModel.swift */; };
+		840A9CB82571F9CE00540133 /* DataContext+Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840A9CB72571F9CE00540133 /* DataContext+Fetch.swift */; };
 		8415FB2C256E08670018FADB /* CarePlanResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8415FB2B256E08670018FADB /* CarePlanResponse.json */; };
 		8416998125677919005EF024 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 8416998025677919005EF024 /* CareKitFHIR */; };
 		8416998325677919005EF024 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8416998225677919005EF024 /* CareKit */; };
@@ -150,6 +151,7 @@
 		8453CF1F256CD79500A3E6F0 /* CareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453CF1E256CD79500A3E6F0 /* CareManager.swift */; };
 		8453CF49256DC2D200A3E6F0 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453CF48256DC2D200A3E6F0 /* Clock.swift */; };
 		8453CF5B256DC7D500A3E6F0 /* ClockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453CF5A256DC7D500A3E6F0 /* ClockTests.swift */; };
+		84624CCF2571F6F400E18019 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84624CCE2571F6F400E18019 /* SyncManager.swift */; };
 		8468B0B0256C624D00202A16 /* CareWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468B0AF256C624D00202A16 /* CareWebService.swift */; };
 		8468B0B3256C62C100202A16 /* Data+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468B0B2256C62C100202A16 /* Data+Validation.swift */; };
 		8468B0D3256C679000202A16 /* AlfrediOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468B0D2256C679000202A16 /* AlfrediOSTests.swift */; };
@@ -344,6 +346,7 @@
 		46BAA48F25430A7B00C94AC2 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 		46BAA49125432EE500C94AC2 /* UpdatePatientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePatientModel.swift; sourceTree = "<group>"; };
 		69D144CEE436863C43F66938 /* Pods-AlfrediOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlfrediOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlfrediOSTests/Pods-AlfrediOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		840A9CB72571F9CE00540133 /* DataContext+Fetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataContext+Fetch.swift"; sourceTree = "<group>"; };
 		8415FB2B256E08670018FADB /* CarePlanResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CarePlanResponse.json; sourceTree = "<group>"; };
 		8416998A25677958005EF024 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8416998F25677A48005EF024 /* AlfredLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredLog.swift; sourceTree = "<group>"; };
@@ -352,6 +355,7 @@
 		8453CF1E256CD79500A3E6F0 /* CareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareManager.swift; sourceTree = "<group>"; };
 		8453CF48256DC2D200A3E6F0 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
 		8453CF5A256DC7D500A3E6F0 /* ClockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockTests.swift; sourceTree = "<group>"; };
+		84624CCE2571F6F400E18019 /* SyncManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
 		8468B0AF256C624D00202A16 /* CareWebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareWebService.swift; sourceTree = "<group>"; };
 		8468B0B2256C62C100202A16 /* Data+Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Validation.swift"; sourceTree = "<group>"; };
 		8468B0D0256C679000202A16 /* AlfrediOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlfrediOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -441,6 +445,7 @@
 		0631E738247E5CE500D88834 /* HealthKit */ = {
 			isa = PBXGroup;
 			children = (
+				84624CCE2571F6F400E18019 /* SyncManager.swift */,
 				86DDD52724D1617500D27445 /* HealthKitQuantityType.swift */,
 				0631E739247E5D1400D88834 /* HealthKitManager.swift */,
 				C486BC8A250FBCFC005C8A5E /* WeightType.swift */,
@@ -771,6 +776,7 @@
 				1234FD8122159D5000E73FFF /* DataContext+Auth.swift */,
 				124B27D1238D7500001DBC4D /* DataContext+Content.swift */,
 				127C11AB222939F20093F4C0 /* DataContext+Keychain.swift */,
+				840A9CB72571F9CE00540133 /* DataContext+Fetch.swift */,
 			);
 			path = DataContext;
 			sourceTree = "<group>";
@@ -1495,6 +1501,7 @@
 				0676D0122500D68700EC79E6 /* TextfieldView.swift in Sources */,
 				12D42D802226998D0039043F /* Str.swift in Sources */,
 				1234FD6B221596BA00E73FFF /* CoordinatorKeys.swift in Sources */,
+				840A9CB82571F9CE00540133 /* DataContext+Fetch.swift in Sources */,
 				C41777852508FEE900CDBBED /* BalloonMarker.swift in Sources */,
 				1234FDA52215BE3800E73FFF /* SettingsVC.swift in Sources */,
 				06636A6E24A0F86300D0D23C /* Ext_UILabel.swift in Sources */,
@@ -1573,6 +1580,7 @@
 				8468B0B0256C624D00202A16 /* CareWebService.swift in Sources */,
 				127C11AA222938F00093F4C0 /* KeychainPasswordItem.swift in Sources */,
 				46BAA49025430A7B00C94AC2 /* Gender.swift in Sources */,
+				84624CCF2571F6F400E18019 /* SyncManager.swift in Sources */,
 				C450E30A25248C8600F679FC /* UserModel.swift in Sources */,
 				1234FD8022159CF100E73FFF /* AuthCoordinator.swift in Sources */,
 				C452006D2540741D004C4DCA /* UnknownModel.swift in Sources */,

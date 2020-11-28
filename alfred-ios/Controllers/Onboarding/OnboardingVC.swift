@@ -7,6 +7,7 @@ import CryptoKit
 import Firebase
 import FirebaseAuth
 import GoogleSignIn
+import LocalAuthentication
 import UIKit
 
 class OnboardingVC: BaseVC, UIViewControllerTransitioningDelegate {

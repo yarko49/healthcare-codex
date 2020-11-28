@@ -2,8 +2,6 @@
 //  SelectChunkSizeVC.swift
 //  alfred-ios
 //
-//  Created by John Spiropoulos on 3/11/20.
-//
 
 import UIKit
 

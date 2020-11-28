@@ -1,32 +1,42 @@
+import FirebaseAuth
 import Foundation
 
 class DataContext {
 	static let shared = DataContext()
 
 	var hasRunOnce: Bool {
-		get {
-			UserDefaults.standard.bool(forKey: "HAS_RUN_ONCE")
-		}
 		set {
 			UserDefaults.standard.set(newValue, forKey: "HAS_RUN_ONCE")
 		}
-	}
-
-	func initialize(completion: @escaping (Bool) -> Void) {
-		// DO STUFF
-		// ASYNCAFTER USED FOR EXAMPLE PURPOSES
-		DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-			completion(true)
+		get {
+			UserDefaults.standard.bool(forKey: "HAS_RUN_ONCE")
 		}
 	}
 
 	var hasCompletedOnboarding: Bool {
-		get {
-			UserDefaults.standard.bool(forKey: "HAS_COMPLETED_ONBOARDING")
-		}
 		set {
 			UserDefaults.standard.set(newValue, forKey: "HAS_COMPLETED_ONBOARDING")
 		}
+		get {
+			UserDefaults.standard.bool(forKey: "HAS_COMPLETED_ONBOARDING")
+		}
+	}
+
+	var isBiometricsEnabled: Bool {
+		set {
+			UserDefaults.standard.set(newValue, forKey: "IS_BIOMETRICS_ENABLED")
+		}
+		get {
+			UserDefaults.standard.bool(forKey: "IS_BIOMETRICS_ENABLED")
+		}
+	}
+
+	func haveAskedUserforBiometrics() -> Bool {
+		UserDefaults.standard.object(forKey: "IS_BIOMETRICS_ENABLED") != nil
+	}
+
+	func removeBiometrics() {
+		UserDefaults.standard.removeObject(forKey: "IS_BIOMETRICS_ENABLED")
 	}
 
 	var userAuthorizedQuantities: [HealthKitQuantityType] = [.weight, .activity, .bloodPressure, .restingHR, .heartRate]
@@ -40,12 +50,10 @@ class DataContext {
 	var hasSmartBlockPressureCuff = Bool()
 	var hasSmartWatch = Bool()
 	var hasSmartPedometer = Bool()
-
 	var editPatient: [UpdatePatientModel]?
 	var patient: Resource?
 	var userModel: UserModel?
 	var dataModel: BundleModel?
-
 	var weightArray: [Int] = []
 	var heightArray: [Int] = []
 
@@ -145,5 +153,6 @@ class DataContext {
 		bloodPressurePushNotificationsIsOn = false
 		weightInPushNotificationsIsOn = false
 		surveyPushNotificationsIsOn = false
+		userModel = nil
 	}
 }

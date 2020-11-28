@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -38,11 +39,11 @@
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ykp-28-uLl" customClass="TextfieldView" customModule="alfred_ios" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I4X-4n-YGo" customClass="TextfieldView" customModule="alfred_ios" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="101" width="414" height="51"/>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         </view>
                                     </subviews>
                                     <constraints>
@@ -58,13 +59,13 @@
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="ALZ-hZ-SEj">
                                     <rect key="frame" x="228" y="299.5" width="162" height="30"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ktl-mY-KR1">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ktl-mY-KR1">
                                             <rect key="frame" x="0.0" y="0.0" width="72.5" height="30"/>
                                             <connections>
                                                 <action selector="selectedOption:" destination="-1" eventType="touchUpInside" id="RT6-Id-vJ4"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EVO-HH-9gl">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EVO-HH-9gl">
                                             <rect key="frame" x="89.5" y="0.0" width="72.5" height="30"/>
                                             <connections>
                                                 <action selector="selectedOption:" destination="-1" eventType="touchUpInside" id="hx0-Vh-38q"/>
@@ -76,7 +77,7 @@
                                     </constraints>
                                 </stackView>
                             </subviews>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstItem="O0h-rh-lWI" firstAttribute="top" secondItem="peN-q6-NlT" secondAttribute="top" constant="93.5" id="1Mx-TA-vPM"/>
                                 <constraint firstItem="ALZ-hZ-SEj" firstAttribute="top" secondItem="O0h-rh-lWI" secondAttribute="bottom" constant="54" id="5MC-fn-0T9"/>
@@ -103,7 +104,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mQT-TX-wfE">
                     <rect key="frame" x="0.0" y="802" width="414" height="94"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WT2-Rj-P4m" customClass="BottomButton" customModule="alfred_ios" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WT2-Rj-P4m" customClass="BottomButton" customModule="alfred_ios" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="CXV-Kb-yV2"/>
@@ -114,7 +115,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="WT2-Rj-P4m" secondAttribute="trailing" id="OGT-k2-0IQ"/>
                         <constraint firstItem="WT2-Rj-P4m" firstAttribute="leading" secondItem="mQT-TX-wfE" secondAttribute="leading" id="Owk-RC-9Ui"/>
@@ -122,6 +123,7 @@
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="iLz-Z2-zAG"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="iLz-Z2-zAG" firstAttribute="bottom" secondItem="WT2-Rj-P4m" secondAttribute="bottom" id="4ll-jq-Ewp"/>
@@ -133,8 +135,17 @@
                 <constraint firstItem="b0n-u3-X7v" firstAttribute="top" secondItem="jMZ-Wb-8gg" secondAttribute="top" id="rsp-tr-MeG"/>
                 <constraint firstAttribute="trailing" secondItem="b0n-u3-X7v" secondAttribute="trailing" id="ybH-g8-2IM"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="iLz-Z2-zAG"/>
             <point key="canvasLocation" x="-2229" y="-3835"/>
         </view>
     </objects>
+    <designables>
+        <designable name="WT2-Rj-P4m">
+            <size key="intrinsicContentSize" width="46" height="30"/>
+        </designable>
+    </designables>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
