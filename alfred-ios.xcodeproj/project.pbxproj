@@ -60,6 +60,10 @@
 		067F22DE25384F500023F0BB /* QuestionnaireCompletionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067F22DD25384F500023F0BB /* QuestionnaireCompletionVC.swift */; };
 		067F22E125384F5D0023F0BB /* QuestionnaireCompletionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 067F22E025384F5D0023F0BB /* QuestionnaireCompletionVC.xib */; };
 		067F22E4253861E00023F0BB /* QuestionnaireResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067F22E3253861E00023F0BB /* QuestionnaireResponseModel.swift */; };
+		06865EF72575054500F14BD6 /* DataContext+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06865EF62575054500F14BD6 /* DataContext+Logging.swift */; };
+		06865EFC2575057100F14BD6 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06865EFB2575057100F14BD6 /* LoggingManager.swift */; };
+		06865F00257505AF00F14BD6 /* DataRequest+Processing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06865EFF257505AF00F14BD6 /* DataRequest+Processing.swift */; };
+		06865F06257505E200F14BD6 /* RequestPostProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06865F05257505E200F14BD6 /* RequestPostProcessor.swift */; };
 		06865F0F25750A6200F14BD6 /* Interceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06865F0E25750A6200F14BD6 /* Interceptor.swift */; };
 		0686721F251B7C7E008E5CF5 /* TroubleshootingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0686721E251B7C7E008E5CF5 /* TroubleshootingVC.swift */; };
 		06867221251B7C99008E5CF5 /* TroubleshootingVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06867220251B7C99008E5CF5 /* TroubleshootingVC.xib */; };
@@ -263,6 +267,10 @@
 		067F22DD25384F500023F0BB /* QuestionnaireCompletionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireCompletionVC.swift; sourceTree = "<group>"; };
 		067F22E025384F5D0023F0BB /* QuestionnaireCompletionVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionnaireCompletionVC.xib; sourceTree = "<group>"; };
 		067F22E3253861E00023F0BB /* QuestionnaireResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireResponseModel.swift; sourceTree = "<group>"; };
+		06865EF62575054500F14BD6 /* DataContext+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataContext+Logging.swift"; sourceTree = "<group>"; };
+		06865EFB2575057100F14BD6 /* LoggingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
+		06865EFF257505AF00F14BD6 /* DataRequest+Processing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataRequest+Processing.swift"; sourceTree = "<group>"; };
+		06865F05257505E200F14BD6 /* RequestPostProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPostProcessor.swift; sourceTree = "<group>"; };
 		06865F0E25750A6200F14BD6 /* Interceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptor.swift; sourceTree = "<group>"; };
 		0686721E251B7C7E008E5CF5 /* TroubleshootingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TroubleshootingVC.swift; sourceTree = "<group>"; };
 		06867220251B7C99008E5CF5 /* TroubleshootingVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TroubleshootingVC.xib; sourceTree = "<group>"; };
@@ -644,6 +652,15 @@
 			path = QuestionnaireCompletionVC;
 			sourceTree = "<group>";
 		};
+		06865EFA2575055200F14BD6 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				06865EFB2575057100F14BD6 /* LoggingManager.swift */,
+				0631E738247E5CE500D88834 /* HealthKit */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		0686721D251B776A008E5CF5 /* Troubleshooting */ = {
 			isa = PBXGroup;
 			children = (
@@ -779,6 +796,8 @@
 				124B27D1238D7500001DBC4D /* DataContext+Content.swift */,
 				127C11AB222939F20093F4C0 /* DataContext+Keychain.swift */,
 				840A9CB72571F9CE00540133 /* DataContext+Fetch.swift */,
+				06865EF62575054500F14BD6 /* DataContext+Logging.swift */,
+				06865F05257505E200F14BD6 /* RequestPostProcessor.swift */,
 			);
 			path = DataContext;
 			sourceTree = "<group>";
@@ -948,7 +967,7 @@
 		12D42D822226A6290039043F /* API */ = {
 			isa = PBXGroup;
 			children = (
-				0631E738247E5CE500D88834 /* HealthKit */,
+				06865EFA2575055200F14BD6 /* Managers */,
 				12D42D832226A62E0039043F /* Requests */,
 				12D42D8A2226ACB60039043F /* AppConfig.swift */,
 				1234FD742215995800E73FFF /* DataContext */,
@@ -961,6 +980,7 @@
 			children = (
 				12D42D842226A63C0039043F /* APIRouter.swift */,
 				12D42D862226A67E0039043F /* Requests.swift */,
+				06865EFF257505AF00F14BD6 /* DataRequest+Processing.swift */,
 				06865F0E25750A6200F14BD6 /* Interceptor.swift */,
 			);
 			path = Requests;
@@ -1493,6 +1513,7 @@
 				12D42D8B2226ACB60039043F /* AppConfig.swift in Sources */,
 				C4BE384024FFA00D0047AFE3 /* EmailSignInVC.swift in Sources */,
 				1234FD9F2215B0C900E73FFF /* SettingsCoordinator.swift in Sources */,
+				06865F00257505AF00F14BD6 /* DataRequest+Processing.swift in Sources */,
 				06B666F924979FA1007F74E7 /* MultiPartAnswerView.swift in Sources */,
 				06A0775524FD28AF0046E691 /* AccountResetPasswordVC.swift in Sources */,
 				0676605F248FA517009E9653 /* AppFont.swift in Sources */,
@@ -1519,6 +1540,7 @@
 				06F3D20D25236CC200964261 /* SubjectModel.swift in Sources */,
 				C417777C2508F7AD00CDBBED /* AppleSecurityManager.swift in Sources */,
 				0631E73A247E5D1400D88834 /* HealthKitManager.swift in Sources */,
+				06865EF72575054500F14BD6 /* DataContext+Logging.swift in Sources */,
 				06AFF5B125061ECF00AAF4EC /* CoachCardView.swift in Sources */,
 				8453CF1F256CD79500A3E6F0 /* CareManager.swift in Sources */,
 				0661CAE724F54A6900E6B533 /* OnboardingView.swift in Sources */,
@@ -1555,6 +1577,7 @@
 				C426516A24A625C100772614 /* AppDelegate.swift in Sources */,
 				06F3A27524D98D31006838D4 /* MyDevicesVC.swift in Sources */,
 				C4C48BA224E2D4A100EC12DD /* AAPLSignInButton.swift in Sources */,
+				06865EFC2575057100F14BD6 /* LoggingManager.swift in Sources */,
 				127C11AC222939F20093F4C0 /* DataContext+Keychain.swift in Sources */,
 				067F22E4253861E00023F0BB /* QuestionnaireResponseModel.swift in Sources */,
 				060F9D3024D828CB0010ADB6 /* SettingsFooterView.swift in Sources */,
@@ -1600,6 +1623,7 @@
 				C4C48B9E24E2D44900EC12DD /* GoogleSignInButton.swift in Sources */,
 				1209DC9E255C30AC00864A1B /* Ext_Collection.swift in Sources */,
 				C44F031D25370BEB001553E8 /* SearchParameterModel.swift in Sources */,
+				06865F06257505E200F14BD6 /* RequestPostProcessor.swift in Sources */,
 				462A9E1C252A5E04006B8715 /* Ext_String.swift in Sources */,
 				1234FD692215969D00E73FFF /* Coordinator.swift in Sources */,
 				C42C2DBF252F0F09007D8563 /* AppleHealthView.swift in Sources */,
