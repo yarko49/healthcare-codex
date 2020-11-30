@@ -61,6 +61,7 @@ class MasterCoordinator: Coordinator {
 									}
 									DataContext.shared.fetchData(user: user) { [weak self] success in
 										if success {
+                                            DataContext.shared.identifyCrashlytics()
 											DataContext.shared.getProfileAPI { [weak self] result in
 												if result {
 													self?.syncHKData()

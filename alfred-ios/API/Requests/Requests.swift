@@ -19,7 +19,7 @@ class Requests {
 	}
 
 	static func getQuestionnaire(completion: @escaping (Questionnaire?) -> Void) {
-		sessionManager.request(APIRouter.getQuestionnaire).validate().responseDecodableObject { (response: DataResponse<Questionnaire>) in
+		sessionManager.request(APIRouter.getQuestionnaire).validate().getResponseDecodableObject { (response: DataResponse<Questionnaire>) in
 			switch response.result {
 			case .success(let value):
 				completion(value)
@@ -32,7 +32,7 @@ class Requests {
 
 	static func postQuestionnaireResponse(questionnaireResponse: QuestionnaireResponse, completion: @escaping (SubmittedQuestionnaire?) -> Void) {
 		sessionManager.request(APIRouter.postQuestionnaireResponse(response: questionnaireResponse))
-			.validate().responseDecodableObject { (response: DataResponse<SubmittedQuestionnaire>) in
+			.validate().getResponseDecodableObject { (response: DataResponse<SubmittedQuestionnaire>) in
 				switch response.result {
 				case .success(let submissionResponse):
 					// response.data?.prettyPrint()
@@ -46,7 +46,7 @@ class Requests {
 
 	static func postObservation(observation: Resource, completion: @escaping (Resource?) -> Void) {
 		sessionManager.request(APIRouter.postObservation(observation: observation))
-			.validate().responseDecodableObject { (response: DataResponse<Resource>) in
+			.validate().getResponseDecodableObject { (response: DataResponse<Resource>) in
 				switch response.result {
 				case .success(let observationResponse):
 					// response.data?.prettyPrint()
@@ -60,7 +60,7 @@ class Requests {
 
 	static func postProfile(profile: ProfileModel, completion: @escaping (Bool) -> Void) {
 		sessionManager.request(APIRouter.postProfile(profile: profile))
-			.validate().response { response in
+			.validate().getResponse { response in
 				if response.error == nil {
 					print("201 Created")
 					completion(true)
@@ -73,7 +73,7 @@ class Requests {
 
 	static func postPatient(patient: Resource, completion: @escaping (Resource?) -> Void) {
 		sessionManager.request(APIRouter.postPatient(patient: patient))
-			.validate().responseDecodableObject { (response: DataResponse<Resource>) in
+			.validate().getResponseDecodableObject { (response: DataResponse<Resource>) in
 				switch response.result {
 				case .success(let patientResponse):
 					// response.data?.prettyPrint()
@@ -87,7 +87,7 @@ class Requests {
 
 	static func postPatientSearch(completion: @escaping (BundleModel?) -> Void) {
 		sessionManager.request(APIRouter.postPatientSearch)
-			.validate().responseDecodableObject { (response: DataResponse<BundleModel>) in
+			.validate().getResponseDecodableObject { (response: DataResponse<BundleModel>) in
 				switch response.result {
 				case .success(let patientResponse):
 					// response.data?.prettyPrint()
@@ -100,7 +100,7 @@ class Requests {
 	}
 
 	static func getNotifications(completion: @escaping (CardList?) -> Void) {
-		sessionManager.request(APIRouter.getNotifications).validate().responseDecodableObject { (response: DataResponse<CardList>) in
+		sessionManager.request(APIRouter.getNotifications).validate().getResponseDecodableObject { (response: DataResponse<CardList>) in
 			switch response.result {
 			case .success(let value):
 				completion(value)
@@ -112,7 +112,7 @@ class Requests {
 	}
 
 	static func getProfile(completion: @escaping (ProfileModel?) -> Void) {
-		sessionManager.request(APIRouter.getProfile).validate().responseDecodableObject { (response: DataResponse<ProfileModel>) in
+		sessionManager.request(APIRouter.getProfile).validate().getResponseDecodableObject { (response: DataResponse<ProfileModel>) in
 			switch response.result {
 			case .success(let profile):
 				completion(profile)
@@ -125,7 +125,7 @@ class Requests {
 
 	static func postBundle(bundle: BundleModel, completion: @escaping (BundleModel?) -> Void) {
 		sessionManager.request(APIRouter.postBundle(bundle: bundle))
-			.validate().responseDecodableObject { (response: DataResponse<BundleModel>) in
+			.validate().getResponseDecodableObject { (response: DataResponse<BundleModel>) in
 				switch response.result {
 				case .success(let bundle):
 					// response.data?.prettyPrint()
@@ -139,7 +139,7 @@ class Requests {
 
 	static func postObservationSearch(search: SearchParameter, completion: @escaping (BundleModel?) -> Void) {
 		sessionManager.request(APIRouter.postObservationSearch(search: search))
-			.validate().responseDecodableObject { (response: DataResponse<BundleModel>) in
+			.validate().getResponseDecodableObject { (response: DataResponse<BundleModel>) in
 				switch response.result {
 				case .success(let bundle):
 					// response.data?.prettyPrint()
@@ -153,7 +153,7 @@ class Requests {
 
 	static func patchPatient(patient: [UpdatePatientModel], completion: @escaping (Resource?) -> Void) {
 		sessionManager.request(APIRouter.patchPatient(patient: patient))
-			.validate().responseDecodableObject { (response: DataResponse<Resource>) in
+			.validate().getResponseDecodableObject { (response: DataResponse<Resource>) in
 				switch response.result {
 				case .success(let resource):
 					// response.data?.prettyPrint()
