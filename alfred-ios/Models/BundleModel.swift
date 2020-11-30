@@ -20,7 +20,7 @@ struct BundleModel: Codable {
 struct Entry: Codable {
 	let fullURL: String?
 	let resource: Resource?
-	let request: Request?
+	let request: BERequest?
 	let search: Search?
 	let response: Response?
 
@@ -43,9 +43,9 @@ struct Link: Codable {
 	let url: String?
 }
 
-// MARK: - Request
+// MARK: - BERequest
 
-struct Request: Codable {
+struct BERequest: Codable {
 	let method, url: String?
 }
 

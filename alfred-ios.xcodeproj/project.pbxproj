@@ -60,6 +60,7 @@
 		067F22DE25384F500023F0BB /* QuestionnaireCompletionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067F22DD25384F500023F0BB /* QuestionnaireCompletionVC.swift */; };
 		067F22E125384F5D0023F0BB /* QuestionnaireCompletionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 067F22E025384F5D0023F0BB /* QuestionnaireCompletionVC.xib */; };
 		067F22E4253861E00023F0BB /* QuestionnaireResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067F22E3253861E00023F0BB /* QuestionnaireResponseModel.swift */; };
+		06865F0F25750A6200F14BD6 /* Interceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06865F0E25750A6200F14BD6 /* Interceptor.swift */; };
 		0686721F251B7C7E008E5CF5 /* TroubleshootingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0686721E251B7C7E008E5CF5 /* TroubleshootingVC.swift */; };
 		06867221251B7C99008E5CF5 /* TroubleshootingVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06867220251B7C99008E5CF5 /* TroubleshootingVC.xib */; };
 		069CF975252B020000921649 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069CF974252B020000921649 /* ProfileModel.swift */; };
@@ -262,6 +263,7 @@
 		067F22DD25384F500023F0BB /* QuestionnaireCompletionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireCompletionVC.swift; sourceTree = "<group>"; };
 		067F22E025384F5D0023F0BB /* QuestionnaireCompletionVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionnaireCompletionVC.xib; sourceTree = "<group>"; };
 		067F22E3253861E00023F0BB /* QuestionnaireResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireResponseModel.swift; sourceTree = "<group>"; };
+		06865F0E25750A6200F14BD6 /* Interceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptor.swift; sourceTree = "<group>"; };
 		0686721E251B7C7E008E5CF5 /* TroubleshootingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TroubleshootingVC.swift; sourceTree = "<group>"; };
 		06867220251B7C99008E5CF5 /* TroubleshootingVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TroubleshootingVC.xib; sourceTree = "<group>"; };
 		069CF974252B020000921649 /* ProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
@@ -959,6 +961,7 @@
 			children = (
 				12D42D842226A63C0039043F /* APIRouter.swift */,
 				12D42D862226A67E0039043F /* Requests.swift */,
+				06865F0E25750A6200F14BD6 /* Interceptor.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -1539,6 +1542,7 @@
 				12BCB9EF255C12EB0098BCC2 /* StatCell.swift in Sources */,
 				12D42D7D2226998D0039043F /* AlertHelper.swift in Sources */,
 				0659D2D1247FEC7100B30146 /* QuestionnaireNC.swift in Sources */,
+				06865F0F25750A6200F14BD6 /* Interceptor.swift in Sources */,
 				0672C32B251CE1E900B88A88 /* TodayInputVC.swift in Sources */,
 				067F22DE25384F500023F0BB /* QuestionnaireCompletionVC.swift in Sources */,
 				06AFF5BB25062D7A00AAF4EC /* CircleProgressBarView.swift in Sources */,
