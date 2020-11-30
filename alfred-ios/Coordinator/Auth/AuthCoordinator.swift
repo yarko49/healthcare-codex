@@ -128,6 +128,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		DataContext.shared.fetchData(user: user, completion: { [weak self] success in
 			AlertHelper.hideLoader()
 			if success {
+                DataContext.shared.identifyCrashlytics()
 				self?.getProfile()
 			} else {
 				self?.goToMyProfileFirstVC(from: .signIn)
@@ -440,6 +441,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		DataContext.shared.postProfile(profile: profile) { [weak self] success in
 			AlertHelper.hideLoader()
 			if success {
+                DataContext.shared.identifyCrashlytics()
 				print("OK STATUS FOR PROFILE: 200", DataContext.shared.signUpCompleted)
 				self?.goToAppleHealthVCFromDevices()
 			} else {
