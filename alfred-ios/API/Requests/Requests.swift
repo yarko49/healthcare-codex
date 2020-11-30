@@ -8,6 +8,9 @@ class Requests {
 		configuration.httpMaximumConnectionsPerHost = 50
 		configuration.timeoutIntervalForRequest = 120
 		let sessMan = SessionManager(configuration: configuration)
+        let retrier = Interceptor()
+        sessMan.retrier = retrier
+        sessMan.adapter = retrier
 		return sessMan
 	}()
 
