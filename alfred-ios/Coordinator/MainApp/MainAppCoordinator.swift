@@ -133,8 +133,8 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				self?.observation = observation
 				self?.bundle = nil
 			case .weight:
-				let weightEntry = Entry(fullURL: nil, resource: Resource(code: DataContext.shared.weightCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.getPatientID(), type: "Patient", identifier: nil, display: DataContext.shared.getDisplayName()), valueQuantity: ValueQuantity(value: value1, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: Request(method: "POST", url: "Observation"), search: nil, response: nil)
-				let goalWeightEntry = Entry(fullURL: nil, resource: Resource(code: DataContext.shared.idealWeightCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.getPatientID(), type: "Patient", identifier: nil, display: DataContext.shared.getDisplayName()), valueQuantity: ValueQuantity(value: value2, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: Request(method: "POST", url: "Observation"), search: nil, response: nil)
+				let weightEntry = Entry(fullURL: nil, resource: Resource(code: DataContext.shared.weightCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.getPatientID(), type: "Patient", identifier: nil, display: DataContext.shared.getDisplayName()), valueQuantity: ValueQuantity(value: value1, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
+				let goalWeightEntry = Entry(fullURL: nil, resource: Resource(code: DataContext.shared.idealWeightCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.getPatientID(), type: "Patient", identifier: nil, display: DataContext.shared.getDisplayName()), valueQuantity: ValueQuantity(value: value2, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
 
 				let bundle = BundleModel(entry: [weightEntry, goalWeightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
 				self?.observation = nil
@@ -374,11 +374,11 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 		let weightObservation = Resource(code: DataContext.shared.weightCode, effectiveDateTime: date, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
 
-		let weightEntry = Entry(fullURL: nil, resource: weightObservation, request: Request(method: "POST", url: "Observation"), search: nil, response: nil)
+		let weightEntry = Entry(fullURL: nil, resource: weightObservation, request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
 
 		let heightObservation = Resource(code: DataContext.shared.heightCode, effectiveDateTime: date, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: height, unit: Str.heightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
 
-		let heightEntry = Entry(fullURL: nil, resource: heightObservation, request: Request(method: "POST", url: "Observation"), search: nil, response: nil)
+		let heightEntry = Entry(fullURL: nil, resource: heightObservation, request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
 		let bundle = BundleModel(entry: [weightEntry, heightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
 
 		bundleAction(bundle: bundle)
