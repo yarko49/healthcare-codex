@@ -40,6 +40,9 @@ class HomeVC: BaseVC {
 		refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
 		cardCollectionView.alwaysBounceVertical = true
 		cardCollectionView.addSubview(refreshControl)
+		// This is for testing only
+//		let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(fetchCarePlan(_:)))
+//		navigationItem.rightBarButtonItem = refreshButton
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -116,16 +119,8 @@ class HomeVC: BaseVC {
 		getCardsAction?()
 	}
 
-	let webService = CareWebService(session: URLSession(configuration: .default))
-	func getCarePlan() {
-		webService.getCarePlan { result in
-			switch result {
-			case .failure(let error):
-				log(.error, "Error fetching care plan data", error: error)
-			case .success:
-				log(.info, "Successfully fetch care plan")
-			}
-		}
+	@objc func fetchCarePlan(_ sender: Any) {
+		AppDelegate.appDelegate.careManager.getCarePlanResponse()
 	}
 }
 

@@ -2,13 +2,16 @@
   "tasks" : {
     "defaultCarePlanB" : {
       "defaultTaskA" : {
+        "source" : "",
+        "effectiveDate" : "2020-11-11T01:31:00.343Z",
+        "remoteId" : "b063ad90-0297-5fd1-a167-80b2123c7e36",
         "instructions" : "string",
-        "id" : "string",
         "title" : "daily",
-        "carePlanID" : "defaultCarePlanB",
+        "carePlanId" : "defaultCarePlanB",
         "impactsAdherence" : true,
         "groupIdentifier" : "CHECKLIST",
-        "remoteID" : "13033acc-b51a-5d91-8edc-6c50535039eb",
+        "id" : "string",
+        "asset" : "",
         "schedules" : {
           "scheduleA" : {
             "custom" : false,
@@ -28,30 +31,11 @@
             "minutes" : 0,
             "interval" : 0
           }
-        },
-        "effectiveDate" : "2020-11-11T01:31:00.343Z"
+        }
       }
     },
     "defaultCarePlanA" : {
       "defaultTask6" : {
-        "instructions" : "string",
-        "notes" : {
-          "noteA" : {
-            "author" : "string",
-            "content" : "string",
-            "id" : "",
-            "title" : "string",
-            "groupIdentifier" : "string",
-            "remoteID" : "string",
-            "effectiveDate" : null
-          }
-        },
-        "title" : "daily",
-        "carePlanID" : "defaultCarePlanA",
-        "impactsAdherence" : true,
-        "groupIdentifier" : "LINK",
-        "remoteID" : "87e38af1-0687-5968-9bac-0a1d1d5f17f7",
-        "id" : "string",
         "schedules" : {
           "scheduleA" : {
             "custom" : false,
@@ -72,27 +56,31 @@
             "interval" : 0
           }
         },
-        "effectiveDate" : "2020-11-11T01:31:00.343Z"
-      },
-      "defaultTask7" : {
-        "instructions" : "string",
+        "id" : "string",
+        "remoteId" : "0f57ae3f-6be9-5723-a647-e59e2085cdd8",
+        "asset" : "",
+        "source" : "",
+        "title" : "daily",
         "notes" : {
           "noteA" : {
+            "source" : "",
             "author" : "string",
             "content" : "string",
+            "remoteId" : "string",
             "id" : "",
             "title" : "string",
             "groupIdentifier" : "string",
-            "remoteID" : "string",
+            "asset" : "",
             "effectiveDate" : null
           }
         },
-        "title" : "daily",
-        "carePlanID" : "defaultCarePlanA",
+        "carePlanId" : "defaultCarePlanA",
+        "groupIdentifier" : "LINK",
+        "instructions" : "string",
         "impactsAdherence" : true,
-        "groupIdentifier" : "LOG",
-        "remoteID" : "d4eed07f-c3bc-5217-ab17-cd89c00ee936",
-        "id" : "string",
+        "effectiveDate" : "2020-11-11T01:31:00.343Z"
+      },
+      "defaultTask7" : {
         "schedules" : {
           "scheduleA" : {
             "custom" : false,
@@ -113,27 +101,31 @@
             "interval" : 0
           }
         },
+        "id" : "string",
+        "remoteId" : "eadd3172-cc8a-5a87-9b3d-d7f34e6ca66a",
+        "asset" : "",
+        "source" : "",
+        "title" : "daily",
+        "notes" : {
+          "noteA" : {
+            "source" : "",
+            "author" : "string",
+            "content" : "string",
+            "remoteId" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "asset" : "",
+            "effectiveDate" : null
+          }
+        },
+        "carePlanId" : "defaultCarePlanA",
+        "groupIdentifier" : "LOG",
+        "instructions" : "string",
+        "impactsAdherence" : true,
         "effectiveDate" : "2020-11-11T01:31:00.343Z"
       },
       "defaultTask1" : {
-        "instructions" : "string",
-        "notes" : {
-          "noteA" : {
-            "author" : "string",
-            "content" : "string",
-            "id" : "",
-            "title" : "string",
-            "groupIdentifier" : "string",
-            "remoteID" : "string",
-            "effectiveDate" : null
-          }
-        },
-        "title" : "daily",
-        "carePlanID" : "defaultCarePlanA",
-        "impactsAdherence" : true,
-        "groupIdentifier" : "CHECKLIST",
-        "remoteID" : "857a4a32-f4bb-5b5d-9b65-59b5ced7a38c",
-        "id" : "string",
         "schedules" : {
           "scheduleA" : {
             "custom" : false,
@@ -154,27 +146,31 @@
             "interval" : 0
           }
         },
+        "id" : "string",
+        "remoteId" : "df8bfdae-cec4-57a5-95c3-bf837fd05c06",
+        "asset" : "",
+        "source" : "",
+        "title" : "daily",
+        "notes" : {
+          "noteA" : {
+            "source" : "",
+            "author" : "string",
+            "content" : "string",
+            "remoteId" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "asset" : "",
+            "effectiveDate" : null
+          }
+        },
+        "carePlanId" : "defaultCarePlanA",
+        "groupIdentifier" : "CHECKLIST",
+        "instructions" : "string",
+        "impactsAdherence" : true,
         "effectiveDate" : "2020-11-11T01:31:00.343Z"
       },
       "defaultTask8" : {
-        "instructions" : "string",
-        "notes" : {
-          "noteA" : {
-            "author" : "string",
-            "content" : "string",
-            "id" : "",
-            "title" : "string",
-            "groupIdentifier" : "string",
-            "remoteID" : "string",
-            "effectiveDate" : null
-          }
-        },
-        "title" : "daily",
-        "carePlanID" : "defaultCarePlanA",
-        "impactsAdherence" : true,
-        "groupIdentifier" : "NUMERIC_PROGRESS",
-        "remoteID" : "0fcef0a8-6ab5-5bfc-bdb8-16f5d1a2a2a1",
-        "id" : "string",
         "schedules" : {
           "scheduleA" : {
             "custom" : false,
@@ -195,27 +191,31 @@
             "interval" : 0
           }
         },
+        "id" : "string",
+        "remoteId" : "ba19cb6a-7aa5-533c-9458-99d3086c8386",
+        "asset" : "",
+        "source" : "",
+        "title" : "daily",
+        "notes" : {
+          "noteA" : {
+            "source" : "",
+            "author" : "string",
+            "content" : "string",
+            "remoteId" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "asset" : "",
+            "effectiveDate" : null
+          }
+        },
+        "carePlanId" : "defaultCarePlanA",
+        "groupIdentifier" : "NUMERIC_PROGRESS",
+        "instructions" : "string",
+        "impactsAdherence" : true,
         "effectiveDate" : "2020-11-11T01:31:00.343Z"
       },
       "defaultTask2" : {
-        "instructions" : "string",
-        "notes" : {
-          "noteA" : {
-            "author" : "string",
-            "content" : "string",
-            "id" : "",
-            "title" : "string",
-            "groupIdentifier" : "string",
-            "remoteID" : "string",
-            "effectiveDate" : null
-          }
-        },
-        "title" : "daily",
-        "carePlanID" : "defaultCarePlanA",
-        "impactsAdherence" : true,
-        "groupIdentifier" : "FEATURED_CONTENT",
-        "remoteID" : "05baa5b5-7db4-5187-8baf-a12482db8374",
-        "id" : "string",
         "schedules" : {
           "scheduleA" : {
             "custom" : false,
@@ -236,27 +236,31 @@
             "interval" : 0
           }
         },
-        "effectiveDate" : "2020-11-11T01:31:00.343Z"
-      },
-      "defaultTask9" : {
-        "instructions" : "string",
+        "id" : "string",
+        "remoteId" : "729b9ed5-02a1-553d-832c-9a9321bd076f",
+        "asset" : "",
+        "source" : "",
+        "title" : "daily",
         "notes" : {
           "noteA" : {
+            "source" : "",
             "author" : "string",
             "content" : "string",
+            "remoteId" : "string",
             "id" : "",
             "title" : "string",
             "groupIdentifier" : "string",
-            "remoteID" : "string",
+            "asset" : "",
             "effectiveDate" : null
           }
         },
-        "title" : "daily",
-        "carePlanID" : "defaultCarePlanA",
+        "carePlanId" : "defaultCarePlanA",
+        "groupIdentifier" : "FEATURED_CONTENT",
+        "instructions" : "string",
         "impactsAdherence" : true,
-        "groupIdentifier" : "SIMPLE",
-        "remoteID" : "2009e41d-8db2-594b-a6dd-c7027b652635",
-        "id" : "string",
+        "effectiveDate" : "2020-11-11T01:31:00.343Z"
+      },
+      "defaultTask9" : {
         "schedules" : {
           "scheduleA" : {
             "custom" : false,
@@ -277,27 +281,31 @@
             "interval" : 0
           }
         },
+        "id" : "string",
+        "remoteId" : "021a39b4-3535-5a9f-ae48-c5eec926c8e6",
+        "asset" : "",
+        "source" : "",
+        "title" : "daily",
+        "notes" : {
+          "noteA" : {
+            "source" : "",
+            "author" : "string",
+            "content" : "string",
+            "remoteId" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "asset" : "",
+            "effectiveDate" : null
+          }
+        },
+        "carePlanId" : "defaultCarePlanA",
+        "groupIdentifier" : "SIMPLE",
+        "instructions" : "string",
+        "impactsAdherence" : true,
         "effectiveDate" : "2020-11-11T01:31:00.343Z"
       },
       "defaultTask3" : {
-        "instructions" : "string",
-        "notes" : {
-          "noteA" : {
-            "author" : "string",
-            "content" : "string",
-            "id" : "",
-            "title" : "string",
-            "groupIdentifier" : "string",
-            "remoteID" : "string",
-            "effectiveDate" : null
-          }
-        },
-        "title" : "daily",
-        "carePlanID" : "defaultCarePlanA",
-        "impactsAdherence" : true,
-        "groupIdentifier" : "GRID",
-        "remoteID" : "3806f313-ff87-5430-a4ad-f09caa9ef8fa",
-        "id" : "string",
         "schedules" : {
           "scheduleA" : {
             "custom" : false,
@@ -318,27 +326,31 @@
             "interval" : 0
           }
         },
+        "id" : "string",
+        "remoteId" : "76b1587c-d880-5c87-b33a-f7cbc2a19e46",
+        "asset" : "",
+        "source" : "",
+        "title" : "daily",
+        "notes" : {
+          "noteA" : {
+            "source" : "",
+            "author" : "string",
+            "content" : "string",
+            "remoteId" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "asset" : "",
+            "effectiveDate" : null
+          }
+        },
+        "carePlanId" : "defaultCarePlanA",
+        "groupIdentifier" : "GRID",
+        "instructions" : "string",
+        "impactsAdherence" : true,
         "effectiveDate" : "2020-11-11T01:31:00.343Z"
       },
       "defaultTask4" : {
-        "instructions" : "string",
-        "notes" : {
-          "noteA" : {
-            "author" : "string",
-            "content" : "string",
-            "id" : "",
-            "title" : "string",
-            "groupIdentifier" : "string",
-            "remoteID" : "string",
-            "effectiveDate" : null
-          }
-        },
-        "title" : "daily",
-        "carePlanID" : "defaultCarePlanA",
-        "impactsAdherence" : true,
-        "groupIdentifier" : "INSTRUCTION",
-        "remoteID" : "a6ea5491-9799-5278-a87e-0d885c383a84",
-        "id" : "string",
         "schedules" : {
           "scheduleA" : {
             "custom" : false,
@@ -359,27 +371,31 @@
             "interval" : 0
           }
         },
+        "id" : "string",
+        "remoteId" : "c4fa20f9-3655-5516-9686-6ae875fc805b",
+        "asset" : "",
+        "source" : "",
+        "title" : "daily",
+        "notes" : {
+          "noteA" : {
+            "source" : "",
+            "author" : "string",
+            "content" : "string",
+            "remoteId" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "asset" : "",
+            "effectiveDate" : null
+          }
+        },
+        "carePlanId" : "defaultCarePlanA",
+        "groupIdentifier" : "INSTRUCTION",
+        "instructions" : "string",
+        "impactsAdherence" : true,
         "effectiveDate" : "2020-11-11T01:31:00.343Z"
       },
       "defaultTask5" : {
-        "instructions" : "string",
-        "notes" : {
-          "noteA" : {
-            "author" : "string",
-            "content" : "string",
-            "id" : "",
-            "title" : "string",
-            "groupIdentifier" : "string",
-            "remoteID" : "string",
-            "effectiveDate" : null
-          }
-        },
-        "title" : "daily",
-        "carePlanID" : "defaultCarePlanA",
-        "impactsAdherence" : true,
-        "groupIdentifier" : "LABELED_VALUE",
-        "remoteID" : "7494a9b6-c8eb-5411-83ff-b8bcd8341515",
-        "id" : "string",
         "schedules" : {
           "scheduleA" : {
             "custom" : false,
@@ -400,19 +416,35 @@
             "interval" : 0
           }
         },
+        "id" : "string",
+        "remoteId" : "6b2fdfc9-bdef-5048-a107-36943a676eac",
+        "asset" : "",
+        "source" : "",
+        "title" : "daily",
+        "notes" : {
+          "noteA" : {
+            "source" : "",
+            "author" : "string",
+            "content" : "string",
+            "remoteId" : "string",
+            "id" : "",
+            "title" : "string",
+            "groupIdentifier" : "string",
+            "asset" : "",
+            "effectiveDate" : null
+          }
+        },
+        "carePlanId" : "defaultCarePlanA",
+        "groupIdentifier" : "LABELED_VALUE",
+        "instructions" : "string",
+        "impactsAdherence" : true,
         "effectiveDate" : "2020-11-11T01:31:00.343Z"
       }
     }
   },
   "patients" : {
     "patientID" : {
-      "createdDate" : "2020-11-25T02:10:11.022Z",
-      "id" : "",
-      "groupIdentifier" : "string",
-      "updatedDate" : "2020-11-25T02:10:11.022Z",
-      "remoteID" : "string",
-      "birthday" : "2020-11-25T00:00:00Z",
-      "effectiveDate" : null,
+      "source" : "",
       "name" : {
         "namePrefix" : "",
         "givenName" : "string",
@@ -420,48 +452,73 @@
         "middleName" : "string",
         "familyName" : "string",
         "nickname" : ""
-      }
-    }
-  },
-  "carePlans" : {
-    "defaultCarePlanB" : {
-      "groupIdentifier" : "",
-      "id" : "defaultCarePlanB",
-      "title" : "Codex Default Care Plan",
-      "remoteId" : "7cd5cdf6-8292-5c30-bcaa-3ce871a8a806",
-      "effectiveDate" : "2020-11-11T01:31:00.343Z",
-      "remoteID" : ""
-    },
-    "defaultCarePlanA" : {
-      "id" : "defaultCarePlanA",
-      "remoteId" : "1bdc3546-d6a9-501c-a6c8-7fc1a654d951",
-      "title" : "Personal",
-      "groupIdentifier" : "",
-      "notes" : {
-        "carePlanNoteA" : {
-          "author" : "string",
-          "content" : "string",
-          "id" : "",
-          "title" : "string",
-          "groupIdentifier" : "string",
-          "remoteID" : "string",
-          "effectiveDate" : null
-        },
-        "carePlanNoteB" : {
-          "author" : "string",
-          "content" : "string",
-          "id" : "",
-          "title" : "string",
-          "groupIdentifier" : "string",
-          "remoteID" : "string",
-          "effectiveDate" : null
-        }
       },
-      "remoteID" : "",
-      "effectiveDate" : "2020-11-11T01:31:00.343Z"
+      "createdDate" : "2020-11-25T02:10:11.022Z",
+      "remoteId" : "string",
+      "id" : "",
+      "groupIdentifier" : "string",
+      "updatedDate" : "2020-11-25T02:10:11.022Z",
+      "birthday" : "2020-11-25T00:00:00Z",
+      "asset" : "",
+      "effectiveDate" : "2020-11-25T02:10:11.022Z",
+      "timezone": {
+            "identifier":"America\/Los_Angeles"
+        }
     }
   },
   "vectorClock" : {
+    "0f78ec56-8aa4-573f-94f2-37f5cd839b75" : 4,
+    "9998ec56-8aa4-573f-94f2-37f5cd837777" : 97606,
     "backend" : 0
+  },
+  "carePlans" : {
+    "defaultCarePlanB" : {
+      "source" : "",
+      "remoteId" : "4eb85252-105e-5c5a-a2d9-66b981b3eb19",
+      "id" : "defaultCarePlanB",
+      "title" : "Codex Default Care Plan",
+      "groupIdentifier" : "",
+      "asset" : "",
+      "effectiveDate" : "2020-11-11T01:31:00.343Z",
+      "timezone": {
+            "identifier":"America\/Los_Angeles"
+        }
+    },
+    "defaultCarePlanA" : {
+      "source" : "",
+      "remoteId" : "aa264b85-9b11-5630-91e0-f4d649db414d",
+      "id" : "defaultCarePlanA",
+      "notes" : {
+        "carePlanNoteA" : {
+          "source" : "",
+          "author" : "string",
+          "content" : "string",
+          "remoteId" : "string",
+          "id" : "",
+          "title" : "string",
+          "groupIdentifier" : "string",
+          "asset" : "",
+          "effectiveDate" : null
+        },
+        "carePlanNoteB" : {
+          "source" : "",
+          "author" : "string",
+          "content" : "string",
+          "remoteId" : "string",
+          "id" : "",
+          "title" : "string",
+          "groupIdentifier" : "string",
+          "asset" : "",
+          "effectiveDate" : null
+        }
+      },
+      "title" : "Personal",
+      "groupIdentifier" : "",
+      "asset" : "",
+      "effectiveDate" : "2020-11-11T01:31:00.343Z",
+      "timezone": {
+            "identifier":"America\/Los_Angeles"
+        }
+    }
   }
 }

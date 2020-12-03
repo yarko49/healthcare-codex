@@ -18,6 +18,9 @@ class RegisterVC: BaseVC {
 
 	override func setupView() {
 		super.setupView()
+		emailField.keyboardType = .emailAddress
+		emailField.autocorrectionType = .no
+		emailField.autocapitalizationType = .none
 	}
 
 	override func setupLayout() {
