@@ -50,6 +50,41 @@ class AlfrediOSTests: XCTestCase {
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 	}
 
+	fileprivate func saveTimeZone() {
+		struct MyTimeZone: Codable {
+			let timeZone: TimeZone
+		}
+		let mytimzZone = MyTimeZone(timeZone: .current)
+		do {
+			let data = try JSONEncoder().encode(mytimzZone)
+			try data.write(to: URL(fileURLWithPath: "/tmp/TimeZone.json"))
+		} catch {
+			XCTFail("Care Plans data file missing")
+		}
+	}
+
+	func testCarePlanResponse() throws {
+		guard let data = loadTestData(fileName: "CarePlanResponse.json"), let url = APIRouter.getCarePlan.urlRequest?.url else {
+			XCTFail("Care Plans data file missing")
+			return
+		}
+		XCTAssert(!data.isEmpty)
+		URLProtocolMock.testData[url] = data
+		URLProtocolMock.response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
+		let expect = expectation(description: "CarePlanResponse")
+		webService?.getCarePlanResponse(completion: { result in
+			switch result {
+			case .failure(let error):
+				XCTFail("Error Fetching Company Profile = \(error.localizedDescription)")
+			case .success(let carePlanResponse):
+				XCTAssertTrue(true)
+				expect.fulfill()
+			}
+			URLProtocolMock.response = nil
+		})
+		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
+	}
+
 	func testPerformanceExample() throws {
 		// This is an example of a performance test case.
 		measure {

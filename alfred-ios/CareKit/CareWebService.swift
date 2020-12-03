@@ -8,7 +8,11 @@
 import Combine
 import Foundation
 
-public final class CareWebService {
+public protocol AlfredAPI {
+	func getCarePlanResponse(completion: @escaping CareWebService.DecodableCompletion<CarePlanResponse>)
+}
+
+public final class CareWebService: AlfredAPI {
 	public typealias DecodableCompletion<T: Decodable> = (Result<T, Error>) -> Void
 	public typealias DataCompletion<T> = (Result<T, Error>) -> Void
 
@@ -27,6 +31,12 @@ public final class CareWebService {
 
 	public func getCarePlan(completion: @escaping CareWebService.DataCompletion<[String: Any]>) {
 		request(route: .getCarePlan, completion: completion)
+	}
+
+	public func getCarePlanResponse(completion: @escaping CareWebService.DecodableCompletion<CarePlanResponse>) {
+		let decoder = JSONDecoder()
+		decoder.dateDecodingStrategy = .formatted(DateFormatter.carePlanFormatter)
+		request(route: .getCarePlan, decoder: decoder, completion: completion)
 	}
 
 	@discardableResult

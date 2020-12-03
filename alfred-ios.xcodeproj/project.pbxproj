@@ -161,6 +161,9 @@
 		8468B0B3256C62C100202A16 /* Data+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468B0B2256C62C100202A16 /* Data+Validation.swift */; };
 		8468B0D3256C679000202A16 /* AlfrediOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468B0D2256C679000202A16 /* AlfrediOSTests.swift */; };
 		8468B0DD256C67B100202A16 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468B0DC256C67B100202A16 /* URLProtocolMock.swift */; };
+		84D0A5EB2578970200B053B4 /* DateFormatter+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0A5EA2578970200B053B4 /* DateFormatter+Custom.swift */; };
+		84D0A5EF2578970900B053B4 /* Enviornment+CareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0A5EE2578970900B053B4 /* Enviornment+CareManager.swift */; };
+		84D0A5F32578972200B053B4 /* CarePlanResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0A5F22578972200B053B4 /* CarePlanResponse.swift */; };
 		86A38FD424D1B74D000E9E3F /* Ext_Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A38FD324D1B74D000E9E3F /* Ext_Double.swift */; };
 		86DDD51D24D02EA000D27445 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DDD51C24D02EA000D27445 /* ProfileVC.swift */; };
 		86DDD51F24D02EAC00D27445 /* ProfileVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86DDD51E24D02EAC00D27445 /* ProfileVC.xib */; };
@@ -372,6 +375,9 @@
 		8468B0D2256C679000202A16 /* AlfrediOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfrediOSTests.swift; sourceTree = "<group>"; };
 		8468B0D4256C679000202A16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8468B0DC256C67B100202A16 /* URLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
+		84D0A5EA2578970200B053B4 /* DateFormatter+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Custom.swift"; sourceTree = "<group>"; };
+		84D0A5EE2578970900B053B4 /* Enviornment+CareManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Enviornment+CareManager.swift"; sourceTree = "<group>"; };
+		84D0A5F22578972200B053B4 /* CarePlanResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanResponse.swift; sourceTree = "<group>"; };
 		86A38FD324D1B74D000E9E3F /* Ext_Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext_Double.swift; sourceTree = "<group>"; };
 		86DDD51C24D02EA000D27445 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		86DDD51E24D02EAC00D27445 /* ProfileVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileVC.xib; sourceTree = "<group>"; };
@@ -1011,7 +1017,9 @@
 				8453CF1E256CD79500A3E6F0 /* CareManager.swift */,
 				8453CF1A256CD15300A3E6F0 /* RemoteSynchronizationManager.swift */,
 				8436019A25678D7B000B4C55 /* Environment+StoreManager.swift */,
+				84D0A5EE2578970900B053B4 /* Enviornment+CareManager.swift */,
 				8468B0AF256C624D00202A16 /* CareWebService.swift */,
+				84D0A5EA2578970200B053B4 /* DateFormatter+Custom.swift */,
 				8468B0B2256C62C100202A16 /* Data+Validation.swift */,
 			);
 			path = CareKit;
@@ -1021,6 +1029,7 @@
 			isa = PBXGroup;
 			children = (
 				8453CF48256DC2D200A3E6F0 /* Clock.swift */,
+				84D0A5F22578972200B053B4 /* CarePlanResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1511,6 +1520,7 @@
 				06F3A27024D9871B006838D4 /* SettingsSwitchCell.swift in Sources */,
 				1209DC9B255C308F00864A1B /* Ext_Sequence.swift in Sources */,
 				12D42D8B2226ACB60039043F /* AppConfig.swift in Sources */,
+				84D0A5EB2578970200B053B4 /* DateFormatter+Custom.swift in Sources */,
 				C4BE384024FFA00D0047AFE3 /* EmailSignInVC.swift in Sources */,
 				1234FD9F2215B0C900E73FFF /* SettingsCoordinator.swift in Sources */,
 				06865F00257505AF00F14BD6 /* DataRequest+Processing.swift in Sources */,
@@ -1565,11 +1575,13 @@
 				12D42D7D2226998D0039043F /* AlertHelper.swift in Sources */,
 				0659D2D1247FEC7100B30146 /* QuestionnaireNC.swift in Sources */,
 				06865F0F25750A6200F14BD6 /* Interceptor.swift in Sources */,
+				84D0A5EF2578970900B053B4 /* Enviornment+CareManager.swift in Sources */,
 				0672C32B251CE1E900B88A88 /* TodayInputVC.swift in Sources */,
 				067F22DE25384F500023F0BB /* QuestionnaireCompletionVC.swift in Sources */,
 				06AFF5BB25062D7A00AAF4EC /* CircleProgressBarView.swift in Sources */,
 				1234FD762215997900E73FFF /* DataContext.swift in Sources */,
 				8453CF1B256CD15300A3E6F0 /* RemoteSynchronizationManager.swift in Sources */,
+				84D0A5F32578972200B053B4 /* CarePlanResponse.swift in Sources */,
 				06679ACB24DC349A004D6F24 /* MyNotificationsModel.swift in Sources */,
 				C41777832508FED700CDBBED /* CustomYAxisRenderer.swift in Sources */,
 				1234FD7922159A1B00E73FFF /* BaseVC.swift in Sources */,
