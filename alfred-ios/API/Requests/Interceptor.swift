@@ -30,6 +30,8 @@ class Interceptor: RequestRetrier, RequestAdapter {
 			if !isRefreshing {
 				initiateRefresh(with: statusCode)
 			}
+		} else {
+			completion(false, 0.0)
 		}
 	}
 
@@ -41,10 +43,7 @@ class Interceptor: RequestRetrier, RequestAdapter {
 			}
 			self?.requestsToRetry.removeAll()
 		}
-
-		if statusCode == 401 {
-			refreshTokens(completion: completion)
-		}
+		refreshTokens(completion: completion)
 	}
 
 	func refreshTokens(completion: @escaping Interceptor.RefreshCompletion) {
