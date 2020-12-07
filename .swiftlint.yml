@@ -25,7 +25,7 @@ analyzer_rules: # Rules run by `swiftlint analyze` (experimental)
 # binary rules can set their severity level
 force_cast: warning # implicitly
 force_try:
-  severity: warning # explicitly
+  severity: error # explicitly
 # rules that have both warning and error levels, can set just the warning level
 # implicitly
 line_length: 230
@@ -35,10 +35,13 @@ type_body_length:
   - 400 # error
 # or they can set both explicitly
 file_length:
-  warning: 500
+  warning: 800
   error: 1200
 # naming rules can set warnings/errors for min_length and max_length
 # additionally they can set excluded names
+function_body_length:
+  warning: 100
+  error: 200
 type_name:
   min_length: 4 # only warning
   max_length: # warning and error

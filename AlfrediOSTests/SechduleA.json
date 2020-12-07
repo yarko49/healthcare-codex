@@ -1,0 +1,57 @@
+{
+  "start": "2020-11-11T01:31:00.343Z",
+  "weekly": false,
+  "daily": false,
+  "interval": 28800,
+  "custom": true,
+  "text": "custom",
+  "targetValues": [
+    {
+      "id": "",
+      "index": 0,
+      "remoteId": "",
+      "asset": "",
+      "units": "",
+      "source": "",
+      "value": true,
+      "type": "boolean",
+      "groupIdentifier": "",
+      "timezone": 0,
+      "effectiveDate": null,
+      "kind": ""
+    },
+    {
+      "id": "",
+      "index": 0,
+      "remoteId": "",
+      "asset": "",
+      "units": "",
+      "source": "",
+      "value": true,
+      "type": "boolean",
+      "groupIdentifier": "",
+      "timezone": 0,
+      "effectiveDate": null,
+      "kind": ""
+    },
+    {
+      "id": "",
+      "index": 0,
+      "remoteId": "",
+      "asset": "",
+      "units": "",
+      "source": "",
+      "value": true,
+      "type": "boolean",
+      "groupIdentifier": "",
+      "timezone": 0,
+      "effectiveDate": null,
+      "kind": ""
+    }
+  ],
+  "duration": 0,
+  "minutes": 0,
+  "weekday": 0,
+  "hour": 0,
+  "end": "2999-11-11T01:31:00Z"
+}

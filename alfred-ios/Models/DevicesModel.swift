@@ -1,4 +1,3 @@
-
 //  DevicesModel.swift
 //  alfred-ios
 //

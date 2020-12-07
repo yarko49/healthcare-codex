@@ -68,7 +68,7 @@ class TodayStatCell: UITableViewCell {
 		let quantityValue = statistics.first?.sumQuantity()?.doubleValue(for: .count()) ?? 0
 		let formatter = NumberFormatter()
 		formatter.numberStyle = .decimal
-		let number = NSNumber(integerLiteral: Int(quantityValue))
+		let number = NSNumber(value: Int(quantityValue))
 		let numberString = formatter.string(from: number) ?? "\(Int(quantityValue))"
 		let value = NSMutableAttributedString(attributedString: numberString.with(style: .semibold26, andColor: .black))
 		value.append(NSAttributedString(string: " "))

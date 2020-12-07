@@ -27,9 +27,7 @@ class LanguageManager {
 			currentLanguage = Locale.preferredLanguages[0]
 		}
 
-		if let currentLanguage = currentLanguage as? String,
-		   let lang = Language(rawValue: currentLanguage.truncate(length: 2))
-		{
+		if let currentLanguage = currentLanguage as? String, let lang = Language(rawValue: currentLanguage.truncate(length: 2)) {
 			return lang
 		}
 		return Language.en
@@ -89,13 +87,9 @@ class LanguageManager {
 	}
 
 	private func setLocaleWithLanguage(_ selectedLanguage: String) {
-		if let pathSelected = Bundle.main.path(forResource: selectedLanguage, ofType: "lproj"),
-		   let bundleSelected = Bundle(path: pathSelected)
-		{
+		if let pathSelected = Bundle.main.path(forResource: selectedLanguage, ofType: "lproj"), let bundleSelected = Bundle(path: pathSelected) {
 			localeBundle = bundleSelected
-		} else if let pathDefault = Bundle.main.path(forResource: Language.en.rawValue, ofType: "lproj"),
-		          let bundleDefault = Bundle(path: pathDefault)
-		{
+		} else if let pathDefault = Bundle.main.path(forResource: Language.en.rawValue, ofType: "lproj"), let bundleDefault = Bundle(path: pathDefault) {
 			localeBundle = bundleDefault
 		}
 	}

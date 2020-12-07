@@ -1,0 +1,72 @@
+{
+  "id": "TaskB2",
+  "schedules": {
+    "scheduleA": {
+      "start": "2020-11-11T01:31:00.343Z",
+      "weekly": false,
+      "daily": false,
+      "interval": 28800,
+      "custom": true,
+      "text": "custom",
+      "targetValues": [
+        {
+          "id": "",
+          "index": 0,
+          "remoteId": "",
+          "asset": "",
+          "units": "",
+          "source": "",
+          "value": true,
+          "type": "boolean",
+          "groupIdentifier": "",
+          "timezone": 0,
+          "effectiveDate": null,
+          "kind": ""
+        },
+        {
+          "id": "",
+          "index": 0,
+          "remoteId": "",
+          "asset": "",
+          "units": "",
+          "source": "",
+          "value": true,
+          "type": "boolean",
+          "groupIdentifier": "",
+          "timezone": 0,
+          "effectiveDate": null,
+          "kind": ""
+        },
+        {
+          "id": "",
+          "index": 0,
+          "remoteId": "",
+          "asset": "",
+          "units": "",
+          "source": "",
+          "value": true,
+          "type": "boolean",
+          "groupIdentifier": "",
+          "timezone": 0,
+          "effectiveDate": null,
+          "kind": ""
+        }
+      ],
+      "duration": 0,
+      "minutes": 0,
+      "weekday": 0,
+      "hour": 0,
+      "end": "2999-11-11T01:31:00Z"
+    }
+  },
+  "remoteId": "XXXX-SOME-UUID-ZZZZ",
+  "asset": "",
+  "source": "",
+  "title": "custom-3x-daily-finite-grid",
+  "carePlanId": "CarePlanB",
+  "groupIdentifier": "GRID",
+  "timezone": 0,
+  "effectiveDate": "2020-11-11T01:31:00.343Z",
+  "instructions": "3x daily instructions",
+  "impactsAdherence": true
+}

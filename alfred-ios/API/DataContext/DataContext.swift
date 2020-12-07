@@ -5,29 +5,29 @@ class DataContext {
 	static let shared = DataContext()
 
 	var hasRunOnce: Bool {
-		set {
-			UserDefaults.standard.set(newValue, forKey: "HAS_RUN_ONCE")
-		}
 		get {
 			UserDefaults.standard.bool(forKey: "HAS_RUN_ONCE")
+		}
+		set {
+			UserDefaults.standard.set(newValue, forKey: "HAS_RUN_ONCE")
 		}
 	}
 
 	var hasCompletedOnboarding: Bool {
-		set {
-			UserDefaults.standard.set(newValue, forKey: "HAS_COMPLETED_ONBOARDING")
-		}
 		get {
 			UserDefaults.standard.bool(forKey: "HAS_COMPLETED_ONBOARDING")
+		}
+		set {
+			UserDefaults.standard.set(newValue, forKey: "HAS_COMPLETED_ONBOARDING")
 		}
 	}
 
 	var isBiometricsEnabled: Bool {
-		set {
-			UserDefaults.standard.set(newValue, forKey: "IS_BIOMETRICS_ENABLED")
-		}
 		get {
 			UserDefaults.standard.bool(forKey: "IS_BIOMETRICS_ENABLED")
+		}
+		set {
+			UserDefaults.standard.set(newValue, forKey: "IS_BIOMETRICS_ENABLED")
 		}
 	}
 
