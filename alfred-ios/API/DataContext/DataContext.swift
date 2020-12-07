@@ -57,6 +57,11 @@ class DataContext {
 	var weightArray: [Int] = []
 	var heightArray: [Int] = []
 
+	var weightGoal = 0.0
+	var bpGoal = 0.0
+	var stepsGoal = 0.0
+	var hrGoal = 0.0
+	var rhrGoal = 0.0
 	var activityPushNotificationsIsOn = false
 	var bloodPressurePushNotificationsIsOn = false
 	var weightInPushNotificationsIsOn = false
@@ -153,6 +158,11 @@ class DataContext {
 		bloodPressurePushNotificationsIsOn = false
 		weightInPushNotificationsIsOn = false
 		surveyPushNotificationsIsOn = false
+		weightGoal = 0.0
+		bpGoal = 0.0
+		stepsGoal = 0.0
+		hrGoal = 0.0
+		rhrGoal = 0.0
 		userModel = nil
 	}
 }
