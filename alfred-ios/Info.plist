@@ -37,6 +37,8 @@
 		<string>$(API_BASE_URL)</string>
 		<key>API Key</key>
 		<string>$(API_KEY)</string>
+		<key>Tenant ID</key>
+		<string>$(TENANT_ID)</string>
 	</dict>
 	<key>Fabric</key>
 	<dict>
