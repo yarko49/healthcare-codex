@@ -1,4 +1,3 @@
-
 //  HealthQualityType.swift
 
 import Foundation

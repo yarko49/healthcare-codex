@@ -11,11 +11,11 @@ import Foundation
 import XCTest
 
 class ClockTests: XCTestCase {
-	var clock: Clock?
+	var clock: VectorClock?
 
 	override func setUpWithError() throws {
 		// Put setup code here. This method is called before the invocation of each test method in the class.
-		clock = Clock(uuid: UUID())
+		clock = VectorClock(uuid: UUID())
 	}
 
 	override func tearDownWithError() throws {

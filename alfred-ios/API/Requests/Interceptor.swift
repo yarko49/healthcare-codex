@@ -53,7 +53,7 @@ class Interceptor: RequestRetrier, RequestAdapter {
 		isRefreshing = true
 		Auth.auth().currentUser?.getIDToken(completion: { [weak self] firebaseToken, error in
 			self?.isRefreshing = false
-			if let _ = error {
+			if error != nil {
 				completion(false)
 			} else if let firebaseToken = firebaseToken {
 				DataContext.shared.authToken = firebaseToken

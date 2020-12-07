@@ -4,7 +4,7 @@ import Foundation
 enum APIRouter: URLRequestConvertible {
 	static let baseURLPath = AppConfig.apiBaseUrl
 
-	case getCarePlan
+	case getCarePlan(vectorClock: Bool, valueSpaceSample: Bool)
 	case getQuestionnaire
 	case postQuestionnaireResponse(response: QuestionnaireResponse)
 	case postPatient(patient: Resource)
@@ -66,7 +66,13 @@ enum APIRouter: URLRequestConvertible {
 			headers["Authorization"] = "Bearer " + authToken
 		}
 		switch self {
-		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile, .getCarePlan:
+		case .getCarePlan(let vectorClock, let valueSpaceSample):
+			if vectorClock {
+				headers["CarePlan-Vector-Clock-Only"] = "true"
+			} else if valueSpaceSample {
+				headers["Careplan-Prefer"] = "return=ValueSpaceSample"
+			}
+		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile:
 			break
 		case .postObservation, .postPatient, .postPatientSearch, .postBundle, .postQuestionnaireResponse, .postObservationSearch:
 			headers["Content-Type"] = "application/fhir+json"

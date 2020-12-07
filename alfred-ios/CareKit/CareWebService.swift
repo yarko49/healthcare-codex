@@ -29,14 +29,16 @@ public final class CareWebService: AlfredAPI {
 		}
 	}
 
-	public func getCarePlan(completion: @escaping CareWebService.DataCompletion<[String: Any]>) {
-		request(route: .getCarePlan, completion: completion)
+	public func getCarePlan(vectorClock: Bool = false, valueSpaceSample: Bool = false, completion: @escaping CareWebService.DataCompletion<[String: Any]>) {
+		// CarePlan-Vector-Clock-Only: true
+		// Careplan-Prefer: return=ValueSpaceSample
+		request(route: .getCarePlan(vectorClock: vectorClock, valueSpaceSample: valueSpaceSample), completion: completion)
 	}
 
 	public func getCarePlanResponse(completion: @escaping CareWebService.DecodableCompletion<CarePlanResponse>) {
 		let decoder = JSONDecoder()
-		decoder.dateDecodingStrategy = .formatted(DateFormatter.carePlanFormatter)
-		request(route: .getCarePlan, decoder: decoder, completion: completion)
+		decoder.dateDecodingStrategy = .formatted(.wholeDateRequest)
+		request(route: .getCarePlan(vectorClock: false, valueSpaceSample: false), decoder: decoder, completion: completion)
 	}
 
 	@discardableResult

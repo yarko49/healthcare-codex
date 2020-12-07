@@ -29,7 +29,7 @@ class AlfrediOSTests: XCTestCase {
 	}
 
 	func testCarePlans() throws {
-		guard let data = loadTestData(fileName: "CarePlanResponse.json"), let url = APIRouter.getCarePlan.urlRequest?.url else {
+		guard let data = AlfrediOSTests.loadTestData(fileName: "CarePlanResponse.json"), let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url else {
 			XCTFail("Care Plans data file missing")
 			return
 		}
@@ -64,7 +64,7 @@ class AlfrediOSTests: XCTestCase {
 	}
 
 	func testCarePlanResponse() throws {
-		guard let data = loadTestData(fileName: "CarePlanResponse.json"), let url = APIRouter.getCarePlan.urlRequest?.url else {
+		guard let data = AlfrediOSTests.loadTestData(fileName: "CarePlanResponse.json"), let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url else {
 			XCTFail("Care Plans data file missing")
 			return
 		}
@@ -134,7 +134,7 @@ class AlfrediOSTests: XCTestCase {
 		XCTAssertEqual(clockValue, 0, "Values do not match")
 	}
 
-	func loadTestData(fileName: String) -> Data? {
+	static func loadTestData(fileName: String) -> Data? {
 		let components = fileName.components(separatedBy: ".")
 		assert(components.count == 2)
 		guard let url = Bundle(for: AlfrediOSTests.self).url(forResource: components[0], withExtension: components[1]) else {

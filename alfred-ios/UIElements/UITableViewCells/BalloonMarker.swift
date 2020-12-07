@@ -32,8 +32,7 @@ class BalloonMarker: MarkerImage {
 		return CGSize(width: textSize.width + insets.right + insets.left, height: textSize.height + insets.top + insets.bottom)
 	}
 
-	init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets, unit: String, numberFormatter: NumberFormatter, intervalType: ChartIntervalType)
-	{
+	init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets, unit: String, numberFormatter: NumberFormatter, intervalType: ChartIntervalType) {
 		self.color = color
 		self.textColor = textColor
 		self.insets = insets
@@ -105,7 +104,7 @@ class BalloonMarker: MarkerImage {
 		let normalFontAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 11), NSAttributedString.Key.paragraphStyle: paragraphStyle]
 
 		let combination = NSMutableAttributedString()
-		let numberString = numberFormatter.string(from: NSNumber(integerLiteral: Int(entry.y)))
+		let numberString = numberFormatter.string(from: NSNumber(value: Int(entry.y)))
 		let partOne = NSMutableAttributedString(string: numberString ?? "", attributes: boldFontAttributes)
 		let partTwo = NSMutableAttributedString(string: " ", attributes: normalFontAttributes)
 		let partThree = NSMutableAttributedString(string: unit, attributes: normalFontAttributes)

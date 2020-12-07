@@ -392,7 +392,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			AlertHelper.hideLoader()
 			DataContext.shared.patient = patient
 
-			if let _ = patientResponse {
+			if patientResponse != nil {
 				print("OK STATUS FOR PATIENT : 200")
 				let defaultName = Name(use: "", family: "", given: [""])
 				DataContext.shared.userModel = UserModel(userID: patientResponse?.id ?? "", email: self?.emailrequest ?? "", name: patientResponse?.name ?? [defaultName], dob: patient.birthDate, gender: Gender(rawValue: DataContext.shared.patient?.gender ?? ""))
@@ -521,8 +521,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		let newUser = authResult?.additionalUserInfo?.isNewUser
 		if newUser == true {
 			goToMyProfileFirstVC()
-		}
-		else {
+		} else {
 			getPatientInfo()
 		}
 	}

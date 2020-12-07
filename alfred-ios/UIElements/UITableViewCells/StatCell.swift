@@ -82,7 +82,7 @@ class StatCell: UITableViewCell {
 			let averageValue = quantityType != .activity ? intValues.sum() / valuesCount : intValues.sum()
 			let formatter = NumberFormatter()
 			formatter.numberStyle = .decimal
-			let avgNumber = NSNumber(integerLiteral: Int(averageValue))
+			let avgNumber = NSNumber(value: Int(averageValue))
 			let avgNumberString = formatter.string(from: avgNumber) ?? "\(Int(averageValue))"
 			let value = NSMutableAttributedString(attributedString: avgNumberString.with(style: .semibold26, andColor: .black))
 			value.append(NSAttributedString(string: " "))
@@ -90,12 +90,12 @@ class StatCell: UITableViewCell {
 			avgValueLbl.attributedText = value
 
 			let hiValue = intValues.max() ?? averageValue
-			let hiNumber = NSNumber(integerLiteral: Int(hiValue))
+			let hiNumber = NSNumber(value: Int(hiValue))
 			let hiNumberString = formatter.string(from: hiNumber) ?? "\(Int(hiValue))"
 			highValueLbl.attributedText = "\(hiNumberString)".with(style: .regular16, andColor: .black)
 
 			let lowValue = intValues.min() ?? averageValue
-			let lowNumber = NSNumber(integerLiteral: lowValue)
+			let lowNumber = NSNumber(value: lowValue)
 			let lowNumberString = formatter.string(from: lowNumber) ?? "\(Int(lowValue))"
 			lowValueLbl.attributedText = lowNumberString.with(style: .regular16, andColor: .black)
 			lineChartView.setup(with: data, quantityType: quantityType, intervalType: intervalType)

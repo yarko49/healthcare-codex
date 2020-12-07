@@ -207,7 +207,7 @@ private class YaxisValueFormatter: NSObject, IAxisValueFormatter {
 	}
 
 	func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-		let number = NSNumber(integerLiteral: Int(value))
+		let number = NSNumber(value: Int(value))
 		return numberFormatter.string(from: number) ?? ""
 	}
 }
