@@ -27,7 +27,7 @@ class ProfileVC: BaseVC {
 	var profileInputAction: (() -> (Resource?, BundleModel?))?
 	var comingFrom: Coming = .today
 	var getData: (() -> Void)?
-	var getRangeData: ((HealthStatsDateIntervalType, Date, Date, (([HealthKitQuantityType: [StatModel]]?) -> Void)?) -> Void)?
+	var getRangeData: ((HealthStatsDateIntervalType, Date, Date, (([HealthKitQuantityType: [StatModel]]?, [HealthKitQuantityType: Double]?) -> Void)?) -> Void)?
 	var getTodayData: (() -> Void)?
 
 	// MARK: IBOutlets
@@ -65,7 +65,13 @@ class ProfileVC: BaseVC {
 		}
 	}
 
-	var expandColapseState: [HealthKitQuantityType: Bool] = [:]
+	var goals: [HealthKitQuantityType: Double] = [:] {
+		didSet {
+			patientTrendsTV?.reloadData()
+		}
+	}
+
+	var expandCollapseState: [HealthKitQuantityType: Bool] = [:]
 	var todayHKData: [HealthKitQuantityType: [Any]] = [:] {
 		didSet {
 			patientTrendsTV?.reloadData()
@@ -149,7 +155,7 @@ class ProfileVC: BaseVC {
 	private func resetExpandState() {
 		patientTrendsTV?.contentOffset = CGPoint.zero
 		DataContext.shared.userAuthorizedQuantities.forEach {
-			expandColapseState[$0] = false
+			expandCollapseState[$0] = false
 		}
 	}
 
@@ -201,9 +207,10 @@ class ProfileVC: BaseVC {
 
 	private func fetchData(newDateRange: (Date?, Date?)) {
 		guard let start = newDateRange.0, let end = newDateRange.1 else { return }
-		getRangeData?(currentDateInterval, start, end, { [weak self] newData in
-			guard let newData = newData else { return }
+		getRangeData?(currentDateInterval, start, end, { [weak self] newData, goals in
+			guard let newData = newData, let goals = goals else { return }
 			self?.currentHKData = newData
+			self?.goals = goals
 			switch self?.currentDateInterval {
 			case .weekly: self?.currentWkDate = start
 			case .monthly: self?.currentMonthDate = start
@@ -280,13 +287,13 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
 		} else {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "StatCell", for: indexPath) as! StatCell
 			cell.selectionStyle = .none
-			cell.expandColapseAction = { [weak self] expanded in
+			cell.expandCollapseAction = { [weak self] expanded in
 				let currentContentOffset = tableView.contentOffset
-				self?.expandColapseState[type] = expanded
+				self?.expandCollapseState[type] = expanded
 				tableView.reloadRows(at: [indexPath], with: .none)
 				tableView.contentOffset = currentContentOffset
 			}
-			cell.setup(for: type, with: currentHKData[type], intervalType: currentDateInterval, expanded: expandColapseState[type] ?? false)
+			cell.setup(for: type, with: currentHKData[type], intervalType: currentDateInterval, expanded: expandCollapseState[type] ?? false, goal: goals[type] ?? 0.0)
 			return cell
 		}
 	}

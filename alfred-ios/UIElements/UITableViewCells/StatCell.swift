@@ -18,12 +18,12 @@ class StatCell: UITableViewCell {
 	@IBOutlet var lowLbl: UILabel!
 	@IBOutlet var lowValueLbl: UILabel!
 	@IBOutlet var chartContainerView: UIView!
-	@IBOutlet var expandColapseBtn: UIButton!
+	@IBOutlet var expandCollapseBtn: UIButton!
 
 	var highLowWithDataWidthConstraint: NSLayoutConstraint?
 	var highLowWNoDataWidthConstraint: NSLayoutConstraint?
 
-	var expandColapseAction: ((Bool) -> Void)?
+	var expandCollapseAction: ((Bool) -> Void)?
 
 	private let lineChartView: ProfileChartView = {
 		let chartView = ProfileChartView()
@@ -46,10 +46,10 @@ class StatCell: UITableViewCell {
 		heightAnchor.isActive = true
 	}
 
-	func setup(for quantityType: HealthKitQuantityType, with data: [StatModel]?, intervalType: HealthStatsDateIntervalType, expanded: Bool) {
+	func setup(for quantityType: HealthKitQuantityType, with data: [StatModel]?, intervalType: HealthStatsDateIntervalType, expanded: Bool, goal: Double) {
 		chartContainerView.alpha = expanded ? 1 : 0
 		chartContainerView.isHidden = !expanded
-		expandColapseBtn.isSelected = expanded
+		expandCollapseBtn.isSelected = expanded
 		typeLbl.attributedText = quantityType.rawValue.with(style: .semibold20, andColor: quantityType.getColor())
 		typeIV.image = quantityType.getImage()
 		var avgString: String {
@@ -98,7 +98,7 @@ class StatCell: UITableViewCell {
 			let lowNumber = NSNumber(value: lowValue)
 			let lowNumberString = formatter.string(from: lowNumber) ?? "\(Int(lowValue))"
 			lowValueLbl.attributedText = lowNumberString.with(style: .regular16, andColor: .black)
-			lineChartView.setup(with: data, quantityType: quantityType, intervalType: intervalType)
+			lineChartView.setup(with: data, quantityType: quantityType, intervalType: intervalType, goal: goal)
 		case .bloodPressure where data.count == 2:
 			let sortedData = data.sorted { (data1, data2) -> Bool in
 				let valueSum1 = data1.dataPoints.map { Int($0.value?.doubleValue(for: .millimeterOfMercury()) ?? 0) }.sum()
@@ -146,10 +146,14 @@ class StatCell: UITableViewCell {
 			let minDiastolicInt = Int(minPressure.diastolic.value?.doubleValue(for: .millimeterOfMercury()) ?? 0)
 			let minSystolicInt = Int(minPressure.systolic.value?.doubleValue(for: .millimeterOfMercury()) ?? 0)
 			lowValueLbl.attributedText = "\(minSystolicInt)/\(minDiastolicInt)".with(style: .regular16, andColor: .black)
-			lineChartView.setup(with: data, quantityType: quantityType, intervalType: intervalType)
+			lineChartView.setup(with: data, quantityType: quantityType, intervalType: intervalType, goal: goal)
 		default:
 			showNoData(for: quantityType)
 		}
+	}
+
+	override func prepareForReuse() {
+		super.prepareForReuse()
 	}
 
 	private func showNoData(for quantityType: HealthKitQuantityType) {
@@ -171,7 +175,7 @@ class StatCell: UITableViewCell {
 		lineChartView.data = nil
 	}
 
-	@IBAction func expandColapseTapped(_ sender: UIButton) {
-		expandColapseAction?(!sender.isSelected)
+	@IBAction func expandCollapseTapped(_ sender: UIButton) {
+		expandCollapseAction?(!sender.isSelected)
 	}
 }

@@ -133,7 +133,7 @@
                                         <state key="normal" image="expandBtn"/>
                                         <state key="selected" image="colapseBtn"/>
                                         <connections>
-                                            <action selector="expandColapseTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="95u-aw-Iui"/>
+                                            <action selector="expandCollapseTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Spn-3E-QRn"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -177,7 +177,7 @@
                 <outlet property="avgLbl" destination="lno-dZ-UsE" id="HFN-yF-2n7"/>
                 <outlet property="avgValueLbl" destination="08O-ar-80d" id="kam-ay-6xh"/>
                 <outlet property="chartContainerView" destination="sBN-5v-AUK" id="J52-gq-rUg"/>
-                <outlet property="expandColapseBtn" destination="1e7-ME-Ozu" id="B61-Fq-Uvg"/>
+                <outlet property="expandCollapseBtn" destination="1e7-ME-Ozu" id="tBj-rc-I8K"/>
                 <outlet property="highLbl" destination="54i-RP-PLy" id="qDd-gR-WVZ"/>
                 <outlet property="highValueLbl" destination="nMI-bZ-qgL" id="FHP-Et-Z4K"/>
                 <outlet property="hilowContainerView" destination="kz3-2M-PV7" id="8sX-RU-KfU"/>

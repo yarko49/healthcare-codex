@@ -24,4 +24,19 @@ class ProfileHelper {
 		}
 		return gender ?? Gender.female
 	}
+
+	static func getGoal(for type: HealthKitQuantityType) -> Double {
+		switch type {
+		case .weight:
+			return DataContext.shared.weightGoal
+		case .bloodPressure:
+			return DataContext.shared.bpGoal
+		case .activity:
+			return DataContext.shared.stepsGoal
+		case .heartRate:
+			return DataContext.shared.hrGoal
+		case .restingHR:
+			return DataContext.shared.rhrGoal
+		}
+	}
 }

@@ -7,11 +7,11 @@ extension DataContext {
 		let lastSyncTime = DataContext.shared.getDate() ?? Date()
 		let dateNow = DateFormatter.wholeDateRequest.string(from: lastSyncTime)
 
-		let bloodPressure = Measuremement(notificationsEnabled: DataContext.shared.bloodPressurePushNotificationsIsOn, available: DataContext.shared.hasSmartBlockPressureCuff)
-		let heartRate = Measuremement(notificationsEnabled: DataContext.shared.surveyPushNotificationsIsOn, available: DataContext.shared.hasSmartWatch)
-		let restingHR = Measuremement(notificationsEnabled: DataContext.shared.surveyPushNotificationsIsOn, available: DataContext.shared.hasSmartWatch)
-		let steps = Measuremement(notificationsEnabled: DataContext.shared.activityPushNotificationsIsOn, available: DataContext.shared.hasSmartPedometer || DataContext.shared.hasSmartWatch)
-		let weight = Measuremement(notificationsEnabled: DataContext.shared.weightInPushNotificationsIsOn, available: DataContext.shared.hasSmartScale)
+		let bloodPressure = Measuremement(notificationsEnabled: DataContext.shared.bloodPressurePushNotificationsIsOn, available: DataContext.shared.hasSmartBlockPressureCuff, goal: 0.0)
+		let heartRate = Measuremement(notificationsEnabled: DataContext.shared.surveyPushNotificationsIsOn, available: DataContext.shared.hasSmartWatch, goal: 0.0)
+		let restingHR = Measuremement(notificationsEnabled: DataContext.shared.surveyPushNotificationsIsOn, available: DataContext.shared.hasSmartWatch, goal: 0.0)
+		let steps = Measuremement(notificationsEnabled: DataContext.shared.activityPushNotificationsIsOn, available: DataContext.shared.hasSmartPedometer || DataContext.shared.hasSmartWatch, goal: 0.0)
+		let weight = Measuremement(notificationsEnabled: DataContext.shared.weightInPushNotificationsIsOn, available: DataContext.shared.hasSmartScale, goal: 0.0)
 
 		let healthMeasurements = HealthMeasurements(heartRate: heartRate, restingHeartRate: restingHR, steps: steps, weight: weight, bloodPressure: bloodPressure)
 
@@ -73,7 +73,7 @@ extension DataContext {
 		Requests.getProfile { profile in
 			if let profile = profile {
 				completion(profile)
-				print(profile)
+				// print(profile)
 			} else {
 				completion(nil)
 			}
