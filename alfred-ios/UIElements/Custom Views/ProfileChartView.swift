@@ -24,15 +24,18 @@ class ProfileChartView: LineChartView {
 		setupChartView()
 	}
 
+	var chartMin, chartMax: Double?
+	let baseLine = ChartLimitLine(limit: 0.0)
+
 	private func setupChartView() {
 		legend.enabled = false
 		xAxis.labelPosition = .top
-		xAxis.labelTextColor = UIColor.weightBG
+		xAxis.labelTextColor = .weightBG
 		xAxis.yOffset = 5
 		highlightPerTapEnabled = true
 		xAxis.drawAxisLineEnabled = false
 		xAxis.gridLineDashLengths = [4, 3]
-		xAxis.gridColor = UIColor.weightBG
+		xAxis.gridColor = .weightBG
 		xAxis.gridLineDashPhase = 0
 		leftAxis.drawAxisLineEnabled = false
 		leftAxis.gridColor = .white
@@ -46,7 +49,7 @@ class ProfileChartView: LineChartView {
 		xAxis.labelFont = .boldSystemFont(ofSize: 13.0)
 	}
 
-	func setup(with healthData: [StatModel], quantityType: HealthKitQuantityType, intervalType: HealthStatsDateIntervalType) {
+	func setup(with healthData: [StatModel], quantityType: HealthKitQuantityType, intervalType: HealthStatsDateIntervalType, goal: Double) {
 		guard let statModel = healthData.first, let firstDate = statModel.dataPoints.first?.date, let lastDate = statModel.dataPoints.last?.date else { data = nil; return }
 
 		rightAxis.enabled = false
@@ -74,6 +77,8 @@ class ProfileChartView: LineChartView {
 		xAxis.setLabelCount(numberOfLabels.0, force: numberOfLabels.1)
 		leftAxis.valueFormatter = YaxisValueFormatter(formatter: numberFormatter)
 		leftAxis.granularityEnabled = false
+		doubleTapToZoomEnabled = false
+
 		var chartDataSets: [LineChartDataSet] = []
 		var chartIntervalType: ChartIntervalType = .week
 
@@ -106,6 +111,8 @@ class ProfileChartView: LineChartView {
 			}
 
 			let chartDataSet = LineChartDataSet(entries: entries)
+			chartMin = chartDataSet.yMin
+			chartMax = chartDataSet.yMax
 			chartDataSet.highlightColor = .clear
 			chartDataSet.setDrawHighlightIndicators(true)
 			chartDataSet.circleRadius = 4.0
@@ -125,7 +132,7 @@ class ProfileChartView: LineChartView {
 			chartDataSets.append(chartDataSet)
 		}
 
-		data = LineChartData(dataSets: chartDataSets)
+		setUpBaseline(min: chartMin ?? 0.0, max: chartMax ?? 0.0, dataSets: chartDataSets, goal: goal)
 		let balloonMarker = BalloonMarker(color: UIColor.black,
 		                                  font: .boldSystemFont(ofSize: 11),
 		                                  textColor: .white,
@@ -144,6 +151,19 @@ class ProfileChartView: LineChartView {
 			return (min(entries, 6), false)
 		case .yearly: return (12, true)
 		}
+	}
+
+	func setUpBaseline(min: Double, max: Double, dataSets: [LineChartDataSet], goal: Double) {
+		baseLine.limit = goal
+		leftAxis.axisMinimum = baseLine.limit < min ? baseLine.limit - 10.0 : min
+		leftAxis.axisMaximum = baseLine.limit > max ? baseLine.limit + 10.0 : max
+		baseLine.lineWidth = 1
+		baseLine.valueTextColor = .weightBG
+		baseLine.valueFont = .boldSystemFont(ofSize: 13.0)
+		baseLine.lineColor = .weightBG
+		baseLine.drawLabelEnabled = false
+		leftAxis.addLimitLine(baseLine)
+		data = LineChartData(dataSets: dataSets)
 	}
 
 	func getDateFormat(for intervalType: HealthStatsDateIntervalType) -> String {

@@ -37,6 +37,7 @@ struct HealthMeasurements: Codable {
 
 struct Measuremement: Codable {
 	let notificationsEnabled, available: Bool?
+	let goal: Double?
 }
 
 // MARK: - Profile response

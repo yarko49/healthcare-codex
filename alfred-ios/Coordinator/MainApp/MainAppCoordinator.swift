@@ -216,6 +216,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 		profileVC.getRangeData = { interval, start, end, completion in
 			var chartData: [HealthKitQuantityType: [StatModel]] = [:]
+			var goals: [HealthKitQuantityType: Double] = [:]
 			AlertHelper.showLoader()
 			let chartGroup = DispatchGroup()
 			DataContext.shared.userAuthorizedQuantities.forEach { quantityType in
@@ -233,13 +234,14 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 				innergroup.notify(queue: .main) {
 					chartData[quantityType] = values
+					goals[quantityType] = ProfileHelper.getGoal(for: quantityType)
 					chartGroup.leave()
 				}
 			}
 
 			chartGroup.notify(queue: .main) {
 				AlertHelper.hideLoader()
-				completion?(chartData)
+				completion?(chartData, goals)
 			}
 		}
 
