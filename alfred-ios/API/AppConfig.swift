@@ -17,6 +17,10 @@ final class AppConfig: ObservableObject {
 		path("Environment", "API Key")!
 	}
 
+	static var tenantID: String {
+		path("Environment", "Tenant ID")!
+	}
+
 	static func path(_ keys: String...) -> String? {
 		var current = Bundle.main.infoDictionary
 		for (index, key) in keys.enumerated() {

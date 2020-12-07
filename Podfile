@@ -12,9 +12,9 @@ def common_pods_for_target
   pod 'Charts', '3.4.0'
   pod 'BonMot', '5.5'
   pod 'GoogleSignIn', '5.0.2'
-  pod 'Firebase/Auth', '6.21.0'
+  pod 'Firebase/Auth', '6.31.0'
   pod 'IQKeyboardManagerSwift', '6.5.5'
-  pod 'Firebase/Crashlytics', '6.21.0'
+  pod 'Firebase/Crashlytics', '6.31.0'
 end
 
 target 'alfred-ios' do
