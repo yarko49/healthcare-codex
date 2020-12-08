@@ -43,7 +43,7 @@ public struct Note: Codable, Hashable {
 		self.id = try container.decodeIfPresent(String.self, forKey: .id)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
-		self.effectiveDate = try container.decodeDateIfPresent(forKey: .effectiveDate)
+		self.effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate)
 	}
 
 	public func encode(to encoder: Encoder) throws {

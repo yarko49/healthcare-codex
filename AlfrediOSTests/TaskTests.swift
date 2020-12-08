@@ -9,7 +9,7 @@
 import XCTest
 
 class TaskTests: XCTestCase {
-	var testData: Data?
+	var testData: Data!
 
 	override func setUpWithError() throws {
 		testData = AlfrediOSTests.loadTestData(fileName: "TaskB2.json")
@@ -22,10 +22,21 @@ class TaskTests: XCTestCase {
 	}
 
 	func testTaskB2() throws {
-		let decoder = JSONDecoder()
-		decoder.dateDecodingStrategy = .formatted(DateFormatter.wholeDateRequest)
+		let decoder = AlfredJSONDecoder()
+		XCTAssertNotNil(testData)
 		let task = try decoder.decode(Task.self, from: testData!)
-		XCTAssertNotNil(task)
+		let startDate = DateFormatter.wholeDate.date(from: "2020-11-11T01:31:00.343Z")
+		XCTAssertEqual(task.effectiveDate, startDate!)
+		XCTAssertEqual(task.id, "TaskB2")
+		XCTAssertEqual(task.remoteId, "XXXX-SOME-UUID-ZZZZ")
+		XCTAssertEqual(task.title, "custom-3x-daily-finite-grid")
+		XCTAssertNotNil(task.schedules)
+		XCTAssertEqual(task.schedules.count, 1)
+		XCTAssertEqual(task.carePlanId, "CarePlanB")
+		XCTAssertEqual(task.groupId, "GRID")
+		XCTAssertEqual(task.timezone, TimeZone(secondsFromGMT: 0))
+		XCTAssertEqual(task.instructions, "3x daily instructions")
+		XCTAssertEqual(task.impactsAdherence, true)
 	}
 
 	func testPerformanceExample() throws {

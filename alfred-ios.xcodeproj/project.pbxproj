@@ -144,7 +144,6 @@
 		46BAA49025430A7B00C94AC2 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BAA48F25430A7B00C94AC2 /* Gender.swift */; };
 		46BAA49225432EE500C94AC2 /* UpdatePatientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BAA49125432EE500C94AC2 /* UpdatePatientModel.swift */; };
 		840A9CB82571F9CE00540133 /* DataContext+Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840A9CB72571F9CE00540133 /* DataContext+Fetch.swift */; };
-		8415FB2C256E08670018FADB /* CarePlanResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8415FB2B256E08670018FADB /* CarePlanResponse.json */; };
 		8416998125677919005EF024 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 8416998025677919005EF024 /* CareKitFHIR */; };
 		8416998325677919005EF024 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8416998225677919005EF024 /* CareKit */; };
 		8416998525677919005EF024 /* CareKitStore in Frameworks */ = {isa = PBXBuildFile; productRef = 8416998425677919005EF024 /* CareKitStore */; };
@@ -179,6 +178,8 @@
 		84A2A210257DDE8400A925FC /* TaskB2.json in Resources */ = {isa = PBXBuildFile; fileRef = 84A2A20F257DDE8400A925FC /* TaskB2.json */; };
 		84A2A214257DE14C00A925FC /* SechduleA.json in Resources */ = {isa = PBXBuildFile; fileRef = 84A2A213257DE14C00A925FC /* SechduleA.json */; };
 		84A2A218257DE5F300A925FC /* DateFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A217257DE5F300A925FC /* DateFormatterTests.swift */; };
+		84A2A4F6257F0B0000A925FC /* AlfredJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A4F5257F0B0000A925FC /* AlfredJSONDecoder.swift */; };
+		84A2A524257F1A9C00A925FC /* TasksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A523257F1A9C00A925FC /* TasksTests.swift */; };
 		84D0A5EF2578970900B053B4 /* Enviornment+CareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0A5EE2578970900B053B4 /* Enviornment+CareManager.swift */; };
 		84D0A5F32578972200B053B4 /* CarePlanResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0A5F22578972200B053B4 /* CarePlanResponse.swift */; };
 		86A38FD424D1B74D000E9E3F /* Ext_Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A38FD324D1B74D000E9E3F /* Ext_Double.swift */; };
@@ -377,7 +378,6 @@
 		46BAA49125432EE500C94AC2 /* UpdatePatientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePatientModel.swift; sourceTree = "<group>"; };
 		69D144CEE436863C43F66938 /* Pods-AlfrediOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlfrediOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlfrediOSTests/Pods-AlfrediOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		840A9CB72571F9CE00540133 /* DataContext+Fetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataContext+Fetch.swift"; sourceTree = "<group>"; };
-		8415FB2B256E08670018FADB /* CarePlanResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CarePlanResponse.json; sourceTree = "<group>"; };
 		8416998A25677958005EF024 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8436019A25678D7B000B4C55 /* Environment+StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+StoreManager.swift"; sourceTree = "<group>"; };
 		8453CF1A256CD15300A3E6F0 /* RemoteSynchronizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSynchronizationManager.swift; sourceTree = "<group>"; };
@@ -410,6 +410,8 @@
 		84A2A20F257DDE8400A925FC /* TaskB2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TaskB2.json; sourceTree = "<group>"; };
 		84A2A213257DE14C00A925FC /* SechduleA.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SechduleA.json; sourceTree = "<group>"; };
 		84A2A217257DE5F300A925FC /* DateFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterTests.swift; sourceTree = "<group>"; };
+		84A2A4F5257F0B0000A925FC /* AlfredJSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredJSONDecoder.swift; sourceTree = "<group>"; };
+		84A2A523257F1A9C00A925FC /* TasksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksTests.swift; sourceTree = "<group>"; };
 		84D0A5EE2578970900B053B4 /* Enviornment+CareManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Enviornment+CareManager.swift"; sourceTree = "<group>"; };
 		84D0A5F22578972200B053B4 /* CarePlanResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanResponse.swift; sourceTree = "<group>"; };
 		86A38FD324D1B74D000E9E3F /* Ext_Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext_Double.swift; sourceTree = "<group>"; };
@@ -799,7 +801,6 @@
 			isa = PBXGroup;
 			children = (
 				8436019525678AD6000B4C55 /* CareKit */,
-				8416998E25677A2C005EF024 /* Common */,
 				0631E73B247E5E4400D88834 /* alfred-ios.entitlements */,
 				1234FD552215884400E73FFF /* AppDelegate.swift */,
 				1234FD672215968D00E73FFF /* Coordinator */,
@@ -1036,13 +1037,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		8416998E25677A2C005EF024 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
 		8436019525678AD6000B4C55 /* CareKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -1054,6 +1048,7 @@
 				8468B0AF256C624D00202A16 /* CareWebService.swift */,
 				8468B0B2256C62C100202A16 /* Data+Validation.swift */,
 				84A2A18C257D882200A925FC /* OSLog+Setup.swift */,
+				84A2A4F5257F0B0000A925FC /* AlfredJSONDecoder.swift */,
 			);
 			path = CareKit;
 			sourceTree = "<group>";
@@ -1077,19 +1072,19 @@
 		8468B0D1256C679000202A16 /* AlfrediOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				8415FB2B256E08670018FADB /* CarePlanResponse.json */,
+				8468B0D2256C679000202A16 /* AlfrediOSTests.swift */,
 				84A2A1B0257D8E7B00A925FC /* ValueSpaceResponse.json */,
-				84A2A1B6257D8E8200A925FC /* VectorClockResponse.json */,
-				84A2A1C0257D950800A925FC /* PatientTests.swift */,
 				84A2A1C4257DA3CA00A925FC /* CarePlanTests.swift */,
+				84A2A1C0257D950800A925FC /* PatientTests.swift */,
 				84A2A1D0257DB47800A925FC /* PatientNoteTests.swift */,
 				84A2A1F5257DC08300A925FC /* ScheduleTests.swift */,
 				84A2A213257DE14C00A925FC /* SechduleA.json */,
 				84A2A1F9257DC0A500A925FC /* TargetValueTests.swift */,
-				8468B0D2256C679000202A16 /* AlfrediOSTests.swift */,
 				84A2A20B257DDE5000A925FC /* TaskTests.swift */,
 				84A2A20F257DDE8400A925FC /* TaskB2.json */,
+				84A2A523257F1A9C00A925FC /* TasksTests.swift */,
 				8453CF5A256DC7D500A3E6F0 /* ClockTests.swift */,
+				84A2A1B6257D8E8200A925FC /* VectorClockResponse.json */,
 				84A2A217257DE5F300A925FC /* DateFormatterTests.swift */,
 				8468B0DC256C67B100202A16 /* URLProtocolMock.swift */,
 				8468B0D4256C679000202A16 /* Info.plist */,
@@ -1381,7 +1376,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				84A2A1B7257D8E8200A925FC /* VectorClockResponse.json in Resources */,
-				8415FB2C256E08670018FADB /* CarePlanResponse.json in Resources */,
 				84A2A210257DDE8400A925FC /* TaskB2.json in Resources */,
 				84A2A214257DE14C00A925FC /* SechduleA.json in Resources */,
 				84A2A1B1257D8E7B00A925FC /* ValueSpaceResponse.json in Resources */,
@@ -1590,6 +1584,7 @@
 				12AFAC1E255A79E700BC2468 /* Ext_Date.swift in Sources */,
 				C4C48B9B24E2CEEA00EC12DD /* OnboardingVC.swift in Sources */,
 				0676D0122500D68700EC79E6 /* TextfieldView.swift in Sources */,
+				84A2A4F6257F0B0000A925FC /* AlfredJSONDecoder.swift in Sources */,
 				12D42D802226998D0039043F /* Str.swift in Sources */,
 				1234FD6B221596BA00E73FFF /* CoordinatorKeys.swift in Sources */,
 				840A9CB82571F9CE00540133 /* DataContext+Fetch.swift in Sources */,
@@ -1708,6 +1703,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84A2A1FA257DC0A500A925FC /* TargetValueTests.swift in Sources */,
+				84A2A524257F1A9C00A925FC /* TasksTests.swift in Sources */,
 				8453CF5B256DC7D500A3E6F0 /* ClockTests.swift in Sources */,
 				84A2A218257DE5F300A925FC /* DateFormatterTests.swift in Sources */,
 				84A2A20C257DDE5000A925FC /* TaskTests.swift in Sources */,

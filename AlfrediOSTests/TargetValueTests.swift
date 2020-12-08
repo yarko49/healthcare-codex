@@ -35,7 +35,7 @@ class TargetValueTests: XCTestCase {
 			    "kind" : ""
 			  }
 			"""
-		let decoder = JSONDecoder()
+		let decoder = AlfredJSONDecoder()
 		if let data = dataString.data(using: .utf8) {
 			let targetValue = try decoder.decode(TargetValue.self, from: data)
 			XCTAssertEqual(targetValue.type, ValueType.boolean, "invalid remote Id")

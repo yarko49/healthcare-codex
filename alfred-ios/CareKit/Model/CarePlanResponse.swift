@@ -9,8 +9,8 @@ import CareKitStore
 import Foundation
 
 public struct CarePlanResponse: Codable {
-	public let patients: [String: OCKPatient]
-	public let carePlans: [String: OCKCarePlan]
-	public let tasks: [String: OCKTask]
-	public let clock: [String: Int]
+	public let patients: Patients
+	public let carePlans: CarePlans
+	public let tasks: [String: Tasks]
+	public let vectorClock: [String: Int]
 }

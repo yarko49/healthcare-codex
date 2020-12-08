@@ -11,6 +11,7 @@ public enum ValueType: String, Codable, Hashable {
 	case boolean
 	case integer
 	case string
+	case unknown
 }
 
 public struct TargetValue: Codable, Hashable {
@@ -47,16 +48,23 @@ public struct TargetValue: Codable, Hashable {
 		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId)
 		self.units = try container.decodeIfPresent(String.self, forKey: .units)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
-		self.type = try container.decode(ValueType.self, forKey: .type)
-		switch type {
-		case .boolean:
-			let value = try container.decode(Bool.self, forKey: .value)
-			self.value = "\(value)"
-		case .integer:
-			let value = try container.decode(Int.self, forKey: .value)
-			self.value = "\(value)"
-		case .string:
-			self.value = try container.decode(String.self, forKey: .value)
+		if let valueString = try container.decodeIfPresent(String.self, forKey: .type), let valueType = ValueType(rawValue: valueString) {
+			self.type = valueType
+			switch valueType {
+			case .boolean:
+				let value = try container.decode(Bool.self, forKey: .value)
+				self.value = "\(value)"
+			case .integer:
+				let value = try container.decode(Int.self, forKey: .value)
+				self.value = "\(value)"
+			case .string:
+				self.value = try container.decode(String.self, forKey: .value)
+			case .unknown:
+				self.value = ""
+			}
+		} else {
+			self.type = .unknown
+			self.value = ""
 		}
 		self.groupId = try container.decodeIfPresent(String.self, forKey: .groupId)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
@@ -81,6 +89,8 @@ public struct TargetValue: Codable, Hashable {
 			try container.encode(intValue, forKey: .value)
 		case .string:
 			try container.encode(value, forKey: .value)
+		case .unknown:
+			break
 		}
 		try container.encodeIfPresent(groupId, forKey: .groupId)
 		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)
