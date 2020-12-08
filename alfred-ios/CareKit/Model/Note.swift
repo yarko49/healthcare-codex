@@ -7,12 +7,12 @@
 
 import Foundation
 
-public struct Note: Codable, Hashable {
+public struct Note: Codable {
 	public let author: String
 	public let title: String
 	public let content: String
 	public let remoteId: String
-	public let groupId: String
+	public let groupIdentifier: String
 	public let timezone: TimeZone
 	public let id: String?
 	public let source: String?
@@ -24,7 +24,7 @@ public struct Note: Codable, Hashable {
 		case title
 		case content
 		case remoteId
-		case groupId = "groupIdentifier"
+		case groupIdentifier
 		case timezone
 		case id
 		case source
@@ -38,7 +38,7 @@ public struct Note: Codable, Hashable {
 		self.title = try container.decode(String.self, forKey: .title)
 		self.content = try container.decode(String.self, forKey: .content)
 		self.remoteId = try container.decode(String.self, forKey: .remoteId)
-		self.groupId = try container.decode(String.self, forKey: .groupId)
+		self.groupIdentifier = try container.decode(String.self, forKey: .groupIdentifier)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
 		self.id = try container.decodeIfPresent(String.self, forKey: .id)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
@@ -52,7 +52,7 @@ public struct Note: Codable, Hashable {
 		try container.encode(title, forKey: .title)
 		try container.encode(content, forKey: .content)
 		try container.encode(remoteId, forKey: .remoteId)
-		try container.encode(groupId, forKey: .groupId)
+		try container.encode(groupIdentifier, forKey: .groupIdentifier)
 		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)
 		try container.encodeIfPresent(id, forKey: .id)
 		try container.encodeIfPresent(source, forKey: .source)

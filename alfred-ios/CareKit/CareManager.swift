@@ -32,21 +32,7 @@ public class CareManager: ObservableObject {
 		remoteSynchronizationManager.delegate = self
 	}
 
-	@Published var carePlans: [String: Any] = [:]
-
 	@Published var carePlanResponse = CarePlanResponse(patients: [:], carePlans: [:], tasks: [:], vectorClock: [:])
-
-	func getCarePlan() {
-		webService.getCarePlan { [self] result in
-			switch result {
-			case .failure(let error):
-				os_log(.error, log: .careManager, "Error fetching care plan data %@", error.localizedDescription)
-			case .success(let response):
-				self.carePlans = response
-				os_log(.info, log: .careManager, "Successfully fetch care plan")
-			}
-		}
-	}
 
 	func getCarePlanResponse() {
 		webService.getCarePlanResponse { result in

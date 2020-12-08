@@ -6,6 +6,7 @@
 //
 
 @testable import alfred_ios
+import CareKitStore
 import XCTest
 
 class TargetValueTests: XCTestCase {
@@ -37,9 +38,9 @@ class TargetValueTests: XCTestCase {
 			"""
 		let decoder = AlfredJSONDecoder()
 		if let data = dataString.data(using: .utf8) {
-			let targetValue = try decoder.decode(TargetValue.self, from: data)
-			XCTAssertEqual(targetValue.type, ValueType.boolean, "invalid remote Id")
-			XCTAssertEqual(targetValue.groupId, "", "invalid group Id")
+			let targetValue = try decoder.decode(OutcomeValue.self, from: data)
+			XCTAssertEqual(targetValue.type, OCKOutcomeValueType.boolean, "invalid remote Id")
+			XCTAssertEqual(targetValue.groupIdentifier, "", "invalid group Id")
 			XCTAssertEqual(targetValue.timezone, TimeZone(secondsFromGMT: 0), "invalid timezone")
 			XCTAssertNil(targetValue.effectiveDate)
 		} else {

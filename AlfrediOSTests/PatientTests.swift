@@ -52,11 +52,11 @@ class PatientTests: XCTestCase {
 			"""
 		let patient = try patientDecode(string: patientDictionary)
 		XCTAssertEqual(patient.id, "patientOtherA", "invalid Id")
-		XCTAssertEqual(patient.groupId, "shared", "invalid groud Id")
+		XCTAssertEqual(patient.groupIdentifier, "shared", "invalid groud Id")
 		XCTAssertEqual(patient.remoteId, "XXX-ID-patientOtherA", "invalid remote Id")
 		XCTAssertEqual(patient.timezone, TimeZone(secondsFromGMT: 28800), "invalid timezone")
-		XCTAssertNotNil(patient.createdAt)
-		XCTAssertNotNil(patient.updatedAt)
+		XCTAssertNotNil(patient.createdDate)
+		XCTAssertNotNil(patient.updatedDate)
 		XCTAssertNotNil(patient.effectiveDate)
 		XCTAssertNotNil(patient.birthday)
 		XCTAssertNotNil(patient.name)
@@ -91,11 +91,11 @@ class PatientTests: XCTestCase {
 			"""
 		let patient = try patientDecode(string: patientDictionary)
 		XCTAssertEqual(patient.id, "patientOtherC", "invalid Id")
-		XCTAssertEqual(patient.groupId, "inactive", "invalid groud Id")
+		XCTAssertEqual(patient.groupIdentifier, "inactive", "invalid groud Id")
 		XCTAssertEqual(patient.remoteId, "XXX-ID-patientOtherC", "invalid remote Id")
 		XCTAssertEqual(patient.timezone, TimeZone(secondsFromGMT: 0), "invalid timezone")
-		XCTAssertNotNil(patient.createdAt)
-		XCTAssertNotNil(patient.updatedAt)
+		XCTAssertNotNil(patient.createdDate)
+		XCTAssertNotNil(patient.updatedDate)
 		XCTAssertNotNil(patient.effectiveDate)
 		XCTAssertNotNil(patient.birthday)
 		XCTAssertNotNil(patient.name)
@@ -137,11 +137,11 @@ class PatientTests: XCTestCase {
 			"""
 		let patient = try patientDecode(string: patientDictionary)
 		XCTAssertEqual(patient.id, "patientId", "invalid Id")
-		XCTAssertEqual(patient.groupId, "active", "invalid groud Id")
+		XCTAssertEqual(patient.groupIdentifier, "active", "invalid groud Id")
 		XCTAssertEqual(patient.remoteId, "XXX-ID-patientId", "invalid remote Id")
 		XCTAssertEqual(patient.timezone, TimeZone(secondsFromGMT: 28800), "invalid timezone")
-		XCTAssertNotNil(patient.createdAt)
-		XCTAssertNotNil(patient.updatedAt)
+		XCTAssertNotNil(patient.createdDate)
+		XCTAssertNotNil(patient.updatedDate)
 		XCTAssertNotNil(patient.effectiveDate)
 		XCTAssertNotNil(patient.birthday)
 		XCTAssertNotNil(patient.name)
@@ -187,7 +187,6 @@ class PatientTests: XCTestCase {
 		let data = try encoder.encode(patient)
 		let decoder = AlfredJSONDecoder()
 		let reverse = try decoder.decode(Patient.self, from: data)
-		XCTAssertEqual(patient, reverse, "Decode and encode do not match")
 	}
 
 	func patientDecode(string: String) throws -> Patient {

@@ -6,6 +6,7 @@
 //
 
 @testable import alfred_ios
+import CareKitStore
 import Foundation
 import XCTest
 
@@ -24,11 +25,11 @@ class ScheduleTests: XCTestCase {
 	func testScheduleA() throws {
 		let decoder = AlfredJSONDecoder()
 		XCTAssertNotNil(testData)
-		let schedule = try decoder.decode(Schedule.self, from: testData)
+		let schedule = try decoder.decode(ScheduleElement.self, from: testData)
 		let startDate = DateFormatter.wholeDate.date(from: "2020-11-11T01:31:00.343Z")
-		XCTAssertEqual(schedule.startDate, startDate!)
+		XCTAssertEqual(schedule.start, startDate!)
 		let endDate = DateFormatter.wholeDateNoTimeZoneRequest.date(from: "2999-11-11T01:31:00Z")
-		XCTAssertEqual(schedule.endDate, endDate!)
+		XCTAssertEqual(schedule.end, endDate!)
 		XCTAssertEqual(schedule.isWeekly, false)
 		XCTAssertEqual(schedule.isDaily, false)
 		XCTAssertEqual(schedule.interval, 28800)

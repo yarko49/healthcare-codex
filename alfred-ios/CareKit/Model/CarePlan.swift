@@ -9,12 +9,12 @@ import Foundation
 
 public typealias CarePlans = [String: CarePlan]
 
-public struct CarePlan: Codable, Hashable {
+public struct CarePlan: Codable {
 	public let id: String
 	public let title: String
 	public let patientId: String
 	public let remoteId: String
-	public let groupId: String
+	public let groupIdentifier: String
 	public let timezone: TimeZone
 	public let effectiveDate: Date
 	public let asset: String?
@@ -29,7 +29,7 @@ public struct CarePlan: Codable, Hashable {
 		case title
 		case patientId
 		case remoteId
-		case groupId = "groupIdentifier"
+		case groupIdentifier
 		case timezone
 		case effectiveDate
 		case asset
@@ -46,7 +46,7 @@ public struct CarePlan: Codable, Hashable {
 		self.title = try container.decode(String.self, forKey: .title)
 		self.patientId = try container.decode(String.self, forKey: .patientId)
 		self.remoteId = try container.decode(String.self, forKey: .remoteId)
-		self.groupId = try container.decode(String.self, forKey: .groupId)
+		self.groupIdentifier = try container.decode(String.self, forKey: .groupIdentifier)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
 		self.effectiveDate = try container.decode(Date.self, forKey: .effectiveDate)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
@@ -63,7 +63,7 @@ public struct CarePlan: Codable, Hashable {
 		try container.encode(title, forKey: .title)
 		try container.encode(patientId, forKey: .patientId)
 		try container.encode(remoteId, forKey: .remoteId)
-		try container.encode(groupId, forKey: .groupId)
+		try container.encode(groupIdentifier, forKey: .groupIdentifier)
 		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)
 		try container.encode(effectiveDate, forKey: .effectiveDate)
 		try container.encodeIfPresent(asset, forKey: .asset)
