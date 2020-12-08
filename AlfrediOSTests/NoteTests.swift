@@ -6,10 +6,11 @@
 //
 
 @testable import alfred_ios
+import CareKitStore
 import Foundation
 import XCTest
 
-class PatientNoteTests: XCTestCase {
+class NoteTests: XCTestCase {
 	override func setUpWithError() throws {
 		// Put setup code here. This method is called before the invocation of each test method in the class.
 	}
@@ -41,9 +42,8 @@ class PatientNoteTests: XCTestCase {
 			XCTAssertEqual(note.content, "test content here", "invalid content")
 			XCTAssertEqual(note.title, "test")
 			XCTAssertEqual(note.remoteId, "XXXX-ID-test", "invalid remote Id")
-			XCTAssertEqual(note.groupId, "test", "invalid group Id")
+			XCTAssertEqual(note.groupIdentifier, "test", "invalid group Id")
 			XCTAssertEqual(note.timezone, TimeZone(secondsFromGMT: 0), "invalid timezone")
-			XCTAssertNil(note.effectiveDate)
 		} else {
 			throw URLError(.cannotDecodeRawData)
 		}
@@ -72,7 +72,7 @@ class PatientNoteTests: XCTestCase {
 			XCTAssertEqual(note.content, "test", "invalid content")
 			XCTAssertEqual(note.title, "test")
 			XCTAssertEqual(note.remoteId, "XXXX-ID-test2", "invalid remote Id")
-			XCTAssertEqual(note.groupId, "test", "invalid group Id")
+			XCTAssertEqual(note.groupIdentifier, "test", "invalid group Id")
 			XCTAssertEqual(note.timezone, TimeZone(secondsFromGMT: 0), "invalid timezone")
 			XCTAssertNil(note.effectiveDate)
 		} else {

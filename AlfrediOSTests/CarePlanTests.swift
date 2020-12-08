@@ -74,7 +74,7 @@ class CarePlanTests: XCTestCase {
 		XCTAssertEqual(carePlan.patientId, "patientId", "invalid remote Id")
 		XCTAssertEqual(carePlan.title, "Personal")
 		XCTAssertEqual(carePlan.remoteId, "XXXX-ID-CarePlanA", "invalid remote Id")
-		XCTAssertEqual(carePlan.groupId, "PersonalCarePlan", "invalid group Id")
+		XCTAssertEqual(carePlan.groupIdentifier, "PersonalCarePlan", "invalid group Id")
 		XCTAssertEqual(carePlan.timezone, TimeZone(secondsFromGMT: 28800), "invalid timezone")
 		XCTAssertNotNil(carePlan.effectiveDate)
 		XCTAssertNotNil(carePlan.tags)
@@ -108,7 +108,7 @@ class CarePlanTests: XCTestCase {
 		XCTAssertEqual(carePlan.patientId, "patientOtherA", "invalid remote Id")
 		XCTAssertEqual(carePlan.title, "Codex Default Care Plan")
 		XCTAssertEqual(carePlan.remoteId, "XXXX-ID-CarePlanB", "invalid remote Id")
-		XCTAssertEqual(carePlan.groupId, "HealthcareProviderXYZ", "invalid group Id")
+		XCTAssertEqual(carePlan.groupIdentifier, "HealthcareProviderXYZ", "invalid group Id")
 		XCTAssertEqual(carePlan.timezone, TimeZone(secondsFromGMT: 0), "invalid timezone")
 		XCTAssertNotNil(carePlan.effectiveDate)
 		XCTAssertNil(carePlan.tags)
@@ -139,7 +139,7 @@ class CarePlanTests: XCTestCase {
 		XCTAssertEqual(carePlan.patientId, "patientOtherC", "invalid remote Id")
 		XCTAssertEqual(carePlan.title, "Codex Deleted Care Plan")
 		XCTAssertEqual(carePlan.remoteId, "XXXX-ID-CarePlanC", "invalid remote Id")
-		XCTAssertEqual(carePlan.groupId, "HealthcareProviderXYZ", "invalid group Id")
+		XCTAssertEqual(carePlan.groupIdentifier, "HealthcareProviderXYZ", "invalid group Id")
 		XCTAssertEqual(carePlan.timezone, TimeZone(secondsFromGMT: 0), "invalid timezone")
 		XCTAssertNotNil(carePlan.effectiveDate)
 		XCTAssertNil(carePlan.tags)
@@ -169,7 +169,7 @@ class CarePlanTests: XCTestCase {
 		XCTAssertEqual(carePlan.patientId, "patientId", "invalid remote Id")
 		XCTAssertEqual(carePlan.title, "Sourced Care Plan")
 		XCTAssertEqual(carePlan.remoteId, "XXXX-ID-CarePlanD", "invalid remote Id")
-		XCTAssertEqual(carePlan.groupId, "HealthcareProviderXYZ", "invalid group Id")
+		XCTAssertEqual(carePlan.groupIdentifier, "HealthcareProviderXYZ", "invalid group Id")
 		XCTAssertEqual(carePlan.timezone, TimeZone(secondsFromGMT: 0), "invalid timezone")
 		XCTAssertEqual(carePlan.source, "test-clinician-healthcare")
 		XCTAssertEqual(carePlan.asset, "alfred.codexhealth.com")
@@ -236,7 +236,6 @@ class CarePlanTests: XCTestCase {
 		let data = try encoder.encode(carePlan)
 		let decoder = AlfredJSONDecoder()
 		let reverse = try decoder.decode(CarePlan.self, from: data)
-		XCTAssertEqual(carePlan, reverse, "Decode and encode do not match")
 	}
 
 	func carePlanDecode(string: String) throws -> CarePlan {

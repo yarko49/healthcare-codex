@@ -120,7 +120,7 @@ class HomeVC: BaseVC {
 	}
 
 	@objc func fetchCarePlan(_ sender: Any) {
-		AppDelegate.appDelegate.careManager.getVectorClock()
+		AppDelegate.appDelegate.careManager.getCarePlanResponse()
 	}
 }
 

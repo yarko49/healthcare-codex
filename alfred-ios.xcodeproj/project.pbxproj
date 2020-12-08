@@ -167,10 +167,10 @@
 		84A2A1C5257DA3CA00A925FC /* CarePlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1C4257DA3CA00A925FC /* CarePlanTests.swift */; };
 		84A2A1C9257DA41A00A925FC /* CarePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1C8257DA41A00A925FC /* CarePlan.swift */; };
 		84A2A1CD257DB3FB00A925FC /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1CC257DB3FB00A925FC /* Note.swift */; };
-		84A2A1D1257DB47800A925FC /* PatientNoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1D0257DB47800A925FC /* PatientNoteTests.swift */; };
+		84A2A1D1257DB47800A925FC /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1D0257DB47800A925FC /* NoteTests.swift */; };
 		84A2A1D7257DB61500A925FC /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1D6257DB61500A925FC /* Task.swift */; };
-		84A2A1EE257DBB1200A925FC /* TargetValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1ED257DBB1200A925FC /* TargetValue.swift */; };
-		84A2A1F2257DBD9200A925FC /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1F1257DBD9200A925FC /* Schedule.swift */; };
+		84A2A1EE257DBB1200A925FC /* OutcomeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1ED257DBB1200A925FC /* OutcomeValue.swift */; };
+		84A2A1F2257DBD9200A925FC /* ScheduleElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1F1257DBD9200A925FC /* ScheduleElement.swift */; };
 		84A2A1F6257DC08300A925FC /* ScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1F5257DC08300A925FC /* ScheduleTests.swift */; };
 		84A2A1FA257DC0A500A925FC /* TargetValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1F9257DC0A500A925FC /* TargetValueTests.swift */; };
 		84A2A1FE257DCB6600A925FC /* KeyedDecodingContainer+TimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1FD257DCB6600A925FC /* KeyedDecodingContainer+TimeZone.swift */; };
@@ -180,6 +180,7 @@
 		84A2A218257DE5F300A925FC /* DateFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A217257DE5F300A925FC /* DateFormatterTests.swift */; };
 		84A2A4F6257F0B0000A925FC /* AlfredJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A4F5257F0B0000A925FC /* AlfredJSONDecoder.swift */; };
 		84A2A524257F1A9C00A925FC /* TasksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A523257F1A9C00A925FC /* TasksTests.swift */; };
+		84A2A548257F2CE500A925FC /* OCKPatient+Alfred.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A547257F2CE500A925FC /* OCKPatient+Alfred.swift */; };
 		84D0A5EF2578970900B053B4 /* Enviornment+CareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0A5EE2578970900B053B4 /* Enviornment+CareManager.swift */; };
 		84D0A5F32578972200B053B4 /* CarePlanResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0A5F22578972200B053B4 /* CarePlanResponse.swift */; };
 		86A38FD424D1B74D000E9E3F /* Ext_Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A38FD324D1B74D000E9E3F /* Ext_Double.swift */; };
@@ -399,10 +400,10 @@
 		84A2A1C4257DA3CA00A925FC /* CarePlanTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlanTests.swift; sourceTree = "<group>"; };
 		84A2A1C8257DA41A00A925FC /* CarePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlan.swift; sourceTree = "<group>"; };
 		84A2A1CC257DB3FB00A925FC /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
-		84A2A1D0257DB47800A925FC /* PatientNoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientNoteTests.swift; sourceTree = "<group>"; };
+		84A2A1D0257DB47800A925FC /* NoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTests.swift; sourceTree = "<group>"; };
 		84A2A1D6257DB61500A925FC /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
-		84A2A1ED257DBB1200A925FC /* TargetValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetValue.swift; sourceTree = "<group>"; };
-		84A2A1F1257DBD9200A925FC /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
+		84A2A1ED257DBB1200A925FC /* OutcomeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutcomeValue.swift; sourceTree = "<group>"; };
+		84A2A1F1257DBD9200A925FC /* ScheduleElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleElement.swift; sourceTree = "<group>"; };
 		84A2A1F5257DC08300A925FC /* ScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTests.swift; sourceTree = "<group>"; };
 		84A2A1F9257DC0A500A925FC /* TargetValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetValueTests.swift; sourceTree = "<group>"; };
 		84A2A1FD257DCB6600A925FC /* KeyedDecodingContainer+TimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyedDecodingContainer+TimeZone.swift"; sourceTree = "<group>"; };
@@ -412,6 +413,7 @@
 		84A2A217257DE5F300A925FC /* DateFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterTests.swift; sourceTree = "<group>"; };
 		84A2A4F5257F0B0000A925FC /* AlfredJSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredJSONDecoder.swift; sourceTree = "<group>"; };
 		84A2A523257F1A9C00A925FC /* TasksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksTests.swift; sourceTree = "<group>"; };
+		84A2A547257F2CE500A925FC /* OCKPatient+Alfred.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKPatient+Alfred.swift"; sourceTree = "<group>"; };
 		84D0A5EE2578970900B053B4 /* Enviornment+CareManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Enviornment+CareManager.swift"; sourceTree = "<group>"; };
 		84D0A5F22578972200B053B4 /* CarePlanResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanResponse.swift; sourceTree = "<group>"; };
 		86A38FD324D1B74D000E9E3F /* Ext_Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext_Double.swift; sourceTree = "<group>"; };
@@ -1056,14 +1058,15 @@
 		8453CF27256DB9A300A3E6F0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				8453CF48256DC2D200A3E6F0 /* VectorClock.swift */,
 				84A2A1BC257D8F6800A925FC /* Patient.swift */,
+				84A2A547257F2CE500A925FC /* OCKPatient+Alfred.swift */,
 				84A2A1C8257DA41A00A925FC /* CarePlan.swift */,
 				84A2A1CC257DB3FB00A925FC /* Note.swift */,
 				84A2A1D6257DB61500A925FC /* Task.swift */,
-				84A2A1ED257DBB1200A925FC /* TargetValue.swift */,
-				84A2A1F1257DBD9200A925FC /* Schedule.swift */,
+				84A2A1ED257DBB1200A925FC /* OutcomeValue.swift */,
+				84A2A1F1257DBD9200A925FC /* ScheduleElement.swift */,
 				84D0A5F22578972200B053B4 /* CarePlanResponse.swift */,
+				8453CF48256DC2D200A3E6F0 /* VectorClock.swift */,
 				84A2A1FD257DCB6600A925FC /* KeyedDecodingContainer+TimeZone.swift */,
 			);
 			path = Model;
@@ -1076,7 +1079,7 @@
 				84A2A1B0257D8E7B00A925FC /* ValueSpaceResponse.json */,
 				84A2A1C4257DA3CA00A925FC /* CarePlanTests.swift */,
 				84A2A1C0257D950800A925FC /* PatientTests.swift */,
-				84A2A1D0257DB47800A925FC /* PatientNoteTests.swift */,
+				84A2A1D0257DB47800A925FC /* NoteTests.swift */,
 				84A2A1F5257DC08300A925FC /* ScheduleTests.swift */,
 				84A2A213257DE14C00A925FC /* SechduleA.json */,
 				84A2A1F9257DC0A500A925FC /* TargetValueTests.swift */,
@@ -1646,6 +1649,7 @@
 				06865EFC2575057100F14BD6 /* LoggingManager.swift in Sources */,
 				127C11AC222939F20093F4C0 /* DataContext+Keychain.swift in Sources */,
 				067F22E4253861E00023F0BB /* QuestionnaireResponseModel.swift in Sources */,
+				84A2A548257F2CE500A925FC /* OCKPatient+Alfred.swift in Sources */,
 				060F9D3024D828CB0010ADB6 /* SettingsFooterView.swift in Sources */,
 				065E263B24F7E59500D2A1FE /* PrivacyPolicyVC.swift in Sources */,
 				066B936724DBF3D400949A83 /* BottomButton.swift in Sources */,
@@ -1667,13 +1671,13 @@
 				86DDD52124D03C8100D27445 /* Ext_DateFormatter.swift in Sources */,
 				12D42D7E2226998D0039043F /* Ext_UIWindow.swift in Sources */,
 				C4BE384424FFA01F0047AFE3 /* ResetVC.swift in Sources */,
-				84A2A1F2257DBD9200A925FC /* Schedule.swift in Sources */,
+				84A2A1F2257DBD9200A925FC /* ScheduleElement.swift in Sources */,
 				069CF975252B020000921649 /* ProfileModel.swift in Sources */,
 				1209DC98255C19BB00864A1B /* StatModel.swift in Sources */,
 				8468B0B0256C624D00202A16 /* CareWebService.swift in Sources */,
 				127C11AA222938F00093F4C0 /* KeychainPasswordItem.swift in Sources */,
 				46BAA49025430A7B00C94AC2 /* Gender.swift in Sources */,
-				84A2A1EE257DBB1200A925FC /* TargetValue.swift in Sources */,
+				84A2A1EE257DBB1200A925FC /* OutcomeValue.swift in Sources */,
 				84A2A1C9257DA41A00A925FC /* CarePlan.swift in Sources */,
 				84624CCF2571F6F400E18019 /* SyncManager.swift in Sources */,
 				C450E30A25248C8600F679FC /* UserModel.swift in Sources */,
@@ -1709,7 +1713,7 @@
 				84A2A20C257DDE5000A925FC /* TaskTests.swift in Sources */,
 				84A2A1C1257D950800A925FC /* PatientTests.swift in Sources */,
 				8468B0D3256C679000202A16 /* AlfrediOSTests.swift in Sources */,
-				84A2A1D1257DB47800A925FC /* PatientNoteTests.swift in Sources */,
+				84A2A1D1257DB47800A925FC /* NoteTests.swift in Sources */,
 				8468B0DD256C67B100202A16 /* URLProtocolMock.swift in Sources */,
 				84A2A1F6257DC08300A925FC /* ScheduleTests.swift in Sources */,
 				84A2A1C5257DA3CA00A925FC /* CarePlanTests.swift in Sources */,
