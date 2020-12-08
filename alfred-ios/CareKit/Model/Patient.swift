@@ -7,6 +7,8 @@
 
 import Foundation
 
+public typealias Patients = [String: Patient]
+
 public struct Patient: Codable, Hashable {
 	public let id: String
 	public let groupId: String
@@ -44,10 +46,10 @@ public struct Patient: Codable, Hashable {
 		self.groupId = try container.decode(String.self, forKey: .groupId)
 		self.name = try container.decode(PatientName.self, forKey: .name)
 		self.remoteId = try container.decode(String.self, forKey: .remoteId)
-		self.createdAt = try container.decodeDate(forKey: .createdAt)
-		self.updatedAt = try container.decodeDate(forKey: .updatedAt)
-		self.effectiveDate = try container.decodeDate(forKey: .effectiveDate)
-		self.birthday = try container.decodeDate(forKey: .birthday)
+		self.createdAt = try container.decode(Date.self, forKey: .createdAt)
+		self.updatedAt = try container.decode(Date.self, forKey: .updatedAt)
+		self.effectiveDate = try container.decode(Date.self, forKey: .effectiveDate)
+		self.birthday = try container.decode(Date.self, forKey: .birthday)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)

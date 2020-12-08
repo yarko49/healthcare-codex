@@ -7,6 +7,8 @@
 
 import Foundation
 
+public typealias Tasks = [String: Task]
+
 public struct Task: Codable, Hashable {
 	public let id: String
 	public let remoteId: String
@@ -44,7 +46,7 @@ public struct Task: Codable, Hashable {
 		self.carePlanId = try container.decode(String.self, forKey: .carePlanId)
 		self.groupId = try container.decode(String.self, forKey: .groupId)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
-		self.effectiveDate = try container.decodeDate(forKey: .effectiveDate)
+		self.effectiveDate = try container.decode(Date.self, forKey: .effectiveDate)
 		self.instructions = try container.decode(String.self, forKey: .instructions)
 		self.impactsAdherence = try container.decode(Bool.self, forKey: .impactsAdherence)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)

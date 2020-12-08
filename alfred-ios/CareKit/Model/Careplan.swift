@@ -7,6 +7,8 @@
 
 import Foundation
 
+public typealias CarePlans = [String: CarePlan]
+
 public struct CarePlan: Codable, Hashable {
 	public let id: String
 	public let title: String
@@ -20,6 +22,7 @@ public struct CarePlan: Codable, Hashable {
 	public let source: String?
 	public let userInfo: [String: String]?
 	public let notes: [String: Note]?
+	public let tasks: Tasks?
 
 	private enum CodingKeys: String, CodingKey {
 		case id
@@ -34,6 +37,7 @@ public struct CarePlan: Codable, Hashable {
 		case source
 		case userInfo
 		case notes
+		case tasks
 	}
 
 	public init(from decoder: Decoder) throws {
@@ -44,12 +48,13 @@ public struct CarePlan: Codable, Hashable {
 		self.remoteId = try container.decode(String.self, forKey: .remoteId)
 		self.groupId = try container.decode(String.self, forKey: .groupId)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
-		self.effectiveDate = try container.decodeDate(forKey: .effectiveDate)
+		self.effectiveDate = try container.decode(Date.self, forKey: .effectiveDate)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
 		self.notes = try container.decodeIfPresent([String: Note].self, forKey: .notes)
+		self.tasks = try container.decodeIfPresent(Tasks.self, forKey: .tasks)
 	}
 
 	public func encode(to encoder: Encoder) throws {
@@ -66,5 +71,6 @@ public struct CarePlan: Codable, Hashable {
 		try container.encodeIfPresent(source, forKey: .source)
 		try container.encodeIfPresent(userInfo, forKey: .userInfo)
 		try container.encodeIfPresent(notes, forKey: .notes)
+		try container.encodeIfPresent(tasks, forKey: .tasks)
 	}
 }

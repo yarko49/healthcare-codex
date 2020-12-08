@@ -9,13 +9,13 @@ import Foundation
 
 public struct Schedule: Codable, Hashable {
 	public let startDate: Date
-	public let endDate: Date
+	public let endDate: Date?
 	public let isWeekly: Bool
 	public let isDaily: Bool
 	public let interval: TimeInterval
-	public let custom: String
+	public let custom: Bool
 	public let text: String
-	public let targetValues: [TargetValue]
+	public let targetValues: [TargetValue]?
 	public let duration: Int
 	public let hour: Int
 	public let minutes: Int

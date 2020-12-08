@@ -232,17 +232,15 @@ class CarePlanTests: XCTestCase {
 			"""
 		let carePlan = try carePlanDecode(string: careplanDictionary)
 		let encoder = JSONEncoder()
-		encoder.dateEncodingStrategy = .formatted(.wholeDateRequest)
+		encoder.dateEncodingStrategy = .formatted(.wholeDate)
 		let data = try encoder.encode(carePlan)
-		let decoder = JSONDecoder()
-		decoder.dateDecodingStrategy = .formatted(.wholeDateRequest)
+		let decoder = AlfredJSONDecoder()
 		let reverse = try decoder.decode(CarePlan.self, from: data)
 		XCTAssertEqual(carePlan, reverse, "Decode and encode do not match")
 	}
 
 	func carePlanDecode(string: String) throws -> CarePlan {
-		let decoder = JSONDecoder()
-		decoder.dateDecodingStrategy = .formatted(.wholeDateRequest)
+		let decoder = AlfredJSONDecoder()
 		if let data = string.data(using: .utf8) {
 			let carePlan = try decoder.decode(CarePlan.self, from: data)
 			return carePlan

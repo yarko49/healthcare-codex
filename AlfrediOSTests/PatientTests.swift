@@ -183,17 +183,15 @@ class PatientTests: XCTestCase {
 			"""
 		let patient = try patientDecode(string: patientDictionary)
 		let encoder = JSONEncoder()
-		encoder.dateEncodingStrategy = .formatted(.wholeDateRequest)
+		encoder.dateEncodingStrategy = .formatted(.wholeDate)
 		let data = try encoder.encode(patient)
-		let decoder = JSONDecoder()
-		decoder.dateDecodingStrategy = .formatted(.wholeDateRequest)
+		let decoder = AlfredJSONDecoder()
 		let reverse = try decoder.decode(Patient.self, from: data)
 		XCTAssertEqual(patient, reverse, "Decode and encode do not match")
 	}
 
 	func patientDecode(string: String) throws -> Patient {
-		let decoder = JSONDecoder()
-		decoder.dateDecodingStrategy = .formatted(.wholeDateRequest)
+		let decoder = AlfredJSONDecoder()
 		if let data = string.data(using: .utf8) {
 			let patient = try decoder.decode(Patient.self, from: data)
 			return patient

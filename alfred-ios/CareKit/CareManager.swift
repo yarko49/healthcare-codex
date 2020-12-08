@@ -34,7 +34,7 @@ public class CareManager: ObservableObject {
 
 	@Published var carePlans: [String: Any] = [:]
 
-	@Published var carePlanResponse = CarePlanResponse(patients: [:], carePlans: [:], tasks: [:], clock: [:])
+	@Published var carePlanResponse = CarePlanResponse(patients: [:], carePlans: [:], tasks: [:], vectorClock: [:])
 
 	func getCarePlan() {
 		webService.getCarePlan { [self] result in

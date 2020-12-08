@@ -36,13 +36,12 @@ public final class CareWebService: AlfredAPI {
 	}
 
 	public func getCarePlanResponse(completion: @escaping CareWebService.DecodableCompletion<CarePlanResponse>) {
-		let decoder = JSONDecoder()
-		decoder.dateDecodingStrategy = .formatted(.wholeDateRequest)
+		let decoder = AlfredJSONDecoder()
 		request(route: .getCarePlan(vectorClock: false, valueSpaceSample: false), decoder: decoder, completion: completion)
 	}
 
 	@discardableResult
-	func request<T: Decodable>(route: APIRouter, decoder: JSONDecoder = JSONDecoder(), completion: @escaping CareWebService.DecodableCompletion<T>) -> URLSession.DataTaskPublisher? {
+	func request<T: Decodable>(route: APIRouter, decoder: JSONDecoder = AlfredJSONDecoder(), completion: @escaping CareWebService.DecodableCompletion<T>) -> URLSession.DataTaskPublisher? {
 		guard let request = route.urlRequest else {
 			completion(.failure(URLError(.badURL)))
 			return nil

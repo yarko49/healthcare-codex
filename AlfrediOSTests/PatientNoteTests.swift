@@ -34,7 +34,7 @@ class PatientNoteTests: XCTestCase {
 			  "effectiveDate" : null
 			}
 			"""
-		let decoder = JSONDecoder()
+		let decoder = AlfredJSONDecoder()
 		if let data = careplanNoteDictionary.data(using: .utf8) {
 			let note = try decoder.decode(Note.self, from: data)
 			XCTAssertEqual(note.author, "test", "invalid author")
@@ -65,7 +65,7 @@ class PatientNoteTests: XCTestCase {
 			  "effectiveDate" : null
 			}
 			"""
-		let decoder = JSONDecoder()
+		let decoder = AlfredJSONDecoder()
 		if let data = careplanNoteDictionary.data(using: .utf8) {
 			let note = try decoder.decode(Note.self, from: data)
 			XCTAssertEqual(note.author, "testB", "invalid author")
