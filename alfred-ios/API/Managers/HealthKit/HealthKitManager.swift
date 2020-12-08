@@ -208,7 +208,12 @@ class HealthKitManager {
 		switch intervalType {
 		case .daily: break
 		case .weekly, .monthly: interval.day = 1
-		case .yearly: interval.month = 1
+		case .yearly:
+			if identifier == .stepCount {
+				interval.day = 1
+			} else {
+				interval.month = 1
+			}
 		}
 
 		var anchorComponents = Calendar.current.dateComponents([.day, .month, .year], from: startDate)

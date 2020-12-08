@@ -55,9 +55,9 @@ class StatCell: UITableViewCell {
 		var avgString: String {
 			switch intervalType {
 			case .daily: return ""
-			case .weekly: return quantityType != .activity ? Str.weeklyAvg : Str.weekTotal
-			case .monthly: return quantityType != .activity ? Str.monthlyAvg : Str.monthTotal
-			case .yearly: return quantityType != .activity ? Str.yearlyAvg : Str.yearTotal
+			case .weekly: return quantityType != .activity ? Str.weeklyAvg : Str.dailyAverage
+			case .monthly: return quantityType != .activity ? Str.monthlyAvg : Str.dailyAverage
+			case .yearly: return quantityType != .activity ? Str.yearlyAvg : Str.dailyAverage
 			}
 		}
 
@@ -73,13 +73,32 @@ class StatCell: UITableViewCell {
 		highLowWithDataWidthConstraint?.isActive = true
 		switch quantityType {
 		case .weight, .heartRate, .restingHR, .activity:
-			let intValues = statData.dataPoints.compactMap { $0.value?.doubleValue(for: quantityType.hkUnit) }.map { Int($0) }
+			var intValues: [Int] = []
+			var dataToPlot = data
+			if quantityType == .activity, intervalType == .yearly {
+				var dataPoints: [StatsDataPoint] = []
+				for month in 1 ... 12 {
+					let filteredDates = (statData.dataPoints.filter { Calendar.current.date($0.date, matchesComponents: DateComponents(month: month)) }).filter { $0.value != nil }
+					let datesCount = filteredDates.isEmpty ? 1 : filteredDates.count
+					let average = filteredDates.map { ($0.value?.doubleValue(for: quantityType.hkUnit) ?? 0.0) }.reduce(0.0, +) / Double(datesCount)
+					if average != 0.0 {
+						intValues.append(Int(average))
+						if let first = filteredDates.first?.date {
+							dataPoints.append(StatsDataPoint(date: first, value: HKQuantity(unit: quantityType.hkUnit, doubleValue: average)))
+						}
+					}
+				}
+				dataToPlot = [StatModel(type: quantityType, dataPoints: dataPoints)]
+			} else {
+				intValues = statData.dataPoints.compactMap { $0.value?.doubleValue(for: quantityType.hkUnit) }.map { Int($0) }
+			}
+
 			guard !intValues.isEmpty else {
 				showNoData(for: quantityType)
 				return
 			}
 			let valuesCount = !intValues.isEmpty ? intValues.count : 1
-			let averageValue = quantityType != .activity ? intValues.sum() / valuesCount : intValues.sum()
+			let averageValue = intValues.sum() / valuesCount
 			let formatter = NumberFormatter()
 			formatter.numberStyle = .decimal
 			let avgNumber = NSNumber(value: Int(averageValue))
@@ -98,7 +117,7 @@ class StatCell: UITableViewCell {
 			let lowNumber = NSNumber(value: lowValue)
 			let lowNumberString = formatter.string(from: lowNumber) ?? "\(Int(lowValue))"
 			lowValueLbl.attributedText = lowNumberString.with(style: .regular16, andColor: .black)
-			lineChartView.setup(with: data, quantityType: quantityType, intervalType: intervalType, goal: goal)
+            lineChartView.setup(with: dataToPlot, quantityType: quantityType, intervalType: intervalType, goal: goal)
 		case .bloodPressure where data.count == 2:
 			let sortedData = data.sorted { (data1, data2) -> Bool in
 				let valueSum1 = data1.dataPoints.map { Int($0.value?.doubleValue(for: .millimeterOfMercury()) ?? 0) }.sum()
