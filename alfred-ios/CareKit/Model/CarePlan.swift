@@ -9,7 +9,7 @@ import Foundation
 
 public typealias CarePlans = [String: CarePlan]
 
-public struct CarePlan: Codable {
+public struct CarePlan: Codable, Hashable {
 	public let id: String
 	public let title: String
 	public let patientId: String

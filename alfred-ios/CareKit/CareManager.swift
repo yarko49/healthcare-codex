@@ -16,15 +16,15 @@ extension OSLog {
 
 public class CareManager: ObservableObject {
 	let remoteSynchronizationManager: RemoteSynchronizationManager
-	let store: OCKStore
-	let healthKitPassthroughStore: OCKHealthKitPassthroughStore
-	let synchronizedStoreManager: OCKSynchronizedStoreManager
+	public let store: OCKStore
+	public let healthKitPassthroughStore: OCKHealthKitPassthroughStore
+	public let synchronizedStoreManager: OCKSynchronizedStoreManager
 	let webService = CareWebService(session: URLSession(configuration: .default))
 
-	init() {
+	public init(careKitStore ckStore: String = "AlfredStore", healthKitStore hkStore: String = "AlfredHealthKitPassthroughStore") {
 		self.remoteSynchronizationManager = RemoteSynchronizationManager()
-		self.store = OCKStore(name: "AlfredStore", type: .inMemory, remote: remoteSynchronizationManager)
-		self.healthKitPassthroughStore = OCKHealthKitPassthroughStore(name: "AlfredHealthKitPassthroughStore", type: .inMemory)
+		self.store = OCKStore(name: ckStore, type: .inMemory, remote: remoteSynchronizationManager)
+		self.healthKitPassthroughStore = OCKHealthKitPassthroughStore(name: hkStore, type: .inMemory)
 		let coordinator = OCKStoreCoordinator()
 		coordinator.attach(store: store)
 		coordinator.attach(eventStore: healthKitPassthroughStore)
@@ -32,9 +32,9 @@ public class CareManager: ObservableObject {
 		remoteSynchronizationManager.delegate = self
 	}
 
-	@Published var carePlanResponse = CarePlanResponse(patients: [:], carePlans: [:], tasks: [:], vectorClock: [:])
+	@Published public var carePlanResponse = CarePlanResponse()
 
-	func getCarePlanResponse() {
+	public func getCarePlanResponse() {
 		webService.getCarePlanResponse { result in
 			switch result {
 			case .failure(let error):
@@ -46,7 +46,7 @@ public class CareManager: ObservableObject {
 		}
 	}
 
-	func getVectorClock() {
+	public func getVectorClock() {
 		webService.getCarePlan(vectorClock: true, valueSpaceSample: false) { result in
 			switch result {
 			case .failure(let error):
@@ -63,7 +63,7 @@ public class CareManager: ObservableObject {
 		}
 	}
 
-	func getValueSpaceSample() {
+	public func getValueSpaceSample() {
 		webService.getCarePlan(vectorClock: false, valueSpaceSample: true) { result in
 			switch result {
 			case .failure(let error):
@@ -82,7 +82,11 @@ public class CareManager: ObservableObject {
 }
 
 extension CareManager: OCKRemoteSynchronizationDelegate {
-	public func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {}
+	public func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
+		os_log(.info, log: .careManager, "")
+	}
 
-	public func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {}
+	public func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
+		os_log(.info, log: .careManager, "")
+	}
 }

@@ -117,7 +117,7 @@ class StatCell: UITableViewCell {
 			let lowNumber = NSNumber(value: lowValue)
 			let lowNumberString = formatter.string(from: lowNumber) ?? "\(Int(lowValue))"
 			lowValueLbl.attributedText = lowNumberString.with(style: .regular16, andColor: .black)
-            lineChartView.setup(with: dataToPlot, quantityType: quantityType, intervalType: intervalType, goal: goal)
+			lineChartView.setup(with: dataToPlot, quantityType: quantityType, intervalType: intervalType, goal: goal)
 		case .bloodPressure where data.count == 2:
 			let sortedData = data.sorted { (data1, data2) -> Bool in
 				let valueSum1 = data1.dataPoints.map { Int($0.value?.doubleValue(for: .millimeterOfMercury()) ?? 0) }.sum()

@@ -7,25 +7,25 @@
 
 import Foundation
 
-public struct ScheduleElement: Codable {
-	public let start: Date
-	public let end: Date?
-	public let isWeekly: Bool
-	public let isDaily: Bool
-	public let interval: TimeInterval
-	public let custom: Bool
-	public let text: String
-	public let targetValues: [OutcomeValue]?
-	public let duration: Int
-	public let hour: Int
-	public let minutes: Int
-	public let weekday: Int
+public struct ScheduleElement: Codable, Hashable {
+	public var start: Date
+	public var end: Date?
+	public var weekly: Bool
+	public var daily: Bool
+	public var interval: TimeInterval // Seconds
+	public var custom: Bool
+	public var text: String?
+	public var targetValues: [OutcomeValue]?
+	public var duration: TimeInterval // Seconds
+	public var hour: Int
+	public var minutes: Int
+	public var weekday: Int
 
 	private enum CodingKeys: String, CodingKey {
 		case start
 		case end
-		case isWeekly = "weekly"
-		case isDaily = "daily"
+		case weekly
+		case daily
 		case interval
 		case custom
 		case text

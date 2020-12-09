@@ -187,6 +187,7 @@ class PatientTests: XCTestCase {
 		let data = try encoder.encode(patient)
 		let decoder = AlfredJSONDecoder()
 		let reverse = try decoder.decode(Patient.self, from: data)
+		XCTAssertEqual(patient, reverse)
 	}
 
 	func patientDecode(string: String) throws -> Patient {
