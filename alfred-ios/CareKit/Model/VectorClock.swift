@@ -9,7 +9,7 @@ import CareKitStore
 import Foundation
 import os.log
 
-public struct VectorClock: Codable {
+public struct VectorClock: Codable, Hashable {
 	public var uuid: UUID
 	public var objectId: String?
 	public var createdAt: Date?
