@@ -47,6 +47,7 @@ class MasterCoordinator: Coordinator {
 			if DataContext.shared.isBiometricsEnabled {
 				biometricsAuthentication { completion in
 					if completion {
+						Auth.auth().tenantID = AppConfig.tenantID
 						Auth.auth().currentUser?.getIDToken(completion: { firebaseToken, error in
 							if let error = error {
 								print(error)

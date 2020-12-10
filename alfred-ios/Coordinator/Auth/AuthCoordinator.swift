@@ -76,6 +76,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	internal func goToSignInWithEmail(email: String, password: String) {
 		AlertHelper.showLoader()
 		emailrequest = email
+        Auth.auth().tenantID = AppConfig.tenantID
 		Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
 			self?.getFirebaseToken(authResult: authResult, error: error) { [weak self] in
 				self?.checkIfUserExists(authResult: authResult)
@@ -223,6 +224,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 
 	internal func goToSignUpWithEP(email: String, password: String) {
 		AlertHelper.showLoader()
+		Auth.auth().tenantID = AppConfig.tenantID
 		Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
 			if let error = error {
 				print(error)
@@ -538,10 +540,9 @@ extension AuthCoordinator: GIDSignInDelegate {
 		else { print(error as Any)
 			return
 		}
-
+		Auth.auth().tenantID = AppConfig.tenantID
 		let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
 		                                               accessToken: authentication.accessToken)
-
 		Auth.auth().signIn(with: credential) { [weak self] authResult, error in
 			self?.getFirebaseToken(authResult: authResult, error: error) { [weak self] in
 				self?.checkIfUserExists(authResult: authResult)
@@ -569,6 +570,7 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 			}
 
 			let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
+            Auth.auth().tenantID = AppConfig.tenantID
 			Auth.auth().signIn(with: credential) { [weak self] authResult, error in
 				self?.getFirebaseToken(authResult: authResult, error: error) { [weak self] in
 					self?.checkIfUserExists(authResult: authResult)
