@@ -4,9 +4,7 @@ install! 'cocoapods', :integrate_targets => true
 platform :ios, '14.0'
 
 def firebase_pods
-  pod 'GoogleSignIn', '5.0.2'
-  pod 'Firebase/Auth', '6.31.0'
-  pod 'Firebase/Crashlytics', '6.31.0'
+  pod 'GoogleSignIn'
 end
 
 def networking_pods
@@ -15,8 +13,8 @@ def networking_pods
 end
 
 def common_pods_for_target
-  pod 'SVProgressHUD', '2.2.5'
-  pod 'IQKeyboardManagerSwift', '6.5.5'
+  pod 'SVProgressHUD'
+  pod 'IQKeyboardManagerSwift'
 end
 
 target 'alfred-ios' do
