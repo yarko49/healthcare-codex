@@ -12,7 +12,7 @@ public final class RemoteSynchronizationManager: OCKRemoteSynchronizable {
 	public weak var delegate: OCKRemoteSynchronizationDelegate?
 	public var automaticallySynchronizes: Bool
 
-	init(automaticallySynchronizes: Bool = true) {
+	public init(automaticallySynchronizes: Bool = true) {
 		self.automaticallySynchronizes = automaticallySynchronizes
 	}
 

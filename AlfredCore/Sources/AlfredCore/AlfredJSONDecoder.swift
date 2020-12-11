@@ -11,7 +11,7 @@ public final class AlfredJSONDecoder: JSONDecoder {
 	let iso8601DateFormatter: ISO8601DateFormatter
 	let noTimezoneDateFormatter: DateFormatter
 
-	override init() {
+	override public init() {
 		self.iso8601DateFormatter = ISO8601DateFormatter()
 		iso8601DateFormatter.formatOptions.insert(.withFractionalSeconds)
 

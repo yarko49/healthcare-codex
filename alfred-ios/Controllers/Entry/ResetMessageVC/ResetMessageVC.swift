@@ -2,6 +2,7 @@
 //  ResetMessageVC.swift
 //  alfred-ios
 
+import BonMot
 import UIKit
 
 class ResetMessageVC: BaseVC {

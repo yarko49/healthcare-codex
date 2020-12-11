@@ -2,12 +2,39 @@
   "object": {
     "pins": [
       {
+        "package": "BonMot",
+        "repositoryURL": "https://github.com/Rightpoint/BonMot",
+        "state": {
+          "branch": null,
+          "revision": "f9f38fd8bb7919f6a9262eae2811e40d4a890251",
+          "version": "5.6.0"
+        }
+      },
+      {
         "package": "CareKit",
         "repositoryURL": "https://github.com/carekit-apple/CareKit",
         "state": {
           "branch": "main",
           "revision": "f892a5e0036b044e7e0309ae05912e29f5cdce8d",
           "version": null
+        }
+      },
+      {
+        "package": "Charts",
+        "repositoryURL": "https://github.com/danielgindi/Charts.git",
+        "state": {
+          "branch": null,
+          "revision": "66546404a6739173b8e436ab6bc1f2897cd08594",
+          "version": "3.6.0"
+        }
+      },
+      {
+        "package": "EasyPeasy",
+        "repositoryURL": "https://github.com/nakiostudio/EasyPeasy",
+        "state": {
+          "branch": null,
+          "revision": "5855b14d7c8a7f510be8275794ec9afeba07b4cf",
+          "version": "1.9.2"
         }
       },
       {
@@ -35,6 +62,15 @@
           "branch": null,
           "revision": "b68fb5d6c8137de4a06894e683dc1a726a832907",
           "version": "4.2.1"
+        }
+      },
+      {
+        "package": "UIColor_Hex_Swift",
+        "repositoryURL": "https://github.com/yeahdongcn/UIColor-Hex-Swift",
+        "state": {
+          "branch": null,
+          "revision": "7043811d77df477bf0df3e3bc4269cbd44b3f1a4",
+          "version": "5.1.1"
         }
       }
     ]

@@ -1,6 +1,6 @@
 //
 //  CareWebService.swift
-//  alfred-ios
+//  AlfredCore
 //
 //  Created by Waqar Malik on 11/23/20.
 //
@@ -8,11 +8,11 @@
 import Combine
 import Foundation
 
-public protocol AlfredAPI {
-	func getCarePlanResponse(completion: @escaping CareWebService.DecodableCompletion<CarePlanResponse>)
+public protocol Routable {
+	var urlRequest: URLRequest? { get }
 }
 
-public final class CareWebService: AlfredAPI {
+public final class WebService {
 	public typealias DecodableCompletion<T: Decodable> = (Result<T, Error>) -> Void
 	public typealias DataCompletion<T> = (Result<T, Error>) -> Void
 
@@ -29,19 +29,14 @@ public final class CareWebService: AlfredAPI {
 		}
 	}
 
-	public func getCarePlan(vectorClock: Bool = false, valueSpaceSample: Bool = false, completion: @escaping CareWebService.DataCompletion<[String: Any]>) {
+	public func getCarePlan(vectorClock: Bool = false, valueSpaceSample: Bool = false, completion: @escaping WebService.DataCompletion<[String: Any]>) {
 		// CarePlan-Vector-Clock-Only: true
 		// Careplan-Prefer: return=ValueSpaceSample
-		request(route: .getCarePlan(vectorClock: vectorClock, valueSpaceSample: valueSpaceSample), completion: completion)
-	}
-
-	public func getCarePlanResponse(completion: @escaping CareWebService.DecodableCompletion<CarePlanResponse>) {
-		let decoder = AlfredJSONDecoder()
-		request(route: .getCarePlan(vectorClock: false, valueSpaceSample: false), decoder: decoder, completion: completion)
+		// request(route: .getCarePlan(vectorClock: vectorClock, valueSpaceSample: valueSpaceSample), completion: completion)
 	}
 
 	@discardableResult
-	func request<T: Decodable>(route: APIRouter, decoder: JSONDecoder = AlfredJSONDecoder(), completion: @escaping CareWebService.DecodableCompletion<T>) -> URLSession.DataTaskPublisher? {
+	func request<T: Decodable>(route: Routable, decoder: JSONDecoder = AlfredJSONDecoder(), completion: @escaping WebService.DecodableCompletion<T>) -> URLSession.DataTaskPublisher? {
 		guard let request = route.urlRequest else {
 			completion(.failure(URLError(.badURL)))
 			return nil
@@ -68,7 +63,7 @@ public final class CareWebService: AlfredAPI {
 	}
 
 	@discardableResult
-	func request(route: APIRouter, completion: @escaping CareWebService.DataCompletion<[String: Any]>) -> URLSession.DataTaskPublisher? {
+	func request(route: Routable, completion: @escaping WebService.DataCompletion<[String: Any]>) -> URLSession.DataTaskPublisher? {
 		guard let request = route.urlRequest else {
 			completion(.failure(URLError(.badURL)))
 			return nil

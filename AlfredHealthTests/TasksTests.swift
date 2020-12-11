@@ -5,7 +5,8 @@
 //  Created by Waqar Malik on 12/7/20.
 //
 
-@testable import alfred_ios
+import AlfredCore
+@testable import AlfredHealth
 import XCTest
 
 class TasksTests: XCTestCase {
@@ -13,7 +14,7 @@ class TasksTests: XCTestCase {
 	var carePlan: [String: Any]!
 
 	override func setUpWithError() throws {
-		carePlanResponse = AlfrediOSTests.loadTestData(fileName: "ValueSpaceResponse.json")
+		carePlanResponse = AlfredHealthTests.loadTestData(fileName: "ValueSpaceResponse.json")
 		XCTAssertNotNil(carePlanResponse)
 		carePlan = try JSONSerialization.jsonObject(with: carePlanResponse, options: .allowFragments) as? [String: Any]
 		XCTAssertNotNil(carePlan)

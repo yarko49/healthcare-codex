@@ -4,7 +4,7 @@
 //
 
 import BonMot
-import Foundation
+import UIKit
 
 struct TextStyle {
 	enum Style {

@@ -5,14 +5,15 @@
 //  Created by Waqar Malik on 12/6/20.
 //
 
-@testable import alfred_ios
+import AlfredCore
+@testable import AlfredHealth
 import XCTest
 
 class TaskTests: XCTestCase {
 	var testData: Data!
 
 	override func setUpWithError() throws {
-		testData = AlfrediOSTests.loadTestData(fileName: "TaskB2.json")
+		testData = AlfredHealthTests.loadTestData(fileName: "TaskB2.json")
 		XCTAssertNotNil(testData)
 	}
 
@@ -25,7 +26,7 @@ class TaskTests: XCTestCase {
 		let decoder = AlfredJSONDecoder()
 		XCTAssertNotNil(testData)
 		let task = try decoder.decode(Task.self, from: testData!)
-		let startDate = DateFormatter.wholeDate.date(from: "2020-11-11T01:31:00.343Z")
+		let startDate = AlfredHealthTests.wholeDate.date(from: "2020-11-11T01:31:00.343Z")
 		XCTAssertEqual(task.effectiveDate, startDate!)
 		XCTAssertEqual(task.id, "TaskB2")
 		XCTAssertEqual(task.remoteId, "XXXX-SOME-UUID-ZZZZ")

@@ -3,6 +3,7 @@
 //  alfred-ios
 //
 
+import BonMot
 import Foundation
 import UIKit
 

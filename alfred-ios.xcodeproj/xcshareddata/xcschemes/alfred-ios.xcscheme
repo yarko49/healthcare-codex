@@ -57,6 +57,26 @@
                ReferencedContainer = "container:alfred-ios.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "84EEA4CF25830EB300473CAE"
+               BuildableName = "AlfredCoreTests.xctest"
+               BlueprintName = "AlfredCoreTests"
+               ReferencedContainer = "container:alfred-ios.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "84EEA51225830F6500473CAE"
+               BuildableName = "AlfredHealthTests.xctest"
+               BlueprintName = "AlfredHealthTests"
+               ReferencedContainer = "container:alfred-ios.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

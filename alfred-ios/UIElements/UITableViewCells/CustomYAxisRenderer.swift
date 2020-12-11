@@ -3,7 +3,7 @@
 //  alfred-ios
 
 import Charts
-import Foundation
+import UIKit
 
 public class CustomYAxisRenderer: YAxisRenderer {
 	override public func renderGridLines(context: CGContext) {
