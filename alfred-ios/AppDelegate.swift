@@ -1,5 +1,6 @@
 import Firebase
 import FirebaseAuth
+import FirebaseCore
 import FirebaseCrashlytics
 import GoogleSignIn
 import IQKeyboardManagerSwift

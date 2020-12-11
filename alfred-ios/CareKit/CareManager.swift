@@ -5,6 +5,8 @@
 //  Created by Waqar Malik on 11/23/20.
 //
 
+import AlfredCore
+import AlfredHealth
 import CareKit
 import CareKitStore
 import Foundation
@@ -19,7 +21,7 @@ public class CareManager: ObservableObject {
 	public let store: OCKStore
 	public let healthKitPassthroughStore: OCKHealthKitPassthroughStore
 	public let synchronizedStoreManager: OCKSynchronizedStoreManager
-	let webService = CareWebService(session: URLSession(configuration: .default))
+	let webService = WebService(session: URLSession(configuration: .default))
 
 	public init(careKitStore ckStore: String = "AlfredStore", healthKitStore hkStore: String = "AlfredHealthKitPassthroughStore") {
 		self.remoteSynchronizationManager = RemoteSynchronizationManager()
@@ -35,15 +37,15 @@ public class CareManager: ObservableObject {
 	@Published public var carePlanResponse = CarePlanResponse()
 
 	public func getCarePlanResponse() {
-		webService.getCarePlanResponse { result in
-			switch result {
-			case .failure(let error):
-				os_log(.error, log: .careManager, "Error fetching care plan data %@", error.localizedDescription)
-			case .success(let response):
-				self.carePlanResponse = response
-				os_log(.info, log: .careManager, "Successfully fetch care plan")
-			}
-		}
+//		webService.getCarePlanResponse { result in
+//			switch result {
+//			case .failure(let error):
+//				os_log(.error, log: .careManager, "Error fetching care plan data %@", error.localizedDescription)
+//			case .success(let response):
+//				self.carePlanResponse = response
+//				os_log(.info, log: .careManager, "Successfully fetch care plan")
+//			}
+//		}
 	}
 
 	public func getVectorClock() {

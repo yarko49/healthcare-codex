@@ -76,7 +76,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	internal func goToSignInWithEmail(email: String, password: String) {
 		AlertHelper.showLoader()
 		emailrequest = email
-        Auth.auth().tenantID = AppConfig.tenantID
+		Auth.auth().tenantID = AppConfig.tenantID
 		Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
 			self?.getFirebaseToken(authResult: authResult, error: error) { [weak self] in
 				self?.checkIfUserExists(authResult: authResult)
@@ -570,7 +570,7 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 			}
 
 			let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-            Auth.auth().tenantID = AppConfig.tenantID
+			Auth.auth().tenantID = AppConfig.tenantID
 			Auth.auth().signIn(with: credential) { [weak self] authResult, error in
 				self?.getFirebaseToken(authResult: authResult, error: error) { [weak self] in
 					self?.checkIfUserExists(authResult: authResult)

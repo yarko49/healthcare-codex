@@ -1,6 +1,6 @@
 //
 //  Data+Validation.swift
-//  alfred-ios
+//  AlfredCore
 //
 //  Created by Waqar Malik on 11/23/20.
 //

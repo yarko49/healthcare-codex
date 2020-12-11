@@ -1,7 +1,7 @@
 //  GoogleSignInButton.swift
 //  alfred-ios
 
-import Foundation
+import BonMot
 import UIKit
 
 class GoogleSignInButton: UIButton {

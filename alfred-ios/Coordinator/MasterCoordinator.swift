@@ -1,4 +1,5 @@
 import Firebase
+import FirebaseAuth
 import LocalAuthentication
 import UIKit
 

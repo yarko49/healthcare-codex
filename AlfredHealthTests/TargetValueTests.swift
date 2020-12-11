@@ -5,7 +5,8 @@
 //  Created by Waqar Malik on 12/6/20.
 //
 
-@testable import alfred_ios
+import AlfredCore
+@testable import AlfredHealth
 import CareKitStore
 import XCTest
 

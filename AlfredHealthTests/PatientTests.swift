@@ -5,7 +5,8 @@
 //  Created by Waqar Malik on 12/6/20.
 //
 
-@testable import alfred_ios
+import AlfredCore
+@testable import AlfredHealth
 import Foundation
 import XCTest
 
@@ -183,7 +184,9 @@ class PatientTests: XCTestCase {
 			"""
 		let patient = try patientDecode(string: patientDictionary)
 		let encoder = JSONEncoder()
-		encoder.dateEncodingStrategy = .formatted(.wholeDate)
+		let formatter = DateFormatter()
+		formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+		encoder.dateEncodingStrategy = .formatted(formatter)
 		let data = try encoder.encode(patient)
 		let decoder = AlfredJSONDecoder()
 		let reverse = try decoder.decode(Patient.self, from: data)
