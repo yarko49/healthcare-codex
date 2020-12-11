@@ -7,62 +7,10 @@ PODS:
   - AppAuth/ExternalUserAgent (1.4.0)
   - CodableAlamofire (1.1.2):
     - Alamofire (~> 4.0)
-  - Firebase/Auth (6.31.0):
-    - Firebase/CoreOnly
-    - FirebaseAuth (~> 6.9.0)
-  - Firebase/CoreOnly (6.31.0):
-    - FirebaseCore (= 6.10.1)
-  - Firebase/Crashlytics (6.31.0):
-    - Firebase/CoreOnly
-    - FirebaseCrashlytics (~> 4.5.0)
-  - FirebaseAuth (6.9.2):
-    - FirebaseCore (~> 6.10)
-    - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
-    - GoogleUtilities/Environment (~> 6.7)
-    - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (6.10.1):
-    - FirebaseCoreDiagnostics (~> 1.6)
-    - GoogleUtilities/Environment (~> 6.7)
-    - GoogleUtilities/Logger (~> 6.7)
-  - FirebaseCoreDiagnostics (1.7.0):
-    - GoogleDataTransport (~> 7.4)
-    - GoogleUtilities/Environment (~> 6.7)
-    - GoogleUtilities/Logger (~> 6.7)
-    - nanopb (~> 1.30906.0)
-  - FirebaseCrashlytics (4.5.0):
-    - FirebaseCore (~> 6.10)
-    - FirebaseInstallations (~> 1.6)
-    - GoogleDataTransport (~> 7.2)
-    - nanopb (~> 1.30906.0)
-    - PromisesObjC (~> 1.2)
-  - FirebaseInstallations (1.7.0):
-    - FirebaseCore (~> 6.10)
-    - GoogleUtilities/Environment (~> 6.7)
-    - GoogleUtilities/UserDefaults (~> 6.7)
-    - PromisesObjC (~> 1.2)
-  - GoogleDataTransport (7.5.1):
-    - nanopb (~> 1.30906.0)
   - GoogleSignIn (5.0.2):
     - AppAuth (~> 1.2)
     - GTMAppAuth (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleUtilities/AppDelegateSwizzler (6.7.2):
-    - GoogleUtilities/Environment
-    - GoogleUtilities/Logger
-    - GoogleUtilities/Network
-  - GoogleUtilities/Environment (6.7.2):
-    - PromisesObjC (~> 1.2)
-  - GoogleUtilities/Logger (6.7.2):
-    - GoogleUtilities/Environment
-  - GoogleUtilities/Network (6.7.2):
-    - GoogleUtilities/Logger
-    - "GoogleUtilities/NSData+zlib"
-    - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (6.7.2)"
-  - GoogleUtilities/Reachability (6.7.2):
-    - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (6.7.2):
-    - GoogleUtilities/Logger
   - GTMAppAuth (1.1.0):
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher (~> 1.4)
@@ -71,65 +19,37 @@ PODS:
   - GTMSessionFetcher/Core (1.5.0)
   - GTMSessionFetcher/Full (1.5.0):
     - GTMSessionFetcher/Core (= 1.5.0)
-  - IQKeyboardManagerSwift (6.5.5)
-  - nanopb (1.30906.0):
-    - nanopb/decode (= 1.30906.0)
-    - nanopb/encode (= 1.30906.0)
-  - nanopb/decode (1.30906.0)
-  - nanopb/encode (1.30906.0)
-  - PromisesObjC (1.2.11)
+  - IQKeyboardManagerSwift (6.5.6)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
   - Alamofire (= 4.9.1)
   - CodableAlamofire (= 1.1.2)
-  - Firebase/Auth (= 6.31.0)
-  - Firebase/Crashlytics (= 6.31.0)
-  - GoogleSignIn (= 5.0.2)
-  - IQKeyboardManagerSwift (= 6.5.5)
-  - SVProgressHUD (= 2.2.5)
+  - GoogleSignIn
+  - IQKeyboardManagerSwift
+  - SVProgressHUD
 
 SPEC REPOS:
   trunk:
     - Alamofire
     - AppAuth
     - CodableAlamofire
-    - Firebase
-    - FirebaseAuth
-    - FirebaseCore
-    - FirebaseCoreDiagnostics
-    - FirebaseCrashlytics
-    - FirebaseInstallations
-    - GoogleDataTransport
     - GoogleSignIn
-    - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
-    - nanopb
-    - PromisesObjC
     - SVProgressHUD
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   CodableAlamofire: b7adfb2e5e980392014b4b3f3b8b62c01b9de4aa
-  Firebase: 87483fa19acfdf99244523f2389e931927b91457
-  FirebaseAuth: c92d49ada7948d1a23466e3db17bc4c2039dddc3
-  FirebaseCore: 6fb954e350af0885803d5aa49865d15d9a6b264c
-  FirebaseCoreDiagnostics: 770ac5958e1372ce67959ae4b4f31d8e127c3ac1
-  FirebaseCrashlytics: d2a350ec7fd4a332031b906b0802a7a73697630b
-  FirebaseInstallations: 466c7b4d1f58fe16707693091da253726a731ed2
-  GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
-  GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  IQKeyboardManagerSwift: 0fb93310284665245591f50f7a5e38de615960b7
-  nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
-  PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
+  IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: ced41737c03cf0dec47feb698c40ba8a0dd2f28a
+PODFILE CHECKSUM: 9fa35103e1d8fdcfda562c35f3c21b3798ebc090
 
 COCOAPODS: 1.10.0
