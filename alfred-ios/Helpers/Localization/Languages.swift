@@ -2,8 +2,8 @@ import Foundation
 
 final class Languages {
 	static func tr(_ key: String) -> String {
-		let s = NSLocalizedString(key, bundle: LanguageManager.shared.getLocalBundle(), value: key, comment: "")
-		return s
+		let string = NSLocalizedString(key, bundle: LanguageManager.shared.getLocalBundle(), value: key, comment: "")
+		return string
 	}
 
 	static func tr(_ key: String, _ args: [CVarArg]) -> String {

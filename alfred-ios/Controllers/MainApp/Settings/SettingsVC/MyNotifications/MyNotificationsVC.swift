@@ -75,10 +75,10 @@ extension MyNotificationsVC: UITableViewDataSource, UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsSwitchCell", for: indexPath) as! SettingsSwitchCell
-		cell.layoutMargins = UIEdgeInsets.zero
+		let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsSwitchCell", for: indexPath) as? SettingsSwitchCell
+		cell?.layoutMargins = UIEdgeInsets.zero
 
-		cell.setup(type: notificationsSettings[indexPath.row])
-		return cell
+		cell?.setup(type: notificationsSettings[indexPath.row])
+		return cell!
 	}
 }

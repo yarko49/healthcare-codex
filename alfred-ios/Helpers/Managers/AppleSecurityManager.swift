@@ -1,4 +1,3 @@
-
 //  AuthAppleManager.swift
 //  alfred-ios
 

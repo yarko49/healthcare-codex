@@ -81,11 +81,11 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath) as! SettingsCell
-		cell.layoutMargins = UIEdgeInsets.zero
+		let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath) as? SettingsCell
+		cell?.layoutMargins = UIEdgeInsets.zero
 
-		cell.setup(name: settings[indexPath.row].description)
-		return cell
+		cell?.setup(name: settings[indexPath.row].description)
+		return cell!
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

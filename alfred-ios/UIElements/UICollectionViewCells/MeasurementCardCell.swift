@@ -164,12 +164,12 @@ class MeasurementCardCell: UICollectionViewCell {
 
 	private func setAttributedString(for text: String) -> NSMutableAttributedString {
 		let array = text.components(separatedBy: " ")
-		let attributedString = text.with(style: .regular26, andColor: .black, andLetterSpacing: -0.16) as! NSMutableAttributedString
+		let attributedString = text.with(style: .regular26, andColor: .black, andLetterSpacing: -0.16) as? NSMutableAttributedString
 		if array.count > 1 {
 			let range = (text as NSString).range(of: array[1])
-			attributedString.addAttribute(NSAttributedString.Key.font, value: Font.sfProThin.of(size: 26), range: range)
+			attributedString?.addAttribute(NSAttributedString.Key.font, value: Font.sfProThin.of(size: 26), range: range)
 		}
-		return attributedString
+		return attributedString!
 	}
 
 	private func setCellForDataInput() {

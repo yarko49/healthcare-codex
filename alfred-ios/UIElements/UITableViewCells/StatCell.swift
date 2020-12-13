@@ -148,12 +148,12 @@ class StatCell: UITableViewCell {
 			avgValueLbl.attributedText = value
 
 			let combinedPressure = zip(mappedSystolicsValues, mappedDiastolicsValues).map(+)
-			let maxEntry = combinedPressure.enumerated().max(by: { a, b in
-				a.element < b.element
+			let maxEntry = combinedPressure.enumerated().max(by: { lhs, rhs in
+				lhs.element < rhs.element
 			})
 
-			let minEntry = combinedPressure.enumerated().min(by: { a, b in
-				a.element < b.element
+			let minEntry = combinedPressure.enumerated().min(by: { lhs, rhs in
+				lhs.element < rhs.element
 			})
 			guard let maxIndex = maxEntry?.offset, let minIndex = minEntry?.offset, datapointCouples.count > maxIndex, datapointCouples.count > minIndex else { return }
 			let maxPressure = datapointCouples[maxIndex]

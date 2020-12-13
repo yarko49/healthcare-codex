@@ -92,9 +92,9 @@ class MeasurementCardCell: UICollectionViewCell {
 
 		// TODO: Need to check this again
 		let array = cardText.components(separatedBy: " ")
-		let attributedString = cardText.with(style: .regular26, andColor: .black, andLetterSpacing: -0.16) as! NSMutableAttributedString
+		let attributedString = cardText.with(style: .regular26, andColor: .black, andLetterSpacing: -0.16) as? NSMutableAttributedString
 		let range = (cardText as NSString).range(of: array[1])
-		attributedString.addAttribute(NSAttributedString.Key.font, value: Font.sfProThin.of(size: 26), range: range)
+		attributedString?.addAttribute(NSAttributedString.Key.font, value: Font.sfProThin.of(size: 26), range: range)
 		textLbl.attributedText = attributedString
 	}
 }

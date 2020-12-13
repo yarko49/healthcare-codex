@@ -23,8 +23,8 @@ public class CustomYAxisRenderer: YAxisRenderer {
 
 		let limitLines = yAxis.limitLines
 
-		for i in stride(from: 0, to: yAxis.limitLines.count, by: 1) {
-			positions.append(CGPoint(x: 0.0, y: limitLines[i].limit))
+		for index in stride(from: 0, to: yAxis.limitLines.count, by: 1) {
+			positions.append(CGPoint(x: 0.0, y: limitLines[index].limit))
 		}
 
 		transformer.pointValuesToPixel(&positions)
@@ -65,13 +65,13 @@ public class CustomYAxisRenderer: YAxisRenderer {
 				context.setLineDash(phase: 0.0, lengths: [])
 			}
 
-			for i in stride(from: 0, to: limitPositions.count, by: 2) {
-				let currentColor = getColor(index: i)
+			for index in stride(from: 0, to: limitPositions.count, by: 2) {
+				let currentColor = getColor(index: index)
 				context.setStrokeColor(currentColor)
 				context.setLineWidth(width)
 				context.beginPath()
-				context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: (limitPositions[i].y + limitPositions[i + 1].y) / 2))
-				context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: (limitPositions[i].y + limitPositions[i + 1].y) / 2))
+				context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: (limitPositions[index].y + limitPositions[index + 1].y) / 2))
+				context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: (limitPositions[index].y + limitPositions[index + 1].y) / 2))
 				context.strokePath()
 			}
 		}

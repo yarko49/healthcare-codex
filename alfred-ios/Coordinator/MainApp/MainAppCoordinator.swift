@@ -327,8 +327,8 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			}
 
 			if currentNames.count > given.count {
-				for i in given.count ... (currentNames.count - 1) {
-					print("removing: ", currentNames[i], i)
+				for index in given.count ... (currentNames.count - 1) {
+					print("removing: ", currentNames[index], index)
 					patientUpdate.append(UpdatePatientModel(op: "remove", path: "/name/0/given/\(given.count)", value: nil))
 				}
 			}
