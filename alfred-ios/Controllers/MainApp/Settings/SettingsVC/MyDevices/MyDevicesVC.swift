@@ -87,10 +87,10 @@ extension MyDevicesVC: UITableViewDataSource, UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsSwitchCell", for: indexPath) as! SettingsSwitchCell
-		cell.layoutMargins = UIEdgeInsets.zero
+		let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsSwitchCell", for: indexPath) as? SettingsSwitchCell
+		cell?.layoutMargins = UIEdgeInsets.zero
 
-		cell.setup(type: devicesSettings[indexPath.row])
-		return cell
+		cell?.setup(type: devicesSettings[indexPath.row])
+		return cell!
 	}
 }

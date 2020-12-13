@@ -280,21 +280,21 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let type = DataContext.shared.userAuthorizedQuantities[indexPath.row]
 		if currentDateInterval == .daily {
-			let cell = tableView.dequeueReusableCell(withIdentifier: "TodayStatCell", for: indexPath) as! TodayStatCell
-			cell.selectionStyle = .none
-			cell.setup(for: type, with: todayHKData[type])
-			return cell
+			let cell = tableView.dequeueReusableCell(withIdentifier: "TodayStatCell", for: indexPath) as? TodayStatCell
+			cell?.selectionStyle = .none
+			cell?.setup(for: type, with: todayHKData[type])
+			return cell!
 		} else {
-			let cell = tableView.dequeueReusableCell(withIdentifier: "StatCell", for: indexPath) as! StatCell
-			cell.selectionStyle = .none
-			cell.expandCollapseAction = { [weak self] expanded in
+			let cell = tableView.dequeueReusableCell(withIdentifier: "StatCell", for: indexPath) as? StatCell
+			cell?.selectionStyle = .none
+			cell?.expandCollapseAction = { [weak self] expanded in
 				let currentContentOffset = tableView.contentOffset
 				self?.expandCollapseState[type] = expanded
 				tableView.reloadRows(at: [indexPath], with: .none)
 				tableView.contentOffset = currentContentOffset
 			}
-			cell.setup(for: type, with: currentHKData[type], intervalType: currentDateInterval, expanded: expandCollapseState[type] ?? false, goal: goals[type] ?? 0.0)
-			return cell
+			cell?.setup(for: type, with: currentHKData[type], intervalType: currentDateInterval, expanded: expandCollapseState[type] ?? false, goal: goals[type] ?? 0.0)
+			return cell!
 		}
 	}
 }

@@ -130,9 +130,9 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MeasurementCardCell", for: indexPath) as! MeasurementCardCell
-		cell.setupCell(with: measurementCardsList[indexPath.row].data)
-		return cell
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MeasurementCardCell", for: indexPath) as? MeasurementCardCell
+		cell?.setupCell(with: measurementCardsList[indexPath.row].data)
+		return cell!
 	}
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

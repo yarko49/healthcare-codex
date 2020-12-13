@@ -150,24 +150,24 @@ class TodayInputVC: BaseVC {
 		let font = Font.sfProBold.of(size: 12)
 		let fontSize: CGFloat = font.pointSize
 		let componentWidth: CGFloat = view.frame.width / CGFloat(picker.numberOfComponents)
-		let y = (picker.frame.size.height / 2) - (fontSize / 2)
+		let yPos = (picker.frame.size.height / 2) - (fontSize / 2)
 		switch inputType {
 		case .bloodPressure:
-			let label = UILabel(frame: CGRect(x: componentWidth * 0.625, y: y, width: componentWidth * 0.4, height: fontSize))
+			let label = UILabel(frame: CGRect(x: componentWidth * 0.625, y: yPos, width: componentWidth * 0.4, height: fontSize))
 			label.font = font
 			label.textAlignment = .left
 			label.text = Str.sys
 			label.textColor = .black
 			picker.addSubview(label)
 
-			let label2 = UILabel(frame: CGRect(x: componentWidth * 1.65, y: y, width: componentWidth * 0.4, height: fontSize))
+			let label2 = UILabel(frame: CGRect(x: componentWidth * 1.65, y: yPos, width: componentWidth * 0.4, height: fontSize))
 			label2.font = font
 			label2.textAlignment = .left
 			label2.text = Str.dia
 			label2.textColor = .black
 			picker.addSubview(label2)
 		case .weight:
-			let label = UILabel(frame: CGRect(x: componentWidth * 0.6, y: y, width: componentWidth * 0.4, height: fontSize))
+			let label = UILabel(frame: CGRect(x: componentWidth * 0.6, y: yPos, width: componentWidth * 0.4, height: fontSize))
 			label.font = font
 			label.textAlignment = .left
 			label.text = Str.lb
@@ -219,8 +219,8 @@ class TodayInputVC: BaseVC {
 			if view != picker, view is UIPickerView || view is UIDatePicker {
 				view.isHidden = true
 			} else if view != viewTF, view is PickerTF {
-				let view = view as! PickerTF
-				view.textfield.textColor = .black
+				let view = view as? PickerTF
+				view?.textfield.textColor = .black
 			}
 		}
 	}

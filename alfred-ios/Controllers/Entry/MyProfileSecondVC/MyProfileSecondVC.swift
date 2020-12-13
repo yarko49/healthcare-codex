@@ -213,24 +213,24 @@ class MyProfileSecondVC: BaseVC, UIGestureRecognizerDelegate {
 		let font = Font.sfProBold.of(size: 12)
 		let fontSize: CGFloat = font.pointSize
 		let componentWidth: CGFloat = view.frame.width / CGFloat(picker.numberOfComponents)
-		let y = (picker.frame.size.height / 2) - (fontSize / 2)
+		let yPos = (picker.frame.size.height / 2) - (fontSize / 2)
 
 		if picker == heightPicker {
-			let label = UILabel(frame: CGRect(x: componentWidth * 0.625, y: y, width: componentWidth * 0.4, height: fontSize))
+			let label = UILabel(frame: CGRect(x: componentWidth * 0.625, y: yPos, width: componentWidth * 0.4, height: fontSize))
 			label.font = font
 			label.textAlignment = .left
 			label.text = "ft"
 			label.textColor = .black
 			picker.addSubview(label)
 
-			let label2 = UILabel(frame: CGRect(x: componentWidth * 1.6, y: y, width: componentWidth * 0.4, height: fontSize))
+			let label2 = UILabel(frame: CGRect(x: componentWidth * 1.6, y: yPos, width: componentWidth * 0.4, height: fontSize))
 			label2.font = font
 			label2.textAlignment = .left
 			label2.text = "in"
 			label2.textColor = .black
 			picker.addSubview(label2)
 		} else if picker == weightPicker {
-			let label = UILabel(frame: CGRect(x: componentWidth * 0.6, y: y, width: componentWidth * 0.4, height: fontSize))
+			let label = UILabel(frame: CGRect(x: componentWidth * 0.6, y: yPos, width: componentWidth * 0.4, height: fontSize))
 			label.font = font
 			label.textAlignment = .left
 			label.text = Str.lb
