@@ -147,6 +147,7 @@
 		840A9CB82571F9CE00540133 /* DataContext+Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840A9CB72571F9CE00540133 /* DataContext+Fetch.swift */; };
 		8416998B25677958005EF024 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8416998925677958005EF024 /* Localizable.strings */; };
 		8436019B25678D7B000B4C55 /* Environment+StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8436019A25678D7B000B4C55 /* Environment+StoreManager.swift */; };
+		844BECBA2586C97300B17803 /* WebService+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844BECB92586C97300B17803 /* WebService+Image.swift */; };
 		8453CF1F256CD79500A3E6F0 /* CareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453CF1E256CD79500A3E6F0 /* CareManager.swift */; };
 		84624CCF2571F6F400E18019 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84624CCE2571F6F400E18019 /* SyncManager.swift */; };
 		8468B0D3256C679000202A16 /* AlfrediOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468B0D2256C679000202A16 /* AlfrediOSTests.swift */; };
@@ -167,6 +168,7 @@
 		8493812B258330F0001DB541 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8493812A258330F0001DB541 /* FirebaseAuth */; };
 		84A2A18D257D882200A925FC /* OSLog+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A18C257D882200A925FC /* OSLog+Setup.swift */; };
 		84A2A218257DE5F300A925FC /* DateFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A217257DE5F300A925FC /* DateFormatterTests.swift */; };
+		84B201BA2586D333001A6C0A /* OSLog+Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B201B92586D333001A6C0A /* OSLog+Core.swift */; };
 		84D0A5EF2578970900B053B4 /* Enviornment+CareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0A5EE2578970900B053B4 /* Enviornment+CareManager.swift */; };
 		84EEA4D125830EB300473CAE /* AlfredCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EEA4C825830EB300473CAE /* AlfredCore.framework */; };
 		84EEA4D825830EB300473CAE /* AlfredCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EEA4D725830EB300473CAE /* AlfredCoreTests.swift */; };
@@ -490,6 +492,7 @@
 		8439695325806D8500377AB6 /* OCKNote+Conversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKNote+Conversion.swift"; sourceTree = "<group>"; };
 		8439695D2580825B00377AB6 /* OCKTask+Conversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKTask+Conversion.swift"; sourceTree = "<group>"; };
 		84396979258083AA00377AB6 /* OCKOutcomeValue+Conversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKOutcomeValue+Conversion.swift"; sourceTree = "<group>"; };
+		844BECB92586C97300B17803 /* WebService+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebService+Image.swift"; sourceTree = "<group>"; };
 		8453CF1A256CD15300A3E6F0 /* RemoteSynchronizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSynchronizationManager.swift; sourceTree = "<group>"; };
 		8453CF1E256CD79500A3E6F0 /* CareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareManager.swift; sourceTree = "<group>"; };
 		8453CF48256DC2D200A3E6F0 /* VectorClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorClock.swift; sourceTree = "<group>"; };
@@ -523,6 +526,7 @@
 		84A2A4F5257F0B0000A925FC /* AlfredJSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredJSONDecoder.swift; sourceTree = "<group>"; };
 		84A2A523257F1A9C00A925FC /* TasksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksTests.swift; sourceTree = "<group>"; };
 		84A2A547257F2CE500A925FC /* OCKPatient+Conversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKPatient+Conversion.swift"; sourceTree = "<group>"; };
+		84B201B92586D333001A6C0A /* OSLog+Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OSLog+Core.swift"; sourceTree = "<group>"; };
 		84D0A5EE2578970900B053B4 /* Enviornment+CareManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Enviornment+CareManager.swift"; sourceTree = "<group>"; };
 		84D0A5F22578972200B053B4 /* CarePlanResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanResponse.swift; sourceTree = "<group>"; };
 		84EEA4C825830EB300473CAE /* AlfredCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlfredCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1274,8 +1278,10 @@
 			isa = PBXGroup;
 			children = (
 				8468B0AF256C624D00202A16 /* WebService.swift */,
+				844BECB92586C97300B17803 /* WebService+Image.swift */,
 				8468B0B2256C62C100202A16 /* Data+Validation.swift */,
 				84A2A4F5257F0B0000A925FC /* AlfredJSONDecoder.swift */,
+				84B201B92586D333001A6C0A /* OSLog+Core.swift */,
 			);
 			path = AlfredCore;
 			sourceTree = "<group>";
@@ -2220,8 +2226,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84B201BA2586D333001A6C0A /* OSLog+Core.swift in Sources */,
 				84937FF52583243A001DB541 /* AlfredJSONDecoder.swift in Sources */,
 				84937FC8258323C8001DB541 /* Data+Validation.swift in Sources */,
+				844BECBA2586C97300B17803 /* WebService+Image.swift in Sources */,
 				84937FB3258322CE001DB541 /* WebService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
