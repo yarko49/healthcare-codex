@@ -169,6 +169,8 @@
 		84A2A18D257D882200A925FC /* OSLog+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A18C257D882200A925FC /* OSLog+Setup.swift */; };
 		84A2A218257DE5F300A925FC /* DateFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A217257DE5F300A925FC /* DateFormatterTests.swift */; };
 		84B201BA2586D333001A6C0A /* OSLog+Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B201B92586D333001A6C0A /* OSLog+Core.swift */; };
+		84B201C82586DBF4001A6C0A /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B201C72586DBF4001A6C0A /* URLProtocolMock.swift */; };
+		84B201D22586DC4B001A6C0A /* TestImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B201D12586DC4B001A6C0A /* TestImage.png */; };
 		84D0A5EF2578970900B053B4 /* Enviornment+CareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0A5EE2578970900B053B4 /* Enviornment+CareManager.swift */; };
 		84EEA4D125830EB300473CAE /* AlfredCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EEA4C825830EB300473CAE /* AlfredCore.framework */; };
 		84EEA4D825830EB300473CAE /* AlfredCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EEA4D725830EB300473CAE /* AlfredCoreTests.swift */; };
@@ -527,6 +529,8 @@
 		84A2A523257F1A9C00A925FC /* TasksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksTests.swift; sourceTree = "<group>"; };
 		84A2A547257F2CE500A925FC /* OCKPatient+Conversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKPatient+Conversion.swift"; sourceTree = "<group>"; };
 		84B201B92586D333001A6C0A /* OSLog+Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OSLog+Core.swift"; sourceTree = "<group>"; };
+		84B201C72586DBF4001A6C0A /* URLProtocolMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
+		84B201D12586DC4B001A6C0A /* TestImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TestImage.png; sourceTree = "<group>"; };
 		84D0A5EE2578970900B053B4 /* Enviornment+CareManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Enviornment+CareManager.swift"; sourceTree = "<group>"; };
 		84D0A5F22578972200B053B4 /* CarePlanResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanResponse.swift; sourceTree = "<group>"; };
 		84EEA4C825830EB300473CAE /* AlfredCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlfredCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1300,6 +1304,8 @@
 			isa = PBXGroup;
 			children = (
 				84EEA4D725830EB300473CAE /* AlfredCoreTests.swift */,
+				84B201D12586DC4B001A6C0A /* TestImage.png */,
+				84B201C72586DBF4001A6C0A /* URLProtocolMock.swift */,
 				84EEA4D925830EB300473CAE /* Info.plist */,
 			);
 			path = AlfredCoreTests;
@@ -1793,6 +1799,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84B201D22586DC4B001A6C0A /* TestImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2239,6 +2246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84EEA4D825830EB300473CAE /* AlfredCoreTests.swift in Sources */,
+				84B201C82586DBF4001A6C0A /* URLProtocolMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

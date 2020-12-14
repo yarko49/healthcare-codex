@@ -37,8 +37,8 @@ public final class WebService {
 		public static let acceptEncoding = "Accept-Encoding"
 		public static let acceptLanguage = "Accept-Language"
 		public static let date = "Date"
-        public static let CarePlanVectorClockOnly = "CarePlan-Vector-Clock-Only"
-        public static let CarePlanPrefer = "Careplan-Prefer"
+		public static let CarePlanVectorClockOnly = "CarePlan-Vector-Clock-Only"
+		public static let CarePlanPrefer = "Careplan-Prefer"
 	}
 
 	public enum ContentType {
