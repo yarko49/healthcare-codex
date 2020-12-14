@@ -9,6 +9,7 @@ import os.log
 import UIKit
 
 public extension WebService {
+	@discardableResult
 	func loadImage(urlString: String, completion: @escaping RequestCompletion<UIImage>) -> URLSession.DataTaskPublisher? {
 		guard let url = URL(string: urlString) else {
 			completion(.failure(URLError(.badURL)))
