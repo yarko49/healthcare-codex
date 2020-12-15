@@ -4,6 +4,7 @@
 //
 
 import Alamofire
+import AlfredCore
 import FirebaseAuth
 import Foundation
 import os.log
@@ -72,7 +73,7 @@ class Interceptor: RequestInterceptor {
 	func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
 		var urlRequestToSend = urlRequest
 		if let token = authToken {
-			urlRequestToSend.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+			urlRequestToSend.setValue("Bearer \(token)", forHTTPHeaderField: WebService.Header.userAuthorization)
 		}
 		completion(.success(urlRequestToSend))
 	}

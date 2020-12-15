@@ -34,6 +34,7 @@ public final class WebService {
 		public static let accept = "Accept"
 		public static let cacheControl = "Cache-Control"
 		public static let authorization = "Authorization"
+		public static let userAuthorization = "User-Authorization"
 		public static let acceptEncoding = "Accept-Encoding"
 		public static let acceptLanguage = "Accept-Language"
 		public static let date = "Date"
