@@ -37,6 +37,7 @@ public final class WebService {
 		public static let acceptEncoding = "Accept-Encoding"
 		public static let acceptLanguage = "Accept-Language"
 		public static let date = "Date"
+		public static let xAPIKey = "x-api-key"
 		public static let CarePlanVectorClockOnly = "CarePlan-Vector-Clock-Only"
 		public static let CarePlanPrefer = "Careplan-Prefer"
 	}
@@ -53,6 +54,8 @@ public final class WebService {
 		public static let png = "image/png"
 		public static let gif = "image/gif"
 		public static let svg = "image/svg+xml"
+		public static let fhirjson = "application/fhir+json"
+		public static let patchjson = "application/json-patch+json"
 	}
 
 	let session: URLSession

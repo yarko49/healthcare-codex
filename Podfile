@@ -7,11 +7,6 @@ def firebase_pods
   pod 'GoogleSignIn'
 end
 
-def networking_pods
-  pod 'Alamofire'
-  pod 'CodableAlamofire'
-end
-
 def common_pods_for_target
   pod 'SVProgressHUD'
   pod 'IQKeyboardManagerSwift'
@@ -22,7 +17,6 @@ target 'alfred-ios' do
   use_frameworks!
 
   firebase_pods
-  networking_pods
   common_pods_for_target
 end
 
@@ -30,7 +24,6 @@ target 'AlfrediOSTests' do
   platform :ios, '14.0'
   use_frameworks!
 
-  networking_pods
   firebase_pods
   common_pods_for_target
 end
@@ -39,7 +32,6 @@ target 'AlfredCore' do
   platform :ios, '14.0'
   use_frameworks!
 
-  networking_pods
   firebase_pods
 end
 
@@ -47,7 +39,6 @@ target 'AlfredCoreTests' do
   platform :ios, '14.0'
   use_frameworks!
 
-  networking_pods
   firebase_pods
 end
 

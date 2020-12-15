@@ -1,4 +1,5 @@
 import Alamofire
+import AlfredCore
 import Foundation
 
 enum APIRouter: URLRequestConvertible {
@@ -60,24 +61,24 @@ enum APIRouter: URLRequestConvertible {
 	}
 
 	var headers: [String: String] {
-		var headers = ["Content-Type": "application/json",
-		               "x-api-key": AppConfig.apiKey]
+		var headers = [WebService.Header.contentType: WebService.ContentType.json,
+		               WebService.Header.xAPIKey: AppConfig.apiKey]
 		if let authToken = DataContext.shared.authToken {
-			headers["Authorization"] = "Bearer " + authToken
+			headers[WebService.Header.authorization] = "Bearer " + authToken
 		}
 		switch self {
 		case .getCarePlan(let vectorClock, let valueSpaceSample):
 			if vectorClock {
-				headers["CarePlan-Vector-Clock-Only"] = "true"
+				headers[WebService.Header.CarePlanVectorClockOnly] = "true"
 			} else if valueSpaceSample {
-				headers["Careplan-Prefer"] = "return=ValueSpaceSample"
+				headers[WebService.Header.CarePlanPrefer] = "return=ValueSpaceSample"
 			}
 		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile:
 			break
 		case .postObservation, .postPatient, .postPatientSearch, .postBundle, .postQuestionnaireResponse, .postObservationSearch:
-			headers["Content-Type"] = "application/fhir+json"
+			headers[WebService.Header.contentType] = WebService.ContentType.fhirjson
 		case .patchPatient:
-			headers["Content-Type"] = "application/json-patch+json"
+			headers[WebService.Header.contentType] = WebService.ContentType.patchjson
 		}
 		return headers
 	}

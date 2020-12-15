@@ -148,6 +148,8 @@
 		8416998B25677958005EF024 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8416998925677958005EF024 /* Localizable.strings */; };
 		8436019B25678D7B000B4C55 /* Environment+StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8436019A25678D7B000B4C55 /* Environment+StoreManager.swift */; };
 		844BECBA2586C97300B17803 /* WebService+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844BECB92586C97300B17803 /* WebService+Image.swift */; };
+		8453297C25891D8E00FCA274 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 8453297B25891D8E00FCA274 /* Alamofire */; };
+		8453298325891DD900FCA274 /* CodableAlamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 8453298225891DD900FCA274 /* CodableAlamofire */; };
 		8453CF1F256CD79500A3E6F0 /* CareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453CF1E256CD79500A3E6F0 /* CareManager.swift */; };
 		84624CCF2571F6F400E18019 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84624CCE2571F6F400E18019 /* SyncManager.swift */; };
 		8468B0D3256C679000202A16 /* AlfrediOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468B0D2256C679000202A16 /* AlfrediOSTests.swift */; };
@@ -630,6 +632,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				36EA1F7AD150C4BE93938F11 /* Pods_AlfredCore.framework in Frameworks */,
+				8453297C25891D8E00FCA274 /* Alamofire in Frameworks */,
+				8453298325891DD900FCA274 /* CodableAlamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1578,6 +1582,10 @@
 			dependencies = (
 			);
 			name = AlfredCore;
+			packageProductDependencies = (
+				8453297B25891D8E00FCA274 /* Alamofire */,
+				8453298225891DD900FCA274 /* CodableAlamofire */,
+			);
 			productName = AlfredCore;
 			productReference = 84EEA4C825830EB300473CAE /* AlfredCore.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1700,6 +1708,8 @@
 				84938068258327DB001DB541 /* XCRemoteSwiftPackageReference "UIColor-Hex-Swift" */,
 				8493808A2583291D001DB541 /* XCRemoteSwiftPackageReference "EasyPeasy" */,
 				84938121258330F0001DB541 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8453297A25891D8E00FCA274 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				8453298125891DD800FCA274 /* XCRemoteSwiftPackageReference "CodableAlamofire" */,
 			);
 			productRefGroup = 1234FD532215884400E73FFF /* Products */;
 			projectDirPath = "";
@@ -2851,6 +2861,22 @@
 				minimumVersion = 1.0.1;
 			};
 		};
+		8453297A25891D8E00FCA274 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.4.0;
+			};
+		};
+		8453298125891DD800FCA274 /* XCRemoteSwiftPackageReference "CodableAlamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Otbivnoe/CodableAlamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.1;
+			};
+		};
 		84937E7B25831B9B001DB541 /* XCRemoteSwiftPackageReference "BonMot" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Rightpoint/BonMot";
@@ -2906,6 +2932,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0626CACA24C5C1E20069D859 /* XCRemoteSwiftPackageReference "healthkit-to-fhir" */;
 			productName = HealthKitToFhir;
+		};
+		8453297B25891D8E00FCA274 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8453297A25891D8E00FCA274 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		8453298225891DD900FCA274 /* CodableAlamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8453298125891DD800FCA274 /* XCRemoteSwiftPackageReference "CodableAlamofire" */;
+			productName = CodableAlamofire;
 		};
 		84937E7C25831B9B001DB541 /* BonMot */ = {
 			isa = XCSwiftPackageProductDependency;
