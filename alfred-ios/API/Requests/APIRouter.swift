@@ -64,7 +64,7 @@ enum APIRouter: URLRequestConvertible {
 		var headers = [WebService.Header.contentType: WebService.ContentType.json,
 		               WebService.Header.xAPIKey: AppConfig.apiKey]
 		if let authToken = DataContext.shared.authToken {
-			headers[WebService.Header.authorization] = "Bearer " + authToken
+			headers[WebService.Header.userAuthorization] = "Bearer " + authToken
 		}
 		switch self {
 		case .getCarePlan(let vectorClock, let valueSpaceSample):
