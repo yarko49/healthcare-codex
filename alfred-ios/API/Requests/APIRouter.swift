@@ -95,7 +95,6 @@ enum APIRouter: URLRequestConvertible {
 		var request = URLRequest(url: url.appendingPathComponent(path))
 		request.httpMethod = method.rawValue
 		request.allHTTPHeaderFields = headers
-
 		switch self {
 		case .postObservation(let observation):
 			let jsonBody = try JSONEncoder().encode(observation)

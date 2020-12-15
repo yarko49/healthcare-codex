@@ -3,15 +3,13 @@ import CodableAlamofire
 import Foundation
 
 class Requests {
-	static let sessionManager: SessionManager = {
+	static let session: Session = {
 		let configuration = URLSessionConfiguration.default
 		configuration.httpMaximumConnectionsPerHost = 50
 		configuration.timeoutIntervalForRequest = 120
-		let sessMan = SessionManager(configuration: configuration)
-		let retrier = Interceptor()
-		sessMan.retrier = retrier
-		sessMan.adapter = retrier
-		return sessMan
+		let interceptor = Interceptor()
+		let session = Session(configuration: configuration, interceptor: interceptor)
+		return session
 	}()
 
 	static func login(email: String, password: String, completion: @escaping (Bool) -> Void) {
@@ -19,7 +17,7 @@ class Requests {
 	}
 
 	static func getQuestionnaire(completion: @escaping (Questionnaire?) -> Void) {
-		sessionManager.request(APIRouter.getQuestionnaire).validate().getResponseDecodableObject { (response: DataResponse<Questionnaire>) in
+		session.request(APIRouter.getQuestionnaire).validate().getResponseDecodableObject { (response: AFDataResponse<Questionnaire>) in
 			switch response.result {
 			case .success(let value):
 				completion(value)
@@ -31,8 +29,8 @@ class Requests {
 	}
 
 	static func postQuestionnaireResponse(questionnaireResponse: QuestionnaireResponse, completion: @escaping (SubmittedQuestionnaire?) -> Void) {
-		sessionManager.request(APIRouter.postQuestionnaireResponse(response: questionnaireResponse))
-			.validate().getResponseDecodableObject { (response: DataResponse<SubmittedQuestionnaire>) in
+		session.request(APIRouter.postQuestionnaireResponse(response: questionnaireResponse))
+			.validate().getResponseDecodableObject { (response: AFDataResponse<SubmittedQuestionnaire>) in
 				switch response.result {
 				case .success(let submissionResponse):
 					// response.data?.prettyPrint()
@@ -45,8 +43,8 @@ class Requests {
 	}
 
 	static func postObservation(observation: Resource, completion: @escaping (Resource?) -> Void) {
-		sessionManager.request(APIRouter.postObservation(observation: observation))
-			.validate().getResponseDecodableObject { (response: DataResponse<Resource>) in
+		session.request(APIRouter.postObservation(observation: observation))
+			.validate().getResponseDecodableObject { (response: AFDataResponse<Resource>) in
 				switch response.result {
 				case .success(let observationResponse):
 					// response.data?.prettyPrint()
@@ -59,7 +57,7 @@ class Requests {
 	}
 
 	static func postProfile(profile: ProfileModel, completion: @escaping (Bool) -> Void) {
-		sessionManager.request(APIRouter.postProfile(profile: profile))
+		session.request(APIRouter.postProfile(profile: profile))
 			.validate().getResponse { response in
 				if response.error == nil {
 					print("201 Created")
@@ -72,8 +70,8 @@ class Requests {
 	}
 
 	static func postPatient(patient: Resource, completion: @escaping (Resource?) -> Void) {
-		sessionManager.request(APIRouter.postPatient(patient: patient))
-			.validate().getResponseDecodableObject { (response: DataResponse<Resource>) in
+		session.request(APIRouter.postPatient(patient: patient))
+			.validate().getResponseDecodableObject { (response: AFDataResponse<Resource>) in
 				switch response.result {
 				case .success(let patientResponse):
 					// response.data?.prettyPrint()
@@ -86,8 +84,8 @@ class Requests {
 	}
 
 	static func postPatientSearch(completion: @escaping (BundleModel?) -> Void) {
-		sessionManager.request(APIRouter.postPatientSearch)
-			.validate().getResponseDecodableObject { (response: DataResponse<BundleModel>) in
+		session.request(APIRouter.postPatientSearch)
+			.validate().getResponseDecodableObject { (response: AFDataResponse<BundleModel>) in
 				switch response.result {
 				case .success(let patientResponse):
 					// response.data?.prettyPrint()
@@ -100,7 +98,7 @@ class Requests {
 	}
 
 	static func getNotifications(completion: @escaping (CardList?) -> Void) {
-		sessionManager.request(APIRouter.getNotifications).validate().getResponseDecodableObject { (response: DataResponse<CardList>) in
+		session.request(APIRouter.getNotifications).validate().getResponseDecodableObject { (response: AFDataResponse<CardList>) in
 			switch response.result {
 			case .success(let value):
 				completion(value)
@@ -112,7 +110,7 @@ class Requests {
 	}
 
 	static func getProfile(completion: @escaping (ProfileModel?) -> Void) {
-		sessionManager.request(APIRouter.getProfile).validate().getResponseDecodableObject { (response: DataResponse<ProfileModel>) in
+		session.request(APIRouter.getProfile).validate().getResponseDecodableObject { (response: AFDataResponse<ProfileModel>) in
 			switch response.result {
 			case .success(let profile):
 				completion(profile)
@@ -124,8 +122,8 @@ class Requests {
 	}
 
 	static func postBundle(bundle: BundleModel, completion: @escaping (BundleModel?) -> Void) {
-		sessionManager.request(APIRouter.postBundle(bundle: bundle))
-			.validate().getResponseDecodableObject { (response: DataResponse<BundleModel>) in
+		session.request(APIRouter.postBundle(bundle: bundle))
+			.validate().getResponseDecodableObject { (response: AFDataResponse<BundleModel>) in
 				switch response.result {
 				case .success(let bundle):
 					// response.data?.prettyPrint()
@@ -138,8 +136,8 @@ class Requests {
 	}
 
 	static func postObservationSearch(search: SearchParameter, completion: @escaping (BundleModel?) -> Void) {
-		sessionManager.request(APIRouter.postObservationSearch(search: search))
-			.validate().getResponseDecodableObject { (response: DataResponse<BundleModel>) in
+		session.request(APIRouter.postObservationSearch(search: search))
+			.validate().getResponseDecodableObject { (response: AFDataResponse<BundleModel>) in
 				switch response.result {
 				case .success(let bundle):
 					// response.data?.prettyPrint()
@@ -152,8 +150,8 @@ class Requests {
 	}
 
 	static func patchPatient(patient: [UpdatePatientModel], completion: @escaping (Resource?) -> Void) {
-		sessionManager.request(APIRouter.patchPatient(patient: patient))
-			.validate().getResponseDecodableObject { (response: DataResponse<Resource>) in
+		session.request(APIRouter.patchPatient(patient: patient))
+			.validate().getResponseDecodableObject { (response: AFDataResponse<Resource>) in
 				switch response.result {
 				case .success(let resource):
 					// response.data?.prettyPrint()
