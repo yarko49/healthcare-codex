@@ -8,8 +8,8 @@ def firebase_pods
 end
 
 def networking_pods
-  pod 'Alamofire', '4.9.1'
-  pod 'CodableAlamofire', '1.1.2'
+  pod 'Alamofire'
+  pod 'CodableAlamofire'
 end
 
 def common_pods_for_target
