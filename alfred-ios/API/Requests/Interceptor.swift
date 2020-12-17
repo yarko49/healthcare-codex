@@ -32,6 +32,12 @@ class Interceptor: RequestInterceptor {
 
 		os_log(.error, log: .interceptor, "retry session dueTo error %@", error.localizedDescription)
 		if let httpResponse = request.task?.response as? HTTPURLResponse, [401, 403].contains(httpResponse.statusCode) {
+			if request.retryCount > 0 {
+				NotificationCenter.default.post(name: .logoutNotification, object: nil)
+				completion(.doNotRetry)
+				return
+			}
+
 			requestsToRetry.append(completion)
 
 			if !isRefreshing {
