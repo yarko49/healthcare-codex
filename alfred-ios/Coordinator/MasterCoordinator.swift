@@ -24,6 +24,7 @@ class MasterCoordinator: Coordinator {
 	}
 
 	public func start() {
+		NotificationCenter.default.addObserver(self, selector: #selector(handleLogout(_:)), name: .logoutNotification, object: nil)
 		if !DataContext.shared.hasRunOnce {
 			DataContext.shared.clearAll()
 			let firebaseAuth = Auth.auth()
@@ -132,5 +133,18 @@ class MasterCoordinator: Coordinator {
 		let mainAppCoordinator = MainAppCoordinator(with: self)
 		addChild(coordinator: mainAppCoordinator, with: .mainAppCoordinator)
 		window.rootViewController = mainAppCoordinator.rootViewController
+	}
+
+	@objc func handleLogout(_ sender: Notification) {
+		let firebaseAuth = Auth.auth()
+		do {
+			try firebaseAuth.signOut()
+		} catch let signOutError as NSError {
+			print("Error signing out: %@", signOutError)
+		}
+		DispatchQueue.main.async { [weak self] in
+			self?.goToAuth()
+			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+		}
 	}
 }

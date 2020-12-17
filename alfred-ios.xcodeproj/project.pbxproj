@@ -11,6 +11,7 @@
 		060F9D3224D829210010ADB6 /* SettingsFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 060F9D3124D829210010ADB6 /* SettingsFooterView.xib */; };
 		060F9D3424D84C520010ADB6 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060F9D3324D84C520010ADB6 /* SettingsModel.swift */; };
 		0626CACC24C5C1E20069D859 /* HealthKitToFhir in Frameworks */ = {isa = PBXBuildFile; productRef = 0626CACB24C5C1E20069D859 /* HealthKitToFhir */; };
+		0630C8EB258B884000C8C1F5 /* Ext_NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0630C8EA258B884000C8C1F5 /* Ext_NotificationName.swift */; };
 		0631E73A247E5D1400D88834 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0631E739247E5D1400D88834 /* HealthKitManager.swift */; };
 		0631E73D247E5E4400D88834 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0631E73C247E5E4400D88834 /* HealthKit.framework */; };
 		0631E74A247E876600D88834 /* MeasurementCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0631E749247E876600D88834 /* MeasurementCardCell.swift */; };
@@ -348,6 +349,7 @@
 		060F9D2F24D828CB0010ADB6 /* SettingsFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFooterView.swift; sourceTree = "<group>"; };
 		060F9D3124D829210010ADB6 /* SettingsFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsFooterView.xib; sourceTree = "<group>"; };
 		060F9D3324D84C520010ADB6 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		0630C8EA258B884000C8C1F5 /* Ext_NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext_NotificationName.swift; sourceTree = "<group>"; };
 		0631E739247E5D1400D88834 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		0631E73B247E5E4400D88834 /* alfred-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "alfred-ios.entitlements"; sourceTree = "<group>"; };
 		0631E73C247E5E4400D88834 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
@@ -1183,6 +1185,7 @@
 				12AFAC1D255A79E700BC2468 /* Ext_Date.swift */,
 				1209DC9A255C308F00864A1B /* Ext_Sequence.swift */,
 				1209DC9D255C30AC00864A1B /* Ext_Collection.swift */,
+				0630C8EA258B884000C8C1F5 /* Ext_NotificationName.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2174,6 +2177,7 @@
 				06AFF5BB25062D7A00AAF4EC /* CircleProgressBarView.swift in Sources */,
 				1234FD762215997900E73FFF /* DataContext.swift in Sources */,
 				06679ACB24DC349A004D6F24 /* MyNotificationsModel.swift in Sources */,
+				0630C8EB258B884000C8C1F5 /* Ext_NotificationName.swift in Sources */,
 				C41777832508FED700CDBBED /* CustomYAxisRenderer.swift in Sources */,
 				1234FD7922159A1B00E73FFF /* BaseVC.swift in Sources */,
 				1234FD732215994700E73FFF /* MasterCoordinator.swift in Sources */,
