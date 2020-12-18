@@ -10,19 +10,18 @@ import UIKit
 
 public extension WebService {
 	@discardableResult
-	func loadImage(urlString: String, completion: @escaping RequestCompletion<UIImage>) -> URLSession.DataTaskPublisher? {
+	func loadImage(urlString: String, completion: @escaping RequestCompletion<UIImage>) -> URLSession.ServicePublisher? {
 		guard let url = URL(string: urlString) else {
 			completion(.failure(URLError(.badURL)))
 			return nil
 		}
-		var urlRequest = URLRequest(url: url)
-		urlRequest.addValue(ContentType.jpeg, forHTTPHeaderField: Header.contentType)
-		urlRequest.httpMethod = "GET"
-		let publisher = session.dataTaskPublisher(for: urlRequest)
+
+		let publisher = session.servicePublisher(for: url)
+			.setHeaderValue(Request.ContentType.jpeg, forName: Request.Header.contentType)
 		publisher
 			.retry(configuration.retryCountForResource)
 			.tryMap { result -> Data in
-				try result.data.cws_validate(result.response).cws_validate()
+				try result.data.ws_validate(result.response).ws_validate()
 			}.tryMap { data -> UIImage in
 				guard let image = UIImage(data: data) else {
 					throw URLError(.cannotDecodeContentData)
@@ -33,7 +32,7 @@ public extension WebService {
 			.sink { receiveCompltion in
 				switch receiveCompltion {
 				case .failure(let error):
-					os_log("%@", log: .webservice, type: .error, error.localizedDescription)
+					os_log(.error, log: .webservice, "%@", error.localizedDescription)
 					completion(.failure(error))
 				case .finished:
 					os_log(.info, log: .webservice, "Finished Dowloading image at %@", urlString)

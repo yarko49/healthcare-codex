@@ -18,7 +18,8 @@ class AlfredCoreTests: XCTestCase {
 
 		// and create the URLSession from that
 		let session = URLSession(configuration: config)
-		webService = WebService(session: session)
+		let url = URL(string: "https://dev.alfred.codexhealth.com/v0")
+		webService = WebService(baseURL: url!, session: session)
 	}
 
 	override func tearDownWithError() throws {
@@ -31,7 +32,7 @@ class AlfredCoreTests: XCTestCase {
 		XCTAssertNotNil(imageURL, "Missing Image File")
 		let data = try Data(contentsOf: imageURL!)
 		URLProtocolMock.testData[imageURL!] = data
-		URLProtocolMock.response = HTTPURLResponse(url: imageURL!, statusCode: 200, httpVersion: nil, headerFields: [WebService.Header.contentType: WebService.ContentType.png])
+		URLProtocolMock.response = HTTPURLResponse(url: imageURL!, statusCode: 200, httpVersion: nil, headerFields: [Request.Header.contentType: Request.ContentType.png])
 		let expect = expectation(description: "ImageDownload")
 		webService?.loadImage(urlString: imageURL!.absoluteString, completion: { result in
 			switch result {
