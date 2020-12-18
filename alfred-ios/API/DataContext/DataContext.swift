@@ -1,8 +1,13 @@
+import Combine
 import FirebaseAuth
 import Foundation
 
 class DataContext {
 	static let shared = DataContext()
+
+	enum Constants {
+		static let AuthTokenKey = "authToken"
+	}
 
 	var hasRunOnce: Bool {
 		get {

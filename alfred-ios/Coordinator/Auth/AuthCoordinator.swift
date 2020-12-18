@@ -4,7 +4,12 @@ import FirebaseAuth
 import GoogleSignIn
 import HealthKit
 import LocalAuthentication
+import os.log
 import UIKit
+
+extension OSLog {
+	static let authCoordinator = OSLog(subsystem: subsystem, category: "AuthCoordinator")
+}
 
 class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDelegate {
 	internal var navigationController: UINavigationController?
@@ -158,13 +163,13 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			guard authorized else {
 				let baseMessage = "HealthKit Authorization Failed"
 				if let error = error {
-					print("\(baseMessage). Reason: \(error.localizedDescription)")
+					os_log(.error, log: .authCoordinator, "baseMessage %@. Reason: %@", baseMessage, error.localizedDescription)
 				} else {
-					print(baseMessage)
+					os_log(.info, log: .authCoordinator, "baseMessage %@", baseMessage)
 				}
 				return
 			}
-			print("HealthKit Successfully Authorized.")
+			os_log(.info, log: .authCoordinator, "HealthKit Successfully Authorized.")
 			DispatchQueue.main.async {
 				self.syncHKData()
 			}
@@ -227,10 +232,10 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		Auth.auth().tenantID = AppConfig.tenantID
 		Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
 			if let error = error {
-				print(error)
+				os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.signUpFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			} else {
-				print("Created user")
+				os_log(.info, log: .authCoordinator, "Created User")
 				self?.getFirebaseToken(authResult: authResult, error: error) { [weak self] in
 					self?.goToMyProfileFirstVC()
 				}
@@ -318,13 +323,13 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			guard authorized else {
 				let baseMessage = "HealthKit Authorization Failed"
 				if let error = error {
-					print("\(baseMessage). Reason: \(error.localizedDescription)")
+					os_log(.error, log: .authCoordinator, "baseMessage %@. Reason: %@", baseMessage, error.localizedDescription)
 				} else {
-					print(baseMessage)
+					os_log(.info, log: .authCoordinator, "baseMessage %@", baseMessage)
 				}
 				return
 			}
-			print("HealthKit Successfully Authorized.")
+			os_log(.info, log: .authCoordinator, "HealthKit Successfully Authorized.")
 			DispatchQueue.main.async {
 				self?.setChunkSize()
 			}
@@ -395,12 +400,12 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			DataContext.shared.patient = patient
 
 			if patientResponse != nil {
-				print("OK STATUS FOR PATIENT : 200")
+				os_log(.info, log: .authCoordinator, "OK STATUS FOR PATIENT : 200")
 				let defaultName = Name(use: "", family: "", given: [""])
 				DataContext.shared.userModel = UserModel(userID: patientResponse?.id ?? "", email: self?.emailrequest ?? "", name: patientResponse?.name ?? [defaultName], dob: patient.birthDate, gender: Gender(rawValue: DataContext.shared.patient?.gender ?? ""))
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			} else {
-				print("request failed")
+				os_log(.error, log: .authCoordinator, "request failed")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 				return
 			}
@@ -426,13 +431,13 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		DataContext.shared.postBundle(bundle: bundle) { response in
 			AlertHelper.hideLoader()
 			if let response = response {
-				print(response)
+				os_log(.info, log: .authCoordinator, "response %@", String(describing: response))
 				DataContext.shared.signUpCompleted = true
 				let profile = DataContext.shared.createProfileModel()
 				self.profileRequest(profile: profile)
 
 			} else {
-				print("request failed")
+				os_log(.error, log: .authCoordinator, "request failed")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createBundleFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}
@@ -444,10 +449,10 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			AlertHelper.hideLoader()
 			if success {
 				DataContext.shared.identifyCrashlytics()
-				print("OK STATUS FOR PROFILE: 200", DataContext.shared.signUpCompleted)
+				os_log(.info, log: .authCoordinator, "OK STATUS FOR PROFILE: 200 %@", DataContext.shared.signUpCompleted)
 				self?.goToAppleHealthVCFromDevices()
 			} else {
-				print("request failed")
+				os_log(.error, log: .authCoordinator, "request failed")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createProfileFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}
@@ -472,21 +477,14 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	func signInWithApple() {
-		if #available(iOS 13.0, *) {
-			let request = startSignInWithAppleFlow()
-			let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-			authorizationController.delegate = self
-			authorizationController.presentationContextProvider = self
-			authorizationController.performRequests()
-
-			print("Got in startSignInWithApple")
-
-		} else {
-			print("below 13.0 version")
-		}
+		let request = startSignInWithAppleFlow()
+		let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+		authorizationController.delegate = self
+		authorizationController.presentationContextProvider = self
+		authorizationController.performRequests()
+		os_log(.info, log: .authCoordinator, "Got in startSignInWithApple")
 	}
 
-	@available(iOS 13, *)
 	func startSignInWithAppleFlow() -> ASAuthorizationOpenIDRequest {
 		let appleIDProvider = ASAuthorizationAppleIDProvider()
 		let request = appleIDProvider.createRequest()
@@ -494,25 +492,25 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		let nonce = AppleSecurityManager.randomNonceString()
 		request.nonce = AppleSecurityManager.sha256(nonce)
 		currentNonce = nonce
-		print(nonce)
+		os_log(.info, log: .authCoordinator, "nonce: %@", nonce)
 		return request
 	}
 
 	private func getFirebaseToken(authResult: AuthDataResult?, error: Error?, completionHandler: @escaping () -> Void) {
 		if let error = error {
-			print(error)
+			os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
 			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 		} else if let authResult = authResult {
 			authResult.user.getIDToken(completion: { [weak self] firebaseToken, error in
 
 				if let error = error {
-					print(error)
+					os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
 					AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 				} else if let firebaseToken = firebaseToken {
 					AlertHelper.hideLoader()
 					self?.emailrequest = Auth.auth().currentUser?.email
 					DataContext.shared.authToken = firebaseToken
-					print(firebaseToken)
+					os_log(.info, log: .authCoordinator, "firebaseToken: %{private}@", firebaseToken)
 					completionHandler()
 				}
 			})
@@ -532,12 +530,12 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 extension AuthCoordinator: GIDSignInDelegate {
 	func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
 		if let error = error {
-			print(error)
+			os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
 			return
 		}
 
-		guard let authentication = user.authentication, error == nil
-		else { print(error as Any)
+		guard let authentication = user.authentication, error == nil else {
+			os_log(.error, log: .authCoordinator, "%@", error?.localizedDescription ?? "")
 			return
 		}
 		Auth.auth().tenantID = AppConfig.tenantID
@@ -552,20 +550,19 @@ extension AuthCoordinator: GIDSignInDelegate {
 }
 
 extension AuthCoordinator: ASAuthorizationControllerDelegate {
-	@available(iOS 13.0, *)
 	func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-		print("Hello Apple")
+		os_log(.info, log: .authCoordinator, "Hello Apple")
 
 		if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
 			guard let nonce = currentNonce else {
 				fatalError("Invalid state: A login callback was received, but no login request was sent.")
 			}
 			guard let appleIDToken = appleIDCredential.identityToken else {
-				print("Unable to fetch identity token")
+				os_log(.error, log: .authCoordinator, "Unable to fetch identity token")
 				return
 			}
 			guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-				print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+				os_log(.error, log: .authCoordinator, "Unable to serialize token string from data: %@", appleIDToken.debugDescription)
 				return
 			}
 
@@ -579,9 +576,8 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 		}
 	}
 
-	@available(iOS 13.0, *)
 	func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-		print("Sign in with Apple errored: \(error)")
+		os_log(.error, log: .authCoordinator, "Sign in with Apple errored: %@", error.localizedDescription)
 	}
 
 	func signOut() {
@@ -589,13 +585,12 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 		do {
 			try firebaseAuth.signOut()
 		} catch let signOutError as NSError {
-			print("Error signing out: %@", signOutError)
+			os_log(.error, log: .authCoordinator, "Error signing out: %@", signOutError.localizedDescription)
 		}
 	}
 }
 
 extension AuthCoordinator: ASAuthorizationControllerPresentationContextProviding {
-	@available(iOS 13.0, *)
 	func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
 		navigationController?.visibleViewController?.view.window ?? UIWindow(frame: UIScreen.main.bounds)
 	}

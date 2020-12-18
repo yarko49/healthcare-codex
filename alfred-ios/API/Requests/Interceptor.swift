@@ -27,7 +27,7 @@ class Interceptor: RequestInterceptor {
 
 	// MARK: - RequestRetrier
 
-	func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
+	func retry(_ request: Alamofire.Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
 		lock.lock(); defer { lock.unlock() }
 
 		os_log(.error, log: .interceptor, "retry session dueTo error %@", error.localizedDescription)
@@ -79,7 +79,7 @@ class Interceptor: RequestInterceptor {
 	func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
 		var urlRequestToSend = urlRequest
 		if let token = authToken {
-			urlRequestToSend.setValue("Bearer \(token)", forHTTPHeaderField: WebService.Header.userAuthorization)
+			urlRequestToSend.setValue("Bearer \(token)", forHTTPHeaderField: AlfredCore.Request.Header.userAuthorization)
 		}
 		completion(.success(urlRequestToSend))
 	}

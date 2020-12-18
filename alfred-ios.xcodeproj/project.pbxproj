@@ -217,6 +217,14 @@
 		84EEA6492583165A00473CAE /* ScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1F5257DC08300A925FC /* ScheduleTests.swift */; };
 		84EEA64F2583166000473CAE /* VectorClockResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84A2A1B6257D8E8200A925FC /* VectorClockResponse.json */; };
 		84EEA65F2583178400473CAE /* SechduleA.json in Resources */ = {isa = PBXBuildFile; fileRef = 84A2A213257DE14C00A925FC /* SechduleA.json */; };
+		84F3483A258B04100042A7E4 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F34839258B04100042A7E4 /* Request.swift */; };
+		84F34844258B04F70042A7E4 /* URL+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F34843258B04F70042A7E4 /* URL+Request.swift */; };
+		84F3484A258B05400042A7E4 /* URLComponents+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F34849258B05400042A7E4 /* URLComponents+Request.swift */; };
+		84F34850258B05690042A7E4 /* Dictionary+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F3484F258B05690042A7E4 /* Dictionary+Encoding.swift */; };
+		84F34856258B0A0F0042A7E4 /* ServicePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F34855258B0A0F0042A7E4 /* ServicePublisher.swift */; };
+		84F34860258B18050042A7E4 /* AlfredClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F3485F258B18050042A7E4 /* AlfredClient.swift */; };
+		84F3486A258B1FEE0042A7E4 /* AlfredRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F34869258B1FEE0042A7E4 /* AlfredRouter.swift */; };
+		84F34874258B29190042A7E4 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F34873258B29190042A7E4 /* Notification.swift */; };
 		86A38FD424D1B74D000E9E3F /* Ext_Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A38FD324D1B74D000E9E3F /* Ext_Double.swift */; };
 		86DDD51D24D02EA000D27445 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DDD51C24D02EA000D27445 /* ProfileVC.swift */; };
 		86DDD51F24D02EAC00D27445 /* ProfileVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86DDD51E24D02EAC00D27445 /* ProfileVC.xib */; };
@@ -551,6 +559,14 @@
 		84EEA51C25830F6500473CAE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84EEA5D22583132600473CAE /* AlfredHealth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredHealth.swift; sourceTree = "<group>"; };
 		84EEA5E9258314CD00473CAE /* ValueSpaceResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ValueSpaceResponse.json; sourceTree = "<group>"; };
+		84F34839258B04100042A7E4 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		84F34843258B04F70042A7E4 /* URL+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Request.swift"; sourceTree = "<group>"; };
+		84F34849258B05400042A7E4 /* URLComponents+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLComponents+Request.swift"; sourceTree = "<group>"; };
+		84F3484F258B05690042A7E4 /* Dictionary+Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Encoding.swift"; sourceTree = "<group>"; };
+		84F34855258B0A0F0042A7E4 /* ServicePublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicePublisher.swift; sourceTree = "<group>"; };
+		84F3485F258B18050042A7E4 /* AlfredClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredClient.swift; sourceTree = "<group>"; };
+		84F34869258B1FEE0042A7E4 /* AlfredRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredRouter.swift; sourceTree = "<group>"; };
+		84F34873258B29190042A7E4 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		86A38FD324D1B74D000E9E3F /* Ext_Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext_Double.swift; sourceTree = "<group>"; };
 		86DDD51C24D02EA000D27445 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		86DDD51E24D02EAC00D27445 /* ProfileVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileVC.xib; sourceTree = "<group>"; };
@@ -994,9 +1010,10 @@
 		1234FD542215884400E73FFF /* alfred-ios */ = {
 			isa = PBXGroup;
 			children = (
-				8436019525678AD6000B4C55 /* CareKit */,
 				0631E73B247E5E4400D88834 /* alfred-ios.entitlements */,
 				1234FD552215884400E73FFF /* AppDelegate.swift */,
+				84F34873258B29190042A7E4 /* Notification.swift */,
+				8436019525678AD6000B4C55 /* CareKit */,
 				1234FD672215968D00E73FFF /* Coordinator */,
 				1234FD7722159A0B00E73FFF /* Controllers */,
 				12D42D822226A6290039043F /* API */,
@@ -1288,9 +1305,7 @@
 		84937FB2258322B7001DB541 /* AlfredCore */ = {
 			isa = PBXGroup;
 			children = (
-				8468B0AF256C624D00202A16 /* WebService.swift */,
-				844BECB92586C97300B17803 /* WebService+Image.swift */,
-				8468B0B2256C62C100202A16 /* Data+Validation.swift */,
+				84F34830258B03F00042A7E4 /* WebService */,
 				84A2A4F5257F0B0000A925FC /* AlfredJSONDecoder.swift */,
 				84B201B92586D333001A6C0A /* OSLog+Core.swift */,
 			);
@@ -1362,9 +1377,26 @@
 			children = (
 				84EEA5D22583132600473CAE /* AlfredHealth.swift */,
 				8453CF1A256CD15300A3E6F0 /* RemoteSynchronizationManager.swift */,
+				84F34869258B1FEE0042A7E4 /* AlfredRouter.swift */,
+				84F3485F258B18050042A7E4 /* AlfredClient.swift */,
 				8453CF27256DB9A300A3E6F0 /* Model */,
 			);
 			path = AlfredHealth;
+			sourceTree = "<group>";
+		};
+		84F34830258B03F00042A7E4 /* WebService */ = {
+			isa = PBXGroup;
+			children = (
+				84F34839258B04100042A7E4 /* Request.swift */,
+				8468B0AF256C624D00202A16 /* WebService.swift */,
+				844BECB92586C97300B17803 /* WebService+Image.swift */,
+				84F34855258B0A0F0042A7E4 /* ServicePublisher.swift */,
+				8468B0B2256C62C100202A16 /* Data+Validation.swift */,
+				84F34843258B04F70042A7E4 /* URL+Request.swift */,
+				84F34849258B05400042A7E4 /* URLComponents+Request.swift */,
+				84F3484F258B05690042A7E4 /* Dictionary+Encoding.swift */,
+			);
+			path = WebService;
 			sourceTree = "<group>";
 		};
 		86DDD51B24D02E9200D27445 /* Profile */ = {
@@ -2182,6 +2214,7 @@
 				1234FD7922159A1B00E73FFF /* BaseVC.swift in Sources */,
 				1234FD732215994700E73FFF /* MasterCoordinator.swift in Sources */,
 				C426516A24A625C100772614 /* AppDelegate.swift in Sources */,
+				84F34874258B29190042A7E4 /* Notification.swift in Sources */,
 				06F3A27524D98D31006838D4 /* MyDevicesVC.swift in Sources */,
 				C4C48BA224E2D4A100EC12DD /* AAPLSignInButton.swift in Sources */,
 				06865EFC2575057100F14BD6 /* LoggingManager.swift in Sources */,
@@ -2248,8 +2281,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				84B201BA2586D333001A6C0A /* OSLog+Core.swift in Sources */,
+				84F3483A258B04100042A7E4 /* Request.swift in Sources */,
 				84937FF52583243A001DB541 /* AlfredJSONDecoder.swift in Sources */,
+				84F3484A258B05400042A7E4 /* URLComponents+Request.swift in Sources */,
+				84F34856258B0A0F0042A7E4 /* ServicePublisher.swift in Sources */,
 				84937FC8258323C8001DB541 /* Data+Validation.swift in Sources */,
+				84F34844258B04F70042A7E4 /* URL+Request.swift in Sources */,
+				84F34850258B05690042A7E4 /* Dictionary+Encoding.swift in Sources */,
 				844BECBA2586C97300B17803 /* WebService+Image.swift in Sources */,
 				84937FB3258322CE001DB541 /* WebService.swift in Sources */,
 			);
@@ -2275,11 +2313,13 @@
 				84EEA5B2258312D500473CAE /* OCKNote+Conversion.swift in Sources */,
 				84EEA5B5258312D500473CAE /* OCKOutcomeValue+Conversion.swift in Sources */,
 				84EEA5C7258312DA00473CAE /* RemoteSynchronizationManager.swift in Sources */,
+				84F34860258B18050042A7E4 /* AlfredClient.swift in Sources */,
 				84EEA5B8258312D500473CAE /* OutcomeValue.swift in Sources */,
 				84EEA5B7258312D500473CAE /* Note.swift in Sources */,
 				84EEA5BB258312D500473CAE /* ScheduleElement.swift in Sources */,
 				84EEA5D32583132600473CAE /* AlfredHealth.swift in Sources */,
 				84EEA5B6258312D500473CAE /* CarePlan.swift in Sources */,
+				84F3486A258B1FEE0042A7E4 /* AlfredRouter.swift in Sources */,
 				84EEA5B4258312D500473CAE /* Task.swift in Sources */,
 				84EEA5B3258312D500473CAE /* CarePlanResponse.swift in Sources */,
 				84EEA5B1258312D500473CAE /* OCKPatient+Conversion.swift in Sources */,

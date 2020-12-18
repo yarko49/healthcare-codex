@@ -8,14 +8,14 @@
 import Foundation
 
 extension Data {
-	func cws_validate() throws -> Self {
+	func ws_validate() throws -> Self {
 		guard !isEmpty else {
 			throw URLError(.zeroByteResource)
 		}
 		return self
 	}
 
-	func cws_validate(_ response: URLResponse, acceptableStatusCodes: Range<Int> = 200 ..< 300) throws -> Self {
+	func ws_validate(_ response: URLResponse, acceptableStatusCodes: Range<Int> = 200 ..< 300) throws -> Self {
 		guard let httpResponse = response as? HTTPURLResponse else {
 			throw URLError(.badServerResponse)
 		}
@@ -28,7 +28,7 @@ extension Data {
 		return self
 	}
 
-	func cws_validate(_ response: URLResponse, acceptableContentTypes: [String]) throws -> Self {
+	func ws_validate(_ response: URLResponse, acceptableContentTypes: [String]) throws -> Self {
 		guard let httpResponse = response as? HTTPURLResponse else {
 			throw URLError(.badServerResponse)
 		}
@@ -40,7 +40,7 @@ extension Data {
 		return self
 	}
 
-	static func cws_validate(_ data: Data, _ response: URLResponse) throws -> Self {
-		try data.cws_validate(response, acceptableStatusCodes: 200 ..< 300).cws_validate()
+	static func ws_validate(_ data: Data, _ response: URLResponse) throws -> Self {
+		try data.ws_validate(response, acceptableStatusCodes: 200 ..< 300).ws_validate()
 	}
 }
