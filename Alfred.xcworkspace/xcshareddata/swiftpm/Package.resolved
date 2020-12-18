@@ -87,8 +87,8 @@
         "repositoryURL": "https://github.com/firebase/firebase-ios-sdk",
         "state": {
           "branch": null,
-          "revision": "8c8ad924fc364522b5c9148a4537ae46ee462c8f",
-          "version": "7.3.0"
+          "revision": "c67d97dc802aafe5474042156dce828e1c4145ca",
+          "version": "7.3.1"
         }
       },
       {
@@ -114,8 +114,8 @@
         "repositoryURL": "https://github.com/microsoft/healthkit-to-fhir",
         "state": {
           "branch": null,
-          "revision": "059f8f8ed3449231b2134ba2de484be91e4a2014",
-          "version": "1.0.1"
+          "revision": "438c4793f505ef95899da8e28d281ed7ed9275aa",
+          "version": "1.0.2"
         }
       },
       {
