@@ -5,7 +5,7 @@
 //  Created by Waqar Malik on 12/10/20.
 //
 
-@testable import AlfredHealth
+@testable import alfred_ios
 import XCTest
 
 class AlfredHealthTests: XCTestCase {

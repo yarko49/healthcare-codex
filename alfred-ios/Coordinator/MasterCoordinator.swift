@@ -24,7 +24,7 @@ class MasterCoordinator: Coordinator {
 	}
 
 	public func start() {
-		NotificationCenter.default.addObserver(self, selector: #selector(handleLogout(_:)), name: .logoutNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(handleLogout(_:)), name: .applicationDidLogout, object: nil)
 		if !DataContext.shared.hasRunOnce {
 			DataContext.shared.clearAll()
 			let firebaseAuth = Auth.auth()

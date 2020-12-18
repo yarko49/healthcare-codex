@@ -4,7 +4,6 @@
 //
 
 import Alamofire
-import AlfredCore
 import FirebaseAuth
 import Foundation
 import os.log
@@ -33,7 +32,7 @@ class Interceptor: RequestInterceptor {
 		os_log(.error, log: .interceptor, "retry session dueTo error %@", error.localizedDescription)
 		if let httpResponse = request.task?.response as? HTTPURLResponse, [401, 403].contains(httpResponse.statusCode) {
 			if request.retryCount > 0 {
-				NotificationCenter.default.post(name: .logoutNotification, object: nil)
+				NotificationCenter.default.post(name: .applicationDidLogout, object: nil)
 				completion(.doNotRetry)
 				return
 			}
@@ -79,7 +78,7 @@ class Interceptor: RequestInterceptor {
 	func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
 		var urlRequestToSend = urlRequest
 		if let token = authToken {
-			urlRequestToSend.setValue("Bearer \(token)", forHTTPHeaderField: AlfredCore.Request.Header.userAuthorization)
+			urlRequestToSend.setValue("Bearer \(token)", forHTTPHeaderField: Request.Header.userAuthorization)
 		}
 		completion(.success(urlRequestToSend))
 	}

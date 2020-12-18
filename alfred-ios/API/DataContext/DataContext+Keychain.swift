@@ -16,12 +16,9 @@ extension DataContext {
 		set {
 			guard let newValue = newValue else {
 				Keychain.delete(valueWithKey: KeychainKey.authToken.key)
-				NotificationCenter.default.post(name: .authenticationTokenDidChange, object: nil, userInfo: nil)
 				return
 			}
 			Keychain.store(value: newValue, withKey: KeychainKey.authToken.key)
-			let userInfo: [String: Any] = [DataContext.Constants.AuthTokenKey: newValue]
-			NotificationCenter.default.post(name: .authenticationTokenDidChange, object: nil, userInfo: userInfo)
 		}
 	}
 
