@@ -6,7 +6,7 @@ import FirebaseAuth
 import Foundation
 import UIKit
 
-class EmailSignInVC: BaseVC {
+class EmailSignInVC: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	var backBtnAction: (() -> Void)?

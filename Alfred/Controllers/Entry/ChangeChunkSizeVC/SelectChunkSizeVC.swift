@@ -5,7 +5,7 @@
 
 import UIKit
 
-class SelectChunkSizeVC: BaseVC {
+class SelectChunkSizeVC: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	var continueAction: ((Int) -> Void)?

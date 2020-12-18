@@ -10,7 +10,7 @@ import GoogleSignIn
 import LocalAuthentication
 import UIKit
 
-class OnboardingVC: BaseVC, UIViewControllerTransitioningDelegate {
+class OnboardingVC: BaseViewController, UIViewControllerTransitioningDelegate {
 	var signInWithAppleAction: (() -> Void)?
 	var signInWithEmailAction: (() -> Void)?
 	var signupAction: (() -> Void)?

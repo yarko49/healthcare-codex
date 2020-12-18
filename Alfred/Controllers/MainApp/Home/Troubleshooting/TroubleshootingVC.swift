@@ -6,7 +6,7 @@
 import Foundation
 import UIKit
 
-class TroubleshootingVC: BaseVC {
+class TroubleshootingVC: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	// MARK: - Properties

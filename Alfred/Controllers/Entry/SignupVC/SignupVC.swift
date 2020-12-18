@@ -6,7 +6,7 @@ import FirebaseAuth
 import IQKeyboardManagerSwift
 import UIKit
 
-class SignupVC: BaseVC, UITextViewDelegate, UIGestureRecognizerDelegate {
+class SignupVC: BaseViewController, UITextViewDelegate, UIGestureRecognizerDelegate {
 	var backBtnAction: (() -> Void)?
 	var nextBtnAction: (() -> Void)?
 	var goToTermsOfService: (() -> Void)?

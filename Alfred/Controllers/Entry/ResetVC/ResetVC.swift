@@ -6,7 +6,7 @@ import FirebaseAuth
 import Foundation
 import UIKit
 
-class ResetVC: BaseVC {
+class ResetVC: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	var backBtnAction: (() -> Void)?

@@ -6,7 +6,7 @@
 import Foundation
 import UIKit
 
-class PrivacyPolicyVC: BaseVC {
+class PrivacyPolicyVC: BaseViewController {
 	// MARK: Coordinator Actions
 
 	var backBtnAction: (() -> Void)?

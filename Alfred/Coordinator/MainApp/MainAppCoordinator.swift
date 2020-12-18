@@ -1,6 +1,11 @@
 import HealthKit
 import LocalAuthentication
+import os.log
 import UIKit
+
+extension OSLog {
+	static let mainCoordinator = OSLog(subsystem: subsystem, category: "MainAppCoordinator")
+}
 
 class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDelegate {
 	internal var navigationController: UINavigationController?
@@ -45,10 +50,10 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	internal func evaluateBiometrics() {
 		context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error)
 		if context.biometryType == .none {
-			print(error?.localizedDescription ?? "")
+			os_log(.error, log: .mainCoordinator, "Error %@", error?.localizedDescription ?? "")
 			return
 		}
-		print(context.biometryType.rawValue)
+		os_log(.info, log: .mainCoordinator, "%@", context.biometryType.rawValue)
 	}
 
 	func enrollWithBiometrics() {
@@ -272,7 +277,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			AlertHelper.hideLoader()
 			if response != nil {
 			} else {
-				print("post Observation Search request failed")
+				os_log(.error, log: .mainCoordinator, "post Observation Search request failed")
 			}
 		}
 	}
@@ -328,7 +333,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 			if currentNames.count > given.count {
 				for index in given.count ... (currentNames.count - 1) {
-					print("removing: ", currentNames[index], index)
+					os_log(.info, log: .masterCoordinator, "removing: %@, %ld", currentNames[index], index)
 					patientUpdate.append(UpdatePatientModel(op: "remove", path: "/name/0/given/\(given.count)", value: nil))
 				}
 			}
@@ -357,12 +362,12 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			AlertHelper.hideLoader()
 			DataContext.shared.editPatient = patient
 			if resourceResponse != nil {
-				print("OK STATUS FOR UPDATE PATIENT : 200")
+				os_log(.info, log: .masterCoordinator, "OK STATUS FOR UPDATE PATIENT : 200")
 				DataContext.shared.userModel = UserModel(userID: DataContext.shared.userModel?.userID ?? "", email: DataContext.shared.userModel?.email, name: [Name(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? Gender(rawValue: "female"))
 				self?.profileVC?.nameLbl?.attributedText = ProfileHelper.getFirstName().with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			} else {
-				print("request failed")
+				os_log(.error, log: .masterCoordinator, "request failed")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 				return
 			}
@@ -396,7 +401,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				}
 			} else {
 				AlertHelper.hideLoader()
-				print("request failed")
+				os_log(.error, log: .masterCoordinator, "request failed")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createBundleFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}

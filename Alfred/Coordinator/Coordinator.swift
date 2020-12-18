@@ -45,7 +45,7 @@ extension Coordinator {
 	}
 }
 
-enum NavigationStyle {
+enum NavigationStyle: CaseIterable, Hashable {
 	case present
 	case pushFullScreen
 	case push

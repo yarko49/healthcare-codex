@@ -1,3 +1,3 @@
 import UIKit
 
-class MockSplashVC: BaseVC {}
+class MockSplashVC: BaseViewController {}

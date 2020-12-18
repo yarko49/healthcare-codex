@@ -17,7 +17,7 @@ class PickerTapGesture: UITapGestureRecognizer {
 	var viewTF: PickerTF?
 }
 
-class TodayInputVC: BaseVC {
+class TodayInputVC: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	var inputAction: ((Int?, Int?, String?, InputType) -> Void)?

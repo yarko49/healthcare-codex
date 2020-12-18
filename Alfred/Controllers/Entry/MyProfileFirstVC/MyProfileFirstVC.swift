@@ -2,7 +2,7 @@ import Firebase
 import FirebaseAuth
 import UIKit
 
-class MyProfileFirstVC: BaseVC, UITextViewDelegate, UIGestureRecognizerDelegate {
+class MyProfileFirstVC: BaseViewController, UITextViewDelegate, UIGestureRecognizerDelegate {
 	var backBtnAction: (() -> Void)?
 	var sendDataAction: ((String, String, [String]) -> Void)?
 	var alertAction: ((_ tv: TextfieldView?) -> Void)?

@@ -105,7 +105,7 @@
 		1234FD6B221596BA00E73FFF /* CoordinatorKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD6A221596BA00E73FFF /* CoordinatorKeys.swift */; };
 		1234FD732215994700E73FFF /* MasterCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD722215994700E73FFF /* MasterCoordinator.swift */; };
 		1234FD762215997900E73FFF /* DataContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD752215997900E73FFF /* DataContext.swift */; };
-		1234FD7922159A1B00E73FFF /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD7822159A1B00E73FFF /* BaseVC.swift */; };
+		1234FD7922159A1B00E73FFF /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD7822159A1B00E73FFF /* BaseViewController.swift */; };
 		1234FD8022159CF100E73FFF /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD7F22159CF100E73FFF /* AuthCoordinator.swift */; };
 		1234FD8222159D5000E73FFF /* DataContext+Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD8122159D5000E73FFF /* DataContext+Auth.swift */; };
 		1234FD8422159FBD00E73FFF /* AuthNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD8322159FBD00E73FFF /* AuthNC.swift */; };
@@ -212,7 +212,6 @@
 		86DDD51F24D02EAC00D27445 /* ProfileVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86DDD51E24D02EAC00D27445 /* ProfileVC.xib */; };
 		86DDD52124D03C8100D27445 /* Ext_DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DDD52024D03C8100D27445 /* Ext_DateFormatter.swift */; };
 		86DDD52824D1617500D27445 /* HealthKitQuantityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DDD52724D1617500D27445 /* HealthKitQuantityType.swift */; };
-		A73422FBC21F933FB0A3B285 /* Pods_AlfredTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E50B64AB126CB7AD179393 /* Pods_AlfredTests.framework */; };
 		C4112E4E253F167000C52C1C /* ComingFrom.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4112E4D253F167000C52C1C /* ComingFrom.swift */; };
 		C41134492507CF8700CD5C41 /* ResetMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41134472507CF8700CD5C41 /* ResetMessageVC.swift */; };
 		C411344A2507CF8700CD5C41 /* ResetMessageVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C41134482507CF8700CD5C41 /* ResetMessageVC.xib */; };
@@ -247,7 +246,6 @@
 		C4C48B9C24E2CEEA00EC12DD /* OnboardingVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4C48B9A24E2CEEA00EC12DD /* OnboardingVC.xib */; };
 		C4C48B9E24E2D44900EC12DD /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C48B9D24E2D44900EC12DD /* GoogleSignInButton.swift */; };
 		C4C48BA224E2D4A100EC12DD /* AAPLSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C48BA124E2D4A100EC12DD /* AAPLSignInButton.swift */; };
-		E785A01A995D9FC2ACF447CB /* Pods_Alfred.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42AA82418508B2ED757C442C /* Pods_Alfred.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -374,7 +372,7 @@
 		1234FD6A221596BA00E73FFF /* CoordinatorKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorKeys.swift; sourceTree = "<group>"; };
 		1234FD722215994700E73FFF /* MasterCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterCoordinator.swift; sourceTree = "<group>"; };
 		1234FD752215997900E73FFF /* DataContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataContext.swift; sourceTree = "<group>"; };
-		1234FD7822159A1B00E73FFF /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
+		1234FD7822159A1B00E73FFF /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		1234FD7F22159CF100E73FFF /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		1234FD8122159D5000E73FFF /* DataContext+Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataContext+Auth.swift"; sourceTree = "<group>"; };
 		1234FD8322159FBD00E73FFF /* AuthNC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNC.swift; sourceTree = "<group>"; };
@@ -414,12 +412,9 @@
 		12F8A2BE2551A6B500E48268 /* SelectChunkSizeVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectChunkSizeVC.xib; sourceTree = "<group>"; };
 		1E98BA052D617B44A2026976 /* Pods-AlfredTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlfredTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlfredTests/Pods-AlfredTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1EE153EC9524247AAA65AF61 /* Pods-Alfred.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alfred.release.xcconfig"; path = "Pods/Target Support Files/Pods-Alfred/Pods-Alfred.release.xcconfig"; sourceTree = "<group>"; };
-		42AA82418508B2ED757C442C /* Pods_Alfred.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Alfred.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		462A9E1B252A5E04006B8715 /* Ext_String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext_String.swift; sourceTree = "<group>"; };
 		46BAA48F25430A7B00C94AC2 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 		46BAA49125432EE500C94AC2 /* UpdatePatientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePatientModel.swift; sourceTree = "<group>"; };
-		48E50B64AB126CB7AD179393 /* Pods_AlfredTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlfredTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4DBB812033ABF372D1773F83 /* Pods_AlfredCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlfredCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		840A9CB72571F9CE00540133 /* DataContext+Fetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataContext+Fetch.swift"; sourceTree = "<group>"; };
 		8416998A25677958005EF024 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8436019A25678D7B000B4C55 /* Environment+StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+StoreManager.swift"; sourceTree = "<group>"; };
@@ -512,7 +507,6 @@
 		C4C48B9A24E2CEEA00EC12DD /* OnboardingVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OnboardingVC.xib; sourceTree = "<group>"; };
 		C4C48B9D24E2D44900EC12DD /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
 		C4C48BA124E2D4A100EC12DD /* AAPLSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AAPLSignInButton.swift; sourceTree = "<group>"; };
-		CA9129D4A69360843CCB2836 /* Pods_AlfredCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlfredCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -537,7 +531,6 @@
 				84938123258330F0001DB541 /* FirebaseInstallations in Frameworks */,
 				84EE1E8C258C52E700326D42 /* CareKitFHIR in Frameworks */,
 				84EE1E83258C526C00326D42 /* Alamofire in Frameworks */,
-				E785A01A995D9FC2ACF447CB /* Pods_Alfred.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -545,7 +538,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A73422FBC21F933FB0A3B285 /* Pods_AlfredTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -873,7 +865,7 @@
 				1234FD552215884400E73FFF /* AppDelegate.swift */,
 				1234FD612215884700E73FFF /* Info.plist */,
 				84EE1E2B258C507D00326D42 /* Shared */,
-				8436019525678AD6000B4C55 /* Health */,
+				8436019525678AD6000B4C55 /* CareKit */,
 				1234FD672215968D00E73FFF /* Coordinator */,
 				1234FD7722159A0B00E73FFF /* Controllers */,
 				12D42D822226A6290039043F /* API */,
@@ -934,7 +926,6 @@
 		1234FD8F2215A29C00E73FFF /* MainApp */ = {
 			isa = PBXGroup;
 			children = (
-				1234FD7822159A1B00E73FFF /* BaseVC.swift */,
 				86DDD51B24D02E9200D27445 /* Profile */,
 				1234FD992215AE8C00E73FFF /* Settings */,
 				1234FD982215AE5100E73FFF /* Home */,
@@ -1080,7 +1071,6 @@
 				84F3485F258B18050042A7E4 /* AlfredClient.swift */,
 				06865EFA2575055200F14BD6 /* Managers */,
 				12D42D832226A62E0039043F /* Requests */,
-				12D42D8A2226ACB60039043F /* AppConfig.swift */,
 				1234FD742215995800E73FFF /* DataContext */,
 			);
 			path = API;
@@ -1101,15 +1091,11 @@
 			isa = PBXGroup;
 			children = (
 				0631E73C247E5E4400D88834 /* HealthKit.framework */,
-				CA9129D4A69360843CCB2836 /* Pods_AlfredCore.framework */,
-				4DBB812033ABF372D1773F83 /* Pods_AlfredCoreTests.framework */,
-				48E50B64AB126CB7AD179393 /* Pods_AlfredTests.framework */,
-				42AA82418508B2ED757C442C /* Pods_Alfred.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		8436019525678AD6000B4C55 /* Health */ = {
+		8436019525678AD6000B4C55 /* CareKit */ = {
 			isa = PBXGroup;
 			children = (
 				8453CF1E256CD79500A3E6F0 /* CareManager.swift */,
@@ -1118,7 +1104,7 @@
 				8453CF1A256CD15300A3E6F0 /* RemoteSynchronizationManager.swift */,
 				8453CF27256DB9A300A3E6F0 /* Model */,
 			);
-			path = Health;
+			path = CareKit;
 			sourceTree = "<group>";
 		};
 		8453CF27256DB9A300A3E6F0 /* Model */ = {
@@ -1167,11 +1153,21 @@
 			path = AlfredTests;
 			sourceTree = "<group>";
 		};
+		84BF9DCC258C7860006D84C6 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				1234FD7822159A1B00E73FFF /* BaseViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		84EE1E2B258C507D00326D42 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				84BF9DCC258C7860006D84C6 /* ViewControllers */,
 				84A2A18C257D882200A925FC /* OSLog+Setup.swift */,
 				84A2A4F5257F0B0000A925FC /* AlfredJSONDecoder.swift */,
+				12D42D8A2226ACB60039043F /* AppConfig.swift */,
 				84F34830258B03F00042A7E4 /* WebService */,
 			);
 			path = Shared;
@@ -1731,7 +1727,7 @@
 				0630C8EB258B884000C8C1F5 /* Ext_NotificationName.swift in Sources */,
 				84EE1E60258C50EF00326D42 /* Patient.swift in Sources */,
 				C41777832508FED700CDBBED /* CustomYAxisRenderer.swift in Sources */,
-				1234FD7922159A1B00E73FFF /* BaseVC.swift in Sources */,
+				1234FD7922159A1B00E73FFF /* BaseViewController.swift in Sources */,
 				1234FD732215994700E73FFF /* MasterCoordinator.swift in Sources */,
 				C426516A24A625C100772614 /* AppDelegate.swift in Sources */,
 				84EE1E02258C4FEB00326D42 /* WebService.swift in Sources */,

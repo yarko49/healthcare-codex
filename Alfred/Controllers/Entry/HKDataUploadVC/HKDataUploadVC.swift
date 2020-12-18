@@ -7,7 +7,7 @@ import BonMot
 import Foundation
 import UIKit
 
-class HKDataUploadVC: BaseVC {
+class HKDataUploadVC: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	var queryAction: (() -> Void)?

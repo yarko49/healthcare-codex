@@ -1,6 +1,6 @@
 import UIKit
 
-class RegisterVC: BaseVC {
+class RegisterVC: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	var registerAction: ((String, String, String) -> Void)?

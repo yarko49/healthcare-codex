@@ -1,7 +1,12 @@
 import Firebase
 import FirebaseAuth
 import LocalAuthentication
+import os.log
 import UIKit
+
+extension OSLog {
+	static let masterCoordinator = OSLog(subsystem: subsystem, category: "MasterCoordinator")
+}
 
 class MasterCoordinator: Coordinator {
 	private var window: UIWindow
@@ -31,7 +36,7 @@ class MasterCoordinator: Coordinator {
 			do {
 				try firebaseAuth.signOut()
 			} catch let signOutError as NSError {
-				print("Error signing out: %@", signOutError)
+				os_log(.error, log: .masterCoordinator, "Error signing out: %@", signOutError.localizedDescription)
 			}
 			DataContext.shared.hasRunOnce = true
 		}
@@ -52,7 +57,7 @@ class MasterCoordinator: Coordinator {
 						Auth.auth().tenantID = AppConfig.tenantID
 						Auth.auth().currentUser?.getIDToken(completion: { firebaseToken, error in
 							if let error = error {
-								print(error)
+								os_log(.error, log: .masterCoordinator, "Error signing out: %@", error.localizedDescription)
 								self.goToAuth()
 							} else {
 								if let firebaseToken = firebaseToken {
@@ -140,7 +145,7 @@ class MasterCoordinator: Coordinator {
 		do {
 			try firebaseAuth.signOut()
 		} catch let signOutError as NSError {
-			print("Error signing out: %@", signOutError)
+			os_log(.error, log: .masterCoordinator, "Error signing out: %@", signOutError.localizedDescription)
 		}
 		DispatchQueue.main.async { [weak self] in
 			self?.goToAuth()
