@@ -28,20 +28,6 @@ target 'AlfrediOSTests' do
   common_pods_for_target
 end
 
-target 'AlfredCore' do
-  platform :ios, '14.0'
-  use_frameworks!
-
-  firebase_pods
-end
-
-target 'AlfredCoreTests' do
-  platform :ios, '14.0'
-  use_frameworks!
-
-  firebase_pods
-end
-
 # XCode 12 support, will remove when new cocoapods is released
 post_install do |installer|
   installer.pods_project.targets.each do |target|

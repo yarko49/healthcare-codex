@@ -1,5 +1,4 @@
 import Alamofire
-import AlfredCore
 import Foundation
 
 enum APIRouter: URLRequestConvertible {
@@ -61,24 +60,24 @@ enum APIRouter: URLRequestConvertible {
 	}
 
 	var headers: [String: String] {
-		var headers = [AlfredCore.Request.Header.contentType: AlfredCore.Request.ContentType.json,
-		               AlfredCore.Request.Header.xAPIKey: AppConfig.apiKey]
+		var headers = [Request.Header.contentType: Request.ContentType.json,
+		               Request.Header.xAPIKey: AppConfig.apiKey]
 		if let authToken = DataContext.shared.authToken {
-			headers[AlfredCore.Request.Header.userAuthorization] = "Bearer " + authToken
+			headers[Request.Header.userAuthorization] = "Bearer " + authToken
 		}
 		switch self {
 		case .getCarePlan(let vectorClock, let valueSpaceSample):
 			if vectorClock {
-				headers[AlfredCore.Request.Header.CarePlanVectorClockOnly] = "true"
+				headers[Request.Header.CarePlanVectorClockOnly] = "true"
 			} else if valueSpaceSample {
-				headers[AlfredCore.Request.Header.CarePlanPrefer] = "return=ValueSpaceSample"
+				headers[Request.Header.CarePlanPrefer] = "return=ValueSpaceSample"
 			}
 		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile:
 			break
 		case .postObservation, .postPatient, .postPatientSearch, .postBundle, .postQuestionnaireResponse, .postObservationSearch:
-			headers[AlfredCore.Request.Header.contentType] = AlfredCore.Request.ContentType.fhirjson
+			headers[Request.Header.contentType] = Request.ContentType.fhirjson
 		case .patchPatient:
-			headers[AlfredCore.Request.Header.contentType] = AlfredCore.Request.ContentType.patchjson
+			headers[Request.Header.contentType] = Request.ContentType.patchjson
 		}
 		return headers
 	}

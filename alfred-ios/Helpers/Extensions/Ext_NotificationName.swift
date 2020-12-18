@@ -6,5 +6,5 @@
 import Foundation
 
 public extension Notification.Name {
-	static let logoutNotification = Notification.Name("Logout")
+	static let applicationDidLogout = Notification.Name("applicationDidLogout")
 }

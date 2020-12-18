@@ -37,8 +37,11 @@ public final class WebService {
 	}
 
 	@discardableResult
-	public func request<T: Decodable>(route: URLRequestConvertable, decoder: JSONDecoder = AlfredJSONDecoder(), completion: @escaping WebService.DecodableCompletion<T>) -> URLSession.DataTaskPublisher? {
-		let request = route.urlRequest
+	func request<T: Decodable>(route: APIRouter, decoder: JSONDecoder = AlfredJSONDecoder(), completion: @escaping WebService.DecodableCompletion<T>) -> URLSession.DataTaskPublisher? {
+		guard let request = route.urlRequest else {
+			completion(.failure(URLError(.badURL)))
+			return nil
+		}
 		let publisher = session.dataTaskPublisher(for: request)
 		publisher
 			.retry(configuration.retryCountForRequest)
@@ -63,8 +66,11 @@ public final class WebService {
 	}
 
 	@discardableResult
-	public func request(route: URLRequestConvertable, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.DataTaskPublisher? {
-		let request = route.urlRequest
+	func request(route: APIRouter, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.DataTaskPublisher? {
+		guard let request = route.urlRequest else {
+			completion(.failure(URLError(.badURL)))
+			return nil
+		}
 		let publisher = session.dataTaskPublisher(for: request)
 		publisher
 			.retry(configuration.retryCountForRequest)
@@ -94,7 +100,7 @@ public final class WebService {
 	}
 
 	@discardableResult
-	public func request<T: Decodable>(request: Request, decoder: JSONDecoder = AlfredJSONDecoder(), completion: @escaping WebService.DecodableCompletion<T>) -> URLSession.ServicePublisher? {
+	func request<T: Decodable>(request: Request, decoder: JSONDecoder = AlfredJSONDecoder(), completion: @escaping WebService.DecodableCompletion<T>) -> URLSession.ServicePublisher? {
 		let publisher = session.servicePublisher(for: request)
 		publisher
 			.retry(configuration.retryCountForRequest)

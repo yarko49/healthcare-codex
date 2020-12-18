@@ -5,8 +5,6 @@
 //  Created by Waqar Malik on 11/23/20.
 //
 
-import AlfredCore
-import AlfredHealth
 import CareKit
 import CareKitStore
 import Combine
@@ -23,7 +21,6 @@ public class CareManager: ObservableObject {
 	public let healthKitPassthroughStore: OCKHealthKitPassthroughStore
 	public let synchronizedStoreManager: OCKSynchronizedStoreManager
 	let alferedClient = AlfredClient()
-	private var notification: AnyCancellable?
 
 	public init(careKitStore ckStore: String = "AlfredStore", healthKitStore hkStore: String = "AlfredHealthKitPassthroughStore") {
 		self.remoteSynchronizationManager = RemoteSynchronizationManager()
@@ -34,22 +31,6 @@ public class CareManager: ObservableObject {
 		coordinator.attach(eventStore: healthKitPassthroughStore)
 		self.synchronizedStoreManager = OCKSynchronizedStoreManager(wrapping: coordinator)
 		remoteSynchronizationManager.delegate = self
-
-		self.notification = NotificationCenter.default.publisher(for: .authenticationTokenDidChange)
-			.map { (notification) -> [String: Any] in
-				notification.userInfo as? [String: Any] ?? [:]
-			}.map { (userInfo) -> String? in
-				userInfo[DataContext.Constants.AuthTokenKey] as? String
-			}.receive(on: DispatchQueue.main)
-			.sink { _ in
-				os_log(.info, log: .careManager, "Authentication Token Did Change")
-			} receiveValue: { [weak self] value in
-				self?.alferedClient.baseURL = AppConfig.apiBaseUrl
-				self?.alferedClient.apiKey = AppConfig.apiKey
-				self?.alferedClient.authToken = value
-
-				self?.getCarePlanResponse()
-			}
 	}
 
 	public func getCarePlanResponse() {

@@ -5,7 +5,7 @@
 //  Created by Waqar Malik on 12/10/20.
 //
 
-@testable import AlfredCore
+@testable import alfred_ios
 import XCTest
 
 class AlfredCoreTests: XCTestCase {
@@ -19,7 +19,7 @@ class AlfredCoreTests: XCTestCase {
 		// and create the URLSession from that
 		let session = URLSession(configuration: config)
 		let url = URL(string: "https://dev.alfred.codexhealth.com/v0")
-		webService = WebService(baseURL: url!, session: session)
+		webService = WebService(session: session)
 	}
 
 	override func tearDownWithError() throws {

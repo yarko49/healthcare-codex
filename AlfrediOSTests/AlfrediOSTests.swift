@@ -6,7 +6,6 @@
 //
 
 @testable import alfred_ios
-import AlfredCore
 import Foundation
 import XCTest
 
@@ -21,7 +20,7 @@ class AlfrediOSTests: XCTestCase {
 
 		// and create the URLSession from that
 		let session = URLSession(configuration: config)
-		webService = WebService(baseURL: URL(string: AppConfig.apiBaseUrl)!, session: session)
+		webService = WebService(session: session)
 		carePlanResponse = AlfrediOSTests.loadTestData(fileName: "ValueSpaceResponse.json")
 	}
 
