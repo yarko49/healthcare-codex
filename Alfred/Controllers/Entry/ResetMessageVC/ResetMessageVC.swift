@@ -5,7 +5,7 @@
 import BonMot
 import UIKit
 
-class ResetMessageVC: BaseVC {
+class ResetMessageVC: BaseViewController {
 	var backBtnAction: (() -> Void)?
 	var backToSignInAction: (() -> Void)?
 

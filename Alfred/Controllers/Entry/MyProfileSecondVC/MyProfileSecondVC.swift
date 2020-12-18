@@ -7,7 +7,7 @@ enum Input: String, Codable {
 	case weight
 }
 
-class MyProfileSecondVC: BaseVC, UIGestureRecognizerDelegate {
+class MyProfileSecondVC: BaseViewController, UIGestureRecognizerDelegate {
 	var backBtnAction: (() -> Void)?
 	var alertAction: ((_ tv: PickerTF) -> Void)?
 	var patientRequestAction: ((_ resourceType: String, _ birthdate: String, _ weight: Int, _ height: Int, _ date: String) -> Void)?

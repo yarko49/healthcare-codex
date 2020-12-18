@@ -6,7 +6,7 @@
 import Foundation
 import UIKit
 
-class TermsOfServiceVC: BaseVC {
+class TermsOfServiceVC: BaseViewController {
 	// MARK: Coordinator Actions
 
 	var backBtnAction: (() -> Void)?

@@ -6,7 +6,7 @@
 import Foundation
 import UIKit
 
-class QuestionnaireVC: BaseVC {
+class QuestionnaireVC: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	var closeAction: (() -> Void)?

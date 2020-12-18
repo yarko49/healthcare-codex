@@ -19,7 +19,7 @@ enum HealthStatsDateIntervalType {
 	case yearly
 }
 
-class ProfileVC: BaseVC {
+class ProfileVC: BaseViewController {
 	// MARK: Coordinator Actions
 
 	var backBtnAction: (() -> Void)?

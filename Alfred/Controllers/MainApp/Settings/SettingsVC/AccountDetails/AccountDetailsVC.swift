@@ -6,7 +6,7 @@
 import Foundation
 import UIKit
 
-class AccountDetailsVC: BaseVC {
+class AccountDetailsVC: BaseViewController {
 	// MARK: Coordinator Actions
 
 	var backBtnAction: (() -> Void)?

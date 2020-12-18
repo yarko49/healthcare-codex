@@ -6,7 +6,7 @@
 import Foundation
 import UIKit
 
-class MyNotificationsVC: BaseVC {
+class MyNotificationsVC: BaseViewController {
 	// MARK: Coordinator Actions
 
 	var backBtnAction: (() -> Void)?

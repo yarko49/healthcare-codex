@@ -7,7 +7,7 @@ enum ComingFromScreen {
 	case activate
 }
 
-class AppleHealthVC: BaseVC {
+class AppleHealthVC: BaseViewController {
 	var backBtnAction: (() -> Void)?
 	var nextBtnAction: (() -> Void)?
 	var notNowAction: (() -> Void)?

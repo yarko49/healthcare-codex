@@ -1,6 +1,6 @@
 import UIKit
 
-class HomeVC: BaseVC {
+class HomeVC: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	var getCardsAction: (() -> Void)?

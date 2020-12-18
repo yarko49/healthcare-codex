@@ -7,7 +7,7 @@ import Foundation
 import HealthKit
 import UIKit
 
-class MyDevicesVC: BaseVC {
+class MyDevicesVC: BaseViewController {
 	// MARK: Coordinator Actions
 
 	var backBtnAction: (() -> Void)?

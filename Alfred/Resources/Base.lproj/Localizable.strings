@@ -19,8 +19,10 @@
 
 "HELLO_NAME" = "Hello, %@";
 
+/* Close */
 "CLOSE" = "Close";
 
+/* Cancel */
 "CANCEL" = "Cancel";
 
 "SIGN_IN_WITH_GOOGLE" = "Sign in with Google";
@@ -95,6 +97,7 @@
 
 "TRANS" = "Trans";
 
+/* CIS */
 "CIS" = "CIS";
 
 "NEXT" = "Next";
@@ -131,6 +134,7 @@
 
 "SYNCED" = "We are all setup!! Alfred is now in sync with Health!";
 
+/* Done */
 "DONE" = "Done";
 
 "IMPORTING_HEALTH_DATA" = "We’re importing your Health data.";
@@ -152,6 +156,7 @@
 
 "PLEASE_ENTER_PASSWORD" = "Please enter password";
 
+/* OK */
 "OK" = "OK";
 
 "BACK_TO_SIGN_IN" = "Back to Sign in";
@@ -166,10 +171,12 @@
 /* Profile stats */
 "TODAY" = "Today";
 
+/* Wk */
 "WK" = "Wk";
 
 "MO" = "Mo";
 
+/* Yr */
 "YR" = "Yr";
 
 "HIGH" = "High";
@@ -180,6 +187,7 @@
 
 "WEEKLY_AVERAGE" = "Weekly Average";
 
+/* Yearly Average */
 "YEARLY_AVERAGE" = "Yearly Average";
 
 "EDIT" = "EDIT";
@@ -221,11 +229,13 @@
 
 "HEART_RATE" = "Heart Rate";
 
+/* years */
 "YEARS" = "years";
 
-/* Today */
+/* Now */
 "NOW" = "Now";
 
+/* Yesterday */
 "YESTERDAY" = "Yesterday";
 
 "GET_MORE_INFORMATION" = "Get more information";
@@ -246,14 +256,18 @@
 
 "DEFAULT_HEIGHT" = "5 ft 6";
 
+/* Date */
 "DATE" = "Date";
 
+/* Time */
 "TIME" = "Time";
 
 "LB" = "lb";
 
+/* Sys */
 "SYS" = "Sys";
 
+/* Dia */
 "DIA" = "Dia";
 
 /* Add */
@@ -265,6 +279,7 @@
 
 "COMPLETE_SURVEY" = "Complete Survey";
 
+/* lbs */
 "WEIGHT_UNIT" = "lbs";
 
 "HEIGHT_UNIT" = "feet";
@@ -380,11 +395,13 @@
 
 "MONTHLY_AVG" = "Monthly average";
 
+/* Yearly average */
 "YEARLY_AVG" = "Yearly average";
 
 "WEEK_TOTAL" = "Week total";
 
 "MONTH_TOTAL" = "Month total";
 
+/* Year total */
 "YEAR_TOTAL" = "Year total";
 

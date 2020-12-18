@@ -1,6 +1,6 @@
 import UIKit
 
-class SettingsVC: BaseVC {
+class SettingsVC: BaseViewController {
 	var accountDetailsAction: (() -> Void)?
 	var myDevicesAction: (() -> Void)?
 	var notificationsAction: (() -> Void)?

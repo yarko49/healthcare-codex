@@ -1,6 +1,7 @@
+import os.log
 import UIKit
 
-class BaseVC: UIViewController {
+class BaseViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .white
@@ -18,6 +19,6 @@ class BaseVC: UIViewController {
 	func populateData() {}
 
 	deinit {
-		print("\(String(describing: type(of: self))) deinitialized")
+		os_log(.info, log: .alfred, "%@ deinitialized", String(describing: type(of: self)))
 	}
 }
