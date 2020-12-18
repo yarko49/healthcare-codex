@@ -20,7 +20,7 @@ target 'alfred-ios' do
   common_pods_for_target
 end
 
-target 'AlfrediOSTests' do
+target 'AlfredTests' do
   platform :ios, '14.0'
   use_frameworks!
 
