@@ -52,8 +52,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8468B0CF256C679000202A16"
-               BuildableName = "AlfrediOSTests.xctest"
-               BlueprintName = "AlfrediOSTests"
+               BuildableName = "AlfredTests.xctest"
+               BlueprintName = "AlfredTests"
                ReferencedContainer = "container:alfred-ios.xcodeproj">
             </BuildableReference>
          </TestableReference>
