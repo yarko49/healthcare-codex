@@ -1,7 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-install! 'cocoapods', :integrate_targets => true
-
-platform :ios, '14.0'
+# platform :ios, '9.0'
 
 def firebase_pods
   pod 'GoogleSignIn'
@@ -12,20 +10,18 @@ def common_pods_for_target
   pod 'IQKeyboardManagerSwift'
 end
 
-target 'alfred-ios' do
-  platform :ios, '14.0'
+target 'Alfred' do
+  # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
+  # Pods for Alfred
   firebase_pods
   common_pods_for_target
-end
 
-target 'AlfredTests' do
-  platform :ios, '14.0'
-  use_frameworks!
-
-  firebase_pods
-  common_pods_for_target
+  target 'AlfredTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
 end
 
 # XCode 12 support, will remove when new cocoapods is released

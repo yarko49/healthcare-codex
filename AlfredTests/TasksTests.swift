@@ -5,7 +5,7 @@
 //  Created by Waqar Malik on 12/7/20.
 //
 
-@testable import alfred_ios
+@testable import Alfred
 import XCTest
 
 class TasksTests: XCTestCase {

@@ -5,7 +5,7 @@
 //  Created by Waqar Malik on 11/23/20.
 //
 
-@testable import alfred_ios
+@testable import Alfred
 import Foundation
 import XCTest
 

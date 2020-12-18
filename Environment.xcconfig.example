@@ -1,8 +1,8 @@
 // Application Environment Settings
 
 // The path to the xcconfig file for CocoaPods.
-#include "Pods/Target Support Files/Pods-alfred-ios/Pods-alfred-ios.debug.xcconfig"
-#include "Pods/Target Support Files/Pods-alfred-ios/Pods-alfred-ios.release.xcconfig"
+#include "Pods/Target Support Files/Pods-Alfred/Pods-Alfred.debug.xcconfig"
+#include "Pods/Target Support Files/Pods-Alfred/Pods-Alfred.release.xcconfig"
 
 // Environment info (DEVELOP || STAGE || MASTER)
 ENVIRONMENT_NAME = DEVELOP
