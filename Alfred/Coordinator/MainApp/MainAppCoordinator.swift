@@ -53,7 +53,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			os_log(.error, log: .mainCoordinator, "Error %@", error?.localizedDescription ?? "")
 			return
 		}
-		os_log(.info, log: .mainCoordinator, "%@", context.biometryType.rawValue)
+		os_log(.info, log: .mainCoordinator, "%@", String(describing: context.biometryType.rawValue))
 	}
 
 	func enrollWithBiometrics() {

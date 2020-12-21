@@ -37,7 +37,13 @@ class SignupVC: BaseViewController, UITextViewDelegate, UIGestureRecognizerDeleg
 		navigationItem.leftBarButtonItem?.tintColor = UIColor.black
 
 		emailView.setupValues(labelTitle: Str.emailAddress, text: "", textIsPassword: false)
+		emailView.textfield.keyboardType = .emailAddress
+		emailView.textfield.autocorrectionType = .no
+		emailView.textfield.autocapitalizationType = .none
 		confirmView.setupValues(labelTitle: Str.confirmEmailAddress, text: "", textIsPassword: false)
+		confirmView.textfield.keyboardType = .emailAddress
+		confirmView.textfield.autocorrectionType = .no
+		confirmView.textfield.autocapitalizationType = .none
 		passwordView.setupValues(labelTitle: Str.password, text: "", textIsPassword: true)
 		signupBtn.setAttributedTitle(Str.signup.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 0.3), for: .normal)
 		signupBtn.refreshCorners(value: 5)
