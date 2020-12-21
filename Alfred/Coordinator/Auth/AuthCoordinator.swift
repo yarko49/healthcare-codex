@@ -449,7 +449,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			AlertHelper.hideLoader()
 			if success {
 				DataContext.shared.identifyCrashlytics()
-				os_log(.info, log: .authCoordinator, "OK STATUS FOR PROFILE: 200 %@", DataContext.shared.signUpCompleted)
+				os_log(.info, log: .authCoordinator, "OK STATUS FOR PROFILE: 200 %@", String(describing: DataContext.shared.signUpCompleted))
 				self?.goToAppleHealthVCFromDevices()
 			} else {
 				os_log(.error, log: .authCoordinator, "request failed")
