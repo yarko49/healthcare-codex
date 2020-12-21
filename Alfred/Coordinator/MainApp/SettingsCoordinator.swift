@@ -118,7 +118,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 	internal func profileRequest(profile: ProfileModel) {
 		DataContext.shared.postProfile(profile: profile) { [weak self] success in
 			if success {
-				os_log(.info, log: .settingsCoordinator, "OK STATUS FOR PROFILE: 200", DataContext.shared.signUpCompleted)
+				os_log(.info, log: .settingsCoordinator, "OK STATUS FOR PROFILE: 200")
 				AlertHelper.hideLoader()
 				self?.navigationController?.popViewController(animated: true)
 			} else {
