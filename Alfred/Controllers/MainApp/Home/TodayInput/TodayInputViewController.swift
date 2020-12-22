@@ -17,7 +17,7 @@ class PickerTapGesture: UITapGestureRecognizer {
 	var viewTF: PickerTF?
 }
 
-class TodayInputVC: BaseViewController {
+class TodayInputViewController: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	var inputAction: ((Int?, Int?, String?, InputType) -> Void)?
@@ -236,7 +236,7 @@ class TodayInputVC: BaseViewController {
 	}
 }
 
-extension TodayInputVC: UIPickerViewDelegate, UIPickerViewDataSource {
+extension TodayInputViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
 		if pickerView == weightPicker {
 			return component == 0 ? "\(lbsData[component][row])" : ".\(lbsData[component][row])"

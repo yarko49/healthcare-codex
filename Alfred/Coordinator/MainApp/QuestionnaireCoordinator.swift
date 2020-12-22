@@ -16,10 +16,10 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 	}
 
 	var questions: [Item] = []
-	weak var questionVC: QuestionVC?
+	weak var questionVC: QuestionViewController?
 
 	init(with parent: MainAppCoordinator?) {
-		self.navigationController = QuestionnaireNC()
+		self.navigationController = QuestionnaireNavigationController()
 		self.parentCoordinator = parent
 		self.childCoordinators = [:]
 		super.init()
@@ -37,7 +37,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 	let hud = AlertHelper.progressHUD
 
 	internal func goToQuestionnaire() {
-		let questionnaireVC = QuestionnaireVC()
+		let questionnaireVC = QuestionnaireViewController()
 		questionnaireVC.closeAction = { [weak self] in
 			self?.stop()
 		}
@@ -54,7 +54,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 	}
 
 	internal func showQuestion(with questions: [Item], currentQuestion: Item) {
-		let questionVC = self.questionVC ?? QuestionVC()
+		let questionVC = self.questionVC ?? QuestionViewController()
 		let currentQuestionIndex = self.questions.firstIndex(where: { $0.linkID == currentQuestion.linkID }) ?? 0
 
 		var answeredQuestion = currentQuestion
@@ -141,7 +141,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 	}
 
 	internal func goToQuestionnaireCompletion() {
-		let questionnaireCompletionVC = QuestionnaireCompletionVC()
+		let questionnaireCompletionVC = QuestionnaireCompletionViewController()
 		questionnaireCompletionVC.closeAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: false)
 			self?.cancelAction()
@@ -187,7 +187,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 
 extension QuestionnaireCoordinator: UINavigationControllerDelegate {
 	func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-		if viewController is QuestionVC {
+		if viewController is QuestionViewController {
 			viewController.navigationItem.hidesBackButton = true
 
 			if viewController.navigationItem.leftBarButtonItem == nil {
