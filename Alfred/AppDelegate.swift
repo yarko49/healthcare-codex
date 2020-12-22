@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		Crashlytics.crashlytics()
 		GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
 		IQKeyboardManager.shared.enable = true
-
+		UINavigationBar.applyAppearance()
 		return true
 	}
 

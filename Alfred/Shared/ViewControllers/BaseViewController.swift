@@ -1,3 +1,4 @@
+import JGProgressHUD
 import os.log
 import UIKit
 
@@ -11,6 +12,8 @@ class BaseViewController: UIViewController {
 		localize()
 		populateData()
 	}
+
+	let hud = AlertHelper.progressHUD
 
 	func setupView() {}
 	func bindActions() {}

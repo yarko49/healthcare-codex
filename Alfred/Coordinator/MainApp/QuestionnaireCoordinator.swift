@@ -153,7 +153,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 		rootViewController?.dismiss(animated: true, completion: { [weak self] in
 			guard let self = self else { return }
 			self.parentCoordinator?.removeChild(.questionnaireCoordinator)
-			if let visibleController = self.parentCoordinator?.navigationController?.visibleViewController, let homeVC = visibleController as? HomeVC {
+			if let visibleController = self.parentCoordinator?.navigationController?.visibleViewController, let homeVC = visibleController as? HomeViewController {
 				homeVC.viewWillAppear(true)
 			}
 		})
