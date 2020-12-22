@@ -125,10 +125,10 @@ class MasterCoordinator: Coordinator {
 		}
 	}
 
-	public func goToAuth() {
+	public func goToAuth(url: String = "") {
 		removeChild(.mainAppCoordinator)
 		DataContext.shared.clearAll()
-		let authCoordinator = AuthCoordinator(withParent: self)
+		let authCoordinator = AuthCoordinator(withParent: self, deepLink: url)
 		addChild(coordinator: authCoordinator, with: .authCoordinator)
 		window.rootViewController = authCoordinator.rootViewController
 	}

@@ -154,7 +154,7 @@ class DataContext {
 		clearVariables()
 	}
 
-	private func clearVariables() {
+	func clearVariables() {
 		hasSmartScale = Bool()
 		hasSmartBlockPressureCuff = Bool()
 		hasSmartWatch = Bool()

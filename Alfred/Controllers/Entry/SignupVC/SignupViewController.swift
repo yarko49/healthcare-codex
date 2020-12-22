@@ -11,18 +11,14 @@ class SignupViewController: BaseViewController, UITextViewDelegate, UIGestureRec
 	var nextBtnAction: (() -> Void)?
 	var goToTermsOfService: (() -> Void)?
 	var goToPrivacyPolicy: (() -> Void)?
-	var signUpWithEP: ((_ email: String, _ password: String) -> Void)?
+	var signUpWithEmail: ((_ email: String) -> Void)?
 	var alertAction: ((_ title: String?, _ detail: String?, _ textfield: TextfieldView) -> Void)?
 
 	@IBOutlet var contentView: UIView!
-	@IBOutlet var scrollView: UIScrollView!
-	@IBOutlet var stackView: UIStackView!
 	@IBOutlet var textView: UITextView!
 	@IBOutlet var signupBtn: BottomButton!
 	@IBOutlet var signupmessage: UILabel!
 	@IBOutlet var emailView: TextfieldView!
-	@IBOutlet var confirmView: TextfieldView!
-	@IBOutlet var passwordView: TextfieldView!
 
 	override func setupView() {
 		super.setupView()
@@ -40,12 +36,7 @@ class SignupViewController: BaseViewController, UITextViewDelegate, UIGestureRec
 		emailView.textfield.keyboardType = .emailAddress
 		emailView.textfield.autocorrectionType = .no
 		emailView.textfield.autocapitalizationType = .none
-		confirmView.setupValues(labelTitle: Str.confirmEmailAddress, text: "", textIsPassword: false)
-		confirmView.textfield.keyboardType = .emailAddress
-		confirmView.textfield.autocorrectionType = .no
-		confirmView.textfield.autocapitalizationType = .none
-		passwordView.setupValues(labelTitle: Str.password, text: "", textIsPassword: true)
-		signupBtn.setAttributedTitle(Str.signup.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 0.3), for: .normal)
+		signupBtn.setAttributedTitle(Str.sendLink.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 0.3), for: .normal)
 		signupBtn.refreshCorners(value: 5)
 		signupBtn.setupButton()
 		setup()
@@ -86,17 +77,7 @@ class SignupViewController: BaseViewController, UITextViewDelegate, UIGestureRec
 			return
 		}
 
-		guard let confirm = confirmView.tfText, !confirm.isEmpty, confirm == email else {
-			alertAction?(Str.invalidEmail, Str.invalidConfirmationEmail, confirmView)
-			return
-		}
-
-		guard let password = passwordView.tfText, !password.isEmpty else {
-			alertAction?(Str.invalidPw, Str.enterPw, passwordView)
-			return
-		}
-
-		signUpWithEP?(email, password)
+		signUpWithEmail?(email)
 	}
 
 	@objc func backBtnTapped() {

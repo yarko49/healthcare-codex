@@ -3,8 +3,6 @@
 
 "PASSWORD" = "Password";
 
-"CONFIRM_EMAIL_ADDRESS" = "Confirm email address";
-
 "CONFIRM_PASSWORD" = "Confirm password";
 
 "REGISTER" = "Register";
@@ -67,6 +65,26 @@
 
 "ENABLE_AUTOMATIC_SIGN_IN" = "Enable automatic sign in";
 
+"SEND_LINK" = "Send Link";
+
+"EMAIL_SENT" = "Email Sent";
+
+"CHECK_MAIL" = "Check your email";
+
+"SENT_EMAIL_AT_SIGN_IN" = "We just sent an email to you at %@. Click the link, and you’ll be automatically signed in.";
+
+"SENT_EMAIL_AT_SIGN_UP" = "We just sent an email to you at %@. Click the link, and you’ll be automatically signed up.";
+
+"OPEN_MAIL_APP" = "Open mail app";
+
+"WELCOME" = "Welcome";
+
+"SUCCESSFUL_SIGN_UP" = "Successful Sign up!";
+
+"SUCCESSFUL_SIGN_IN" = "Successful Sign in!";
+
+"CONTINUE_PROFILE" = "Continue to create your profile";
+
 /* Onboarding */
 "SLIDE_1_TITLE" = "Alfred";
 
@@ -114,7 +132,9 @@
 
 "TEXT_SHOULD_NOT_CONTAIN_SPECIAL_CHARACTERS_OR_NUMBERS" = "Text should neither be empty nor contain special characters or numbers";
 
-"SIGN_UP_FAILED" = "Sign up failed..";
+"SIGN_UP_FAILED" = "Sign up failed.";
+
+"FAILED_SEND_LINK" = "Failed to send a link.";
 
 "INVALID_OPTION" = "Invalid option";
 
