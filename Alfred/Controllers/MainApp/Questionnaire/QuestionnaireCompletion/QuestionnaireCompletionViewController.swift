@@ -1,26 +1,24 @@
 //
-//  QuestionnaireVC.swift
+//  QuestionnaireCompletionVC.swift
 //  alfred-ios
 //
 
 import Foundation
 import UIKit
 
-class QuestionnaireVC: BaseViewController {
+class QuestionnaireCompletionViewController: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	var closeAction: (() -> Void)?
-	var showQuestionnaireAction: (() -> Void)?
 
 	// MARK: - Properties
 
 	// MARK: - IBOutlets
 
-	@IBOutlet var closeBtn: UIButton!
-	@IBOutlet var iconIV: UIImageView!
-	@IBOutlet var titleLbl: UILabel!
+	@IBOutlet var completionIV: UIImageView!
+	@IBOutlet var thankYouLbl: UILabel!
 	@IBOutlet var descriptionLbl: UILabel!
-	@IBOutlet var startQuestionnaireBtn: RoundedButton!
+	@IBOutlet var doneBtn: RoundedButton!
 
 	// MARK: - Setup
 
@@ -34,21 +32,23 @@ class QuestionnaireVC: BaseViewController {
 		super.setupView()
 	}
 
+	override func localize() {
+		super.localize()
+
+		thankYouLbl.attributedText = Str.thankYou.with(style: .bold24, andColor: .black)
+		descriptionLbl.attributedText = Str.surveySubmit.with(style: .regular16, andColor: .black)
+		doneBtn.setTitle(Str.done, for: .normal)
+	}
+
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-
-		// self.addBottomSheetView()
 	}
 
 	override func populateData() {
 		super.populateData()
 	}
 
-	@IBAction func close(_ sender: Any) {
+	@IBAction func dobeBtnTapped(_ sender: Any) {
 		closeAction?()
-	}
-
-	@IBAction func showQuestionnaire(_ sender: Any) {
-		showQuestionnaireAction?()
 	}
 }

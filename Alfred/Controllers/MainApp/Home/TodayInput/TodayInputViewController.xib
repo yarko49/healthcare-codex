@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TodayInputVC" customModule="alfred_ios" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TodayInputViewController" customModule="Alfred" customModuleProvider="target">
             <connections>
                 <outlet property="sv" destination="9uf-eA-FFV" id="Wi9-Rp-zu7"/>
                 <outlet property="view" destination="huI-KK-zZ9" id="44n-jm-fVx"/>
@@ -60,6 +59,7 @@
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="lv6-OR-yCM"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="oPa-rg-a0F" firstAttribute="leading" secondItem="lv6-OR-yCM" secondAttribute="leading" id="6YE-rz-BjS"/>
@@ -67,7 +67,6 @@
                 <constraint firstItem="oPa-rg-a0F" firstAttribute="top" secondItem="lv6-OR-yCM" secondAttribute="top" id="lVo-M2-S89"/>
                 <constraint firstItem="lv6-OR-yCM" firstAttribute="bottom" secondItem="oPa-rg-a0F" secondAttribute="bottom" id="sxh-Cd-4eF"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="lv6-OR-yCM"/>
             <point key="canvasLocation" x="118.84057971014494" y="38.839285714285715"/>
         </view>
     </objects>

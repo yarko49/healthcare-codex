@@ -6,7 +6,7 @@
 import Foundation
 import UIKit
 
-class QuestionnaireNC: UINavigationController {
+class QuestionnaireNavigationController: UINavigationController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 

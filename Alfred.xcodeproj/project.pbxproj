@@ -16,13 +16,13 @@
 		0631E73D247E5E4400D88834 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0631E73C247E5E4400D88834 /* HealthKit.framework */; };
 		0631E74A247E876600D88834 /* MeasurementCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0631E749247E876600D88834 /* MeasurementCardCell.swift */; };
 		0631E74C247E877D00D88834 /* MeasurementCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0631E74B247E877D00D88834 /* MeasurementCardCell.xib */; };
-		06545B5D24924F9C003311E1 /* QuestionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06545B5C24924F9C003311E1 /* QuestionVC.swift */; };
-		06545B5F24924FB3003311E1 /* QuestionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06545B5E24924FB3003311E1 /* QuestionVC.xib */; };
+		06545B5D24924F9C003311E1 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06545B5C24924F9C003311E1 /* QuestionViewController.swift */; };
+		06545B5F24924FB3003311E1 /* QuestionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06545B5E24924FB3003311E1 /* QuestionViewController.xib */; };
 		0656CE63250FA0F300E457E3 /* QuestionnaireModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0656CE62250FA0F300E457E3 /* QuestionnaireModel.swift */; };
 		0659BDC02541EC3400891995 /* Ext_Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0659BDBF2541EC3400891995 /* Ext_Array.swift */; };
-		0659D2CD247FEC4600B30146 /* QuestionnaireVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0659D2CC247FEC4600B30146 /* QuestionnaireVC.swift */; };
-		0659D2CF247FEC5900B30146 /* QuestionnaireVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0659D2CE247FEC5900B30146 /* QuestionnaireVC.xib */; };
-		0659D2D1247FEC7100B30146 /* QuestionnaireNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0659D2D0247FEC7100B30146 /* QuestionnaireNC.swift */; };
+		0659D2CD247FEC4600B30146 /* QuestionnaireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0659D2CC247FEC4600B30146 /* QuestionnaireViewController.swift */; };
+		0659D2CF247FEC5900B30146 /* QuestionnaireViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0659D2CE247FEC5900B30146 /* QuestionnaireViewController.xib */; };
+		0659D2D1247FEC7100B30146 /* QuestionnaireNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0659D2D0247FEC7100B30146 /* QuestionnaireNavigationController.swift */; };
 		0659D2D3247FEDD800B30146 /* QuestionnaireCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0659D2D2247FEDD800B30146 /* QuestionnaireCoordinator.swift */; };
 		065E263724F7E50700D2A1FE /* TermsOfServiceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065E263624F7E50700D2A1FE /* TermsOfServiceVC.swift */; };
 		065E263924F7E51500D2A1FE /* TermsOfServiceVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 065E263824F7E51500D2A1FE /* TermsOfServiceVC.xib */; };
@@ -48,8 +48,8 @@
 		066B937D24DBFEAF00949A83 /* SF-Pro-Text-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 066B937224DBFA8A00949A83 /* SF-Pro-Text-RegularItalic.otf */; };
 		066B937E24DBFEAF00949A83 /* SF-Pro-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 066B937324DBFA8A00949A83 /* SF-Pro-Text-Semibold.otf */; };
 		066B937F24DBFEAF00949A83 /* SF-Pro-Text-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 066B936824DBFA8800949A83 /* SF-Pro-Text-SemiboldItalic.otf */; };
-		0672C32B251CE1E900B88A88 /* TodayInputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0672C32A251CE1E900B88A88 /* TodayInputVC.swift */; };
-		0672C32D251CE1FB00B88A88 /* TodayInputVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0672C32C251CE1FB00B88A88 /* TodayInputVC.xib */; };
+		0672C32B251CE1E900B88A88 /* TodayInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0672C32A251CE1E900B88A88 /* TodayInputViewController.swift */; };
+		0672C32D251CE1FB00B88A88 /* TodayInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0672C32C251CE1FB00B88A88 /* TodayInputViewController.xib */; };
 		0674612924D054C5006180E5 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0674612824D054C5006180E5 /* SettingsCell.swift */; };
 		0674612B24D054DA006180E5 /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0674612A24D054DA006180E5 /* SettingsCell.xib */; };
 		0676605F248FA517009E9653 /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0676605E248FA517009E9653 /* AppFont.swift */; };
@@ -58,16 +58,16 @@
 		06768FB42535A3F700E4D350 /* HKDataUploadVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06768FB32535A3F700E4D350 /* HKDataUploadVC.xib */; };
 		0676D0122500D68700EC79E6 /* TextfieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0676D0112500D68700EC79E6 /* TextfieldView.swift */; };
 		0676D0142500D69300EC79E6 /* TextfieldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0676D0132500D69300EC79E6 /* TextfieldView.xib */; };
-		067F22DE25384F500023F0BB /* QuestionnaireCompletionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067F22DD25384F500023F0BB /* QuestionnaireCompletionVC.swift */; };
-		067F22E125384F5D0023F0BB /* QuestionnaireCompletionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 067F22E025384F5D0023F0BB /* QuestionnaireCompletionVC.xib */; };
+		067F22DE25384F500023F0BB /* QuestionnaireCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067F22DD25384F500023F0BB /* QuestionnaireCompletionViewController.swift */; };
+		067F22E125384F5D0023F0BB /* QuestionnaireCompletionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 067F22E025384F5D0023F0BB /* QuestionnaireCompletionViewController.xib */; };
 		067F22E4253861E00023F0BB /* QuestionnaireResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067F22E3253861E00023F0BB /* QuestionnaireResponseModel.swift */; };
 		06865EF72575054500F14BD6 /* DataContext+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06865EF62575054500F14BD6 /* DataContext+Logging.swift */; };
 		06865EFC2575057100F14BD6 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06865EFB2575057100F14BD6 /* LoggingManager.swift */; };
 		06865F00257505AF00F14BD6 /* DataRequest+Processing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06865EFF257505AF00F14BD6 /* DataRequest+Processing.swift */; };
 		06865F06257505E200F14BD6 /* RequestPostProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06865F05257505E200F14BD6 /* RequestPostProcessor.swift */; };
 		06865F0F25750A6200F14BD6 /* Interceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06865F0E25750A6200F14BD6 /* Interceptor.swift */; };
-		0686721F251B7C7E008E5CF5 /* TroubleshootingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0686721E251B7C7E008E5CF5 /* TroubleshootingVC.swift */; };
-		06867221251B7C99008E5CF5 /* TroubleshootingVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06867220251B7C99008E5CF5 /* TroubleshootingVC.xib */; };
+		0686721F251B7C7E008E5CF5 /* TroubleshootingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0686721E251B7C7E008E5CF5 /* TroubleshootingViewController.swift */; };
+		06867221251B7C99008E5CF5 /* TroubleshootingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06867220251B7C99008E5CF5 /* TroubleshootingViewController.xib */; };
 		069CF975252B020000921649 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069CF974252B020000921649 /* ProfileModel.swift */; };
 		069F42BE2507832C006EA077 /* SF-Pro-Text-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 069F42BD2507832C006EA077 /* SF-Pro-Text-Thin.otf */; };
 		069F42C025079C51006EA077 /* NotificationCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069F42BF25079C51006EA077 /* NotificationCardModel.swift */; };
@@ -286,13 +286,13 @@
 		0631E73C247E5E4400D88834 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		0631E749247E876600D88834 /* MeasurementCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementCardCell.swift; sourceTree = "<group>"; };
 		0631E74B247E877D00D88834 /* MeasurementCardCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeasurementCardCell.xib; sourceTree = "<group>"; };
-		06545B5C24924F9C003311E1 /* QuestionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionVC.swift; sourceTree = "<group>"; };
-		06545B5E24924FB3003311E1 /* QuestionVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionVC.xib; sourceTree = "<group>"; };
+		06545B5C24924F9C003311E1 /* QuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
+		06545B5E24924FB3003311E1 /* QuestionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionViewController.xib; sourceTree = "<group>"; };
 		0656CE62250FA0F300E457E3 /* QuestionnaireModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireModel.swift; sourceTree = "<group>"; };
 		0659BDBF2541EC3400891995 /* Ext_Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext_Array.swift; sourceTree = "<group>"; };
-		0659D2CC247FEC4600B30146 /* QuestionnaireVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireVC.swift; sourceTree = "<group>"; };
-		0659D2CE247FEC5900B30146 /* QuestionnaireVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionnaireVC.xib; sourceTree = "<group>"; };
-		0659D2D0247FEC7100B30146 /* QuestionnaireNC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireNC.swift; sourceTree = "<group>"; };
+		0659D2CC247FEC4600B30146 /* QuestionnaireViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireViewController.swift; sourceTree = "<group>"; };
+		0659D2CE247FEC5900B30146 /* QuestionnaireViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionnaireViewController.xib; sourceTree = "<group>"; };
+		0659D2D0247FEC7100B30146 /* QuestionnaireNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireNavigationController.swift; sourceTree = "<group>"; };
 		0659D2D2247FEDD800B30146 /* QuestionnaireCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireCoordinator.swift; sourceTree = "<group>"; };
 		065E263624F7E50700D2A1FE /* TermsOfServiceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceVC.swift; sourceTree = "<group>"; };
 		065E263824F7E51500D2A1FE /* TermsOfServiceVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TermsOfServiceVC.xib; sourceTree = "<group>"; };
@@ -318,8 +318,8 @@
 		066B937124DBFA8A00949A83 /* SF-Pro-Text-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Heavy.otf"; sourceTree = "<group>"; };
 		066B937224DBFA8A00949A83 /* SF-Pro-Text-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-RegularItalic.otf"; sourceTree = "<group>"; };
 		066B937324DBFA8A00949A83 /* SF-Pro-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Semibold.otf"; sourceTree = "<group>"; };
-		0672C32A251CE1E900B88A88 /* TodayInputVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayInputVC.swift; sourceTree = "<group>"; };
-		0672C32C251CE1FB00B88A88 /* TodayInputVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodayInputVC.xib; sourceTree = "<group>"; };
+		0672C32A251CE1E900B88A88 /* TodayInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayInputViewController.swift; sourceTree = "<group>"; };
+		0672C32C251CE1FB00B88A88 /* TodayInputViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodayInputViewController.xib; sourceTree = "<group>"; };
 		0674612824D054C5006180E5 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		0674612A24D054DA006180E5 /* SettingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsCell.xib; sourceTree = "<group>"; };
 		0676605E248FA517009E9653 /* AppFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
@@ -328,16 +328,16 @@
 		06768FB32535A3F700E4D350 /* HKDataUploadVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HKDataUploadVC.xib; sourceTree = "<group>"; };
 		0676D0112500D68700EC79E6 /* TextfieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextfieldView.swift; sourceTree = "<group>"; };
 		0676D0132500D69300EC79E6 /* TextfieldView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextfieldView.xib; sourceTree = "<group>"; };
-		067F22DD25384F500023F0BB /* QuestionnaireCompletionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireCompletionVC.swift; sourceTree = "<group>"; };
-		067F22E025384F5D0023F0BB /* QuestionnaireCompletionVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionnaireCompletionVC.xib; sourceTree = "<group>"; };
+		067F22DD25384F500023F0BB /* QuestionnaireCompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireCompletionViewController.swift; sourceTree = "<group>"; };
+		067F22E025384F5D0023F0BB /* QuestionnaireCompletionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionnaireCompletionViewController.xib; sourceTree = "<group>"; };
 		067F22E3253861E00023F0BB /* QuestionnaireResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireResponseModel.swift; sourceTree = "<group>"; };
 		06865EF62575054500F14BD6 /* DataContext+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataContext+Logging.swift"; sourceTree = "<group>"; };
 		06865EFB2575057100F14BD6 /* LoggingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
 		06865EFF257505AF00F14BD6 /* DataRequest+Processing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataRequest+Processing.swift"; sourceTree = "<group>"; };
 		06865F05257505E200F14BD6 /* RequestPostProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPostProcessor.swift; sourceTree = "<group>"; };
 		06865F0E25750A6200F14BD6 /* Interceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptor.swift; sourceTree = "<group>"; };
-		0686721E251B7C7E008E5CF5 /* TroubleshootingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TroubleshootingVC.swift; sourceTree = "<group>"; };
-		06867220251B7C99008E5CF5 /* TroubleshootingVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TroubleshootingVC.xib; sourceTree = "<group>"; };
+		0686721E251B7C7E008E5CF5 /* TroubleshootingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TroubleshootingViewController.swift; sourceTree = "<group>"; };
+		06867220251B7C99008E5CF5 /* TroubleshootingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TroubleshootingViewController.xib; sourceTree = "<group>"; };
 		069CF974252B020000921649 /* ProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		069F42BD2507832C006EA077 /* SF-Pro-Text-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Thin.otf"; sourceTree = "<group>"; };
 		069F42BF25079C51006EA077 /* NotificationCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCardModel.swift; sourceTree = "<group>"; };
@@ -622,33 +622,33 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		06545B5B24924F85003311E1 /* QuestionVC */ = {
+		06545B5B24924F85003311E1 /* Question */ = {
 			isa = PBXGroup;
 			children = (
-				06545B5C24924F9C003311E1 /* QuestionVC.swift */,
-				06545B5E24924FB3003311E1 /* QuestionVC.xib */,
+				06545B5C24924F9C003311E1 /* QuestionViewController.swift */,
+				06545B5E24924FB3003311E1 /* QuestionViewController.xib */,
 			);
-			path = QuestionVC;
+			path = Question;
 			sourceTree = "<group>";
 		};
 		0659D2CA247FEBFC00B30146 /* Questionnaire */ = {
 			isa = PBXGroup;
 			children = (
-				0659D2CB247FEC2A00B30146 /* QuestionnaireVC */,
-				06545B5B24924F85003311E1 /* QuestionVC */,
-				067F22DB25384F030023F0BB /* QuestionnaireCompletionVC */,
-				0659D2D0247FEC7100B30146 /* QuestionnaireNC.swift */,
+				0659D2CB247FEC2A00B30146 /* Questionnaire */,
+				06545B5B24924F85003311E1 /* Question */,
+				067F22DB25384F030023F0BB /* QuestionnaireCompletion */,
+				0659D2D0247FEC7100B30146 /* QuestionnaireNavigationController.swift */,
 			);
 			path = Questionnaire;
 			sourceTree = "<group>";
 		};
-		0659D2CB247FEC2A00B30146 /* QuestionnaireVC */ = {
+		0659D2CB247FEC2A00B30146 /* Questionnaire */ = {
 			isa = PBXGroup;
 			children = (
-				0659D2CC247FEC4600B30146 /* QuestionnaireVC.swift */,
-				0659D2CE247FEC5900B30146 /* QuestionnaireVC.xib */,
+				0659D2CC247FEC4600B30146 /* QuestionnaireViewController.swift */,
+				0659D2CE247FEC5900B30146 /* QuestionnaireViewController.xib */,
 			);
-			path = QuestionnaireVC;
+			path = Questionnaire;
 			sourceTree = "<group>";
 		};
 		065BCB592525E88900EA5918 /* Home */ = {
@@ -702,8 +702,8 @@
 		0672C329251CDF7B00B88A88 /* TodayInput */ = {
 			isa = PBXGroup;
 			children = (
-				0672C32A251CE1E900B88A88 /* TodayInputVC.swift */,
-				0672C32C251CE1FB00B88A88 /* TodayInputVC.xib */,
+				0672C32A251CE1E900B88A88 /* TodayInputViewController.swift */,
+				0672C32C251CE1FB00B88A88 /* TodayInputViewController.xib */,
 			);
 			path = TodayInput;
 			sourceTree = "<group>";
@@ -758,13 +758,13 @@
 			path = HKDataUploadVC;
 			sourceTree = "<group>";
 		};
-		067F22DB25384F030023F0BB /* QuestionnaireCompletionVC */ = {
+		067F22DB25384F030023F0BB /* QuestionnaireCompletion */ = {
 			isa = PBXGroup;
 			children = (
-				067F22DD25384F500023F0BB /* QuestionnaireCompletionVC.swift */,
-				067F22E025384F5D0023F0BB /* QuestionnaireCompletionVC.xib */,
+				067F22DD25384F500023F0BB /* QuestionnaireCompletionViewController.swift */,
+				067F22E025384F5D0023F0BB /* QuestionnaireCompletionViewController.xib */,
 			);
-			path = QuestionnaireCompletionVC;
+			path = QuestionnaireCompletion;
 			sourceTree = "<group>";
 		};
 		06865EFA2575055200F14BD6 /* Managers */ = {
@@ -779,8 +779,8 @@
 		0686721D251B776A008E5CF5 /* Troubleshooting */ = {
 			isa = PBXGroup;
 			children = (
-				0686721E251B7C7E008E5CF5 /* TroubleshootingVC.swift */,
-				06867220251B7C99008E5CF5 /* TroubleshootingVC.xib */,
+				0686721E251B7C7E008E5CF5 /* TroubleshootingViewController.swift */,
+				06867220251B7C99008E5CF5 /* TroubleshootingViewController.xib */,
 			);
 			path = Troubleshooting;
 			sourceTree = "<group>";
@@ -1460,7 +1460,7 @@
 				06B666FB24979FB5007F74E7 /* MultiPartAnswerView.xib in Resources */,
 				C4BE384524FFA01F0047AFE3 /* ResetVC.xib in Resources */,
 				066B937C24DBFEAF00949A83 /* SF-Pro-Text-Regular.otf in Resources */,
-				06867221251B7C99008E5CF5 /* TroubleshootingVC.xib in Resources */,
+				06867221251B7C99008E5CF5 /* TroubleshootingViewController.xib in Resources */,
 				12F8A2C02551A6B500E48268 /* SelectChunkSizeVC.xib in Resources */,
 				06F3A27724D98D4D006838D4 /* MyDevicesVC.xib in Resources */,
 				0676D0142500D69300EC79E6 /* TextfieldView.xib in Resources */,
@@ -1468,12 +1468,12 @@
 				06B666F72497842A007F74E7 /* AnswerView.xib in Resources */,
 				066B937624DBFEAF00949A83 /* SF-Pro-Text-Heavy.otf in Resources */,
 				8416998B25677958005EF024 /* Localizable.strings in Resources */,
-				067F22E125384F5D0023F0BB /* QuestionnaireCompletionVC.xib in Resources */,
+				067F22E125384F5D0023F0BB /* QuestionnaireCompletionViewController.xib in Resources */,
 				0674612B24D054DA006180E5 /* SettingsCell.xib in Resources */,
 				1234FDC42215C52C00E73FFF /* RegisterViewController.xib in Resources */,
 				C41146E925064EE3003C6879 /* SignupViewController.xib in Resources */,
 				066B937924DBFEAF00949A83 /* SF-Pro-Text-LightItalic.otf in Resources */,
-				0659D2CF247FEC5900B30146 /* QuestionnaireVC.xib in Resources */,
+				0659D2CF247FEC5900B30146 /* QuestionnaireViewController.xib in Resources */,
 				06A0775724FD28BC0046E691 /* AccountResetPasswordVC.xib in Resources */,
 				066B937A24DBFEAF00949A83 /* SF-Pro-Text-Medium.otf in Resources */,
 				C45CCA8F2513CBBD00288C2C /* MyProfileSecondVC.xib in Resources */,
@@ -1502,12 +1502,12 @@
 				06A0775324FCE8E60046E691 /* AccountDetailsVC.xib in Resources */,
 				066B937524DBFEAF00949A83 /* SF-Pro-Text-BoldItalic.otf in Resources */,
 				066B937D24DBFEAF00949A83 /* SF-Pro-Text-RegularItalic.otf in Resources */,
-				06545B5F24924FB3003311E1 /* QuestionVC.xib in Resources */,
+				06545B5F24924FB3003311E1 /* QuestionViewController.xib in Resources */,
 				065E263D24F7E5A200D2A1FE /* PrivacyPolicyVC.xib in Resources */,
 				06AFF5B325061EF300AAF4EC /* CoachCardView.xib in Resources */,
 				066B937724DBFEAF00949A83 /* SF-Pro-Text-HeavyItalic.otf in Resources */,
 				1234FDC82215C6A400E73FFF /* MockSplashVC.xib in Resources */,
-				0672C32D251CE1FB00B88A88 /* TodayInputVC.xib in Resources */,
+				0672C32D251CE1FB00B88A88 /* TodayInputViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1672,7 +1672,7 @@
 				84A2A18D257D882200A925FC /* OSLog+Setup.swift in Sources */,
 				06F3D20A25236CA000964261 /* CodeModel.swift in Sources */,
 				86DDD51D24D02EA000D27445 /* ProfileVC.swift in Sources */,
-				06545B5D24924F9C003311E1 /* QuestionVC.swift in Sources */,
+				06545B5D24924F9C003311E1 /* QuestionViewController.swift in Sources */,
 				06C8BF6424CEE457009F4DDF /* ResourceModel.swift in Sources */,
 				06F3A27024D9871B006838D4 /* SettingsSwitchCell.swift in Sources */,
 				1209DC9B255C308F00864A1B /* Ext_Sequence.swift in Sources */,
@@ -1742,12 +1742,12 @@
 				12BCB9EF255C12EB0098BCC2 /* StatCell.swift in Sources */,
 				84EE1E59258C50EF00326D42 /* OCKOutcomeValue+Conversion.swift in Sources */,
 				12D42D7D2226998D0039043F /* AlertHelper.swift in Sources */,
-				0659D2D1247FEC7100B30146 /* QuestionnaireNC.swift in Sources */,
+				0659D2D1247FEC7100B30146 /* QuestionnaireNavigationController.swift in Sources */,
 				06865F0F25750A6200F14BD6 /* Interceptor.swift in Sources */,
 				84EE1E55258C50EF00326D42 /* Note.swift in Sources */,
 				84D0A5EF2578970900B053B4 /* Enviornment+CareManager.swift in Sources */,
-				0672C32B251CE1E900B88A88 /* TodayInputVC.swift in Sources */,
-				067F22DE25384F500023F0BB /* QuestionnaireCompletionVC.swift in Sources */,
+				0672C32B251CE1E900B88A88 /* TodayInputViewController.swift in Sources */,
+				067F22DE25384F500023F0BB /* QuestionnaireCompletionViewController.swift in Sources */,
 				06AFF5BB25062D7A00AAF4EC /* CircleProgressBarView.swift in Sources */,
 				1234FD762215997900E73FFF /* DataContext.swift in Sources */,
 				06679ACB24DC349A004D6F24 /* MyNotificationsModel.swift in Sources */,
@@ -1778,7 +1778,7 @@
 				12D42D892226AAF60039043F /* Ext_UIColor.swift in Sources */,
 				84EE1E5F258C50EF00326D42 /* OCKPatient+Conversion.swift in Sources */,
 				12F8A2BF2551A6B500E48268 /* SelectChunkSizeVC.swift in Sources */,
-				0659D2CD247FEC4600B30146 /* QuestionnaireVC.swift in Sources */,
+				0659D2CD247FEC4600B30146 /* QuestionnaireViewController.swift in Sources */,
 				066077A924922A4100EFCE5A /* RoundedButton.swift in Sources */,
 				12D42D812226998D0039043F /* Languages.swift in Sources */,
 				1234FDC72215C6A400E73FFF /* MockSplashVC.swift in Sources */,
@@ -1798,7 +1798,7 @@
 				84EE1E00258C4FEB00326D42 /* WebService+Image.swift in Sources */,
 				124B27D2238D7500001DBC4D /* DataContext+Content.swift in Sources */,
 				C4BE384724FFA0470047AFE3 /* EmailSignInButton.swift in Sources */,
-				0686721F251B7C7E008E5CF5 /* TroubleshootingVC.swift in Sources */,
+				0686721F251B7C7E008E5CF5 /* TroubleshootingViewController.swift in Sources */,
 				1234FDC32215C52C00E73FFF /* RegisterViewController.swift in Sources */,
 				84EE1DFD258C4FEB00326D42 /* Request.swift in Sources */,
 				127C11A8222938E10093F4C0 /* KeychainConfiguration.swift in Sources */,
@@ -1995,7 +1995,7 @@
 				CODE_SIGN_ENTITLEMENTS = Alfred/Alfred.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Alfred/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -2022,7 +2022,7 @@
 				CODE_SIGN_ENTITLEMENTS = Alfred/Alfred.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Alfred/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

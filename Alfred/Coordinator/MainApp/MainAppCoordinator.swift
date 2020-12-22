@@ -122,7 +122,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func goToTroubleshooting(previewTitle: String?, title: String?, text: String?, icon: IconType?) {
-		let troubleshootingVC = TroubleshootingVC()
+		let troubleshootingVC = TroubleshootingViewController()
 
 		troubleshootingVC.titleText = title ?? ""
 		troubleshootingVC.previewTitle = previewTitle ?? ""
@@ -132,7 +132,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func goToInput(with type: InputType) {
-		let todayInputVC = TodayInputVC()
+		let todayInputVC = TodayInputViewController()
 		todayInputVC.inputType = type
 		let inputAction: ((Int?, Int?, String?, InputType) -> Void)? = { [weak self] value1, value2, effectiveDateTime, inputType in
 
@@ -466,12 +466,12 @@ extension MainAppCoordinator: UINavigationControllerDelegate {
 				viewController.navigationItem.setLeftBarButton(profileBtn, animated: true)
 			}
 
-		} else if viewController is ProfileVC || viewController is TroubleshootingVC || viewController is TodayInputVC {
+		} else if viewController is ProfileVC || viewController is TroubleshootingViewController || viewController is TodayInputViewController {
 			if viewController is ProfileVC, viewController.navigationItem.rightBarButtonItem == nil {
 				let settingsBtn = UIBarButtonItem(image: UIImage(named: "gear")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapSettings))
 				settingsBtn.tintColor = .black
 				viewController.navigationItem.setRightBarButton(settingsBtn, animated: true)
-			} else if viewController is TodayInputVC, viewController.navigationItem.rightBarButtonItem == nil {
+			} else if viewController is TodayInputViewController, viewController.navigationItem.rightBarButtonItem == nil {
 				let addBtn = UIBarButtonItem(title: Str.add, style: UIBarButtonItem.Style.plain, target: self, action: #selector(addAction))
 				addBtn.tintColor = UIColor.cursorOrange
 				viewController.navigationItem.setRightBarButton(addBtn, animated: true)

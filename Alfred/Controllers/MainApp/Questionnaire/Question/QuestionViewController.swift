@@ -6,7 +6,7 @@
 import Foundation
 import UIKit
 
-class QuestionVC: BaseViewController {
+class QuestionViewController: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	var closeAction: (() -> Void)?
@@ -185,7 +185,7 @@ class QuestionVC: BaseViewController {
 	}
 }
 
-extension QuestionVC: MultiPartAnswerViewViewDelegate {
+extension QuestionViewController: MultiPartAnswerViewViewDelegate {
 	func didSelect(selectedAnswerId: String, questionPartId: String) {
 		onQuestionPartAnsweredAction?(selectedAnswerId, questionPartId)
 	}
