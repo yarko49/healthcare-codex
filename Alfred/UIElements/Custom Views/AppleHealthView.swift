@@ -15,6 +15,7 @@ class AppleHealthView: UIView {
 
 	var title: String = ""
 	var descr: String = ""
+	var image: String = ""
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -24,10 +25,11 @@ class AppleHealthView: UIView {
 		super.init(coder: aDecoder)
 	}
 
-	convenience init(title: String, descr: String) { // used to be : String
+	convenience init(title: String, descr: String, image: String) {
 		self.init(frame: CGRect.zero)
 		self.title = title
 		self.descr = descr
+		self.image = image
 		commonInit()
 	}
 
@@ -40,5 +42,8 @@ class AppleHealthView: UIView {
 	func setup() { // used to be private
 		titleLbl.attributedText = title.with(style: .bold20, andColor: .black, andLetterSpacing: 0.36)
 		descLbl.attributedText = descr.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.32)
+		if image != "" {
+			ovalImg.image = UIImage(named: image)
+		}
 	}
 }

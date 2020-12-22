@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AppleHealthVC" customModule="alfred_ios" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AppleHealthVC" customModule="Alfred" customModuleProvider="target">
             <connections>
                 <outlet property="bottomView" destination="AA1-7o-o1h" id="wxQ-5Y-u1J"/>
                 <outlet property="leftBtn" destination="Kub-vH-6s0" id="xet-St-Lmu"/>
@@ -29,14 +29,14 @@
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="UcA-v1-O19">
                     <rect key="frame" x="40" y="788" width="334" height="44"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kub-vH-6s0">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kub-vH-6s0">
                             <rect key="frame" x="0.0" y="0.0" width="150" height="44"/>
                             <state key="normal" title="Button"/>
                             <connections>
                                 <action selector="notNowTapped:" destination="-1" eventType="touchUpInside" id="SQJ-0b-tZb"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Cy-DH-fcB">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Cy-DH-fcB">
                             <rect key="frame" x="184" y="0.0" width="150" height="44"/>
                             <state key="normal" title="Button"/>
                             <connections>
@@ -51,7 +51,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AA1-7o-o1h">
                     <rect key="frame" x="0.0" y="802" width="414" height="94"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Saz-TP-8ah" customClass="BottomButton" customModule="alfred_ios" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Saz-TP-8ah" customClass="BottomButton" customModule="Alfred" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="SG9-rJ-xr9"/>
@@ -59,7 +59,7 @@
                             <state key="normal" title="Button"/>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstItem="Saz-TP-8ah" firstAttribute="leading" secondItem="AA1-7o-o1h" secondAttribute="leading" id="0lJ-nJ-SAa"/>
                         <constraint firstItem="Saz-TP-8ah" firstAttribute="top" secondItem="AA1-7o-o1h" secondAttribute="top" id="8hf-JJ-fbk"/>
@@ -67,6 +67,7 @@
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="tUd-wx-bSH"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="tUd-wx-bSH" firstAttribute="bottom" secondItem="Saz-TP-8ah" secondAttribute="bottom" id="BoP-jJ-UMb"/>
@@ -81,8 +82,17 @@
                 <constraint firstItem="boc-7w-1tn" firstAttribute="top" secondItem="isl-jc-iAr" secondAttribute="top" constant="50" id="q1x-iU-CUt"/>
                 <constraint firstItem="AA1-7o-o1h" firstAttribute="leading" secondItem="isl-jc-iAr" secondAttribute="leading" id="yjl-zb-7Oy"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="tUd-wx-bSH"/>
             <point key="canvasLocation" x="-168.11594202898553" y="-121.20535714285714"/>
         </view>
     </objects>
+    <designables>
+        <designable name="Saz-TP-8ah">
+            <size key="intrinsicContentSize" width="46" height="30"/>
+        </designable>
+    </designables>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
