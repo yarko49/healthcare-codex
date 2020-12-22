@@ -10,7 +10,7 @@
 		060F9D3024D828CB0010ADB6 /* SettingsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060F9D2F24D828CB0010ADB6 /* SettingsFooterView.swift */; };
 		060F9D3224D829210010ADB6 /* SettingsFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 060F9D3124D829210010ADB6 /* SettingsFooterView.xib */; };
 		060F9D3424D84C520010ADB6 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060F9D3324D84C520010ADB6 /* SettingsModel.swift */; };
-		0626CACC24C5C1E20069D859 /* HealthKitToFhir in Frameworks */ = {isa = PBXBuildFile; productRef = 0626CACB24C5C1E20069D859 /* HealthKitToFhir */; };
+		0626CACC24C5C1E20069D859 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 0626CACB24C5C1E20069D859 /* SwiftPackageProductDependency */; };
 		0630C8EB258B884000C8C1F5 /* Ext_NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0630C8EA258B884000C8C1F5 /* Ext_NotificationName.swift */; };
 		0631E73A247E5D1400D88834 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0631E739247E5D1400D88834 /* HealthKitManager.swift */; };
 		0631E73D247E5E4400D88834 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0631E73C247E5E4400D88834 /* HealthKit.framework */; };
@@ -143,22 +143,25 @@
 		462A9E1C252A5E04006B8715 /* Ext_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462A9E1B252A5E04006B8715 /* Ext_String.swift */; };
 		46BAA49025430A7B00C94AC2 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BAA48F25430A7B00C94AC2 /* Gender.swift */; };
 		46BAA49225432EE500C94AC2 /* UpdatePatientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BAA49125432EE500C94AC2 /* UpdatePatientModel.swift */; };
+		71444A20413FC6540C9E1D16 /* Pods_AlfredTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA8463C105A889BC7DEEC34F /* Pods_AlfredTests.framework */; };
 		840A9CB82571F9CE00540133 /* DataContext+Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840A9CB72571F9CE00540133 /* DataContext+Fetch.swift */; };
 		8416998B25677958005EF024 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8416998925677958005EF024 /* Localizable.strings */; };
 		8436019B25678D7B000B4C55 /* Environment+StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8436019A25678D7B000B4C55 /* Environment+StoreManager.swift */; };
+		84424781258C7C7500B9FA70 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84424780258C7C7400B9FA70 /* SceneDelegate.swift */; };
+		84424785258C806300B9FA70 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 84424784258C806300B9FA70 /* SwiftPackageProductDependency */; };
 		8453CF1F256CD79500A3E6F0 /* CareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453CF1E256CD79500A3E6F0 /* CareManager.swift */; };
 		84624CCF2571F6F400E18019 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84624CCE2571F6F400E18019 /* SyncManager.swift */; };
 		8468B0D3256C679000202A16 /* AlfrediOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468B0D2256C679000202A16 /* AlfrediOSTests.swift */; };
 		8468B0DD256C67B100202A16 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468B0DC256C67B100202A16 /* URLProtocolMock.swift */; };
-		84937E7D25831B9B001DB541 /* BonMot in Frameworks */ = {isa = PBXBuildFile; productRef = 84937E7C25831B9B001DB541 /* BonMot */; };
-		84938023258326C4001DB541 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 84938022258326C4001DB541 /* Charts */; };
-		8493806A258327DB001DB541 /* UIColor_Hex_Swift in Frameworks */ = {isa = PBXBuildFile; productRef = 84938069258327DB001DB541 /* UIColor_Hex_Swift */; };
-		8493808C2583291D001DB541 /* EasyPeasy in Frameworks */ = {isa = PBXBuildFile; productRef = 8493808B2583291D001DB541 /* EasyPeasy */; };
-		84938123258330F0001DB541 /* FirebaseInstallations in Frameworks */ = {isa = PBXBuildFile; productRef = 84938122258330F0001DB541 /* FirebaseInstallations */; };
-		84938125258330F0001DB541 /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 84938124258330F0001DB541 /* FirebaseFirestoreSwift-Beta */; };
-		84938127258330F0001DB541 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 84938126258330F0001DB541 /* FirebaseCrashlytics */; };
-		84938129258330F0001DB541 /* GoogleUtilities_UserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 84938128258330F0001DB541 /* GoogleUtilities_UserDefaults */; };
-		8493812B258330F0001DB541 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8493812A258330F0001DB541 /* FirebaseAuth */; };
+		84937E7D25831B9B001DB541 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 84937E7C25831B9B001DB541 /* SwiftPackageProductDependency */; };
+		84938023258326C4001DB541 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 84938022258326C4001DB541 /* SwiftPackageProductDependency */; };
+		8493806A258327DB001DB541 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 84938069258327DB001DB541 /* SwiftPackageProductDependency */; };
+		8493808C2583291D001DB541 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 8493808B2583291D001DB541 /* SwiftPackageProductDependency */; };
+		84938123258330F0001DB541 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 84938122258330F0001DB541 /* SwiftPackageProductDependency */; };
+		84938125258330F0001DB541 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 84938124258330F0001DB541 /* SwiftPackageProductDependency */; };
+		84938127258330F0001DB541 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 84938126258330F0001DB541 /* SwiftPackageProductDependency */; };
+		84938129258330F0001DB541 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 84938128258330F0001DB541 /* SwiftPackageProductDependency */; };
+		8493812B258330F0001DB541 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 8493812A258330F0001DB541 /* SwiftPackageProductDependency */; };
 		84A2A18D257D882200A925FC /* OSLog+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A18C257D882200A925FC /* OSLog+Setup.swift */; };
 		84A2A218257DE5F300A925FC /* DateFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A217257DE5F300A925FC /* DateFormatterTests.swift */; };
 		84D0A5EF2578970900B053B4 /* Enviornment+CareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0A5EE2578970900B053B4 /* Enviornment+CareManager.swift */; };
@@ -200,18 +203,19 @@
 		84EE1E5E258C50EF00326D42 /* ScheduleElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1F1257DBD9200A925FC /* ScheduleElement.swift */; };
 		84EE1E5F258C50EF00326D42 /* OCKPatient+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A547257F2CE500A925FC /* OCKPatient+Conversion.swift */; };
 		84EE1E60258C50EF00326D42 /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A1BC257D8F6800A925FC /* Patient.swift */; };
-		84EE1E83258C526C00326D42 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 84EE1E82258C526C00326D42 /* Alamofire */; };
-		84EE1E87258C528A00326D42 /* CodableAlamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 84EE1E86258C528A00326D42 /* CodableAlamofire */; };
-		84EE1E8C258C52E700326D42 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 84EE1E8B258C52E700326D42 /* CareKitFHIR */; };
-		84EE1E8E258C52E700326D42 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 84EE1E8D258C52E700326D42 /* CareKit */; };
-		84EE1E90258C52E700326D42 /* CareKitStore in Frameworks */ = {isa = PBXBuildFile; productRef = 84EE1E8F258C52E700326D42 /* CareKitStore */; };
-		84EE1E92258C52E700326D42 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 84EE1E91258C52E700326D42 /* CareKitUI */; };
+		84EE1E83258C526C00326D42 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 84EE1E82258C526C00326D42 /* SwiftPackageProductDependency */; };
+		84EE1E87258C528A00326D42 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 84EE1E86258C528A00326D42 /* SwiftPackageProductDependency */; };
+		84EE1E8C258C52E700326D42 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 84EE1E8B258C52E700326D42 /* SwiftPackageProductDependency */; };
+		84EE1E8E258C52E700326D42 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 84EE1E8D258C52E700326D42 /* SwiftPackageProductDependency */; };
+		84EE1E90258C52E700326D42 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 84EE1E8F258C52E700326D42 /* SwiftPackageProductDependency */; };
+		84EE1E92258C52E700326D42 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 84EE1E91258C52E700326D42 /* SwiftPackageProductDependency */; };
 		84EEA5EA258314CD00473CAE /* ValueSpaceResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84EEA5E9258314CD00473CAE /* ValueSpaceResponse.json */; };
 		86A38FD424D1B74D000E9E3F /* Ext_Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A38FD324D1B74D000E9E3F /* Ext_Double.swift */; };
 		86DDD51D24D02EA000D27445 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DDD51C24D02EA000D27445 /* ProfileVC.swift */; };
 		86DDD51F24D02EAC00D27445 /* ProfileVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86DDD51E24D02EAC00D27445 /* ProfileVC.xib */; };
 		86DDD52124D03C8100D27445 /* Ext_DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DDD52024D03C8100D27445 /* Ext_DateFormatter.swift */; };
 		86DDD52824D1617500D27445 /* HealthKitQuantityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DDD52724D1617500D27445 /* HealthKitQuantityType.swift */; };
+		919D6CFF3DC1AE8C7E133A1B /* Pods_Alfred.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 233C3E1C94950903DFAAB6ED /* Pods_Alfred.framework */; };
 		C4112E4E253F167000C52C1C /* ComingFrom.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4112E4D253F167000C52C1C /* ComingFrom.swift */; };
 		C41134492507CF8700CD5C41 /* ResetMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41134472507CF8700CD5C41 /* ResetMessageVC.swift */; };
 		C411344A2507CF8700CD5C41 /* ResetMessageVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C41134482507CF8700CD5C41 /* ResetMessageVC.xib */; };
@@ -412,6 +416,7 @@
 		12F8A2BE2551A6B500E48268 /* SelectChunkSizeVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectChunkSizeVC.xib; sourceTree = "<group>"; };
 		1E98BA052D617B44A2026976 /* Pods-AlfredTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlfredTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlfredTests/Pods-AlfredTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1EE153EC9524247AAA65AF61 /* Pods-Alfred.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alfred.release.xcconfig"; path = "Pods/Target Support Files/Pods-Alfred/Pods-Alfred.release.xcconfig"; sourceTree = "<group>"; };
+		233C3E1C94950903DFAAB6ED /* Pods_Alfred.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Alfred.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		462A9E1B252A5E04006B8715 /* Ext_String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext_String.swift; sourceTree = "<group>"; };
 		46BAA48F25430A7B00C94AC2 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 		46BAA49125432EE500C94AC2 /* UpdatePatientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePatientModel.swift; sourceTree = "<group>"; };
@@ -421,6 +426,7 @@
 		8439695325806D8500377AB6 /* OCKNote+Conversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKNote+Conversion.swift"; sourceTree = "<group>"; };
 		8439695D2580825B00377AB6 /* OCKTask+Conversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKTask+Conversion.swift"; sourceTree = "<group>"; };
 		84396979258083AA00377AB6 /* OCKOutcomeValue+Conversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKOutcomeValue+Conversion.swift"; sourceTree = "<group>"; };
+		84424780258C7C7400B9FA70 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		844BECB92586C97300B17803 /* WebService+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebService+Image.swift"; sourceTree = "<group>"; };
 		8453CF1A256CD15300A3E6F0 /* RemoteSynchronizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSynchronizationManager.swift; sourceTree = "<group>"; };
 		8453CF1E256CD79500A3E6F0 /* CareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareManager.swift; sourceTree = "<group>"; };
@@ -472,6 +478,7 @@
 		86DDD52024D03C8100D27445 /* Ext_DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext_DateFormatter.swift; sourceTree = "<group>"; };
 		86DDD52724D1617500D27445 /* HealthKitQuantityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitQuantityType.swift; sourceTree = "<group>"; };
 		911F48065282A58AA6908117 /* Pods-AlfredTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlfredTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlfredTests/Pods-AlfredTests.release.xcconfig"; sourceTree = "<group>"; };
+		BA8463C105A889BC7DEEC34F /* Pods_AlfredTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlfredTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDA230E9946B0F497EF8F631 /* Pods-Alfred.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alfred.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Alfred/Pods-Alfred.debug.xcconfig"; sourceTree = "<group>"; };
 		C4112E4D253F167000C52C1C /* ComingFrom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingFrom.swift; sourceTree = "<group>"; };
 		C41134472507CF8700CD5C41 /* ResetMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetMessageVC.swift; sourceTree = "<group>"; };
@@ -514,23 +521,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84937E7D25831B9B001DB541 /* BonMot in Frameworks */,
-				84938023258326C4001DB541 /* Charts in Frameworks */,
-				8493808C2583291D001DB541 /* EasyPeasy in Frameworks */,
-				84938125258330F0001DB541 /* FirebaseFirestoreSwift-Beta in Frameworks */,
-				84EE1E90258C52E700326D42 /* CareKitStore in Frameworks */,
-				8493812B258330F0001DB541 /* FirebaseAuth in Frameworks */,
-				0626CACC24C5C1E20069D859 /* HealthKitToFhir in Frameworks */,
-				84EE1E87258C528A00326D42 /* CodableAlamofire in Frameworks */,
-				84938129258330F0001DB541 /* GoogleUtilities_UserDefaults in Frameworks */,
+				84937E7D25831B9B001DB541 /* BuildFile in Frameworks */,
+				84938023258326C4001DB541 /* BuildFile in Frameworks */,
+				8493808C2583291D001DB541 /* BuildFile in Frameworks */,
+				84938125258330F0001DB541 /* BuildFile in Frameworks */,
+				84EE1E90258C52E700326D42 /* BuildFile in Frameworks */,
+				8493812B258330F0001DB541 /* BuildFile in Frameworks */,
+				0626CACC24C5C1E20069D859 /* BuildFile in Frameworks */,
+				84EE1E87258C528A00326D42 /* BuildFile in Frameworks */,
+				84938129258330F0001DB541 /* BuildFile in Frameworks */,
 				0631E73D247E5E4400D88834 /* HealthKit.framework in Frameworks */,
-				84EE1E8E258C52E700326D42 /* CareKit in Frameworks */,
-				8493806A258327DB001DB541 /* UIColor_Hex_Swift in Frameworks */,
-				84938127258330F0001DB541 /* FirebaseCrashlytics in Frameworks */,
-				84EE1E92258C52E700326D42 /* CareKitUI in Frameworks */,
-				84938123258330F0001DB541 /* FirebaseInstallations in Frameworks */,
-				84EE1E8C258C52E700326D42 /* CareKitFHIR in Frameworks */,
-				84EE1E83258C526C00326D42 /* Alamofire in Frameworks */,
+				84EE1E8E258C52E700326D42 /* BuildFile in Frameworks */,
+				8493806A258327DB001DB541 /* BuildFile in Frameworks */,
+				84938127258330F0001DB541 /* BuildFile in Frameworks */,
+				84EE1E92258C52E700326D42 /* BuildFile in Frameworks */,
+				84938123258330F0001DB541 /* BuildFile in Frameworks */,
+				84EE1E8C258C52E700326D42 /* BuildFile in Frameworks */,
+				84424785258C806300B9FA70 /* BuildFile in Frameworks */,
+				84EE1E83258C526C00326D42 /* BuildFile in Frameworks */,
+				919D6CFF3DC1AE8C7E133A1B /* Pods_Alfred.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -538,6 +547,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71444A20413FC6540C9E1D16 /* Pods_AlfredTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -863,6 +873,7 @@
 			children = (
 				0631E73B247E5E4400D88834 /* Alfred.entitlements */,
 				1234FD552215884400E73FFF /* AppDelegate.swift */,
+				84424780258C7C7400B9FA70 /* SceneDelegate.swift */,
 				1234FD612215884700E73FFF /* Info.plist */,
 				84EE1E2B258C507D00326D42 /* Shared */,
 				8436019525678AD6000B4C55 /* CareKit */,
@@ -1091,6 +1102,8 @@
 			isa = PBXGroup;
 			children = (
 				0631E73C247E5E4400D88834 /* HealthKit.framework */,
+				233C3E1C94950903DFAAB6ED /* Pods_Alfred.framework */,
+				BA8463C105A889BC7DEEC34F /* Pods_AlfredTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1105,6 +1118,13 @@
 				8453CF27256DB9A300A3E6F0 /* Model */,
 			);
 			path = CareKit;
+			sourceTree = "<group>";
+		};
+		844247CF258E85A300B9FA70 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		8453CF27256DB9A300A3E6F0 /* Model */ = {
@@ -1164,6 +1184,7 @@
 		84EE1E2B258C507D00326D42 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				844247CF258E85A300B9FA70 /* Views */,
 				84BF9DCC258C7860006D84C6 /* ViewControllers */,
 				84A2A18C257D882200A925FC /* OSLog+Setup.swift */,
 				84A2A4F5257F0B0000A925FC /* AlfredJSONDecoder.swift */,
@@ -1329,22 +1350,23 @@
 			);
 			name = Alfred;
 			packageProductDependencies = (
-				0626CACB24C5C1E20069D859 /* HealthKitToFhir */,
-				84937E7C25831B9B001DB541 /* BonMot */,
-				84938022258326C4001DB541 /* Charts */,
-				84938069258327DB001DB541 /* UIColor_Hex_Swift */,
-				8493808B2583291D001DB541 /* EasyPeasy */,
-				84938122258330F0001DB541 /* FirebaseInstallations */,
-				84938124258330F0001DB541 /* FirebaseFirestoreSwift-Beta */,
-				84938126258330F0001DB541 /* FirebaseCrashlytics */,
-				84938128258330F0001DB541 /* GoogleUtilities_UserDefaults */,
-				8493812A258330F0001DB541 /* FirebaseAuth */,
-				84EE1E82258C526C00326D42 /* Alamofire */,
-				84EE1E86258C528A00326D42 /* CodableAlamofire */,
-				84EE1E8B258C52E700326D42 /* CareKitFHIR */,
-				84EE1E8D258C52E700326D42 /* CareKit */,
-				84EE1E8F258C52E700326D42 /* CareKitStore */,
-				84EE1E91258C52E700326D42 /* CareKitUI */,
+				0626CACB24C5C1E20069D859 /* SwiftPackageProductDependency */,
+				84937E7C25831B9B001DB541 /* SwiftPackageProductDependency */,
+				84938022258326C4001DB541 /* SwiftPackageProductDependency */,
+				84938069258327DB001DB541 /* SwiftPackageProductDependency */,
+				8493808B2583291D001DB541 /* SwiftPackageProductDependency */,
+				84938122258330F0001DB541 /* SwiftPackageProductDependency */,
+				84938124258330F0001DB541 /* SwiftPackageProductDependency */,
+				84938126258330F0001DB541 /* SwiftPackageProductDependency */,
+				84938128258330F0001DB541 /* SwiftPackageProductDependency */,
+				8493812A258330F0001DB541 /* SwiftPackageProductDependency */,
+				84EE1E82258C526C00326D42 /* SwiftPackageProductDependency */,
+				84EE1E86258C528A00326D42 /* SwiftPackageProductDependency */,
+				84EE1E8B258C52E700326D42 /* SwiftPackageProductDependency */,
+				84EE1E8D258C52E700326D42 /* SwiftPackageProductDependency */,
+				84EE1E8F258C52E700326D42 /* SwiftPackageProductDependency */,
+				84EE1E91258C52E700326D42 /* SwiftPackageProductDependency */,
+				84424784258C806300B9FA70 /* SwiftPackageProductDependency */,
 			);
 			productName = "alfred-ios";
 			productReference = 1234FD522215884400E73FFF /* Alfred.app */;
@@ -1399,15 +1421,16 @@
 			);
 			mainGroup = 1234FD492215884400E73FFF;
 			packageReferences = (
-				0626CACA24C5C1E20069D859 /* XCRemoteSwiftPackageReference "healthkit-to-fhir" */,
-				84937E7B25831B9B001DB541 /* XCRemoteSwiftPackageReference "BonMot" */,
-				84938021258326C4001DB541 /* XCRemoteSwiftPackageReference "Charts" */,
-				84938068258327DB001DB541 /* XCRemoteSwiftPackageReference "UIColor-Hex-Swift" */,
-				8493808A2583291D001DB541 /* XCRemoteSwiftPackageReference "EasyPeasy" */,
-				84938121258330F0001DB541 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				84EE1E81258C526B00326D42 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				84EE1E85258C528A00326D42 /* XCRemoteSwiftPackageReference "CodableAlamofire" */,
-				84EE1E8A258C52E700326D42 /* XCRemoteSwiftPackageReference "CareKit" */,
+				0626CACA24C5C1E20069D859 /* RemoteSwiftPackageReference */,
+				84937E7B25831B9B001DB541 /* RemoteSwiftPackageReference */,
+				84938021258326C4001DB541 /* RemoteSwiftPackageReference */,
+				84938068258327DB001DB541 /* RemoteSwiftPackageReference */,
+				8493808A2583291D001DB541 /* RemoteSwiftPackageReference */,
+				84938121258330F0001DB541 /* RemoteSwiftPackageReference */,
+				84EE1E81258C526B00326D42 /* RemoteSwiftPackageReference */,
+				84EE1E85258C528A00326D42 /* RemoteSwiftPackageReference */,
+				84EE1E8A258C52E700326D42 /* RemoteSwiftPackageReference */,
+				84424783258C806300B9FA70 /* RemoteSwiftPackageReference */,
 			);
 			productRefGroup = 1234FD532215884400E73FFF /* Products */;
 			projectDirPath = "";
@@ -1775,6 +1798,7 @@
 				1234FDC32215C52C00E73FFF /* RegisterVC.swift in Sources */,
 				84EE1DFD258C4FEB00326D42 /* Request.swift in Sources */,
 				127C11A8222938E10093F4C0 /* KeychainConfiguration.swift in Sources */,
+				84424781258C7C7500B9FA70 /* SceneDelegate.swift in Sources */,
 				12AFAC1A255A764900BC2468 /* TodayStatCell.swift in Sources */,
 				06F3D2062523672F00964261 /* BundleModel.swift in Sources */,
 				C41134492507CF8700CD5C41 /* ResetMessageVC.swift in Sources */,
@@ -2090,7 +2114,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0626CACA24C5C1E20069D859 /* XCRemoteSwiftPackageReference "healthkit-to-fhir" */ = {
+		0626CACA24C5C1E20069D859 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/microsoft/healthkit-to-fhir";
 			requirement = {
@@ -2098,7 +2122,15 @@
 				minimumVersion = 1.0.1;
 			};
 		};
-		84937E7B25831B9B001DB541 /* XCRemoteSwiftPackageReference "BonMot" */ = {
+		84424783258C806300B9FA70 /* RemoteSwiftPackageReference */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JonasGessner/JGProgressHUD.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.0;
+			};
+		};
+		84937E7B25831B9B001DB541 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Rightpoint/BonMot";
 			requirement = {
@@ -2106,7 +2138,7 @@
 				minimumVersion = 5.6.0;
 			};
 		};
-		84938021258326C4001DB541 /* XCRemoteSwiftPackageReference "Charts" */ = {
+		84938021258326C4001DB541 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielgindi/Charts.git";
 			requirement = {
@@ -2114,7 +2146,7 @@
 				minimumVersion = 3.0.0;
 			};
 		};
-		84938068258327DB001DB541 /* XCRemoteSwiftPackageReference "UIColor-Hex-Swift" */ = {
+		84938068258327DB001DB541 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/yeahdongcn/UIColor-Hex-Swift";
 			requirement = {
@@ -2122,7 +2154,7 @@
 				minimumVersion = 5.1.1;
 			};
 		};
-		8493808A2583291D001DB541 /* XCRemoteSwiftPackageReference "EasyPeasy" */ = {
+		8493808A2583291D001DB541 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nakiostudio/EasyPeasy";
 			requirement = {
@@ -2130,7 +2162,7 @@
 				minimumVersion = 1.9.2;
 			};
 		};
-		84938121258330F0001DB541 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		84938121258330F0001DB541 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
@@ -2138,7 +2170,7 @@
 				minimumVersion = 7.3.0;
 			};
 		};
-		84EE1E81258C526B00326D42 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		84EE1E81258C526B00326D42 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -2146,7 +2178,7 @@
 				minimumVersion = 5.4.0;
 			};
 		};
-		84EE1E85258C528A00326D42 /* XCRemoteSwiftPackageReference "CodableAlamofire" */ = {
+		84EE1E85258C528A00326D42 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Otbivnoe/CodableAlamofire.git";
 			requirement = {
@@ -2154,7 +2186,7 @@
 				minimumVersion = 1.2.1;
 			};
 		};
-		84EE1E8A258C52E700326D42 /* XCRemoteSwiftPackageReference "CareKit" */ = {
+		84EE1E8A258C52E700326D42 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/carekit-apple/CareKit.git";
 			requirement = {
@@ -2165,84 +2197,89 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0626CACB24C5C1E20069D859 /* HealthKitToFhir */ = {
+		0626CACB24C5C1E20069D859 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0626CACA24C5C1E20069D859 /* XCRemoteSwiftPackageReference "healthkit-to-fhir" */;
+			package = 0626CACA24C5C1E20069D859 /* RemoteSwiftPackageReference */;
 			productName = HealthKitToFhir;
 		};
-		84937E7C25831B9B001DB541 /* BonMot */ = {
+		84424784258C806300B9FA70 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84937E7B25831B9B001DB541 /* XCRemoteSwiftPackageReference "BonMot" */;
+			package = 84424783258C806300B9FA70 /* RemoteSwiftPackageReference */;
+			productName = JGProgressHUD;
+		};
+		84937E7C25831B9B001DB541 /* SwiftPackageProductDependency */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84937E7B25831B9B001DB541 /* RemoteSwiftPackageReference */;
 			productName = BonMot;
 		};
-		84938022258326C4001DB541 /* Charts */ = {
+		84938022258326C4001DB541 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84938021258326C4001DB541 /* XCRemoteSwiftPackageReference "Charts" */;
+			package = 84938021258326C4001DB541 /* RemoteSwiftPackageReference */;
 			productName = Charts;
 		};
-		84938069258327DB001DB541 /* UIColor_Hex_Swift */ = {
+		84938069258327DB001DB541 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84938068258327DB001DB541 /* XCRemoteSwiftPackageReference "UIColor-Hex-Swift" */;
+			package = 84938068258327DB001DB541 /* RemoteSwiftPackageReference */;
 			productName = UIColor_Hex_Swift;
 		};
-		8493808B2583291D001DB541 /* EasyPeasy */ = {
+		8493808B2583291D001DB541 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8493808A2583291D001DB541 /* XCRemoteSwiftPackageReference "EasyPeasy" */;
+			package = 8493808A2583291D001DB541 /* RemoteSwiftPackageReference */;
 			productName = EasyPeasy;
 		};
-		84938122258330F0001DB541 /* FirebaseInstallations */ = {
+		84938122258330F0001DB541 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84938121258330F0001DB541 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 84938121258330F0001DB541 /* RemoteSwiftPackageReference */;
 			productName = FirebaseInstallations;
 		};
-		84938124258330F0001DB541 /* FirebaseFirestoreSwift-Beta */ = {
+		84938124258330F0001DB541 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84938121258330F0001DB541 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 84938121258330F0001DB541 /* RemoteSwiftPackageReference */;
 			productName = "FirebaseFirestoreSwift-Beta";
 		};
-		84938126258330F0001DB541 /* FirebaseCrashlytics */ = {
+		84938126258330F0001DB541 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84938121258330F0001DB541 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 84938121258330F0001DB541 /* RemoteSwiftPackageReference */;
 			productName = FirebaseCrashlytics;
 		};
-		84938128258330F0001DB541 /* GoogleUtilities_UserDefaults */ = {
+		84938128258330F0001DB541 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84938121258330F0001DB541 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 84938121258330F0001DB541 /* RemoteSwiftPackageReference */;
 			productName = GoogleUtilities_UserDefaults;
 		};
-		8493812A258330F0001DB541 /* FirebaseAuth */ = {
+		8493812A258330F0001DB541 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84938121258330F0001DB541 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 84938121258330F0001DB541 /* RemoteSwiftPackageReference */;
 			productName = FirebaseAuth;
 		};
-		84EE1E82258C526C00326D42 /* Alamofire */ = {
+		84EE1E82258C526C00326D42 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84EE1E81258C526B00326D42 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = 84EE1E81258C526B00326D42 /* RemoteSwiftPackageReference */;
 			productName = Alamofire;
 		};
-		84EE1E86258C528A00326D42 /* CodableAlamofire */ = {
+		84EE1E86258C528A00326D42 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84EE1E85258C528A00326D42 /* XCRemoteSwiftPackageReference "CodableAlamofire" */;
+			package = 84EE1E85258C528A00326D42 /* RemoteSwiftPackageReference */;
 			productName = CodableAlamofire;
 		};
-		84EE1E8B258C52E700326D42 /* CareKitFHIR */ = {
+		84EE1E8B258C52E700326D42 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84EE1E8A258C52E700326D42 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 84EE1E8A258C52E700326D42 /* RemoteSwiftPackageReference */;
 			productName = CareKitFHIR;
 		};
-		84EE1E8D258C52E700326D42 /* CareKit */ = {
+		84EE1E8D258C52E700326D42 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84EE1E8A258C52E700326D42 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 84EE1E8A258C52E700326D42 /* RemoteSwiftPackageReference */;
 			productName = CareKit;
 		};
-		84EE1E8F258C52E700326D42 /* CareKitStore */ = {
+		84EE1E8F258C52E700326D42 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84EE1E8A258C52E700326D42 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 84EE1E8A258C52E700326D42 /* RemoteSwiftPackageReference */;
 			productName = CareKitStore;
 		};
-		84EE1E91258C52E700326D42 /* CareKitUI */ = {
+		84EE1E91258C52E700326D42 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84EE1E8A258C52E700326D42 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 84EE1E8A258C52E700326D42 /* RemoteSwiftPackageReference */;
 			productName = CareKitUI;
 		};
 /* End XCSwiftPackageProductDependency section */

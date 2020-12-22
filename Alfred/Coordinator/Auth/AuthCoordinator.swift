@@ -3,6 +3,7 @@ import CryptoKit
 import FirebaseAuth
 import GoogleSignIn
 import HealthKit
+import JGProgressHUD
 import LocalAuthentication
 import os.log
 import UIKit
@@ -35,6 +36,10 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 
 		start()
 	}
+
+	internal lazy var hud: JGProgressHUD = {
+		AlertHelper.progressHUD
+	}()
 
 	internal func start() {
 		showOnboarding()
@@ -79,7 +84,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func goToSignInWithEmail(email: String, password: String) {
-		AlertHelper.showLoader()
+		hud.show(in: AppDelegate.primaryWindow, animated: true)
 		emailrequest = email
 		Auth.auth().tenantID = AppConfig.tenantID
 		Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
@@ -101,13 +106,13 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func resetPassword(email: String?) {
-		AlertHelper.showSendLoader()
-		Auth.auth().sendPasswordReset(withEmail: email ?? "") { error in
+		hud.show(in: AppDelegate.primaryWindow)
+		Auth.auth().sendPasswordReset(withEmail: email ?? "") { [weak self] error in
+			self?.hud.dismiss(animated: true)
 			if error != nil {
 				AlertHelper.showAlert(title: Str.error, detailText: Str.invalidEmail, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			} else {
-				AlertHelper.hideLoader()
-				self.goToResetMessage()
+				self?.goToResetMessage()
 			}
 		}
 	}
@@ -130,9 +135,9 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			return
 		}
 
-		AlertHelper.showLoader()
+		hud.show(in: AppDelegate.primaryWindow, animated: true)
 		DataContext.shared.fetchData(user: user, completion: { [weak self] success in
-			AlertHelper.hideLoader()
+			self?.hud.dismiss(animated: true)
 			if success {
 				DataContext.shared.identifyCrashlytics()
 				self?.getProfile()
@@ -143,9 +148,9 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func getProfile() {
-		AlertHelper.showLoader()
+		hud.show(in: AppDelegate.primaryWindow, animated: true)
 		DataContext.shared.getProfileAPI { [weak self] success in
-			AlertHelper.hideLoader()
+			self?.hud.dismiss(animated: true)
 			if success {
 				if DataContext.shared.signUpCompleted {
 					self?.goToHealthKitAuthorization()
@@ -228,9 +233,10 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func goToSignUpWithEP(email: String, password: String) {
-		AlertHelper.showLoader()
+		hud.show(in: AppDelegate.primaryWindow, animated: true)
 		Auth.auth().tenantID = AppConfig.tenantID
 		Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
+			self?.hud.dismiss()
 			if let error = error {
 				os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.signUpFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
@@ -390,13 +396,13 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func patientAPI(patient: Resource, weight: Int, height: Int, date: String) {
-		AlertHelper.showLoader()
+		hud.show(in: AppDelegate.primaryWindow, animated: true)
 		guard DataContext.shared.userModel == nil else {
 			getHeightWeight(weight: weight, height: height, date: date)
 			return
 		}
 		DataContext.shared.postPatient(patient: patient) { [weak self] patientResponse in
-			AlertHelper.hideLoader()
+			self?.hud.dismiss(animated: true)
 			DataContext.shared.patient = patient
 
 			if patientResponse != nil {
@@ -427,14 +433,14 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func bundleAction(bundle: BundleModel) {
-		AlertHelper.showLoader()
-		DataContext.shared.postBundle(bundle: bundle) { response in
-			AlertHelper.hideLoader()
+		hud.show(in: AppDelegate.primaryWindow, animated: true)
+		DataContext.shared.postBundle(bundle: bundle) { [weak self] response in
+			self?.hud.dismiss(animated: true)
 			if let response = response {
 				os_log(.info, log: .authCoordinator, "response %@", String(describing: response))
 				DataContext.shared.signUpCompleted = true
 				let profile = DataContext.shared.createProfileModel()
-				self.profileRequest(profile: profile)
+				self?.profileRequest(profile: profile)
 
 			} else {
 				os_log(.error, log: .authCoordinator, "request failed")
@@ -444,9 +450,9 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func profileRequest(profile: ProfileModel) {
-		AlertHelper.showLoader()
+		hud.show(in: AppDelegate.primaryWindow, animated: true)
 		DataContext.shared.postProfile(profile: profile) { [weak self] success in
-			AlertHelper.hideLoader()
+			self?.hud.dismiss(animated: true)
 			if success {
 				DataContext.shared.identifyCrashlytics()
 				os_log(.info, log: .authCoordinator, "OK STATUS FOR PROFILE: 200 %@", String(describing: DataContext.shared.signUpCompleted))
@@ -499,15 +505,15 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	private func getFirebaseToken(authResult: AuthDataResult?, error: Error?, completionHandler: @escaping () -> Void) {
 		if let error = error {
 			os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
+			hud.dismiss()
 			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 		} else if let authResult = authResult {
 			authResult.user.getIDToken(completion: { [weak self] firebaseToken, error in
-
+				self?.hud.dismiss(animated: true)
 				if let error = error {
 					os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
 					AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 				} else if let firebaseToken = firebaseToken {
-					AlertHelper.hideLoader()
 					self?.emailrequest = Auth.auth().currentUser?.email
 					DataContext.shared.authToken = firebaseToken
 					os_log(.info, log: .authCoordinator, "firebaseToken: %{private}@", firebaseToken)

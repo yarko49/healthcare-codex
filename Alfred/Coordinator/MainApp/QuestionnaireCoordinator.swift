@@ -34,15 +34,17 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 		}
 	}
 
+	let hud = AlertHelper.progressHUD
+
 	internal func goToQuestionnaire() {
 		let questionnaireVC = QuestionnaireVC()
 		questionnaireVC.closeAction = { [weak self] in
 			self?.stop()
 		}
 		questionnaireVC.showQuestionnaireAction = { [weak self] in
-			AlertHelper.showLoader()
+			self?.hud.show(in: AppDelegate.primaryWindow)
 			DataContext.shared.getQuestionnaire { questions in
-				AlertHelper.hideLoader()
+				self?.hud.dismiss()
 				if let questions = questions, let question = questions.first {
 					self?.showQuestion(with: questions, currentQuestion: question)
 				}
@@ -129,9 +131,9 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 	}
 
 	internal func postRequest(with questionnaireResponse: QuestionnaireResponse) {
-		AlertHelper.showLoader()
+		hud.show(in: AppDelegate.primaryWindow)
 		DataContext.shared.postQuestionnaireResponse(response: questionnaireResponse) { [weak self] questionnaireResponse in
-			AlertHelper.hideLoader()
+			self?.hud.dismiss()
 			if questionnaireResponse != nil {
 				self?.goToQuestionnaireCompletion()
 			}
