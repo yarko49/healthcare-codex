@@ -7,7 +7,6 @@ def firebase_pods
 end
 
 def common_pods_for_target
-  pod 'SVProgressHUD'
   pod 'IQKeyboardManagerSwift'
 end
 

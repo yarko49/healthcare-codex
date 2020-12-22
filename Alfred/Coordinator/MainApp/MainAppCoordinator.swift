@@ -1,4 +1,5 @@
 import HealthKit
+import JGProgressHUD
 import LocalAuthentication
 import os.log
 import UIKit
@@ -56,6 +57,10 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		os_log(.info, log: .mainCoordinator, "%@", String(describing: context.biometryType.rawValue))
 	}
 
+	internal lazy var hud: JGProgressHUD = {
+		AlertHelper.progressHUD
+	}()
+
 	func enrollWithBiometrics() {
 		evaluateBiometrics()
 		let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
@@ -73,13 +78,14 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	internal func showHome() {
 		let homeVC = HomeVC()
 
-		let getCardsAction: (() -> Void)? = {
-			AlertHelper.showLoader()
-			DataContext.shared.getNotifications { notificationList in
-				AlertHelper.hideLoader()
-				homeVC.setupCards(with: notificationList)
-			}
+		let getCardsAction: (() -> Void)? = { [weak self] in
 			DispatchQueue.main.async {
+				self?.hud.show(in: AppDelegate.primaryWindow, animated: true)
+
+				DataContext.shared.getNotifications { notificationList in
+					self?.hud.dismiss(animated: true)
+					homeVC.setupCards(with: notificationList)
+				}
 				homeVC.refreshControl.endRefreshing()
 			}
 		}
@@ -158,7 +164,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		self.profileVC = profileVC
 
 		profileVC.getData = { [weak self] in
-			AlertHelper.showLoader()
+			self?.hud.show(in: AppDelegate.primaryWindow, animated: true)
 			let group = DispatchGroup()
 			var weight: Int? = 0
 			var height: Int? = 0
@@ -219,10 +225,10 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			profileVC?.todayHKData = todayData
 		}
 
-		profileVC.getRangeData = { interval, start, end, completion in
+		profileVC.getRangeData = { [weak self] interval, start, end, completion in
 			var chartData: [HealthKitQuantityType: [StatModel]] = [:]
 			var goals: [HealthKitQuantityType: Double] = [:]
-			AlertHelper.showLoader()
+			self?.hud.show(in: AppDelegate.primaryWindow, animated: true)
 			let chartGroup = DispatchGroup()
 			DataContext.shared.userAuthorizedQuantities.forEach { quantityType in
 				chartGroup.enter()
@@ -244,8 +250,8 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				}
 			}
 
-			chartGroup.notify(queue: .main) {
-				AlertHelper.hideLoader()
+			chartGroup.notify(queue: .main) { [weak self] in
+				self?.hud.dismiss(animated: true)
 				completion?(chartData, goals)
 			}
 		}
@@ -261,9 +267,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func postGetData(search: SearchParameter, completion: @escaping (BundleModel?) -> Void) {
-		AlertHelper.showLoader()
-		DataContext.shared.postObservationSearch(search: search) { response in
-			AlertHelper.hideLoader()
+		hud.show(in: AppDelegate.primaryWindow, animated: true)
+		DataContext.shared.postObservationSearch(search: search) { [weak self] response in
+			self?.hud.dismiss(animated: true)
 			if response != nil {
 				DataContext.shared.dataModel = response
 				completion(response)
@@ -272,9 +278,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func postObservationSearchAction(search: SearchParameter, vc: ProfileVC, start: Date, end: Date, hkType: HealthKitQuantityType) {
-		AlertHelper.showLoader()
-		DataContext.shared.postObservationSearch(search: search) { response in
-			AlertHelper.hideLoader()
+		hud.show(in: AppDelegate.primaryWindow, animated: true)
+		DataContext.shared.postObservationSearch(search: search) { [weak self] response in
+			self?.hud.dismiss(animated: true)
 			if response != nil {
 			} else {
 				os_log(.error, log: .mainCoordinator, "post Observation Search request failed")
@@ -357,9 +363,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func patientAPI(patient: [UpdatePatientModel], weight: Int, height: Int, date: String, birthDay: String, family: String, given: [String]) {
-		AlertHelper.showLoader()
+		hud.show(in: AppDelegate.primaryWindow, animated: true)
 		DataContext.shared.patchPatient(patient: patient) { [weak self] resourceResponse in
-			AlertHelper.hideLoader()
+			self?.hud.dismiss(animated: true)
 			DataContext.shared.editPatient = patient
 			if resourceResponse != nil {
 				os_log(.info, log: .masterCoordinator, "OK STATUS FOR UPDATE PATIENT : 200")
@@ -391,16 +397,15 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func bundleAction(bundle: BundleModel) {
-		AlertHelper.showLoader()
+		hud.show(in: AppDelegate.primaryWindow, animated: true)
 		DataContext.shared.postBundle(bundle: bundle) { [weak self] response in
-			AlertHelper.hideLoader()
+			self?.hud.dismiss(animated: true)
 			if response != nil {
 				self?.heightWeightBundle = bundle
 				if let profile = self?.profileVC {
 					self?.navigationController?.popToViewController(profile, animated: true)
 				}
 			} else {
-				AlertHelper.hideLoader()
 				os_log(.error, log: .masterCoordinator, "request failed")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createBundleFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
@@ -431,18 +436,18 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 	@objc internal func addAction() {
 		if let observation = observation {
-			AlertHelper.showLoader()
+			hud.show(in: AppDelegate.primaryWindow, animated: true)
 			DataContext.shared.postObservation(observation: observation) { [weak self] response in
-				AlertHelper.hideLoader()
+				self?.hud.dismiss(animated: true)
 				if response != nil {
 					self?.observation = nil
 					self?.navigationController?.popViewController(animated: true)
 				}
 			}
 		} else if let bundle = bundle {
-			AlertHelper.showLoader()
+			hud.show(in: AppDelegate.primaryWindow, animated: true)
 			DataContext.shared.postBundle(bundle: bundle) { [weak self] response in
-				AlertHelper.hideLoader()
+				self?.hud.dismiss(animated: true)
 				if response != nil {
 					self?.bundle = nil
 					self?.navigationController?.popViewController(animated: true)

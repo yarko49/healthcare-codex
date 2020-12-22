@@ -87,14 +87,16 @@ class SettingsCoordinator: NSObject, Coordinator {
 		navigate(to: accountResetPasswordVC, with: .pushFullScreen)
 	}
 
+	let hud = AlertHelper.progressHUD
+
 	internal func resetPassword(accountResetPasswordVC: AccountResetPasswordVC?, email: String?) {
-		AlertHelper.showSendLoader()
-		Auth.auth().sendPasswordReset(withEmail: email ?? "") { error in
+		hud.show(in: AppDelegate.primaryWindow)
+		Auth.auth().sendPasswordReset(withEmail: email ?? "") { [weak self] error in
+			self?.hud.dismiss()
 			if error != nil {
 				os_log(.error, log: .settingsCoordinator, "%@", error?.localizedDescription ?? "")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.invalidEmail, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			} else {
-				AlertHelper.hideLoader()
 				accountResetPasswordVC?.showCompletionMessage()
 			}
 		}
@@ -119,7 +121,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 		DataContext.shared.postProfile(profile: profile) { [weak self] success in
 			if success {
 				os_log(.info, log: .settingsCoordinator, "OK STATUS FOR PROFILE: 200")
-				AlertHelper.hideLoader()
+				self?.hud.dismiss()
 				self?.navigationController?.popViewController(animated: true)
 			} else {
 				os_log(.error, log: .settingsCoordinator, "request failed")
