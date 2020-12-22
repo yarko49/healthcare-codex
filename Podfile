@@ -6,17 +6,12 @@ def firebase_pods
   pod 'GoogleSignIn'
 end
 
-def common_pods_for_target
-  pod 'IQKeyboardManagerSwift'
-end
-
 target 'Alfred' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
   # Pods for Alfred
   firebase_pods
-  common_pods_for_target
 
   target 'AlfredTests' do
     inherit! :search_paths
