@@ -17,3 +17,6 @@ REVERSED_CLIENT_ID =
 
 // Tenant ID
 TENANT_ID =
+
+// Firebase DeepLink URL
+FIREBASE_DEEPLINK_URL =

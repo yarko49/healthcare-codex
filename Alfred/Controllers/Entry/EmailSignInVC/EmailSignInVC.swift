@@ -10,18 +10,13 @@ class EmailSignInVC: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	var backBtnAction: (() -> Void)?
-	var resetPasswordAction: (() -> Void)?
-	var signInWithEP: ((_ email: String, _ password: String) -> Void)?
+	var signInWithEmail: ((_ email: String) -> Void)?
 	var alertAction: ((_ title: String?, _ detail: String?, _ textfield: TextfieldView) -> Void)?
 
 	// MARK: - IBOutlets
 
-	@IBOutlet var screen: UIView!
-	@IBOutlet var signInBtn: UIButton!
-	@IBOutlet var forgotPasswordBtn: UIButton!
-	@IBOutlet var stackView: UIStackView!
 	@IBOutlet var emailView: TextfieldView!
-	@IBOutlet var passwordView: TextfieldView!
+	@IBOutlet var signInBtn: UIButton!
 
 	override func setupView() {
 		super.setupView()
@@ -38,16 +33,11 @@ class EmailSignInVC: BaseViewController {
 		emailView.textfield.keyboardType = .emailAddress
 		emailView.textfield.autocapitalizationType = .none
 		emailView.textfield.autocorrectionType = .no
-		passwordView.setupValues(labelTitle: Str.password, text: "", textIsPassword: true)
-		forgotPasswordBtn.addTarget(self, action: #selector(forgotPasswordTapped), for: .touchUpInside)
 		setup()
 		view.layoutIfNeeded()
 	}
 
 	func setup() {
-		let forgotPassword = UILabel()
-		forgotPassword.attributedText = Str.forgotPassword.with(style: .regular17, andColor: UIColor.lightGrey, andLetterSpacing: -0.408)
-		forgotPasswordBtn.setAttributedTitle(forgotPassword.attributedText, for: .normal)
 		let signIn = UILabel()
 		signIn.attributedText = Str.signin.with(style: .regular17, andColor: UIColor.white, andLetterSpacing: 3)
 		signInBtn.setAttributedTitle(signIn.attributedText, for: .normal)
@@ -61,16 +51,7 @@ class EmailSignInVC: BaseViewController {
 			return
 		}
 
-		guard let password = passwordView.tfText, !password.isEmpty else {
-			alertAction?(Str.invalidPw, Str.enterPw, passwordView)
-			return
-		}
-
-		signInWithEP?(email, password)
-	}
-
-	@objc func forgotPasswordTapped() {
-		resetPasswordAction?()
+		signInWithEmail?(email)
 	}
 
 	@objc func backBtnTapped() {

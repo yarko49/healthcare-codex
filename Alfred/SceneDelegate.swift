@@ -5,6 +5,8 @@
 //  Created by Waqar Malik on 12/17/20.
 //
 
+import FirebaseDynamicLinks
+import GoogleSignIn
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -24,7 +26,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 		window = UIWindow(windowScene: scene)
 		window?.makeKeyAndVisible()
-		appCoordinator.start()
+		if let incomingURL = connectionOptions.userActivities.first?.webpageURL {
+			handleIncomingURL(incomingURL)
+		} else {
+			appCoordinator.start()
+		}
 	}
 
 	func sceneDidDisconnect(_ scene: UIScene) {
@@ -53,5 +59,37 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		// Called as the scene transitions from the foreground to the background.
 		// Use this method to save data, release shared resources, and store enough scene-specific state information
 		// to restore the scene back to its current state.
+	}
+
+	func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+		if let incomingURL = userActivity.webpageURL {
+			handleIncomingURL(incomingURL)
+		}
+	}
+
+	func handleIncomingURL(_ incomingURL: URL) {
+		DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) { [weak self] dynamicLink, error in
+			if let error = error {
+				print("Error: \(error.localizedDescription)")
+				return
+			}
+			if let dynamicLink = dynamicLink {
+				self?.handleIncomingDynamicLink(dynamicLink)
+			}
+		}
+	}
+
+	func handleIncomingDynamicLink(_ dynamicLink: DynamicLink) {
+		guard let url = dynamicLink.url else {
+			print("No Dynamic Link Url")
+			return
+		}
+		DispatchQueue.main.async { [weak self] in
+			if let coord = (self?.appCoordinator.childCoordinators[.authCoordinator] as? AuthCoordinator) {
+				coord.verifySendLink(link: url.absoluteString)
+			} else {
+				self?.appCoordinator.goToAuth(url: url.absoluteString)
+			}
+		}
 	}
 }

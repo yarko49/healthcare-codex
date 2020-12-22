@@ -2,6 +2,9 @@ import Foundation
 import UIKit
 
 enum ComingFromScreen {
+	case welcome
+	case welcomeSuccess
+	case welcomeFailure
 	case myProfile
 	case myDevices
 	case activate
@@ -12,6 +15,7 @@ class AppleHealthVC: BaseViewController {
 	var nextBtnAction: (() -> Void)?
 	var notNowAction: (() -> Void)?
 	var activateAction: (() -> Void)?
+	var signInAction: (() -> Void)?
 
 	var comingFrom: ComingFromScreen?
 
@@ -21,6 +25,12 @@ class AppleHealthVC: BaseViewController {
 	@IBOutlet var rightBtn: UIButton!
 	@IBOutlet var leftBtn: UIButton!
 
+	override func viewWillAppear(_ animated: Bool) {
+		if comingFrom == .welcome {
+			signInAction?()
+		}
+	}
+
 	override func setupView() {
 		super.setupView()
 		setupTexts()
@@ -29,41 +39,53 @@ class AppleHealthVC: BaseViewController {
 	}
 
 	private func setupNavBar() {
-		if comingFrom == .myProfile {
-			navigationController?.navigationBar.isHidden = false
-			let navBar = navigationController?.navigationBar
+		let navBar = navigationController?.navigationBar
+		if comingFrom == .myProfile || comingFrom == .welcome {
+			navBar?.isHidden = false
 			navBar?.setBackgroundImage(UIImage(), for: .default)
 			navBar?.shadowImage = UIImage()
 			navBar?.isHidden = false
 			navBar?.isTranslucent = true
-			navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backBtnTapped))
+			navigationItem.leftBarButtonItem = comingFrom == .welcome ? nil : UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backBtnTapped))
 			navigationItem.leftBarButtonItem?.tintColor = UIColor.black
+			navigationItem.setHidesBackButton(comingFrom == .welcome, animated: true)
 			view.isUserInteractionEnabled = true
 		} else {
-			navigationController?.navigationBar.isHidden = true
+			navBar?.isHidden = true
 		}
 	}
 
-	private func setupTexts() {
+	func setupTexts() {
 		switch comingFrom {
+		case .welcome:
+			title = Str.welcome
+			reusableView(title: "", descr: "")
+		case .welcomeSuccess:
+			stackView.arrangedSubviews.forEach { view in
+				view.isHidden = true
+			}
+			reusableView(title: Str.successfulSignUp, descr: Str.continueProfile, image: "successIcon")
+		case .welcomeFailure:
+			stackView.arrangedSubviews.forEach { view in
+				view.isHidden = true
+			}
+			reusableView(title: Str.signInFailed, descr: "")
+
 		case .myProfile:
 			title = Str.myDevices
 			reusableView(title: Str.appleHealthSelect, descr: Str.appleSelectMessage)
-
 		case .myDevices:
 			reusableView(title: Str.appleHealthImport, descr: Str.appleImportMessage)
-
 		case .activate:
 			reusableView(title: Str.synced, descr: "")
-
 		default:
 			return
 		}
 		switchScreen()
 	}
 
-	func reusableView(title: String, descr: String) {
-		let appleHealthView = AppleHealthView(title: title, descr: descr)
+	func reusableView(title: String, descr: String, image: String = "") {
+		let appleHealthView = AppleHealthView(title: title, descr: descr, image: image)
 		stackView.addArrangedSubview(appleHealthView)
 		view.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
 	}
