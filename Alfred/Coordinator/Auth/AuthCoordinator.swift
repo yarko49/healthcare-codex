@@ -8,6 +8,11 @@ import LocalAuthentication
 import os.log
 import UIKit
 
+enum SendEmailPurpose {
+	case signIn
+	case signUp
+}
+
 extension OSLog {
 	static let authCoordinator = OSLog(subsystem: subsystem, category: "AuthCoordinator")
 }
@@ -27,14 +32,18 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		navigationController
 	}
 
-	init(withParent parent: MasterCoordinator?) {
+	init(withParent parent: MasterCoordinator?, deepLink: String = "") {
 		self.navigationController = AuthNavigationController()
 		self.parentCoordinator = parent
 		self.childCoordinators = [:]
 		super.init()
 		GIDSignIn.sharedInstance().delegate = self
 
-		start()
+		if deepLink != "" {
+			verifySendLink(link: deepLink)
+		} else {
+			start()
+		}
 	}
 
 	internal lazy var hud: JGProgressHUD = {
@@ -63,9 +72,6 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	internal func goToEmailSignIn() {
 		let emailSignInVC = EmailSignInVC()
 
-		emailSignInVC.resetPasswordAction = { [weak self] in
-			self?.goToReset()
-		}
 		emailSignInVC.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
@@ -77,21 +83,107 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			self?.showAlert(title: title, detailText: detail, actions: [okAction], fillProportionally: false)
 		}
 
-		emailSignInVC.signInWithEP = { [weak self] email, password in
-			self?.goToSignInWithEmail(email: email, password: password)
+		emailSignInVC.signInWithEmail = { [weak self] email in
+			self?.sendEmailLink(email: email, for: .signIn)
 		}
 		navigate(to: emailSignInVC, with: .push)
 	}
 
-	internal func goToSignInWithEmail(email: String, password: String) {
-		hud.show(in: AppDelegate.primaryWindow, animated: true)
-		emailrequest = email
-		Auth.auth().tenantID = AppConfig.tenantID
-		Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-			self?.getFirebaseToken(authResult: authResult, error: error) { [weak self] in
-				self?.checkIfUserExists(authResult: authResult)
+	internal func sendEmailLink(email: String, for purpose: SendEmailPurpose) {
+		guard let bundleId = Bundle.main.bundleIdentifier else { return }
+		Auth.auth().tenantID = nil
+		let actionCodeSettings = ActionCodeSettings()
+		actionCodeSettings.url = URL(string: AppConfig.firebaseDeeplinkURL)
+		actionCodeSettings.handleCodeInApp = true
+		actionCodeSettings.setIOSBundleID(bundleId)
+		Auth.auth().sendSignInLink(toEmail: email,
+		                           actionCodeSettings: actionCodeSettings) { [weak self] error in
+			if let error = error {
+				print(error)
+				AlertHelper.showAlert(title: Str.error, detailText: Str.failedSendLink, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+				return
+			}
+
+			DataContext.shared.emailForLink = email
+			self?.emailrequest = email
+			self?.emailSentSuccess(email: email, from: purpose)
+		}
+	}
+
+	internal func emailSentSuccess(email: String, from purpose: SendEmailPurpose) {
+		let emailSentVC = EmailSentVC()
+		emailSentVC.email = email
+		emailSentVC.purpose = purpose
+
+		emailSentVC.backBtnAction = { [weak self] in
+			self?.navigationController?.popViewController(animated: true)
+		}
+		emailSentVC.openMailApp = {
+			guard let mailURL = URL(string: "message://") else { return }
+			if UIApplication.shared.canOpenURL(mailURL) {
+				UIApplication.shared.open(mailURL, options: [:], completionHandler: nil)
 			}
 		}
+		emailSentVC.goToTermsOfService = { [weak self] in
+			self?.goToTermsOfService()
+		}
+		emailSentVC.goToPrivacyPolicy = { [weak self] in
+			self?.goToPrivacyPolicy()
+		}
+		navigate(to: emailSentVC, with: .push)
+	}
+
+	internal func verifySendLink(link: String) {
+		if let email = DataContext.shared.emailForLink {
+			goToWelcomeView(email: email, link: link)
+		} else {
+			start()
+		}
+	}
+
+	internal func goToWelcomeView(email: String, link: String) {
+		let appleHealthVC = AppleHealthVC()
+		appleHealthVC.comingFrom = .welcome
+
+		var user: AuthDataResult?
+
+		let signInAction: (() -> Void)? = { [weak self] in
+			self?.hud.show(in: AppDelegate.primaryWindow, animated: true)
+			if Auth.auth().isSignIn(withEmailLink: link) {
+				Auth.auth().tenantID = nil
+				Auth.auth().signIn(withEmail: email, link: link) { [weak self] authResult, error in
+					appleHealthVC.comingFrom = .welcomeFailure
+					if error == nil {
+						self?.getFirebaseToken(authResult: authResult, error: error) {
+							self?.hud.dismiss(animated: true)
+							user = authResult
+							appleHealthVC.comingFrom = .welcomeSuccess
+							appleHealthVC.setupTexts()
+						}
+					} else {
+						self?.hud.dismiss(animated: true)
+						appleHealthVC.setupTexts()
+						AlertHelper.showAlert(title: error?.localizedDescription, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+					}
+				}
+			} else {
+				self?.hud.dismiss(animated: true)
+				appleHealthVC.comingFrom = .welcomeFailure
+				appleHealthVC.setupTexts()
+				AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+			}
+		}
+
+		appleHealthVC.nextBtnAction = { [weak self] in
+			if user != nil {
+				self?.checkIfUserExists(user: user)
+			} else {
+				self?.start()
+			}
+		}
+
+		appleHealthVC.signInAction = signInAction
+		navigate(to: appleHealthVC, with: .pushFullScreen)
 	}
 
 	internal func goToReset() {
@@ -225,28 +317,11 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			self?.showAlert(title: title, detailText: detail, actions: [okAction], fillProportionally: false)
 		}
 
-		signupVC.signUpWithEP = { [weak self] email, password in
-			self?.goToSignUpWithEP(email: email, password: password)
+		signupVC.signUpWithEmail = { [weak self] email in
+			self?.sendEmailLink(email: email, for: .signUp)
 		}
 
 		navigate(to: signupVC, with: .push)
-	}
-
-	internal func goToSignUpWithEP(email: String, password: String) {
-		hud.show(in: AppDelegate.primaryWindow, animated: true)
-		Auth.auth().tenantID = AppConfig.tenantID
-		Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
-			self?.hud.dismiss()
-			if let error = error {
-				os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
-				AlertHelper.showAlert(title: Str.error, detailText: Str.signUpFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-			} else {
-				os_log(.info, log: .authCoordinator, "Created User")
-				self?.getFirebaseToken(authResult: authResult, error: error) { [weak self] in
-					self?.goToMyProfileFirstVC()
-				}
-			}
-		}
 	}
 
 	internal func goToMyProfileFirstVC(from screen: ComingFrom = .signUp) {
@@ -523,8 +598,8 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		}
 	}
 
-	private func checkIfUserExists(authResult: AuthDataResult?) {
-		let newUser = authResult?.additionalUserInfo?.isNewUser
+	private func checkIfUserExists(user: AuthDataResult?) {
+		let newUser = user?.additionalUserInfo?.isNewUser
 		if newUser == true {
 			goToMyProfileFirstVC()
 		} else {
@@ -549,7 +624,7 @@ extension AuthCoordinator: GIDSignInDelegate {
 		                                               accessToken: authentication.accessToken)
 		Auth.auth().signIn(with: credential) { [weak self] authResult, error in
 			self?.getFirebaseToken(authResult: authResult, error: error) { [weak self] in
-				self?.checkIfUserExists(authResult: authResult)
+				self?.checkIfUserExists(user: authResult)
 			}
 		}
 	}
@@ -576,7 +651,7 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 			Auth.auth().tenantID = AppConfig.tenantID
 			Auth.auth().signIn(with: credential) { [weak self] authResult, error in
 				self?.getFirebaseToken(authResult: authResult, error: error) { [weak self] in
-					self?.checkIfUserExists(authResult: authResult)
+					self?.checkIfUserExists(user: authResult)
 				}
 			}
 		}

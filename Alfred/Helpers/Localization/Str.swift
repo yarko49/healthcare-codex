@@ -4,7 +4,6 @@ internal enum Str {
 	internal static let email = Languages.tr("EMAIL")
 	internal static let password = Languages.tr("PASSWORD")
 	internal static let confirmPassword = Languages.tr("CONFIRM_PASSWORD")
-	internal static let confirmEmailAddress = Languages.tr("CONFIRM_EMAIL_ADDRESS")
 	internal static let login = Languages.tr("LOG_IN")
 	internal static let register = Languages.tr("REGISTER")
 	internal static let loginCTA = Languages.tr("LOG_IN_CTA")
@@ -72,6 +71,7 @@ internal enum Str {
 	internal static let invalidText = Languages.tr("INVALID_TEXT")
 	internal static let invalidTextMsg = Languages.tr("TEXT_SHOULD_NOT_CONTAIN_SPECIAL_CHARACTERS_OR_NUMBERS")
 	internal static let signUpFailed = Languages.tr("SIGN_UP_FAILED")
+	internal static let failedSendLink = Languages.tr("FAILED_SEND_LINK")
 	internal static let invalidInput = Languages.tr("INVALID_INPUT")
 	internal static let emptyPickerField = Languages.tr("FIELDS_CANNOT_BE_EMPTY")
 	internal static let appleHealthSelect = Languages.tr("SELECT_DEVICES")
@@ -84,6 +84,22 @@ internal enum Str {
 	internal static let justASec = Languages.tr("JUST_A_SEC")
 	internal static let uploadHealthDataFailed = Languages.tr("UPLOAD_HEALTH_DATA_FAILED")
 	internal static let importHealthDataFailed = Languages.tr("IMPORT_HEALTH_DATA_FAILED")
+	internal static let sendLink = Languages.tr("SEND_LINK")
+	internal static let emailSent = Languages.tr("EMAIL_SENT")
+	internal static let checkMail = Languages.tr("CHECK_MAIL")
+	internal static func sentEmailAtSignIn(_ arg: String) -> String {
+		Languages.tr("SENT_EMAIL_AT_SIGN_IN", [arg])
+	}
+
+	internal static func sentEmailAtSignUp(_ arg: String) -> String {
+		Languages.tr("SENT_EMAIL_AT_SIGN_UP", [arg])
+	}
+
+	internal static let openMailApp = Languages.tr("OPEN_MAIL_APP")
+	internal static let welcome = Languages.tr("WELCOME")
+	internal static let successfulSignUp = Languages.tr("SUCCESSFUL_SIGN_UP")
+	internal static let successfulSignIn = Languages.tr("SUCCESSFUL_SIGN_IN")
+	internal static let continueProfile = Languages.tr("CONTINUE_PROFILE")
 
 	//  - Profile
 	internal static let myProfile = Languages.tr("MY_PROFILE")
