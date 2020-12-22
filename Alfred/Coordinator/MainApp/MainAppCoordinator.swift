@@ -30,7 +30,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	weak var profileVC: ProfileVC?
 
 	init(with parent: MasterCoordinator?) {
-		self.navigationController = HomeNC()
+		self.navigationController = UINavigationController()
 		self.parentCoordinator = parent
 		self.childCoordinators = [:]
 		super.init()
@@ -76,7 +76,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func showHome() {
-		let homeVC = HomeVC()
+		let homeVC = HomeViewController()
 
 		let getCardsAction: (() -> Void)? = { [weak self] in
 			DispatchQueue.main.async {
@@ -459,7 +459,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 extension MainAppCoordinator: UINavigationControllerDelegate {
 	func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-		if viewController is HomeVC {
+		if viewController is HomeViewController {
 			if viewController.navigationItem.leftBarButtonItem == nil {
 				let profileBtn = UIBarButtonItem(image: UIImage(named: "iconProfile")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapProfileBtn))
 				profileBtn.tintColor = UIColor.black

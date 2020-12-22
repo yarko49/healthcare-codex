@@ -1,6 +1,6 @@
 import UIKit
 
-class AuthNC: UINavigationController {
+class AuthNavigationController: UINavigationController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 	}

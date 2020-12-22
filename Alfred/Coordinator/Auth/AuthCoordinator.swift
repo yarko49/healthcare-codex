@@ -28,7 +28,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	init(withParent parent: MasterCoordinator?) {
-		self.navigationController = AuthNC()
+		self.navigationController = AuthNavigationController()
 		self.parentCoordinator = parent
 		self.childCoordinators = [:]
 		super.init()
@@ -207,7 +207,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	public func goToSignup() {
-		let signupVC = SignupVC()
+		let signupVC = SignupViewController()
 		signupVC.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}

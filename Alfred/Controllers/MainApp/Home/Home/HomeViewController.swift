@@ -1,6 +1,6 @@
 import UIKit
 
-class HomeVC: BaseViewController {
+class HomeViewController: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	var getCardsAction: (() -> Void)?
@@ -124,7 +124,7 @@ class HomeVC: BaseViewController {
 	}
 }
 
-extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		measurementCardsList.count
 	}
@@ -168,7 +168,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
 	}
 }
 
-extension HomeVC: CoachCardViewDelegate {
+extension HomeViewController: CoachCardViewDelegate {
 	func actionBtnTapped(previewTitle: String?, title: String?, text: String?, icon: IconType?) {
 		troubleshootingAction?(previewTitle, title, text, icon)
 	}
