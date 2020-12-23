@@ -23,15 +23,15 @@ extension DataContext {
 		return profile
 	}
 
-	func getQuestionnaire(completion: @escaping ([Item]?) -> Void) {
-		Requests.getQuestionnaire { questionnaire in
-			if let questionnaire = questionnaire?.item {
-				completion(questionnaire)
-			} else {
-				completion(nil)
-			}
-		}
-	}
+//	func getQuestionnaire(completion: @escaping ([Item]?) -> Void) {
+//		Requests.getQuestionnaire { questionnaire in
+//			if let questionnaire = questionnaire?.item {
+//				completion(questionnaire)
+//			} else {
+//				completion(nil)
+//			}
+//		}
+//	}
 
 	func postQuestionnaireResponse(response: QuestionnaireResponse, completion: @escaping (SubmittedQuestionnaire?) -> Void) {
 		Requests.postQuestionnaireResponse(questionnaireResponse: response) { submissionResponse in
@@ -74,16 +74,6 @@ extension DataContext {
 			if let profile = profile {
 				completion(profile)
 				// print(profile)
-			} else {
-				completion(nil)
-			}
-		}
-	}
-
-	func getNotifications(completion: @escaping ([NotificationCard]?) -> Void) {
-		Requests.getNotifications { cardList in
-			if let cardList = cardList?.notifications {
-				completion(cardList)
 			} else {
 				completion(nil)
 			}

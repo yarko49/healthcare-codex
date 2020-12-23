@@ -97,18 +97,6 @@ class Requests {
 			}
 	}
 
-	static func getNotifications(completion: @escaping (CardList?) -> Void) {
-		session.request(APIRouter.getNotifications).validate().getResponseDecodableObject { (response: AFDataResponse<CardList>) in
-			switch response.result {
-			case .success(let value):
-				completion(value)
-			case .failure(let error):
-				print(error)
-				completion(nil)
-			}
-		}
-	}
-
 	static func getProfile(completion: @escaping (ProfileModel?) -> Void) {
 		session.request(APIRouter.getProfile).validate().getResponseDecodableObject { (response: AFDataResponse<ProfileModel>) in
 			switch response.result {

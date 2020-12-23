@@ -77,14 +77,19 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 	internal func showHome() {
 		let homeVC = HomeViewController()
-
 		let getCardsAction: (() -> Void)? = { [weak self] in
 			DispatchQueue.main.async {
-				self?.hud.show(in: AppDelegate.primaryWindow, animated: true)
-
-				DataContext.shared.getNotifications { notificationList in
-					self?.hud.dismiss(animated: true)
-					homeVC.setupCards(with: notificationList)
+				self?.hud.show(in: homeVC.view, animated: true)
+				AlfredClient.client.getCardList { result in
+					var notificationsCards: [NotificationCard]?
+					self?.hud.dismiss()
+					switch result {
+					case .failure(let error):
+						os_log(.error, log: .mainCoordinator, "error Fetching notificiation %@", error.localizedDescription)
+					case .success(let cardList):
+						notificationsCards = cardList.notifications
+					}
+					homeVC.setupCards(with: notificationsCards)
 				}
 				homeVC.refreshControl.endRefreshing()
 			}
@@ -140,12 +145,12 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			case .bloodPressure:
 				let sysComponent = Component(code: DataContext.shared.systolicBPCode, valueQuantity: ValueQuantity(value: value1, unit: Str.pressureUnit))
 				let diaComponent = Component(code: DataContext.shared.diastolicBPCode, valueQuantity: ValueQuantity(value: value2, unit: Str.pressureUnit))
-				let observation = Resource(code: DataContext.shared.bpCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.getPatientID(), type: "Patient", identifier: nil, display: DataContext.shared.getDisplayName()), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
+				let observation = Resource(code: DataContext.shared.bpCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
 				self?.observation = observation
 				self?.bundle = nil
 			case .weight:
-				let weightEntry = Entry(fullURL: nil, resource: Resource(code: DataContext.shared.weightCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.getPatientID(), type: "Patient", identifier: nil, display: DataContext.shared.getDisplayName()), valueQuantity: ValueQuantity(value: value1, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
-				let goalWeightEntry = Entry(fullURL: nil, resource: Resource(code: DataContext.shared.idealWeightCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.getPatientID(), type: "Patient", identifier: nil, display: DataContext.shared.getDisplayName()), valueQuantity: ValueQuantity(value: value2, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
+				let weightEntry = Entry(fullURL: nil, resource: Resource(code: DataContext.shared.weightCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: value1, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
+				let goalWeightEntry = Entry(fullURL: nil, resource: Resource(code: DataContext.shared.idealWeightCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: value2, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
 
 				let bundle = BundleModel(entry: [weightEntry, goalWeightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
 				self?.observation = nil
@@ -291,9 +296,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	internal func goToMyProfileFirstVC(source: ComingFrom = .profile, weight: Int, height: Int) {
 		let myProfileFirstVC = MyProfileFirstVC()
 		myProfileFirstVC.comingFrom = source
-		myProfileFirstVC.firstText = DataContext.shared.getDisplayFirstName()
-		myProfileFirstVC.lastText = DataContext.shared.getDisplayLastName()
-		myProfileFirstVC.gender = DataContext.shared.getGender()
+		myProfileFirstVC.firstText = DataContext.shared.displayFirstName
+		myProfileFirstVC.lastText = DataContext.shared.displayLastName
+		myProfileFirstVC.gender = DataContext.shared.gender
 
 		myProfileFirstVC.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
@@ -370,7 +375,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			if resourceResponse != nil {
 				os_log(.info, log: .masterCoordinator, "OK STATUS FOR UPDATE PATIENT : 200")
 				DataContext.shared.userModel = UserModel(userID: DataContext.shared.userModel?.userID ?? "", email: DataContext.shared.userModel?.email, name: [Name(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? Gender(rawValue: "female"))
-				self?.profileVC?.nameLbl?.attributedText = ProfileHelper.getFirstName().with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
+				self?.profileVC?.nameLbl?.attributedText = ProfileHelper.firstName.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			} else {
 				os_log(.error, log: .masterCoordinator, "request failed")
@@ -381,7 +386,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func getHeightWeight(weight: Int, height: Int, date: String) {
-		let displayName = DataContext.shared.getDisplayName()
+		let displayName = DataContext.shared.displayName
 		let referenceId = "Patient/\(DataContext.shared.userModel?.userID ?? "")"
 
 		let weightObservation = Resource(code: DataContext.shared.weightCode, effectiveDateTime: date, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
