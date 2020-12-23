@@ -51,10 +51,10 @@ class DataContext {
 		Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
 	}
 
-	var hasSmartScale = Bool()
-	var hasSmartBlockPressureCuff = Bool()
-	var hasSmartWatch = Bool()
-	var hasSmartPedometer = Bool()
+	var hasSmartScale = false
+	var hasSmartBlockPressureCuff = false
+	var hasSmartWatch = false
+	var hasSmartPedometer = false
 	var editPatient: [UpdatePatientModel]?
 	var patient: Resource?
 	var userModel: UserModel?
@@ -74,7 +74,7 @@ class DataContext {
 	var signUpCompleted = false
 	var firstName: String?
 
-	func getDisplayLastName() -> String {
+	var displayLastName: String {
 		var displayName: [String] = []
 		if let names = userModel?.name {
 			names.forEach { name in
@@ -98,7 +98,7 @@ class DataContext {
 		return calendar.date(from: newComponents)
 	}
 
-	func getDisplayName() -> String {
+	var displayName: String {
 		var displayName: [String] = []
 		if let names = userModel?.name {
 			names.forEach { name in
@@ -109,7 +109,7 @@ class DataContext {
 		return displayName.joined(separator: " ")
 	}
 
-	func getDisplayFirstName() -> String {
+	var displayFirstName: String {
 		var displayName: [String] = []
 		if let names = userModel?.name {
 			names.forEach { name in
@@ -119,11 +119,11 @@ class DataContext {
 		return displayName.joined(separator: " ")
 	}
 
-	func getPatientID() -> String {
+	var patientID: String {
 		"Patient/\(userModel?.userID ?? "")"
 	}
 
-	func getBirthday() -> Int {
+	var birthdayYear: Int {
 		let age = userModel?.dob
 		let yearString = age?.prefix(4)
 		let year = String(yearString ?? "")
@@ -132,7 +132,7 @@ class DataContext {
 		return dobYear ?? 0
 	}
 
-	func getGender() -> Gender {
+	var gender: Gender {
 		let gender = Gender(rawValue: (userModel?.gender)?.rawValue ?? "")
 		return gender ?? .female
 	}
@@ -155,10 +155,10 @@ class DataContext {
 	}
 
 	func clearVariables() {
-		hasSmartScale = Bool()
-		hasSmartBlockPressureCuff = Bool()
-		hasSmartWatch = Bool()
-		hasSmartPedometer = Bool()
+		hasSmartScale = false
+		hasSmartBlockPressureCuff = false
+		hasSmartWatch = false
+		hasSmartPedometer = false
 		activityPushNotificationsIsOn = false
 		bloodPressurePushNotificationsIsOn = false
 		weightInPushNotificationsIsOn = false

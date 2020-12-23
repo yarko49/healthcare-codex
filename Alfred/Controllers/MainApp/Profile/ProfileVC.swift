@@ -125,7 +125,7 @@ class ProfileVC: BaseViewController {
 
 	override func setupView() {
 		title = Str.profile
-		let name = ProfileHelper.getFirstName()
+		let name = ProfileHelper.firstName
 		navigationController?.navigationBar.isHidden = false
 		let navBar = navigationController?.navigationBar
 		navBar?.setBackgroundImage(UIImage(), for: .default)
@@ -162,7 +162,7 @@ class ProfileVC: BaseViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
 		getData?()
-		age = ProfileHelper.getBirthdate()
+		age = ProfileHelper.birthdate
 		let date = Date()
 		let calendar = Calendar.current
 		ageDiff = calendar.component(.year, from: date) - (age ?? 0)

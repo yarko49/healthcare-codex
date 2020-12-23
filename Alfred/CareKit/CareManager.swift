@@ -20,7 +20,6 @@ public class CareManager: ObservableObject {
 	public let store: OCKStore
 	public let healthKitPassthroughStore: OCKHealthKitPassthroughStore
 	public let synchronizedStoreManager: OCKSynchronizedStoreManager
-	let alferedClient = AlfredClient()
 
 	public init(careKitStore ckStore: String = "AlfredStore", healthKitStore hkStore: String = "AlfredHealthKitPassthroughStore") {
 		self.remoteSynchronizationManager = RemoteSynchronizationManager()
@@ -34,7 +33,7 @@ public class CareManager: ObservableObject {
 	}
 
 	public func getCarePlanResponse() {
-		alferedClient.getCarePlan { result in
+		AlfredClient.client.getCarePlan { result in
 			switch result {
 			case .failure(let error):
 				os_log(.error, log: .careManager, "Error fetching care plan data %@", error.localizedDescription)

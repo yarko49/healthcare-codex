@@ -4,7 +4,12 @@
 //
 
 import Foundation
+import os.log
 import UIKit
+
+extension OSLog {
+	static let questionnaireCoordinator = OSLog(subsystem: subsystem, category: "QuestionnaireCoordinator")
+}
 
 class QuestionnaireCoordinator: NSObject, Coordinator {
 	internal var navigationController: UINavigationController?
@@ -42,11 +47,16 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 			self?.stop()
 		}
 		questionnaireVC.showQuestionnaireAction = { [weak self] in
-			self?.hud.show(in: AppDelegate.primaryWindow)
-			DataContext.shared.getQuestionnaire { questions in
+			self?.hud.show(in: questionnaireVC.view)
+			AlfredClient.client.getQuestionnaire { result in
 				self?.hud.dismiss()
-				if let questions = questions, let question = questions.first {
-					self?.showQuestion(with: questions, currentQuestion: question)
+				switch result {
+				case .failure(let error):
+					os_log(.error, log: .questionnaireCoordinator, "Error Fetching Questionnaire %@", error.localizedDescription)
+				case .success(let questionnaire):
+					if let items = questionnaire.item, let question = items.first {
+						self?.showQuestion(with: items, currentQuestion: question)
+					}
 				}
 			}
 		}
@@ -126,7 +136,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 			items.append(item)
 		}
 
-		let questionnaireResponse = QuestionnaireResponse(resourceType: "QuestionnaireResponse", identifier: QuestionnaireIdentifier(assigner: nil, system: nil, type: IdentifierID(text: "", value: "", coding: DataContext.shared.hrCode.coding), use: nil, value: nil), questionnaire: "string", status: "completed", authored: DateFormatter.wholeDateRequest.string(from: Date()), author: Assigner(reference: DataContext.shared.getPatientID()), source: Subject(reference: DataContext.shared.getPatientID(), type: "Patient", identifier: nil, display: DataContext.shared.getDisplayName()), item: items)
+		let questionnaireResponse = QuestionnaireResponse(resourceType: "QuestionnaireResponse", identifier: QuestionnaireIdentifier(assigner: nil, system: nil, type: IdentifierID(text: "", value: "", coding: DataContext.shared.hrCode.coding), use: nil, value: nil), questionnaire: "string", status: "completed", authored: DateFormatter.wholeDateRequest.string(from: Date()), author: Assigner(reference: DataContext.shared.patientID), source: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), item: items)
 		return questionnaireResponse
 	}
 

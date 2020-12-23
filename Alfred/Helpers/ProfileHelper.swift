@@ -7,15 +7,15 @@ class ProfileHelper {
 		return (feet, inches)
 	}
 
-	static func getFirstName() -> String {
-		DataContext.shared.getDisplayFirstName()
+	static var firstName: String {
+		DataContext.shared.displayFirstName
 	}
 
-	static func getBirthdate() -> Int {
-		DataContext.shared.getBirthday()
+	static var birthdate: Int {
+		DataContext.shared.birthdayYear
 	}
 
-	static func getGender() -> Gender {
+	static var gender: Gender {
 		var gender: Gender?
 		if DataContext.shared.userModel?.gender == .male {
 			gender = .male

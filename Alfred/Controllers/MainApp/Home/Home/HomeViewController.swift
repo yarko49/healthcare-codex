@@ -81,10 +81,11 @@ class HomeViewController: BaseViewController {
 	}
 
 	func setupCards(with notificationList: [NotificationCard]?) {
-		guard let notificationList = notificationList else { return }
+		guard let notificationList = notificationList else {
+			return
+		}
 		measurementCardsList = []
 		coachCardsList = []
-
 		for card in notificationList {
 			switch card.data.type {
 			case .measurement:

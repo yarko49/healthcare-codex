@@ -44,8 +44,8 @@ class AccountDetailsVC: BaseViewController {
 
 		title = Str.accountDetails
 
-		let firstName = DataContext.shared.getDisplayFirstName()
-		let lastName = DataContext.shared.getDisplayLastName()
+		let firstName = DataContext.shared.displayFirstName
+		let lastName = DataContext.shared.displayLastName
 		guard let email = DataContext.shared.userModel?.email else { return }
 
 		firstNameTV.setupValues(labelTitle: Str.firstName, text: firstName, textIsPassword: false)

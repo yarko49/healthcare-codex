@@ -113,7 +113,6 @@
 		1234FD762215997900E73FFF /* DataContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD752215997900E73FFF /* DataContext.swift */; };
 		1234FD7922159A1B00E73FFF /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD7822159A1B00E73FFF /* BaseViewController.swift */; };
 		1234FD8022159CF100E73FFF /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD7F22159CF100E73FFF /* AuthCoordinator.swift */; };
-		1234FD8222159D5000E73FFF /* DataContext+Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD8122159D5000E73FFF /* DataContext+Auth.swift */; };
 		1234FD8422159FBD00E73FFF /* AuthNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD8322159FBD00E73FFF /* AuthNavigationController.swift */; };
 		1234FD862215A03A00E73FFF /* MainAppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD852215A03A00E73FFF /* MainAppCoordinator.swift */; };
 		1234FD9B2215AEA500E73FFF /* SettingsNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD9A2215AEA500E73FFF /* SettingsNC.swift */; };
@@ -380,7 +379,6 @@
 		1234FD752215997900E73FFF /* DataContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataContext.swift; sourceTree = "<group>"; };
 		1234FD7822159A1B00E73FFF /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		1234FD7F22159CF100E73FFF /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
-		1234FD8122159D5000E73FFF /* DataContext+Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataContext+Auth.swift"; sourceTree = "<group>"; };
 		1234FD8322159FBD00E73FFF /* AuthNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNavigationController.swift; sourceTree = "<group>"; };
 		1234FD852215A03A00E73FFF /* MainAppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppCoordinator.swift; sourceTree = "<group>"; };
 		1234FD9A2215AEA500E73FFF /* SettingsNC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNC.swift; sourceTree = "<group>"; };
@@ -913,7 +911,6 @@
 			isa = PBXGroup;
 			children = (
 				1234FD752215997900E73FFF /* DataContext.swift */,
-				1234FD8122159D5000E73FFF /* DataContext+Auth.swift */,
 				124B27D1238D7500001DBC4D /* DataContext+Content.swift */,
 				127C11AB222939F20093F4C0 /* DataContext+Keychain.swift */,
 				840A9CB72571F9CE00540133 /* DataContext+Fetch.swift */,
@@ -1070,23 +1067,10 @@
 		12D42D822226A6290039043F /* API */ = {
 			isa = PBXGroup;
 			children = (
-				84F3485F258B18050042A7E4 /* AlfredClient.swift */,
 				06865EFA2575055200F14BD6 /* Managers */,
-				12D42D832226A62E0039043F /* Requests */,
 				1234FD742215995800E73FFF /* DataContext */,
 			);
 			path = API;
-			sourceTree = "<group>";
-		};
-		12D42D832226A62E0039043F /* Requests */ = {
-			isa = PBXGroup;
-			children = (
-				12D42D842226A63C0039043F /* APIRouter.swift */,
-				12D42D862226A67E0039043F /* Requests.swift */,
-				06865EFF257505AF00F14BD6 /* DataRequest+Processing.swift */,
-				06865F0E25750A6200F14BD6 /* Interceptor.swift */,
-			);
-			path = Requests;
 			sourceTree = "<group>";
 		};
 		5B776F21AD12290183646FD3 /* Frameworks */ = {
@@ -1139,6 +1123,18 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		8458F1C62592CB0400192EBD /* API */ = {
+			isa = PBXGroup;
+			children = (
+				84F3485F258B18050042A7E4 /* AlfredClient.swift */,
+				12D42D842226A63C0039043F /* APIRouter.swift */,
+				12D42D862226A67E0039043F /* Requests.swift */,
+				06865EFF257505AF00F14BD6 /* DataRequest+Processing.swift */,
+				06865F0E25750A6200F14BD6 /* Interceptor.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		8468B0D1256C679000202A16 /* AlfredTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1176,6 +1172,7 @@
 		84EE1E2B258C507D00326D42 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				8458F1C62592CB0400192EBD /* API */,
 				844247CF258E85A300B9FA70 /* Views */,
 				84BF9DCC258C7860006D84C6 /* ViewControllers */,
 				84A2A18C257D882200A925FC /* OSLog+Setup.swift */,
@@ -1761,7 +1758,6 @@
 				84EE1E5D258C50EF00326D42 /* OCKTask+Conversion.swift in Sources */,
 				06A0775124FCE8D20046E691 /* AccountDetailsVC.swift in Sources */,
 				0656CE63250FA0F300E457E3 /* QuestionnaireModel.swift in Sources */,
-				1234FD8222159D5000E73FFF /* DataContext+Auth.swift in Sources */,
 				C4112E4E253F167000C52C1C /* ComingFrom.swift in Sources */,
 				84EE1E54258C50EF00326D42 /* VectorClock.swift in Sources */,
 				1234FD862215A03A00E73FFF /* MainAppCoordinator.swift in Sources */,
@@ -1982,8 +1978,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Alfred/Alfred.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Alfred/Info.plist;
@@ -1995,7 +1991,7 @@
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.alfred.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = MVPv1;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2009,8 +2005,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Alfred/Alfred.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Alfred/Info.plist;
@@ -2022,7 +2018,7 @@
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.alfred.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = MVPv1;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
