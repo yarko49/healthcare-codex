@@ -11,15 +11,6 @@
         }
       },
       {
-        "package": "Alamofire",
-        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
-        "state": {
-          "branch": null,
-          "revision": "9e0328127dfb801cefe8ac53a13c0c90a7770448",
-          "version": "5.4.0"
-        }
-      },
-      {
         "package": "BonMot",
         "repositoryURL": "https://github.com/Rightpoint/BonMot",
         "state": {
@@ -53,15 +44,6 @@
           "branch": null,
           "revision": "66546404a6739173b8e436ab6bc1f2897cd08594",
           "version": "3.6.0"
-        }
-      },
-      {
-        "package": "CodableAlamofire",
-        "repositoryURL": "https://github.com/Otbivnoe/CodableAlamofire.git",
-        "state": {
-          "branch": null,
-          "revision": "a4313aa4bc09c09703f7ba71ab1300059abbde24",
-          "version": "1.2.1"
         }
       },
       {

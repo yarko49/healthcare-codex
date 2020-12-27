@@ -1,4 +1,3 @@
-import Alamofire
 import Foundation
 
 enum APIRouter: URLRequestConvertible {
@@ -17,7 +16,7 @@ enum APIRouter: URLRequestConvertible {
 	case postObservationSearch(search: SearchParameter)
 	case patchPatient(patient: Edit)
 
-	var method: HTTPMethod {
+	var method: Request.Method {
 		switch self {
 		case .getCarePlan: return .get
 		case .getQuestionnaire: return .get
@@ -50,13 +49,36 @@ enum APIRouter: URLRequestConvertible {
 		}
 	}
 
-	var encoding: ParameterEncoding {
+	var encoding: Request.ParameterEncoding {
 		switch method {
 		case .post:
-			return JSONEncoding.default
+			return .json
 		default:
-			return URLEncoding.queryString
+			return .percent
 		}
+	}
+
+	var body: Data? {
+		var data: Data?
+		switch self {
+		case .postObservation(let observation):
+			data = try? JSONEncoder().encode(observation)
+		case .postPatient(let patient):
+			data = try? JSONEncoder().encode(patient)
+		case .postProfile(let profile):
+			data = try? JSONEncoder().encode(profile)
+		case .postBundle(let bundle):
+			data = try? JSONEncoder().encode(bundle)
+		case .postObservationSearch(let search):
+			data = try? JSONEncoder().encode(search)
+		case .postQuestionnaireResponse(let response):
+			data = try? JSONEncoder().encode(response)
+		case .patchPatient(let editResponse):
+			data = try? JSONEncoder().encode(editResponse)
+		default:
+			data = nil
+		}
+		return data
 	}
 
 	var headers: [String: String] {
@@ -82,45 +104,22 @@ enum APIRouter: URLRequestConvertible {
 		return headers
 	}
 
-	var parameters: Parameters? {
+	var parameters: [String: Any]? {
 		switch self {
 		case .getQuestionnaire, .postQuestionnaireResponse, .postObservation, .postPatient, .getProfile, .postProfile, .getNotifications, .postPatientSearch, .postBundle, .postObservationSearch, .patchPatient, .getCarePlan:
 			return nil
 		}
 	}
 
-	public func asURLRequest() throws -> URLRequest {
-		let url = try APIRouter.baseURLPath.asURL()
-
-		var request = URLRequest(url: url.appendingPathComponent(path))
-		request.httpMethod = method.rawValue
-		request.allHTTPHeaderFields = headers
-		switch self {
-		case .postObservation(let observation):
-			let jsonBody = try JSONEncoder().encode(observation)
-			request.httpBody = jsonBody
-		case .postPatient(let patient):
-			let jsonBody = try JSONEncoder().encode(patient)
-			request.httpBody = jsonBody
-		case .postProfile(let profile):
-			let jsonBody = try JSONEncoder().encode(profile)
-			request.httpBody = jsonBody
-		case .postBundle(let bundle):
-			let jsonBody = try JSONEncoder().encode(bundle)
-			request.httpBody = jsonBody
-		case .postObservationSearch(let search):
-			let jsonBody = try JSONEncoder().encode(search)
-			request.httpBody = jsonBody
-		case .postQuestionnaireResponse(let response):
-			let jsonBody = try JSONEncoder().encode(response)
-			request.httpBody = jsonBody
-		case .patchPatient(let editResponse):
-			let jsonBody = try JSONEncoder().encode(editResponse)
-			request.httpBody = jsonBody
-
-		default:
-			break
+	var urlRequest: URLRequest? {
+		guard let url = URL(string: APIRouter.baseURLPath)?.appendingPathComponent(path) else {
+			return nil
 		}
-		return try encoding.encode(request, with: parameters)
+		var request = Request(method, url: url)
+		request.setHeaders(headers)
+		if let body = body {
+			request.setJSONData(body)
+		}
+		return request.urlRequest
 	}
 }

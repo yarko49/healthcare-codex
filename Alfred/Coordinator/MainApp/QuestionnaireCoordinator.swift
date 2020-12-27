@@ -142,9 +142,12 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 
 	internal func postRequest(with questionnaireResponse: QuestionnaireResponse) {
 		hud.show(in: AppDelegate.primaryWindow)
-		DataContext.shared.postQuestionnaireResponse(response: questionnaireResponse) { [weak self] questionnaireResponse in
+		AlfredClient.client.postQuestionnaireResponse(questionnaireResponse: questionnaireResponse) { [weak self] result in
 			self?.hud.dismiss()
-			if questionnaireResponse != nil {
+			switch result {
+			case .failure(let error):
+				os_log(.error, log: .questionnaireCoordinator, "Cannot post questionnaire response %@", error.localizedDescription)
+			case .success:
 				self?.goToQuestionnaireCompletion()
 			}
 		}

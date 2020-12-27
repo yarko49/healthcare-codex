@@ -8,7 +8,7 @@
 import Foundation
 
 public struct ScheduleElement: Codable, Hashable {
-	public var start: Date
+	public var start: Date?
 	public var end: Date?
 	public var weekly: Bool
 	public var daily: Bool

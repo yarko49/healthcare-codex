@@ -1,5 +1,6 @@
 import Foundation
 import HealthKit
+import os.log
 
 extension DataContext {
 	func createProfileModel() -> ProfileModel {
@@ -21,102 +22,5 @@ extension DataContext {
 		let profile = ProfileModel(notificationsEnabled: true, registrationToken: "", healthMeasurements: healthMeasurements, devices: devices, signUpCompleted: signUpCompleted)
 
 		return profile
-	}
-
-//	func getQuestionnaire(completion: @escaping ([Item]?) -> Void) {
-//		Requests.getQuestionnaire { questionnaire in
-//			if let questionnaire = questionnaire?.item {
-//				completion(questionnaire)
-//			} else {
-//				completion(nil)
-//			}
-//		}
-//	}
-
-	func postQuestionnaireResponse(response: QuestionnaireResponse, completion: @escaping (SubmittedQuestionnaire?) -> Void) {
-		Requests.postQuestionnaireResponse(questionnaireResponse: response) { submissionResponse in
-			if let submissionResponse = submissionResponse {
-				completion(submissionResponse)
-			} else {
-				completion(nil)
-			}
-		}
-	}
-
-	func postProfile(profile: ProfileModel, completion: @escaping (Bool) -> Void) {
-		Requests.postProfile(profile: profile) { result in
-			completion(result)
-		}
-	}
-
-	func postPatient(patient: Resource, completion: @escaping (Resource?) -> Void) {
-		Requests.postPatient(patient: patient) { patientResponse in
-			if let patientResponse = patientResponse {
-				completion(patientResponse)
-			} else {
-				completion(nil)
-			}
-		}
-	}
-
-	func postPatientSearch(completion: @escaping (BundleModel?) -> Void) {
-		Requests.postPatientSearch { patientResponse in
-			if let patientResponse = patientResponse {
-				completion(patientResponse)
-			} else {
-				completion(nil)
-			}
-		}
-	}
-
-	func getProfile(completion: @escaping (ProfileModel?) -> Void) {
-		Requests.getProfile { profile in
-			if let profile = profile {
-				completion(profile)
-				// print(profile)
-			} else {
-				completion(nil)
-			}
-		}
-	}
-
-	func postObservation(observation: Resource, completion: @escaping (Resource?) -> Void) {
-		Requests.postObservation(observation: observation) { observationResponse in
-			if let response = observationResponse {
-				completion(response)
-			} else {
-				completion(nil)
-			}
-		}
-	}
-
-	func postBundle(bundle: BundleModel, completion: @escaping (BundleModel?) -> Void) {
-		Requests.postBundle(bundle: bundle) { bundleResponse in
-			if let response = bundleResponse {
-				completion(response)
-			} else {
-				completion(nil)
-			}
-		}
-	}
-
-	func postObservationSearch(search: SearchParameter, completion: @escaping (BundleModel?) -> Void) {
-		Requests.postObservationSearch(search: search) { bundleResponse in
-			if let response = bundleResponse {
-				completion(response)
-			} else {
-				completion(nil)
-			}
-		}
-	}
-
-	func patchPatient(patient: [UpdatePatientModel], completion: @escaping (Resource?) -> Void) {
-		Requests.patchPatient(patient: patient) { resourceResponse in
-			if let response = resourceResponse {
-				completion(response)
-			} else {
-				completion(nil)
-			}
-		}
 	}
 }

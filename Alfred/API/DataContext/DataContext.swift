@@ -36,7 +36,7 @@ class DataContext {
 		}
 	}
 
-	func haveAskedUserforBiometrics() -> Bool {
+	var haveAskedUserforBiometrics: Bool {
 		UserDefaults.standard.object(forKey: "IS_BIOMETRICS_ENABLED") != nil
 	}
 

@@ -18,7 +18,7 @@ public struct Task: Codable, Hashable, Identifiable {
 	public var schedules: [String: ScheduleElement]?
 	public var groupIdentifier: String?
 	public var tags: [String]?
-	public var effectiveDate: Date
+	public var effectiveDate: Date?
 	public var createDate: Date?
 	public var updatedDate: Date?
 	public var remoteId: String?
@@ -46,7 +46,7 @@ public struct Task: Codable, Hashable, Identifiable {
 		self.schedules = try container.decodeIfPresent([String: ScheduleElement].self, forKey: .schedules)
 		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
-		self.effectiveDate = try container.decode(Date.self, forKey: .effectiveDate)
+		self.effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate)
 		self.createDate = try container.decodeIfPresent(Date.self, forKey: .createDate)
 		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
 		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId)
@@ -67,7 +67,7 @@ public struct Task: Codable, Hashable, Identifiable {
 		try container.encodeIfPresent(schedules, forKey: .schedules)
 		try container.encodeIfPresent(groupIdentifier, forKey: .groupIdentifier)
 		try container.encodeIfPresent(tags, forKey: .tags)
-		try container.encode(effectiveDate, forKey: .effectiveDate)
+		try container.encodeIfPresent(effectiveDate, forKey: .effectiveDate)
 		try container.encodeIfPresent(createDate, forKey: .createDate)
 		try container.encodeIfPresent(updatedDate, forKey: .updatedDate)
 		try container.encodeIfPresent(remoteId, forKey: .remoteId)

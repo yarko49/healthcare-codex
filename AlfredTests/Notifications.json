@@ -1,0 +1,103 @@
+{
+  "notifications": [
+    {
+      "name": "Welcome Card",
+      "data": {
+        "backgroundColor": "#5CAFFC",
+        "expires": "2020-12-30T04:29:19.349Z",
+        "previewText": "Log your health data and get started towards a healtheir you!",
+        "previewTitle": "Welcome Alpha Tester",
+        "progressOpacity": 0,
+        "progressPercent": 0,
+        "uuid": "28a9d6be-a982-5bca-98ec-95020b606d86",
+        "ttl": "7d",
+        "type": "COACH"
+      }
+    },
+    {
+      "name": "Troubleshooting Weight",
+      "data": {
+        "backgroundColor": "#5CAFFC",
+        "expires": "2021-10-07T13:48:00Z",
+        "previewText": "Your smart scale is not connected to Alfred.\nCan we help you troubleshoot?",
+        "previewTitle": "Weight",
+        "progressOpacity": 0,
+        "progressPercent": 0,
+        "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "text": "Is your smart device turned on?\n\nOpen your smart device companion app to sync with Alfred\n\nIs your Bluetooth turned on?\n\nFor additional help, check the manual for your smart device.\n\n",
+        "title": "Troubleshooting Guide",
+        "ttl": "24h",
+        "type": "COACH"
+      }
+    },
+    {
+      "name": "Activity",
+      "data": {
+        "backgroundColor": "#FEF2E3",
+        "expires": "2020-12-28T04:55:44.972857038Z",
+        "icon": "ACTIVITY",
+        "progressColor": "#A99D99",
+        "progressOpacity": 0.25,
+        "progressPercent": 0,
+        "uuid": "e13621bf-860b-5b4b-8c15-f3db98346e5d",
+        "status": "No Samples",
+        "statusColor": "#A99D99",
+        "title": "Activity",
+        "ttl": "24h",
+        "type": "MEASUREMENT"
+      }
+    },
+    {
+      "name": "Heart Rate",
+      "data": {
+        "backgroundColor": "#FFF4F3",
+        "expires": "2020-12-28T04:55:45.233006517Z",
+        "progressColor": "#A99D99",
+        "progressOpacity": 0.25,
+        "progressPercent": 0,
+        "uuid": "e13621bf-860b-5b4b-8c15-f3db98346e5d",
+        "status": "No Samples",
+        "statusColor": "#A99D99",
+        "title": "Heart Rate",
+        "ttl": "24h",
+        "type": "MEASUREMENT"
+      }
+    },
+    {
+      "name": "Resting Heart Rate",
+      "data": {
+        "backgroundColor": "#FAE3E2",
+        "expires": "2020-12-28T04:55:45.555319062Z",
+        "progressColor": "#A99D99",
+        "progressOpacity": 0.25,
+        "progressPercent": 0,
+        "uuid": "e13621bf-860b-5b4b-8c15-f3db98346e5d",
+        "status": "No Samples",
+        "statusColor": "#A99D99",
+        "title": "Resting Heart Rate",
+        "ttl": "24h",
+        "type": "MEASUREMENT"
+      }
+    },
+    {
+      "name": "Questionnaire",
+      "data": {
+        "action": "QUESTIONNAIRE",
+        "backgroundColor": "#E4FEE3",
+        "expires": "2020-12-28T04:55:46.062407728Z",
+        "icon": "QUESTIONNAIRE",
+        "progressColor": "#008865",
+        "progressOpacity": 1,
+        "progressPercent": 1,
+        "uuid": "deb89a6a-1399-5014-be42-a45f41bc347e",
+        "sampledTime": "2020-12-22T21:19:00.181Z",
+        "status": "Completed",
+        "statusColor": "#33DB12",
+        "text": "Questionnaire",
+        "title": "Kansas City Cardiomyopathy",
+        "ttl": "24h",
+        "type": "MEASUREMENT"
+      }
+    }
+  ]
+}
