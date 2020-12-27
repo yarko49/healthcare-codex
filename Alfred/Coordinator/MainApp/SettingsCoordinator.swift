@@ -118,14 +118,15 @@ class SettingsCoordinator: NSObject, Coordinator {
 	}
 
 	internal func profileRequest(profile: ProfileModel) {
-		DataContext.shared.postProfile(profile: profile) { [weak self] success in
-			if success {
-				os_log(.info, log: .settingsCoordinator, "OK STATUS FOR PROFILE: 200")
-				self?.hud.dismiss()
-				self?.navigationController?.popViewController(animated: true)
-			} else {
-				os_log(.error, log: .settingsCoordinator, "request failed")
+		AlfredClient.client.postProfile(profile: profile) { [weak self] result in
+			self?.hud.dismiss()
+			switch result {
+			case .failure(let error):
+				os_log(.error, log: .settingsCoordinator, "request failed %@", error.localizedDescription)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createProfileFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+			case .success(let resource):
+				os_log(.info, log: .settingsCoordinator, "OK STATUS FOR PROFILE: 200 %@", String(describing: resource))
+				self?.navigationController?.popViewController(animated: true)
 			}
 		}
 	}

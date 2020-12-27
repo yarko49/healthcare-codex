@@ -4,7 +4,12 @@
 //
 
 import Foundation
+import os.log
 import UIKit
+
+extension OSLog {
+	static let syncManager = OSLog(subsystem: subsystem, category: "SyncManager")
+}
 
 class SyncManager {
 	static let shared = SyncManager()
@@ -51,18 +56,22 @@ class SyncManager {
 			search = SearchParameter(sort: "-date", count: 1, code: DataContext.shared.hrCode.coding?.first?.code)
 		}
 		if let search = search {
-			DataContext.shared.postObservationSearch(search: search) { response in
-				if let stringDate = response?.entry?.first?.resource?.effectiveDateTime, var searchDate = DateFormatter.wholeDateRequest.date(from: stringDate) {
-					searchDate.addTimeInterval(60)
-					completion(searchDate)
-				} else if response?.entry == nil {
-					completion(date)
-				} else {
+			AlfredClient.client.postObservationSearch(search: search) { result in
+				switch result {
+				case .success(let response):
+					if let stringDate = response.entry?.first?.resource?.effectiveDateTime, var searchDate = DateFormatter.wholeDateRequest.date(from: stringDate) {
+						searchDate.addTimeInterval(60)
+						completion(searchDate)
+					} else if response.entry == nil {
+						completion(date)
+					} else {
+						completion(Date())
+					}
+				case .failure(let error):
+					os_log(.error, log: .syncManager, "Post Observation Search %@", error.localizedDescription)
 					completion(Date())
 				}
 			}
-		} else {
-			completion(Date())
 		}
 	}
 
@@ -125,8 +134,14 @@ class SyncManager {
 
 	private func postBundleRequest(for entries: [Entry], completion: @escaping (Bool) -> Void) {
 		let bundle = BundleModel(entry: entries, link: nil, resourceType: "Bundle", total: nil, type: "transaction")
-		DataContext.shared.postBundle(bundle: bundle) { resp in
-			completion(resp != nil)
+		AlfredClient.client.postBundle(bundle: bundle) { result in
+			switch result {
+			case .failure(let error):
+				os_log(.error, log: .syncManager, "Post Bundle %@", error.localizedDescription)
+				completion(false)
+			case .success:
+				completion(true)
+			}
 		}
 	}
 }

@@ -9,7 +9,7 @@ import CareKitStore
 import Foundation
 
 public struct CarePlanResponse: Codable, Hashable {
-	public let patients: Patients
+	public let patients: Patients?
 	public let carePlans: CarePlans
 	public let tasks: [String: Tasks]
 	public let vectorClock: [String: Int]

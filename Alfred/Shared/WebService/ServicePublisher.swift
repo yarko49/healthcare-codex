@@ -15,7 +15,7 @@ extension OSLog {
 
 public extension URLSession {
 	func servicePublisher(for url: URL) -> URLSession.ServicePublisher {
-		servicePublisher(for: .init(.GET, url: url))
+		servicePublisher(for: .init(.get, url: url))
 	}
 
 	func servicePublisher(for request: Request) -> URLSession.ServicePublisher {
@@ -37,7 +37,7 @@ public extension URLSession {
 
 		public func receive<S>(subscriber: S) where S: Subscriber, S.Failure == URLSession.ServicePublisher.Failure, S.Input == URLSession.ServicePublisher.Output {
 			let theSession = session
-			dataTaskPublisher = DataTaskPublisher(request: request.urlRequest, session: theSession)
+			dataTaskPublisher = DataTaskPublisher(request: request.urlRequest!, session: theSession)
 			dataTaskPublisher?.receive(subscriber: subscriber)
 		}
 	}

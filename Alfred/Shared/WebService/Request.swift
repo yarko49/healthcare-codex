@@ -12,34 +12,41 @@ extension OSLog {
 	static let request = OSLog(subsystem: subsystem, category: "Request")
 }
 
-public protocol URLRequestConvertable {
-	var urlRequest: URLRequest { get }
+public protocol URLRequestConvertible {
+	var urlRequest: URLRequest? { get }
 }
 
 public typealias QueryParameterEncoder = (_ url: URL?, _ parameters: [String: Any]) -> URL?
 
 public struct Request {
-	public enum Method: String, CaseIterable {
-		case GET
-		case HEAD
-		case POST
-		case PUT
-		case PATCH
-		case DELETE
+	public enum Method: String, CaseIterable, Equatable, Hashable, CustomStringConvertible {
+		case connect = "CONNECT"
+		case delete = "DELETE"
+		case get = "GET"
+		case head = "HEAD"
+		case options = "OPTIONS"
+		case patch = "PATCH"
+		case post = "POST"
+		case put = "PUT"
+		case trace = "TRACE"
 
 		var shouldEncodeParametersInURL: Bool {
 			switch self {
-			case .GET, .HEAD, .DELETE:
+			case .get, .head, .delete:
 				return true
 			default:
 				return false
 			}
 		}
+
+		public var description: String {
+			rawValue
+		}
 	}
 
-	public enum ParameterEncoding: CustomStringConvertible, CustomDebugStringConvertible, CaseIterable, Hashable {
-		case percent
-		case json
+	public enum ParameterEncoding: String, CustomStringConvertible, CustomDebugStringConvertible, CaseIterable, Hashable {
+		case percent = "PERCENT"
+		case json = "JSON"
 
 		public func encodeURL(_ url: URL, parameters: [String: Any]) -> URL? {
 			switch self {
@@ -61,12 +68,7 @@ public struct Request {
 		}
 
 		public var description: String {
-			switch self {
-			case .json:
-				return "JSON"
-			case .percent:
-				return "PERCENT"
-			}
+			rawValue
 		}
 
 		public var debugDescription: String {
@@ -178,8 +180,8 @@ public struct Request {
 	}
 }
 
-extension Request: URLRequestConvertable {
-	public var urlRequest: URLRequest {
+extension Request: URLRequestConvertible {
+	public var urlRequest: URLRequest? {
 		var urlComponents = URLComponents(string: urlString)
 		if var items = queryItems {
 			items.append(contentsOf: urlComponents?.queryItems ?? [])
@@ -187,7 +189,10 @@ extension Request: URLRequestConvertable {
 				urlComponents?.queryItems = items
 			}
 		}
-		var urlRequest = URLRequest(url: urlComponents?.url ?? URL(string: urlString)!)
+		guard let url = urlComponents?.url else {
+			return nil
+		}
+		var urlRequest = URLRequest(url: url)
 		urlRequest.httpMethod = method.rawValue
 		urlRequest.cachePolicy = cachePolicy
 		urlRequest.timeoutInterval = timeoutInterval

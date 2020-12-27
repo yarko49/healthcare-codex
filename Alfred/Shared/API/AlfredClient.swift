@@ -16,7 +16,7 @@ protocol AlfredAPI {
 	func getQuestionnaire(completion: @escaping WebService.DecodableCompletion<Questionnaire>) -> URLSession.DataTaskPublisher?
 	func postQuestionnaireResponse(questionnaireResponse: QuestionnaireResponse, completion: @escaping WebService.DecodableCompletion<SubmittedQuestionnaire>) -> URLSession.DataTaskPublisher?
 	func postObservation(observation: Resource, completion: @escaping WebService.DecodableCompletion<Resource>) -> URLSession.DataTaskPublisher?
-	func postProfile(profile: ProfileModel, completion: @escaping WebService.DecodableCompletion<Bool>) -> URLSession.DataTaskPublisher?
+	func postProfile(profile: ProfileModel, completion: @escaping WebService.DecodableCompletion<ProfileModel>) -> URLSession.DataTaskPublisher?
 	func postPatient(patient: Resource, completion: @escaping WebService.DecodableCompletion<Resource>) -> URLSession.DataTaskPublisher?
 	func patchPatient(patient: [UpdatePatientModel], completion: @escaping WebService.DecodableCompletion<Resource>) -> URLSession.DataTaskPublisher?
 	func postPatientSearch(completion: @escaping WebService.DecodableCompletion<BundleModel>) -> URLSession.DataTaskPublisher?
@@ -43,6 +43,16 @@ public final class AlfredClient: AlfredAPI {
 		session.configuration.httpMaximumConnectionsPerHost = 50
 		session.configuration.timeoutIntervalForRequest = 120
 		self.webService = WebService(session: session)
+		webService.errorProcessor = { request, error in
+			let errorToSend = error as NSError
+			var userInfo = errorToSend.userInfo
+			userInfo["message"] = error.localizedDescription
+			if let url = request.url {
+				userInfo["url"] = url
+			}
+			let crashlyticsError = NSError(domain: errorToSend.domain, code: errorToSend.code, userInfo: userInfo)
+			DataContext.shared.logError(crashlyticsError)
+		}
 	}
 
 	public func login(email: String, password: String, completion: @escaping WebService.DecodableCompletion<Bool>) {
@@ -64,6 +74,11 @@ public final class AlfredClient: AlfredAPI {
 	}
 
 	@discardableResult
+	func getRawReaults(route: APIRouter, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.DataTaskPublisher? {
+		webService.request(route: route, completion: completion)
+	}
+
+	@discardableResult
 	func getQuestionnaire(completion: @escaping WebService.DecodableCompletion<Questionnaire>) -> URLSession.DataTaskPublisher? {
 		webService.request(route: APIRouter.getQuestionnaire, completion: completion)
 	}
@@ -79,7 +94,7 @@ public final class AlfredClient: AlfredAPI {
 	}
 
 	@discardableResult
-	func postProfile(profile: ProfileModel, completion: @escaping WebService.DecodableCompletion<Bool>) -> URLSession.DataTaskPublisher? {
+	func postProfile(profile: ProfileModel, completion: @escaping WebService.DecodableCompletion<ProfileModel>) -> URLSession.DataTaskPublisher? {
 		webService.request(route: APIRouter.postProfile(profile: profile), completion: completion)
 	}
 

@@ -96,10 +96,9 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		actionCodeSettings.url = URL(string: AppConfig.firebaseDeeplinkURL)
 		actionCodeSettings.handleCodeInApp = true
 		actionCodeSettings.setIOSBundleID(bundleId)
-		Auth.auth().sendSignInLink(toEmail: email,
-		                           actionCodeSettings: actionCodeSettings) { [weak self] error in
+		Auth.auth().sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings) { [weak self] error in
 			if let error = error {
-				print(error)
+				os_log(.error, log: .authCoordinator, "Send signin Link %@", error.localizedDescription)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.failedSendLink, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 				return
 			}
@@ -148,18 +147,18 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		var user: AuthDataResult?
 
 		let signInAction: (() -> Void)? = { [weak self] in
-			self?.hud.show(in: AppDelegate.primaryWindow, animated: true)
+			self?.hud.show(in: self?.navigationController?.view ?? AppDelegate.primaryWindow, animated: true)
 			if Auth.auth().isSignIn(withEmailLink: link) {
 				Auth.auth().tenantID = nil
 				Auth.auth().signIn(withEmail: email, link: link) { [weak self] authResult, error in
 					appleHealthVC.comingFrom = .welcomeFailure
 					if error == nil {
-						self?.getFirebaseToken(authResult: authResult, error: error) {
+						self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
 							self?.hud.dismiss(animated: true)
 							user = authResult
 							appleHealthVC.comingFrom = .welcomeSuccess
 							appleHealthVC.setupTexts()
-						}
+						})
 					} else {
 						self?.hud.dismiss(animated: true)
 						appleHealthVC.setupTexts()
@@ -198,7 +197,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func resetPassword(email: String?) {
-		hud.show(in: AppDelegate.primaryWindow)
+		hud.show(in: navigationController?.view ?? AppDelegate.primaryWindow)
 		Auth.auth().sendPasswordReset(withEmail: email ?? "") { [weak self] error in
 			self?.hud.dismiss(animated: true)
 			if error != nil {
@@ -227,7 +226,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			return
 		}
 
-		hud.show(in: AppDelegate.primaryWindow, animated: true)
+		hud.show(in: navigationController?.view ?? AppDelegate.primaryWindow, animated: true)
 		DataContext.shared.fetchData(user: user, completion: { [weak self] success in
 			self?.hud.dismiss(animated: true)
 			if success {
@@ -240,7 +239,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func getProfile() {
-		hud.show(in: AppDelegate.primaryWindow, animated: true)
+		hud.show(in: navigationController?.view ?? AppDelegate.primaryWindow, animated: true)
 		DataContext.shared.getProfileAPI { [weak self] success in
 			self?.hud.dismiss(animated: true)
 			if success {
@@ -471,22 +470,22 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func patientAPI(patient: Resource, weight: Int, height: Int, date: String) {
-		hud.show(in: AppDelegate.primaryWindow, animated: true)
+		hud.show(in: navigationController?.view ?? AppDelegate.primaryWindow, animated: true)
 		guard DataContext.shared.userModel == nil else {
 			getHeightWeight(weight: weight, height: height, date: date)
 			return
 		}
-		DataContext.shared.postPatient(patient: patient) { [weak self] patientResponse in
+		AlfredClient.client.postPatient(patient: patient) { [weak self] result in
 			self?.hud.dismiss(animated: true)
 			DataContext.shared.patient = patient
-
-			if patientResponse != nil {
+			switch result {
+			case .success(let patientResponse):
 				os_log(.info, log: .authCoordinator, "OK STATUS FOR PATIENT : 200")
 				let defaultName = Name(use: "", family: "", given: [""])
-				DataContext.shared.userModel = UserModel(userID: patientResponse?.id ?? "", email: self?.emailrequest ?? "", name: patientResponse?.name ?? [defaultName], dob: patient.birthDate, gender: Gender(rawValue: DataContext.shared.patient?.gender ?? ""))
+				DataContext.shared.userModel = UserModel(userID: patientResponse.id ?? "", email: self?.emailrequest ?? "", name: patientResponse.name ?? [defaultName], dob: patient.birthDate, gender: Gender(rawValue: DataContext.shared.patient?.gender ?? ""))
 				self?.getHeightWeight(weight: weight, height: height, date: date)
-			} else {
-				os_log(.error, log: .authCoordinator, "request failed")
+			case .failure(let error):
+				os_log(.error, log: .authCoordinator, "request failed %@", error.localizedDescription)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 				return
 			}
@@ -508,32 +507,33 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func bundleAction(bundle: BundleModel) {
-		hud.show(in: AppDelegate.primaryWindow, animated: true)
-		DataContext.shared.postBundle(bundle: bundle) { [weak self] response in
+		hud.show(in: navigationController?.view ?? AppDelegate.primaryWindow, animated: true)
+		AlfredClient.client.postBundle(bundle: bundle) { [weak self] result in
 			self?.hud.dismiss(animated: true)
-			if let response = response {
+			switch result {
+			case .success(let response):
 				os_log(.info, log: .authCoordinator, "response %@", String(describing: response))
 				DataContext.shared.signUpCompleted = true
 				let profile = DataContext.shared.createProfileModel()
 				self?.profileRequest(profile: profile)
-
-			} else {
-				os_log(.error, log: .authCoordinator, "request failed")
+			case .failure(let error):
+				os_log(.error, log: .authCoordinator, "request failed %@", error.localizedDescription)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createBundleFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}
 	}
 
 	internal func profileRequest(profile: ProfileModel) {
-		hud.show(in: AppDelegate.primaryWindow, animated: true)
-		DataContext.shared.postProfile(profile: profile) { [weak self] success in
+		hud.show(in: navigationController?.view ?? AppDelegate.primaryWindow, animated: true)
+		AlfredClient.client.postProfile(profile: profile) { [weak self] result in
 			self?.hud.dismiss(animated: true)
-			if success {
+			switch result {
+			case .success(let resource):
 				DataContext.shared.identifyCrashlytics()
-				os_log(.info, log: .authCoordinator, "OK STATUS FOR PROFILE: 200 %@", String(describing: DataContext.shared.signUpCompleted))
+				os_log(.info, log: .authCoordinator, "OK STATUS FOR PROFILE: 200 %@, %@", String(describing: DataContext.shared.signUpCompleted), String(describing: resource))
 				self?.goToAppleHealthVCFromDevices()
-			} else {
-				os_log(.error, log: .authCoordinator, "request failed")
+			case .failure(let error):
+				os_log(.error, log: .authCoordinator, "request failed %@", error.localizedDescription)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createProfileFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}
@@ -577,24 +577,25 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		return request
 	}
 
-	private func getFirebaseToken(authResult: AuthDataResult?, error: Error?, completionHandler: @escaping () -> Void) {
+	private func getFirebaseAuthTokenResult(authDataResult: AuthDataResult?, error: Error?, completion: @escaping (Bool) -> Void) {
 		if let error = error {
 			os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
 			hud.dismiss()
 			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-		} else if let authResult = authResult {
-			authResult.user.getIDToken(completion: { [weak self] firebaseToken, error in
+		} else if let authDataResult = authDataResult {
+			authDataResult.user.getIDTokenResult { [weak self] authTokenResult, _ in
 				self?.hud.dismiss(animated: true)
 				if let error = error {
 					os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
 					AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-				} else if let firebaseToken = firebaseToken {
+					completion(false)
+				} else if let authTokenResult = authTokenResult {
 					self?.emailrequest = Auth.auth().currentUser?.email
-					DataContext.shared.authToken = firebaseToken
-					os_log(.info, log: .authCoordinator, "firebaseToken: %{private}@", firebaseToken)
-					completionHandler()
+					DataContext.shared.authToken = authTokenResult.token
+					os_log(.info, log: .authCoordinator, "firebaseToken: %{private}@", authTokenResult.token)
+					completion(true)
 				}
-			})
+			}
 		}
 	}
 
@@ -620,12 +621,11 @@ extension AuthCoordinator: GIDSignInDelegate {
 			return
 		}
 		Auth.auth().tenantID = AppConfig.tenantID
-		let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
-		                                               accessToken: authentication.accessToken)
+		let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
 		Auth.auth().signIn(with: credential) { [weak self] authResult, error in
-			self?.getFirebaseToken(authResult: authResult, error: error) { [weak self] in
+			self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
 				self?.checkIfUserExists(user: authResult)
-			}
+			})
 		}
 	}
 }
@@ -650,9 +650,9 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 			let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
 			Auth.auth().tenantID = AppConfig.tenantID
 			Auth.auth().signIn(with: credential) { [weak self] authResult, error in
-				self?.getFirebaseToken(authResult: authResult, error: error) { [weak self] in
+				self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
 					self?.checkIfUserExists(user: authResult)
-				}
+				})
 			}
 		}
 	}

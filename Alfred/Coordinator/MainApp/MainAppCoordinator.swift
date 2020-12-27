@@ -40,7 +40,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func start() {
-		if DataContext.shared.haveAskedUserforBiometrics() == false {
+		if DataContext.shared.haveAskedUserforBiometrics == false {
 			enrollWithBiometrics()
 		} else {
 			if DataContext.shared.isBiometricsEnabled == false {}
@@ -273,22 +273,27 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 	internal func postGetData(search: SearchParameter, completion: @escaping (BundleModel?) -> Void) {
 		hud.show(in: AppDelegate.primaryWindow, animated: true)
-		DataContext.shared.postObservationSearch(search: search) { [weak self] response in
+		AlfredClient.client.postObservationSearch(search: search) { [weak self] result in
 			self?.hud.dismiss(animated: true)
-			if response != nil {
+			switch result {
+			case .success(let response):
 				DataContext.shared.dataModel = response
 				completion(response)
+			case .failure(let error):
+				os_log(.error, log: .mainCoordinator, "Post GetData %@", error.localizedDescription)
 			}
 		}
 	}
 
 	internal func postObservationSearchAction(search: SearchParameter, vc: ProfileVC, start: Date, end: Date, hkType: HealthKitQuantityType) {
 		hud.show(in: AppDelegate.primaryWindow, animated: true)
-		DataContext.shared.postObservationSearch(search: search) { [weak self] response in
+		AlfredClient.client.postObservationSearch(search: search) { [weak self] result in
 			self?.hud.dismiss(animated: true)
-			if response != nil {
-			} else {
-				os_log(.error, log: .mainCoordinator, "post Observation Search request failed")
+			switch result {
+			case .success:
+				os_log(.info, log: .mainCoordinator, "Post Observation Search Action")
+			case .failure(let error):
+				os_log(.error, log: .mainCoordinator, "Post Observation Search Action %@", error.localizedDescription)
 			}
 		}
 	}
@@ -369,18 +374,18 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 	internal func patientAPI(patient: [UpdatePatientModel], weight: Int, height: Int, date: String, birthDay: String, family: String, given: [String]) {
 		hud.show(in: AppDelegate.primaryWindow, animated: true)
-		DataContext.shared.patchPatient(patient: patient) { [weak self] resourceResponse in
+		AlfredClient.client.patchPatient(patient: patient) { [weak self] result in
 			self?.hud.dismiss(animated: true)
 			DataContext.shared.editPatient = patient
-			if resourceResponse != nil {
+			switch result {
+			case .success:
 				os_log(.info, log: .masterCoordinator, "OK STATUS FOR UPDATE PATIENT : 200")
 				DataContext.shared.userModel = UserModel(userID: DataContext.shared.userModel?.userID ?? "", email: DataContext.shared.userModel?.email, name: [Name(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? Gender(rawValue: "female"))
 				self?.profileVC?.nameLbl?.attributedText = ProfileHelper.firstName.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 				self?.getHeightWeight(weight: weight, height: height, date: date)
-			} else {
-				os_log(.error, log: .masterCoordinator, "request failed")
+			case .failure(let error):
+				os_log(.error, log: .masterCoordinator, "request failed %@", error.localizedDescription)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-				return
 			}
 		}
 	}
@@ -403,15 +408,16 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 	internal func bundleAction(bundle: BundleModel) {
 		hud.show(in: AppDelegate.primaryWindow, animated: true)
-		DataContext.shared.postBundle(bundle: bundle) { [weak self] response in
+		AlfredClient.client.postBundle(bundle: bundle) { [weak self] result in
 			self?.hud.dismiss(animated: true)
-			if response != nil {
+			switch result {
+			case .success:
 				self?.heightWeightBundle = bundle
 				if let profile = self?.profileVC {
 					self?.navigationController?.popToViewController(profile, animated: true)
 				}
-			} else {
-				os_log(.error, log: .masterCoordinator, "request failed")
+			case .failure(let error):
+				os_log(.error, log: .masterCoordinator, "request failed %@", error.localizedDescription)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createBundleFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}
@@ -442,18 +448,24 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	@objc internal func addAction() {
 		if let observation = observation {
 			hud.show(in: AppDelegate.primaryWindow, animated: true)
-			DataContext.shared.postObservation(observation: observation) { [weak self] response in
-				self?.hud.dismiss(animated: true)
-				if response != nil {
+			AlfredClient.client.postObservation(observation: observation) { [weak self] result in
+				self?.hud.dismiss()
+				switch result {
+				case .failure(let error):
+					os_log(.error, log: .mainCoordinator, "Error posting Observation %@", error.localizedDescription)
+				case .success:
 					self?.observation = nil
 					self?.navigationController?.popViewController(animated: true)
 				}
 			}
 		} else if let bundle = bundle {
 			hud.show(in: AppDelegate.primaryWindow, animated: true)
-			DataContext.shared.postBundle(bundle: bundle) { [weak self] response in
-				self?.hud.dismiss(animated: true)
-				if response != nil {
+			AlfredClient.client.postBundle(bundle: bundle) { [weak self] result in
+				self?.hud.dismiss()
+				switch result {
+				case .failure(let error):
+					os_log(.error, log: .mainCoordinator, "Error posting Bundle %@", error.localizedDescription)
+				case .success:
 					self?.bundle = nil
 					self?.navigationController?.popViewController(animated: true)
 				}

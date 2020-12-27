@@ -38,43 +38,62 @@ public class CareManager: ObservableObject {
 			case .failure(let error):
 				os_log(.error, log: .careManager, "Error fetching care plan data %@", error.localizedDescription)
 			case .success(let response):
-				os_log(.info, log: .careManager, "Successfully fetch care plan")
+				os_log(.info, log: .careManager, "Successfully fetch care plan %@", String(describing: response))
+			}
+		}
+	}
+
+	public func getRawCarePlan() {
+		let route = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false)
+		AlfredClient.client.getRawReaults(route: route) { result in
+			switch result {
+			case .failure(let error):
+				os_log(.error, log: .careManager, "Error fetching raw care plan data %@", error.localizedDescription)
+			case .success(let carePlan):
+				do {
+					let data = try JSONSerialization.data(withJSONObject: carePlan, options: .prettyPrinted)
+					var documentsFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+					documentsFolder = documentsFolder.appendingPathComponent("carePlan.json")
+					try data.write(to: documentsFolder)
+				} catch {
+					os_log(.error, log: .careManager, "Error writing data %@", error.localizedDescription)
+				}
 			}
 		}
 	}
 
 	public func getVectorClock() {
-//		webService.getCarePlan(vectorClock: true, valueSpaceSample: false) { result in
-//			switch result {
-//			case .failure(let error):
-//				os_log(.error, log: .careManager, "Error fetching care plan vector clock data %@", error.localizedDescription)
-//			case .success(let response):
-//				do {
-//					let data = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
-//					try data.write(to: URL(fileURLWithPath: "/tmp/VectorClockResponse.json"))
-//				} catch {
-//					os_log(.error, log: .careManager, "Unable to decode reponse %@", error.localizedDescription)
-//				}
-//				os_log(.info, log: .careManager, "Successfully fetch care plan %@", response)
-//			}
-//		}
+		AlfredClient.client.getCarePlan(vectorClock: true, valueSpaceSample: false) { result in
+			switch result {
+			case .failure(let error):
+				os_log(.error, log: .careManager, "Error fetching care plan vector clock data %@", error.localizedDescription)
+			case .success(let response):
+				do {
+					let data = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
+					try data.write(to: URL(fileURLWithPath: "/tmp/VectorClockResponse.json"))
+				} catch {
+					os_log(.error, log: .careManager, "Unable to decode reponse %@", error.localizedDescription)
+				}
+				os_log(.info, log: .careManager, "Successfully fetch care plan %@", String(describing: response))
+			}
+		}
 	}
 
 	public func getValueSpaceSample() {
-//		webService.getCarePlan(vectorClock: false, valueSpaceSample: true) { result in
-//			switch result {
-//			case .failure(let error):
-//				os_log(.error, log: .careManager, "Error fetching care plan vector clock data %@", error.localizedDescription)
-//			case .success(let response):
-//				do {
-//					let data = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
-//					try data.write(to: URL(fileURLWithPath: "/tmp/ValueSpaceResponse.json"))
-//				} catch {
-//					os_log(.error, log: .careManager, "Unable to decode reponse %@", error.localizedDescription)
-//				}
-//				os_log(.info, log: .careManager, "Successfully fetch care plan %@", response)
-//			}
-//		}
+		AlfredClient.client.getCarePlan(vectorClock: false, valueSpaceSample: true) { result in
+			switch result {
+			case .failure(let error):
+				os_log(.error, log: .careManager, "Error fetching care plan vector clock data %@", error.localizedDescription)
+			case .success(let response):
+				do {
+					let data = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
+					try data.write(to: URL(fileURLWithPath: "/tmp/ValueSpaceResponse.json"))
+				} catch {
+					os_log(.error, log: .careManager, "Unable to decode reponse %@", error.localizedDescription)
+				}
+				os_log(.info, log: .careManager, "Successfully fetch care plan %@", String(describing: response))
+			}
+		}
 	}
 }
 

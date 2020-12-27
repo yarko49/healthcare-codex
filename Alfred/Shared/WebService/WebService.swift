@@ -25,6 +25,7 @@ public final class WebService {
 	let session: URLSession
 	var subscriptions: Set<AnyCancellable> = []
 	public var configuration: WebService.Configuarion = Configuarion()
+	public var errorProcessor: ((URLRequest, Error) -> Void)?
 
 	public init(session: URLSession = .shared) {
 		self.session = session
@@ -51,9 +52,12 @@ public final class WebService {
 			.decode(type: T.self, decoder: decoder)
 			.subscribe(on: DispatchQueue.global(qos: .background))
 			.receive(on: DispatchQueue.main)
-			.sink(receiveCompletion: { receiveCompletion in
+			.sink(receiveCompletion: { [weak self] receiveCompletion in
 				switch receiveCompletion {
 				case .failure(let error):
+					if let processor = self?.errorProcessor {
+						processor(request, error)
+					}
 					os_log(.error, log: .webservice, "%@", error.localizedDescription)
 					completion(.failure(error))
 				case .finished:
