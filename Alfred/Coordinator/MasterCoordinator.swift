@@ -1,5 +1,6 @@
 import Firebase
 import FirebaseAuth
+import JGProgressHUD
 import LocalAuthentication
 import os.log
 import UIKit
@@ -10,15 +11,26 @@ extension OSLog {
 
 class MasterCoordinator: Coordinator {
 	private var window: UIWindow
-
 	internal var childCoordinators: [CoordinatorKey: Coordinator]
 	internal var navigationController: UINavigationController?
 
+	private let hud: JGProgressHUD = AlertHelper.progressHUD
 	var context = LAContext()
 	var error: NSError?
 
 	public var rootViewController: UIViewController? {
 		navigationController
+	}
+
+	func showHUD(animated: Bool = true) {
+		guard !hud.isVisible else {
+			return
+		}
+		hud.show(in: window, animated: animated)
+	}
+
+	func hideHUD(animated: Bool = true) {
+		hud.dismiss(animated: animated)
 	}
 
 	init(in window: UIWindow) {

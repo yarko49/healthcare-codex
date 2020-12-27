@@ -12,7 +12,10 @@ extension OSLog {
 }
 
 class QuestionnaireCoordinator: NSObject, Coordinator {
-	internal var navigationController: UINavigationController?
+	internal var navigationController: UINavigationController? = {
+		QuestionnaireNavigationController()
+	}()
+
 	internal var childCoordinators: [CoordinatorKey: Coordinator]
 	internal weak var parentCoordinator: MainAppCoordinator?
 
@@ -24,7 +27,6 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 	weak var questionVC: QuestionViewController?
 
 	init(with parent: MainAppCoordinator?) {
-		self.navigationController = QuestionnaireNavigationController()
 		self.parentCoordinator = parent
 		self.childCoordinators = [:]
 		super.init()
@@ -39,7 +41,13 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 		}
 	}
 
-	let hud = AlertHelper.progressHUD
+	func showHUD(animated: Bool = true) {
+		parentCoordinator?.showHUD(animated: animated)
+	}
+
+	func hideHUD(animated: Bool = true) {
+		parentCoordinator?.hideHUD(animated: animated)
+	}
 
 	internal func goToQuestionnaire() {
 		let questionnaireVC = QuestionnaireViewController()
@@ -47,9 +55,9 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 			self?.stop()
 		}
 		questionnaireVC.showQuestionnaireAction = { [weak self] in
-			self?.hud.show(in: questionnaireVC.view)
+			self?.showHUD()
 			AlfredClient.client.getQuestionnaire { result in
-				self?.hud.dismiss()
+				self?.hideHUD()
 				switch result {
 				case .failure(let error):
 					os_log(.error, log: .questionnaireCoordinator, "Error Fetching Questionnaire %@", error.localizedDescription)
@@ -141,9 +149,9 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 	}
 
 	internal func postRequest(with questionnaireResponse: QuestionnaireResponse) {
-		hud.show(in: AppDelegate.primaryWindow)
+		showHUD()
 		AlfredClient.client.postQuestionnaireResponse(questionnaireResponse: questionnaireResponse) { [weak self] result in
-			self?.hud.dismiss()
+			self?.hideHUD()
 			switch result {
 			case .failure(let error):
 				os_log(.error, log: .questionnaireCoordinator, "Cannot post questionnaire response %@", error.localizedDescription)
@@ -223,8 +231,7 @@ extension QuestionnaireCoordinator: UINavigationControllerDelegate {
 
 extension QuestionnaireCoordinator: UIAdaptivePresentationControllerDelegate {
 	func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-		print("dismiss")
-
+		os_log(.info, log: .questionnaireCoordinator, "dismiss")
 		stop()
 	}
 }

@@ -7,6 +7,9 @@ protocol Coordinator: AnyObject {
 	func start()
 	func addChild(coordinator: Coordinator, with key: CoordinatorKey)
 	func removeChild(coordinator: Coordinator)
+
+	func showHUD(animated: Bool)
+	func hideHUD(animated: Bool)
 }
 
 extension Coordinator {
@@ -25,6 +28,9 @@ extension Coordinator {
 			removeChild(coordinator: coord)
 		}
 	}
+
+	func showHUD(animated: Bool) {}
+	func hideHUD(animated: Bool) {}
 }
 
 // MARK: Controller Navigation

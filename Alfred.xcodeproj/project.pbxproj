@@ -112,7 +112,6 @@
 		1234FD8022159CF100E73FFF /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD7F22159CF100E73FFF /* AuthCoordinator.swift */; };
 		1234FD8422159FBD00E73FFF /* AuthNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD8322159FBD00E73FFF /* AuthNavigationController.swift */; };
 		1234FD862215A03A00E73FFF /* MainAppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD852215A03A00E73FFF /* MainAppCoordinator.swift */; };
-		1234FD9B2215AEA500E73FFF /* SettingsNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD9A2215AEA500E73FFF /* SettingsNC.swift */; };
 		1234FD9F2215B0C900E73FFF /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FD9E2215B0C900E73FFF /* SettingsCoordinator.swift */; };
 		1234FDA52215BE3800E73FFF /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1234FDA32215BE3800E73FFF /* SettingsVC.swift */; };
 		1234FDA62215BE3800E73FFF /* SettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1234FDA42215BE3800E73FFF /* SettingsVC.xib */; };
@@ -375,7 +374,6 @@
 		1234FD7F22159CF100E73FFF /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		1234FD8322159FBD00E73FFF /* AuthNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNavigationController.swift; sourceTree = "<group>"; };
 		1234FD852215A03A00E73FFF /* MainAppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppCoordinator.swift; sourceTree = "<group>"; };
-		1234FD9A2215AEA500E73FFF /* SettingsNC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNC.swift; sourceTree = "<group>"; };
 		1234FD9E2215B0C900E73FFF /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		1234FDA32215BE3800E73FFF /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		1234FDA42215BE3800E73FFF /* SettingsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsVC.xib; sourceTree = "<group>"; };
@@ -949,7 +947,6 @@
 			isa = PBXGroup;
 			children = (
 				1234FDA22215BDF000E73FFF /* SettingsVC */,
-				1234FD9A2215AEA500E73FFF /* SettingsNC.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1681,7 +1678,6 @@
 				C45CCA8E2513CBBD00288C2C /* MyProfileSecondVC.swift in Sources */,
 				84EE1E58258C50EF00326D42 /* OutcomeValue.swift in Sources */,
 				1234FD8422159FBD00E73FFF /* AuthNavigationController.swift in Sources */,
-				1234FD9B2215AEA500E73FFF /* SettingsNC.swift in Sources */,
 				84EE1E5B258C50EF00326D42 /* CarePlanResponse.swift in Sources */,
 				84EE1E5E258C50EF00326D42 /* ScheduleElement.swift in Sources */,
 				06C8BF6624CEE95D009F4DDF /* Ext_Data.swift in Sources */,

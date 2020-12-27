@@ -1,5 +1,4 @@
 import HealthKit
-import JGProgressHUD
 import LocalAuthentication
 import os.log
 import UIKit
@@ -48,6 +47,14 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		showHome()
 	}
 
+	func showHUD(animated: Bool = true) {
+		parentCoordinator?.showHUD(animated: animated)
+	}
+
+	func hideHUD(animated: Bool = true) {
+		parentCoordinator?.hideHUD(animated: animated)
+	}
+
 	internal func evaluateBiometrics() {
 		context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error)
 		if context.biometryType == .none {
@@ -56,10 +63,6 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		}
 		os_log(.info, log: .mainCoordinator, "%@", String(describing: context.biometryType.rawValue))
 	}
-
-	internal lazy var hud: JGProgressHUD = {
-		AlertHelper.progressHUD
-	}()
 
 	func enrollWithBiometrics() {
 		evaluateBiometrics()
@@ -79,10 +82,10 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		let homeVC = HomeViewController()
 		let getCardsAction: (() -> Void)? = { [weak self] in
 			DispatchQueue.main.async {
-				self?.hud.show(in: homeVC.view, animated: true)
+				self?.showHUD()
 				AlfredClient.client.getCardList { result in
 					var notificationsCards: [NotificationCard]?
-					self?.hud.dismiss()
+					self?.hideHUD()
 					switch result {
 					case .failure(let error):
 						os_log(.error, log: .mainCoordinator, "error Fetching notificiation %@", error.localizedDescription)
@@ -169,7 +172,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		self.profileVC = profileVC
 
 		profileVC.getData = { [weak self] in
-			self?.hud.show(in: AppDelegate.primaryWindow, animated: true)
+			self?.showHUD()
 			let group = DispatchGroup()
 			var weight: Int? = 0
 			var height: Int? = 0
@@ -233,7 +236,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		profileVC.getRangeData = { [weak self] interval, start, end, completion in
 			var chartData: [HealthKitQuantityType: [StatModel]] = [:]
 			var goals: [HealthKitQuantityType: Double] = [:]
-			self?.hud.show(in: AppDelegate.primaryWindow, animated: true)
+			self?.showHUD()
 			let chartGroup = DispatchGroup()
 			DataContext.shared.userAuthorizedQuantities.forEach { quantityType in
 				chartGroup.enter()
@@ -256,7 +259,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			}
 
 			chartGroup.notify(queue: .main) { [weak self] in
-				self?.hud.dismiss(animated: true)
+				self?.hideHUD()
 				completion?(chartData, goals)
 			}
 		}
@@ -272,9 +275,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func postGetData(search: SearchParameter, completion: @escaping (BundleModel?) -> Void) {
-		hud.show(in: AppDelegate.primaryWindow, animated: true)
+		showHUD()
 		AlfredClient.client.postObservationSearch(search: search) { [weak self] result in
-			self?.hud.dismiss(animated: true)
+			self?.hideHUD()
 			switch result {
 			case .success(let response):
 				DataContext.shared.dataModel = response
@@ -286,9 +289,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func postObservationSearchAction(search: SearchParameter, vc: ProfileVC, start: Date, end: Date, hkType: HealthKitQuantityType) {
-		hud.show(in: AppDelegate.primaryWindow, animated: true)
+		showHUD()
 		AlfredClient.client.postObservationSearch(search: search) { [weak self] result in
-			self?.hud.dismiss(animated: true)
+			self?.hideHUD()
 			switch result {
 			case .success:
 				os_log(.info, log: .mainCoordinator, "Post Observation Search Action")
@@ -373,9 +376,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func patientAPI(patient: [UpdatePatientModel], weight: Int, height: Int, date: String, birthDay: String, family: String, given: [String]) {
-		hud.show(in: AppDelegate.primaryWindow, animated: true)
+		showHUD()
 		AlfredClient.client.patchPatient(patient: patient) { [weak self] result in
-			self?.hud.dismiss(animated: true)
+			self?.hideHUD()
 			DataContext.shared.editPatient = patient
 			switch result {
 			case .success:
@@ -407,9 +410,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func bundleAction(bundle: BundleModel) {
-		hud.show(in: AppDelegate.primaryWindow, animated: true)
+		showHUD()
 		AlfredClient.client.postBundle(bundle: bundle) { [weak self] result in
-			self?.hud.dismiss(animated: true)
+			self?.hideHUD()
 			switch result {
 			case .success:
 				self?.heightWeightBundle = bundle
@@ -447,9 +450,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 	@objc internal func addAction() {
 		if let observation = observation {
-			hud.show(in: AppDelegate.primaryWindow, animated: true)
+			parentCoordinator?.showHUD()
 			AlfredClient.client.postObservation(observation: observation) { [weak self] result in
-				self?.hud.dismiss()
+				self?.hideHUD()
 				switch result {
 				case .failure(let error):
 					os_log(.error, log: .mainCoordinator, "Error posting Observation %@", error.localizedDescription)
@@ -459,9 +462,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				}
 			}
 		} else if let bundle = bundle {
-			hud.show(in: AppDelegate.primaryWindow, animated: true)
+			parentCoordinator?.showHUD()
 			AlfredClient.client.postBundle(bundle: bundle) { [weak self] result in
-				self?.hud.dismiss()
+				self?.hideHUD()
 				switch result {
 				case .failure(let error):
 					os_log(.error, log: .mainCoordinator, "Error posting Bundle %@", error.localizedDescription)
