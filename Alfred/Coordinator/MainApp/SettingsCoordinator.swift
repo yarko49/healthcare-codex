@@ -7,7 +7,10 @@ extension OSLog {
 }
 
 class SettingsCoordinator: NSObject, Coordinator {
-	internal var navigationController: UINavigationController?
+	internal var navigationController: UINavigationController? = {
+		UINavigationController(nibName: nil, bundle: nil)
+	}()
+
 	internal var childCoordinators: [CoordinatorKey: Coordinator]
 	internal weak var parentCoordinator: MainAppCoordinator?
 
@@ -16,7 +19,6 @@ class SettingsCoordinator: NSObject, Coordinator {
 	}
 
 	init(with parent: MainAppCoordinator?) {
-		self.navigationController = SettingsNC()
 		self.parentCoordinator = parent
 		self.childCoordinators = [:]
 		super.init()
@@ -29,6 +31,14 @@ class SettingsCoordinator: NSObject, Coordinator {
 			nav.presentationController?.delegate = self
 			parentCoordinator?.navigate(to: nav, with: .present)
 		}
+	}
+
+	func showHUD(animated: Bool = true) {
+		parentCoordinator?.showHUD(animated: animated)
+	}
+
+	func hideHUD(animated: Bool = true) {
+		parentCoordinator?.hideHUD(animated: animated)
 	}
 
 	internal func goToSettings() {
@@ -87,12 +97,10 @@ class SettingsCoordinator: NSObject, Coordinator {
 		navigate(to: accountResetPasswordVC, with: .pushFullScreen)
 	}
 
-	let hud = AlertHelper.progressHUD
-
 	internal func resetPassword(accountResetPasswordVC: AccountResetPasswordVC?, email: String?) {
-		hud.show(in: AppDelegate.primaryWindow)
+		showHUD()
 		Auth.auth().sendPasswordReset(withEmail: email ?? "") { [weak self] error in
-			self?.hud.dismiss()
+			self?.hideHUD()
 			if error != nil {
 				os_log(.error, log: .settingsCoordinator, "%@", error?.localizedDescription ?? "")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.invalidEmail, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
@@ -119,7 +127,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 
 	internal func profileRequest(profile: ProfileModel) {
 		AlfredClient.client.postProfile(profile: profile) { [weak self] result in
-			self?.hud.dismiss()
+			self?.hideHUD()
 			switch result {
 			case .failure(let error):
 				os_log(.error, log: .settingsCoordinator, "request failed %@", error.localizedDescription)

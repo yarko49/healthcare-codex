@@ -45,7 +45,7 @@
                             <viewLayoutGuide key="contentLayoutGuide" id="37m-I3-7rC"/>
                             <viewLayoutGuide key="frameLayoutGuide" id="Rrq-Qq-sHe"/>
                         </scrollView>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="1aa-Fi-O7P">
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="1aa-Fi-O7P">
                             <rect key="frame" x="0.0" y="170" width="414" height="682"/>
                             <color key="backgroundColor" red="0.80392156862745101" green="0.80784313725490198" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="C89-Bz-3FS">

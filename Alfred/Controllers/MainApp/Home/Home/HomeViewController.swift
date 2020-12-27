@@ -41,17 +41,15 @@ class HomeViewController: BaseViewController {
 		cardCollectionView.alwaysBounceVertical = true
 		cardCollectionView.addSubview(refreshControl)
 		// This is for testing only
+		#if DEBUG
 		let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(fetchCarePlan(_:)))
 		navigationItem.rightBarButtonItem = refreshButton
+		#endif
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		getCardsAction?()
-	}
-
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
 	}
 
 	override func setupView() {
@@ -67,17 +65,12 @@ class HomeViewController: BaseViewController {
 
 		view.layer.backgroundColor = UIColor.white.cgColor
 		cardCollectionView.backgroundColor = .white
-		cardCollectionView.showsVerticalScrollIndicator = false
 
-		let layout = UICollectionViewFlowLayout()
-		layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
-		layout.minimumLineSpacing = 16
-		layout.minimumInteritemSpacing = 16
-		cardCollectionView.collectionViewLayout = layout
-	}
-
-	override func populateData() {
-		super.populateData()
+		if let layout = cardCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+			layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+			layout.minimumLineSpacing = 16
+			layout.minimumInteritemSpacing = 16
+		}
 	}
 
 	func setupCards(with notificationList: [NotificationCard]?) {

@@ -3,7 +3,6 @@ import CryptoKit
 import FirebaseAuth
 import GoogleSignIn
 import HealthKit
-import JGProgressHUD
 import LocalAuthentication
 import os.log
 import UIKit
@@ -18,7 +17,10 @@ extension OSLog {
 }
 
 class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDelegate {
-	internal var navigationController: UINavigationController?
+	internal var navigationController: UINavigationController? = {
+		AuthNavigationController()
+	}()
+
 	internal var childCoordinators: [CoordinatorKey: Coordinator]
 	internal weak var parentCoordinator: MasterCoordinator?
 
@@ -33,7 +35,6 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	init(withParent parent: MasterCoordinator?, deepLink: String = "") {
-		self.navigationController = AuthNavigationController()
 		self.parentCoordinator = parent
 		self.childCoordinators = [:]
 		super.init()
@@ -46,12 +47,16 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		}
 	}
 
-	internal lazy var hud: JGProgressHUD = {
-		AlertHelper.progressHUD
-	}()
-
 	internal func start() {
 		showOnboarding()
+	}
+
+	func showHUD(animated: Bool = true) {
+		parentCoordinator?.showHUD(animated: animated)
+	}
+
+	func hideHUD(animated: Bool = true) {
+		parentCoordinator?.hideHUD(animated: animated)
 	}
 
 	internal func showOnboarding() {
@@ -147,26 +152,26 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		var user: AuthDataResult?
 
 		let signInAction: (() -> Void)? = { [weak self] in
-			self?.hud.show(in: self?.navigationController?.view ?? AppDelegate.primaryWindow, animated: true)
+			self?.showHUD()
 			if Auth.auth().isSignIn(withEmailLink: link) {
 				Auth.auth().tenantID = nil
 				Auth.auth().signIn(withEmail: email, link: link) { [weak self] authResult, error in
 					appleHealthVC.comingFrom = .welcomeFailure
 					if error == nil {
 						self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
-							self?.hud.dismiss(animated: true)
+							self?.hideHUD()
 							user = authResult
 							appleHealthVC.comingFrom = .welcomeSuccess
 							appleHealthVC.setupTexts()
 						})
 					} else {
-						self?.hud.dismiss(animated: true)
+						self?.hideHUD()
 						appleHealthVC.setupTexts()
 						AlertHelper.showAlert(title: error?.localizedDescription, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 					}
 				}
 			} else {
-				self?.hud.dismiss(animated: true)
+				self?.hideHUD()
 				appleHealthVC.comingFrom = .welcomeFailure
 				appleHealthVC.setupTexts()
 				AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
@@ -197,9 +202,9 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func resetPassword(email: String?) {
-		hud.show(in: navigationController?.view ?? AppDelegate.primaryWindow)
+		showHUD()
 		Auth.auth().sendPasswordReset(withEmail: email ?? "") { [weak self] error in
-			self?.hud.dismiss(animated: true)
+			self?.hideHUD()
 			if error != nil {
 				AlertHelper.showAlert(title: Str.error, detailText: Str.invalidEmail, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			} else {
@@ -226,9 +231,9 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			return
 		}
 
-		hud.show(in: navigationController?.view ?? AppDelegate.primaryWindow, animated: true)
+		showHUD()
 		DataContext.shared.fetchData(user: user, completion: { [weak self] success in
-			self?.hud.dismiss(animated: true)
+			self?.hideHUD()
 			if success {
 				DataContext.shared.identifyCrashlytics()
 				self?.getProfile()
@@ -239,9 +244,9 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func getProfile() {
-		hud.show(in: navigationController?.view ?? AppDelegate.primaryWindow, animated: true)
+		showHUD()
 		DataContext.shared.getProfileAPI { [weak self] success in
-			self?.hud.dismiss(animated: true)
+			self?.hideHUD()
 			if success {
 				if DataContext.shared.signUpCompleted {
 					self?.goToHealthKitAuthorization()
@@ -470,13 +475,13 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func patientAPI(patient: Resource, weight: Int, height: Int, date: String) {
-		hud.show(in: navigationController?.view ?? AppDelegate.primaryWindow, animated: true)
+		showHUD()
 		guard DataContext.shared.userModel == nil else {
 			getHeightWeight(weight: weight, height: height, date: date)
 			return
 		}
 		AlfredClient.client.postPatient(patient: patient) { [weak self] result in
-			self?.hud.dismiss(animated: true)
+			self?.hideHUD()
 			DataContext.shared.patient = patient
 			switch result {
 			case .success(let patientResponse):
@@ -507,9 +512,9 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func bundleAction(bundle: BundleModel) {
-		hud.show(in: navigationController?.view ?? AppDelegate.primaryWindow, animated: true)
+		showHUD()
 		AlfredClient.client.postBundle(bundle: bundle) { [weak self] result in
-			self?.hud.dismiss(animated: true)
+			self?.hideHUD()
 			switch result {
 			case .success(let response):
 				os_log(.info, log: .authCoordinator, "response %@", String(describing: response))
@@ -524,9 +529,9 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func profileRequest(profile: ProfileModel) {
-		hud.show(in: navigationController?.view ?? AppDelegate.primaryWindow, animated: true)
+		showHUD()
 		AlfredClient.client.postProfile(profile: profile) { [weak self] result in
-			self?.hud.dismiss(animated: true)
+			self?.hideHUD()
 			switch result {
 			case .success(let resource):
 				DataContext.shared.identifyCrashlytics()
@@ -580,11 +585,11 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	private func getFirebaseAuthTokenResult(authDataResult: AuthDataResult?, error: Error?, completion: @escaping (Bool) -> Void) {
 		if let error = error {
 			os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
-			hud.dismiss()
+			hideHUD()
 			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 		} else if let authDataResult = authDataResult {
 			authDataResult.user.getIDTokenResult { [weak self] authTokenResult, _ in
-				self?.hud.dismiss(animated: true)
+				self?.hideHUD()
 				if let error = error {
 					os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
 					AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
