@@ -1,6 +1,6 @@
 //
 //  Ext_String.swift
-//  alfred-ios
+//  Alfred
 //
 
 import UIKit

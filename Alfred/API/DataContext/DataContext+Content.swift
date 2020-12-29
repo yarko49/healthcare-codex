@@ -3,7 +3,7 @@ import HealthKit
 import os.log
 
 extension DataContext {
-	func createProfileModel() -> Profile {
+	func createProfile() -> Profile {
 		let device = HKDevice.local()
 		let lastSyncTime = DataContext.shared.getDate() ?? Date()
 		let dateNow = DateFormatter.wholeDateRequest.string(from: lastSyncTime)

@@ -1,6 +1,6 @@
 //
 //  TodayStatCell.swift
-//  alfred-ios
+//  Alfred
 //
 
 import HealthKit

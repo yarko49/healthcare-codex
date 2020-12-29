@@ -1,6 +1,6 @@
 //
 //  LoggingManager.swift
-//  alfred-ios
+//  Alfred
 //
 
 import FirebaseCrashlytics

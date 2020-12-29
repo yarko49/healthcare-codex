@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SelectChunkSizeViewController" customModule="Alfred" customModuleProvider="target">
+            <connections>
+                <outlet property="textField" destination="KPp-8T-Hhz" id="PIB-sp-8Vd"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="4500" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KPp-8T-Hhz">
+                    <rect key="frame" x="41.5" y="431" width="331" height="34"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Chunk Size:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x2O-kY-SDY">
+                    <rect key="frame" x="41.5" y="390" width="331" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yPu-3b-4LH">
+                    <rect key="frame" x="41.5" y="485" width="331" height="30"/>
+                    <state key="normal" title="Continue"/>
+                    <connections>
+                        <action selector="continueBtnTapped:" destination="-1" eventType="touchUpInside" id="iMq-Tb-7nI"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="yPu-3b-4LH" firstAttribute="leading" secondItem="KPp-8T-Hhz" secondAttribute="leading" id="1cw-uf-Vuq"/>
+                <constraint firstItem="yPu-3b-4LH" firstAttribute="top" secondItem="KPp-8T-Hhz" secondAttribute="bottom" constant="20" id="96X-yM-Raq"/>
+                <constraint firstItem="KPp-8T-Hhz" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Bth-3i-Lwm"/>
+                <constraint firstItem="yPu-3b-4LH" firstAttribute="trailing" secondItem="KPp-8T-Hhz" secondAttribute="trailing" id="FyW-IA-zzh"/>
+                <constraint firstItem="x2O-kY-SDY" firstAttribute="leading" secondItem="KPp-8T-Hhz" secondAttribute="leading" id="HWZ-LF-GhZ"/>
+                <constraint firstItem="KPp-8T-Hhz" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Mdk-QH-3D2"/>
+                <constraint firstItem="KPp-8T-Hhz" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.8" id="aRz-6B-W9I"/>
+                <constraint firstItem="KPp-8T-Hhz" firstAttribute="top" secondItem="x2O-kY-SDY" secondAttribute="bottom" constant="20" id="cfF-V1-hip"/>
+                <constraint firstItem="x2O-kY-SDY" firstAttribute="trailing" secondItem="KPp-8T-Hhz" secondAttribute="trailing" id="reE-EG-KIO"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="153"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

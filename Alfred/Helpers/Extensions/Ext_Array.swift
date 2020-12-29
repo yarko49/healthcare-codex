@@ -1,6 +1,6 @@
 //
 //  Ext_Array.swift
-//  alfred-ios
+//  Alfred
 //
 
 import Foundation

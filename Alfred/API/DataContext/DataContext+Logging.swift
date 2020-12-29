@@ -1,6 +1,6 @@
 //
 //  DataContext+Logging.swift
-//  alfred-ios
+//  Alfred
 //
 
 import FirebaseCrashlytics

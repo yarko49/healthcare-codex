@@ -1,6 +1,6 @@
 //
 //  CareManager.swift
-//  alfred-ios
+//  Alfred
 //
 //  Created by Waqar Malik on 11/23/20.
 //

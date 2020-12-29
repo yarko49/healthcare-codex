@@ -26,7 +26,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	var observationSearchResult: BundleModel?
 	var chartData: [Int] = []
 	var dateData: [String] = []
-	weak var profileVC: ProfileVC?
+	weak var profileViewController: ProfileViewController?
 
 	init(with parent: MasterCoordinator?) {
 		self.navigationController = UINavigationController()
@@ -79,7 +79,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func showHome() {
-		let homeVC = HomeViewController()
+		let homeViewController = HomeViewController()
 		let getCardsAction: (() -> Void)? = { [weak self] in
 			DispatchQueue.main.async {
 				self?.showHUD()
@@ -92,9 +92,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 					case .success(let cardList):
 						notificationsCards = cardList.notifications
 					}
-					homeVC.setupCards(with: notificationsCards)
+					homeViewController.setupCards(with: notificationsCards)
 				}
-				homeVC.refreshControl.endRefreshing()
+				homeViewController.refreshControl.endRefreshing()
 			}
 		}
 
@@ -110,11 +110,11 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			self?.goToTroubleshooting(previewTitle: previewTitle, title: title, text: text, icon: icon)
 		}
 
-		homeVC.getCardsAction = getCardsAction
-		homeVC.questionnaireAction = questionnaireAction
-		homeVC.measurementCellAction = measurementCellAction
-		homeVC.troubleshootingAction = troubleshootingAction
-		navigate(to: homeVC, with: .push)
+		homeViewController.getCardsAction = getCardsAction
+		homeViewController.questionnaireAction = questionnaireAction
+		homeViewController.measurementCellAction = measurementCellAction
+		homeViewController.troubleshootingAction = troubleshootingAction
+		navigate(to: homeViewController, with: .push)
 	}
 
 	internal func gotoSettings() {
@@ -130,18 +130,18 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func goToTroubleshooting(previewTitle: String?, title: String?, text: String?, icon: IconType?) {
-		let troubleshootingVC = TroubleshootingViewController()
+		let troubleshootingViewController = TroubleshootingViewController()
 
-		troubleshootingVC.titleText = title ?? ""
-		troubleshootingVC.previewTitle = previewTitle ?? ""
-		troubleshootingVC.text = text ?? ""
+		troubleshootingViewController.titleText = title ?? ""
+		troubleshootingViewController.previewTitle = previewTitle ?? ""
+		troubleshootingViewController.text = text ?? ""
 
-		navigate(to: troubleshootingVC, with: .push)
+		navigate(to: troubleshootingViewController, with: .push)
 	}
 
 	internal func goToInput(with type: InputType) {
-		let todayInputVC = TodayInputViewController()
-		todayInputVC.inputType = type
+		let todayInputViewController = TodayInputViewController()
+		todayInputViewController.inputType = type
 		let inputAction: ((Int?, Int?, String?, InputType) -> Void)? = { [weak self] value1, value2, effectiveDateTime, inputType in
 
 			switch inputType {
@@ -160,18 +160,18 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				self?.bundle = bundle
 			}
 		}
-		todayInputVC.inputAction = inputAction
-		navigate(to: todayInputVC, with: .push)
+		todayInputViewController.inputAction = inputAction
+		navigate(to: todayInputViewController, with: .push)
 	}
 
 	internal func goToProfile() {
 		DataContext.shared.weightArray = []
 		DataContext.shared.heightArray = []
 
-		let profileVC = ProfileVC()
-		self.profileVC = profileVC
+		let controller = ProfileViewController()
+		profileViewController = controller
 
-		profileVC.getData = { [weak self] in
+		controller.getData = { [weak self] in
 			self?.showHUD()
 			let group = DispatchGroup()
 			var weight: Int? = 0
@@ -189,11 +189,11 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				height = response?.entry?.first?.resource?.valueQuantity?.value
 			})
 			group.notify(queue: .main) { [weak self] in
-				self?.profileVC?.weight = weight
-				self?.profileVC?.height = height
-				self?.profileVC?.createDetailsLabel()
+				self?.profileViewController?.weight = weight
+				self?.profileViewController?.height = height
+				self?.profileViewController?.createDetailsLabel()
 			}
-			self?.profileVC?.patientTrendsTV.reloadData()
+			self?.profileViewController?.patientTrendsTV.reloadData()
 		}
 
 		var todayData: [HealthKitQuantityType: [Any]] = [:]
@@ -229,11 +229,11 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			}
 		}
 
-		topGroup.notify(queue: .main) { [weak profileVC] in
-			profileVC?.todayHKData = todayData
+		topGroup.notify(queue: .main) { [weak profileViewController] in
+			profileViewController?.todayHKData = todayData
 		}
 
-		profileVC.getRangeData = { [weak self] interval, start, end, completion in
+		controller.getRangeData = { [weak self] interval, start, end, completion in
 			var chartData: [HealthKitQuantityType: [StatModel]] = [:]
 			var goals: [HealthKitQuantityType: Double] = [:]
 			self?.showHUD()
@@ -264,14 +264,14 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			}
 		}
 
-		profileVC.editBtnAction = { [weak self] weight, height in
+		controller.editBtnAction = { [weak self] weight, height in
 			self?.goToMyProfileFirstVC(source: .profile, weight: weight, height: height)
 		}
 
-		profileVC.backBtnAction = { [weak self] in
+		controller.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
-		navigate(to: profileVC, with: .push)
+		navigate(to: controller, with: .push)
 	}
 
 	internal func postGetData(search: SearchParameter, completion: @escaping (BundleModel?) -> Void) {
@@ -288,7 +288,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		}
 	}
 
-	internal func postObservationSearchAction(search: SearchParameter, vc: ProfileVC, start: Date, end: Date, hkType: HealthKitQuantityType) {
+	internal func postObservationSearchAction(search: SearchParameter, vc: ProfileViewController, start: Date, end: Date, hkType: HealthKitQuantityType) {
 		showHUD()
 		AlfredClient.client.postObservationSearch(search: search) { [weak self] result in
 			self?.hideHUD()
@@ -302,13 +302,13 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func goToMyProfileFirstVC(source: ComingFrom = .profile, weight: Int, height: Int) {
-		let myProfileFirstVC = MyProfileFirstVC()
-		myProfileFirstVC.comingFrom = source
-		myProfileFirstVC.firstText = DataContext.shared.displayFirstName
-		myProfileFirstVC.lastText = DataContext.shared.displayLastName
-		myProfileFirstVC.gender = DataContext.shared.gender
+		let myProfileFirstViewController = MyProfileFirstViewController()
+		myProfileFirstViewController.comingFrom = source
+		myProfileFirstViewController.firstText = DataContext.shared.displayFirstName
+		myProfileFirstViewController.lastText = DataContext.shared.displayLastName
+		myProfileFirstViewController.gender = DataContext.shared.gender
 
-		myProfileFirstVC.backBtnAction = { [weak self] in
+		myProfileFirstViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
 
@@ -316,28 +316,28 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			self?.goToMyProfileSecondVC(gender: gender, family: family, given: given, source: source, weight: weight, height: height)
 		}
 
-		myProfileFirstVC.alertAction = { [weak self] tv in
+		myProfileFirstViewController.alertAction = { [weak self] tv in
 			let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
 				tv?.focus()
 			}
 			self?.showAlert(title: Str.invalidText, detailText: Str.invalidTextMsg, actions: [okAction])
 		}
 
-		myProfileFirstVC.sendDataAction = sendDataAction
-		navigate(to: myProfileFirstVC, with: .push)
+		myProfileFirstViewController.sendDataAction = sendDataAction
+		navigate(to: myProfileFirstViewController, with: .push)
 	}
 
 	internal func goToMyProfileSecondVC(gender: String, family: String, given: [String], source: ComingFrom = .profile, weight: Int, height: Int) {
-		let myProfileSecondVC = MyProfileSecondVC()
-		myProfileSecondVC.comingFrom = source
-		myProfileSecondVC.profileWeight = weight
-		myProfileSecondVC.profileHeight = height
+		let myProfileSecondViewController = MyProfileSecondViewController()
+		myProfileSecondViewController.comingFrom = source
+		myProfileSecondViewController.profileWeight = weight
+		myProfileSecondViewController.profileHeight = height
 
-		myProfileSecondVC.backBtnAction = { [weak self] in
+		myProfileSecondViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
 
-		myProfileSecondVC.patientRequestAction = { [weak self] _, birthdate, weight, height, date in
+		myProfileSecondViewController.patientRequestAction = { [weak self] _, birthdate, weight, height, date in
 			let joinedNames = given.joined(separator: " ")
 			DataContext.shared.firstName = joinedNames
 			var patientUpdate = [UpdatePatientModel(op: "replace", path: "/name/0/family", value: family), UpdatePatientModel(op: "replace", path: "/birthDate", value: birthdate)]
@@ -368,11 +368,11 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			self?.patientAPI(patient: patient ?? defaultPatient, weight: weight, height: height, date: date, birthDay: birthdate, family: family, given: given)
 		}
 
-		myProfileSecondVC.alertAction = { [weak self] _ in
+		myProfileSecondViewController.alertAction = { [weak self] _ in
 			let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {}
 			self?.showAlert(title: Str.invalidInput, detailText: Str.emptyPickerField, actions: [okAction])
 		}
-		navigate(to: myProfileSecondVC, with: .push)
+		navigate(to: myProfileSecondViewController, with: .push)
 	}
 
 	internal func patientAPI(patient: [UpdatePatientModel], weight: Int, height: Int, date: String, birthDay: String, family: String, given: [String]) {
@@ -384,7 +384,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			case .success:
 				os_log(.info, log: .masterCoordinator, "OK STATUS FOR UPDATE PATIENT : 200")
 				DataContext.shared.userModel = UserModel(userID: DataContext.shared.userModel?.userID ?? "", email: DataContext.shared.userModel?.email, name: [Name(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? Gender(rawValue: "female"))
-				self?.profileVC?.nameLbl?.attributedText = ProfileHelper.firstName.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
+				self?.profileViewController?.nameLbl?.attributedText = ProfileHelper.firstName.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			case .failure(let error):
 				os_log(.error, log: .masterCoordinator, "request failed %@", error.localizedDescription)
@@ -416,7 +416,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			switch result {
 			case .success:
 				self?.heightWeightBundle = bundle
-				if let profile = self?.profileVC {
+				if let profile = self?.profileViewController {
 					self?.navigationController?.popToViewController(profile, animated: true)
 				}
 			case .failure(let error):
@@ -486,8 +486,8 @@ extension MainAppCoordinator: UINavigationControllerDelegate {
 				viewController.navigationItem.setLeftBarButton(profileBtn, animated: true)
 			}
 
-		} else if viewController is ProfileVC || viewController is TroubleshootingViewController || viewController is TodayInputViewController {
-			if viewController is ProfileVC, viewController.navigationItem.rightBarButtonItem == nil {
+		} else if viewController is ProfileViewController || viewController is TroubleshootingViewController || viewController is TodayInputViewController {
+			if viewController is ProfileViewController, viewController.navigationItem.rightBarButtonItem == nil {
 				let settingsBtn = UIBarButtonItem(image: UIImage(named: "gear")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapSettings))
 				settingsBtn.tintColor = .black
 				viewController.navigationItem.setRightBarButton(settingsBtn, animated: true)

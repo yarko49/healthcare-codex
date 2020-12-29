@@ -15,7 +15,7 @@ class HomeViewController: BaseViewController {
 
 	// MARK: - IBOutlets
 
-	@IBOutlet var coachCardSV: UIStackView!
+	@IBOutlet var coachCardStackView: UIStackView!
 	@IBOutlet var cardCollectionView: UICollectionView!
 	@IBOutlet var coachCardSVXConstraint: NSLayoutConstraint!
 	@IBOutlet var scrollView: UIScrollView!
@@ -96,7 +96,7 @@ class HomeViewController: BaseViewController {
 		if !coachCardsList.isEmpty {
 			scrollView.setContentOffset(CGPoint(x: CGFloat(0) * scrollView.frame.width, y: 0), animated: true)
 			scrollView.isHidden = false
-			coachCardSV.arrangedSubviews.filter { $0 is CoachCardView }.forEach { $0.removeFromSuperview() }
+			coachCardStackView.arrangedSubviews.filter { $0 is CoachCardView }.forEach { $0.removeFromSuperview() }
 		} else {
 			scrollView.isHidden = true
 		}
@@ -105,7 +105,7 @@ class HomeViewController: BaseViewController {
 			let view = CoachCardView(card: card.data)
 			view.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
 			view.delegate = self
-			coachCardSV.addArrangedSubview(view)
+			coachCardStackView.addArrangedSubview(view)
 		}
 	}
 
@@ -113,11 +113,7 @@ class HomeViewController: BaseViewController {
 		getCardsAction?()
 	}
 
-	@objc func fetchCarePlan(_ sender: Any) {
-		AlfredClient.client.getProfile { result in
-			print(String(describing: result))
-		}
-	}
+	@objc func fetchCarePlan(_ sender: Any) {}
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -170,9 +166,9 @@ extension HomeViewController: CoachCardViewDelegate {
 	}
 
 	func closeBtnTapped(uuid: String) {
-		if let index = coachCardsList.firstIndex(where: { $0.data.uuid == uuid }), let SVIndex = (coachCardSV.arrangedSubviews as? [CoachCardView])?.firstIndex(where: { $0.card?.uuid == uuid }), coachCardsList.count > 1 {
+		if let index = coachCardsList.firstIndex(where: { $0.data.uuid == uuid }), let SVIndex = (coachCardStackView.arrangedSubviews as? [CoachCardView])?.firstIndex(where: { $0.card?.uuid == uuid }), coachCardsList.count > 1 {
 			scrollView.setContentOffset(CGPoint(x: CGFloat(index) * scrollView.frame.width, y: 0), animated: true)
-			coachCardSV.arrangedSubviews[SVIndex].isHidden = true
+			coachCardStackView.arrangedSubviews[SVIndex].isHidden = true
 			coachCardsList.removeAll(where: { $0.data.uuid == uuid })
 		} else {
 			scrollView.isHidden = true

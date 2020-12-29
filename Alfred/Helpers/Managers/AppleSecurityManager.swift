@@ -1,5 +1,5 @@
 //  AuthAppleManager.swift
-//  alfred-ios
+//  Alfred
 
 import AuthenticationServices
 import CryptoKit

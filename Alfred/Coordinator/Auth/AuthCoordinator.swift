@@ -60,38 +60,38 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func showOnboarding() {
-		let onboardingVC = OnboardingVC()
-		onboardingVC.signInWithAppleAction = { [weak self] in
+		let onboardingViewController = OnboardingViewController()
+		onboardingViewController.signInWithAppleAction = { [weak self] in
 			self?.signInWithApple()
 		}
 
-		onboardingVC.signInWithEmailAction = { [weak self] in
+		onboardingViewController.signInWithEmailAction = { [weak self] in
 			self?.goToEmailSignIn()
 		}
-		onboardingVC.signupAction = { [weak self] in
+		onboardingViewController.signupAction = { [weak self] in
 			self?.goToSignup()
 		}
-		navigate(to: onboardingVC, with: .push)
+		navigate(to: onboardingViewController, with: .push)
 	}
 
 	internal func goToEmailSignIn() {
-		let emailSignInVC = EmailSignInVC()
+		let emailSignInViewController = EmailSignInViewController()
 
-		emailSignInVC.backBtnAction = { [weak self] in
+		emailSignInViewController.backButtonAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
 
-		emailSignInVC.alertAction = { [weak self] title, detail, tv in
+		emailSignInViewController.alertAction = { [weak self] title, detail, tv in
 			let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
 				tv.focus()
 			}
 			self?.showAlert(title: title, detailText: detail, actions: [okAction], fillProportionally: false)
 		}
 
-		emailSignInVC.signInWithEmail = { [weak self] email in
+		emailSignInViewController.signInWithEmail = { [weak self] email in
 			self?.sendEmailLink(email: email, for: .signIn)
 		}
-		navigate(to: emailSignInVC, with: .push)
+		navigate(to: emailSignInViewController, with: .push)
 	}
 
 	internal func sendEmailLink(email: String, for purpose: SendEmailPurpose) {
@@ -115,26 +115,26 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func emailSentSuccess(email: String, from purpose: SendEmailPurpose) {
-		let emailSentVC = EmailSentVC()
-		emailSentVC.email = email
-		emailSentVC.purpose = purpose
+		let emailSentViewController = EmailSentViewController()
+		emailSentViewController.email = email
+		emailSentViewController.purpose = purpose
 
-		emailSentVC.backBtnAction = { [weak self] in
+		emailSentViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
-		emailSentVC.openMailApp = {
+		emailSentViewController.openMailApp = {
 			guard let mailURL = URL(string: "message://") else { return }
 			if UIApplication.shared.canOpenURL(mailURL) {
 				UIApplication.shared.open(mailURL, options: [:], completionHandler: nil)
 			}
 		}
-		emailSentVC.goToTermsOfService = { [weak self] in
+		emailSentViewController.goToTermsOfService = { [weak self] in
 			self?.goToTermsOfService()
 		}
-		emailSentVC.goToPrivacyPolicy = { [weak self] in
+		emailSentViewController.goToPrivacyPolicy = { [weak self] in
 			self?.goToPrivacyPolicy()
 		}
-		navigate(to: emailSentVC, with: .push)
+		navigate(to: emailSentViewController, with: .push)
 	}
 
 	internal func verifySendLink(link: String) {
@@ -146,8 +146,8 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func goToWelcomeView(email: String, link: String) {
-		let appleHealthVC = AppleHealthVC()
-		appleHealthVC.comingFrom = .welcome
+		let appleHealthViewController = AppleHealthViewController()
+		appleHealthViewController.comingFrom = .welcome
 
 		var user: AuthDataResult?
 
@@ -156,29 +156,29 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			if Auth.auth().isSignIn(withEmailLink: link) {
 				Auth.auth().tenantID = nil
 				Auth.auth().signIn(withEmail: email, link: link) { [weak self] authResult, error in
-					appleHealthVC.comingFrom = .welcomeFailure
+					appleHealthViewController.comingFrom = .welcomeFailure
 					if error == nil {
 						self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
 							self?.hideHUD()
 							user = authResult
-							appleHealthVC.comingFrom = .welcomeSuccess
-							appleHealthVC.setupTexts()
+							appleHealthViewController.comingFrom = .welcomeSuccess
+							appleHealthViewController.setupTexts()
 						})
 					} else {
 						self?.hideHUD()
-						appleHealthVC.setupTexts()
+						appleHealthViewController.setupTexts()
 						AlertHelper.showAlert(title: error?.localizedDescription, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 					}
 				}
 			} else {
 				self?.hideHUD()
-				appleHealthVC.comingFrom = .welcomeFailure
-				appleHealthVC.setupTexts()
+				appleHealthViewController.comingFrom = .welcomeFailure
+				appleHealthViewController.setupTexts()
 				AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}
 
-		appleHealthVC.nextBtnAction = { [weak self] in
+		appleHealthViewController.nextBtnAction = { [weak self] in
 			if user != nil {
 				self?.checkIfUserExists(user: user)
 			} else {
@@ -186,19 +186,19 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			}
 		}
 
-		appleHealthVC.signInAction = signInAction
-		navigate(to: appleHealthVC, with: .pushFullScreen)
+		appleHealthViewController.signInAction = signInAction
+		navigate(to: appleHealthViewController, with: .pushFullScreen)
 	}
 
 	internal func goToReset() {
-		let resetVC = ResetVC()
-		resetVC.backBtnAction = { [weak self] in
+		let resetViewController = ResetViewController()
+		resetViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
-		resetVC.nextAction = { [weak self] email in
+		resetViewController.nextAction = { [weak self] email in
 			self?.resetPassword(email: email)
 		}
-		navigate(to: resetVC, with: .push)
+		navigate(to: resetViewController, with: .push)
 	}
 
 	internal func resetPassword(email: String?) {
@@ -214,16 +214,16 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func goToResetMessage() {
-		let resetMessageVC = ResetMessageVC()
-		resetMessageVC.backBtnAction = { [weak self] in
+		let resetMessageViewController = ResetMessageViewController()
+		resetMessageViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
 
-		resetMessageVC.backToSignInAction = { [weak self] in
+		resetMessageViewController.backToSignInAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: false)
 			self?.navigationController?.popViewController(animated: true)
 		}
-		navigate(to: resetMessageVC, with: .push)
+		navigate(to: resetMessageViewController, with: .push)
 	}
 
 	internal func getPatientInfo() {
@@ -238,7 +238,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 				DataContext.shared.identifyCrashlytics()
 				self?.getProfile()
 			} else {
-				self?.goToMyProfileFirstVC(from: .signIn)
+				self?.goToMyProfileFirstViewController(from: .signIn)
 			}
 		})
 	}
@@ -251,10 +251,10 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 				if DataContext.shared.signUpCompleted {
 					self?.goToHealthKitAuthorization()
 				} else {
-					self?.goToMyProfileFirstVC(from: .signIn)
+					self?.goToMyProfileFirstViewController(from: .signIn)
 				}
 			} else {
-				self?.goToMyProfileFirstVC(from: .signIn)
+				self?.goToMyProfileFirstViewController(from: .signIn)
 			}
 		}
 	}
@@ -279,7 +279,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 
 	internal func syncHKData() {
 		var loadingShouldAppear = true
-		let hkDataUploadVC = HKDataUploadVC()
+		let hkDataUploadVC = HKDataUploadViewController()
 		SyncManager.shared.syncData(initialUpload: false, chunkSize: chunkSize) { [weak self] uploaded, total in
 			if total > 500, loadingShouldAppear {
 				loadingShouldAppear = false
@@ -303,36 +303,36 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	public func goToSignup() {
-		let signupVC = SignupViewController()
-		signupVC.backBtnAction = { [weak self] in
+		let signupViewController = SignupViewController()
+		signupViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
-		signupVC.goToTermsOfService = { [weak self] in
+		signupViewController.goToTermsOfService = { [weak self] in
 			self?.goToTermsOfService()
 		}
-		signupVC.goToPrivacyPolicy = { [weak self] in
+		signupViewController.goToPrivacyPolicy = { [weak self] in
 			self?.goToPrivacyPolicy()
 		}
 
-		signupVC.alertAction = { [weak self] title, detail, tv in
+		signupViewController.alertAction = { [weak self] title, detail, tv in
 			let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
 				tv.focus()
 			}
 			self?.showAlert(title: title, detailText: detail, actions: [okAction], fillProportionally: false)
 		}
 
-		signupVC.signUpWithEmail = { [weak self] email in
+		signupViewController.signUpWithEmail = { [weak self] email in
 			self?.sendEmailLink(email: email, for: .signUp)
 		}
 
-		navigate(to: signupVC, with: .push)
+		navigate(to: signupViewController, with: .push)
 	}
 
-	internal func goToMyProfileFirstVC(from screen: ComingFrom = .signUp) {
-		let myProfileFirstVC = MyProfileFirstVC()
-		myProfileFirstVC.comingFrom = screen
+	internal func goToMyProfileFirstViewController(from screen: ComingFrom = .signUp) {
+		let myProfileFirstViewController = MyProfileFirstViewController()
+		myProfileFirstViewController.comingFrom = screen
 
-		myProfileFirstVC.backBtnAction = { [weak self] in
+		myProfileFirstViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
 
@@ -340,24 +340,24 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			self?.goToMyProfileSecondVC(gender: gender, family: family, given: given)
 		}
 
-		myProfileFirstVC.alertAction = { [weak self] tv in
+		myProfileFirstViewController.alertAction = { [weak self] tv in
 			let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
 				tv?.focus()
 			}
 			self?.showAlert(title: Str.invalidText, detailText: Str.invalidTextMsg, actions: [okAction])
 		}
 
-		myProfileFirstVC.sendDataAction = sendDataAction
-		navigate(to: myProfileFirstVC, with: .push)
+		myProfileFirstViewController.sendDataAction = sendDataAction
+		navigate(to: myProfileFirstViewController, with: .push)
 	}
 
 	internal func goToMyProfileSecondVC(gender: String, family: String, given: [String]) {
-		let myProfileSecondVC = MyProfileSecondVC()
-		myProfileSecondVC.backBtnAction = { [weak self] in
+		let myProfileSecondViewController = MyProfileSecondViewController()
+		myProfileSecondViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
 
-		myProfileSecondVC.patientRequestAction = { [weak self] resourceType, birthdate, weight, height, date in
+		myProfileSecondViewController.patientRequestAction = { [weak self] resourceType, birthdate, weight, height, date in
 			let name = Name(use: "official", family: family, given: given)
 			let joinedNames = given.joined(separator: " ")
 			DataContext.shared.firstName = joinedNames
@@ -366,41 +366,41 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			self?.goToAppleHealthVCFromProfile(patient: patient ?? Resource(code: nil, effectiveDateTime: "", id: "", identifier: nil, meta: nil, resourceType: "", status: "", subject: nil, valueQuantity: nil, birthDate: "", gender: "", name: nil, component: nil), weight: weight, height: height, date: date)
 		}
 
-		myProfileSecondVC.alertAction = { [weak self] _ in
+		myProfileSecondViewController.alertAction = { [weak self] _ in
 			let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {}
 			self?.showAlert(title: Str.invalidInput, detailText: Str.emptyPickerField, actions: [okAction])
 		}
-		navigate(to: myProfileSecondVC, with: .push)
+		navigate(to: myProfileSecondViewController, with: .push)
 	}
 
 	internal func goToAppleHealthVCFromProfile(patient: Resource, weight: Int, height: Int, date: String) {
-		let appleHealthVC = AppleHealthVC()
-		appleHealthVC.comingFrom = .myProfile
+		let appleHealthViewController = AppleHealthViewController()
+		appleHealthViewController.comingFrom = .myProfile
 
-		appleHealthVC.backBtnAction = { [weak self] in
+		appleHealthViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
 
-		appleHealthVC.nextBtnAction = { [weak self] in
+		appleHealthViewController.nextBtnAction = { [weak self] in
 			self?.goToMyDevices(patient: patient, weight: weight, height: height, date: date)
 		}
 
-		navigate(to: appleHealthVC, with: .pushFullScreen)
+		navigate(to: appleHealthViewController, with: .pushFullScreen)
 	}
 
 	internal func goToAppleHealthVCFromDevices() {
-		let appleHealthVC = AppleHealthVC()
-		appleHealthVC.comingFrom = .myDevices
+		let appleHealthViewController = AppleHealthViewController()
+		appleHealthViewController.comingFrom = .myDevices
 
-		appleHealthVC.notNowAction = { [weak self] in
+		appleHealthViewController.notNowAction = { [weak self] in
 			self?.goToMainApp()
 		}
 
-		appleHealthVC.activateAction = { [weak self] in
+		appleHealthViewController.activateAction = { [weak self] in
 			self?.authorizeHKForUpload()
 		}
 
-		navigate(to: appleHealthVC, with: .pushFullScreen)
+		navigate(to: appleHealthViewController, with: .pushFullScreen)
 	}
 
 	internal func authorizeHKForUpload() {
@@ -422,21 +422,21 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func setChunkSize() {
-		let changeChunkSizeVC = SelectChunkSizeVC()
+		let changeChunkSizeViewController = SelectChunkSizeViewController()
 		let continueAction: ((Int) -> Void)? = { [weak self] chunkSize in
 			self?.chunkSize = chunkSize
 			self?.startInitialUpload()
 		}
-		changeChunkSizeVC.continueAction = continueAction
-		navigate(to: changeChunkSizeVC, with: .push)
+		changeChunkSizeViewController.continueAction = continueAction
+		navigate(to: changeChunkSizeViewController, with: .push)
 	}
 
 	internal func startInitialUpload() {
-		let hkDataUploadVC = HKDataUploadVC()
-		hkDataUploadVC.queryAction = { [weak self] in
+		let hkDataUploadViewController = HKDataUploadViewController()
+		hkDataUploadViewController.queryAction = { [weak self] in
 			SyncManager.shared.syncData(chunkSize: self?.chunkSize) { uploaded, total in
-				hkDataUploadVC.progress = uploaded
-				hkDataUploadVC.maxProgress = total
+				hkDataUploadViewController.progress = uploaded
+				hkDataUploadViewController.maxProgress = total
 			} completion: { success in
 				if success {
 					self?.goToAppleHealthVCFromActivate()
@@ -448,30 +448,30 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 				}
 			}
 		}
-		navigate(to: hkDataUploadVC, with: .push)
+		navigate(to: hkDataUploadViewController, with: .push)
 	}
 
 	internal func goToAppleHealthVCFromActivate() {
-		let appleHealthVC = AppleHealthVC()
-		appleHealthVC.comingFrom = .activate
-		appleHealthVC.nextBtnAction = { [weak self] in
+		let appleHealthViewController = AppleHealthViewController()
+		appleHealthViewController.comingFrom = .activate
+		appleHealthViewController.nextBtnAction = { [weak self] in
 			self?.goToMainApp()
 		}
 
-		navigate(to: appleHealthVC, with: .pushFullScreen)
+		navigate(to: appleHealthViewController, with: .pushFullScreen)
 	}
 
 	internal func goToMyDevices(patient: Resource, weight: Int, height: Int, date: String) {
-		let devicesVC = MyDevicesVC()
+		let devicesViewController = MyDevicesViewController()
 
-		devicesVC.backBtnAction = { [weak self] in
+		devicesViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
 
-		devicesVC.profileRequestAction = { [weak self] in
+		devicesViewController.profileRequestAction = { [weak self] in
 			self?.patientAPI(patient: patient, weight: weight, height: height, date: date)
 		}
-		navigate(to: devicesVC, with: .pushFullScreen)
+		navigate(to: devicesViewController, with: .pushFullScreen)
 	}
 
 	internal func patientAPI(patient: Resource, weight: Int, height: Int, date: String) {
@@ -519,7 +519,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			case .success(let response):
 				os_log(.info, log: .authCoordinator, "response %@", String(describing: response))
 				DataContext.shared.signUpCompleted = true
-				let profile = DataContext.shared.createProfileModel()
+				let profile = DataContext.shared.createProfile()
 				self?.profileRequest(profile: profile)
 			case .failure(let error):
 				os_log(.error, log: .authCoordinator, "request failed %@", error.localizedDescription)
@@ -545,21 +545,21 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func goToPrivacyPolicy() {
-		let privacyPolicyVC = PrivacyPolicyVC()
+		let privacyPolicyViewController = PrivacyPolicyViewController()
 
-		privacyPolicyVC.backBtnAction = { [weak self] in
+		privacyPolicyViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
-		navigate(to: privacyPolicyVC, with: .pushFullScreen)
+		navigate(to: privacyPolicyViewController, with: .pushFullScreen)
 	}
 
 	internal func goToTermsOfService() {
-		let termsOfServiceVC = TermsOfServiceVC()
+		let termsOfServiceViewController = TermsOfServiceViewController()
 
-		termsOfServiceVC.backBtnAction = { [weak self] in
+		termsOfServiceViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
-		navigate(to: termsOfServiceVC, with: .pushFullScreen)
+		navigate(to: termsOfServiceViewController, with: .pushFullScreen)
 	}
 
 	func signInWithApple() {
@@ -607,7 +607,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	private func checkIfUserExists(user: AuthDataResult?) {
 		let newUser = user?.additionalUserInfo?.isNewUser
 		if newUser == true {
-			goToMyProfileFirstVC()
+			goToMyProfileFirstViewController()
 		} else {
 			getPatientInfo()
 		}

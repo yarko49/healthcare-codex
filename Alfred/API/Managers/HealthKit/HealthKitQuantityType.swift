@@ -1,6 +1,6 @@
 //
 //  HealthKitQuantityType.swift
-//  alfred-ios
+//  Alfred
 //
 
 import HealthKit

@@ -1,6 +1,6 @@
 //
 //  BottomButton.swift
-//  alfred-ios
+//  Alfred
 
 import UIKit
 

@@ -1,6 +1,6 @@
 //
 //  emailSignInButton.swift
-//  alfred-ios
+//  Alfred
 
 import Foundation
 import UIKit

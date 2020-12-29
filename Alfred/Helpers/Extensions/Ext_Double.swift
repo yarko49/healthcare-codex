@@ -1,6 +1,6 @@
 //
 //  Ext_Double.swift
-//  alfred-ios
+//  Alfred
 //
 
 extension Double {

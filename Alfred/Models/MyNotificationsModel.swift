@@ -1,6 +1,6 @@
 //
 //  MyNotificationsModel.swift
-//  alfred-ios
+//  Alfred
 //
 
 import Foundation
