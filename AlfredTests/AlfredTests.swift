@@ -128,6 +128,26 @@ class AlfredTests: XCTestCase {
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 	}
 
+	func testImageDownload() throws {
+		let imageURL = Bundle(for: AlfredTests.self).url(forResource: "TestImage", withExtension: "png")
+		XCTAssertNotNil(imageURL, "Missing Image File")
+		let data = try Data(contentsOf: imageURL!)
+		URLProtocolMock.testData[imageURL!] = data
+		URLProtocolMock.response = HTTPURLResponse(url: imageURL!, statusCode: 200, httpVersion: nil, headerFields: [Request.Header.contentType: Request.ContentType.png])
+		let expect = expectation(description: "ImageDownload")
+		client?.loadImage(urlString: imageURL!.absoluteString, completion: { result in
+			switch result {
+			case .failure(let error):
+				XCTFail("Error Fetching Image = \(error.localizedDescription)")
+			case .success(let image):
+				XCTAssertTrue(true)
+				expect.fulfill()
+			}
+			URLProtocolMock.response = nil
+		})
+		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
+	}
+
 	func testPerformanceExample() throws {
 		// This is an example of a performance test case.
 		measure {

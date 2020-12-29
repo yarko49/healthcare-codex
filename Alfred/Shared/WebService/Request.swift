@@ -14,6 +14,7 @@ extension OSLog {
 
 public protocol URLRequestConvertible {
 	var urlRequest: URLRequest? { get }
+	var request: Request? { get }
 }
 
 public typealias QueryParameterEncoder = (_ url: URL?, _ parameters: [String: Any]) -> URL?
@@ -181,6 +182,10 @@ public struct Request {
 }
 
 extension Request: URLRequestConvertible {
+	public var request: Request? {
+		self
+	}
+
 	public var urlRequest: URLRequest? {
 		var urlComponents = URLComponents(string: urlString)
 		if var items = queryItems {

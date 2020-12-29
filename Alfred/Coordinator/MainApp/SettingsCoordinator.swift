@@ -125,7 +125,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 		navigate(to: devicesVC, with: .pushFullScreen)
 	}
 
-	internal func profileRequest(profile: ProfileModel) {
+	internal func profileRequest(profile: Profile) {
 		AlfredClient.client.postProfile(profile: profile) { [weak self] result in
 			self?.hideHUD()
 			switch result {

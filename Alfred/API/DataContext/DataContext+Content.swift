@@ -3,23 +3,23 @@ import HealthKit
 import os.log
 
 extension DataContext {
-	func createProfileModel() -> ProfileModel {
+	func createProfileModel() -> Profile {
 		let device = HKDevice.local()
 		let lastSyncTime = DataContext.shared.getDate() ?? Date()
 		let dateNow = DateFormatter.wholeDateRequest.string(from: lastSyncTime)
 
-		let bloodPressure = Measuremement(notificationsEnabled: DataContext.shared.bloodPressurePushNotificationsIsOn, available: DataContext.shared.hasSmartBlockPressureCuff, goal: 0.0)
-		let heartRate = Measuremement(notificationsEnabled: DataContext.shared.surveyPushNotificationsIsOn, available: DataContext.shared.hasSmartWatch, goal: 0.0)
-		let restingHR = Measuremement(notificationsEnabled: DataContext.shared.surveyPushNotificationsIsOn, available: DataContext.shared.hasSmartWatch, goal: 0.0)
-		let steps = Measuremement(notificationsEnabled: DataContext.shared.activityPushNotificationsIsOn, available: DataContext.shared.hasSmartPedometer || DataContext.shared.hasSmartWatch, goal: 0.0)
-		let weight = Measuremement(notificationsEnabled: DataContext.shared.weightInPushNotificationsIsOn, available: DataContext.shared.hasSmartScale, goal: 0.0)
+		let bloodPressure = HealthMeasurements.Measuremement(notificationsEnabled: DataContext.shared.bloodPressurePushNotificationsIsOn, available: DataContext.shared.hasSmartBlockPressureCuff, goal: 0.0)
+		let heartRate = HealthMeasurements.Measuremement(notificationsEnabled: DataContext.shared.surveyPushNotificationsIsOn, available: DataContext.shared.hasSmartWatch, goal: 0.0)
+		let restingHR = HealthMeasurements.Measuremement(notificationsEnabled: DataContext.shared.surveyPushNotificationsIsOn, available: DataContext.shared.hasSmartWatch, goal: 0.0)
+		let steps = HealthMeasurements.Measuremement(notificationsEnabled: DataContext.shared.activityPushNotificationsIsOn, available: DataContext.shared.hasSmartPedometer || DataContext.shared.hasSmartWatch, goal: 0.0)
+		let weight = HealthMeasurements.Measuremement(notificationsEnabled: DataContext.shared.weightInPushNotificationsIsOn, available: DataContext.shared.hasSmartScale, goal: 0.0)
 
 		let healthMeasurements = HealthMeasurements(heartRate: heartRate, restingHeartRate: restingHR, steps: steps, weight: weight, bloodPressure: bloodPressure)
 
-		let additionalProp1 = AdditionalProp(deviceModel: device.model ?? "", deviceVersion: device.firmwareVersion ?? "", id: device.udiDeviceIdentifier ?? "", lastSyncTime: dateNow, manufacturer: "Apple", softwareName: "software", softwareVersion: device.softwareVersion ?? "")
-		let devices = Devices(additionalProp1: additionalProp1, additionalProp2: AdditionalProp(deviceModel: "", deviceVersion: "", id: "", lastSyncTime: dateNow, manufacturer: "", softwareName: "", softwareVersion: ""), additionalProp3: AdditionalProp(deviceModel: "", deviceVersion: "", id: "", lastSyncTime: dateNow, manufacturer: "", softwareName: "", softwareVersion: ""))
+		let additionalProp1 = Devices.Device(model: device.model ?? "", version: device.firmwareVersion ?? "", id: device.udiDeviceIdentifier ?? "", lastSyncTime: dateNow, manufacturer: "Apple", name: "software", softwareVersion: device.softwareVersion ?? "")
+		let devices = Devices(additionalProp1: additionalProp1, additionalProp2: Devices.Device(model: "", version: "", id: "", lastSyncTime: dateNow, manufacturer: "", name: "", softwareVersion: ""), additionalProp3: Devices.Device(model: "", version: "", id: "", lastSyncTime: dateNow, manufacturer: "", name: "", softwareVersion: ""))
 
-		let profile = ProfileModel(notificationsEnabled: true, registrationToken: "", healthMeasurements: healthMeasurements, devices: devices, signUpCompleted: signUpCompleted)
+		let profile = Profile(notificationsEnabled: true, registrationToken: "", healthMeasurements: healthMeasurements, devices: devices, signUpCompleted: signUpCompleted)
 
 		return profile
 	}
