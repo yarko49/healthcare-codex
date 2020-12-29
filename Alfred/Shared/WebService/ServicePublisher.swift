@@ -1,6 +1,6 @@
 //
 //  ServicePublisher.swift
-//  AlfredCore
+//  Alfred
 //
 //  Created by Waqar Malik on 12/16/20.
 //

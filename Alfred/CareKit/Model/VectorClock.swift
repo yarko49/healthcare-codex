@@ -1,6 +1,6 @@
 //
 //  VectorClock.swift
-//  alfred-ios
+//  Alfred
 //
 //  Created by Waqar Malik on 11/24/20.
 //

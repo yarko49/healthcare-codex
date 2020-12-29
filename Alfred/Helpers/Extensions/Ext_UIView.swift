@@ -1,6 +1,6 @@
 //
 //  Ext_UIView.swift
-//  alfred-ios
+//  Alfred
 //
 
 import UIKit

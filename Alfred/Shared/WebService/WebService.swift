@@ -1,6 +1,6 @@
 //
-//  CareWebService.swift
-//  AlfredCore
+//  WebService.swift
+//  Alfred
 //
 //  Created by Waqar Malik on 11/23/20.
 //

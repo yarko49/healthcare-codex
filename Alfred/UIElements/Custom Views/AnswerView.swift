@@ -1,6 +1,6 @@
 //
 //  QuestionView.swift
-//  alfred-ios
+//  Alfred
 //
 
 import UIKit

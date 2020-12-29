@@ -1,6 +1,6 @@
 //
 //  TextStyle.swift
-//  alfred-ios
+//  Alfred
 //
 
 import BonMot

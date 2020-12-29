@@ -1,6 +1,6 @@
 //
 //  Profileswift
-//  alfred-ios
+//  Alfred
 //
 
 import Charts

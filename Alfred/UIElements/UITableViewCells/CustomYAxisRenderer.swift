@@ -1,6 +1,6 @@
 //
 //  CustomYAxisRenderer.swift
-//  alfred-ios
+//  Alfred
 
 import Charts
 import UIKit

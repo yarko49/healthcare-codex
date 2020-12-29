@@ -1,5 +1,5 @@
 //  GoogleSignInButton.swift
-//  alfred-ios
+//  Alfred
 
 import BonMot
 import UIKit

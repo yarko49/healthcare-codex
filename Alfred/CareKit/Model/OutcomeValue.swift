@@ -1,6 +1,6 @@
 //
 //  TargetValue.swift
-//  alfred-ios
+//  Alfred
 //
 //  Created by Waqar Malik on 12/6/20.
 //

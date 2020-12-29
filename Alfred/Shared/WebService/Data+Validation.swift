@@ -1,6 +1,6 @@
 //
 //  Data+Validation.swift
-//  AlfredCore
+//  Alfred
 //
 //  Created by Waqar Malik on 11/23/20.
 //

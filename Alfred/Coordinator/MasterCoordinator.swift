@@ -56,8 +56,8 @@ class MasterCoordinator: Coordinator {
 	}
 
 	internal func showMockSplashScreen() {
-		let mockSplashVC = MockSplashVC()
-		window.rootViewController = mockSplashVC
+		let mockSplashViewController = MockSplashViewController()
+		window.rootViewController = mockSplashViewController
 
 		if Auth.auth().currentUser == nil {
 			DataContext.shared.clearAll()
@@ -118,14 +118,14 @@ class MasterCoordinator: Coordinator {
 
 	internal func syncHKData() {
 		var loadingShouldAppear = true
-		let hkDataUploadVC = HKDataUploadVC()
+		let hkDataUploadViewController = HKDataUploadViewController()
 		SyncManager.shared.syncData(initialUpload: false, chunkSize: 4500) { [weak self] uploaded, total in
 			if total > 500, loadingShouldAppear {
 				loadingShouldAppear = false
-				self?.window.rootViewController = hkDataUploadVC
+				self?.window.rootViewController = hkDataUploadViewController
 			} else if total > 500 {
-				hkDataUploadVC.progress = uploaded
-				hkDataUploadVC.maxProgress = total
+				hkDataUploadViewController.progress = uploaded
+				hkDataUploadViewController.maxProgress = total
 			}
 		} completion: { [weak self] success in
 			if success {

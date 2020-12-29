@@ -1,6 +1,6 @@
 //
 //  Ext_UILabel.swift
-//  alfred-ios
+//  Alfred
 //
 
 import UIKit

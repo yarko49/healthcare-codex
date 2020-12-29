@@ -1,6 +1,6 @@
 //
 //  QuestionVC.swift
-//  alfred-ios
+//  Alfred
 //
 
 import Foundation
