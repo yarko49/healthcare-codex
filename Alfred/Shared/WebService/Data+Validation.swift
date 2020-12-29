@@ -33,14 +33,14 @@ extension Data {
 			throw URLError(.badServerResponse)
 		}
 
-		guard let contentType = httpResponse.allHeaderFields["Content-Type"] as? String, acceptableContentTypes.contains(contentType) else {
-			throw URLError(.cannotDecodeContentData)
+		guard let contentType = httpResponse.allHeaderFields[Request.Header.contentType] as? String, acceptableContentTypes.contains(contentType) else {
+			throw URLError(.dataNotAllowed)
 		}
 
 		return self
 	}
 
 	static func ws_validate(_ data: Data, _ response: URLResponse) throws -> Self {
-		try data.ws_validate(response, acceptableStatusCodes: 200 ..< 300).ws_validate()
+		try data.ws_validate(response).ws_validate()
 	}
 }

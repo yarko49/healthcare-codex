@@ -8,7 +8,7 @@ enum APIRouter: URLRequestConvertible {
 	case postQuestionnaireResponse(response: QuestionnaireResponse)
 	case postPatient(patient: Resource)
 	case getProfile
-	case postProfile(profile: ProfileModel)
+	case postProfile(profile: Profile)
 	case postObservation(observation: Resource)
 	case getNotifications
 	case postPatientSearch
@@ -111,7 +111,7 @@ enum APIRouter: URLRequestConvertible {
 		}
 	}
 
-	var urlRequest: URLRequest? {
+	var request: Request? {
 		guard let url = URL(string: APIRouter.baseURLPath)?.appendingPathComponent(path) else {
 			return nil
 		}
@@ -120,6 +120,10 @@ enum APIRouter: URLRequestConvertible {
 		if let body = body {
 			request.setJSONData(body)
 		}
-		return request.urlRequest
+		return request
+	}
+
+	var urlRequest: URLRequest? {
+		request?.urlRequest
 	}
 }

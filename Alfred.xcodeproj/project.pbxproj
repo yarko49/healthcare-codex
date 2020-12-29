@@ -71,7 +71,7 @@
 		0698A9D32591E80E000BC83E /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = 0698A9D22591E80E000BC83E /* FirebaseDynamicLinks */; };
 		0698A9DA2591EEF9000BC83E /* EmailSentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0698A9D92591EEF9000BC83E /* EmailSentVC.swift */; };
 		0698A9ED2591EF7E000BC83E /* EmailSentVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0698A9EC2591EF7E000BC83E /* EmailSentVC.xib */; };
-		069CF975252B020000921649 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069CF974252B020000921649 /* ProfileModel.swift */; };
+		069CF975252B020000921649 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069CF974252B020000921649 /* Profile.swift */; };
 		069F42BE2507832C006EA077 /* SF-Pro-Text-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 069F42BD2507832C006EA077 /* SF-Pro-Text-Thin.otf */; };
 		069F42C025079C51006EA077 /* NotificationCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069F42BF25079C51006EA077 /* NotificationCardModel.swift */; };
 		06A0775124FCE8D20046E691 /* AccountDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A0775024FCE8D20046E691 /* AccountDetailsVC.swift */; };
@@ -161,6 +161,10 @@
 		84A2A218257DE5F300A925FC /* DateFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A217257DE5F300A925FC /* DateFormatterTests.swift */; };
 		84C660CD25983B7D008D3575 /* FIHRQuestionnaire.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C660CC25983B7D008D3575 /* FIHRQuestionnaire.json */; };
 		84C660D525984B85008D3575 /* Notifications.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C660D425984B85008D3575 /* Notifications.json */; };
+		84C660E5259BD53A008D3575 /* Profile.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C660E4259BD53A008D3575 /* Profile.json */; };
+		84C660EA259BDBA7008D3575 /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C660E9259BDBA7008D3575 /* ProfileTests.swift */; };
+		84C660ED259BE033008D3575 /* Profile2.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C660EC259BE032008D3575 /* Profile2.json */; };
+		84C660F2259BE278008D3575 /* AlfredClient+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C660F1259BE278008D3575 /* AlfredClient+Image.swift */; };
 		84D0A5EF2578970900B053B4 /* Enviornment+CareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0A5EE2578970900B053B4 /* Enviornment+CareManager.swift */; };
 		84EE1DFD258C4FEB00326D42 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F34839258B04100042A7E4 /* Request.swift */; };
 		84EE1DFE258C4FEB00326D42 /* ServicePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F34855258B0A0F0042A7E4 /* ServicePublisher.swift */; };
@@ -171,7 +175,6 @@
 		84EE1E03258C4FEB00326D42 /* Data+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468B0B2256C62C100202A16 /* Data+Validation.swift */; };
 		84EE1E04258C4FEB00326D42 /* URL+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F34843258B04F70042A7E4 /* URL+Request.swift */; };
 		84EE1E09258C4FF800326D42 /* AlfredJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2A4F5257F0B0000A925FC /* AlfredJSONDecoder.swift */; };
-		84EE1E0E258C501C00326D42 /* AlfredCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EEA4D725830EB300473CAE /* AlfredCoreTests.swift */; };
 		84EE1E17258C502300326D42 /* TestImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B201D12586DC4B001A6C0A /* TestImage.png */; };
 		84EE1E20258C506400326D42 /* AlfredClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F3485F258B18050042A7E4 /* AlfredClient.swift */; };
 		84EE1E26258C506F00326D42 /* RemoteSynchronizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453CF1A256CD15300A3E6F0 /* RemoteSynchronizationManager.swift */; };
@@ -331,7 +334,7 @@
 		06867220251B7C99008E5CF5 /* TroubleshootingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TroubleshootingViewController.xib; sourceTree = "<group>"; };
 		0698A9D92591EEF9000BC83E /* EmailSentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSentVC.swift; sourceTree = "<group>"; };
 		0698A9EC2591EF7E000BC83E /* EmailSentVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmailSentVC.xib; sourceTree = "<group>"; };
-		069CF974252B020000921649 /* ProfileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		069CF974252B020000921649 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		069F42BD2507832C006EA077 /* SF-Pro-Text-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Thin.otf"; sourceTree = "<group>"; };
 		069F42BF25079C51006EA077 /* NotificationCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCardModel.swift; sourceTree = "<group>"; };
 		06A0775024FCE8D20046E691 /* AccountDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailsVC.swift; sourceTree = "<group>"; };
@@ -453,9 +456,12 @@
 		84B201D12586DC4B001A6C0A /* TestImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TestImage.png; sourceTree = "<group>"; };
 		84C660CC25983B7D008D3575 /* FIHRQuestionnaire.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FIHRQuestionnaire.json; sourceTree = "<group>"; };
 		84C660D425984B85008D3575 /* Notifications.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Notifications.json; sourceTree = "<group>"; };
+		84C660E4259BD53A008D3575 /* Profile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Profile.json; sourceTree = "<group>"; };
+		84C660E9259BDBA7008D3575 /* ProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTests.swift; sourceTree = "<group>"; };
+		84C660EC259BE032008D3575 /* Profile2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Profile2.json; sourceTree = "<group>"; };
+		84C660F1259BE278008D3575 /* AlfredClient+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlfredClient+Image.swift"; sourceTree = "<group>"; };
 		84D0A5EE2578970900B053B4 /* Enviornment+CareManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Enviornment+CareManager.swift"; sourceTree = "<group>"; };
 		84D0A5F22578972200B053B4 /* CarePlanResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanResponse.swift; sourceTree = "<group>"; };
-		84EEA4D725830EB300473CAE /* AlfredCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredCoreTests.swift; sourceTree = "<group>"; };
 		84EEA51A25830F6500473CAE /* AlfredHealthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredHealthTests.swift; sourceTree = "<group>"; };
 		84EEA5E9258314CD00473CAE /* ValueSpaceResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ValueSpaceResponse.json; sourceTree = "<group>"; };
 		84F34839258B04100042A7E4 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
@@ -594,7 +600,7 @@
 				06F3A27824D98F0A006838D4 /* DevicesModel.swift */,
 				06679ACA24DC349A004D6F24 /* MyNotificationsModel.swift */,
 				069F42BF25079C51006EA077 /* NotificationCardModel.swift */,
-				069CF974252B020000921649 /* ProfileModel.swift */,
+				069CF974252B020000921649 /* Profile.swift */,
 				46BAA48F25430A7B00C94AC2 /* Gender.swift */,
 				C450E30925248C8600F679FC /* UserModel.swift */,
 				06F3D2052523672F00964261 /* BundleModel.swift */,
@@ -1117,6 +1123,7 @@
 			isa = PBXGroup;
 			children = (
 				84F3485F258B18050042A7E4 /* AlfredClient.swift */,
+				84C660F1259BE278008D3575 /* AlfredClient+Image.swift */,
 				12D42D842226A63C0039043F /* APIRouter.swift */,
 			);
 			path = API;
@@ -1129,7 +1136,6 @@
 				8468B0D2256C679000202A16 /* AlfredTests.swift */,
 				84EEA5E9258314CD00473CAE /* ValueSpaceResponse.json */,
 				84A2A217257DE5F300A925FC /* DateFormatterTests.swift */,
-				84EEA4D725830EB300473CAE /* AlfredCoreTests.swift */,
 				84B201D12586DC4B001A6C0A /* TestImage.png */,
 				84EEA51A25830F6500473CAE /* AlfredHealthTests.swift */,
 				84A2A1C4257DA3CA00A925FC /* CarePlanTests.swift */,
@@ -1146,6 +1152,9 @@
 				8453B0A1259311EB00004F8C /* DefaultDiabetesCarePlan.json */,
 				84C660CC25983B7D008D3575 /* FIHRQuestionnaire.json */,
 				84C660D425984B85008D3575 /* Notifications.json */,
+				84C660E9259BDBA7008D3575 /* ProfileTests.swift */,
+				84C660E4259BD53A008D3575 /* Profile.json */,
+				84C660EC259BE032008D3575 /* Profile2.json */,
 				8468B0D4256C679000202A16 /* Info.plist */,
 			);
 			path = AlfredTests;
@@ -1495,6 +1504,8 @@
 				84EEA5EA258314CD00473CAE /* ValueSpaceResponse.json in Resources */,
 				8453B0A2259311EB00004F8C /* DefaultDiabetesCarePlan.json in Resources */,
 				84EE1E17258C502300326D42 /* TestImage.png in Resources */,
+				84C660ED259BE033008D3575 /* Profile2.json in Resources */,
+				84C660E5259BD53A008D3575 /* Profile.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1714,6 +1725,7 @@
 				46BAA49225432EE500C94AC2 /* UpdatePatientModel.swift in Sources */,
 				12BCB9EF255C12EB0098BCC2 /* StatCell.swift in Sources */,
 				84EE1E59258C50EF00326D42 /* OCKOutcomeValue+Conversion.swift in Sources */,
+				84C660F2259BE278008D3575 /* AlfredClient+Image.swift in Sources */,
 				12D42D7D2226998D0039043F /* AlertHelper.swift in Sources */,
 				0659D2D1247FEC7100B30146 /* QuestionnaireNavigationController.swift in Sources */,
 				84EE1E55258C50EF00326D42 /* Note.swift in Sources */,
@@ -1756,7 +1768,7 @@
 				86DDD52124D03C8100D27445 /* Ext_DateFormatter.swift in Sources */,
 				12D42D7E2226998D0039043F /* Ext_UIWindow.swift in Sources */,
 				C4BE384424FFA01F0047AFE3 /* ResetVC.swift in Sources */,
-				069CF975252B020000921649 /* ProfileModel.swift in Sources */,
+				069CF975252B020000921649 /* Profile.swift in Sources */,
 				1209DC98255C19BB00864A1B /* StatModel.swift in Sources */,
 				84EE1E04258C4FEB00326D42 /* URL+Request.swift in Sources */,
 				127C11AA222938F00093F4C0 /* KeychainPasswordItem.swift in Sources */,
@@ -1794,11 +1806,11 @@
 				84EE1E30258C50A900326D42 /* ClockTests.swift in Sources */,
 				84EE1E32258C50A900326D42 /* TasksTests.swift in Sources */,
 				84EE1E2F258C50A900326D42 /* TargetValueTests.swift in Sources */,
+				84C660EA259BDBA7008D3575 /* ProfileTests.swift in Sources */,
 				84A2A218257DE5F300A925FC /* DateFormatterTests.swift in Sources */,
 				84EE1E34258C50A900326D42 /* TaskTests.swift in Sources */,
 				8468B0D3256C679000202A16 /* AlfredTests.swift in Sources */,
 				84EE1E33258C50A900326D42 /* PatientTests.swift in Sources */,
-				84EE1E0E258C501C00326D42 /* AlfredCoreTests.swift in Sources */,
 				84EE1E2D258C50A900326D42 /* AlfredHealthTests.swift in Sources */,
 				8468B0DD256C67B100202A16 /* URLProtocolMock.swift in Sources */,
 				84EE1E2E258C50A900326D42 /* ScheduleTests.swift in Sources */,

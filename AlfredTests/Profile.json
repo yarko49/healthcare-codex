@@ -1,0 +1,61 @@
+{
+    "registrationToken": "",
+    "devices": {
+        "additionalProp3": {
+            "manufacturer": "",
+            "id": "",
+            "softwareVersion": "",
+            "deviceVersion": "",
+            "lastSyncTime": "2020-12-29T13: 16: 59.000Z",
+            "softwareName": "",
+            "deviceModel": ""
+        },
+        "additionalProp1": {
+            "manufacturer": "Apple",
+            "id": "",
+            "softwareVersion": "14.0.1",
+            "deviceVersion": "",
+            "lastSyncTime": "2020-12-29T13: 16: 59.000Z",
+            "softwareName": "software",
+            "deviceModel": "iPhone"
+        },
+        "additionalProp2": {
+            "manufacturer": "",
+            "id": "",
+            "softwareVersion": "",
+            "deviceVersion": "",
+            "lastSyncTime": "2020-12-29T13: 16: 59.000Z",
+            "softwareName": "",
+            "deviceModel": ""
+        }
+    },
+    "notificationsEnabled": true,
+    "signUpCompleted": true,
+    "healthMeasurements": {
+        "restingHeartRate": {
+            "goal": 0,
+            "notificationsEnabled": false,
+            "available": true
+        },
+        "heartRate": {
+            "goal": 0,
+            "notificationsEnabled": false,
+            "available": true
+        },
+        "bloodPressure": {
+            "goal": 0,
+            "notificationsEnabled": false,
+            "available": false
+        },
+        "steps": {
+            "goal": 0,
+            "notificationsEnabled": false,
+            "available": true
+        },
+        "weight": {
+            "goal": 0,
+            "notificationsEnabled": false,
+            "available": false
+        }
+    }
+}

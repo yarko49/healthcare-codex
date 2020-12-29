@@ -114,7 +114,9 @@ class HomeViewController: BaseViewController {
 	}
 
 	@objc func fetchCarePlan(_ sender: Any) {
-		AppDelegate.appDelegate.careManager.getRawCarePlan()
+		AlfredClient.client.getProfile { result in
+			print(String(describing: result))
+		}
 	}
 }
 
