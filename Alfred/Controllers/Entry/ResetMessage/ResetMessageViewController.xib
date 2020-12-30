@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -9,8 +8,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ResetMessageViewController" customModule="Alfred" customModuleProvider="target">
             <connections>
-                <outlet property="backBtn" destination="fxa-yK-Ubz" id="lUd-af-x3s"/>
-                <outlet property="resetMesasageLbl" destination="YuV-Co-n9n" id="EZl-0j-XWB"/>
+                <outlet property="backButton" destination="fxa-yK-Ubz" id="lUd-af-x3s"/>
+                <outlet property="resetMesasageLabel" destination="YuV-Co-n9n" id="EZl-0j-XWB"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,13 +19,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YuV-Co-n9n">
-                    <rect key="frame" x="34" y="114" width="346" height="20.5"/>
+                    <rect key="frame" x="34" y="70" width="346" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fxa-yK-Ubz">
-                    <rect key="frame" x="34" y="156.5" width="346" height="30"/>
+                    <rect key="frame" x="34" y="112.5" width="346" height="30"/>
                     <state key="normal" title="Button"/>
                     <connections>
                         <action selector="backToSignInBtnTapped:" destination="-1" eventType="touchUpInside" id="lQ7-r4-y9V"/>

@@ -9,8 +9,8 @@ class ResetMessageViewController: BaseViewController {
 	var backBtnAction: (() -> Void)?
 	var backToSignInAction: (() -> Void)?
 
-	@IBOutlet var resetMesasageLbl: UILabel!
-	@IBOutlet var backBtn: UIButton!
+	@IBOutlet var resetMesasageLabel: UILabel!
+	@IBOutlet var backButton: UIButton!
 
 	override func setupView() {
 		super.setupView()
@@ -24,11 +24,11 @@ class ResetMessageViewController: BaseViewController {
 		navigationItem.leftBarButtonItem?.tintColor = UIColor.black
 		navBar?.layoutIfNeeded()
 		title = Str.resetPassword
-		resetMesasageLbl.numberOfLines = 0
-		resetMesasageLbl.attributedText = Str.longResetMessage.with(style: .regular17, andColor: .lightGray, andLetterSpacing: -0.408)
+		resetMesasageLabel.numberOfLines = 0
+		resetMesasageLabel.attributedText = Str.longResetMessage.with(style: .regular17, andColor: .lightGray, andLetterSpacing: -0.408)
 		let back = UILabel()
 		back.attributedText = Str.backToSignIn.with(style: .semibold17, andColor: .black, andLetterSpacing: -0.408)
-		backBtn.setAttributedTitle(back.attributedText, for: .normal)
+		backButton.setAttributedTitle(back.attributedText, for: .normal)
 	}
 
 	@IBAction func backToSignInBtnTapped(_ sender: Any) {

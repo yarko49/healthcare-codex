@@ -18,19 +18,15 @@ class EmailSentViewController: BaseViewController {
 
 	// MARK: - IBOutlets
 
-	@IBOutlet var titleLbl: UILabel!
-	@IBOutlet var descLbl: UILabel!
-	@IBOutlet var mailBtn: BottomButton!
+	@IBOutlet var titleLabel: UILabel!
+	@IBOutlet var descLabel: UILabel!
+	@IBOutlet var mailButton: BottomButton!
 	@IBOutlet var tosTextView: UITextView!
 
 	var email: String = ""
 	var purpose: SendEmailPurpose = .signIn
 
 	// MARK: - Setup
-
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-	}
 
 	override func setupView() {
 		super.setupView()
@@ -45,11 +41,11 @@ class EmailSentViewController: BaseViewController {
 	override func localize() {
 		super.localize()
 
-		titleLbl.attributedText = Str.checkMail.with(style: .bold17, andColor: .black, andLetterSpacing: -0.32)
-		descLbl.attributedText = purpose == .signIn ? Str.sentEmailAtSignIn(email).with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.32) : Str.sentEmailAtSignUp(email).with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.32)
-		mailBtn.setAttributedTitle(Str.openMailApp.uppercased().with(style: .semibold17, andColor: .white), for: .normal)
-		mailBtn.refreshCorners(value: 5)
-		mailBtn.setupButton()
+		titleLabel.attributedText = Str.checkMail.with(style: .bold17, andColor: .black, andLetterSpacing: -0.32)
+		descLabel.attributedText = purpose == .signIn ? Str.sentEmailAtSignIn(email).with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.32) : Str.sentEmailAtSignUp(email).with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.32)
+		mailButton.setAttributedTitle(Str.openMailApp.uppercased().with(style: .semibold17, andColor: .white), for: .normal)
+		mailButton.refreshCorners(value: 5)
+		mailButton.setupButton()
 	}
 
 	func setupToS() {

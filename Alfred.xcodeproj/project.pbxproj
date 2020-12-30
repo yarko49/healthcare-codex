@@ -745,8 +745,8 @@
 		84476648259C2A4E00C50C09 /* MockSplash */ = {
 			isa = PBXGroup;
 			children = (
-				84476649259C2A4E00C50C09 /* MockSplashViewController.xib */,
 				8447664A259C2A4E00C50C09 /* MockSplashViewController.swift */,
+				84476649259C2A4E00C50C09 /* MockSplashViewController.xib */,
 			);
 			path = MockSplash;
 			sourceTree = "<group>";
@@ -790,8 +790,8 @@
 		84476657259C2A4E00C50C09 /* Reset */ = {
 			isa = PBXGroup;
 			children = (
-				84476658259C2A4E00C50C09 /* ResetViewController.xib */,
 				84476659259C2A4E00C50C09 /* ResetViewController.swift */,
+				84476658259C2A4E00C50C09 /* ResetViewController.xib */,
 			);
 			path = Reset;
 			sourceTree = "<group>";
@@ -826,8 +826,8 @@
 		84476663259C2A4E00C50C09 /* HKDataUpload */ = {
 			isa = PBXGroup;
 			children = (
-				84476664259C2A4E00C50C09 /* HKDataUploadViewController.xib */,
 				84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */,
+				84476664259C2A4E00C50C09 /* HKDataUploadViewController.xib */,
 			);
 			path = HKDataUpload;
 			sourceTree = "<group>";

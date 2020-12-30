@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -10,7 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EmailSignInViewController" customModule="Alfred" customModuleProvider="target">
             <connections>
-                <outlet property="emailView" destination="DP2-4S-BYo" id="6oZ-sg-PnH"/>
+                <outlet property="emailTextfieldView" destination="DP2-4S-BYo" id="6oZ-sg-PnH"/>
                 <outlet property="signInButton" destination="Uzd-J6-PZ6" id="pfu-Er-T8Z"/>
                 <outlet property="view" destination="lt9-75-RXx" id="4Y4-lJ-thd"/>
             </connections>
@@ -21,7 +20,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DP2-4S-BYo" customClass="TextfieldView" customModule="Alfred" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="132" width="414" height="103"/>
+                    <rect key="frame" x="0.0" y="88" width="414" height="103"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="103" id="aQy-jE-4KF"/>

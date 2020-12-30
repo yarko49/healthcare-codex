@@ -15,10 +15,10 @@ class ResetViewController: BaseViewController {
 	// MARK: - IBOutlets
 
 	@IBOutlet var scrollView: UIScrollView!
-	@IBOutlet var saveBtn: UIButton!
-	@IBOutlet var resetLbl: UILabel!
+	@IBOutlet var saveButton: UIButton!
+	@IBOutlet var resetLabel: UILabel!
 	@IBOutlet var stackView: UIStackView!
-	@IBOutlet var emailTF: TextfieldView!
+	@IBOutlet var emailTextfieldView: TextfieldView!
 
 	override func setupView() {
 		super.setupView()
@@ -32,24 +32,24 @@ class ResetViewController: BaseViewController {
 		title = "Reset Password"
 		navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backBtnTapped))
 		navigationItem.leftBarButtonItem?.tintColor = UIColor.black
-		saveBtn.addTarget(self, action: #selector(saveBtnTapped), for: .touchUpInside)
+		saveButton.addTarget(self, action: #selector(saveBtnTapped), for: .touchUpInside)
 		setup()
 	}
 
 	func setup() {
-		emailTF.setupValues(labelTitle: Str.emailAddress, text: "", textIsPassword: false)
+		emailTextfieldView.setupValues(labelTitle: Str.emailAddress, text: "", textIsPassword: false)
 		let attrText = Str.save.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: 3)
-		saveBtn.setAttributedTitle(attrText, for: .normal)
-		saveBtn.layer.cornerRadius = 28.5
-		saveBtn.backgroundColor = UIColor.white
-		saveBtn.layer.borderWidth = 2.0
-		saveBtn.layer.borderColor = UIColor.grey.cgColor
-		resetLbl.attributedText = Str.resetMessage.with(style: .regular17, andColor: .lightGray, andLetterSpacing: -0.408)
-		resetLbl.numberOfLines = 0
+		saveButton.setAttributedTitle(attrText, for: .normal)
+		saveButton.layer.cornerRadius = 28.5
+		saveButton.backgroundColor = UIColor.white
+		saveButton.layer.borderWidth = 2.0
+		saveButton.layer.borderColor = UIColor.grey.cgColor
+		resetLabel.attributedText = Str.resetMessage.with(style: .regular17, andColor: .lightGray, andLetterSpacing: -0.408)
+		resetLabel.numberOfLines = 0
 	}
 
 	@IBAction func saveBtnTapped(_ sender: Any) {
-		nextAction?(emailTF.tfText)
+		nextAction?(emailTextfieldView.tfText)
 	}
 
 	@objc func backBtnTapped() {

@@ -30,10 +30,6 @@ class SelectChunkSizeViewController: BaseViewController {
 		super.localize()
 	}
 
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-	}
-
 	override func populateData() {
 		super.populateData()
 	}

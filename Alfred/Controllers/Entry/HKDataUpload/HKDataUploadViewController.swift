@@ -16,19 +16,19 @@ class HKDataUploadViewController: BaseViewController {
 
 	// MARK: - IBOutlets
 
-	@IBOutlet var titleLbl: UILabel!
-	@IBOutlet var waitLbl: UILabel!
-	@IBOutlet var progressLbl: UILabel!
+	@IBOutlet var titleLabel: UILabel!
+	@IBOutlet var waitLabel: UILabel!
+	@IBOutlet var progressLabel: UILabel!
 
 	var maxProgress: Int = 0 {
 		didSet {
-			progressLbl.text = "\(progress)/\(maxProgress)"
+			progressLabel.text = "\(progress)/\(maxProgress)"
 		}
 	}
 
 	var progress: Int = 0 {
 		didSet {
-			progressLbl.text = "\(progress)/\(maxProgress)"
+			progressLabel.text = "\(progress)/\(maxProgress)"
 		}
 	}
 
@@ -47,12 +47,8 @@ class HKDataUploadViewController: BaseViewController {
 	override func localize() {
 		super.localize()
 
-		titleLbl.attributedText = Str.importingHealthData.with(style: .regular28, andColor: .black, andLetterSpacing: 0.36)
-		waitLbl.attributedText = Str.justASec.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.32)
-	}
-
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
+		titleLabel.attributedText = Str.importingHealthData.with(style: .regular28, andColor: .black, andLetterSpacing: 0.36)
+		waitLabel.attributedText = Str.justASec.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.32)
 	}
 
 	override func populateData() {
