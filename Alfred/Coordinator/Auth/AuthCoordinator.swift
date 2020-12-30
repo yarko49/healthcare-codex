@@ -18,7 +18,7 @@ extension OSLog {
 
 class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDelegate {
 	internal var navigationController: UINavigationController? = {
-		AuthNavigationController()
+		UINavigationController()
 	}()
 
 	internal var childCoordinators: [CoordinatorKey: Coordinator]

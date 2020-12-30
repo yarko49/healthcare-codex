@@ -1,6 +1,11 @@
 import Foundation
+import os.log
 
-struct Keychain {
+extension OSLog {
+	static let keychain = OSLog(subsystem: subsystem, category: "Keychain")
+}
+
+enum Keychain {
 	static let serviceName = AppConfig.appBundleID
 	static let accessGroup: String? = nil
 
@@ -11,7 +16,7 @@ struct Keychain {
 
 			try passwordItem.savePassword(value)
 		} catch {
-			print("Error updating keychain - \(error)")
+			os_log(.error, log: .keychain, "Error updating keychain - ", error.localizedDescription)
 		}
 	}
 
@@ -22,7 +27,7 @@ struct Keychain {
 
 			try passwordItem.saveData(data)
 		} catch {
-			print("Error updating keychain - \(error)")
+			os_log(.error, log: .keychain, "Error updating keychain - ", error.localizedDescription)
 		}
 	}
 
@@ -33,7 +38,7 @@ struct Keychain {
 			                                        accessGroup: Keychain.accessGroup)
 			return try passwordItem.readPassword()
 		} catch {
-			print("Error reading password from keychain - \(error)")
+			os_log(.error, log: .keychain, "Error reading password from keychain - ", error.localizedDescription)
 			return nil
 		}
 	}
@@ -45,7 +50,7 @@ struct Keychain {
 			                                        accessGroup: Keychain.accessGroup)
 			return try passwordItem.readData()
 		} catch {
-			print("Error reading data from keychain - \(error)")
+			os_log(.error, log: .keychain, "Error reading data from keychain - ", error.localizedDescription)
 			return nil
 		}
 	}
@@ -57,7 +62,7 @@ struct Keychain {
 			                                        accessGroup: Keychain.accessGroup)
 			try passwordItem.deleteItem()
 		} catch {
-			print("Error deleting password from keychain - \(error)")
+			os_log(.error, log: .keychain, "Error deleting password from keychain - ", error.localizedDescription)
 		}
 	}
 

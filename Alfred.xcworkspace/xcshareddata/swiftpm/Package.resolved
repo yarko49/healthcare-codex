@@ -12,7 +12,7 @@
       },
       {
         "package": "BonMot",
-        "repositoryURL": "https://github.com/Rightpoint/BonMot",
+        "repositoryURL": "https://github.com/Rightpoint/BonMot.git",
         "state": {
           "branch": null,
           "revision": "f9f38fd8bb7919f6a9262eae2811e40d4a890251",
@@ -57,7 +57,7 @@
       },
       {
         "package": "Firebase",
-        "repositoryURL": "https://github.com/firebase/firebase-ios-sdk",
+        "repositoryURL": "https://github.com/firebase/firebase-ios-sdk.git",
         "state": {
           "branch": null,
           "revision": "c67d97dc802aafe5474042156dce828e1c4145ca",
@@ -80,15 +80,6 @@
           "branch": null,
           "revision": "91ed3d188eb95705fef3c249453b81f32dc557d1",
           "version": "1.5.0"
-        }
-      },
-      {
-        "package": "HealthKitToFhir",
-        "repositoryURL": "https://github.com/microsoft/healthkit-to-fhir",
-        "state": {
-          "branch": null,
-          "revision": "438c4793f505ef95899da8e28d281ed7ed9275aa",
-          "version": "1.0.2"
         }
       },
       {
@@ -138,7 +129,7 @@
       },
       {
         "package": "FHIR",
-        "repositoryURL": "https://github.com/smart-on-fhir/Swift-FHIR",
+        "repositoryURL": "https://github.com/smart-on-fhir/Swift-FHIR.git",
         "state": {
           "branch": null,
           "revision": "b68fb5d6c8137de4a06894e683dc1a726a832907",

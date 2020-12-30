@@ -5,6 +5,7 @@ target 'Alfred' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
+  # Pods for Alfred
   pod 'GoogleSignIn'
 
   target 'AlfredTests' do
@@ -12,6 +13,9 @@ target 'Alfred' do
     # Pods for testing
   end
 
+  target 'AlfredUITests' do
+    # Pods for testing
+  end
 end
 
 # XCode 12 support, will remove when new cocoapods is released
