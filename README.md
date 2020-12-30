@@ -2,14 +2,14 @@
 
 ### Dependencies
 
-* [Xcode](https://developer.apple.com/support/xcode/)  = 11.0
-* [Cocoapods](https://cocoapods.org/) = 1.9.3
+* [Xcode](https://developer.apple.com/support/xcode/)  >= 12.0
+* [Cocoapods](https://cocoapods.org/) >= 1.9.3
 
 ### Run
 
 1. Clone this repo
 2. Open a shell and navigate to project root folder
-3. We use the Cocoapos dependency manager, so you will need to install the necessary pods before compiling the application : Run `pod install`
+3. We use the Cocoapods dependency manager, so you will need to install the necessary pods before compiling the application : Run `pod install`
 
 ### Configure
 
@@ -20,7 +20,7 @@ The application leverages an `Environment.xcconfig`  file to configure relevant 
 
 ### Compile 
 
-1. Open alfred-ios.xcworkspace file using Xcode
+1. Open Alfred.xcworkspace file using Xcode
 2. Compile and Run on desired simulator ( iOS version 12.0 and above)
 
 ### Architecture 
