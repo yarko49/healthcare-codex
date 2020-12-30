@@ -1,9 +1,6 @@
-import UIColor_Hex_Swift
 import UIKit
 
 extension UIColor {
-	static let white = UIColor.white
-	static let black = UIColor.black
 	static let grey = UIColor(named: "Grey")!
 	static let veryLightGrey = UIColor(named: "VeryLightGrey")
 	static let lightBackground = UIColor(named: "LightBackground")
@@ -32,19 +29,19 @@ extension UIColor {
 	static let enterGrey = UIColor(named: "EnterGrey")!
 	static let tableViewSeparatorColor = UIColor(named: "TableViewSeparatorColor")
 	// Coach Cards
-	static let weightBG = UIColor(named: "WeightBG")!
-	static let activityBG = UIColor(named: "ActivityBG")!
-	static let bloodPressureBG = UIColor(named: "BloodPressureBG")!
-	static let surveyBG = UIColor(named: "SurveyBG")!
-	static let medicationBG = UIColor(named: "MedicationBG")!
+	static let weightBackground = UIColor(named: "WeightBackground")!
+	static let activityBackground = UIColor(named: "ActivityBackground")!
+	static let bloodPressureBackground = UIColor(named: "BloodPressureBackground")!
+	static let surveyBackground = UIColor(named: "SurveyBackground")!
+	static let medicationBackground = UIColor(named: "MedicationBackground")!
 
 	// Measurement Cards
-	static let weightDataBG = UIColor(named: "WeightDataBG")!
-	static let activityDataBG = UIColor(named: "ActivityDataBG")!
-	static let bloodPressureDataBG = UIColor(named: "BloodPressureDataBG")!
-	static let surveyDataBG = UIColor(named: "SurveyDataBG")!
-	static let medicationDataBG = UIColor(named: "MedicationDataBG")!
-	static let defaultDataBG = UIColor(named: "DefaultDataBG")!
+	static let weightDataBackground = UIColor(named: "WeightDataBackground")!
+	static let activityDataBackground = UIColor(named: "ActivityDataBackground")!
+	static let bloodPressureDataBackground = UIColor(named: "BloodPressureDataBackground")!
+	static let surveyDataBackground = UIColor(named: "SurveyDataBackground")!
+	static let medicationDataBackground = UIColor(named: "MedicationDataBackground")!
+	static let defaultDataBackground = UIColor(named: "DefaultDataBackground")!
 
 	// Status
 	static let statusLow = UIColor(named: "StatusLow")!

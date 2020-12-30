@@ -6,7 +6,6 @@
 //
 
 import FirebaseDynamicLinks
-import GoogleSignIn
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {

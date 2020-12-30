@@ -26,11 +26,11 @@ class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGe
 	private var selectedGender: Gender? {
 		didSet {
 			if selectedGender == .female {
-				setupSexBtn(maleTxtColor: .activityBG, maleBG: .white, femaleTxtColor: .white, femaleBG: .activityBG)
+				setupSexBtn(maleTxtColor: .activityBackground, maleBG: .white, femaleTxtColor: .white, femaleBG: .activityBackground)
 			} else if selectedGender == .male {
-				setupSexBtn(maleTxtColor: .white, maleBG: .activityBG, femaleTxtColor: .activityBG, femaleBG: .white)
+				setupSexBtn(maleTxtColor: .white, maleBG: .activityBackground, femaleTxtColor: .activityBackground, femaleBG: .white)
 			} else {
-				setupSexBtn(maleTxtColor: .activityBG, maleBG: .white, femaleTxtColor: .activityBG, femaleBG: .white)
+				setupSexBtn(maleTxtColor: .activityBackground, maleBG: .white, femaleTxtColor: .activityBackground, femaleBG: .white)
 			}
 		}
 	}
@@ -75,8 +75,8 @@ class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGe
 		femaleBtn.layer.cornerRadius = 14.0
 		maleBtn.layer.borderWidth = 1
 		femaleBtn.layer.borderWidth = 1
-		maleBtn.layer.borderColor = UIColor.activityBG.cgColor
-		femaleBtn.layer.borderColor = UIColor.activityBG.cgColor
+		maleBtn.layer.borderColor = UIColor.activityBackground.cgColor
+		femaleBtn.layer.borderColor = UIColor.activityBackground.cgColor
 		if let gender = gender {
 			selectedGender = gender
 		} else {
