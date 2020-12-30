@@ -13,7 +13,16 @@ extension OSLog {
 
 class QuestionnaireCoordinator: NSObject, Coordinator {
 	internal var navigationController: UINavigationController? = {
-		QuestionnaireNavigationController()
+		let navigationController = UINavigationController()
+		let navBar = navigationController.navigationBar
+		navBar.isTranslucent = false
+		navBar.barTintColor = UIColor.lightBackground
+		navBar.setBackgroundImage(UIImage(), for: .default)
+		navBar.shadowImage = UIImage()
+		navBar.layoutIfNeeded()
+		navBar.titleTextAttributes = [NSAttributedString.Key.font: Font.sfProBold.of(size: 24), NSAttributedString.Key.foregroundColor: UIColor.black]
+
+		return navigationController
 	}()
 
 	internal var childCoordinators: [CoordinatorKey: Coordinator]
@@ -50,11 +59,11 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 	}
 
 	internal func goToQuestionnaire() {
-		let questionnaireVC = QuestionnaireViewController()
-		questionnaireVC.closeAction = { [weak self] in
+		let questionnaireViewController = QuestionnaireViewController()
+		questionnaireViewController.closeAction = { [weak self] in
 			self?.stop()
 		}
-		questionnaireVC.showQuestionnaireAction = { [weak self] in
+		questionnaireViewController.showQuestionnaireAction = { [weak self] in
 			self?.showHUD()
 			AlfredClient.client.getQuestionnaire { result in
 				self?.hideHUD()
@@ -68,22 +77,22 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 				}
 			}
 		}
-		navigationController?.viewControllers = [questionnaireVC]
+		navigationController?.viewControllers = [questionnaireViewController]
 	}
 
 	internal func showQuestion(with questions: [Item], currentQuestion: Item) {
-		let questionVC = self.questionVC ?? QuestionViewController()
+		let questionViewController = questionVC ?? QuestionViewController()
 		let currentQuestionIndex = self.questions.firstIndex(where: { $0.linkID == currentQuestion.linkID }) ?? 0
 
 		var answeredQuestion = currentQuestion
 
-		self.questionVC = questionVC
+		questionVC = questionViewController
 		self.questions = questions
-		questionVC.question = currentQuestion
-		questionVC.totalQuestions = questions.count
-		questionVC.currentQuestionIndex = currentQuestionIndex
+		questionViewController.question = currentQuestion
+		questionViewController.totalQuestions = questions.count
+		questionViewController.currentQuestionIndex = currentQuestionIndex
 
-		questionVC.nextQuestionAction = { [weak self] in
+		questionViewController.nextQuestionAction = { [weak self] in
 			let nextQuestionIndex = currentQuestionIndex + 1
 
 			self?.questions[currentQuestionIndex] = answeredQuestion
@@ -99,7 +108,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 			}
 		}
 
-		questionVC.onQuestionPartAnsweredAction = { selectedAnswerId, questionPartId in
+		questionViewController.onQuestionPartAnsweredAction = { selectedAnswerId, questionPartId in
 			switch currentQuestion.type {
 			case .group:
 				if let questionPart = currentQuestion.item, let currenQuestionPartIndex = questionPart.firstIndex(where: { $0.linkID == questionPartId }) {
@@ -121,10 +130,10 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 			}
 		}
 
-		if navigationController?.viewControllers.contains(questionVC) ?? false {
-			self.questionVC?.setupQuestion()
+		if navigationController?.viewControllers.contains(questionViewController) ?? false {
+			questionVC?.setupQuestion()
 		} else {
-			navigate(to: questionVC, with: .pushFullScreen)
+			navigate(to: questionViewController, with: .pushFullScreen)
 		}
 	}
 

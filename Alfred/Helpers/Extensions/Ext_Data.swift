@@ -4,16 +4,16 @@
 //
 
 import Foundation
-import UIKit
+import os.log
 
 extension Data {
 	func prettyPrint() {
 		do {
 			if let jsonResult = try JSONSerialization.jsonObject(with: self, options: []) as? NSDictionary {
-				print(jsonResult)
+				os_log(.info, log: .alfred, "%@", jsonResult)
 			}
 		} catch {
-			print(error.localizedDescription)
+			os_log(.error, log: .alfred, "%@", error.localizedDescription)
 		}
 	}
 }

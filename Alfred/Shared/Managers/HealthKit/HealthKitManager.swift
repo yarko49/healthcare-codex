@@ -166,7 +166,6 @@ class HealthKitManager {
 			completion(nil)
 			return
 		}
-		print(type)
 		let predicate = HKQuery.predicateForSamples(withStart: Date.distantPast,
 		                                            end: Date(),
 		                                            options: [])

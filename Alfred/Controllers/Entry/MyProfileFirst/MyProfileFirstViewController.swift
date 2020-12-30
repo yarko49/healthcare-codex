@@ -133,7 +133,6 @@ class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGe
 
 		let givenNames = firstName.components(separatedBy: " ")
 
-		print(firstName, lastName, givenNames)
 		sendDataAction?(selectedGender.rawValue, lastName, givenNames)
 	}
 }
