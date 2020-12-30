@@ -41,7 +41,7 @@ enum HealthKitQuantityType: String, CaseIterable {
 	func getColor() -> UIColor {
 		switch self {
 		case .activity:
-			return UIColor.activityBG
+			return UIColor.activityBackground
 		case .bloodPressure:
 			return UIColor.bloodPressureColor ?? .red
 		case .heartRate:
@@ -49,7 +49,7 @@ enum HealthKitQuantityType: String, CaseIterable {
 		case .restingHR:
 			return UIColor.restingHR ?? .systemPink
 		case .weight:
-			return UIColor.weightBG
+			return UIColor.weightBackground
 		}
 	}
 

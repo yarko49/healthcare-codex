@@ -24,7 +24,7 @@ class MeasurementCardCell: UICollectionViewCell {
 
 	var card: NotificationCardData?
 
-	var backgroundClr = UIColor.defaultDataBG {
+	var backgroundClr = UIColor.defaultDataBackground {
 		didSet {
 			mainView.backgroundColor = backgroundClr
 		}

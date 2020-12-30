@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/carekit-apple/CareKit.git",
         "state": {
           "branch": "main",
-          "revision": "f892a5e0036b044e7e0309ae05912e29f5cdce8d",
+          "revision": "4936c622d55d876ccf43d7a4f4fa6acdf4db6747",
           "version": null
         }
       },
@@ -44,15 +44,6 @@
           "branch": null,
           "revision": "66546404a6739173b8e436ab6bc1f2897cd08594",
           "version": "3.6.0"
-        }
-      },
-      {
-        "package": "EasyPeasy",
-        "repositoryURL": "https://github.com/nakiostudio/EasyPeasy",
-        "state": {
-          "branch": null,
-          "revision": "5855b14d7c8a7f510be8275794ec9afeba07b4cf",
-          "version": "1.9.2"
         }
       },
       {
@@ -141,8 +132,8 @@
         "repositoryURL": "https://github.com/google/promises.git",
         "state": {
           "branch": null,
-          "revision": "d8accebc8fa32f57196df191e733f946e955c549",
-          "version": "1.2.11"
+          "revision": "afa9a1ace74e116848d4f743599ab83e584ff8cb",
+          "version": "1.2.12"
         }
       },
       {
@@ -152,15 +143,6 @@
           "branch": null,
           "revision": "b68fb5d6c8137de4a06894e683dc1a726a832907",
           "version": "4.2.1"
-        }
-      },
-      {
-        "package": "UIColor_Hex_Swift",
-        "repositoryURL": "https://github.com/yeahdongcn/UIColor-Hex-Swift",
-        "state": {
-          "branch": null,
-          "revision": "7043811d77df477bf0df3e3bc4269cbd44b3f1a4",
-          "version": "5.1.1"
         }
       }
     ]

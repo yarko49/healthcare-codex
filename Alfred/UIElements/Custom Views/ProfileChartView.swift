@@ -30,12 +30,12 @@ class ProfileChartView: LineChartView {
 	private func setupChartView() {
 		legend.enabled = false
 		xAxis.labelPosition = .top
-		xAxis.labelTextColor = .weightBG
+		xAxis.labelTextColor = .weightBackground
 		xAxis.yOffset = 5
 		highlightPerTapEnabled = true
 		xAxis.drawAxisLineEnabled = false
 		xAxis.gridLineDashLengths = [4, 3]
-		xAxis.gridColor = .weightBG
+		xAxis.gridColor = .weightBackground
 		xAxis.gridLineDashPhase = 0
 		leftAxis.drawAxisLineEnabled = false
 		leftAxis.gridColor = .white
@@ -127,7 +127,7 @@ class ProfileChartView: LineChartView {
 				chartDataSet.colors = [.systemGreen]
 			} else {
 				chartDataSet.setCircleColor(.systemBlue)
-				chartDataSet.colors = [UIColor.weightBG]
+				chartDataSet.colors = [UIColor.weightBackground]
 			}
 			chartDataSets.append(chartDataSet)
 		}
@@ -158,9 +158,9 @@ class ProfileChartView: LineChartView {
 		leftAxis.axisMinimum = baseLine.limit < min ? baseLine.limit - 10.0 : min
 		leftAxis.axisMaximum = baseLine.limit > max ? baseLine.limit + 10.0 : max
 		baseLine.lineWidth = 1
-		baseLine.valueTextColor = .weightBG
+		baseLine.valueTextColor = .weightBackground
 		baseLine.valueFont = .boldSystemFont(ofSize: 13.0)
-		baseLine.lineColor = .weightBG
+		baseLine.lineColor = .weightBackground
 		baseLine.drawLabelEnabled = false
 		leftAxis.addLimitLine(baseLine)
 		data = LineChartData(dataSets: dataSets)
