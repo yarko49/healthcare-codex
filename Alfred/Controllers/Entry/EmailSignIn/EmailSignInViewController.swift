@@ -15,7 +15,7 @@ class EmailSignInViewController: BaseViewController {
 
 	// MARK: - IBOutlets
 
-	@IBOutlet var emailView: TextfieldView!
+	@IBOutlet var emailTextfieldView: TextfieldView!
 	@IBOutlet var signInButton: UIButton!
 
 	override func setupView() {
@@ -29,10 +29,10 @@ class EmailSignInViewController: BaseViewController {
 		title = Str.welcomeBack
 		navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backBtnTapped))
 		navigationItem.leftBarButtonItem?.tintColor = UIColor.black
-		emailView.setupValues(labelTitle: Str.email, text: "", textIsPassword: false)
-		emailView.textfield.keyboardType = .emailAddress
-		emailView.textfield.autocapitalizationType = .none
-		emailView.textfield.autocorrectionType = .no
+		emailTextfieldView.setupValues(labelTitle: Str.email, text: "", textIsPassword: false)
+		emailTextfieldView.textfield.keyboardType = .emailAddress
+		emailTextfieldView.textfield.autocapitalizationType = .none
+		emailTextfieldView.textfield.autocorrectionType = .no
 		setup()
 		view.layoutIfNeeded()
 	}
@@ -45,8 +45,8 @@ class EmailSignInViewController: BaseViewController {
 	}
 
 	@IBAction func signInButtonTapped(_ sender: Any) {
-		guard let email = emailView.tfText, !email.isEmpty, email.isValidEmail() else {
-			alertAction?(Str.invalidEmail, Str.enterEmail, emailView)
+		guard let email = emailTextfieldView.tfText, !email.isEmpty, email.isValidEmail() else {
+			alertAction?(Str.invalidEmail, Str.enterEmail, emailTextfieldView)
 			return
 		}
 

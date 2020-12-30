@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -113,16 +111,16 @@
             </constraints>
             <size key="customSize" width="353" height="56"/>
             <connections>
-                <outlet property="addIV" destination="ICU-OK-GGd" id="NlV-9U-IjV"/>
+                <outlet property="addImageView" destination="ICU-OK-GGd" id="NlV-9U-IjV"/>
                 <outlet property="iconView" destination="PgD-Bc-KEA" id="5TS-pu-boN"/>
                 <outlet property="mainView" destination="cgS-G8-efk" id="Z1q-AB-Qnv"/>
-                <outlet property="statusIV" destination="bLM-r6-zPU" id="Daa-K4-Xrs"/>
-                <outlet property="statusLbl" destination="aVz-VL-h0z" id="oMr-oh-j7w"/>
-                <outlet property="surveyIV" destination="VH9-zn-Tcq" id="AWC-Af-VNe"/>
-                <outlet property="surveyLbl" destination="A62-HQ-PFR" id="xoI-lj-Tum"/>
-                <outlet property="textLbl" destination="EBg-9M-59p" id="A4a-ak-Oou"/>
-                <outlet property="timeLbl" destination="M7I-UL-vSh" id="jTR-Nn-HDP"/>
-                <outlet property="titleLbl" destination="8gk-sm-9Fs" id="mMM-IV-y1p"/>
+                <outlet property="statusImageView" destination="bLM-r6-zPU" id="Daa-K4-Xrs"/>
+                <outlet property="statusLabel" destination="aVz-VL-h0z" id="oMr-oh-j7w"/>
+                <outlet property="surveyImageView" destination="VH9-zn-Tcq" id="AWC-Af-VNe"/>
+                <outlet property="surveyLabel" destination="A62-HQ-PFR" id="xoI-lj-Tum"/>
+                <outlet property="textLabel" destination="EBg-9M-59p" id="A4a-ak-Oou"/>
+                <outlet property="timeLabel" destination="M7I-UL-vSh" id="jTR-Nn-HDP"/>
+                <outlet property="titleLabel" destination="8gk-sm-9Fs" id="mMM-IV-y1p"/>
             </connections>
             <point key="canvasLocation" x="-18.115942028985508" y="95.758928571428569"/>
         </collectionViewCell>

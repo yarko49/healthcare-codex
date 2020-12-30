@@ -9,9 +9,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ResetViewController" customModule="Alfred" customModuleProvider="target">
             <connections>
-                <outlet property="emailTF" destination="F2O-dx-cEy" id="kLE-mD-wiE"/>
-                <outlet property="resetLbl" destination="zVo-Ut-ru9" id="PPi-Pn-qdc"/>
-                <outlet property="saveBtn" destination="9dG-ra-OTg" id="OxL-d7-bLa"/>
+                <outlet property="emailTextfieldView" destination="F2O-dx-cEy" id="kLE-mD-wiE"/>
+                <outlet property="resetLabel" destination="zVo-Ut-ru9" id="PPi-Pn-qdc"/>
+                <outlet property="saveButton" destination="9dG-ra-OTg" id="OxL-d7-bLa"/>
                 <outlet property="scrollView" destination="8K5-du-5y5" id="yRw-fQ-Jo6"/>
                 <outlet property="stackView" destination="O6X-nR-XOU" id="MA3-jR-zz8"/>
                 <outlet property="view" destination="RDM-xT-ArO" id="dCh-9I-hqq"/>

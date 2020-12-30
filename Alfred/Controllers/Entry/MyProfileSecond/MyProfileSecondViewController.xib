@@ -11,9 +11,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyProfileSecondViewController" customModule="Alfred" customModuleProvider="target">
             <connections>
                 <outlet property="bottomView" destination="Qk2-Oh-BlW" id="U6X-mt-kTw"/>
-                <outlet property="infoLbl" destination="4Jm-2O-Z4h" id="Kwc-Yl-37A"/>
-                <outlet property="nextBtn" destination="BPW-ud-wEy" id="FUR-1K-JGt"/>
-                <outlet property="pickerSV" destination="24O-Ef-rgn" id="PHF-To-Knv"/>
+                <outlet property="infoLabel" destination="4Jm-2O-Z4h" id="Kwc-Yl-37A"/>
+                <outlet property="nextButton" destination="BPW-ud-wEy" id="FUR-1K-JGt"/>
+                <outlet property="pickerStackView" destination="24O-Ef-rgn" id="PHF-To-Knv"/>
                 <outlet property="view" destination="x3m-1j-0jG" id="Qbt-5w-jPP"/>
             </connections>
         </placeholder>

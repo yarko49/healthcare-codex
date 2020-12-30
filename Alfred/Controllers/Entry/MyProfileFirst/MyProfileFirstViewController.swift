@@ -8,14 +8,14 @@ class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGe
 	var alertAction: ((_ tv: TextfieldView?) -> Void)?
 	var alert: (() -> Void)?
 
-	@IBOutlet var sexSV: UIStackView!
-	@IBOutlet var sexLbl: UILabel!
-	@IBOutlet var maleBtn: UIButton!
-	@IBOutlet var femaleBtn: UIButton!
+	@IBOutlet var sexStackView: UIStackView!
+	@IBOutlet var sexLabel: UILabel!
+	@IBOutlet var maleButton: UIButton!
+	@IBOutlet var femaleButton: UIButton!
 	@IBOutlet var scrollView: UIScrollView!
-	@IBOutlet var lastNameTF: TextfieldView!
-	@IBOutlet var firstNameTF: TextfieldView!
-	@IBOutlet var nextBtn: BottomButton!
+	@IBOutlet var lastNameTextfieldView: TextfieldView!
+	@IBOutlet var firstNameTextfieldView: TextfieldView!
+	@IBOutlet var nextButton: BottomButton!
 	@IBOutlet var bottomView: UIView!
 
 	var gender: Gender?
@@ -26,11 +26,11 @@ class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGe
 	private var selectedGender: Gender? {
 		didSet {
 			if selectedGender == .female {
-				setupSexBtn(maleTxtColor: .activityBackground, maleBG: .white, femaleTxtColor: .white, femaleBG: .activityBackground)
+				setupSexButton(maleTxtColor: .activityBackground, maleBackground: .white, femaleTextColor: .white, femaleBackground: .activityBackground)
 			} else if selectedGender == .male {
-				setupSexBtn(maleTxtColor: .white, maleBG: .activityBackground, femaleTxtColor: .activityBackground, femaleBG: .white)
+				setupSexButton(maleTxtColor: .white, maleBackground: .activityBackground, femaleTextColor: .activityBackground, femaleBackground: .white)
 			} else {
-				setupSexBtn(maleTxtColor: .activityBackground, maleBG: .white, femaleTxtColor: .activityBackground, femaleBG: .white)
+				setupSexButton(maleTxtColor: .activityBackground, maleBackground: .white, femaleTextColor: .activityBackground, femaleBackground: .white)
 			}
 		}
 	}
@@ -38,7 +38,6 @@ class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGe
 	override func setupView() {
 		super.setupView()
 		scrollView.isScrollEnabled = false
-		let navBar = navigationController?.navigationBar
 
 		title = Str.profile
 
@@ -49,20 +48,15 @@ class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGe
 			navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backBtnTapped))
 			navigationItem.leftBarButtonItem?.tintColor = UIColor.black
 		}
-		navBar?.isHidden = false
-		navBar?.setBackgroundImage(UIImage(), for: .default)
-		navBar?.shadowImage = UIImage()
-		navBar?.isHidden = false
-		navBar?.isTranslucent = false
 
-		firstNameTF.setupValues(labelTitle: Str.firstName, text: firstText, textIsPassword: false)
-		lastNameTF.setupValues(labelTitle: Str.lastName, text: lastText, textIsPassword: false)
+		firstNameTextfieldView.setupValues(labelTitle: Str.firstName, text: firstText, textIsPassword: false)
+		lastNameTextfieldView.setupValues(labelTitle: Str.lastName, text: lastText, textIsPassword: false)
 
-		nextBtn.setAttributedTitle(Str.next.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 5), for: .normal)
-		nextBtn.refreshCorners(value: 0)
-		nextBtn.setupButton()
+		nextButton.setAttributedTitle(Str.next.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 5), for: .normal)
+		nextButton.refreshCorners(value: 0)
+		nextButton.setupButton()
 		bottomView.backgroundColor = UIColor.next
-		nextBtn.backgroundColor = UIColor.next
+		nextButton.backgroundColor = UIColor.next
 
 		view.isUserInteractionEnabled = true
 		view.layoutIfNeeded()
@@ -70,13 +64,13 @@ class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGe
 	}
 
 	func setButtons() {
-		sexLbl.attributedText = Str.sex.with(style: .regular20, andColor: .grey, andLetterSpacing: -0.408)
-		maleBtn.layer.cornerRadius = 14.0
-		femaleBtn.layer.cornerRadius = 14.0
-		maleBtn.layer.borderWidth = 1
-		femaleBtn.layer.borderWidth = 1
-		maleBtn.layer.borderColor = UIColor.activityBackground.cgColor
-		femaleBtn.layer.borderColor = UIColor.activityBackground.cgColor
+		sexLabel.attributedText = Str.sex.with(style: .regular20, andColor: .grey, andLetterSpacing: -0.408)
+		maleButton.layer.cornerRadius = 14.0
+		femaleButton.layer.cornerRadius = 14.0
+		maleButton.layer.borderWidth = 1
+		femaleButton.layer.borderWidth = 1
+		maleButton.layer.borderColor = UIColor.activityBackground.cgColor
+		femaleButton.layer.borderColor = UIColor.activityBackground.cgColor
 		if let gender = gender {
 			selectedGender = gender
 		} else {
@@ -84,24 +78,19 @@ class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGe
 		}
 	}
 
-	func setupSexBtn(maleTxtColor: UIColor, maleBG: UIColor, femaleTxtColor: UIColor, femaleBG: UIColor) {
-		maleBtn.backgroundColor = maleBG
-		let maleAttributedText = Str.male.with(style: .regular13, andColor: maleTxtColor,
-		                                       andLetterSpacing: -0.41)
-		maleBtn.setAttributedTitle(maleAttributedText, for: .normal)
-		femaleBtn.backgroundColor = femaleBG
-		let femaleAttributedText = Str.female.with(style: .regular13, andColor: femaleTxtColor, andLetterSpacing: -0.41)
-		femaleBtn.setAttributedTitle(femaleAttributedText, for: .normal)
-	}
-
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
+	func setupSexButton(maleTxtColor: UIColor, maleBackground: UIColor, femaleTextColor: UIColor, femaleBackground: UIColor) {
+		maleButton.backgroundColor = maleBackground
+		let maleAttributedText = Str.male.with(style: .regular13, andColor: maleTxtColor, andLetterSpacing: -0.41)
+		maleButton.setAttributedTitle(maleAttributedText, for: .normal)
+		femaleButton.backgroundColor = femaleBackground
+		let femaleAttributedText = Str.female.with(style: .regular13, andColor: femaleTextColor, andLetterSpacing: -0.41)
+		femaleButton.setAttributedTitle(femaleAttributedText, for: .normal)
 	}
 
 	@IBAction func selectedOption(_ sender: UIButton) {
-		if sender == maleBtn {
+		if sender == maleButton {
 			selectedGender = .male
-		} else if sender == femaleBtn {
+		} else if sender == femaleButton {
 			selectedGender = .female
 		}
 	}
@@ -115,15 +104,15 @@ class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGe
 	}
 
 	@IBAction func nextBtnTapped(_ sender: Any) {
-		let firstName = firstNameTF.textfield.text ?? ""
-		let lastName = lastNameTF.textfield.text ?? ""
+		let firstName = firstNameTextfieldView.textfield.text ?? ""
+		let lastName = lastNameTextfieldView.textfield.text ?? ""
 
 		if !firstName.isValidText() || firstName.isEmpty {
-			alertAction?(firstNameTF)
+			alertAction?(firstNameTextfieldView)
 			return
 		}
 		if !lastName.isValidText() || lastName.isEmpty {
-			alertAction?(lastNameTF)
+			alertAction?(lastNameTextfieldView)
 		}
 
 		guard let selectedGender = self.selectedGender else {

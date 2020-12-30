@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -10,9 +9,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EmailSentViewController" customModule="Alfred" customModuleProvider="target">
             <connections>
-                <outlet property="descLbl" destination="OLB-Xx-AhR" id="MFA-VO-ve9"/>
-                <outlet property="mailBtn" destination="HwP-1A-rOC" id="ryD-X5-CJr"/>
-                <outlet property="titleLbl" destination="NwT-98-Lgy" id="SGW-6S-dvg"/>
+                <outlet property="descLabel" destination="OLB-Xx-AhR" id="MFA-VO-ve9"/>
+                <outlet property="mailButton" destination="HwP-1A-rOC" id="ryD-X5-CJr"/>
+                <outlet property="titleLabel" destination="NwT-98-Lgy" id="SGW-6S-dvg"/>
                 <outlet property="tosTextView" destination="mkj-Ee-XYb" id="PtS-5H-Frz"/>
                 <outlet property="view" destination="Zo0-4W-OlC" id="r92-gD-ToU"/>
             </connections>
@@ -108,11 +107,6 @@
             <point key="canvasLocation" x="559" y="92"/>
         </view>
     </objects>
-    <designables>
-        <designable name="HwP-1A-rOC">
-            <size key="intrinsicContentSize" width="46" height="30"/>
-        </designable>
-    </designables>
     <resources>
         <image name="ovalPlaceholder" width="200" height="200"/>
         <systemColor name="labelColor">

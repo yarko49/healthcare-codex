@@ -11,14 +11,14 @@ class MeasurementCardCell: UICollectionViewCell {
 
 	@IBOutlet var mainView: UIView!
 	@IBOutlet var iconView: CircleProgressBarView!
-	@IBOutlet var titleLbl: UILabel!
-	@IBOutlet var timeLbl: UILabel!
-	@IBOutlet var textLbl: UILabel!
-	@IBOutlet var statusIV: UIImageView!
-	@IBOutlet var statusLbl: UILabel!
-	@IBOutlet var addIV: UIImageView!
-	@IBOutlet var surveyLbl: UILabel!
-	@IBOutlet var surveyIV: UIImageView!
+	@IBOutlet var titleLabel: UILabel!
+	@IBOutlet var timeLabel: UILabel!
+	@IBOutlet var textLabel: UILabel!
+	@IBOutlet var statusImageView: UIImageView!
+	@IBOutlet var statusLabel: UILabel!
+	@IBOutlet var addImageView: UIImageView!
+	@IBOutlet var surveyLabel: UILabel!
+	@IBOutlet var surveyImageView: UIImageView!
 
 	// MARK: - Vars
 
@@ -32,24 +32,24 @@ class MeasurementCardCell: UICollectionViewCell {
 
 	var statusClr = UIColor.statusGreen {
 		didSet {
-			statusIV.tintColor = statusClr
+			statusImageView.tintColor = statusClr
 		}
 	}
 
 	var title: String? {
 		didSet {
 			if let title = title {
-				titleLbl.isHidden = false
-				titleLbl.attributedText = title.with(style: .regular13, andColor: .black, andLetterSpacing: -0.408)
+				titleLabel.isHidden = false
+				titleLabel.attributedText = title.with(style: .regular13, andColor: .black, andLetterSpacing: -0.408)
 			} else {
-				titleLbl.isHidden = true
+				titleLabel.isHidden = true
 			}
 		}
 	}
 
 	var timestamp: String? {
 		didSet {
-			timeLbl.isHidden = true
+			timeLabel.isHidden = true
 			// TODO: This should change, it's a temporary fix because there are multiple formats from BE rn
 			if let timestamp = timestamp {
 				var date = DateFormatter.wholeDateNoTimeZoneRequest.date(from: timestamp)
@@ -68,7 +68,7 @@ class MeasurementCardCell: UICollectionViewCell {
 						dateString = DateFormatter.MMMdd.string(from: date)
 					}
 
-					timeLbl.attributedText = dateString.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+					timeLabel.attributedText = dateString.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
 				}
 			}
 		}
@@ -77,10 +77,10 @@ class MeasurementCardCell: UICollectionViewCell {
 	var status: String? {
 		didSet {
 			if let status = status {
-				statusLbl.isHidden = false
-				statusLbl.attributedText = status.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+				statusLabel.isHidden = false
+				statusLabel.attributedText = status.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
 			} else {
-				statusLbl.isHidden = true
+				statusLabel.isHidden = true
 			}
 		}
 	}
@@ -88,8 +88,8 @@ class MeasurementCardCell: UICollectionViewCell {
 	var text: String? {
 		didSet {
 			if let text = text {
-				textLbl.isHidden = false
-				textLbl.attributedText = setAttributedString(for: text)
+				textLabel.isHidden = false
+				textLabel.attributedText = setAttributedString(for: text)
 				setAppearanceForDataInput(flag: false)
 			} else {
 				setAppearanceForDataInput(flag: true)
@@ -99,18 +99,6 @@ class MeasurementCardCell: UICollectionViewCell {
 	}
 
 	// MARK: - Setup
-
-	override func awakeFromNib() {
-		super.awakeFromNib()
-	}
-
-	override func prepareForReuse() {
-		super.prepareForReuse()
-	}
-
-	override func layoutSubviews() {
-		super.layoutSubviews()
-	}
 
 	func setupView() {
 		contentView.layer.cornerRadius = 5.0
@@ -136,7 +124,7 @@ class MeasurementCardCell: UICollectionViewCell {
 			backgroundClr = color
 		}
 
-		statusIV.image = statusIV.image?.withRenderingMode(.alwaysTemplate)
+		statusImageView.image = statusImageView.image?.withRenderingMode(.alwaysTemplate)
 
 		if let statusColorHex = card.statusColor, let color = UIColor(hex: statusColorHex) {
 			statusClr = color
@@ -150,10 +138,10 @@ class MeasurementCardCell: UICollectionViewCell {
 			iconView.setProgressWithAnimation(value: 0)
 		}
 
-		surveyLbl.attributedText = Str.completeSurvey.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
-		let surveyImage = surveyIV.image?.withRenderingMode(.alwaysTemplate)
-		surveyIV.image = surveyImage
-		surveyIV.tintColor = .lightGrey
+		surveyLabel.attributedText = Str.completeSurvey.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+		let surveyImage = surveyImageView.image?.withRenderingMode(.alwaysTemplate)
+		surveyImageView.image = surveyImage
+		surveyImageView.tintColor = .lightGrey
 
 		title = card.title
 		timestamp = card.sampledTime
@@ -175,44 +163,44 @@ class MeasurementCardCell: UICollectionViewCell {
 	private func setCellForDataInput() {
 		switch card?.action {
 		case .bloodPressure:
-			textLbl.attributedText = Str.enterBP.with(style: .regular24, andColor: .enterGrey, andLetterSpacing: -0.16)
+			textLabel.attributedText = Str.enterBP.with(style: .regular24, andColor: .enterGrey, andLetterSpacing: -0.16)
 			return
 		case .weight:
-			textLbl.attributedText = Str.enterWeight.with(style: .regular24, andColor: .enterGrey, andLetterSpacing: -0.16)
+			textLabel.attributedText = Str.enterWeight.with(style: .regular24, andColor: .enterGrey, andLetterSpacing: -0.16)
 			return
 		default:
 			break
 		}
-		textLbl.isHidden = true
-		addIV.isHidden = true
+		textLabel.isHidden = true
+		addImageView.isHidden = true
 	}
 
 	private func setAppeareanceOnAction(action: CardAction?) {
 		let questionnaireFlag = action == .questionnaire
 
-		surveyIV.isHidden = !questionnaireFlag
-		surveyLbl.isHidden = !questionnaireFlag
+		surveyImageView.isHidden = !questionnaireFlag
+		surveyLabel.isHidden = !questionnaireFlag
 		if questionnaireFlag {
 			if card?.progressPercent == 1 {
-				statusLbl.isHidden = false
-				statusIV.isHidden = false
-				timeLbl.isHidden = false
-				addIV.isHidden = true
-				surveyIV.isHidden = true
-				surveyLbl.isHidden = true
+				statusLabel.isHidden = false
+				statusImageView.isHidden = false
+				timeLabel.isHidden = false
+				addImageView.isHidden = true
+				surveyImageView.isHidden = true
+				surveyLabel.isHidden = true
 			} else {
-				statusLbl.isHidden = questionnaireFlag
-				statusIV.isHidden = questionnaireFlag
-				timeLbl.isHidden = questionnaireFlag
-				addIV.isHidden = questionnaireFlag
+				statusLabel.isHidden = questionnaireFlag
+				statusImageView.isHidden = questionnaireFlag
+				timeLabel.isHidden = questionnaireFlag
+				addImageView.isHidden = questionnaireFlag
 			}
 		}
 	}
 
 	private func setAppearanceForDataInput(flag: Bool) {
-		addIV.isHidden = !flag
-		statusIV.isHidden = flag
-		statusLbl.isHidden = flag
-		timeLbl.isHidden = flag
+		addImageView.isHidden = !flag
+		statusImageView.isHidden = flag
+		statusLabel.isHidden = flag
+		timeLabel.isHidden = flag
 	}
 }

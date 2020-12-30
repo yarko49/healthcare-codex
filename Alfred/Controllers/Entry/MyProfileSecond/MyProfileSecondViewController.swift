@@ -12,9 +12,9 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 	var alertAction: ((_ tv: PickerTF) -> Void)?
 	var patientRequestAction: ((_ resourceType: String, _ birthdate: String, _ weight: Int, _ height: Int, _ date: String) -> Void)?
 
-	@IBOutlet var infoLbl: UILabel!
-	@IBOutlet var pickerSV: UIStackView!
-	@IBOutlet var nextBtn: BottomButton!
+	@IBOutlet var infoLabel: UILabel!
+	@IBOutlet var pickerStackView: UIStackView!
+	@IBOutlet var nextButton: BottomButton!
 	@IBOutlet var bottomView: UIView!
 
 	var inputType: Input = .weight
@@ -47,17 +47,16 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 		title = Str.profile
 		navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backBtnTapped))
 		navigationItem.leftBarButtonItem?.tintColor = UIColor.black
-		infoLbl.attributedText = Str.information.with(style: .regular17, andColor: UIColor.lightGray, andLetterSpacing: -0.32)
-		infoLbl.numberOfLines = 0
-		nextBtn.setAttributedTitle(Str.next.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 5), for: .normal)
-		nextBtn.refreshCorners(value: 0)
-		nextBtn.setupButton()
-		nextBtn.backgroundColor = .next
+		infoLabel.attributedText = Str.information.with(style: .regular17, andColor: UIColor.lightGray, andLetterSpacing: -0.32)
+		infoLabel.numberOfLines = 0
+		nextButton.setAttributedTitle(Str.next.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 5), for: .normal)
+		nextButton.refreshCorners(value: 0)
+		nextButton.setupButton()
+		nextButton.backgroundColor = .next
 		bottomView.backgroundColor = UIColor.next
 		datePicker.addTarget(self, action: #selector(datePickerDateChanged(_:)), for: .valueChanged)
 
 		view.isUserInteractionEnabled = true
-		view.layoutIfNeeded()
 		view.layoutIfNeeded()
 	}
 
@@ -156,8 +155,8 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 		tap.picker = picker
 		tap.viewTF = viewTF
 		viewTF.addGestureRecognizer(tap)
-		pickerSV.addArrangedSubview(viewTF)
-		pickerSV.addArrangedSubview(picker)
+		pickerStackView.addArrangedSubview(viewTF)
+		pickerStackView.addArrangedSubview(picker)
 		picker.isHidden = true
 
 		fixLabelsInPlace(with: picker)
@@ -170,8 +169,8 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 		tap.viewTF = viewTF
 		dateTextView.state = .normal
 		viewTF.addGestureRecognizer(tap)
-		pickerSV.addArrangedSubview(viewTF)
-		pickerSV.addArrangedSubview(picker)
+		pickerStackView.addArrangedSubview(viewTF)
+		pickerStackView.addArrangedSubview(picker)
 		picker.isHidden = true
 		datePickerDateChanged(datePicker)
 		dateTextView.textfield.textColor = .black
@@ -191,7 +190,7 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 			viewTF.textfield.textColor = picker.isHidden ? .black : .lightGray
 		}
 
-		for view in pickerSV.arrangedSubviews {
+		for view in pickerStackView.arrangedSubviews {
 			if view != picker, view is UIPickerView || view is UIDatePicker {
 				view.isHidden = true
 			} else if let view = view as? PickerTF, view != viewTF {

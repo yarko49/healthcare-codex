@@ -20,10 +20,10 @@ class AppleHealthViewController: BaseViewController {
 	var comingFrom: ComingFromScreen?
 
 	@IBOutlet var stackView: UIStackView!
-	@IBOutlet var nextBtn: BottomButton!
+	@IBOutlet var nextButton: BottomButton!
 	@IBOutlet var bottomView: UIView!
-	@IBOutlet var rightBtn: UIButton!
-	@IBOutlet var leftBtn: UIButton!
+	@IBOutlet var rightButton: UIButton!
+	@IBOutlet var leftButton: UIButton!
 
 	override func viewWillAppear(_ animated: Bool) {
 		if comingFrom == .welcome {
@@ -35,17 +35,13 @@ class AppleHealthViewController: BaseViewController {
 		super.setupView()
 		setupTexts()
 		setupNavBar()
-		nextBtn.addTarget(self, action: #selector(nextBtnTapped), for: .touchUpInside)
+		nextButton.addTarget(self, action: #selector(nextBtnTapped), for: .touchUpInside)
 	}
 
 	private func setupNavBar() {
 		let navBar = navigationController?.navigationBar
 		if comingFrom == .myProfile || comingFrom == .welcome {
 			navBar?.isHidden = false
-			navBar?.setBackgroundImage(UIImage(), for: .default)
-			navBar?.shadowImage = UIImage()
-			navBar?.isHidden = false
-			navBar?.isTranslucent = true
 			navigationItem.leftBarButtonItem = comingFrom == .welcome ? nil : UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backBtnTapped))
 			navigationItem.leftBarButtonItem?.tintColor = UIColor.black
 			navigationItem.setHidesBackButton(comingFrom == .welcome, animated: true)
@@ -91,38 +87,38 @@ class AppleHealthViewController: BaseViewController {
 	}
 
 	func switchScreen() {
-		leftBtnView()
-		rightBtnView()
-		nextBtnView()
+		leftButtonView()
+		rightButtonView()
+		nextButtonView()
 	}
 
-	func leftBtnView() {
+	func leftButtonView() {
 		let attrText = Str.notNow.with(style: .regular20, andColor: .black, andLetterSpacing: 0.38)
-		leftBtn.setAttributedTitle(attrText, for: .normal)
-		leftBtn.isHidden = comingFrom != .myDevices
-		leftBtn.layer.cornerRadius = 20.0
-		leftBtn.layer.borderWidth = 1
-		leftBtn.layer.borderColor = UIColor.grey.cgColor
+		leftButton.setAttributedTitle(attrText, for: .normal)
+		leftButton.isHidden = comingFrom != .myDevices
+		leftButton.layer.cornerRadius = 20.0
+		leftButton.layer.borderWidth = 1
+		leftButton.layer.borderColor = UIColor.grey.cgColor
 	}
 
-	func rightBtnView() {
+	func rightButtonView() {
 		let attrText = Str.activate.with(style: .regular20, andColor: .white, andLetterSpacing: 0.38)
-		rightBtn.setAttributedTitle(attrText, for: .normal)
-		rightBtn.isHidden = comingFrom != .myDevices
-		rightBtn.layer.cornerRadius = 20.0
-		rightBtn.backgroundColor = .grey
+		rightButton.setAttributedTitle(attrText, for: .normal)
+		rightButton.isHidden = comingFrom != .myDevices
+		rightButton.layer.cornerRadius = 20.0
+		rightButton.backgroundColor = .grey
 	}
 
-	func nextBtnView() {
+	func nextButtonView() {
 		let text = comingFrom != .activate ? Str.next.uppercased() : Str.done.uppercased()
 		bottomView.isHidden = comingFrom == .myDevices
-		nextBtn.isHidden = comingFrom == .myDevices
-		nextBtn.backgroundColor = UIColor.next
-		nextBtn.setAttributedTitle(text.with(style: .regular17, andColor: .white, andLetterSpacing: 5), for: .normal)
-		nextBtn.refreshCorners(value: 0)
-		nextBtn.setupButton()
-		nextBtn.backgroundColor = comingFrom != .activate ? .next : .grey
-		bottomView.backgroundColor = nextBtn.backgroundColor
+		nextButton.isHidden = comingFrom == .myDevices
+		nextButton.backgroundColor = UIColor.next
+		nextButton.setAttributedTitle(text.with(style: .regular17, andColor: .white, andLetterSpacing: 5), for: .normal)
+		nextButton.refreshCorners(value: 0)
+		nextButton.setupButton()
+		nextButton.backgroundColor = comingFrom != .activate ? .next : .grey
+		bottomView.backgroundColor = nextButton.backgroundColor
 	}
 
 	@IBAction func notNowTapped(_ sender: Any) {
