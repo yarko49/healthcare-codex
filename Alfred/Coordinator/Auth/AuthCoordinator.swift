@@ -12,8 +12,8 @@ enum SendEmailPurpose {
 	case signUp
 }
 
-extension OSLog {
-	static let authCoordinator = OSLog(subsystem: subsystem, category: "AuthCoordinator")
+extension Logger {
+	static let authCoordinator = Logger(subsystem: subsystem, category: "AuthCoordinator")
 }
 
 class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDelegate {
@@ -103,7 +103,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		actionCodeSettings.setIOSBundleID(bundleId)
 		Auth.auth().sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings) { [weak self] error in
 			if let error = error {
-				os_log(.error, log: .authCoordinator, "Send signin Link %@", error.localizedDescription)
+				Logger.authCoordinator.error("Send signin Link \(error.localizedDescription)")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.failedSendLink, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 				return
 			}
@@ -264,13 +264,13 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			guard authorized else {
 				let baseMessage = "HealthKit Authorization Failed"
 				if let error = error {
-					os_log(.error, log: .authCoordinator, "baseMessage %@. Reason: %@", baseMessage, error.localizedDescription)
+					Logger.authCoordinator.error("Send signin Link \(baseMessage) \(error.localizedDescription)")
 				} else {
-					os_log(.info, log: .authCoordinator, "baseMessage %@", baseMessage)
+					Logger.authCoordinator.info("baseMessage \(baseMessage)")
 				}
 				return
 			}
-			os_log(.info, log: .authCoordinator, "HealthKit Successfully Authorized.")
+			Logger.authCoordinator.info("HealthKit Successfully Authorized.")
 			DispatchQueue.main.async {
 				self.syncHKData()
 			}
@@ -408,13 +408,13 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			guard authorized else {
 				let baseMessage = "HealthKit Authorization Failed"
 				if let error = error {
-					os_log(.error, log: .authCoordinator, "baseMessage %@. Reason: %@", baseMessage, error.localizedDescription)
+					Logger.authCoordinator.error("BaseMessage \(baseMessage) Reason: \(error.localizedDescription)")
 				} else {
-					os_log(.info, log: .authCoordinator, "baseMessage %@", baseMessage)
+					Logger.authCoordinator.info("Base Message \(baseMessage)")
 				}
 				return
 			}
-			os_log(.info, log: .authCoordinator, "HealthKit Successfully Authorized.")
+			Logger.webService.info("HealthKit Successfully Authorized.")
 			DispatchQueue.main.async {
 				self?.setChunkSize()
 			}
@@ -485,12 +485,12 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			DataContext.shared.patient = patient
 			switch result {
 			case .success(let patientResponse):
-				os_log(.info, log: .authCoordinator, "OK STATUS FOR PATIENT : 200")
+				Logger.authCoordinator.info("OK STATUS FOR PATIENT : 200")
 				let defaultName = Name(use: "", family: "", given: [""])
 				DataContext.shared.userModel = UserModel(userID: patientResponse.id ?? "", email: self?.emailrequest ?? "", name: patientResponse.name ?? [defaultName], dob: patient.birthDate, gender: Gender(rawValue: DataContext.shared.patient?.gender ?? ""))
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			case .failure(let error):
-				os_log(.error, log: .authCoordinator, "request failed %@", error.localizedDescription)
+				Logger.authCoordinator.error("request falied \(error.localizedDescription)")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 				return
 			}
@@ -517,12 +517,12 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			self?.hideHUD()
 			switch result {
 			case .success(let response):
-				os_log(.info, log: .authCoordinator, "response %@", String(describing: response))
+				Logger.authCoordinator.info("response \(String(describing: response))")
 				DataContext.shared.signUpCompleted = true
 				let profile = DataContext.shared.createProfile()
 				self?.profileRequest(profile: profile)
 			case .failure(let error):
-				os_log(.error, log: .authCoordinator, "request failed %@", error.localizedDescription)
+				Logger.authCoordinator.error("request failed = \(error.localizedDescription)")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createBundleFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}
@@ -535,10 +535,10 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			switch result {
 			case .success(let resource):
 				DataContext.shared.identifyCrashlytics()
-				os_log(.info, log: .authCoordinator, "OK STATUS FOR PROFILE: 200 %@, %@", String(describing: DataContext.shared.signUpCompleted), String(describing: resource))
+				Logger.authCoordinator.info("OK STATUS FOR PROFILE: 200 \(String(describing: DataContext.shared.signUpCompleted)), \(String(describing: resource))")
 				self?.goToAppleHealthVCFromDevices()
 			case .failure(let error):
-				os_log(.error, log: .authCoordinator, "request failed %@", error.localizedDescription)
+				Logger.authCoordinator.error("request failed \(error.localizedDescription)")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createProfileFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}
@@ -568,7 +568,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		authorizationController.delegate = self
 		authorizationController.presentationContextProvider = self
 		authorizationController.performRequests()
-		os_log(.info, log: .authCoordinator, "Got in startSignInWithApple")
+		Logger.authCoordinator.info("Got in startSignInWithApple")
 	}
 
 	func startSignInWithAppleFlow() -> ASAuthorizationOpenIDRequest {
@@ -578,26 +578,26 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		let nonce = AppleSecurityManager.randomNonceString()
 		request.nonce = AppleSecurityManager.sha256(nonce)
 		currentNonce = nonce
-		os_log(.info, log: .authCoordinator, "nonce: %@", nonce)
+		Logger.authCoordinator.info("nonce: \(nonce)")
 		return request
 	}
 
 	private func getFirebaseAuthTokenResult(authDataResult: AuthDataResult?, error: Error?, completion: @escaping (Bool) -> Void) {
 		if let error = error {
-			os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
+			Logger.authCoordinator.error("\(error.localizedDescription)")
 			hideHUD()
 			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 		} else if let authDataResult = authDataResult {
 			authDataResult.user.getIDTokenResult { [weak self] authTokenResult, _ in
 				self?.hideHUD()
 				if let error = error {
-					os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
+					Logger.authCoordinator.info("\(error.localizedDescription)")
 					AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 					completion(false)
 				} else if let authTokenResult = authTokenResult {
 					self?.emailrequest = Auth.auth().currentUser?.email
 					DataContext.shared.authToken = authTokenResult.token
-					os_log(.info, log: .authCoordinator, "firebaseToken: %{private}@", authTokenResult.token)
+					Logger.authCoordinator.info("firebaseToken: \(authTokenResult.token, privacy: .private)")
 					completion(true)
 				}
 			}
@@ -617,12 +617,12 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 extension AuthCoordinator: GIDSignInDelegate {
 	func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
 		if let error = error {
-			os_log(.error, log: .authCoordinator, "%@", error.localizedDescription)
+			Logger.authCoordinator.error("\(error.localizedDescription)")
 			return
 		}
 
 		guard let authentication = user.authentication, error == nil else {
-			os_log(.error, log: .authCoordinator, "%@", error?.localizedDescription ?? "")
+			Logger.authCoordinator.error("\(error?.localizedDescription ?? "")")
 			return
 		}
 		Auth.auth().tenantID = AppConfig.tenantID
@@ -637,18 +637,18 @@ extension AuthCoordinator: GIDSignInDelegate {
 
 extension AuthCoordinator: ASAuthorizationControllerDelegate {
 	func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-		os_log(.info, log: .authCoordinator, "Hello Apple")
+		Logger.authCoordinator.info("Hello Apple")
 
 		if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
 			guard let nonce = currentNonce else {
 				fatalError("Invalid state: A login callback was received, but no login request was sent.")
 			}
 			guard let appleIDToken = appleIDCredential.identityToken else {
-				os_log(.error, log: .authCoordinator, "Unable to fetch identity token")
+				Logger.authCoordinator.info("Unable to fetch identity token")
 				return
 			}
 			guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-				os_log(.error, log: .authCoordinator, "Unable to serialize token string from data: %@", appleIDToken.debugDescription)
+				Logger.authCoordinator.error("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
 				return
 			}
 
@@ -663,7 +663,7 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 	}
 
 	func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-		os_log(.error, log: .authCoordinator, "Sign in with Apple errored: %@", error.localizedDescription)
+		Logger.authCoordinator.error("Sign in with Apple errored: \(error.localizedDescription)")
 	}
 
 	func signOut() {
@@ -671,7 +671,7 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 		do {
 			try firebaseAuth.signOut()
 		} catch let signOutError as NSError {
-			os_log(.error, log: .authCoordinator, "Error signing out: %@", signOutError.localizedDescription)
+			Logger.authCoordinator.error("Error signing out: \(signOutError.localizedDescription)")
 		}
 	}
 }

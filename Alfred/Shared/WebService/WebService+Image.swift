@@ -32,10 +32,10 @@ public extension WebService {
 			.sink { receiveCompltion in
 				switch receiveCompltion {
 				case .failure(let error):
-					os_log(.error, log: .webservice, "%@", error.localizedDescription)
+					Logger.webService.error("\(error.localizedDescription)")
 					completion(.failure(error))
 				case .finished:
-					os_log(.info, log: .webservice, "Finished Dowloading image at %@", urlString)
+					Logger.webService.info("Finished Dowloading image at \(urlString)")
 				}
 			} receiveValue: { value in
 				completion(.success(value))

@@ -22,6 +22,6 @@ class BaseViewController: UIViewController {
 	func populateData() {}
 
 	deinit {
-		os_log(.info, log: .alfred, "%@ deinitialized", String(describing: type(of: self)))
+		Logger.alfred.info("\(String(describing: type(of: self))) deinitialized")
 	}
 }

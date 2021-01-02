@@ -70,7 +70,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	func handleIncomingURL(_ incomingURL: URL) {
 		DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) { [weak self] dynamicLink, error in
 			if let error = error {
-				os_log(.error, log: .alfred, "Error %@", error.localizedDescription)
+				Logger.alfred.error("Error \(error.localizedDescription)")
 				return
 			}
 			if let dynamicLink = dynamicLink {
@@ -81,7 +81,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 	func handleIncomingDynamicLink(_ dynamicLink: DynamicLink) {
 		guard let url = dynamicLink.url else {
-			os_log(.info, log: .alfred, "No Dynamic Link Url")
+			Logger.alfred.info("No Dynamic Link Url")
 			return
 		}
 		DispatchQueue.main.async { [weak self] in

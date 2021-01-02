@@ -8,8 +8,8 @@
 import Foundation
 import os.log
 
-extension OSLog {
-	static let request = OSLog(subsystem: subsystem, category: "Request")
+extension Logger {
+	static let request = Logger(subsystem: subsystem, category: "Request")
 }
 
 public protocol URLRequestConvertible {
@@ -355,7 +355,7 @@ public extension Request {
 			self.body = data
 			contentType = Request.ContentType.json
 		} catch {
-			os_log(.error, log: .request, "Unable to encode body %@", error.localizedDescription)
+			Logger.request.error("Unable to encode body \(error.localizedDescription)")
 		}
 		return self
 	}

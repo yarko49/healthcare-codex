@@ -1,8 +1,8 @@
 import Foundation
 import os.log
 
-extension OSLog {
-	static let keychain = OSLog(subsystem: subsystem, category: "Keychain")
+extension Logger {
+	static let keychain = Logger(subsystem: subsystem, category: "Keychain")
 }
 
 enum Keychain {
@@ -16,7 +16,7 @@ enum Keychain {
 
 			try passwordItem.savePassword(value)
 		} catch {
-			os_log(.error, log: .keychain, "Error updating keychain - ", error.localizedDescription)
+			Logger.keychain.error("Error updating keychain - \(error.localizedDescription)")
 		}
 	}
 
@@ -27,7 +27,7 @@ enum Keychain {
 
 			try passwordItem.saveData(data)
 		} catch {
-			os_log(.error, log: .keychain, "Error updating keychain - ", error.localizedDescription)
+			Logger.keychain.error("Error updating keychain - \(error.localizedDescription)")
 		}
 	}
 
@@ -38,7 +38,7 @@ enum Keychain {
 			                                        accessGroup: Keychain.accessGroup)
 			return try passwordItem.readPassword()
 		} catch {
-			os_log(.error, log: .keychain, "Error reading password from keychain - ", error.localizedDescription)
+			Logger.keychain.error("Error reading password from keychain - \(error.localizedDescription)")
 			return nil
 		}
 	}
@@ -50,7 +50,7 @@ enum Keychain {
 			                                        accessGroup: Keychain.accessGroup)
 			return try passwordItem.readData()
 		} catch {
-			os_log(.error, log: .keychain, "Error reading data from keychain - ", error.localizedDescription)
+			Logger.keychain.error("Error reading data from keychain - \(error.localizedDescription)")
 			return nil
 		}
 	}
@@ -62,7 +62,7 @@ enum Keychain {
 			                                        accessGroup: Keychain.accessGroup)
 			try passwordItem.deleteItem()
 		} catch {
-			os_log(.error, log: .keychain, "Error deleting password from keychain - ", error.localizedDescription)
+			Logger.keychain.error("Error deleting password from keychain - \(error.localizedDescription)")
 		}
 	}
 

@@ -30,9 +30,9 @@ enum Font: String {
 
 	static func logAllAvailableFonts() {
 		for family in UIFont.familyNames {
-			os_log(.info, log: .alfred, "%@", family)
+			Logger.alfred.info("\(family)")
 			for name in UIFont.fontNames(forFamilyName: family) {
-				os_log(.info, log: .alfred, "\t%@", name)
+				Logger.alfred.info("\t\(name)")
 			}
 		}
 	}

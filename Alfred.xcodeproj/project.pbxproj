@@ -180,7 +180,7 @@
 		844767E0259C2A4E00C50C09 /* QuestionnaireCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447670E259C2A4E00C50C09 /* QuestionnaireCoordinator.swift */; };
 		844767E1259C2A4E00C50C09 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447670F259C2A4E00C50C09 /* Coordinator.swift */; };
 		844767E2259C2A4E00C50C09 /* AlfredJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476711259C2A4E00C50C09 /* AlfredJSONDecoder.swift */; };
-		844767E3259C2A4E00C50C09 /* OSLog+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476712259C2A4E00C50C09 /* OSLog+Setup.swift */; };
+		844767E3259C2A4E00C50C09 /* Logger+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476712259C2A4E00C50C09 /* Logger+Setup.swift */; };
 		844767E4259C2A4E00C50C09 /* URL+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476714259C2A4E00C50C09 /* URL+Request.swift */; };
 		844767E5259C2A4E00C50C09 /* Data+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476715259C2A4E00C50C09 /* Data+Validation.swift */; };
 		844767E6259C2A4E00C50C09 /* URLComponents+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476716259C2A4E00C50C09 /* URLComponents+Request.swift */; };
@@ -442,7 +442,7 @@
 		8447670E259C2A4E00C50C09 /* QuestionnaireCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionnaireCoordinator.swift; sourceTree = "<group>"; };
 		8447670F259C2A4E00C50C09 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		84476711259C2A4E00C50C09 /* AlfredJSONDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlfredJSONDecoder.swift; sourceTree = "<group>"; };
-		84476712259C2A4E00C50C09 /* OSLog+Setup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OSLog+Setup.swift"; sourceTree = "<group>"; };
+		84476712259C2A4E00C50C09 /* Logger+Setup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Logger+Setup.swift"; sourceTree = "<group>"; };
 		84476714259C2A4E00C50C09 /* URL+Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Request.swift"; sourceTree = "<group>"; };
 		84476715259C2A4E00C50C09 /* Data+Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Validation.swift"; sourceTree = "<group>"; };
 		84476716259C2A4E00C50C09 /* URLComponents+Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLComponents+Request.swift"; sourceTree = "<group>"; };
@@ -1217,7 +1217,7 @@
 			isa = PBXGroup;
 			children = (
 				84476711259C2A4E00C50C09 /* AlfredJSONDecoder.swift */,
-				84476712259C2A4E00C50C09 /* OSLog+Setup.swift */,
+				84476712259C2A4E00C50C09 /* Logger+Setup.swift */,
 				84476724259C2A4E00C50C09 /* AppConfig.swift */,
 				84476713259C2A4E00C50C09 /* WebService */,
 				8447671C259C2A4E00C50C09 /* ViewControllers */,
@@ -1734,7 +1734,7 @@
 				844767A8259C2A4E00C50C09 /* KeychainConfiguration.swift in Sources */,
 				84476774259C2A4E00C50C09 /* TroubleshootingViewController.swift in Sources */,
 				844767A7259C2A4E00C50C09 /* Ext_Double.swift in Sources */,
-				844767E3259C2A4E00C50C09 /* OSLog+Setup.swift in Sources */,
+				844767E3259C2A4E00C50C09 /* Logger+Setup.swift in Sources */,
 				845AAC9D259C3B0D00FF8F3F /* SubjectModel.swift in Sources */,
 				84476775259C2A4E00C50C09 /* TodayInputViewController.swift in Sources */,
 				8447679B259C2A4E00C50C09 /* Ext_UIView.swift in Sources */,
