@@ -15,10 +15,10 @@ class QuestionnaireCompletionViewController: BaseViewController {
 
 	// MARK: - IBOutlets
 
-	@IBOutlet var completionIV: UIImageView!
-	@IBOutlet var thankYouLbl: UILabel!
-	@IBOutlet var descriptionLbl: UILabel!
-	@IBOutlet var doneBtn: RoundedButton!
+	@IBOutlet var completionImageView: UIImageView!
+	@IBOutlet var thankYouLabel: UILabel!
+	@IBOutlet var descriptionLabel: UILabel!
+	@IBOutlet var doneButton: RoundedButton!
 
 	// MARK: - Setup
 
@@ -35,9 +35,9 @@ class QuestionnaireCompletionViewController: BaseViewController {
 	override func localize() {
 		super.localize()
 
-		thankYouLbl.attributedText = Str.thankYou.with(style: .bold24, andColor: .black)
-		descriptionLbl.attributedText = Str.surveySubmit.with(style: .regular16, andColor: .black)
-		doneBtn.setTitle(Str.done, for: .normal)
+		thankYouLabel.attributedText = Str.thankYou.with(style: .bold24, andColor: .black)
+		descriptionLabel.attributedText = Str.surveySubmit.with(style: .regular16, andColor: .black)
+		doneButton.setTitle(Str.done, for: .normal)
 	}
 
 	override func viewDidAppear(_ animated: Bool) {

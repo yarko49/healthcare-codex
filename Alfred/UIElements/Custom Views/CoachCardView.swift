@@ -7,8 +7,8 @@ import Foundation
 import UIKit
 
 protocol CoachCardViewDelegate: AnyObject {
-	func actionBtnTapped(previewTitle: String?, title: String?, text: String?, icon: IconType?)
-	func closeBtnTapped(uuid: String)
+	func actionButtonTapped(previewTitle: String?, title: String?, text: String?, icon: IconType?)
+	func closeButtonTapped(uuid: String)
 }
 
 class CoachCardView: UIView {
@@ -19,10 +19,10 @@ class CoachCardView: UIView {
 	// MARK: - IBOutlets
 
 	@IBOutlet var view: UIView!
-	@IBOutlet var titleLbl: UILabel!
-	@IBOutlet var descLbl: UILabel!
-	@IBOutlet var closeBtn: UIButton!
-	@IBOutlet var actionBtn: UIButton!
+	@IBOutlet var titleLabel: UILabel!
+	@IBOutlet var descLabel: UILabel!
+	@IBOutlet var closeButton: UIButton!
+	@IBOutlet var actionButton: UIButton!
 	@IBOutlet var cardView: UIView!
 
 	// MARK: - Vars
@@ -36,7 +36,7 @@ class CoachCardView: UIView {
 	var previewTitle: String? {
 		didSet {
 			if let previewTitle = previewTitle {
-				titleLbl.attributedText = previewTitle.with(style: .bold17, andColor: .white, andLetterSpacing: -0.32)
+				titleLabel.attributedText = previewTitle.with(style: .bold17, andColor: .white, andLetterSpacing: -0.32)
 			}
 		}
 	}
@@ -44,7 +44,7 @@ class CoachCardView: UIView {
 	var previewText: String? {
 		didSet {
 			if let previewText = previewText {
-				descLbl.attributedText = previewText.with(style: .regular17, andColor: .white, andLetterSpacing: -0.32)
+				descLabel.attributedText = previewText.with(style: .regular17, andColor: .white, andLetterSpacing: -0.32)
 			}
 		}
 	}
@@ -52,7 +52,7 @@ class CoachCardView: UIView {
 	var buttonText: String? {
 		didSet {
 			if let buttonText = buttonText {
-				actionBtn.setAttributedTitle(buttonText.with(style: .bold17, andColor: .white, andLetterSpacing: -0.32), for: .normal)
+				actionButton.setAttributedTitle(buttonText.with(style: .bold17, andColor: .white, andLetterSpacing: -0.32), for: .normal)
 			}
 		}
 	}
@@ -90,7 +90,7 @@ class CoachCardView: UIView {
 			let tap = UITapGestureRecognizer(target: self, action: #selector(cardTapped))
 			cardView.addGestureRecognizer(tap)
 		} else {
-			actionBtn.removeFromSuperview()
+			actionButton.removeFromSuperview()
 		}
 
 		if let color = UIColor(hex: card.backgroundColor) {
@@ -100,16 +100,16 @@ class CoachCardView: UIView {
 
 	@IBAction func actionBtnTapped(_ sender: Any) {
 		guard let card = card else { return }
-		delegate?.actionBtnTapped(previewTitle: card.previewTitle, title: card.title, text: card.text, icon: card.icon)
+		delegate?.actionButtonTapped(previewTitle: card.previewTitle, title: card.title, text: card.text, icon: card.icon)
 	}
 
 	@IBAction func closeBtnTapped(_ sender: Any) {
 		guard let id = card?.uuid else { return }
-		delegate?.closeBtnTapped(uuid: id)
+		delegate?.closeButtonTapped(uuid: id)
 	}
 
 	@objc func cardTapped() {
 		guard let card = card else { return }
-		delegate?.actionBtnTapped(previewTitle: card.previewTitle, title: card.title, text: card.text, icon: card.icon)
+		delegate?.actionButtonTapped(previewTitle: card.previewTitle, title: card.title, text: card.text, icon: card.icon)
 	}
 }

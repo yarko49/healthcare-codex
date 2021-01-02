@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -97,12 +95,12 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="dateLbl" destination="KP1-mK-GJx" id="s2d-R0-EAR"/>
+                <outlet property="dateLabel" destination="KP1-mK-GJx" id="s2d-R0-EAR"/>
                 <outlet property="statusIndicatorView" destination="yhn-dD-O0g" id="bV1-7C-zuF"/>
-                <outlet property="statusLbl" destination="lno-dZ-UsE" id="0WP-2f-lWL"/>
-                <outlet property="typeIV" destination="Wra-Au-vsB" id="eSQ-9y-pXb"/>
-                <outlet property="typeLbl" destination="Bvb-O7-p6X" id="pzD-Ny-vxj"/>
-                <outlet property="valueLbl" destination="08O-ar-80d" id="Hix-Tx-X98"/>
+                <outlet property="statusLabel" destination="lno-dZ-UsE" id="0WP-2f-lWL"/>
+                <outlet property="typeImageView" destination="Wra-Au-vsB" id="eSQ-9y-pXb"/>
+                <outlet property="typeLabel" destination="Bvb-O7-p6X" id="pzD-Ny-vxj"/>
+                <outlet property="valueLabel" destination="08O-ar-80d" id="Hix-Tx-X98"/>
             </connections>
             <point key="canvasLocation" x="233.33333333333334" y="178.79464285714286"/>
         </tableViewCell>

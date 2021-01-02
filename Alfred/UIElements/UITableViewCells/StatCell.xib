@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -174,17 +172,17 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="avgLbl" destination="lno-dZ-UsE" id="HFN-yF-2n7"/>
-                <outlet property="avgValueLbl" destination="08O-ar-80d" id="kam-ay-6xh"/>
+                <outlet property="avgLabel" destination="lno-dZ-UsE" id="HFN-yF-2n7"/>
+                <outlet property="avgValueLabel" destination="08O-ar-80d" id="kam-ay-6xh"/>
                 <outlet property="chartContainerView" destination="sBN-5v-AUK" id="J52-gq-rUg"/>
-                <outlet property="expandCollapseBtn" destination="1e7-ME-Ozu" id="tBj-rc-I8K"/>
-                <outlet property="highLbl" destination="54i-RP-PLy" id="qDd-gR-WVZ"/>
-                <outlet property="highValueLbl" destination="nMI-bZ-qgL" id="FHP-Et-Z4K"/>
+                <outlet property="expandCollapseButton" destination="1e7-ME-Ozu" id="tBj-rc-I8K"/>
+                <outlet property="highLabel" destination="54i-RP-PLy" id="qDd-gR-WVZ"/>
+                <outlet property="highValueLabel" destination="nMI-bZ-qgL" id="FHP-Et-Z4K"/>
                 <outlet property="hilowContainerView" destination="kz3-2M-PV7" id="8sX-RU-KfU"/>
-                <outlet property="lowLbl" destination="tut-Ya-S2a" id="pC3-UX-MFp"/>
-                <outlet property="lowValueLbl" destination="cHJ-As-vmC" id="slg-eF-pdd"/>
-                <outlet property="typeIV" destination="Wra-Au-vsB" id="fCb-9w-rbR"/>
-                <outlet property="typeLbl" destination="Bvb-O7-p6X" id="20e-YF-eRA"/>
+                <outlet property="lowLabel" destination="tut-Ya-S2a" id="pC3-UX-MFp"/>
+                <outlet property="lowValueLabel" destination="cHJ-As-vmC" id="slg-eF-pdd"/>
+                <outlet property="typeImageView" destination="Wra-Au-vsB" id="fCb-9w-rbR"/>
+                <outlet property="typeLabel" destination="Bvb-O7-p6X" id="20e-YF-eRA"/>
             </connections>
             <point key="canvasLocation" x="233.33333333333334" y="245.75892857142856"/>
         </tableViewCell>

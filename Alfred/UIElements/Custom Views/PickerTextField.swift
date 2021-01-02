@@ -1,19 +1,19 @@
 import Foundation
 import UIKit
 
-class PickerTF: UIView {
-	let contentXIBName = "PickerTF"
+class PickerTextField: UIView {
+	let contentXIBName = "PickerTextField"
 
 	// MARK: - IBOutlets
 
 	@IBOutlet var textfield: UITextField!
-	@IBOutlet var titleLbl: UILabel!
+	@IBOutlet var titleLabel: UILabel!
 	@IBOutlet var contentView: UIView!
 	@IBOutlet var lineView: UIView!
 
 	var labelTitle: String? {
 		didSet {
-			titleLbl.attributedText = labelTitle?.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.41)
+			titleLabel.attributedText = labelTitle?.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.41)
 		}
 	}
 
@@ -29,10 +29,10 @@ class PickerTF: UIView {
 	var state: State? {
 		didSet {
 			if state == .normal {
-				titleLbl.textColor = .gray
+				titleLabel.textColor = .gray
 				lineView.backgroundColor = .lightGray
 			} else {
-				titleLbl.textColor = .red
+				titleLabel.textColor = .red
 				lineView.backgroundColor = .red
 			}
 		}
@@ -75,7 +75,7 @@ class PickerTF: UIView {
 		textfield.isEnabled = false
 		textfield.tintColor = .orange
 		textfield.textAlignment = .right
-		titleLbl.attributedText = labelTitle?.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.41)
+		titleLabel.attributedText = labelTitle?.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.41)
 		textfield.attributedText = tfText?.with(style: .regular20, andColor: .black, andLetterSpacing: -0.41)
 		lineView.backgroundColor = .lightGrey
 	}
@@ -89,14 +89,14 @@ class PickerTF: UIView {
 	}
 }
 
-extension PickerTF: UITextFieldDelegate {
+extension PickerTextField: UITextFieldDelegate {
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		textField.resignFirstResponder()
 		return true
 	}
 }
 
-extension PickerTF {
+extension PickerTextField {
 	enum State {
 		case normal, error
 	}

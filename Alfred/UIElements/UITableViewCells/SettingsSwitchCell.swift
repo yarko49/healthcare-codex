@@ -6,7 +6,7 @@
 import UIKit
 
 class SettingsSwitchCell: UITableViewCell {
-	@IBOutlet var descriptionLbl: UILabel!
+	@IBOutlet var descriptionLabel: UILabel!
 	@IBOutlet var settingsSwitch: UISwitch!
 
 	var devicesType = DevicesSettings.none
@@ -21,14 +21,14 @@ class SettingsSwitchCell: UITableViewCell {
 		devicesType = type
 
 		settingsSwitch.isOn = initializeDevicesSwitch()
-		descriptionLbl.attributedText = devicesType.description.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: -0.41)
+		descriptionLabel.attributedText = devicesType.description.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: -0.41)
 	}
 
 	func setup(type: MyNotifications) {
 		notificationsType = type
 
 		settingsSwitch.isOn = initializeNotificationsSwitch()
-		descriptionLbl.attributedText = notificationsType.description.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: -0.41)
+		descriptionLabel.attributedText = notificationsType.description.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: -0.41)
 	}
 
 	private func initializeDevicesSwitch() -> Bool {

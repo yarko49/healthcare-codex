@@ -14,7 +14,7 @@ enum InputType: String, Codable {
 class PickerTapGesture: UITapGestureRecognizer {
 	var picker: UIPickerView?
 	var datePicker: UIDatePicker?
-	var viewTF: PickerTF?
+	var textFieldView: PickerTextField?
 }
 
 class TodayInputViewController: BaseViewController {
@@ -30,11 +30,11 @@ class TodayInputViewController: BaseViewController {
 	var bloodPressurePicker = UIPickerView()
 	var lbsData: [[Int]] = [Array(25 ... 300), Array(0 ... 9)]
 	var pressureData: [[Int]] = [Array(0 ... 200), Array(0 ... 200)]
-	var weightPTF = PickerTF()
-	var goalWeightPTF = PickerTF()
-	var bloodPressurePTF = PickerTF()
-	var datePTF = PickerTF()
-	var timePTF = PickerTF()
+	var weightPTF = PickerTextField()
+	var goalWeightPTF = PickerTextField()
+	var bloodPressurePTF = PickerTextField()
+	var datePTF = PickerTextField()
+	var timePTF = PickerTextField()
 
 	private let datePicker: UIDatePicker = {
 		let calendar = Calendar(identifier: .gregorian)
@@ -122,7 +122,7 @@ class TodayInputViewController: BaseViewController {
 		super.populateData()
 	}
 
-	private func setupPickerAndView(picker: UIPickerView, viewTF: PickerTF, title: String) {
+	private func setupPickerAndView(picker: UIPickerView, viewTF: PickerTextField, title: String) {
 		picker.delegate = self
 		picker.dataSource = self
 		for component in 0 ..< numberOfComponents(in: picker) {
@@ -137,7 +137,7 @@ class TodayInputViewController: BaseViewController {
 		viewTF.setupValues(labelTitle: title, text: "")
 		let tap = PickerTapGesture(target: self, action: #selector(managePicker))
 		tap.picker = picker
-		tap.viewTF = viewTF
+		tap.textFieldView = viewTF
 		viewTF.addGestureRecognizer(tap)
 		sv.addArrangedSubview(viewTF)
 		sv.addArrangedSubview(picker)
@@ -176,11 +176,11 @@ class TodayInputViewController: BaseViewController {
 		}
 	}
 
-	private func setupDatePickerAndView(picker: UIDatePicker, viewTF: PickerTF, title: String) {
+	private func setupDatePickerAndView(picker: UIDatePicker, viewTF: PickerTextField, title: String) {
 		viewTF.setupValues(labelTitle: title, text: "")
 		let tap = PickerTapGesture(target: self, action: #selector(managePicker))
 		tap.datePicker = picker
-		tap.viewTF = viewTF
+		tap.textFieldView = viewTF
 		viewTF.addGestureRecognizer(tap)
 		sv.addArrangedSubview(viewTF)
 		sv.addArrangedSubview(picker)
@@ -203,7 +203,7 @@ class TodayInputViewController: BaseViewController {
 	}
 
 	@objc func managePicker(sender: PickerTapGesture) {
-		guard let viewTF = sender.viewTF else { return }
+		guard let viewTF = sender.textFieldView else { return }
 		let picker = (sender.picker == nil) ? sender.datePicker : sender.picker
 
 		if let picker = picker {
@@ -218,8 +218,8 @@ class TodayInputViewController: BaseViewController {
 		for view in sv.arrangedSubviews {
 			if view != picker, view is UIPickerView || view is UIDatePicker {
 				view.isHidden = true
-			} else if view != viewTF, view is PickerTF {
-				let view = view as? PickerTF
+			} else if view != viewTF, view is PickerTextField {
+				let view = view as? PickerTextField
 				view?.textfield.textColor = .black
 			}
 		}

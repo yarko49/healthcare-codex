@@ -10,7 +10,7 @@ class TextfieldView: UIView {
 
 	// MARK: - IBOutlets
 
-	@IBOutlet var titleLbl: UILabel!
+	@IBOutlet var titleLabel: UILabel!
 	@IBOutlet var textfield: UITextField!
 	@IBOutlet var contentView: UIView!
 
@@ -22,7 +22,7 @@ class TextfieldView: UIView {
 
 	var labelTitle: String? {
 		didSet {
-			titleLbl.attributedText = labelTitle?.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.078)
+			titleLabel.attributedText = labelTitle?.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.078)
 		}
 	}
 
@@ -71,7 +71,7 @@ class TextfieldView: UIView {
 		addGestureRecognizer(tap)
 		textfield.delegate = self
 		textfield.tintColor = .cursorOrange
-		titleLbl.attributedText = labelTitle?.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.078)
+		titleLabel.attributedText = labelTitle?.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.078)
 		textfield.attributedText = tfText?.with(style: .regular20, andColor: .black, andLetterSpacing: 0.38)
 	}
 

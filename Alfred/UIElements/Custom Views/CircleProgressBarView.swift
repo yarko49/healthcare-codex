@@ -8,24 +8,24 @@ import UIKit
 
 class CircleProgressBarView: UIView {
 	@IBOutlet var contentView: UIView!
-	@IBOutlet var iconIV: UIImageView!
+	@IBOutlet var iconImageView: UIImageView!
 
 	let contentXIBName = "CircleProgressBarView"
 
 	// MARK: - IBOutlets
 
-	private var progressLyr = CAShapeLayer()
-	private var trackLyr = CAShapeLayer()
+	private var progressShapeLayer = CAShapeLayer()
+	private var trackShapeLayer = CAShapeLayer()
 
 	var progressClr = UIColor.black {
 		didSet {
-			progressLyr.strokeColor = progressClr.cgColor
+			progressShapeLayer.strokeColor = progressClr.cgColor
 		}
 	}
 
 	var trackClr = UIColor.black {
 		didSet {
-			trackLyr.strokeColor = trackClr.cgColor
+			trackShapeLayer.strokeColor = trackClr.cgColor
 		}
 	}
 
@@ -50,19 +50,19 @@ class CircleProgressBarView: UIView {
 	func setup(color: String, opacity: Float, icon: IconType) {
 		switch icon {
 		case .scale:
-			iconIV.image = UIImage(named: "weightCardIcon")
+			iconImageView.image = UIImage(named: "weightCardIcon")
 		case .activity:
-			iconIV.image = UIImage(named: "activityCardIcon")
+			iconImageView.image = UIImage(named: "activityCardIcon")
 		case .heart:
-			iconIV.image = UIImage(named: "bloodPressureCardIcon")
+			iconImageView.image = UIImage(named: "bloodPressureCardIcon")
 		case .questionnaire:
-			iconIV.image = UIImage(named: "surveyCardIcon")
+			iconImageView.image = UIImage(named: "surveyCardIcon")
 		case .heartRate:
-			iconIV.image = UIImage(named: "heartRateCardIcon")
+			iconImageView.image = UIImage(named: "heartRateCardIcon")
 		case .heartRateResting:
-			iconIV.image = UIImage(named: "restingHeartRateCardIcon")
+			iconImageView.image = UIImage(named: "restingHeartRateCardIcon")
 		case .other:
-			iconIV.image = UIImage(named: "defaultCardIcon")
+			iconImageView.image = UIImage(named: "defaultCardIcon")
 		}
 
 		if let color = UIColor(hex: color) {
@@ -79,18 +79,18 @@ class CircleProgressBarView: UIView {
 		backgroundColor = UIColor.clear
 		layer.cornerRadius = frame.size.width / 2
 		let circlePath = UIBezierPath(arcCenter: CGPoint(x: frame.size.width / 2, y: frame.size.height / 2), radius: (frame.size.width - 1.5) / 2, startAngle: CGFloat(-0.5 * .pi), endAngle: CGFloat(1.5 * .pi), clockwise: true)
-		trackLyr.path = circlePath.cgPath
-		trackLyr.fillColor = UIColor.clear.cgColor
-		trackLyr.strokeColor = trackClr.cgColor
-		trackLyr.lineWidth = 3.0
-		trackLyr.strokeEnd = 1.0
-		layer.addSublayer(trackLyr)
-		progressLyr.path = circlePath.cgPath
-		progressLyr.fillColor = UIColor.clear.cgColor
-		progressLyr.strokeColor = progressClr.cgColor
-		progressLyr.lineWidth = 3.0
-		progressLyr.strokeEnd = 0.0
-		layer.addSublayer(progressLyr)
+		trackShapeLayer.path = circlePath.cgPath
+		trackShapeLayer.fillColor = UIColor.clear.cgColor
+		trackShapeLayer.strokeColor = trackClr.cgColor
+		trackShapeLayer.lineWidth = 3.0
+		trackShapeLayer.strokeEnd = 1.0
+		layer.addSublayer(trackShapeLayer)
+		progressShapeLayer.path = circlePath.cgPath
+		progressShapeLayer.fillColor = UIColor.clear.cgColor
+		progressShapeLayer.strokeColor = progressClr.cgColor
+		progressShapeLayer.lineWidth = 3.0
+		progressShapeLayer.strokeEnd = 0.0
+		layer.addSublayer(progressShapeLayer)
 	}
 
 	func setProgressWithAnimation(value: Float) {
@@ -99,7 +99,7 @@ class CircleProgressBarView: UIView {
 		animation.fromValue = 0
 		animation.toValue = value
 		animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
-		progressLyr.strokeEnd = CGFloat(value)
-		progressLyr.add(animation, forKey: "animateprogress")
+		progressShapeLayer.strokeEnd = CGFloat(value)
+		progressShapeLayer.add(animation, forKey: "animateprogress")
 	}
 }

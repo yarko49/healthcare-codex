@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,7 +9,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CircleProgressBarView" customModule="alfred_ios" customModuleProvider="target">
             <connections>
                 <outlet property="contentView" destination="4n3-KS-JO2" id="IvU-10-bnm"/>
-                <outlet property="iconIV" destination="yhH-sF-ZGF" id="Z55-k3-VDD"/>
+                <outlet property="iconImageView" destination="yhH-sF-ZGF" id="Z55-k3-VDD"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -31,6 +29,7 @@
                     </constraints>
                 </imageView>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="9ll-cw-0Z7"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="yhH-sF-ZGF" firstAttribute="centerY" secondItem="4n3-KS-JO2" secondAttribute="centerY" id="3wA-mL-xrx"/>
@@ -41,7 +40,6 @@
                 <constraint firstItem="xdM-nx-jH9" firstAttribute="leading" secondItem="4n3-KS-JO2" secondAttribute="leading" id="z8W-7g-bsm"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="9ll-cw-0Z7"/>
             <point key="canvasLocation" x="-144.20289855072465" y="118.86160714285714"/>
         </view>
     </objects>

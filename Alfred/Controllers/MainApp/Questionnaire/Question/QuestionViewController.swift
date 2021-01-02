@@ -24,10 +24,10 @@ class QuestionViewController: BaseViewController {
 
 	// MARK: - IBOutlets
 
-	@IBOutlet var progressBar: UIProgressView!
-	@IBOutlet var descriptionLbl: UILabel!
+	@IBOutlet var progressView: UIProgressView!
+	@IBOutlet var descriptionLabel: UILabel!
 	@IBOutlet var continueView: UIView!
-	@IBOutlet var nextQuestionBtn: RoundedButton!
+	@IBOutlet var nextQuestionButton: RoundedButton!
 	@IBOutlet var multiPartQuestionsSV: UIStackView!
 	@IBOutlet var scrollView: UIScrollView!
 	@IBOutlet var stackViewCenterXConstraint: NSLayoutConstraint!
@@ -83,7 +83,7 @@ class QuestionViewController: BaseViewController {
 		}
 
 		scrollView.setContentOffset(CGPoint(x: 0.0, y: 0.0), animated: false)
-		descriptionLbl.attributedText = question.text?.with(style: .regular16, andColor: .black)
+		descriptionLabel.attributedText = question.text?.with(style: .regular16, andColor: .black)
 
 		switch question.type {
 		case .group:
@@ -108,17 +108,17 @@ class QuestionViewController: BaseViewController {
 	}
 
 	private func setupProgressBar() {
-		progressBar.progressTintColor = .blue
-		progressBar.trackTintColor = .gray
-		progressBar.layer.cornerRadius = 5
-		progressBar.clipsToBounds = true
-		progressBar.layer.sublayers?[1].cornerRadius = 4
-		progressBar.subviews[1].clipsToBounds = true
+		progressView.progressTintColor = .blue
+		progressView.trackTintColor = .gray
+		progressView.layer.cornerRadius = 5
+		progressView.clipsToBounds = true
+		progressView.layer.sublayers?[1].cornerRadius = 4
+		progressView.subviews[1].clipsToBounds = true
 	}
 
 	func changeProgress(step: Int) {
 		let progress = step != totalQuestions ? Float(Double(step) / Double(totalQuestions)) : 1.0
-		progressBar.setProgress(progress, animated: false)
+		progressView.setProgress(progress, animated: false)
 	}
 
 	func setupQuestions() {
@@ -149,9 +149,9 @@ class QuestionViewController: BaseViewController {
 		}
 
 		if currentQuestionIndex < totalQuestions - 1 {
-			nextQuestionBtn.setTitle(Str.next, for: .normal)
+			nextQuestionButton.setTitle(Str.next, for: .normal)
 		} else {
-			nextQuestionBtn.setTitle(Str.submit, for: .normal)
+			nextQuestionButton.setTitle(Str.submit, for: .normal)
 		}
 	}
 
