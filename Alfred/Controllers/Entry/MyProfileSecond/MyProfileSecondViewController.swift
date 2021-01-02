@@ -9,7 +9,7 @@ enum Input: String, Codable {
 
 class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDelegate {
 	var backBtnAction: (() -> Void)?
-	var alertAction: ((_ tv: PickerTF) -> Void)?
+	var alertAction: ((_ tv: PickerTextField) -> Void)?
 	var patientRequestAction: ((_ resourceType: String, _ birthdate: String, _ weight: Int, _ height: Int, _ date: String) -> Void)?
 
 	@IBOutlet var infoLabel: UILabel!
@@ -33,9 +33,9 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 	var datePicker = UIDatePicker()
 	var weightPicker = UIPickerView()
 	var heightPicker = UIPickerView()
-	var dateTextView = PickerTF()
-	var weightTextView = PickerTF()
-	var heightTextView = PickerTF()
+	var dateTextView = PickerTextField()
+	var weightTextView = PickerTextField()
+	var heightTextView = PickerTextField()
 
 	override func setupView() {
 		super.setupView()
@@ -129,7 +129,7 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 		super.populateData()
 	}
 
-	private func setupPickerAndView(picker: UIPickerView, viewTF: PickerTF, title: String) {
+	private func setupPickerAndView(picker: UIPickerView, viewTF: PickerTextField, title: String) {
 		picker.delegate = self
 		picker.dataSource = self
 		for component in 0 ..< numberOfComponents(in: picker) {
@@ -153,7 +153,7 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 
 		let tap = PickerTapGesture(target: self, action: #selector(managePicker))
 		tap.picker = picker
-		tap.viewTF = viewTF
+		tap.textFieldView = viewTF
 		viewTF.addGestureRecognizer(tap)
 		pickerStackView.addArrangedSubview(viewTF)
 		pickerStackView.addArrangedSubview(picker)
@@ -162,11 +162,11 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 		fixLabelsInPlace(with: picker)
 	}
 
-	private func setupDatePickerAndView(picker: UIDatePicker, viewTF: PickerTF, title: String) {
+	private func setupDatePickerAndView(picker: UIDatePicker, viewTF: PickerTextField, title: String) {
 		viewTF.setupValues(labelTitle: title, text: DataContext.shared.userModel?.dob ?? "")
 		let tap = PickerTapGesture(target: self, action: #selector(managePicker))
 		tap.datePicker = picker
-		tap.viewTF = viewTF
+		tap.textFieldView = viewTF
 		dateTextView.state = .normal
 		viewTF.addGestureRecognizer(tap)
 		pickerStackView.addArrangedSubview(viewTF)
@@ -177,7 +177,7 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 	}
 
 	@objc func managePicker(sender: PickerTapGesture) {
-		guard let viewTF = sender.viewTF else { return }
+		guard let viewTF = sender.textFieldView else { return }
 		let picker = (sender.picker == nil) ? sender.datePicker : sender.picker
 
 		if let picker = picker {
@@ -193,7 +193,7 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 		for view in pickerStackView.arrangedSubviews {
 			if view != picker, view is UIPickerView || view is UIDatePicker {
 				view.isHidden = true
-			} else if let view = view as? PickerTF, view != viewTF {
+			} else if let view = view as? PickerTextField, view != viewTF {
 				view.textfield.textColor = .black
 			}
 		}

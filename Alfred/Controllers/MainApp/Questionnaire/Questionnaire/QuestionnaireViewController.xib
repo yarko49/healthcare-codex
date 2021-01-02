@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -9,11 +8,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QuestionnaireViewController" customModule="Alfred" customModuleProvider="target">
             <connections>
-                <outlet property="closeBtn" destination="p8K-Ow-QFw" id="QpS-oY-Aps"/>
-                <outlet property="descriptionLbl" destination="aZl-wx-iLu" id="jqW-zx-G0f"/>
-                <outlet property="iconIV" destination="fX9-sa-Fps" id="asQ-ZB-BiG"/>
-                <outlet property="startQuestionnaireBtn" destination="x7j-Bu-VlE" id="at4-hw-nqP"/>
-                <outlet property="titleLbl" destination="Xz5-zd-q3s" id="Lb9-OY-hTh"/>
+                <outlet property="closeButton" destination="p8K-Ow-QFw" id="QpS-oY-Aps"/>
+                <outlet property="descriptionLabel" destination="aZl-wx-iLu" id="jqW-zx-G0f"/>
+                <outlet property="iconImageView" destination="fX9-sa-Fps" id="asQ-ZB-BiG"/>
+                <outlet property="startQuestionnaireButton" destination="x7j-Bu-VlE" id="at4-hw-nqP"/>
+                <outlet property="titleLabel" destination="Xz5-zd-q3s" id="Lb9-OY-hTh"/>
                 <outlet property="view" destination="oPk-jc-XmF" id="ce8-0M-NaX"/>
             </connections>
         </placeholder>
@@ -23,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p8K-Ow-QFw">
-                    <rect key="frame" x="365" y="49" width="44" height="44"/>
+                    <rect key="frame" x="365" y="5" width="44" height="44"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="44" id="hN5-ZX-nTu"/>
                         <constraint firstAttribute="height" constant="44" id="mb6-n3-AhB"/>
@@ -35,27 +34,27 @@
                     </connections>
                 </button>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="help icon" translatesAutoresizingMaskIntoConstraints="NO" id="fX9-sa-Fps">
-                    <rect key="frame" x="175" y="144" width="64" height="64"/>
+                    <rect key="frame" x="175" y="100" width="64" height="64"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="64" id="9io-ZW-ajG"/>
                         <constraint firstAttribute="width" constant="64" id="qjs-cs-8lp"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kansas City Cariomyopathy Questionnaire" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xz5-zd-q3s">
-                    <rect key="frame" x="25" y="233" width="364" height="48"/>
+                    <rect key="frame" x="25" y="189" width="364" height="48"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aZl-wx-iLu">
-                    <rect key="frame" x="25" y="301" width="364" height="142.5"/>
+                    <rect key="frame" x="25" y="257" width="364" height="142.5"/>
                     <string key="text">The following 12 questions refer to your heart failure and how it may affect your life.  Please read and complete the following questions. There are no right or wrong answers. Please mark the answer that best applies to you.</string>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x7j-Bu-VlE" customClass="RoundedButton" customModule="Alfred" customModuleProvider="target">
-                    <rect key="frame" x="25" y="463.5" width="364" height="65"/>
+                    <rect key="frame" x="25" y="419.5" width="364" height="65"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="65" id="HFZ-4z-tFZ"/>
                     </constraints>
@@ -86,11 +85,6 @@
             <point key="canvasLocation" x="140" y="134"/>
         </view>
     </objects>
-    <designables>
-        <designable name="x7j-Bu-VlE">
-            <size key="intrinsicContentSize" width="166" height="34"/>
-        </designable>
-    </designables>
     <resources>
         <image name="closeIcon" width="24" height="24"/>
         <image name="help icon" width="80" height="80"/>

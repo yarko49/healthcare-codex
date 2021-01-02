@@ -16,17 +16,16 @@ class QuestionnaireViewController: BaseViewController {
 
 	// MARK: - IBOutlets
 
-	@IBOutlet var closeBtn: UIButton!
-	@IBOutlet var iconIV: UIImageView!
-	@IBOutlet var titleLbl: UILabel!
-	@IBOutlet var descriptionLbl: UILabel!
-	@IBOutlet var startQuestionnaireBtn: RoundedButton!
+	@IBOutlet var closeButton: UIButton!
+	@IBOutlet var iconImageView: UIImageView!
+	@IBOutlet var titleLabel: UILabel!
+	@IBOutlet var descriptionLabel: UILabel!
+	@IBOutlet var startQuestionnaireButton: RoundedButton!
 
 	// MARK: - Setup
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-
 		navigationController?.setNavigationBarHidden(true, animated: false)
 	}
 
@@ -36,7 +35,6 @@ class QuestionnaireViewController: BaseViewController {
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-
 		// self.addBottomSheetView()
 	}
 

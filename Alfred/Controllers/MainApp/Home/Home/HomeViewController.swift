@@ -59,7 +59,7 @@ class HomeViewController: BaseViewController {
 
 		coachCardSVXConstraint.isActive = false
 
-		cardCollectionView.register(UINib(nibName: "MeasurementCardCell", bundle: nil), forCellWithReuseIdentifier: "MeasurementCardCell")
+		cardCollectionView.register(UINib(nibName: MeasurementCardCell.nibName, bundle: nil), forCellWithReuseIdentifier: MeasurementCardCell.reuseIdentifier)
 		cardCollectionView.delegate = self
 		cardCollectionView.dataSource = self
 
@@ -122,7 +122,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MeasurementCardCell", for: indexPath) as? MeasurementCardCell
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MeasurementCardCell.reuseIdentifier, for: indexPath) as? MeasurementCardCell
 		cell?.setupCell(with: measurementCardsList[indexPath.row].data)
 		return cell!
 	}
@@ -161,11 +161,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 }
 
 extension HomeViewController: CoachCardViewDelegate {
-	func actionBtnTapped(previewTitle: String?, title: String?, text: String?, icon: IconType?) {
+	func actionButtonTapped(previewTitle: String?, title: String?, text: String?, icon: IconType?) {
 		troubleshootingAction?(previewTitle, title, text, icon)
 	}
 
-	func closeBtnTapped(uuid: String) {
+	func closeButtonTapped(uuid: String) {
 		if let index = coachCardsList.firstIndex(where: { $0.data.uuid == uuid }), let SVIndex = (coachCardStackView.arrangedSubviews as? [CoachCardView])?.firstIndex(where: { $0.card?.uuid == uuid }), coachCardsList.count > 1 {
 			scrollView.setContentOffset(CGPoint(x: CGFloat(index) * scrollView.frame.width, y: 0), animated: true)
 			coachCardStackView.arrangedSubviews[SVIndex].isHidden = true

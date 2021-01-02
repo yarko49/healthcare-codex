@@ -194,7 +194,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				self?.profileViewController?.height = height
 				self?.profileViewController?.createDetailsLabel()
 			}
-			self?.profileViewController?.patientTrendsTV.reloadData()
+			self?.profileViewController?.patientTrendsTableView.reloadData()
 		}
 
 		var todayData: [HealthKitQuantityType: [Any]] = [:]
@@ -385,7 +385,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			case .success:
 				Logger.mainCoordinator.info("OK STATUS FOR UPDATE PATIENT : 200")
 				DataContext.shared.userModel = UserModel(userID: DataContext.shared.userModel?.userID ?? "", email: DataContext.shared.userModel?.email, name: [Name(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? Gender(rawValue: "female"))
-				self?.profileViewController?.nameLbl?.attributedText = ProfileHelper.firstName.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
+				self?.profileViewController?.nameLabel?.attributedText = ProfileHelper.firstName.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			case .failure(let error):
 				Logger.mainCoordinator.error("request failed \(error.localizedDescription)")

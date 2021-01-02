@@ -17,10 +17,10 @@ class MultiPartAnswerView: UIView {
 	// MARK: - IBOutlets
 
 	@IBOutlet var mainView: UIView!
-	@IBOutlet var partsLbl: UILabel!
-	@IBOutlet var titleLbl: UILabel!
-	@IBOutlet var sv: UIStackView!
-	@IBOutlet var svHeightConstraint: NSLayoutConstraint!
+	@IBOutlet var partsLabel: UILabel!
+	@IBOutlet var titleLabel: UILabel!
+	@IBOutlet var stackView: UIStackView!
+	@IBOutlet var stackViewHeightConstraint: NSLayoutConstraint!
 
 	var height: CGFloat = 0
 	var questionPart: Item?
@@ -64,10 +64,10 @@ class MultiPartAnswerView: UIView {
 
 		guard let answers = questionPart?.answerOption else { return }
 
-		partsLbl.attributedText = multi ? Str.ofParts(currentPart, totalParts).uppercased().with(style: .regular12, andColor: .lightGrey, andLetterSpacing: 0.16) : "".with(.regular13)
-		titleLbl.attributedText = multi ? questionPart?.text?.with(style: .bold16, andColor: .black) : "".with(.regular13)
+		partsLabel.attributedText = multi ? Str.ofParts(currentPart, totalParts).uppercased().with(style: .regular12, andColor: .lightGrey, andLetterSpacing: 0.16) : "".with(.regular13)
+		titleLabel.attributedText = multi ? questionPart?.text?.with(style: .bold16, andColor: .black) : "".with(.regular13)
 
-		baseContentHeight += titleLbl.heightForView() + partsLbl.heightForView()
+		baseContentHeight += titleLabel.heightForView() + partsLabel.heightForView()
 
 		for answer in answers {
 			let view = AnswerView(answer: answer)
@@ -79,12 +79,12 @@ class MultiPartAnswerView: UIView {
 
 			view.delegate = self
 			height += view.buttonViewHeight
-			sv.addArrangedSubview(view)
+			stackView.addArrangedSubview(view)
 		}
 
 		height += baseContentHeight
 
-		svHeightConstraint.constant = height - baseContentHeight
+		stackViewHeightConstraint.constant = height - baseContentHeight
 	}
 }
 

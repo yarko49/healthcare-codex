@@ -33,7 +33,7 @@
 		84476737259C2A4E00C50C09 /* MeasurementCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476630259C2A4E00C50C09 /* MeasurementCardCell.swift */; };
 		84476738259C2A4E00C50C09 /* SettingsFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476632259C2A4E00C50C09 /* SettingsFooterView.xib */; };
 		84476739259C2A4E00C50C09 /* SettingsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476633259C2A4E00C50C09 /* SettingsFooterView.swift */; };
-		8447673A259C2A4E00C50C09 /* PickerTF.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476635259C2A4E00C50C09 /* PickerTF.xib */; };
+		8447673A259C2A4E00C50C09 /* PickerTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476635259C2A4E00C50C09 /* PickerTextField.xib */; };
 		8447673B259C2A4E00C50C09 /* TextfieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476636259C2A4E00C50C09 /* TextfieldView.swift */; };
 		8447673C259C2A4E00C50C09 /* AppleHealthView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476637259C2A4E00C50C09 /* AppleHealthView.xib */; };
 		8447673D259C2A4E00C50C09 /* CoachCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476638259C2A4E00C50C09 /* CoachCardView.swift */; };
@@ -49,7 +49,7 @@
 		84476747259C2A4E00C50C09 /* TextfieldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476642259C2A4E00C50C09 /* TextfieldView.xib */; };
 		84476748259C2A4E00C50C09 /* OnboardingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476643259C2A4E00C50C09 /* OnboardingView.xib */; };
 		84476749259C2A4E00C50C09 /* AppleHealthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476644259C2A4E00C50C09 /* AppleHealthView.swift */; };
-		8447674A259C2A4E00C50C09 /* PickerTF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476645259C2A4E00C50C09 /* PickerTF.swift */; };
+		8447674A259C2A4E00C50C09 /* PickerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476645259C2A4E00C50C09 /* PickerTextField.swift */; };
 		8447674B259C2A4E00C50C09 /* MockSplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476649259C2A4E00C50C09 /* MockSplashViewController.xib */; };
 		8447674C259C2A4E00C50C09 /* MockSplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447664A259C2A4E00C50C09 /* MockSplashViewController.swift */; };
 		8447674D259C2A4E00C50C09 /* AppleHealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447664C259C2A4E00C50C09 /* AppleHealthViewController.swift */; };
@@ -238,6 +238,8 @@
 		84C83FE8259C48F200DAEF34 /* TaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FD1259C48F200DAEF34 /* TaskTests.swift */; };
 		84C83FE9259C48F200DAEF34 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FD2259C48F200DAEF34 /* URLProtocolMock.swift */; };
 		84C83FEA259C48F200DAEF34 /* Profile.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C83FD3259C48F200DAEF34 /* Profile.json */; };
+		84E4660225A040F100A10F8B /* ViewIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E4660125A040F100A10F8B /* ViewIdentifiable.swift */; };
+		84E4661025A0453C00A10F8B /* ViewNIBLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E4660F25A0453C00A10F8B /* ViewNIBLoading.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -295,7 +297,7 @@
 		84476630259C2A4E00C50C09 /* MeasurementCardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementCardCell.swift; sourceTree = "<group>"; };
 		84476632259C2A4E00C50C09 /* SettingsFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsFooterView.xib; sourceTree = "<group>"; };
 		84476633259C2A4E00C50C09 /* SettingsFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsFooterView.swift; sourceTree = "<group>"; };
-		84476635259C2A4E00C50C09 /* PickerTF.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerTF.xib; sourceTree = "<group>"; };
+		84476635259C2A4E00C50C09 /* PickerTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerTextField.xib; sourceTree = "<group>"; };
 		84476636259C2A4E00C50C09 /* TextfieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextfieldView.swift; sourceTree = "<group>"; };
 		84476637259C2A4E00C50C09 /* AppleHealthView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppleHealthView.xib; sourceTree = "<group>"; };
 		84476638259C2A4E00C50C09 /* CoachCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoachCardView.swift; sourceTree = "<group>"; };
@@ -311,7 +313,7 @@
 		84476642259C2A4E00C50C09 /* TextfieldView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextfieldView.xib; sourceTree = "<group>"; };
 		84476643259C2A4E00C50C09 /* OnboardingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OnboardingView.xib; sourceTree = "<group>"; };
 		84476644259C2A4E00C50C09 /* AppleHealthView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleHealthView.swift; sourceTree = "<group>"; };
-		84476645259C2A4E00C50C09 /* PickerTF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerTF.swift; sourceTree = "<group>"; };
+		84476645259C2A4E00C50C09 /* PickerTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerTextField.swift; sourceTree = "<group>"; };
 		84476649259C2A4E00C50C09 /* MockSplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MockSplashViewController.xib; sourceTree = "<group>"; };
 		8447664A259C2A4E00C50C09 /* MockSplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSplashViewController.swift; sourceTree = "<group>"; };
 		8447664C259C2A4E00C50C09 /* AppleHealthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleHealthViewController.swift; sourceTree = "<group>"; };
@@ -482,6 +484,8 @@
 		84C83FD1259C48F200DAEF34 /* TaskTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskTests.swift; sourceTree = "<group>"; };
 		84C83FD2259C48F200DAEF34 /* URLProtocolMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
 		84C83FD3259C48F200DAEF34 /* Profile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Profile.json; sourceTree = "<group>"; };
+		84E4660125A040F100A10F8B /* ViewIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIdentifiable.swift; sourceTree = "<group>"; };
+		84E4660F25A0453C00A10F8B /* ViewNIBLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewNIBLoading.swift; sourceTree = "<group>"; };
 		8DA7D7C7A163AA0A1A054AFF /* Pods_Alfred.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Alfred.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9215EA08C1E1BB01BD32192 /* Pods_AlfredTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlfredTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD075DF7DEC1C752DD4E3F92 /* Pods-Alfred.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alfred.release.xcconfig"; path = "Target Support Files/Pods-Alfred/Pods-Alfred.release.xcconfig"; sourceTree = "<group>"; };
@@ -647,14 +651,14 @@
 			isa = PBXGroup;
 			children = (
 				8447661C259C2A4E00C50C09 /* StatCell.swift */,
+				84476624259C2A4E00C50C09 /* StatCell.xib */,
 				8447661D259C2A4E00C50C09 /* TodayStatCell.swift */,
-				8447661E259C2A4E00C50C09 /* SettingsCell.xib */,
-				8447661F259C2A4E00C50C09 /* SettingsCell.swift */,
 				84476620259C2A4E00C50C09 /* TodayStatCell.xib */,
+				8447661F259C2A4E00C50C09 /* SettingsCell.swift */,
+				8447661E259C2A4E00C50C09 /* SettingsCell.xib */,
 				84476621259C2A4E00C50C09 /* BalloonMarker.swift */,
 				84476622259C2A4E00C50C09 /* CustomYAxisRenderer.swift */,
 				84476623259C2A4E00C50C09 /* SettingsSwitchCell.swift */,
-				84476624259C2A4E00C50C09 /* StatCell.xib */,
 				84476625259C2A4E00C50C09 /* SettingsSwitchCell.xib */,
 			);
 			path = UITableViewCells;
@@ -675,8 +679,8 @@
 		8447662C259C2A4E00C50C09 /* UICollectionViewCells */ = {
 			isa = PBXGroup;
 			children = (
-				8447662D259C2A4E00C50C09 /* MeasurementCardCell.xib */,
 				84476630259C2A4E00C50C09 /* MeasurementCardCell.swift */,
+				8447662D259C2A4E00C50C09 /* MeasurementCardCell.xib */,
 			);
 			path = UICollectionViewCells;
 			sourceTree = "<group>";
@@ -684,8 +688,8 @@
 		84476631259C2A4E00C50C09 /* UITableViewFooter */ = {
 			isa = PBXGroup;
 			children = (
-				84476632259C2A4E00C50C09 /* SettingsFooterView.xib */,
 				84476633259C2A4E00C50C09 /* SettingsFooterView.swift */,
+				84476632259C2A4E00C50C09 /* SettingsFooterView.xib */,
 			);
 			path = UITableViewFooter;
 			sourceTree = "<group>";
@@ -693,8 +697,8 @@
 		84476634259C2A4E00C50C09 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
-				84476645259C2A4E00C50C09 /* PickerTF.swift */,
-				84476635259C2A4E00C50C09 /* PickerTF.xib */,
+				84476645259C2A4E00C50C09 /* PickerTextField.swift */,
+				84476635259C2A4E00C50C09 /* PickerTextField.xib */,
 				84476636259C2A4E00C50C09 /* TextfieldView.swift */,
 				84476642259C2A4E00C50C09 /* TextfieldView.xib */,
 				84476644259C2A4E00C50C09 /* AppleHealthView.swift */,
@@ -934,8 +938,8 @@
 		84476682259C2A4E00C50C09 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				84476683259C2A4E00C50C09 /* HomeViewController.xib */,
 				84476684259C2A4E00C50C09 /* HomeViewController.swift */,
+				84476683259C2A4E00C50C09 /* HomeViewController.xib */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -943,8 +947,8 @@
 		84476685259C2A4E00C50C09 /* Troubleshooting */ = {
 			isa = PBXGroup;
 			children = (
-				84476686259C2A4E00C50C09 /* TroubleshootingViewController.xib */,
 				84476687259C2A4E00C50C09 /* TroubleshootingViewController.swift */,
+				84476686259C2A4E00C50C09 /* TroubleshootingViewController.xib */,
 			);
 			path = Troubleshooting;
 			sourceTree = "<group>";
@@ -998,8 +1002,8 @@
 		84476696259C2A4E00C50C09 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				84476697259C2A4E00C50C09 /* ProfileViewController.xib */,
 				84476698259C2A4E00C50C09 /* ProfileViewController.swift */,
+				84476697259C2A4E00C50C09 /* ProfileViewController.xib */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1266,6 +1270,8 @@
 			isa = PBXGroup;
 			children = (
 				84476723259C2A4E00C50C09 /* UINavigationBar+Appearance.swift */,
+				84E4660125A040F100A10F8B /* ViewIdentifiable.swift */,
+				84E4660F25A0453C00A10F8B /* ViewNIBLoading.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1449,7 +1455,7 @@
 				8447677A259C2A4E00C50C09 /* QuestionnaireViewController.xib in Resources */,
 				8447672E259C2A4E00C50C09 /* SettingsSwitchCell.xib in Resources */,
 				8447674E259C2A4E00C50C09 /* AppleHealthViewController.xib in Resources */,
-				8447673A259C2A4E00C50C09 /* PickerTF.xib in Resources */,
+				8447673A259C2A4E00C50C09 /* PickerTextField.xib in Resources */,
 				84476776259C2A4E00C50C09 /* TodayInputViewController.xib in Resources */,
 				84476762259C2A4E00C50C09 /* MyDevicesViewController.xib in Resources */,
 				84476748259C2A4E00C50C09 /* OnboardingView.xib in Resources */,
@@ -1798,7 +1804,7 @@
 				84476743259C2A4E00C50C09 /* ProfileChartView.swift in Sources */,
 				844767F0259C2A4E00C50C09 /* UINavigationBar+Appearance.swift in Sources */,
 				84476741259C2A4E00C50C09 /* MultiPartAnswerView.swift in Sources */,
-				8447674A259C2A4E00C50C09 /* PickerTF.swift in Sources */,
+				8447674A259C2A4E00C50C09 /* PickerTextField.swift in Sources */,
 				84476793259C2A4E00C50C09 /* QuestionnaireResponseModel.swift in Sources */,
 				844767DB259C2A4E00C50C09 /* AuthCoordinator.swift in Sources */,
 				844767D8259C2A4E00C50C09 /* DataContext.swift in Sources */,
@@ -1808,6 +1814,7 @@
 				8447673D259C2A4E00C50C09 /* CoachCardView.swift in Sources */,
 				844767C3259C2A4E00C50C09 /* Enviornment+CareManager.swift in Sources */,
 				844767D0259C2A4E00C50C09 /* OCKNote+Conversion.swift in Sources */,
+				84E4660225A040F100A10F8B /* ViewIdentifiable.swift in Sources */,
 				844767D7259C2A4E00C50C09 /* DataContext+Fetch.swift in Sources */,
 				844767A9259C2A4E00C50C09 /* KeychainPasswordItem.swift in Sources */,
 				84476791259C2A4E00C50C09 /* BundleModel.swift in Sources */,
@@ -1826,6 +1833,7 @@
 				84476798259C2A4E00C50C09 /* AlertHelper.swift in Sources */,
 				844767CC259C2A4E00C50C09 /* OCKTask+Conversion.swift in Sources */,
 				8447672B259C2A4E00C50C09 /* CustomYAxisRenderer.swift in Sources */,
+				84E4661025A0453C00A10F8B /* ViewNIBLoading.swift in Sources */,
 				844767E6259C2A4E00C50C09 /* URLComponents+Request.swift in Sources */,
 				844767DF259C2A4E00C50C09 /* MainAppCoordinator.swift in Sources */,
 				8447679E259C2A4E00C50C09 /* Ext_DateFormatter.swift in Sources */,

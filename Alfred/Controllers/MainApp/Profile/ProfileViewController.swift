@@ -32,17 +32,17 @@ class ProfileViewController: BaseViewController {
 
 	// MARK: IBOutlets
 
-	@IBOutlet var patientTrendsTV: UITableView!
-	@IBOutlet var dateLbl: UILabel!
-	@IBOutlet var previousDateBtn: UIButton!
-	@IBOutlet var nextDateBtn: UIButton!
+	@IBOutlet var patientTrendsTableView: UITableView!
+	@IBOutlet var dateLabel: UILabel!
+	@IBOutlet var previousDateButton: UIButton!
+	@IBOutlet var nextDateButton: UIButton!
 	@IBOutlet var dateIntervalSegmentedControl: UISegmentedControl!
 	@IBOutlet var separatorLineView: UIView!
 	@IBOutlet var topView: UIView!
-	@IBOutlet var nameLbl: UILabel!
-	@IBOutlet var detailsLbl: UILabel!
-	@IBOutlet var editBtn: UIButton!
-	@IBOutlet var prevBtn: UIButton!
+	@IBOutlet var nameLabel: UILabel!
+	@IBOutlet var detailsLabel: UILabel!
+	@IBOutlet var editButton: UIButton!
+	@IBOutlet var prevButton: UIButton!
 
 	// MARK: Vars
 
@@ -52,8 +52,8 @@ class ProfileViewController: BaseViewController {
 			if currentDateInterval != .daily {
 				fetchData(newDateRange: (startDate, endDate))
 			} else {
-				updateDateLbl()
-				patientTrendsTV?.reloadData()
+				updateDateLabel()
+				patientTrendsTableView?.reloadData()
 			}
 		}
 	}
@@ -61,20 +61,20 @@ class ProfileViewController: BaseViewController {
 	var expandedIndexPath: IndexPath?
 	var currentHKData: [HealthKitQuantityType: [StatModel]] = [:] {
 		didSet {
-			patientTrendsTV?.reloadData()
+			patientTrendsTableView?.reloadData()
 		}
 	}
 
 	var goals: [HealthKitQuantityType: Double] = [:] {
 		didSet {
-			patientTrendsTV?.reloadData()
+			patientTrendsTableView?.reloadData()
 		}
 	}
 
 	var expandCollapseState: [HealthKitQuantityType: Bool] = [:]
 	var todayHKData: [HealthKitQuantityType: [Any]] = [:] {
 		didSet {
-			patientTrendsTV?.reloadData()
+			patientTrendsTableView?.reloadData()
 		}
 	}
 
@@ -87,19 +87,19 @@ class ProfileViewController: BaseViewController {
 	var lastName: String = ""
 	var currentWkDate = Date().startOfWeek ?? Date() {
 		didSet {
-			updateDateLbl()
+			updateDateLabel()
 		}
 	}
 
 	var currentMonthDate = Date().startOfMonth ?? Date() {
 		didSet {
-			updateDateLbl()
+			updateDateLabel()
 		}
 	}
 
 	var currentYearDate = Date().startOfYear ?? Date() {
 		didSet {
-			updateDateLbl()
+			updateDateLabel()
 		}
 	}
 
@@ -137,23 +137,23 @@ class ProfileViewController: BaseViewController {
 		resetExpandState()
 		topView.backgroundColor = UIColor.profile
 		separatorLineView.backgroundColor = UIColor.swipeColor
-		nameLbl.attributedText = name.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
+		nameLabel.attributedText = name.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 
-		editBtn.setTitle(Str.edit, for: .normal)
-		editBtn.setTitleColor(UIColor.cursorOrange, for: .normal)
-		patientTrendsTV.register(UINib(nibName: "StatCell", bundle: nil), forCellReuseIdentifier: "StatCell")
-		patientTrendsTV.register(UINib(nibName: "TodayStatCell", bundle: nil), forCellReuseIdentifier: "TodayStatCell")
-		patientTrendsTV.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
-		patientTrendsTV.estimatedRowHeight = 300
+		editButton.setTitle(Str.edit, for: .normal)
+		editButton.setTitleColor(UIColor.cursorOrange, for: .normal)
+		patientTrendsTableView.register(UINib(nibName: "StatCell", bundle: nil), forCellReuseIdentifier: "StatCell")
+		patientTrendsTableView.register(UINib(nibName: "TodayStatCell", bundle: nil), forCellReuseIdentifier: "TodayStatCell")
+		patientTrendsTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+		patientTrendsTableView.estimatedRowHeight = 300
 
-		patientTrendsTV.rowHeight = UITableView.automaticDimension
-		patientTrendsTV.delegate = self
-		patientTrendsTV.dataSource = self
+		patientTrendsTableView.rowHeight = UITableView.automaticDimension
+		patientTrendsTableView.delegate = self
+		patientTrendsTableView.dataSource = self
 		setupInitialDateInterval()
 	}
 
 	private func resetExpandState() {
-		patientTrendsTV?.contentOffset = CGPoint.zero
+		patientTrendsTableView?.contentOffset = CGPoint.zero
 		DataContext.shared.userAuthorizedQuantities.forEach {
 			expandCollapseState[$0] = false
 		}
@@ -172,7 +172,7 @@ class ProfileViewController: BaseViewController {
 		(feet, inches) = ProfileHelper.computeHeight(value: height ?? 0)
 
 		let details = "\(ageDiff) \(Str.years) | \(feet)' \(inches)'' | \(weight ?? 0) \(Str.weightUnit)"
-		detailsLbl.attributedText = details.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: 0.36)
+		detailsLabel.attributedText = details.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: 0.36)
 	}
 
 	override func localize() {
@@ -185,22 +185,22 @@ class ProfileViewController: BaseViewController {
 	private func setupInitialDateInterval() {
 		dateIntervalSegmentedControl.selectedSegmentIndex = 0
 		currentDateInterval = .daily
-		updateDateLbl()
+		updateDateLabel()
 	}
 
-	private func updateDateLbl() {
+	private func updateDateLabel() {
 		switch currentDateInterval {
 		case .daily:
-			dateLbl.attributedText = Str.today.with(style: .semibold20, andColor: UIColor.pcpColor)
+			dateLabel.attributedText = Str.today.with(style: .semibold20, andColor: UIColor.pcpColor)
 		case .weekly, .monthly:
 			guard let startDate = startDate, let endDate = endDate else { return }
-			dateLbl.attributedText = "\(DateFormatter.MMMdd.string(from: startDate))-\(DateFormatter.MMMdd.string(from: endDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
+			dateLabel.attributedText = "\(DateFormatter.MMMdd.string(from: startDate))-\(DateFormatter.MMMdd.string(from: endDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
 		case .yearly:
 			guard let startDate = startDate else { return }
-			dateLbl.attributedText = "\(DateFormatter.yyyy.string(from: startDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
+			dateLabel.attributedText = "\(DateFormatter.yyyy.string(from: startDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
 		}
-		nextDateBtn.isHidden = currentDateInterval == .daily
-		previousDateBtn.isHidden = currentDateInterval == .daily
+		nextDateButton.isHidden = currentDateInterval == .daily
+		previousDateButton.isHidden = currentDateInterval == .daily
 	}
 
 	// MARK: Actions

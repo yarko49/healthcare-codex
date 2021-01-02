@@ -13,8 +13,8 @@ class OnboardingView: UIView {
 
 	// MARK: - IBOutlets
 
-	@IBOutlet var titleLbl: UILabel!
-	@IBOutlet var descLbl: UILabel!
+	@IBOutlet var titleLabel: UILabel!
+	@IBOutlet var descLabel: UILabel!
 
 	var title: String = ""
 	var descr: String = ""
@@ -41,7 +41,7 @@ class OnboardingView: UIView {
 	}
 
 	private func setup() {
-		titleLbl.attributedText = title.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
-		descLbl.attributedText = descr.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.32)
+		titleLabel.attributedText = title.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
+		descLabel.attributedText = descr.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.32)
 	}
 }

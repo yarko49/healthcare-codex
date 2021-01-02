@@ -17,9 +17,9 @@ class AnswerView: UIView {
 	// MARK: - IBOutlets
 
 	@IBOutlet var mainView: UIView!
-	@IBOutlet var answerBtn: UIButton!
-	@IBOutlet var answerLbl: UILabel!
-	@IBOutlet var selectionIV: UIImageView!
+	@IBOutlet var answerButton: UIButton!
+	@IBOutlet var answerLabel: UILabel!
+	@IBOutlet var selectionImageView: UIImageView!
 
 	weak var delegate: AnswerViewViewDelegate?
 	var buttonViewHeight: CGFloat = 0
@@ -53,10 +53,10 @@ class AnswerView: UIView {
 
 		setColor()
 		if let color = color {
-			answerLbl.attributedText = answer?.valueString?.with(style: .regular15, andColor: color)
+			answerLabel.attributedText = answer?.valueString?.with(style: .regular15, andColor: color)
 		}
 
-		buttonViewHeight = answerLbl.heightForView(extraWidth: -56) + 16
+		buttonViewHeight = answerLabel.heightForView(extraWidth: -56) + 16
 
 		contentView.heightAnchor.constraint(equalToConstant: buttonViewHeight).isActive = true
 	}
@@ -64,20 +64,20 @@ class AnswerView: UIView {
 	func selectAnswer() {
 		isSelected.toggle()
 		if isSelected {
-			selectionIV.image = UIImage(named: "radioBtnSelected")?.withRenderingMode(.alwaysTemplate)
-			selectionIV.tintColor = color
+			selectionImageView.image = UIImage(named: "radioBtnSelected")?.withRenderingMode(.alwaysTemplate)
+			selectionImageView.tintColor = color
 			return
 		}
-		selectionIV.image = UIImage(named: "radioBtnUnselected")?.withRenderingMode(.alwaysTemplate)
-		selectionIV.tintColor = color
+		selectionImageView.image = UIImage(named: "radioBtnUnselected")?.withRenderingMode(.alwaysTemplate)
+		selectionImageView.tintColor = color
 	}
 
 	private func setColor() {
 		if let answer = answer?.answerOptionExtension, !answer.isEmpty, let colorString = answer[0].valueString?.rawValue {
 			color = UIColor(hex: colorString)
 		}
-		selectionIV.image = UIImage(named: "radioBtnUnselected")?.withRenderingMode(.alwaysTemplate)
-		selectionIV.tintColor = color
+		selectionImageView.image = UIImage(named: "radioBtnUnselected")?.withRenderingMode(.alwaysTemplate)
+		selectionImageView.tintColor = color
 	}
 
 	@IBAction func answerBtnTapped(_ sender: Any) {

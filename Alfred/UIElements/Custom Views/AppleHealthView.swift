@@ -8,10 +8,10 @@ class AppleHealthView: UIView {
 
 	// MARK: - IBOutlets
 
-	@IBOutlet var titleLbl: UILabel!
-	@IBOutlet var descLbl: UILabel!
+	@IBOutlet var titleLabel: UILabel!
+	@IBOutlet var descLabel: UILabel!
 
-	@IBOutlet var ovalImg: UIImageView!
+	@IBOutlet var ovalImageView: UIImageView!
 
 	var title: String = ""
 	var descr: String = ""
@@ -40,10 +40,10 @@ class AppleHealthView: UIView {
 	}
 
 	func setup() { // used to be private
-		titleLbl.attributedText = title.with(style: .bold20, andColor: .black, andLetterSpacing: 0.36)
-		descLbl.attributedText = descr.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.32)
+		titleLabel.attributedText = title.with(style: .bold20, andColor: .black, andLetterSpacing: 0.36)
+		descLabel.attributedText = descr.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.32)
 		if image != "" {
-			ovalImg.image = UIImage(named: image)
+			ovalImageView.image = UIImage(named: image)
 		}
 	}
 }
