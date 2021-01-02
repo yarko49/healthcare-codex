@@ -7,8 +7,8 @@ import Foundation
 import os.log
 import UIKit
 
-extension OSLog {
-	static let syncManager = OSLog(subsystem: subsystem, category: "SyncManager")
+extension Logger {
+	static let syncManager = Logger(subsystem: subsystem, category: "SyncManager")
 }
 
 class SyncManager {
@@ -68,7 +68,7 @@ class SyncManager {
 						completion(Date())
 					}
 				case .failure(let error):
-					os_log(.error, log: .syncManager, "Post Observation Search %@", error.localizedDescription)
+					Logger.syncManager.error("Post Observation Search \(error.localizedDescription)")
 					completion(Date())
 				}
 			}
@@ -137,7 +137,7 @@ class SyncManager {
 		AlfredClient.client.postBundle(bundle: bundle) { result in
 			switch result {
 			case .failure(let error):
-				os_log(.error, log: .syncManager, "Post Bundle %@", error.localizedDescription)
+				Logger.syncManager.error("Post Bundle \(error.localizedDescription)")
 				completion(false)
 			case .success:
 				completion(true)

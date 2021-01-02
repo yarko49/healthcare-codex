@@ -9,8 +9,8 @@ import Combine
 import Foundation
 import os.log
 
-extension OSLog {
-	static let webservice = OSLog(subsystem: subsystem, category: "WebService")
+extension Logger {
+	static let webService = Logger(subsystem: subsystem, category: "WebService")
 }
 
 public final class WebService {
@@ -75,7 +75,7 @@ public final class WebService {
 				let data = try result.data.ws_validate(result.response).ws_validate()
 				if self?.configuration.logResponses == true {
 					let string = String(data: data, encoding: .utf8)
-					os_log(.info, log: .webservice, "%@", string ?? "")
+					Logger.webService.info("\(string ?? "")")
 				}
 				return data
 			}
@@ -85,10 +85,10 @@ public final class WebService {
 			.sink(receiveCompletion: { receiveCompletion in
 				switch receiveCompletion {
 				case .failure(let error):
-					os_log(.error, log: .webservice, "%@", error.localizedDescription)
+					Logger.webService.error("\(error.localizedDescription)")
 					completion(.failure(error))
 				case .finished:
-					os_log(.info, log: .webservice, "Finished Dowloading")
+					Logger.webService.info("Finished Dowloading")
 				}
 			}, receiveValue: { value in
 				completion(.success(value))
@@ -109,7 +109,7 @@ public final class WebService {
 				let data = try result.data.ws_validate(result.response).ws_validate()
 				if self?.configuration.logResponses == true {
 					let string = String(data: data, encoding: .utf8)
-					os_log(.info, log: .webservice, "%@", string ?? "")
+					Logger.webService.info("\(string ?? "")")
 				}
 				return data
 			}
@@ -124,10 +124,10 @@ public final class WebService {
 			.sink(receiveCompletion: { receiveCompletion in
 				switch receiveCompletion {
 				case .failure(let error):
-					os_log(.error, log: .webservice, "%@", error.localizedDescription)
+					Logger.webService.error("\(error.localizedDescription)")
 					completion(.failure(error))
 				case .finished:
-					os_log(.info, log: .webservice, "Finished Dowloading")
+					Logger.webService.info("Finished Dowloading")
 				}
 			}, receiveValue: { value in
 				completion(.success(value))
@@ -153,10 +153,10 @@ public final class WebService {
 			.sink(receiveCompletion: { receiveCompletion in
 				switch receiveCompletion {
 				case .failure(let error):
-					os_log(.error, log: .webservice, "%@", error.localizedDescription)
+					Logger.webService.error("\(error.localizedDescription)")
 					completion(.failure(error))
 				case .finished:
-					os_log(.info, log: .webservice, "Finished Dowloading")
+					Logger.webService.info("Finished Dowloading")
 				}
 			}, receiveValue: { _ in
 				completion(.success(true))

@@ -2,8 +2,8 @@ import FirebaseAuth
 import os.log
 import UIKit
 
-extension OSLog {
-	static let settingsCoordinator = OSLog(subsystem: subsystem, category: "SettingsCoordinator")
+extension Logger {
+	static let settingsCoordinator = Logger(subsystem: subsystem, category: "SettingsCoordinator")
 }
 
 class SettingsCoordinator: NSObject, Coordinator {
@@ -102,7 +102,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 		Auth.auth().sendPasswordReset(withEmail: email ?? "") { [weak self] error in
 			self?.hideHUD()
 			if error != nil {
-				os_log(.error, log: .settingsCoordinator, "%@", error?.localizedDescription ?? "")
+				Logger.settingsCoordinator.error("\(error?.localizedDescription ?? "")")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.invalidEmail, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			} else {
 				accountResetPasswordVC?.showCompletionMessage()
@@ -130,10 +130,10 @@ class SettingsCoordinator: NSObject, Coordinator {
 			self?.hideHUD()
 			switch result {
 			case .failure(let error):
-				os_log(.error, log: .settingsCoordinator, "request failed %@", error.localizedDescription)
+				Logger.settingsCoordinator.error("request failed \(error.localizedDescription)")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createProfileFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			case .success(let resource):
-				os_log(.info, log: .settingsCoordinator, "OK STATUS FOR PROFILE: 200 %@", String(describing: resource))
+				Logger.settingsCoordinator.info("OK STATUS FOR PROFILE: 200 \(String(describing: resource))")
 				self?.navigationController?.popViewController(animated: true)
 			}
 		}
@@ -186,7 +186,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 			parentCoordinator?.logout()
 			DataContext.shared.clearAll()
 		} catch let signOutError as NSError {
-			os_log(.error, log: .settingsCoordinator, "Error signing out: %@", signOutError.localizedDescription)
+			Logger.settingsCoordinator.error("Error signing out: \(signOutError.localizedDescription)")
 		}
 	}
 
@@ -221,7 +221,7 @@ extension SettingsCoordinator: UINavigationControllerDelegate {
 
 extension SettingsCoordinator: UIAdaptivePresentationControllerDelegate {
 	func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-		os_log(.info, log: .settingsCoordinator, "dismiss")
+		Logger.settingsCoordinator.info("dismiss")
 		stop()
 	}
 }

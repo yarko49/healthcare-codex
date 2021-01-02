@@ -11,8 +11,8 @@ import Combine
 import Foundation
 import os.log
 
-extension OSLog {
-	static let careManager = OSLog(subsystem: subsystem, category: "CareManager")
+extension Logger {
+	static let careManager = Logger(subsystem: subsystem, category: "CareManager")
 }
 
 public class CareManager: ObservableObject {
@@ -36,9 +36,9 @@ public class CareManager: ObservableObject {
 		AlfredClient.client.getCarePlan { result in
 			switch result {
 			case .failure(let error):
-				os_log(.error, log: .careManager, "Error fetching care plan data %@", error.localizedDescription)
+				Logger.careManager.error("Error fetching care plan data \(error.localizedDescription)")
 			case .success(let response):
-				os_log(.info, log: .careManager, "Successfully fetch care plan %@", String(describing: response))
+				Logger.careManager.info("Successfully fetch care plan \(String(describing: response))")
 			}
 		}
 	}
@@ -48,7 +48,7 @@ public class CareManager: ObservableObject {
 		AlfredClient.client.getRawReaults(route: route) { result in
 			switch result {
 			case .failure(let error):
-				os_log(.error, log: .careManager, "Error fetching raw care plan data %@", error.localizedDescription)
+				Logger.careManager.error("Error fetching raw care plan data \(error.localizedDescription)")
 			case .success(let carePlan):
 				do {
 					let data = try JSONSerialization.data(withJSONObject: carePlan, options: .prettyPrinted)
@@ -56,7 +56,7 @@ public class CareManager: ObservableObject {
 					documentsFolder = documentsFolder.appendingPathComponent("carePlan.json")
 					try data.write(to: documentsFolder)
 				} catch {
-					os_log(.error, log: .careManager, "Error writing data %@", error.localizedDescription)
+					Logger.careManager.error("Error writing data \(error.localizedDescription)")
 				}
 			}
 		}
@@ -66,15 +66,15 @@ public class CareManager: ObservableObject {
 		AlfredClient.client.getCarePlan(vectorClock: true, valueSpaceSample: false) { result in
 			switch result {
 			case .failure(let error):
-				os_log(.error, log: .careManager, "Error fetching care plan vector clock data %@", error.localizedDescription)
+				Logger.careManager.error("Error fetching care plan vector clock data \(error.localizedDescription)")
 			case .success(let response):
 				do {
 					let data = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
 					try data.write(to: URL(fileURLWithPath: "/tmp/VectorClockResponse.json"))
 				} catch {
-					os_log(.error, log: .careManager, "Unable to decode reponse %@", error.localizedDescription)
+					Logger.careManager.error("Unable to decode reponse \(error.localizedDescription)")
 				}
-				os_log(.info, log: .careManager, "Successfully fetch care plan %@", String(describing: response))
+				Logger.careManager.info("Successfully fetch care plan \(String(describing: response))")
 			}
 		}
 	}
@@ -83,15 +83,15 @@ public class CareManager: ObservableObject {
 		AlfredClient.client.getCarePlan(vectorClock: false, valueSpaceSample: true) { result in
 			switch result {
 			case .failure(let error):
-				os_log(.error, log: .careManager, "Error fetching care plan vector clock data %@", error.localizedDescription)
+				Logger.careManager.error("Error fetching care plan vector clock data \(error.localizedDescription)")
 			case .success(let response):
 				do {
 					let data = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
 					try data.write(to: URL(fileURLWithPath: "/tmp/ValueSpaceResponse.json"))
 				} catch {
-					os_log(.error, log: .careManager, "Unable to decode reponse %@", error.localizedDescription)
+					Logger.careManager.error("Unable to decode reponse \(error.localizedDescription)")
 				}
-				os_log(.info, log: .careManager, "Successfully fetch care plan %@", String(describing: response))
+				Logger.careManager.info("Successfully fetch care plan \(String(describing: response))")
 			}
 		}
 	}
@@ -99,10 +99,10 @@ public class CareManager: ObservableObject {
 
 extension CareManager: OCKRemoteSynchronizationDelegate {
 	public func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
-		os_log(.info, log: .careManager, "")
+		Logger.careManager.info("")
 	}
 
 	public func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
-		os_log(.info, log: .careManager, "")
+		Logger.careManager.info("")
 	}
 }

@@ -14,7 +14,7 @@ extension DataContext {
 				self?.userModel = UserModel(userID: resource.id, email: user.email, name: resource.name, dob: resource.birthDate, gender: Gender(rawValue: resource.gender ?? ""))
 				completion(true)
 			case .failure(let error):
-				os_log(.error, log: .alfred, "Patient Search %@", error.localizedDescription)
+				Logger.alfred.error("Patient Search \(error.localizedDescription)")
 			}
 		}
 	}
@@ -49,7 +49,7 @@ extension DataContext {
 					completion(true)
 				}
 			case .failure(let error):
-				os_log(.error, log: .alfred, "Get Profile %@", error.localizedDescription)
+				Logger.alfred.error("Get Profile \(error.localizedDescription)")
 				completion(false)
 			}
 		}

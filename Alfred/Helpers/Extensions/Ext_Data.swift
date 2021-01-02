@@ -10,10 +10,10 @@ extension Data {
 	func prettyPrint() {
 		do {
 			if let jsonResult = try JSONSerialization.jsonObject(with: self, options: []) as? NSDictionary {
-				os_log(.info, log: .alfred, "%@", jsonResult)
+				Logger.alfred.info("\(jsonResult)")
 			}
 		} catch {
-			os_log(.error, log: .alfred, "%@", error.localizedDescription)
+			Logger.alfred.error("\(error.localizedDescription)")
 		}
 	}
 }

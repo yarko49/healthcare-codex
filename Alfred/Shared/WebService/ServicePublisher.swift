@@ -9,8 +9,8 @@ import Combine
 import Foundation
 import os.log
 
-extension OSLog {
-	static let servicepublisher = OSLog(subsystem: subsystem, category: "ServicePublisher")
+extension Logger {
+	static let servicePublisher = Logger(subsystem: subsystem, category: "ServicePublisher")
 }
 
 public extension URLSession {
@@ -162,7 +162,7 @@ public extension URLSession.ServicePublisher {
 			request.body = data
 			request.contentType = Request.ContentType.json
 		} catch {
-			os_log(.error, log: .servicepublisher, "Unable to encode body %@", error.localizedDescription)
+			Logger.servicePublisher.error("Unable to encode body \(error.localizedDescription)")
 		}
 		return self
 	}
