@@ -44,7 +44,7 @@ class DataContext {
 		UserDefaults.standard.removeObject(forKey: "IS_BIOMETRICS_ENABLED")
 	}
 
-	var userAuthorizedQuantities: [HealthKitQuantityType] = [.weight, .activity, .bloodPressure, .restingHR, .heartRate]
+	var userAuthorizedQuantities: [HealthKitQuantityType] = [.weight, .activity, .bloodPressure, .restingHeartRate, .heartRate]
 	var healthKitIntervals: [HealthStatsDateIntervalType] = [.daily, .weekly, .monthly, .yearly]
 
 	var appVersion: String? {

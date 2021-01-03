@@ -11,9 +11,7 @@ enum Keychain {
 
 	static func store(value: String, withKey key: String) {
 		do {
-			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName,
-			                                        account: key)
-
+			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key)
 			try passwordItem.savePassword(value)
 		} catch {
 			Logger.keychain.error("Error updating keychain - \(error.localizedDescription)")
@@ -22,9 +20,7 @@ enum Keychain {
 
 	static func store(data: Data, withKey key: String) {
 		do {
-			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName,
-			                                        account: key)
-
+			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key)
 			try passwordItem.saveData(data)
 		} catch {
 			Logger.keychain.error("Error updating keychain - \(error.localizedDescription)")
@@ -33,9 +29,7 @@ enum Keychain {
 
 	static func read(valueWithKey key: String) -> String? {
 		do {
-			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName,
-			                                        account: key,
-			                                        accessGroup: Keychain.accessGroup)
+			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key, accessGroup: Keychain.accessGroup)
 			return try passwordItem.readPassword()
 		} catch {
 			Logger.keychain.error("Error reading password from keychain - \(error.localizedDescription)")
@@ -45,9 +39,7 @@ enum Keychain {
 
 	static func read(dataWithKey key: String) -> Data? {
 		do {
-			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName,
-			                                        account: key,
-			                                        accessGroup: Keychain.accessGroup)
+			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key, accessGroup: Keychain.accessGroup)
 			return try passwordItem.readData()
 		} catch {
 			Logger.keychain.error("Error reading data from keychain - \(error.localizedDescription)")
@@ -57,9 +49,7 @@ enum Keychain {
 
 	static func delete(valueWithKey key: String) {
 		do {
-			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName,
-			                                        account: key,
-			                                        accessGroup: Keychain.accessGroup)
+			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key, accessGroup: Keychain.accessGroup)
 			try passwordItem.deleteItem()
 		} catch {
 			Logger.keychain.error("Error deleting password from keychain - \(error.localizedDescription)")

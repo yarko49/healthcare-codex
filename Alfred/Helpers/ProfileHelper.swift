@@ -35,7 +35,7 @@ class ProfileHelper {
 			return DataContext.shared.stepsGoal
 		case .heartRate:
 			return DataContext.shared.hrGoal
-		case .restingHR:
+		case .restingHeartRate:
 			return DataContext.shared.rhrGoal
 		}
 	}
