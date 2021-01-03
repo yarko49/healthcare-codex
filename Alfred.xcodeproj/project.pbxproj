@@ -149,7 +149,7 @@
 		844767C0259C2A4E00C50C09 /* Environment+StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766E6259C2A4E00C50C09 /* Environment+StoreManager.swift */; };
 		844767C2259C2A4E00C50C09 /* RemoteSynchronizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766E8259C2A4E00C50C09 /* RemoteSynchronizationManager.swift */; };
 		844767C3259C2A4E00C50C09 /* Enviornment+CareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766E9259C2A4E00C50C09 /* Enviornment+CareManager.swift */; };
-		844767C4259C2A4E00C50C09 /* OCKOutcomeValue+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766EB259C2A4E00C50C09 /* OCKOutcomeValue+Conversion.swift */; };
+		844767C4259C2A4E00C50C09 /* OutcomeValue+OCKOutcomeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766EB259C2A4E00C50C09 /* OutcomeValue+OCKOutcomeValue.swift */; };
 		844767C5259C2A4E00C50C09 /* VectorClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766EC259C2A4E00C50C09 /* VectorClock.swift */; };
 		844767C6259C2A4E00C50C09 /* KeyedDecodingContainer+TimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766ED259C2A4E00C50C09 /* KeyedDecodingContainer+TimeZone.swift */; };
 		844767C7259C2A4E00C50C09 /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766EE259C2A4E00C50C09 /* Patient.swift */; };
@@ -157,11 +157,11 @@
 		844767C9259C2A4E00C50C09 /* OutcomeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F0259C2A4E00C50C09 /* OutcomeValue.swift */; };
 		844767CA259C2A4E00C50C09 /* CarePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F1259C2A4E00C50C09 /* CarePlan.swift */; };
 		844767CB259C2A4E00C50C09 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F2259C2A4E00C50C09 /* Note.swift */; };
-		844767CC259C2A4E00C50C09 /* OCKTask+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F3259C2A4E00C50C09 /* OCKTask+Conversion.swift */; };
-		844767CD259C2A4E00C50C09 /* OCKPatient+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F4259C2A4E00C50C09 /* OCKPatient+Conversion.swift */; };
+		844767CC259C2A4E00C50C09 /* Task+OCKTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F3259C2A4E00C50C09 /* Task+OCKTask.swift */; };
+		844767CD259C2A4E00C50C09 /* Patient+OCKPatient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F4259C2A4E00C50C09 /* Patient+OCKPatient.swift */; };
 		844767CE259C2A4E00C50C09 /* ScheduleElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F5259C2A4E00C50C09 /* ScheduleElement.swift */; };
 		844767CF259C2A4E00C50C09 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F6259C2A4E00C50C09 /* Task.swift */; };
-		844767D0259C2A4E00C50C09 /* OCKNote+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F7259C2A4E00C50C09 /* OCKNote+Conversion.swift */; };
+		844767D0259C2A4E00C50C09 /* Note+OCKNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F7259C2A4E00C50C09 /* Note+OCKNote.swift */; };
 		844767D1259C2A4E00C50C09 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766FA259C2A4E00C50C09 /* LoggingManager.swift */; };
 		844767D2259C2A4E00C50C09 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766FC259C2A4E00C50C09 /* SyncManager.swift */; };
 		844767D3259C2A4E00C50C09 /* HealthKitQuantityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766FD259C2A4E00C50C09 /* HealthKitQuantityType.swift */; };
@@ -204,6 +204,7 @@
 		845AAC77259C374500FF8F3F /* BonMot in Frameworks */ = {isa = PBXBuildFile; productRef = 845AAC76259C374500FF8F3F /* BonMot */; };
 		845AAC9D259C3B0D00FF8F3F /* SubjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845AAC9C259C3B0C00FF8F3F /* SubjectModel.swift */; };
 		845AACAE259C3CEF00FF8F3F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84476616259C2A0E00C50C09 /* GoogleService-Info.plist */; };
+		8461B30425A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8461B30325A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift */; };
 		84700A7E259C2E980083E2AA /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 84700A7D259C2E980083E2AA /* JGProgressHUD */; };
 		84700A84259C331B0083E2AA /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 84700A83259C331B0083E2AA /* Charts */; };
 		847ED201259C4E0F003166BD /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 847ED200259C4E0F003166BD /* Fonts */; };
@@ -413,7 +414,7 @@
 		844766E6259C2A4E00C50C09 /* Environment+StoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Environment+StoreManager.swift"; sourceTree = "<group>"; };
 		844766E8259C2A4E00C50C09 /* RemoteSynchronizationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteSynchronizationManager.swift; sourceTree = "<group>"; };
 		844766E9259C2A4E00C50C09 /* Enviornment+CareManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Enviornment+CareManager.swift"; sourceTree = "<group>"; };
-		844766EB259C2A4E00C50C09 /* OCKOutcomeValue+Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OCKOutcomeValue+Conversion.swift"; sourceTree = "<group>"; };
+		844766EB259C2A4E00C50C09 /* OutcomeValue+OCKOutcomeValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OutcomeValue+OCKOutcomeValue.swift"; sourceTree = "<group>"; };
 		844766EC259C2A4E00C50C09 /* VectorClock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VectorClock.swift; sourceTree = "<group>"; };
 		844766ED259C2A4E00C50C09 /* KeyedDecodingContainer+TimeZone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KeyedDecodingContainer+TimeZone.swift"; sourceTree = "<group>"; };
 		844766EE259C2A4E00C50C09 /* Patient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
@@ -421,11 +422,11 @@
 		844766F0259C2A4E00C50C09 /* OutcomeValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutcomeValue.swift; sourceTree = "<group>"; };
 		844766F1259C2A4E00C50C09 /* CarePlan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlan.swift; sourceTree = "<group>"; };
 		844766F2259C2A4E00C50C09 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
-		844766F3259C2A4E00C50C09 /* OCKTask+Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OCKTask+Conversion.swift"; sourceTree = "<group>"; };
-		844766F4259C2A4E00C50C09 /* OCKPatient+Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OCKPatient+Conversion.swift"; sourceTree = "<group>"; };
+		844766F3259C2A4E00C50C09 /* Task+OCKTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Task+OCKTask.swift"; sourceTree = "<group>"; };
+		844766F4259C2A4E00C50C09 /* Patient+OCKPatient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Patient+OCKPatient.swift"; sourceTree = "<group>"; };
 		844766F5259C2A4E00C50C09 /* ScheduleElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleElement.swift; sourceTree = "<group>"; };
 		844766F6259C2A4E00C50C09 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
-		844766F7259C2A4E00C50C09 /* OCKNote+Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OCKNote+Conversion.swift"; sourceTree = "<group>"; };
+		844766F7259C2A4E00C50C09 /* Note+OCKNote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Note+OCKNote.swift"; sourceTree = "<group>"; };
 		844766FA259C2A4E00C50C09 /* LoggingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
 		844766FC259C2A4E00C50C09 /* SyncManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
 		844766FD259C2A4E00C50C09 /* HealthKitQuantityType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthKitQuantityType.swift; sourceTree = "<group>"; };
@@ -460,6 +461,7 @@
 		84476723259C2A4E00C50C09 /* UINavigationBar+Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Appearance.swift"; sourceTree = "<group>"; };
 		84476724259C2A4E00C50C09 /* AppConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		845AAC9C259C3B0C00FF8F3F /* SubjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectModel.swift; sourceTree = "<group>"; };
+		8461B30325A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScheduleElement+OCKScheduleElement.swift"; sourceTree = "<group>"; };
 		847ED200259C4E0F003166BD /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		84C83FBD259C48EF00DAEF34 /* PatientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientTests.swift; sourceTree = "<group>"; };
 		84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanTests.swift; sourceTree = "<group>"; };
@@ -1138,19 +1140,20 @@
 		844766EA259C2A4E00C50C09 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				844766EF259C2A4E00C50C09 /* CarePlanResponse.swift */,
+				844766F1259C2A4E00C50C09 /* CarePlan.swift */,
 				844766EC259C2A4E00C50C09 /* VectorClock.swift */,
 				844766ED259C2A4E00C50C09 /* KeyedDecodingContainer+TimeZone.swift */,
 				844766EE259C2A4E00C50C09 /* Patient.swift */,
-				844766F4259C2A4E00C50C09 /* OCKPatient+Conversion.swift */,
-				844766EF259C2A4E00C50C09 /* CarePlanResponse.swift */,
+				844766F4259C2A4E00C50C09 /* Patient+OCKPatient.swift */,
 				844766F0259C2A4E00C50C09 /* OutcomeValue.swift */,
-				844766EB259C2A4E00C50C09 /* OCKOutcomeValue+Conversion.swift */,
-				844766F1259C2A4E00C50C09 /* CarePlan.swift */,
+				844766EB259C2A4E00C50C09 /* OutcomeValue+OCKOutcomeValue.swift */,
 				844766F2259C2A4E00C50C09 /* Note.swift */,
-				844766F7259C2A4E00C50C09 /* OCKNote+Conversion.swift */,
+				844766F7259C2A4E00C50C09 /* Note+OCKNote.swift */,
 				844766F5259C2A4E00C50C09 /* ScheduleElement.swift */,
+				8461B30325A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift */,
 				844766F6259C2A4E00C50C09 /* Task.swift */,
-				844766F3259C2A4E00C50C09 /* OCKTask+Conversion.swift */,
+				844766F3259C2A4E00C50C09 /* Task+OCKTask.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1732,7 +1735,7 @@
 				8447674F259C2A4E00C50C09 /* EmailSentViewController.swift in Sources */,
 				844767A3259C2A4E00C50C09 /* Ext_UILabel.swift in Sources */,
 				844767EE259C2A4E00C50C09 /* AlfredClient.swift in Sources */,
-				844767CD259C2A4E00C50C09 /* OCKPatient+Conversion.swift in Sources */,
+				844767CD259C2A4E00C50C09 /* Patient+OCKPatient.swift in Sources */,
 				844767E5259C2A4E00C50C09 /* Data+Validation.swift in Sources */,
 				844767A6259C2A4E00C50C09 /* Ext_Sequence.swift in Sources */,
 				844767CF259C2A4E00C50C09 /* Task.swift in Sources */,
@@ -1759,7 +1762,7 @@
 				84476766259C2A4E00C50C09 /* TermsOfServiceViewController.swift in Sources */,
 				844767E9259C2A4E00C50C09 /* ServicePublisher.swift in Sources */,
 				844767C8259C2A4E00C50C09 /* CarePlanResponse.swift in Sources */,
-				844767C4259C2A4E00C50C09 /* OCKOutcomeValue+Conversion.swift in Sources */,
+				844767C4259C2A4E00C50C09 /* OutcomeValue+OCKOutcomeValue.swift in Sources */,
 				8447672F259C2A4E00C50C09 /* BottomButton.swift in Sources */,
 				84476779259C2A4E00C50C09 /* QuestionnaireViewController.swift in Sources */,
 				844767ED259C2A4E00C50C09 /* APIRouter.swift in Sources */,
@@ -1807,13 +1810,14 @@
 				8447674A259C2A4E00C50C09 /* PickerTextField.swift in Sources */,
 				84476793259C2A4E00C50C09 /* QuestionnaireResponseModel.swift in Sources */,
 				844767DB259C2A4E00C50C09 /* AuthCoordinator.swift in Sources */,
+				8461B30425A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift in Sources */,
 				844767D8259C2A4E00C50C09 /* DataContext.swift in Sources */,
 				8447676A259C2A4E00C50C09 /* AccountDetailsViewController.swift in Sources */,
 				84476733259C2A4E00C50C09 /* AAPLSignInButton.swift in Sources */,
 				844767D6259C2A4E00C50C09 /* DataContext+Content.swift in Sources */,
 				8447673D259C2A4E00C50C09 /* CoachCardView.swift in Sources */,
 				844767C3259C2A4E00C50C09 /* Enviornment+CareManager.swift in Sources */,
-				844767D0259C2A4E00C50C09 /* OCKNote+Conversion.swift in Sources */,
+				844767D0259C2A4E00C50C09 /* Note+OCKNote.swift in Sources */,
 				84E4660225A040F100A10F8B /* ViewIdentifiable.swift in Sources */,
 				844767D7259C2A4E00C50C09 /* DataContext+Fetch.swift in Sources */,
 				844767A9259C2A4E00C50C09 /* KeychainPasswordItem.swift in Sources */,
@@ -1831,7 +1835,7 @@
 				84476787259C2A4E00C50C09 /* UnknownModel.swift in Sources */,
 				84476763259C2A4E00C50C09 /* MyDevicesViewController.swift in Sources */,
 				84476798259C2A4E00C50C09 /* AlertHelper.swift in Sources */,
-				844767CC259C2A4E00C50C09 /* OCKTask+Conversion.swift in Sources */,
+				844767CC259C2A4E00C50C09 /* Task+OCKTask.swift in Sources */,
 				8447672B259C2A4E00C50C09 /* CustomYAxisRenderer.swift in Sources */,
 				84E4661025A0453C00A10F8B /* ViewNIBLoading.swift in Sources */,
 				844767E6259C2A4E00C50C09 /* URLComponents+Request.swift in Sources */,

@@ -9,7 +9,7 @@ import UIKit
 class AAPLSignInButton: UIButton {
 	var labelTitle: String? {
 		didSet {
-			titleLabel?.attributedText = labelTitle?.with(style: .semibold20, andColor: UIColor.googleColor ?? UIColor.black, andLetterSpacing: 0.38)
+			titleLabel?.attributedText = labelTitle?.with(style: .semibold20, andColor: UIColor.google ?? UIColor.black, andLetterSpacing: 0.38)
 		}
 	}
 

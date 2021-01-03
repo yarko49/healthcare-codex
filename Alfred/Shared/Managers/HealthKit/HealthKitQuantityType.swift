@@ -43,11 +43,11 @@ enum HealthKitQuantityType: String, CaseIterable {
 		case .activity:
 			return UIColor.activityBackground
 		case .bloodPressure:
-			return UIColor.bloodPressureColor ?? .red
+			return UIColor.bloodPressure ?? .red
 		case .heartRate:
-			return UIColor.heartRateColor ?? .systemPink
+			return UIColor.heartRate ?? .systemPink
 		case .restingHR:
-			return UIColor.restingHR ?? .systemPink
+			return UIColor.restingHeartRate ?? .systemPink
 		case .weight:
 			return UIColor.weightBackground
 		}
