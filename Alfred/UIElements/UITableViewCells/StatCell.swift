@@ -72,7 +72,7 @@ class StatCell: UITableViewCell {
 		highLowWNoDataWidthConstraint?.isActive = false
 		highLowWithDataWidthConstraint?.isActive = true
 		switch quantityType {
-		case .weight, .heartRate, .restingHR, .activity:
+		case .weight, .heartRate, .restingHeartRate, .activity:
 			var intValues: [Int] = []
 			var dataToPlot = data
 			if quantityType == .activity, intervalType == .yearly {

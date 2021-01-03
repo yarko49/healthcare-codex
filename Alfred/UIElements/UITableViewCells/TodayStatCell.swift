@@ -34,7 +34,7 @@ class TodayStatCell: UITableViewCell {
 
 	private func setup(for quantityType: HealthKitQuantityType, with samples: [HKQuantitySample]) {
 		switch quantityType {
-		case .weight, .heartRate, .restingHR:
+		case .weight, .heartRate, .restingHeartRate:
 			let quantityValue = samples.first?.quantity.doubleValue(for: quantityType.hkUnit) ?? 0
 			let value = NSMutableAttributedString(attributedString: String(Int(quantityValue)).with(style: .semibold26, andColor: .black))
 			value.append(NSAttributedString(string: " "))

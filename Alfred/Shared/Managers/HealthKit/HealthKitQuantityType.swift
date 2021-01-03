@@ -10,7 +10,7 @@ enum HealthKitQuantityType: String, CaseIterable {
 	case weight = "Weight"
 	case activity = "Activity"
 	case bloodPressure = "Blood Pressure"
-	case restingHR = "Resting Heart Rate"
+	case restingHeartRate = "Resting Heart Rate"
 	case heartRate = "Heart Rate"
 
 	func getHKitQuantityType() -> HKQuantityType? {
@@ -19,7 +19,7 @@ enum HealthKitQuantityType: String, CaseIterable {
 			return HKObjectType.quantityType(forIdentifier: .stepCount)
 		case .weight:
 			return HKObjectType.quantityType(forIdentifier: .bodyMass)
-		case .restingHR:
+		case .restingHeartRate:
 			return HKObjectType.quantityType(forIdentifier: .restingHeartRate)
 		case .heartRate:
 			return HKObjectType.quantityType(forIdentifier: .heartRate)
@@ -34,7 +34,7 @@ enum HealthKitQuantityType: String, CaseIterable {
 		case .activity: return [.stepCount]
 		case .bloodPressure: return [.bloodPressureDiastolic, .bloodPressureSystolic]
 		case .heartRate: return [.heartRate]
-		case .restingHR: return [.restingHeartRate]
+		case .restingHeartRate: return [.restingHeartRate]
 		}
 	}
 
@@ -46,7 +46,7 @@ enum HealthKitQuantityType: String, CaseIterable {
 			return UIColor.bloodPressure ?? .red
 		case .heartRate:
 			return UIColor.heartRate ?? .systemPink
-		case .restingHR:
+		case .restingHeartRate:
 			return UIColor.restingHeartRate ?? .systemPink
 		case .weight:
 			return UIColor.weightBackground
@@ -61,7 +61,7 @@ enum HealthKitQuantityType: String, CaseIterable {
 			return UIImage(named: "bloodPressureIcon") ?? UIImage()
 		case .heartRate:
 			return UIImage(named: "heartRateIcon") ?? UIImage()
-		case .restingHR:
+		case .restingHeartRate:
 			return UIImage(named: "restingHRIcon") ?? UIImage()
 		case .weight:
 			return UIImage(named: "weightIcon") ?? UIImage()
@@ -76,7 +76,7 @@ enum HealthKitQuantityType: String, CaseIterable {
 			return "mmHG"
 		case .heartRate:
 			return "bpm"
-		case .restingHR:
+		case .restingHeartRate:
 			return "bpm"
 		case .weight:
 			return "lbs"
@@ -88,7 +88,7 @@ enum HealthKitQuantityType: String, CaseIterable {
 		case .activity: return .count()
 		case .bloodPressure: return .millimeterOfMercury()
 		case .heartRate: return HKUnit(from: "count/min")
-		case .restingHR: return HKUnit(from: "count/min")
+		case .restingHeartRate: return HKUnit(from: "count/min")
 		case .weight: return .pound()
 		}
 	}
@@ -132,7 +132,7 @@ enum HealthKitQuantityType: String, CaseIterable {
 			} else {
 				return (.clear, "")
 			}
-		case .restingHR:
+		case .restingHeartRate:
 			guard let restingHR = values.first else { return (.clear, "") }
 			if restingHR < 30 || restingHR > 90 {
 				return (.statusOrange, Str.notNormal)

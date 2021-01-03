@@ -117,10 +117,7 @@ class HealthKitManager {
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
 		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: !initialUpload)
 		var entries: [Entry] = []
-		let query = HKSampleQuery(sampleType: sampleType,
-		                          predicate: predicate,
-		                          limit: HKObjectQueryNoLimit,
-		                          sortDescriptors: [sortDescriptor]) { _, results, _ in
+		let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, _ in
 			if let dataList = results {
 				for data in dataList {
 					if let sample = data as? HKQuantitySample {
@@ -141,10 +138,7 @@ class HealthKitManager {
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
 		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: !initialUpload)
 		var entries: [Entry] = []
-		let query = HKSampleQuery(sampleType: bloodPressure,
-		                          predicate: predicate,
-		                          limit: HKObjectQueryNoLimit,
-		                          sortDescriptors: [sortDescriptor]) { _, results, _ in
+		let query = HKSampleQuery(sampleType: bloodPressure, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, _ in
 			if let dataList = results as? [HKCorrelation] {
 				for data in dataList {
 					if let dia = data.objects(for: bloodPressureDiastolic).first as? HKQuantitySample, let sys = data.objects(for: bloodPressureSystolic).first as? HKQuantitySample {
@@ -166,11 +160,8 @@ class HealthKitManager {
 			completion(nil)
 			return
 		}
-		let predicate = HKQuery.predicateForSamples(withStart: Date.distantPast,
-		                                            end: Date(),
-		                                            options: [])
-		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate,
-		                                      ascending: false)
+		let predicate = HKQuery.predicateForSamples(withStart: Date.distantPast, end: Date(), options: [])
+		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
 		let limit = 1
 		let query = HKSampleQuery(sampleType: type, predicate: predicate, limit: limit, sortDescriptors: [sortDescriptor]) { _, samples, _ in
 			let sample = samples?.first
@@ -220,11 +211,7 @@ class HealthKitManager {
 
 		let anchorDate = Calendar.current.date(from: anchorComponents)!
 		let options: HKStatisticsOptions = identifier == .stepCount ? .cumulativeSum : .discreteAverage
-		let query = HKStatisticsCollectionQuery(quantityType: type,
-		                                        quantitySamplePredicate: nil,
-		                                        options: options,
-		                                        anchorDate: anchorDate,
-		                                        intervalComponents: interval)
+		let query = HKStatisticsCollectionQuery(quantityType: type, quantitySamplePredicate: nil, options: options, anchorDate: anchorDate, intervalComponents: interval)
 		query.initialResultsHandler = { _, collection, _ in
 			guard let collection = collection else {
 				completion([])
