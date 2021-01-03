@@ -141,8 +141,8 @@ class ProfileViewController: BaseViewController {
 
 		editButton.setTitle(Str.edit, for: .normal)
 		editButton.setTitleColor(UIColor.cursorOrange, for: .normal)
-		patientTrendsTableView.register(UINib(nibName: "StatCell", bundle: nil), forCellReuseIdentifier: "StatCell")
-		patientTrendsTableView.register(UINib(nibName: "TodayStatCell", bundle: nil), forCellReuseIdentifier: "TodayStatCell")
+		patientTrendsTableView.register(UINib(nibName: StatCell.nibName, bundle: nil), forCellReuseIdentifier: StatCell.reuseIdentifier)
+		patientTrendsTableView.register(UINib(nibName: TodayStatCell.nibName, bundle: nil), forCellReuseIdentifier: TodayStatCell.reuseIdentifier)
 		patientTrendsTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
 		patientTrendsTableView.estimatedRowHeight = 300
 
@@ -280,12 +280,12 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let type = DataContext.shared.userAuthorizedQuantities[indexPath.row]
 		if currentDateInterval == .daily {
-			let cell = tableView.dequeueReusableCell(withIdentifier: "TodayStatCell", for: indexPath) as? TodayStatCell
+			let cell = tableView.dequeueReusableCell(withIdentifier: TodayStatCell.reuseIdentifier, for: indexPath) as? TodayStatCell
 			cell?.selectionStyle = .none
 			cell?.setup(for: type, with: todayHKData[type])
 			return cell!
 		} else {
-			let cell = tableView.dequeueReusableCell(withIdentifier: "StatCell", for: indexPath) as? StatCell
+			let cell = tableView.dequeueReusableCell(withIdentifier: StatCell.reuseIdentifier, for: indexPath) as? StatCell
 			cell?.selectionStyle = .none
 			cell?.expandCollapseAction = { [weak self] expanded in
 				let currentContentOffset = tableView.contentOffset

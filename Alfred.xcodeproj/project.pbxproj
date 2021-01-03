@@ -871,9 +871,9 @@
 				84476671259C2A4E00C50C09 /* Terms of Service */,
 				84476674259C2A4E00C50C09 /* AccountDetails */,
 				84476679259C2A4E00C50C09 /* MyNotifications */,
-				8447667C259C2A4E00C50C09 /* SettingsViewController.xib */,
 				8447667D259C2A4E00C50C09 /* Privacy Policy */,
 				84476680259C2A4E00C50C09 /* SettingsViewController.swift */,
+				8447667C259C2A4E00C50C09 /* SettingsViewController.xib */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -881,8 +881,8 @@
 		8447666D259C2A4E00C50C09 /* MyDevices */ = {
 			isa = PBXGroup;
 			children = (
-				8447666E259C2A4E00C50C09 /* MyDevicesViewController.xib */,
 				8447666F259C2A4E00C50C09 /* MyDevicesViewController.swift */,
+				8447666E259C2A4E00C50C09 /* MyDevicesViewController.xib */,
 			);
 			path = MyDevices;
 			sourceTree = "<group>";
@@ -890,8 +890,8 @@
 		84476671259C2A4E00C50C09 /* Terms of Service */ = {
 			isa = PBXGroup;
 			children = (
-				84476672259C2A4E00C50C09 /* TermsOfServiceViewController.xib */,
 				84476673259C2A4E00C50C09 /* TermsOfServiceViewController.swift */,
+				84476672259C2A4E00C50C09 /* TermsOfServiceViewController.xib */,
 			);
 			path = "Terms of Service";
 			sourceTree = "<group>";
@@ -899,10 +899,10 @@
 		84476674259C2A4E00C50C09 /* AccountDetails */ = {
 			isa = PBXGroup;
 			children = (
+				84476678259C2A4E00C50C09 /* AccountDetailsViewController.swift */,
 				84476675259C2A4E00C50C09 /* AccountDetailsViewController.xib */,
 				84476676259C2A4E00C50C09 /* AccountResetPasswordViewController.swift */,
 				84476677259C2A4E00C50C09 /* AccountResetPasswordViewController.xib */,
-				84476678259C2A4E00C50C09 /* AccountDetailsViewController.swift */,
 			);
 			path = AccountDetails;
 			sourceTree = "<group>";
@@ -910,8 +910,8 @@
 		84476679259C2A4E00C50C09 /* MyNotifications */ = {
 			isa = PBXGroup;
 			children = (
-				8447667A259C2A4E00C50C09 /* MyNotificationsViewController.xib */,
 				8447667B259C2A4E00C50C09 /* MyNotificationsViewController.swift */,
+				8447667A259C2A4E00C50C09 /* MyNotificationsViewController.xib */,
 			);
 			path = MyNotifications;
 			sourceTree = "<group>";
@@ -919,8 +919,8 @@
 		8447667D259C2A4E00C50C09 /* Privacy Policy */ = {
 			isa = PBXGroup;
 			children = (
-				8447667E259C2A4E00C50C09 /* PrivacyPolicyViewController.xib */,
 				8447667F259C2A4E00C50C09 /* PrivacyPolicyViewController.swift */,
+				8447667E259C2A4E00C50C09 /* PrivacyPolicyViewController.xib */,
 			);
 			path = "Privacy Policy";
 			sourceTree = "<group>";
@@ -1011,8 +1011,8 @@
 		84476699259C2A4E00C50C09 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				8447669A259C2A4E00C50C09 /* OnboardingViewController.xib */,
 				8447669B259C2A4E00C50C09 /* OnboardingViewController.swift */,
+				8447669A259C2A4E00C50C09 /* OnboardingViewController.xib */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";

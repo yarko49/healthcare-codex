@@ -34,7 +34,7 @@ class SettingsViewController: BaseViewController {
 	}
 
 	private func setupTableView() {
-		settingsTV.register(UINib(nibName: "SettingsCell", bundle: nil), forCellReuseIdentifier: "SettingsCell")
+		settingsTV.register(UINib(nibName: SettingsCell.nibName, bundle: nil), forCellReuseIdentifier: SettingsCell.reuseIdentifier)
 		settingsTV.rowHeight = rowHeight
 		settingsTV.dataSource = self
 		settingsTV.delegate = self
@@ -81,7 +81,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath) as? SettingsCell
+		let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.reuseIdentifier, for: indexPath) as? SettingsCell
 		cell?.layoutMargins = UIEdgeInsets.zero
 
 		cell?.setup(name: settings[indexPath.row].description)

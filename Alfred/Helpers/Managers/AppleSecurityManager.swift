@@ -21,8 +21,7 @@ class AppleSecurityManager {
 
 	static func randomNonceString(length: Int = 32) -> String {
 		precondition(length > 0)
-		let charset: [Character] =
-			Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+		let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
 		var result = ""
 		var remainingLength = length
 
