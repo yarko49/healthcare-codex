@@ -10,8 +10,6 @@ class CircleProgressBarView: UIView {
 	@IBOutlet var contentView: UIView!
 	@IBOutlet var iconImageView: UIImageView!
 
-	let contentXIBName = "CircleProgressBarView"
-
 	// MARK: - IBOutlets
 
 	private var progressShapeLayer = CAShapeLayer()
@@ -43,7 +41,7 @@ class CircleProgressBarView: UIView {
 	}
 
 	func commonInit() {
-		Bundle.main.loadNibNamed(contentXIBName, owner: self, options: nil)
+		Bundle.main.loadNibNamed(Self.nibName, owner: self, options: nil)
 		contentView.fixInView(self)
 	}
 

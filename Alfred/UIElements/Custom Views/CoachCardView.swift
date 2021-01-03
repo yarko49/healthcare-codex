@@ -14,8 +14,6 @@ protocol CoachCardViewDelegate: AnyObject {
 class CoachCardView: UIView {
 	@IBOutlet var contentView: UIView!
 
-	let contentXIBName = "CoachCardView"
-
 	// MARK: - IBOutlets
 
 	@IBOutlet var view: UIView!
@@ -75,7 +73,7 @@ class CoachCardView: UIView {
 	}
 
 	func commonInit() {
-		Bundle.main.loadNibNamed(contentXIBName, owner: self, options: nil)
+		Bundle.main.loadNibNamed(Self.nibName, owner: self, options: nil)
 		contentView.fixInView(self)
 		setup()
 	}

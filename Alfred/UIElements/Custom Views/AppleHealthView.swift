@@ -4,8 +4,6 @@ import UIKit
 class AppleHealthView: UIView {
 	@IBOutlet var contentView: UIView!
 
-	let contentXIBName = "AppleHealthView"
-
 	// MARK: - IBOutlets
 
 	@IBOutlet var titleLabel: UILabel!
@@ -34,7 +32,7 @@ class AppleHealthView: UIView {
 	}
 
 	func commonInit() {
-		Bundle.main.loadNibNamed(contentXIBName, owner: self, options: nil)
+		Bundle.main.loadNibNamed(Self.nibName, owner: self, options: nil)
 		contentView.fixInView(self)
 		setup()
 	}
