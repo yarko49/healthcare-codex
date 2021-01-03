@@ -84,7 +84,7 @@ class OnboardingViewController: BaseViewController, UIViewControllerTransitionin
 		cancel.attributedText = Str.cancel.with(style: .regular17, andColor: UIColor.veryLightGrey ?? UIColor.lightGrey, andLetterSpacing: -0.408)
 		cancelBtn.setAttributedTitle(cancel.attributedText, for: .normal)
 		cancelBtn.addTarget(self, action: #selector(hideModal), for: .touchUpInside)
-		swipe.backgroundColor = UIColor.swipeColor
+		swipe.backgroundColor = UIColor.swipe
 		swipe.layer.cornerRadius = 5.0
 	}
 

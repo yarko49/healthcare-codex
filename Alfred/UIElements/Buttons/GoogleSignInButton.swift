@@ -7,7 +7,7 @@ import UIKit
 class GoogleSignInButton: UIButton {
 	var labelTitle: String? {
 		didSet {
-			titleLabel?.attributedText = labelTitle?.with(style: .semibold20, andColor: UIColor.googleColor ?? UIColor.black, andLetterSpacing: 0.38)
+			titleLabel?.attributedText = labelTitle?.with(style: .semibold20, andColor: UIColor.google ?? UIColor.black, andLetterSpacing: 0.38)
 		}
 	}
 
@@ -41,7 +41,7 @@ class GoogleSignInButton: UIButton {
 		layer.borderWidth = 1.0
 		layer.borderColor = UIColor.grey.cgColor
 		let lbl = UILabel()
-		lbl.attributedText = labelTitle?.with(style: .semibold20, andColor: UIColor.googleColor ?? UIColor.black, andLetterSpacing: 0.38)
+		lbl.attributedText = labelTitle?.with(style: .semibold20, andColor: UIColor.google ?? UIColor.black, andLetterSpacing: 0.38)
 		setAttributedTitle(lbl.attributedText, for: .normal)
 	}
 

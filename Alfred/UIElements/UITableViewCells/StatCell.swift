@@ -35,7 +35,7 @@ class StatCell: UITableViewCell {
 		super.awakeFromNib()
 		highLowWithDataWidthConstraint = hilowContainerView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.45)
 		highLowWNoDataWidthConstraint = hilowContainerView.widthAnchor.constraint(equalToConstant: 0)
-		chartContainerView.backgroundColor = UIColor.chartColor
+		chartContainerView.backgroundColor = UIColor.chart
 		chartContainerView.addSubview(lineChartView)
 		lineChartView.topAnchor.constraint(equalTo: chartContainerView.topAnchor, constant: 12).isActive = true
 		lineChartView.leadingAnchor.constraint(equalTo: chartContainerView.leadingAnchor, constant: 0).isActive = true

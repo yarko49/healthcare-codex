@@ -136,7 +136,7 @@ class ProfileViewController: BaseViewController {
 		navigationItem.leftBarButtonItem?.tintColor = UIColor.black
 		resetExpandState()
 		topView.backgroundColor = UIColor.profile
-		separatorLineView.backgroundColor = UIColor.swipeColor
+		separatorLineView.backgroundColor = UIColor.swipe
 		nameLabel.attributedText = name.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 
 		editButton.setTitle(Str.edit, for: .normal)
@@ -191,13 +191,13 @@ class ProfileViewController: BaseViewController {
 	private func updateDateLabel() {
 		switch currentDateInterval {
 		case .daily:
-			dateLabel.attributedText = Str.today.with(style: .semibold20, andColor: UIColor.pcpColor)
+			dateLabel.attributedText = Str.today.with(style: .semibold20, andColor: UIColor.pcp)
 		case .weekly, .monthly:
 			guard let startDate = startDate, let endDate = endDate else { return }
-			dateLabel.attributedText = "\(DateFormatter.MMMdd.string(from: startDate))-\(DateFormatter.MMMdd.string(from: endDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
+			dateLabel.attributedText = "\(DateFormatter.MMMdd.string(from: startDate))-\(DateFormatter.MMMdd.string(from: endDate))".with(style: .semibold20, andColor: UIColor.pcp)
 		case .yearly:
 			guard let startDate = startDate else { return }
-			dateLabel.attributedText = "\(DateFormatter.yyyy.string(from: startDate))".with(style: .semibold20, andColor: UIColor.pcpColor)
+			dateLabel.attributedText = "\(DateFormatter.yyyy.string(from: startDate))".with(style: .semibold20, andColor: UIColor.pcp)
 		}
 		nextDateButton.isHidden = currentDateInterval == .daily
 		previousDateButton.isHidden = currentDateInterval == .daily
