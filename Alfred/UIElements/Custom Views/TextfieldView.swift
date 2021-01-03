@@ -6,8 +6,6 @@ import Foundation
 import UIKit
 
 class TextfieldView: UIView {
-	let contentXIBName = "TextfieldView"
-
 	// MARK: - IBOutlets
 
 	@IBOutlet var titleLabel: UILabel!
@@ -61,7 +59,7 @@ class TextfieldView: UIView {
 	}
 
 	func commonInit() {
-		Bundle.main.loadNibNamed(contentXIBName, owner: self, options: nil)
+		Bundle.main.loadNibNamed(Self.nibName, owner: self, options: nil)
 		contentView.fixInView(self)
 		setup()
 	}

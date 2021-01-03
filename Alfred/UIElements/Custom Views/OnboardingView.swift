@@ -9,8 +9,6 @@ import UIKit
 class OnboardingView: UIView {
 	@IBOutlet var contentView: UIView!
 
-	let contentXIBName = "OnboardingView"
-
 	// MARK: - IBOutlets
 
 	@IBOutlet var titleLabel: UILabel!
@@ -35,7 +33,7 @@ class OnboardingView: UIView {
 	}
 
 	func commonInit() {
-		Bundle.main.loadNibNamed(contentXIBName, owner: self, options: nil)
+		Bundle.main.loadNibNamed(Self.nibName, owner: self, options: nil)
 		contentView.fixInView(self)
 		setup()
 	}

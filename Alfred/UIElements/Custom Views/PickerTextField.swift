@@ -2,8 +2,6 @@ import Foundation
 import UIKit
 
 class PickerTextField: UIView {
-	let contentXIBName = "PickerTextField"
-
 	// MARK: - IBOutlets
 
 	@IBOutlet var textfield: UITextField!
@@ -63,7 +61,7 @@ class PickerTextField: UIView {
 	}
 
 	func commonInit() {
-		Bundle.main.loadNibNamed(contentXIBName, owner: self, options: nil)
+		Bundle.main.loadNibNamed(Self.nibName, owner: self, options: nil)
 		contentView.fixInView(self)
 		setup()
 	}

@@ -12,8 +12,6 @@ protocol MultiPartAnswerViewViewDelegate: AnyObject {
 class MultiPartAnswerView: UIView {
 	@IBOutlet var contentView: UIView!
 
-	let contentXIBName = "MultiPartAnswerView"
-
 	// MARK: - IBOutlets
 
 	@IBOutlet var mainView: UIView!
@@ -49,7 +47,7 @@ class MultiPartAnswerView: UIView {
 	}
 
 	func commonInit() {
-		Bundle.main.loadNibNamed(contentXIBName, owner: self, options: nil)
+		Bundle.main.loadNibNamed(Self.nibName, owner: self, options: nil)
 		contentView.fixInView(self)
 		setupPart(with: totalParts > 1)
 	}

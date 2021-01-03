@@ -12,8 +12,6 @@ protocol AnswerViewViewDelegate: AnyObject {
 class AnswerView: UIView {
 	@IBOutlet var contentView: UIView!
 
-	let contentXIBName = "AnswerView"
-
 	// MARK: - IBOutlets
 
 	@IBOutlet var mainView: UIView!
@@ -42,7 +40,7 @@ class AnswerView: UIView {
 	}
 
 	func commonInit() {
-		Bundle.main.loadNibNamed(contentXIBName, owner: self, options: nil)
+		Bundle.main.loadNibNamed(Self.nibName, owner: self, options: nil)
 		contentView.fixInView(self)
 		setup()
 	}

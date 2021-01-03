@@ -12,8 +12,6 @@ protocol SettingsFooterViewDelegate: AnyObject {
 class SettingsFooterView: UIView {
 	@IBOutlet var contentView: UIView!
 
-	let contentXIBName = "SettingsFooterView"
-
 	// MARK: - IBOutlets
 
 	@IBOutlet var appVersionLbl: UILabel!
@@ -35,7 +33,7 @@ class SettingsFooterView: UIView {
 	}
 
 	func commonInit() {
-		Bundle.main.loadNibNamed(contentXIBName, owner: self, options: nil)
+		Bundle.main.loadNibNamed(Self.nibName, owner: self, options: nil)
 		contentView.fixInView(self)
 		setup()
 	}
