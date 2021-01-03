@@ -1181,9 +1181,9 @@
 		84476700259C2A4E00C50C09 /* DataContext */ = {
 			isa = PBXGroup;
 			children = (
+				84476703259C2A4E00C50C09 /* DataContext.swift */,
 				84476701259C2A4E00C50C09 /* DataContext+Content.swift */,
 				84476702259C2A4E00C50C09 /* DataContext+Fetch.swift */,
-				84476703259C2A4E00C50C09 /* DataContext.swift */,
 				84476704259C2A4E00C50C09 /* DataContext+Keychain.swift */,
 				84476705259C2A4E00C50C09 /* DataContext+Logging.swift */,
 			);
@@ -1948,7 +1948,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

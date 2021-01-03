@@ -123,6 +123,7 @@ class SyncManager {
 				}
 			}
 		}
+
 		chunkGroup.notify(queue: .main) {
 			if uploaded < entriesToUploadCount {
 				let okAction = AlertHelper.AlertAction(withTitle: Str.ok)
