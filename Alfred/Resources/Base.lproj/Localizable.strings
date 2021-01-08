@@ -425,3 +425,12 @@
 /* Year total */
 "YEAR_TOTAL" = "Year total";
 
+/* Feedback */
+"FEEDBACK_SUBJECT" = "Feedback";
+
+/* Please setup default email! */
+"NO_EMAIL_SETUP.message" = "Please setup email on this device.";
+
+/* Email Setup */
+"NO_EMAIL_SETUP.title" = "Email Setup";
+
