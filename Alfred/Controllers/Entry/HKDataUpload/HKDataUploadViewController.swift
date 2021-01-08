@@ -1,5 +1,5 @@
 //
-//  HKDataUploadVC.swift
+//  HKDataUploadViewController.swift
 //  Alfred
 //
 

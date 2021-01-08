@@ -1,5 +1,5 @@
 //
-//  OnboardingVC.swift
+//  OnboardingViewController.swift
 //  Alfred
 
 import AuthenticationServices

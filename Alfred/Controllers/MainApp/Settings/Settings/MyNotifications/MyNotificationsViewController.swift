@@ -1,5 +1,5 @@
 //
-//  MyNotificationsVC.swift
+//  MyNotificationsViewController.swift
 //  Alfred
 //
 

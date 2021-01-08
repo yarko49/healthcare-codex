@@ -20,6 +20,7 @@ extension DataContext {
 				return
 			}
 			Keychain.store(value: newValue, withKey: KeychainKey.authToken.key)
+			remoteConfigManager.refresh()
 		}
 	}
 

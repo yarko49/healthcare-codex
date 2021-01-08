@@ -6,11 +6,6 @@
 //
 
 import Foundation
-import os.log
-
-extension Logger {
-	static let request = Logger(subsystem: subsystem, category: "Request")
-}
 
 public protocol URLRequestConvertible {
 	var urlRequest: URLRequest? { get }
@@ -355,7 +350,7 @@ public extension Request {
 			self.body = data
 			contentType = Request.ContentType.json
 		} catch {
-			Logger.request.error("Unable to encode body \(error.localizedDescription)")
+			ALog.error("Unable to encode body \(error.localizedDescription)")
 		}
 		return self
 	}

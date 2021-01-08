@@ -1,5 +1,5 @@
 //
-//  EmailSaveVC.swift
+//  ResetViewController.swift
 //  Alfred
 
 import FirebaseAuth

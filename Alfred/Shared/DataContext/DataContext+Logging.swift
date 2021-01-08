@@ -12,8 +12,4 @@ extension DataContext {
 			LoggingManager.identify(userId: userId)
 		}
 	}
-
-	static func logError(_ error: Error) {
-		LoggingManager.log(error)
-	}
 }

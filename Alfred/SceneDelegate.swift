@@ -6,7 +6,7 @@
 //
 
 import FirebaseDynamicLinks
-import os.log
+
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -70,7 +70,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	func handleIncomingURL(_ incomingURL: URL) {
 		DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) { [weak self] dynamicLink, error in
 			if let error = error {
-				Logger.alfred.error("Error \(error.localizedDescription)")
+				ALog.error("Error \(error.localizedDescription)")
 				return
 			}
 			if let dynamicLink = dynamicLink {
@@ -81,7 +81,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 	func handleIncomingDynamicLink(_ dynamicLink: DynamicLink) {
 		guard let url = dynamicLink.url else {
-			Logger.alfred.info("No Dynamic Link Url")
+			ALog.info("No Dynamic Link Url")
 			return
 		}
 		DispatchQueue.main.async { [weak self] in

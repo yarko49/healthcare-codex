@@ -1,6 +1,5 @@
 import Foundation
 import HealthKit
-import os.log
 
 extension DataContext {
 	func createProfile() -> Profile {

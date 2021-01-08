@@ -7,11 +7,6 @@
 
 import Combine
 import Foundation
-import os.log
-
-extension Logger {
-	static let servicePublisher = Logger(subsystem: subsystem, category: "ServicePublisher")
-}
 
 public extension URLSession {
 	func servicePublisher(for url: URL) -> URLSession.ServicePublisher {
@@ -162,7 +157,7 @@ public extension URLSession.ServicePublisher {
 			request.body = data
 			request.contentType = Request.ContentType.json
 		} catch {
-			Logger.servicePublisher.error("Unable to encode body \(error.localizedDescription)")
+			ALog.error("Unable to encode body \(error.localizedDescription)")
 		}
 		return self
 	}

@@ -180,7 +180,6 @@
 		844767E0259C2A4E00C50C09 /* QuestionnaireCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447670E259C2A4E00C50C09 /* QuestionnaireCoordinator.swift */; };
 		844767E1259C2A4E00C50C09 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447670F259C2A4E00C50C09 /* Coordinator.swift */; };
 		844767E2259C2A4E00C50C09 /* AlfredJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476711259C2A4E00C50C09 /* AlfredJSONDecoder.swift */; };
-		844767E3259C2A4E00C50C09 /* Logger+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476712259C2A4E00C50C09 /* Logger+Setup.swift */; };
 		844767E4259C2A4E00C50C09 /* URL+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476714259C2A4E00C50C09 /* URL+Request.swift */; };
 		844767E5259C2A4E00C50C09 /* Data+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476715259C2A4E00C50C09 /* Data+Validation.swift */; };
 		844767E6259C2A4E00C50C09 /* URLComponents+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476716259C2A4E00C50C09 /* URLComponents+Request.swift */; };
@@ -216,6 +215,8 @@
 		848128B1259C59DA004A5308 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 848128B0259C59DA004A5308 /* FirebaseRemoteConfig */; };
 		848128B3259C59DA004A5308 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 848128B2259C59DA004A5308 /* FirebaseAuth */; };
 		848128B5259C59DA004A5308 /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = 848128B4259C59DA004A5308 /* FirebaseDynamicLinks */; };
+		84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */; };
+		84C22BCB25A5821800D16CFF /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 84C22BCA25A5821800D16CFF /* Logging */; };
 		84C83FD4259C48F200DAEF34 /* PatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBD259C48EF00DAEF34 /* PatientTests.swift */; };
 		84C83FD5259C48F200DAEF34 /* CarePlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */; };
 		84C83FD6259C48F200DAEF34 /* ScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */; };
@@ -445,7 +446,6 @@
 		8447670E259C2A4E00C50C09 /* QuestionnaireCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionnaireCoordinator.swift; sourceTree = "<group>"; };
 		8447670F259C2A4E00C50C09 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		84476711259C2A4E00C50C09 /* AlfredJSONDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlfredJSONDecoder.swift; sourceTree = "<group>"; };
-		84476712259C2A4E00C50C09 /* Logger+Setup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Logger+Setup.swift"; sourceTree = "<group>"; };
 		84476714259C2A4E00C50C09 /* URL+Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Request.swift"; sourceTree = "<group>"; };
 		84476715259C2A4E00C50C09 /* Data+Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Validation.swift"; sourceTree = "<group>"; };
 		84476716259C2A4E00C50C09 /* URLComponents+Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLComponents+Request.swift"; sourceTree = "<group>"; };
@@ -463,6 +463,7 @@
 		845AAC9C259C3B0C00FF8F3F /* SubjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectModel.swift; sourceTree = "<group>"; };
 		8461B30325A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScheduleElement+OCKScheduleElement.swift"; sourceTree = "<group>"; };
 		847ED200259C4E0F003166BD /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
+		84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
 		84C83FBD259C48EF00DAEF34 /* PatientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientTests.swift; sourceTree = "<group>"; };
 		84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanTests.swift; sourceTree = "<group>"; };
 		84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTests.swift; sourceTree = "<group>"; };
@@ -516,6 +517,7 @@
 				845AAC77259C374500FF8F3F /* BonMot in Frameworks */,
 				845AAC5D259C358D00FF8F3F /* CareKitStore in Frameworks */,
 				848128AD259C59DA004A5308 /* FirebaseStorage in Frameworks */,
+				84C22BCB25A5821800D16CFF /* Logging in Frameworks */,
 				848128AF259C59DA004A5308 /* FirebaseCrashlytics in Frameworks */,
 				848128A7259C59DA004A5308 /* FirebaseFirestore in Frameworks */,
 				2155CF876527A229A4FA39DB /* Pods_Alfred.framework in Frameworks */,
@@ -1162,6 +1164,7 @@
 			isa = PBXGroup;
 			children = (
 				844766FA259C2A4E00C50C09 /* LoggingManager.swift */,
+				84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */,
 				844766FB259C2A4E00C50C09 /* HealthKit */,
 			);
 			path = Managers;
@@ -1224,7 +1227,6 @@
 			isa = PBXGroup;
 			children = (
 				84476711259C2A4E00C50C09 /* AlfredJSONDecoder.swift */,
-				84476712259C2A4E00C50C09 /* Logger+Setup.swift */,
 				84476724259C2A4E00C50C09 /* AppConfig.swift */,
 				84476713259C2A4E00C50C09 /* WebService */,
 				8447671C259C2A4E00C50C09 /* ViewControllers */,
@@ -1332,6 +1334,7 @@
 				848128B0259C59DA004A5308 /* FirebaseRemoteConfig */,
 				848128B2259C59DA004A5308 /* FirebaseAuth */,
 				848128B4259C59DA004A5308 /* FirebaseDynamicLinks */,
+				84C22BCA25A5821800D16CFF /* Logging */,
 			);
 			productName = Alfred;
 			productReference = 842398C7259C1144006FB3F4 /* Alfred.app */;
@@ -1416,6 +1419,7 @@
 				845AAC6F259C36E900FF8F3F /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				845AAC75259C374500FF8F3F /* XCRemoteSwiftPackageReference "BonMot" */,
 				848128A5259C59DA004A5308 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				84C22BC925A5821700D16CFF /* XCRemoteSwiftPackageReference "swift-log" */,
 			);
 			productRefGroup = 842398C8259C1144006FB3F4 /* Products */;
 			projectDirPath = "";
@@ -1743,7 +1747,6 @@
 				844767A8259C2A4E00C50C09 /* KeychainConfiguration.swift in Sources */,
 				84476774259C2A4E00C50C09 /* TroubleshootingViewController.swift in Sources */,
 				844767A7259C2A4E00C50C09 /* Ext_Double.swift in Sources */,
-				844767E3259C2A4E00C50C09 /* Logger+Setup.swift in Sources */,
 				845AAC9D259C3B0D00FF8F3F /* SubjectModel.swift in Sources */,
 				84476775259C2A4E00C50C09 /* TodayInputViewController.swift in Sources */,
 				8447679B259C2A4E00C50C09 /* Ext_UIView.swift in Sources */,
@@ -1832,6 +1835,7 @@
 				844767A1259C2A4E00C50C09 /* Ext_Array.swift in Sources */,
 				844767EF259C2A4E00C50C09 /* AlfredClient+Image.swift in Sources */,
 				8447678A259C2A4E00C50C09 /* Profile.swift in Sources */,
+				84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */,
 				84476787259C2A4E00C50C09 /* UnknownModel.swift in Sources */,
 				84476763259C2A4E00C50C09 /* MyDevicesViewController.swift in Sources */,
 				84476798259C2A4E00C50C09 /* AlertHelper.swift in Sources */,
@@ -2262,6 +2266,14 @@
 				minimumVersion = 7.3.1;
 			};
 		};
+		84C22BC925A5821700D16CFF /* XCRemoteSwiftPackageReference "swift-log" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-log.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2349,6 +2361,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 848128A5259C59DA004A5308 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseDynamicLinks;
+		};
+		84C22BCA25A5821800D16CFF /* Logging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84C22BC925A5821700D16CFF /* XCRemoteSwiftPackageReference "swift-log" */;
+			productName = Logging;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

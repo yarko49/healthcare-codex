@@ -1,5 +1,4 @@
 import JGProgressHUD
-import os.log
 import UIKit
 
 protocol ViewControllerInitializable {
@@ -31,6 +30,6 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 	func populateData() {}
 
 	deinit {
-		Logger.alfred.info("\(String(describing: type(of: self))) deinitialized")
+		ALog.info("\(String(describing: type(of: self))) deinitialized")
 	}
 }

@@ -7,11 +7,6 @@
 
 import Combine
 import Foundation
-import os.log
-
-extension Logger {
-	static let webService = Logger(subsystem: subsystem, category: "WebService")
-}
 
 public final class WebService {
 	public struct Configuarion {
@@ -75,7 +70,7 @@ public final class WebService {
 				let data = try result.data.ws_validate(result.response).ws_validate()
 				if self?.configuration.logResponses == true {
 					let string = String(data: data, encoding: .utf8)
-					Logger.webService.info("\(string ?? "")")
+					ALog.info("\(string ?? "")")
 				}
 				return data
 			}
@@ -85,10 +80,10 @@ public final class WebService {
 			.sink(receiveCompletion: { receiveCompletion in
 				switch receiveCompletion {
 				case .failure(let error):
-					Logger.webService.error("\(error.localizedDescription)")
+					ALog.error("\(error.localizedDescription)")
 					completion(.failure(error))
 				case .finished:
-					Logger.webService.info("Finished Dowloading")
+					ALog.info("Finished Dowloading")
 				}
 			}, receiveValue: { value in
 				completion(.success(value))
@@ -109,7 +104,7 @@ public final class WebService {
 				let data = try result.data.ws_validate(result.response).ws_validate()
 				if self?.configuration.logResponses == true {
 					let string = String(data: data, encoding: .utf8)
-					Logger.webService.info("\(string ?? "")")
+					ALog.info("\(string ?? "")")
 				}
 				return data
 			}
@@ -124,10 +119,10 @@ public final class WebService {
 			.sink(receiveCompletion: { receiveCompletion in
 				switch receiveCompletion {
 				case .failure(let error):
-					Logger.webService.error("\(error.localizedDescription)")
+					ALog.error("\(error.localizedDescription)")
 					completion(.failure(error))
 				case .finished:
-					Logger.webService.info("Finished Dowloading")
+					ALog.info("Finished Dowloading")
 				}
 			}, receiveValue: { value in
 				completion(.success(value))
@@ -153,10 +148,10 @@ public final class WebService {
 			.sink(receiveCompletion: { receiveCompletion in
 				switch receiveCompletion {
 				case .failure(let error):
-					Logger.webService.error("\(error.localizedDescription)")
+					ALog.error("\(error.localizedDescription)")
 					completion(.failure(error))
 				case .finished:
-					Logger.webService.info("Finished Dowloading")
+					ALog.info("Finished Dowloading")
 				}
 			}, receiveValue: { _ in
 				completion(.success(true))

@@ -1,5 +1,5 @@
 //
-//  TermsOfServiceVC.swift
+//  TermsOfServiceViewController.swift
 //  Alfred
 //
 

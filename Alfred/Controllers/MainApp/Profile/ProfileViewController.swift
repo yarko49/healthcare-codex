@@ -1,5 +1,5 @@
 //
-//  ProfileVC.swift
+//  ProfileViewController.swift
 //  Alfred
 //
 

@@ -1,5 +1,5 @@
 //
-//  EmailSentVC.swift
+//  EmailSentViewController.swift
 //  Alfred
 //
 
