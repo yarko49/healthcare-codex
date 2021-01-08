@@ -1,6 +1,5 @@
 import FirebaseAuth
 import Foundation
-import os.log
 
 extension DataContext {
 	func fetchData(user: User, completion: @escaping (Bool) -> Void) {
@@ -14,7 +13,7 @@ extension DataContext {
 				self?.userModel = UserModel(userID: resource.id, email: user.email, name: resource.name, dob: resource.birthDate, gender: Gender(rawValue: resource.gender ?? ""))
 				completion(true)
 			case .failure(let error):
-				Logger.alfred.error("Patient Search \(error.localizedDescription)")
+				ALog.error("Patient Search \(error.localizedDescription)")
 			}
 		}
 	}
@@ -49,7 +48,7 @@ extension DataContext {
 					completion(true)
 				}
 			case .failure(let error):
-				Logger.alfred.error("Get Profile \(error.localizedDescription)")
+				ALog.error("Get Profile \(error.localizedDescription)")
 				completion(false)
 			}
 		}

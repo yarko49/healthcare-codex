@@ -1,5 +1,5 @@
 //
-//  ResetMessageVC.swift
+//  ResetMessageViewController.swift
 //  Alfred
 
 import BonMot

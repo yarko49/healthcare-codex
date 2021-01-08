@@ -1,11 +1,6 @@
 import HealthKit
 import LocalAuthentication
-import os.log
 import UIKit
-
-extension Logger {
-	static let mainCoordinator = Logger(subsystem: subsystem, category: "MainAppCoordinator")
-}
 
 class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDelegate {
 	internal var navigationController: UINavigationController?
@@ -59,10 +54,10 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		let context = laContext
 		laContext.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &theError)
 		if laContext.biometryType == .none {
-			Logger.mainCoordinator.error("Error \(theError?.localizedDescription ?? "")")
+			ALog.error("Error \(theError?.localizedDescription ?? "")")
 			return
 		}
-		Logger.mainCoordinator.info("\(String(describing: context.biometryType.rawValue))")
+		ALog.info("\(String(describing: context.biometryType.rawValue))")
 	}
 
 	func enrollWithBiometrics() {
@@ -89,7 +84,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 					self?.hideHUD()
 					switch result {
 					case .failure(let error):
-						Logger.mainCoordinator.error("error Fetching notificiation \(error.localizedDescription)")
+						ALog.error("error Fetching notificiation \(error.localizedDescription)")
 					case .success(let cardList):
 						notificationsCards = cardList.notifications
 					}
@@ -284,7 +279,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				DataContext.shared.dataModel = response
 				completion(response)
 			case .failure(let error):
-				Logger.mainCoordinator.error("Post GetData \(error.localizedDescription)")
+				ALog.error("Post GetData \(error.localizedDescription)")
 			}
 		}
 	}
@@ -295,9 +290,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			self?.hideHUD()
 			switch result {
 			case .success:
-				Logger.mainCoordinator.info("Post Observation Search Action")
+				ALog.info("Post Observation Search Action")
 			case .failure(let error):
-				Logger.mainCoordinator.error("Post Observation Search Action \(error.localizedDescription)")
+				ALog.error("Post Observation Search Action \(error.localizedDescription)")
 			}
 		}
 	}
@@ -353,7 +348,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 			if currentNames.count > given.count {
 				for index in given.count ... (currentNames.count - 1) {
-					Logger.mainCoordinator.info("removing: \(currentNames[index]), \(index)")
+					ALog.info("removing: \(currentNames[index]), \(index)")
 					patientUpdate.append(UpdatePatientModel(op: "remove", path: "/name/0/given/\(given.count)", value: nil))
 				}
 			}
@@ -383,12 +378,12 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			DataContext.shared.editPatient = patient
 			switch result {
 			case .success:
-				Logger.mainCoordinator.info("OK STATUS FOR UPDATE PATIENT : 200")
+				ALog.info("OK STATUS FOR UPDATE PATIENT : 200")
 				DataContext.shared.userModel = UserModel(userID: DataContext.shared.userModel?.userID ?? "", email: DataContext.shared.userModel?.email, name: [Name(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? Gender(rawValue: "female"))
 				self?.profileViewController?.nameLabel?.attributedText = ProfileHelper.firstName.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			case .failure(let error):
-				Logger.mainCoordinator.error("request failed \(error.localizedDescription)")
+				ALog.error("request failed \(error.localizedDescription)")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}
@@ -421,7 +416,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 					self?.navigationController?.popToViewController(profile, animated: true)
 				}
 			case .failure(let error):
-				Logger.mainCoordinator.error("request failed \(error.localizedDescription)")
+				ALog.error("request failed \(error.localizedDescription)")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createBundleFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}
@@ -456,7 +451,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				self?.hideHUD()
 				switch result {
 				case .failure(let error):
-					Logger.mainCoordinator.error("Error posting Observation \(error.localizedDescription)")
+					ALog.error("Error posting Observation \(error.localizedDescription)")
 				case .success:
 					self?.observation = nil
 					self?.navigationController?.popViewController(animated: true)
@@ -468,7 +463,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				self?.hideHUD()
 				switch result {
 				case .failure(let error):
-					Logger.mainCoordinator.error("Error posting Bundle \(error.localizedDescription)")
+					ALog.error("Error posting Bundle \(error.localizedDescription)")
 				case .success:
 					self?.bundle = nil
 					self?.navigationController?.popViewController(animated: true)

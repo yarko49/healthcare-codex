@@ -1,5 +1,5 @@
 //
-//  TroubleshootingVC.swift
+//  TroubleshootingViewController.swift
 //  Alfred
 //
 

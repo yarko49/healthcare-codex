@@ -1,5 +1,5 @@
 //
-//  EmailSignInVC.swift
+//  EmailSignInViewController.swift
 //  Alfred
 
 import FirebaseAuth

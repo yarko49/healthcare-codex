@@ -5,7 +5,6 @@
 //  Created by Waqar Malik on 12/13/20.
 //
 
-import os.log
 import UIKit
 
 public extension WebService {
@@ -32,10 +31,10 @@ public extension WebService {
 			.sink { receiveCompltion in
 				switch receiveCompltion {
 				case .failure(let error):
-					Logger.webService.error("\(error.localizedDescription)")
+					ALog.error("\(error.localizedDescription)")
 					completion(.failure(error))
 				case .finished:
-					Logger.webService.info("Finished Dowloading image at \(urlString)")
+					ALog.info("Finished Dowloading image at \(urlString)")
 				}
 			} receiveValue: { value in
 				completion(.success(value))

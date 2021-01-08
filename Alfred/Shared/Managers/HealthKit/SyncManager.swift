@@ -4,12 +4,7 @@
 //
 
 import Foundation
-import os.log
 import UIKit
-
-extension Logger {
-	static let syncManager = Logger(subsystem: subsystem, category: "SyncManager")
-}
 
 class SyncManager {
 	static let shared = SyncManager()
@@ -68,7 +63,7 @@ class SyncManager {
 						completion(Date())
 					}
 				case .failure(let error):
-					Logger.syncManager.error("Post Observation Search \(error.localizedDescription)")
+					ALog.error("Post Observation Search \(error.localizedDescription)")
 					completion(Date())
 				}
 			}
@@ -138,7 +133,7 @@ class SyncManager {
 		AlfredClient.client.postBundle(bundle: bundle) { result in
 			switch result {
 			case .failure(let error):
-				Logger.syncManager.error("Post Bundle \(error.localizedDescription)")
+				ALog.error("Post Bundle \(error.localizedDescription)")
 				completion(false)
 			case .success:
 				completion(true)

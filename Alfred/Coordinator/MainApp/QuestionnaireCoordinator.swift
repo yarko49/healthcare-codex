@@ -4,12 +4,7 @@
 //
 
 import Foundation
-import os.log
 import UIKit
-
-extension Logger {
-	static let questionnaireCoordinator = Logger(subsystem: subsystem, category: "QuestionnaireCoordinator")
-}
 
 class QuestionnaireCoordinator: NSObject, Coordinator {
 	internal var navigationController: UINavigationController? = {
@@ -69,7 +64,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 				self?.hideHUD()
 				switch result {
 				case .failure(let error):
-					Logger.questionnaireCoordinator.error("Error Fetching Questionnaire \(error.localizedDescription)")
+					ALog.error("Error Fetching Questionnaire \(error.localizedDescription)")
 				case .success(let questionnaire):
 					if let items = questionnaire.item, let question = items.first {
 						self?.showQuestion(with: items, currentQuestion: question)
@@ -163,7 +158,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 			self?.hideHUD()
 			switch result {
 			case .failure(let error):
-				Logger.questionnaireCoordinator.error("Cannot post questionnaire response \(error.localizedDescription)")
+				ALog.error("Cannot post questionnaire response \(error.localizedDescription)")
 			case .success:
 				self?.goToQuestionnaireCompletion()
 			}
@@ -240,7 +235,7 @@ extension QuestionnaireCoordinator: UINavigationControllerDelegate {
 
 extension QuestionnaireCoordinator: UIAdaptivePresentationControllerDelegate {
 	func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-		Logger.questionnaireCoordinator.info("dismiss")
+		ALog.info("dismiss")
 		stop()
 	}
 }

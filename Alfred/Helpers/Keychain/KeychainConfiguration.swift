@@ -1,9 +1,4 @@
 import Foundation
-import os.log
-
-extension Logger {
-	static let keychain = Logger(subsystem: subsystem, category: "Keychain")
-}
 
 enum Keychain {
 	static let serviceName = AppConfig.appBundleID
@@ -14,7 +9,7 @@ enum Keychain {
 			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key)
 			try passwordItem.savePassword(value)
 		} catch {
-			Logger.keychain.error("Error updating keychain - \(error.localizedDescription)")
+			ALog.error("Error updating keychain - \(error.localizedDescription)")
 		}
 	}
 
@@ -23,7 +18,7 @@ enum Keychain {
 			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key)
 			try passwordItem.saveData(data)
 		} catch {
-			Logger.keychain.error("Error updating keychain - \(error.localizedDescription)")
+			ALog.error("Error updating keychain - \(error.localizedDescription)")
 		}
 	}
 
@@ -32,7 +27,7 @@ enum Keychain {
 			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key, accessGroup: Keychain.accessGroup)
 			return try passwordItem.readPassword()
 		} catch {
-			Logger.keychain.error("Error reading password from keychain - \(error.localizedDescription)")
+			ALog.error("Error reading password from keychain - \(error.localizedDescription)")
 			return nil
 		}
 	}
@@ -42,7 +37,7 @@ enum Keychain {
 			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key, accessGroup: Keychain.accessGroup)
 			return try passwordItem.readData()
 		} catch {
-			Logger.keychain.error("Error reading data from keychain - \(error.localizedDescription)")
+			ALog.error("Error reading data from keychain - \(error.localizedDescription)")
 			return nil
 		}
 	}
@@ -52,7 +47,7 @@ enum Keychain {
 			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key, accessGroup: Keychain.accessGroup)
 			try passwordItem.deleteItem()
 		} catch {
-			Logger.keychain.error("Error deleting password from keychain - \(error.localizedDescription)")
+			ALog.error("Error deleting password from keychain - \(error.localizedDescription)")
 		}
 	}
 

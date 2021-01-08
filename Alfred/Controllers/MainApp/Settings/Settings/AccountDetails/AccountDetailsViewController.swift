@@ -1,5 +1,5 @@
 //
-//  AccountDetailsVC.swift
+//  AccountDetailsViewController.swift
 //  Alfred
 //
 

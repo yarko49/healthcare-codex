@@ -3,7 +3,6 @@
 //  Alfred
 //
 
-import os.log
 import UIKit
 
 enum Font: String {
@@ -30,9 +29,9 @@ enum Font: String {
 
 	static func logAllAvailableFonts() {
 		for family in UIFont.familyNames {
-			Logger.alfred.info("\(family)")
+			ALog.info("\(family)")
 			for name in UIFont.fontNames(forFamilyName: family) {
-				Logger.alfred.info("\t\(name)")
+				ALog.info("\t\(name)")
 			}
 		}
 	}

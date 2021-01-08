@@ -1,5 +1,5 @@
 //
-//  SelectChunkSizeVC.swift
+//  SelectChunkSizeViewController.swift
 //  Alfred
 //
 

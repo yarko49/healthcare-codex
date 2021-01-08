@@ -1,5 +1,5 @@
 //
-//  MyDevicesVC.swift
+//  MyDevicesViewController.swift
 //  Alfred
 //
 

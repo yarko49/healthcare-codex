@@ -1,4 +1,4 @@
-//  Signup.swift
+//  SignupViewController.swift
 //  Alfred
 
 import Firebase

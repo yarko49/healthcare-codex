@@ -1,10 +1,5 @@
 import FirebaseAuth
-import os.log
 import UIKit
-
-extension Logger {
-	static let settingsCoordinator = Logger(subsystem: subsystem, category: "SettingsCoordinator")
-}
 
 class SettingsCoordinator: NSObject, Coordinator {
 	internal var navigationController: UINavigationController? = {
@@ -102,7 +97,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 		Auth.auth().sendPasswordReset(withEmail: email ?? "") { [weak self] error in
 			self?.hideHUD()
 			if error != nil {
-				Logger.settingsCoordinator.error("\(error?.localizedDescription ?? "")")
+				ALog.error("\(error?.localizedDescription ?? "")")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.invalidEmail, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			} else {
 				accountResetPasswordVC?.showCompletionMessage()
@@ -130,10 +125,10 @@ class SettingsCoordinator: NSObject, Coordinator {
 			self?.hideHUD()
 			switch result {
 			case .failure(let error):
-				Logger.settingsCoordinator.error("request failed \(error.localizedDescription)")
+				ALog.error("request failed \(error.localizedDescription)")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createProfileFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			case .success(let resource):
-				Logger.settingsCoordinator.info("OK STATUS FOR PROFILE: 200 \(String(describing: resource))")
+				ALog.info("OK STATUS FOR PROFILE: 200 \(String(describing: resource))")
 				self?.navigationController?.popViewController(animated: true)
 			}
 		}
@@ -186,7 +181,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 			parentCoordinator?.logout()
 			DataContext.shared.clearAll()
 		} catch let signOutError as NSError {
-			Logger.settingsCoordinator.error("Error signing out: \(signOutError.localizedDescription)")
+			ALog.error("Error signing out: \(signOutError.localizedDescription)")
 		}
 	}
 
@@ -221,7 +216,7 @@ extension SettingsCoordinator: UINavigationControllerDelegate {
 
 extension SettingsCoordinator: UIAdaptivePresentationControllerDelegate {
 	func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-		Logger.settingsCoordinator.info("dismiss")
+		ALog.info("dismiss")
 		stop()
 	}
 }

@@ -7,7 +7,6 @@
 
 import CareKitStore
 import Foundation
-import os.log
 
 public struct VectorClock: Codable, Hashable {
 	public var uuid: UUID
@@ -26,13 +25,13 @@ public struct VectorClock: Codable, Hashable {
 	public func decode(completion: @escaping (OCKRevisionRecord.KnowledgeVector?) -> Void) throws {
 		guard let vectorString = vector, !vectorString.isEmpty else {
 			let error = URLError(.zeroByteResource)
-			Logger.alfred.error("vector string missing or empty \(error.localizedDescription)")
+			ALog.error("vector string missing or empty \(error.localizedDescription)")
 			throw error
 		}
 
 		guard let data = vectorString.data(using: .utf8) else {
 			let error = URLError(.cannotDecodeContentData)
-			Logger.alfred.error("vector string is not convertable \(error.localizedDescription)")
+			ALog.error("vector string is not convertable \(error.localizedDescription)")
 			throw error
 		}
 		let cloudVector: OCKRevisionRecord.KnowledgeVector = try JSONDecoder().decode(OCKRevisionRecord.KnowledgeVector.self, from: data)

@@ -4,16 +4,15 @@
 //
 
 import Foundation
-import os.log
 
 extension Data {
 	func prettyPrint() {
 		do {
 			if let jsonResult = try JSONSerialization.jsonObject(with: self, options: []) as? NSDictionary {
-				Logger.alfred.info("\(jsonResult)")
+				ALog.info("\(jsonResult)")
 			}
 		} catch {
-			Logger.alfred.error("\(error.localizedDescription)")
+			ALog.error("\(error.localizedDescription)")
 		}
 	}
 }

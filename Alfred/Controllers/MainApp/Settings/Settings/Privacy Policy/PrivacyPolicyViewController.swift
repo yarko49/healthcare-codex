@@ -1,5 +1,5 @@
 //
-//  PrivacyPolicyVC.swift
+//  PrivacyPolicyViewController.swift
 //  Alfred
 //
 

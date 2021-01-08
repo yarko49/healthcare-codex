@@ -5,10 +5,6 @@ import Foundation
 class DataContext {
 	static let shared = DataContext()
 
-	enum Constants {
-		static let AuthTokenKey = "authToken"
-	}
-
 	var hasRunOnce: Bool {
 		get {
 			UserDefaults.standard.bool(forKey: "HAS_RUN_ONCE")
@@ -51,6 +47,7 @@ class DataContext {
 		Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
 	}
 
+	let remoteConfigManager = RemoteConfigManager()
 	var hasSmartScale = false
 	var hasSmartBlockPressureCuff = false
 	var hasSmartWatch = false

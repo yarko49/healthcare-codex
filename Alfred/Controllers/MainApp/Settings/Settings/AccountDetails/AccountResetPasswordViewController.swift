@@ -1,5 +1,5 @@
 //
-//  AccountResetPasswordVC.swift
+//  AccountResetPasswordViewController.swift
 //  Alfred
 //
 
