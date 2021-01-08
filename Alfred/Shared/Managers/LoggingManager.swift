@@ -9,8 +9,29 @@ import Logging
 
 var ALog: Logger = {
 	let level = DataContext.shared.remoteConfigManager.remoteLogging.logLevel
-	return LoggingManager.createLogger(level: level, label: "Logger")
+	return LoggingManager.createLogger(level: .info, remoteLevel: level, label: "Logger")
 }()
+
+extension Logger.Level {
+	var icon: String {
+		switch self {
+		case .critical:
+			return "🔥"
+		case .error:
+			return "🛑"
+		case .debug:
+			return "🐞"
+		case .info:
+			return "❗️"
+		case .notice:
+			return "📜"
+		case .warning:
+			return "⚠️"
+		case .trace:
+			return "📡"
+		}
+	}
+}
 
 extension RemoteLogging {
 	var logLevel: Logger.Level {
@@ -23,11 +44,12 @@ enum LoggingManager {
 		Crashlytics.crashlytics().setUserID(userId)
 	}
 
-	static func createLogger(level: Logger.Level, label: String) -> Logger {
+	static func createLogger(level: Logger.Level, remoteLevel: Logger.Level, label: String) -> Logger {
 		LoggingSystem.bootstrap { (label) -> LogHandler in
-			let streamLogger = StreamLogHandler.standardError(label: label)
-			var crashlyticsLogger = LoggingCrashlytics(label: label)
-			crashlyticsLogger.logLevel = level
+			var streamLogger = ConsoleLogHandler.standardError(label: label)
+			streamLogger.logLevel = level
+			var crashlyticsLogger = CrashlyticsLogger(label: label)
+			crashlyticsLogger.logLevel = remoteLevel
 
 			return MultiplexLogHandler([streamLogger, crashlyticsLogger])
 		}
@@ -35,12 +57,12 @@ enum LoggingManager {
 	}
 
 	static func changeLogger(level: Logger.Level) {
-		let logger = createLogger(level: level, label: ALog.label)
+		let logger = createLogger(level: ALog.logLevel, remoteLevel: level, label: ALog.label)
 		ALog = logger
 	}
 }
 
-public struct LoggingCrashlytics: LogHandler {
+public struct CrashlyticsLogger: LogHandler {
 	public var metadata: Logger.Metadata = [:] {
 		didSet {
 			prettyMetadata = prettify(metadata)
@@ -75,7 +97,8 @@ public struct LoggingCrashlytics: LogHandler {
 			formedMessage += " -- " + combinedPrettyMetadata!
 		}
 
-		crashlytics.log("\(icon(level: level)) [\(source)]:\(line), \(formedMessage)")
+		let fileURL = URL(fileURLWithPath: file)
+		crashlytics.log("\(level.icon))[\(fileURL.lastPathComponent):\(line)]: \(formedMessage)")
 	}
 
 	private let crashlytics = Crashlytics.crashlytics()
@@ -88,23 +111,98 @@ public struct LoggingCrashlytics: LogHandler {
 			"\($0)=\($1)"
 		}.joined(separator: " ")
 	}
+}
 
-	private func icon(level: Logger.Level) -> String {
-		switch level {
-		case .critical:
-			return "🔥"
-		case .error:
-			return "🛑"
-		case .debug:
-			return "🐞"
-		case .info:
-			return "❗️"
-		case .notice:
-			return "📜"
-		case .warning:
-			return "⚠️"
-		case .trace:
-			return "📡"
+public struct ConsoleLogHandler: LogHandler {
+	/// Factory that makes a `StreamLogHandler` to directs its output to `stdout`
+	public static func standardOutput(label: String) -> ConsoleLogHandler {
+		ConsoleLogHandler(label: label, stream: StdioOutputStream.stdout)
+	}
+
+	public static func standardError(label: String) -> ConsoleLogHandler {
+		ConsoleLogHandler(label: label, stream: StdioOutputStream.stderr)
+	}
+
+	private let stream: TextOutputStream
+	private let label: String
+
+	public var logLevel: Logger.Level = .info
+
+	private var prettyMetadata: String?
+	public var metadata = Logger.Metadata() {
+		didSet {
+			prettyMetadata = prettify(metadata)
 		}
+	}
+
+	public subscript(metadataKey metadataKey: String) -> Logger.Metadata.Value? {
+		get {
+			metadata[metadataKey]
+		}
+		set {
+			metadata[metadataKey] = newValue
+		}
+	}
+
+	// internal for testing only
+	internal init(label: String, stream: TextOutputStream) {
+		self.label = label
+		self.stream = stream
+	}
+
+	// swiftlint:disable:next function_parameter_count
+	public func log(level: Logger.Level, message: Logger.Message, metadata: Logger.Metadata?, source: String, file: String, function: String, line: UInt) {
+		let prettyMetadata = metadata?.isEmpty ?? true
+			? self.prettyMetadata
+			: prettify(self.metadata.merging(metadata!, uniquingKeysWith: { _, new in new }))
+
+		var stream = self.stream
+		let fileURL = URL(fileURLWithPath: file)
+		stream.write("\(timestamp) | \(level.icon)[\(fileURL.lastPathComponent):\(line)]:\(prettyMetadata.map { " \($0)" } ?? "") \(message)\n")
+	}
+
+	private func prettify(_ metadata: Logger.Metadata) -> String? {
+		!metadata.isEmpty ? metadata.map { "\($0)=\($1)" }.joined(separator: " ") : nil
+	}
+
+	private let formatter: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.locale = Locale(identifier: "en_US_POSIX")
+		formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+		return formatter
+	}()
+
+	private var timestamp: String {
+		formatter.string(from: Date())
+	}
+}
+
+internal struct StdioOutputStream: TextOutputStream {
+	internal let file: UnsafeMutablePointer<FILE>
+	internal let flushMode: FlushMode
+
+	internal func write(_ string: String) {
+		string.withCString { ptr in
+			flockfile(self.file)
+			defer {
+				funlockfile(self.file)
+			}
+			_ = fputs(ptr, self.file)
+			if case .always = self.flushMode {
+				self.flush()
+			}
+		}
+	}
+
+	internal func flush() {
+		_ = fflush(file)
+	}
+
+	internal static let stderr = StdioOutputStream(file: Darwin.stderr, flushMode: .always)
+	internal static let stdout = StdioOutputStream(file: Darwin.stdout, flushMode: .always)
+
+	internal enum FlushMode {
+		case undefined
+		case always
 	}
 }
