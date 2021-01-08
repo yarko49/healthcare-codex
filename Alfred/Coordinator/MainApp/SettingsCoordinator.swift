@@ -1,4 +1,5 @@
 import FirebaseAuth
+import MessageUI
 import UIKit
 
 class SettingsCoordinator: NSObject, Coordinator {
@@ -136,12 +137,10 @@ class SettingsCoordinator: NSObject, Coordinator {
 
 	internal func goToNotifications() {
 		let myNotificationsVC = MyNotificationsViewController()
-
 		myNotificationsVC.backBtnAction = { [weak self] in
 			let profile = DataContext.shared.createProfile()
 			self?.profileRequest(profile: profile)
 		}
-
 		navigate(to: myNotificationsVC, with: .pushFullScreen)
 	}
 
@@ -152,7 +151,31 @@ class SettingsCoordinator: NSObject, Coordinator {
 		}
 	}
 
-	internal func goToFeedback() {}
+	internal func goToFeedback() {
+		guard MFMailComposeViewController.canSendMail() else {
+			showMailSetupAlert()
+			return
+		}
+
+		let controller = MFMailComposeViewController()
+		let subject = NSLocalizedString("FEEDBACK_SUBJECT", comment: "Feedback")
+		controller.setSubject(subject)
+		let toEmail = DataContext.shared.remoteConfigManager.feedbackEmail
+		controller.setToRecipients([toEmail])
+		controller.mailComposeDelegate = self
+		navigate(to: controller, with: .present)
+	}
+
+	internal func showMailSetupAlert() {
+		let title = NSLocalizedString("NO_EMAIL_SETUP.title", comment: "Email Setup")
+		let message = NSLocalizedString("NO_EMAIL_SETUP.message", comment: "Please setup default email!")
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let cancelTitle = NSLocalizedString("CANCEL", comment: "Cancel")
+		let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel) { _ in
+		}
+		alertController.addAction(cancelAction)
+		navigate(to: alertController, with: .present)
+	}
 
 	internal func goToPrivacyPolicy() {
 		let privacyPolicyVC = PrivacyPolicyViewController()
@@ -211,6 +234,16 @@ extension SettingsCoordinator: UINavigationControllerDelegate {
 				viewController.navigationItem.setLeftBarButton(backBtn, animated: true)
 			}
 		}
+	}
+}
+
+extension SettingsCoordinator: MFMailComposeViewControllerDelegate {
+	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+		if let error = error {
+			ALog.error("\(error.localizedDescription)")
+		}
+
+		controller.dismiss(animated: true, completion: nil)
 	}
 }
 
