@@ -28,7 +28,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 	}
 
 	var questions: [Item] = []
-	weak var questionVC: QuestionViewController?
+	weak var questionViewController: QuestionViewController?
 
 	init(with parent: MainAppCoordinator?) {
 		self.parentCoordinator = parent
@@ -76,18 +76,18 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 	}
 
 	internal func showQuestion(with questions: [Item], currentQuestion: Item) {
-		let questionViewController = questionVC ?? QuestionViewController()
+		let questionController = questionViewController ?? QuestionViewController()
 		let currentQuestionIndex = self.questions.firstIndex(where: { $0.linkID == currentQuestion.linkID }) ?? 0
 
 		var answeredQuestion = currentQuestion
 
-		questionVC = questionViewController
+		questionViewController = questionController
 		self.questions = questions
-		questionViewController.question = currentQuestion
-		questionViewController.totalQuestions = questions.count
-		questionViewController.currentQuestionIndex = currentQuestionIndex
+		questionController.question = currentQuestion
+		questionController.totalQuestions = questions.count
+		questionController.currentQuestionIndex = currentQuestionIndex
 
-		questionViewController.nextQuestionAction = { [weak self] in
+		questionController.nextQuestionAction = { [weak self] in
 			let nextQuestionIndex = currentQuestionIndex + 1
 
 			self?.questions[currentQuestionIndex] = answeredQuestion
@@ -103,7 +103,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 			}
 		}
 
-		questionViewController.onQuestionPartAnsweredAction = { selectedAnswerId, questionPartId in
+		questionController.onQuestionPartAnsweredAction = { selectedAnswerId, questionPartId in
 			switch currentQuestion.type {
 			case .group:
 				if let questionPart = currentQuestion.item, let currenQuestionPartIndex = questionPart.firstIndex(where: { $0.linkID == questionPartId }) {
@@ -112,23 +112,23 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 
 				if let answeredQuestionPart = answeredQuestion.item {
 					if !answeredQuestionPart.contains(where: { $0.selectedAnswerId == nil }) {
-						self.questionVC?.allQuestionPartsAnswered()
+						self.questionViewController?.allQuestionPartsAnswered()
 					} else if answeredQuestion.item!.last?.linkID != questionPartId, let index = answeredQuestionPart.firstIndex(where: { $0.linkID == questionPartId })?.advanced(by: 1) {
-						self.questionVC?.moveToTheNextQuestionPart(by: index)
+						self.questionViewController?.moveToTheNextQuestionPart(by: index)
 					}
 				}
 			case .choice:
 				answeredQuestion.selectedAnswerId = selectedAnswerId
-				self.questionVC?.allQuestionPartsAnswered()
+				self.questionViewController?.allQuestionPartsAnswered()
 			default:
 				break
 			}
 		}
 
-		if navigationController?.viewControllers.contains(questionViewController) ?? false {
-			questionVC?.setupQuestion()
+		if navigationController?.viewControllers.contains(questionController) ?? false {
+			questionViewController?.setupQuestion()
 		} else {
-			navigate(to: questionViewController, with: .pushFullScreen)
+			navigate(to: questionController, with: .pushFullScreen)
 		}
 	}
 
@@ -166,20 +166,20 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 	}
 
 	internal func goToQuestionnaireCompletion() {
-		let questionnaireCompletionVC = QuestionnaireCompletionViewController()
-		questionnaireCompletionVC.closeAction = { [weak self] in
+		let questionnaireCompletionViewController = QuestionnaireCompletionViewController()
+		questionnaireCompletionViewController.closeAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: false)
 			self?.cancelAction()
 		}
-		navigate(to: questionnaireCompletionVC, with: .pushFullScreen)
+		navigate(to: questionnaireCompletionViewController, with: .pushFullScreen)
 	}
 
 	internal func stop() {
 		rootViewController?.dismiss(animated: true, completion: { [weak self] in
 			guard let self = self else { return }
 			self.parentCoordinator?.removeChild(.questionnaireCoordinator)
-			if let visibleController = self.parentCoordinator?.navigationController?.visibleViewController, let homeVC = visibleController as? HomeViewController {
-				homeVC.viewWillAppear(true)
+			if let visibleController = self.parentCoordinator?.navigationController?.visibleViewController, let homeViewController = visibleController as? HomeViewController {
+				homeViewController.viewWillAppear(true)
 			}
 		})
 	}
@@ -190,12 +190,12 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 	}
 
 	@objc internal func backAction() {
-		guard let question = questionVC?.question, let currentQuestionIndex = questions.firstIndex(where: { $0.linkID == question.linkID }) else { return }
+		guard let question = questionViewController?.question, let currentQuestionIndex = questions.firstIndex(where: { $0.linkID == question.linkID }) else { return }
 
 		let previousQuestionIndex = currentQuestionIndex - 1
 
 		if previousQuestionIndex < 0 {
-			questionVC = nil
+			questionViewController = nil
 			questions = []
 			navigationController?.popViewController(animated: true)
 		} else {

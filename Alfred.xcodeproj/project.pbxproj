@@ -14,6 +14,7 @@
 		842398CD259C1144006FB3F4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398CC259C1144006FB3F4 /* SceneDelegate.swift */; };
 		842398E2259C1144006FB3F4 /* AlfredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398E1259C1144006FB3F4 /* AlfredTests.swift */; };
 		842398ED259C1145006FB3F4 /* AlfredUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398EC259C1145006FB3F4 /* AlfredUITests.swift */; };
+		84342FD025A8276C00B3EF5B /* DailyTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84342FCF25A8276C00B3EF5B /* DailyTasksViewController.swift */; };
 		84476725259C2A4E00C50C09 /* StatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447661C259C2A4E00C50C09 /* StatCell.swift */; };
 		84476726259C2A4E00C50C09 /* TodayStatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447661D259C2A4E00C50C09 /* TodayStatCell.swift */; };
 		84476727259C2A4E00C50C09 /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8447661E259C2A4E00C50C09 /* SettingsCell.xib */; };
@@ -215,6 +216,9 @@
 		848128B1259C59DA004A5308 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 848128B0259C59DA004A5308 /* FirebaseRemoteConfig */; };
 		848128B3259C59DA004A5308 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 848128B2259C59DA004A5308 /* FirebaseAuth */; };
 		848128B5259C59DA004A5308 /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = 848128B4259C59DA004A5308 /* FirebaseDynamicLinks */; };
+		84867CC625A8D42A002EE695 /* AuthenticationOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867CC525A8D42A002EE695 /* AuthenticationOptionsViewController.swift */; };
+		84867D4225A95664002EE695 /* AuthenticationOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */; };
+		84867D4725A99016002EE695 /* IllustrationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */; };
 		84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */; };
 		84C22BCB25A5821800D16CFF /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 84C22BCA25A5821800D16CFF /* Logging */; };
 		84C83FD4259C48F200DAEF34 /* PatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBD259C48EF00DAEF34 /* PatientTests.swift */; };
@@ -275,6 +279,7 @@
 		842398E8259C1144006FB3F4 /* AlfredUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlfredUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		842398EC259C1145006FB3F4 /* AlfredUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredUITests.swift; sourceTree = "<group>"; };
 		842398EE259C1145006FB3F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84342FCF25A8276C00B3EF5B /* DailyTasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTasksViewController.swift; sourceTree = "<group>"; };
 		84476615259C29FA00C50C09 /* Alfred.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Alfred.entitlements; path = Alfred/Alfred.entitlements; sourceTree = "<group>"; };
 		84476616259C2A0E00C50C09 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		84476617259C2A0E00C50C09 /* Environment.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Environment.xcconfig; sourceTree = "<group>"; };
@@ -463,6 +468,9 @@
 		845AAC9C259C3B0C00FF8F3F /* SubjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectModel.swift; sourceTree = "<group>"; };
 		8461B30325A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScheduleElement+OCKScheduleElement.swift"; sourceTree = "<group>"; };
 		847ED200259C4E0F003166BD /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
+		84867CC525A8D42A002EE695 /* AuthenticationOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationOptionsViewController.swift; sourceTree = "<group>"; };
+		84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationOptionsView.swift; sourceTree = "<group>"; };
+		84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustrationCollectionViewCell.swift; sourceTree = "<group>"; };
 		84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
 		84C83FBD259C48EF00DAEF34 /* PatientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientTests.swift; sourceTree = "<group>"; };
 		84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanTests.swift; sourceTree = "<group>"; };
@@ -856,6 +864,7 @@
 				84476681259C2A4E00C50C09 /* Home */,
 				8447668B259C2A4E00C50C09 /* Questionnaire */,
 				84476696259C2A4E00C50C09 /* Profile */,
+				84342FCF25A8276C00B3EF5B /* DailyTasksViewController.swift */,
 			);
 			path = MainApp;
 			sourceTree = "<group>";
@@ -1017,6 +1026,9 @@
 			children = (
 				8447669B259C2A4E00C50C09 /* OnboardingViewController.swift */,
 				8447669A259C2A4E00C50C09 /* OnboardingViewController.xib */,
+				84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */,
+				84867CC525A8D42A002EE695 /* AuthenticationOptionsViewController.swift */,
+				84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -1713,7 +1725,9 @@
 				844767DD259C2A4E00C50C09 /* MasterCoordinator.swift in Sources */,
 				84476725259C2A4E00C50C09 /* StatCell.swift in Sources */,
 				844767D9259C2A4E00C50C09 /* DataContext+Keychain.swift in Sources */,
+				84867D4725A99016002EE695 /* IllustrationCollectionViewCell.swift in Sources */,
 				84476782259C2A4E00C50C09 /* Gender.swift in Sources */,
+				84867D4225A95664002EE695 /* AuthenticationOptionsView.swift in Sources */,
 				8447674C259C2A4E00C50C09 /* MockSplashViewController.swift in Sources */,
 				844767E1259C2A4E00C50C09 /* Coordinator.swift in Sources */,
 				844767C9259C2A4E00C50C09 /* OutcomeValue.swift in Sources */,
@@ -1722,6 +1736,7 @@
 				84476730259C2A4E00C50C09 /* GoogleSignInButton.swift in Sources */,
 				84476785259C2A4E00C50C09 /* UpdatePatientModel.swift in Sources */,
 				84476777259C2A4E00C50C09 /* QuestionnaireCompletionViewController.swift in Sources */,
+				84342FD025A8276C00B3EF5B /* DailyTasksViewController.swift in Sources */,
 				84476749259C2A4E00C50C09 /* AppleHealthView.swift in Sources */,
 				844767C7259C2A4E00C50C09 /* Patient.swift in Sources */,
 				844767DE259C2A4E00C50C09 /* SettingsCoordinator.swift in Sources */,
@@ -1813,6 +1828,7 @@
 				8447674A259C2A4E00C50C09 /* PickerTextField.swift in Sources */,
 				84476793259C2A4E00C50C09 /* QuestionnaireResponseModel.swift in Sources */,
 				844767DB259C2A4E00C50C09 /* AuthCoordinator.swift in Sources */,
+				84867CC625A8D42A002EE695 /* AuthenticationOptionsViewController.swift in Sources */,
 				8461B30425A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift in Sources */,
 				844767D8259C2A4E00C50C09 /* DataContext.swift in Sources */,
 				8447676A259C2A4E00C50C09 /* AccountDetailsViewController.swift in Sources */,

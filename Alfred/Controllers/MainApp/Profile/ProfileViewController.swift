@@ -121,7 +121,7 @@ class ProfileViewController: BaseViewController {
 		}
 	}
 
-	// MARK: SetupVC
+	// MARK: SetupViewController
 
 	override func setupView() {
 		title = Str.profile

@@ -21,11 +21,9 @@ class EmailSignInButton: UIButton {
 		contentEdgeInsets.top = 12
 		contentEdgeInsets.bottom = 12
 		layer.cornerRadius = 20.0
+		layer.cornerCurve = .continuous
 		layer.borderWidth = 1.0
 		layer.borderColor = UIColor.grey.cgColor
-		let lbl = UILabel()
-		lbl.attributedText = Str.signInWithYourEmail.with(style: .regular20, andColor: UIColor.grey, andLetterSpacing: 0.38)
-		setAttributedTitle(lbl.attributedText, for: .normal)
 	}
 
 	override func prepareForInterfaceBuilder() {

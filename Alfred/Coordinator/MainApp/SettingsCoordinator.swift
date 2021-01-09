@@ -38,62 +38,62 @@ class SettingsCoordinator: NSObject, Coordinator {
 	}
 
 	internal func goToSettings() {
-		let settingsVC = SettingsViewController()
-		settingsVC.accountDetailsAction = { [weak self] in
+		let settingsViewController = SettingsViewController()
+		settingsViewController.accountDetailsAction = { [weak self] in
 			self?.goToAccountDetails()
 		}
-		settingsVC.myDevicesAction = { [weak self] in
+		settingsViewController.myDevicesAction = { [weak self] in
 			self?.goToMyDevices()
 		}
-		settingsVC.notificationsAction = { [weak self] in
+		settingsViewController.notificationsAction = { [weak self] in
 			self?.goToNotifications()
 		}
-		settingsVC.systemAuthorizationAction = { [weak self] in
+		settingsViewController.systemAuthorizationAction = { [weak self] in
 			self?.goToSystemAuthorization()
 		}
-		settingsVC.feedbackAction = { [weak self] in
+		settingsViewController.feedbackAction = { [weak self] in
 			self?.goToFeedback()
 		}
-		settingsVC.privacyPolicyAction = { [weak self] in
+		settingsViewController.privacyPolicyAction = { [weak self] in
 			self?.goToPrivacyPolicy()
 		}
-		settingsVC.termsOfServiceAction = { [weak self] in
+		settingsViewController.termsOfServiceAction = { [weak self] in
 			self?.goToTermsOfService()
 		}
-		settingsVC.logoutAction = { [weak self] in
+		settingsViewController.logoutAction = { [weak self] in
 			self?.logout()
 		}
-		navigate(to: settingsVC, with: .pushFullScreen)
+		navigate(to: settingsViewController, with: .pushFullScreen)
 	}
 
 	internal func goToAccountDetails() {
-		let accountDetailsVC = AccountDetailsViewController()
+		let accountDetailsViewController = AccountDetailsViewController()
 
-		accountDetailsVC.backBtnAction = { [weak self] in
+		accountDetailsViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
 
-		accountDetailsVC.resetPasswordAction = { [weak self] in
+		accountDetailsViewController.resetPasswordAction = { [weak self] in
 			self?.goToPasswordReset()
 		}
 
-		navigate(to: accountDetailsVC, with: .pushFullScreen)
+		navigate(to: accountDetailsViewController, with: .pushFullScreen)
 	}
 
 	internal func goToPasswordReset() {
-		let accountResetPasswordVC = AccountResetPasswordViewController()
+		let accountResetPasswordViewController = AccountResetPasswordViewController()
 
-		accountResetPasswordVC.backBtnAction = { [weak self] in
+		accountResetPasswordViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
-		accountResetPasswordVC.sendEmailAction = { [weak self, weak accountResetPasswordVC] email in
-			self?.resetPassword(accountResetPasswordVC: accountResetPasswordVC, email: email)
+		accountResetPasswordViewController.sendEmailAction = { [weak self, weak accountResetPasswordViewController] email in
+			self?.resetPassword(accountResetPasswordViewController: accountResetPasswordViewController, email: email)
 		}
 
-		navigate(to: accountResetPasswordVC, with: .pushFullScreen)
+		navigate(to: accountResetPasswordViewController, with: .pushFullScreen)
 	}
 
-	internal func resetPassword(accountResetPasswordVC: AccountResetPasswordViewController?, email: String?) {
+	internal func resetPassword(accountResetPasswordViewController: AccountResetPasswordViewController?, email: String?) {
 		showHUD()
 		Auth.auth().sendPasswordReset(withEmail: email ?? "") { [weak self] error in
 			self?.hideHUD()
@@ -101,24 +101,24 @@ class SettingsCoordinator: NSObject, Coordinator {
 				ALog.error("\(error?.localizedDescription ?? "")")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.invalidEmail, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			} else {
-				accountResetPasswordVC?.showCompletionMessage()
+				accountResetPasswordViewController?.showCompletionMessage()
 			}
 		}
 	}
 
 	internal func goToMyDevices() {
-		let devicesVC = MyDevicesViewController()
+		let devicesViewController = MyDevicesViewController()
 
-		devicesVC.backBtnAction = { [weak self] in
+		devicesViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
 
-		devicesVC.profileRequestAction = { [weak self] in
+		devicesViewController.profileRequestAction = { [weak self] in
 			let profile = DataContext.shared.createProfile()
 			self?.profileRequest(profile: profile)
 		}
 
-		navigate(to: devicesVC, with: .pushFullScreen)
+		navigate(to: devicesViewController, with: .pushFullScreen)
 	}
 
 	internal func profileRequest(profile: Profile) {
@@ -136,12 +136,12 @@ class SettingsCoordinator: NSObject, Coordinator {
 	}
 
 	internal func goToNotifications() {
-		let myNotificationsVC = MyNotificationsViewController()
-		myNotificationsVC.backBtnAction = { [weak self] in
+		let myNotificationsViewController = MyNotificationsViewController()
+		myNotificationsViewController.backBtnAction = { [weak self] in
 			let profile = DataContext.shared.createProfile()
 			self?.profileRequest(profile: profile)
 		}
-		navigate(to: myNotificationsVC, with: .pushFullScreen)
+		navigate(to: myNotificationsViewController, with: .pushFullScreen)
 	}
 
 	internal func goToSystemAuthorization() {
@@ -178,23 +178,23 @@ class SettingsCoordinator: NSObject, Coordinator {
 	}
 
 	internal func goToPrivacyPolicy() {
-		let privacyPolicyVC = PrivacyPolicyViewController()
+		let privacyPolicyViewController = PrivacyPolicyViewController()
 
-		privacyPolicyVC.backBtnAction = { [weak self] in
+		privacyPolicyViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
 
-		navigate(to: privacyPolicyVC, with: .pushFullScreen)
+		navigate(to: privacyPolicyViewController, with: .pushFullScreen)
 	}
 
 	internal func goToTermsOfService() {
-		let termsOfServiceVC = TermsOfServiceViewController()
+		let termsOfServiceViewController = TermsOfServiceViewController()
 
-		termsOfServiceVC.backBtnAction = { [weak self] in
+		termsOfServiceViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
 		}
 
-		navigate(to: termsOfServiceVC, with: .pushFullScreen)
+		navigate(to: termsOfServiceViewController, with: .pushFullScreen)
 	}
 
 	private func logout() {
