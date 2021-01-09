@@ -55,7 +55,6 @@ class MasterCoordinator: Coordinator {
 		window.rootViewController = mockSplashViewController
 
 		if Auth.auth().currentUser == nil {
-			DataContext.shared.clearAll()
 			goToAuth()
 		} else {
 			if DataContext.shared.isBiometricsEnabled {

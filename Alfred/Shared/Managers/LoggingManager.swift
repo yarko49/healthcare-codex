@@ -50,10 +50,10 @@ enum LoggingManager {
 			streamLogger.logLevel = level
 			var crashlyticsLogger = CrashlyticsLogger(label: label)
 			crashlyticsLogger.logLevel = remoteLevel
-
 			return MultiplexLogHandler([streamLogger, crashlyticsLogger])
 		}
-		return Logger(label: Bundle.main.bundleIdentifier! + "." + label)
+		let logger = Logger(label: Bundle.main.bundleIdentifier! + "." + label)
+		return logger
 	}
 
 	static func changeLogger(level: Logger.Level) {
@@ -98,7 +98,7 @@ public struct CrashlyticsLogger: LogHandler {
 		}
 
 		let fileURL = URL(fileURLWithPath: file)
-		crashlytics.log("\(level.icon))[\(fileURL.lastPathComponent):\(line)]: \(formedMessage)")
+		crashlytics.log("\(level.icon))[\(fileURL.lastPathComponent):\(line)] \(formedMessage)")
 	}
 
 	private let crashlytics = Crashlytics.crashlytics()
@@ -125,6 +125,7 @@ public struct ConsoleLogHandler: LogHandler {
 
 	private let stream: TextOutputStream
 	private let label: String
+	let processName = ProcessInfo.processInfo.processName
 
 	public var logLevel: Logger.Level = .info
 
@@ -158,7 +159,7 @@ public struct ConsoleLogHandler: LogHandler {
 
 		var stream = self.stream
 		let fileURL = URL(fileURLWithPath: file)
-		stream.write("\(timestamp) | \(level.icon)[\(fileURL.lastPathComponent):\(line)]:\(prettyMetadata.map { " \($0)" } ?? "") \(message)\n")
+		stream.write("\(timestamp) | \(level.icon)[\(processName)][\(fileURL.lastPathComponent):\(line)] \(prettyMetadata.map { " \($0)" } ?? "") \(message)\n")
 	}
 
 	private func prettify(_ metadata: Logger.Metadata) -> String? {
