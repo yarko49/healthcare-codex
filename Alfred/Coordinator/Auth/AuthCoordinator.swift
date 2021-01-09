@@ -274,14 +274,14 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 
 	internal func syncHKData() {
 		var loadingShouldAppear = true
-		let hkDataUploadVC = HKDataUploadViewController()
+		let hkDataUploadViewController = HKDataUploadViewController()
 		SyncManager.shared.syncData(initialUpload: false, chunkSize: chunkSize) { [weak self] uploaded, total in
 			if total > 500, loadingShouldAppear {
 				loadingShouldAppear = false
-				self?.navigate(to: hkDataUploadVC, with: .push)
+				self?.navigate(to: hkDataUploadViewController, with: .push)
 			} else if total > 500 {
-				hkDataUploadVC.progress = uploaded
-				hkDataUploadVC.maxProgress = total
+				hkDataUploadViewController.progress = uploaded
+				hkDataUploadViewController.maxProgress = total
 			}
 		} completion: { [weak self] success in
 			if success {
@@ -332,7 +332,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		}
 
 		let sendDataAction: ((String, String, [String]) -> Void)? = { [weak self] gender, family, given in
-			self?.goToMyProfileSecondVC(gender: gender, family: family, given: given)
+			self?.goToMyProfileSecondViewController(gender: gender, family: family, given: given)
 		}
 
 		myProfileFirstViewController.alertAction = { [weak self] tv in
@@ -346,7 +346,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		navigate(to: myProfileFirstViewController, with: .push)
 	}
 
-	internal func goToMyProfileSecondVC(gender: String, family: String, given: [String]) {
+	internal func goToMyProfileSecondViewController(gender: String, family: String, given: [String]) {
 		let myProfileSecondViewController = MyProfileSecondViewController()
 		myProfileSecondViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
@@ -358,7 +358,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			DataContext.shared.firstName = joinedNames
 			DataContext.shared.patient = Resource(code: nil, effectiveDateTime: nil, id: nil, identifier: nil, meta: nil, resourceType: resourceType, status: nil, subject: nil, valueQuantity: nil, birthDate: birthdate, gender: gender, name: [name], component: nil)
 			let patient = DataContext.shared.patient
-			self?.goToAppleHealthVCFromProfile(patient: patient ?? Resource(code: nil, effectiveDateTime: "", id: "", identifier: nil, meta: nil, resourceType: "", status: "", subject: nil, valueQuantity: nil, birthDate: "", gender: "", name: nil, component: nil), weight: weight, height: height, date: date)
+			self?.goToAppleHealthViewControllerFromProfile(patient: patient ?? Resource(code: nil, effectiveDateTime: "", id: "", identifier: nil, meta: nil, resourceType: "", status: "", subject: nil, valueQuantity: nil, birthDate: "", gender: "", name: nil, component: nil), weight: weight, height: height, date: date)
 		}
 
 		myProfileSecondViewController.alertAction = { [weak self] _ in
@@ -368,7 +368,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		navigate(to: myProfileSecondViewController, with: .push)
 	}
 
-	internal func goToAppleHealthVCFromProfile(patient: Resource, weight: Int, height: Int, date: String) {
+	internal func goToAppleHealthViewControllerFromProfile(patient: Resource, weight: Int, height: Int, date: String) {
 		let appleHealthViewController = AppleHealthViewController()
 		appleHealthViewController.comingFrom = .myProfile
 
@@ -383,7 +383,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		navigate(to: appleHealthViewController, with: .pushFullScreen)
 	}
 
-	internal func goToAppleHealthVCFromDevices() {
+	internal func goToAppleHealthViewControllerFromDevices() {
 		let appleHealthViewController = AppleHealthViewController()
 		appleHealthViewController.comingFrom = .myDevices
 
@@ -434,10 +434,10 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 				hkDataUploadViewController.maxProgress = total
 			} completion: { success in
 				if success {
-					self?.goToAppleHealthVCFromActivate()
+					self?.goToAppleHealthViewControllerFromActivate()
 				} else {
 					let okAction = AlertHelper.AlertAction(withTitle: Str.ok) { [weak self] in
-						self?.goToAppleHealthVCFromActivate()
+						self?.goToAppleHealthViewControllerFromActivate()
 					}
 					AlertHelper.showAlert(title: Str.error, detailText: Str.importHealthDataFailed, actions: [okAction])
 				}
@@ -446,7 +446,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		navigate(to: hkDataUploadViewController, with: .push)
 	}
 
-	internal func goToAppleHealthVCFromActivate() {
+	internal func goToAppleHealthViewControllerFromActivate() {
 		let appleHealthViewController = AppleHealthViewController()
 		appleHealthViewController.comingFrom = .activate
 		appleHealthViewController.nextBtnAction = { [weak self] in
@@ -526,7 +526,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			case .success(let resource):
 				DataContext.shared.identifyCrashlytics()
 				ALog.info("OK STATUS FOR PROFILE: 200 \(String(describing: DataContext.shared.signUpCompleted)), \(String(describing: resource))")
-				self?.goToAppleHealthVCFromDevices()
+				self?.goToAppleHealthViewControllerFromDevices()
 			case .failure(let error):
 				ALog.error("request failed \(error.localizedDescription)")
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createProfileFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])

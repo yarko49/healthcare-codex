@@ -22,14 +22,14 @@ class AlertHelper {
 	}
 
 	static func showAlert(title: String?, detailText: String?, actions: [AlertAction], style: UIAlertController.Style = .alert, fillProportionally: Bool = false, from viewController: UIViewController? = UIApplication.shared.windows.first?.visibleViewController()) {
-		let alertVC = UIAlertController(title: title, message: detailText, preferredStyle: style)
+		let alertController = UIAlertController(title: title, message: detailText, preferredStyle: style)
 		actions.forEach { alertAction in
 			let action = UIAlertAction(title: alertAction.title, style: alertAction.style, handler: { _ in
 				alertAction.action?()
 			})
-			alertVC.addAction(action)
+			alertController.addAction(action)
 		}
-		present(alertVC, from: viewController)
+		present(alertController, from: viewController)
 	}
 
 	static func present(_ modalViewController: UIViewController?, from viewController: UIViewController? = UIApplication.shared.windows.first?.visibleViewController()) {

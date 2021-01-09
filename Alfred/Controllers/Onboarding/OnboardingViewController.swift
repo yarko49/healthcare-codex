@@ -17,161 +17,143 @@ class OnboardingViewController: BaseViewController, UIViewControllerTransitionin
 
 	// MARK: - Initializer
 
-	@IBOutlet var googleSignInBtn: GoogleSignInButton!
-	@IBOutlet var appleSignInBtn: AAPLSignInButton!
-	@IBOutlet var subView: UIView!
-	@IBOutlet var signLbl: UILabel!
-	@IBOutlet var signUpBottomBtn: BottomButton!
-	@IBOutlet var cancelBtn: UIButton!
+	@IBOutlet var signUpBottomButton: BottomButton!
 	@IBOutlet var contentView: UIView!
-	@IBOutlet var swipe: UIView!
-	@IBOutlet var shadowView: UIView!
-	@IBOutlet var alreadyHaveAccountLbl: UILabel!
-	@IBOutlet var signInBtn: UIButton!
-	@IBOutlet var bottomConstraint: NSLayoutConstraint!
+	@IBOutlet var alreadyHaveAccountLabel: UILabel!
+	@IBOutlet var signInButton: UIButton!
 	@IBOutlet var pageControl: UIPageControl!
-	@IBOutlet var scrollView: UIScrollView!
-	@IBOutlet var stackView: UIStackView!
-	@IBOutlet var stackViewCenterXConstraint: NSLayoutConstraint!
-	@IBOutlet var emailSignInBtn: EmailSignInButton!
+
+	private let collectionView: UICollectionView = {
+		let view = UICollectionView(frame: .zero, collectionViewLayout: OnboardingViewController.collectionViewLayout)
+		view.showsVerticalScrollIndicator = false
+		view.showsHorizontalScrollIndicator = false
+		view.isScrollEnabled = false
+		view.backgroundColor = .clear
+		return view
+	}()
+
+	private var dataSource: UICollectionViewDiffableDataSource<Int, IllustartionItem>!
+
+	private let cellRegistration = UICollectionView.CellRegistration<IllustrationCollectionViewCell, IllustartionItem> { cell, _, item in
+		cell.imageView.image = item.image
+		cell.titleLabel.text = item.title
+		cell.subtitleLabel.text = item.subtitle
+	}
 
 	override func setupView() {
 		super.setupView()
 		navigationController?.navigationBar.isHidden = true
-		setupModalView()
-		setupOnboarding()
-
-		stackViewCenterXConstraint.isActive = false
 		pageControl.currentPage = 0
-		scrollView.delegate = self
-
-		let views = [subView, shadowView]
-		appleSignInBtn.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
-		cancelBtn.addTarget(self, action: #selector(hideModal), for: .touchUpInside)
-		for view in views {
-			if let view = view {
-				let downSwipe = UISwipeGestureRecognizer(target: self, action: #selector(hideModal))
-				downSwipe.direction = .down
-				view.addGestureRecognizer(downSwipe)
-			}
-		}
 
 		GIDSignIn.sharedInstance()?.presentingViewController = self
 		contentView.isUserInteractionEnabled = true
+		collectionView.translatesAutoresizingMaskIntoConstraints = false
+		view.addSubview(collectionView)
+		NSLayoutConstraint.activate([collectionView.heightAnchor.constraint(equalToConstant: 450.0),
+		                             collectionView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0.0),
+		                             view.trailingAnchor.constraint(equalToSystemSpacingAfter: collectionView.trailingAnchor, multiplier: 0.0),
+		                             pageControl.topAnchor.constraint(equalToSystemSpacingBelow: collectionView.bottomAnchor, multiplier: 0.0)])
 
-		bottomConstraint.constant = -UIScreen.main.bounds.height
-		shadowView.isHidden = true
-		shadowView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+		collectionView.register(IllustrationCollectionViewCell.self, forCellWithReuseIdentifier: IllustrationCollectionViewCell.reuseIdentifier)
+		dataSource = UICollectionViewDiffableDataSource<Int, IllustartionItem>(collectionView: collectionView, cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
+			guard let self = self else {
+				return nil
+			}
+			let cell = collectionView.dequeueConfiguredReusableCell(using: self.cellRegistration, for: indexPath, item: item)
+			return cell
+		})
+		collectionView.delegate = self
+		if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+			layout.minimumInteritemSpacing = 0.0
+			layout.minimumLineSpacing = 0.0
+			layout.itemSize = CGSize(width: view.bounds.width, height: 450.0)
+			layout.sectionInset = .zero
+			layout.headerReferenceSize = .zero
+		}
+
+		var snapshot = dataSource.snapshot()
+		snapshot.appendSections([0])
+		snapshot.appendItems(IllustartionItem.defaultItems, toSection: 0)
+		dataSource.apply(snapshot, animatingDifferences: false) {
+			ALog.info("Did apply snapshot")
+		}
 	}
 
 	override func localize() {
 		super.localize()
 
-		alreadyHaveAccountLbl.attributedText = Str.alreadyHaveAccount.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.32)
-		signInBtn.setAttributedTitle(Str.login.with(style: .regular16, andColor: .orange, andLetterSpacing: -0.32), for: .normal)
-		signUpBottomBtn.setAttributedTitle(Str.signup.uppercased().with(style: .semibold17, andColor: .white), for: .normal)
-		signUpBottomBtn.refreshCorners(value: 5)
-		signUpBottomBtn.setupButton()
+		alreadyHaveAccountLabel.attributedText = Str.alreadyHaveAccount.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.32)
+		signInButton.setAttributedTitle(Str.login.with(style: .regular16, andColor: .orange, andLetterSpacing: -0.32), for: .normal)
+		signUpBottomButton.setAttributedTitle(Str.signup.uppercased().with(style: .semibold17, andColor: .white), for: .normal)
+		signUpBottomButton.refreshCorners(value: 5)
+		signUpBottomButton.setupButton()
 	}
 
-	func setupModalView() {
-		subView.translatesAutoresizingMaskIntoConstraints = false
-		subView.autoresizingMask = [.flexibleTopMargin, .flexibleHeight]
-		subView.layer.cornerRadius = 16.0
-		subView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-		subView.clipsToBounds = true
-		let cancel = UILabel()
-		cancel.attributedText = Str.cancel.with(style: .regular17, andColor: UIColor.veryLightGrey ?? UIColor.lightGrey, andLetterSpacing: -0.408)
-		cancelBtn.setAttributedTitle(cancel.attributedText, for: .normal)
-		cancelBtn.addTarget(self, action: #selector(hideModal), for: .touchUpInside)
-		swipe.backgroundColor = UIColor.swipe
-		swipe.layer.cornerRadius = 5.0
-	}
+	func setupModalView() {}
 
-	private func setupOnboarding() {
-		let titles = [Str.slide1Title, Str.slide2Title, Str.slide3Title]
-		let descriptions = [Str.slide1Desc, Str.slide2Desc, Str.slide3Desc]
+	private struct IllustartionItem: Hashable {
+		var image: UIImage?
+		var title: String
+		var subtitle: String
 
-		for index in 0 ..< titles.count {
-			let view = OnboardingView(title: titles[index], descr: descriptions[index])
-
-			stackView.addArrangedSubview(view)
-			view.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
+		static var defaultItems: [IllustartionItem] {
+			[IllustartionItem(image: UIImage(named: "illustration1"), title: Str.slide1Title, subtitle: Str.slide1Desc),
+			 IllustartionItem(image: UIImage(named: "illustration2"), title: Str.slide2Title, subtitle: Str.slide2Desc),
+			 IllustartionItem(image: UIImage(named: "illustration3"), title: Str.slide3Title, subtitle: Str.slide3Desc)]
 		}
-	}
-
-	@IBAction func googleSignBtnTapped(_ sender: Any) {
-		GIDSignIn.sharedInstance()?.signIn()
-		view.layer.opacity = 1.0
-		view.backgroundColor = UIColor.red.withAlphaComponent(0.5)
-	}
-
-	@objc func hideModal() {
-		UIView.animate(withDuration: 0.3,
-		               delay: 0.0,
-		               options: [],
-		               animations: {
-		               	self.subView.frame.origin.x = 0
-		               	self.subView.frame.origin.y = UIScreen.main.bounds.height
-		               })
-		bottomConstraint.constant = -subView.frame.height
-		shadowView.isHidden = true
-	}
-
-	@objc func showModal(type: Int) {
-		if type == 0 {
-			setupModal(string: Str.signup, email: Str.signUpWithYourEmail, apple: Str.signUpWithApple, google: Str.signUpWithGoogle)
-		} else {
-			setupModal(string: Str.signInModal, email: Str.signInWithYourEmail, apple: Str.signInWithApple, google: Str.signInWithGoogle)
-		}
-
-		UIView.animate(withDuration: 0.3,
-		               delay: 0.0,
-		               options: [],
-		               animations: {
-		               	self.subView.frame.origin.x = 0
-		               	self.subView.frame.origin.y = self.subView.frame.height
-		               })
-		bottomConstraint.constant = 0
-		shadowView.isHidden = false
-	}
-
-	func setupModal(string: String, email: String, apple: String, google: String) {
-		var attributedText = string.with(style: .semibold17, andColor: UIColor.black, andLetterSpacing: -0.408)
-		signLbl.attributedText = attributedText
-		attributedText = email.with(style: .regular20, andColor: UIColor.grey, andLetterSpacing: 0.38)
-		emailSignInBtn.setAttributedTitle(attributedText, for: .normal)
-		googleSignInBtn.setupValues(labelTitle: google)
-		appleSignInBtn.setupValues(labelTitle: apple)
-	}
-
-	@objc func signInWithApple() {
-		signInWithAppleAction?()
 	}
 
 	@IBAction func signUpBottomBtnTapped(_ sender: Any) {
-		showModal(type: 0)
-	}
-
-	@IBAction func signInWIthEmail(_ sender: Any) {
-		if emailSignInBtn.titleLabel?.text == Str.signInWithYourEmail {
-			signInWithEmailAction?()
-		} else if emailSignInBtn.titleLabel?.text == Str.signUpWithYourEmail {
-			signupAction?()
-		}
+		showModal(viewType: .signup)
 	}
 
 	@IBAction func signInBtnTapped(_ sender: Any) {
-		showModal(type: 1)
+		showModal(viewType: .signin)
 	}
 
-	@IBAction func signup(_ sender: Any) {}
+	private func showModal(viewType: AuthenticationOptionsViewType) {
+		let viewController = AuthenticationOptionsViewController()
+		viewController.viewType = viewType
+		viewController.modalPresentationStyle = .custom
+		viewController.modalTransitionStyle = .crossDissolve
+		viewController.delegate = self
+		navigationController?.present(viewController, animated: false, completion: nil)
+	}
+
+	class var collectionViewLayout: UICollectionViewCompositionalLayout {
+		let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.9))
+		let item = NSCollectionLayoutItem(layoutSize: itemSize)
+		let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1))
+		let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+		let section = NSCollectionLayoutSection(group: group)
+		section.orthogonalScrollingBehavior = .groupPagingCentered
+		section.interGroupSpacing = 0.0
+		let layout = UICollectionViewCompositionalLayout(section: section)
+		return layout
+	}
 }
 
-extension OnboardingViewController: UIScrollViewDelegate {
-	func scrollViewDidScroll(_ scrollView: UIScrollView) {
-		let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
-		let page = Int(pageIndex)
-		pageControl.currentPage = page
+extension OnboardingViewController: UICollectionViewDelegate {
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+		pageControl.currentPage = indexPath.item
+	}
+}
+
+extension OnboardingViewController: AuthenticationOptionsViewControllerDelegate {
+	func authenticationOptionsViewController(_ controller: AuthenticationOptionsViewController, didSelectProvider provider: AuthenticationProviderType) {
+		switch provider {
+		case .apple:
+			signInWithAppleAction?()
+		case .google:
+			GIDSignIn.sharedInstance()?.signIn()
+			view.layer.opacity = 1.0
+			view.backgroundColor = UIColor.red.withAlphaComponent(0.5)
+		case .email:
+			if controller.viewType == .signup {
+				signupAction?()
+			} else {
+				signInWithEmailAction?()
+			}
+		}
 	}
 }

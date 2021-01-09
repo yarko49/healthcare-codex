@@ -261,7 +261,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		}
 
 		controller.editBtnAction = { [weak self] weight, height in
-			self?.goToMyProfileFirstVC(source: .profile, weight: weight, height: height)
+			self?.goToMyProfileFirstViewController(source: .profile, weight: weight, height: height)
 		}
 
 		controller.backBtnAction = { [weak self] in
@@ -284,7 +284,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		}
 	}
 
-	internal func postObservationSearchAction(search: SearchParameter, vc: ProfileViewController, start: Date, end: Date, hkType: HealthKitQuantityType) {
+	internal func postObservationSearchAction(search: SearchParameter, viewController: ProfileViewController, start: Date, end: Date, hkType: HealthKitQuantityType) {
 		showHUD()
 		AlfredClient.client.postObservationSearch(search: search) { [weak self] result in
 			self?.hideHUD()
@@ -297,7 +297,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		}
 	}
 
-	internal func goToMyProfileFirstVC(source: ComingFrom = .profile, weight: Int, height: Int) {
+	internal func goToMyProfileFirstViewController(source: ComingFrom = .profile, weight: Int, height: Int) {
 		let myProfileFirstViewController = MyProfileFirstViewController()
 		myProfileFirstViewController.comingFrom = source
 		myProfileFirstViewController.firstText = DataContext.shared.displayFirstName
@@ -309,7 +309,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		}
 
 		let sendDataAction: ((String, String, [String]) -> Void)? = { [weak self] gender, family, given in
-			self?.goToMyProfileSecondVC(gender: gender, family: family, given: given, source: source, weight: weight, height: height)
+			self?.goToMyProfileSecondViewController(gender: gender, family: family, given: given, source: source, weight: weight, height: height)
 		}
 
 		myProfileFirstViewController.alertAction = { [weak self] tv in
@@ -323,7 +323,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		navigate(to: myProfileFirstViewController, with: .push)
 	}
 
-	internal func goToMyProfileSecondVC(gender: String, family: String, given: [String], source: ComingFrom = .profile, weight: Int, height: Int) {
+	internal func goToMyProfileSecondViewController(gender: String, family: String, given: [String], source: ComingFrom = .profile, weight: Int, height: Int) {
 		let myProfileSecondViewController = MyProfileSecondViewController()
 		myProfileSecondViewController.comingFrom = source
 		myProfileSecondViewController.profileWeight = weight

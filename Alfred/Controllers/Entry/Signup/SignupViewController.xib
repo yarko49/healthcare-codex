@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignupVC" customModule="alfred_ios" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignupViewController" customModule="Alfred" customModuleProvider="target">
             <connections>
                 <outlet property="contentView" destination="R44-ez-swe" id="ZsP-PZ-dME"/>
-                <outlet property="emailView" destination="yxQ-46-dTH" id="qQR-bz-0tv"/>
-                <outlet property="signupBtn" destination="N1l-5v-bLg" id="DDy-Iq-EKl"/>
-                <outlet property="signupmessage" destination="N7n-09-Yd8" id="pw7-Rc-R4B"/>
+                <outlet property="emailTextfieldView" destination="yxQ-46-dTH" id="WmF-hD-FmK"/>
+                <outlet property="signupButton" destination="N1l-5v-bLg" id="blR-3g-aKY"/>
+                <outlet property="signupMessageLabel" destination="N7n-09-Yd8" id="mOr-ia-ccV"/>
                 <outlet property="textView" destination="oZa-Of-ZiA" id="aDP-9Y-C3H"/>
                 <outlet property="view" destination="c4R-OQ-TCr" id="drh-VA-9zW"/>
             </connections>
@@ -31,7 +31,7 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N1l-5v-bLg" customClass="BottomButton" customModule="alfred_ios" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N1l-5v-bLg" customClass="BottomButton" customModule="Alfred" customModuleProvider="target">
                             <rect key="frame" x="37" y="707" width="340" height="68"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="68" id="eMX-3x-e9s"/>
@@ -52,7 +52,7 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yxQ-46-dTH" customClass="TextfieldView" customModule="alfred_ios" customModuleProvider="target">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yxQ-46-dTH" customClass="TextfieldView" customModule="Alfred" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="93.5" width="414" height="103"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
