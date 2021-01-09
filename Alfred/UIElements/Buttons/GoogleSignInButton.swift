@@ -1,50 +1,27 @@
 //  GoogleSignInButton.swift
 //  Alfred
 
-import BonMot
 import UIKit
 
-class GoogleSignInButton: UIButton {
-	var labelTitle: String? {
-		didSet {
-			titleLabel?.attributedText = labelTitle?.with(style: .semibold20, andColor: UIColor.google ?? UIColor.black, andLetterSpacing: 0.38)
-		}
+extension UIButton {
+	static var googleSignInButton: UIButton {
+		let button = UIButton(type: .custom)
+		button.setImage(UIImage(named: "iconLogoGoogle"), for: .normal)
+		button.setTitleColor(.google ?? .black, for: .normal)
+		button.titleLabel?.font = UIFont.systemFont(ofSize: 20.0, weight: .semibold)
+		button.titleEdgeInsets.left = 14
+		button.contentEdgeInsets.top = 12
+		button.contentEdgeInsets.bottom = 12
+		button.layer.cornerRadius = 20.0
+		button.layer.cornerCurve = .continuous
+		button.layer.borderWidth = 1.0
+		button.layer.borderColor = UIColor.grey.cgColor
+		return button
 	}
 
-	override init(frame: CGRect) {
-		super.init(frame: frame)
-		setupView()
-	}
-
-	required init?(coder: NSCoder) {
-		super.init(coder: coder)
-		setupView()
-	}
-
-	convenience init(labelTitle: String) {
-		self.init(frame: CGRect.zero)
-		self.labelTitle = labelTitle
-		setupView()
-	}
-
-	func setupValues(labelTitle: String) {
-		self.labelTitle = labelTitle
-		setupView()
-	}
-
-	private func setupView() {
-		setImage(UIImage(named: "iconLogoGoogle"), for: .normal)
-		titleEdgeInsets.left = 14
-		contentEdgeInsets.top = 12
-		contentEdgeInsets.bottom = 12
-		layer.cornerRadius = 20.0
-		layer.cornerCurve = .continuous
-		layer.borderWidth = 1.0
-		layer.borderColor = UIColor.grey.cgColor
-	}
-
-	override func prepareForInterfaceBuilder() {
-		super.prepareForInterfaceBuilder()
-		setupView()
+	static func googleSignInButton(title: String) -> UIButton {
+		let button = googleSignInButton
+		button.setTitle(title, for: .normal)
+		return button
 	}
 }

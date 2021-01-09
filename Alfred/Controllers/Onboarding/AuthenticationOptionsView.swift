@@ -89,11 +89,9 @@ class AuthenticationOptionsView: UIView {
 		delegate?.authenticationOptionsView(self, didSelectProvider: .apple)
 	}
 
-	private(set) lazy var googleSignInButton: GoogleSignInButton = {
-		let button = GoogleSignInButton(frame: .zero)
+	private(set) lazy var googleSignInButton: UIButton = {
+		let button = UIButton.googleSignInButton
 		button.layer.cornerRadius = 24.0
-		button.titleLabel?.font = UIFont.systemFont(ofSize: 20.0, weight: .semibold)
-		button.setTitleColor(.google ?? .black, for: .normal)
 		let title = self.viewType == .signup ? Str.signUpWithGoogle : Str.signInWithGoogle
 		button.setTitle(title, for: .normal)
 		button.translatesAutoresizingMaskIntoConstraints = false
@@ -104,13 +102,11 @@ class AuthenticationOptionsView: UIView {
 		delegate?.authenticationOptionsView(self, didSelectProvider: .google)
 	}
 
-	private(set) lazy var emailSignInButton: EmailSignInButton = {
-		let button = EmailSignInButton(frame: .zero)
+	private(set) lazy var emailSignInButton: UIButton = {
+		let button = UIButton.emailSignInButton
 		button.layer.cornerRadius = 24.0
 		let title = self.viewType == .signup ? Str.signUpWithYourEmail : Str.signInWithYourEmail
 		button.setTitle(title, for: .normal)
-		button.setTitleColor(.grey, for: .normal)
-		button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		return button
 	}()
