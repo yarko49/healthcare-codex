@@ -13,7 +13,7 @@ class TasksTests: XCTestCase {
 	var carePlan: [String: Any]!
 
 	override func setUpWithError() throws {
-		carePlanResponse = AlfredHealthTests.loadTestData(fileName: "ValueSpaceResponse.json")
+		carePlanResponse = AlfredTests.loadTestData(fileName: "ValueSpaceResponse.json")
 		XCTAssertNotNil(carePlanResponse)
 		carePlan = try JSONSerialization.jsonObject(with: carePlanResponse, options: .allowFragments) as? [String: Any]
 		XCTAssertNotNil(carePlan)
@@ -30,12 +30,5 @@ class TasksTests: XCTestCase {
 		let decoder = AlfredJSONDecoder()
 		let tasks = try decoder.decode([String: Tasks].self, from: data)
 		XCTAssertEqual(tasks.count, 2)
-	}
-
-	func testPerformanceExample() throws {
-		// This is an example of a performance test case.
-		measure {
-			// Put the code you want to measure the time of here.
-		}
 	}
 }

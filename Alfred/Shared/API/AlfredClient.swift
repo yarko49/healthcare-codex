@@ -15,15 +15,15 @@ protocol AlfredAPI {
 	func getCarePlan(vectorClock: Bool, valueSpaceSample: Bool, completion: @escaping WebService.DecodableCompletion<CarePlanResponse>) -> URLSession.ServicePublisher?
 	func getQuestionnaire(completion: @escaping WebService.DecodableCompletion<Questionnaire>) -> URLSession.ServicePublisher?
 	func postQuestionnaireResponse(questionnaireResponse: QuestionnaireResponse, completion: @escaping WebService.DecodableCompletion<SubmittedQuestionnaire>) -> URLSession.ServicePublisher?
-	func postObservation(observation: Resource, completion: @escaping WebService.DecodableCompletion<Resource>) -> URLSession.ServicePublisher?
+	func postObservation(observation: CodexResource, completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher?
 	func getProfile(completion: @escaping WebService.DecodableCompletion<Profile>) -> URLSession.ServicePublisher?
 	func postProfile(profile: Profile, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher?
-	func postPatient(patient: Resource, completion: @escaping WebService.DecodableCompletion<Resource>) -> URLSession.ServicePublisher?
-	func patchPatient(patient: [UpdatePatientModel], completion: @escaping WebService.DecodableCompletion<Resource>) -> URLSession.ServicePublisher?
-	func postPatientSearch(completion: @escaping WebService.DecodableCompletion<BundleModel>) -> URLSession.ServicePublisher?
+	func postPatient(patient: CodexResource, completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher?
+	func patchPatient(patient: [UpdatePatientModel], completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher?
+	func postPatientSearch(completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher?
 	func getCardList(completion: @escaping WebService.DecodableCompletion<CardList>) -> URLSession.ServicePublisher?
-	func postBundle(bundle: BundleModel, completion: @escaping WebService.DecodableCompletion<BundleModel>) -> URLSession.ServicePublisher?
-	func postObservationSearch(search: SearchParameter, completion: @escaping WebService.DecodableCompletion<BundleModel>) -> URLSession.ServicePublisher?
+	func postBundle(bundle: CodexBundle, completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher?
+	func postObservationSearch(search: SearchParameter, completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher?
 }
 
 public final class AlfredClient: AlfredAPI {
@@ -89,7 +89,7 @@ public final class AlfredClient: AlfredAPI {
 	}
 
 	@discardableResult
-	func postObservation(observation: Resource, completion: @escaping WebService.DecodableCompletion<Resource>) -> URLSession.ServicePublisher? {
+	func postObservation(observation: CodexResource, completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher? {
 		webService.request(route: APIRouter.postObservation(observation: observation), completion: completion)
 	}
 
@@ -104,17 +104,17 @@ public final class AlfredClient: AlfredAPI {
 	}
 
 	@discardableResult
-	func postPatient(patient: Resource, completion: @escaping WebService.DecodableCompletion<Resource>) -> URLSession.ServicePublisher? {
+	func postPatient(patient: CodexResource, completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher? {
 		webService.request(route: APIRouter.postPatient(patient: patient), completion: completion)
 	}
 
 	@discardableResult
-	func patchPatient(patient: [UpdatePatientModel], completion: @escaping WebService.DecodableCompletion<Resource>) -> URLSession.ServicePublisher? {
+	func patchPatient(patient: [UpdatePatientModel], completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher? {
 		webService.request(route: APIRouter.patchPatient(patient: patient), completion: completion)
 	}
 
 	@discardableResult
-	func postPatientSearch(completion: @escaping WebService.DecodableCompletion<BundleModel>) -> URLSession.ServicePublisher? {
+	func postPatientSearch(completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher? {
 		webService.request(route: APIRouter.postPatientSearch, completion: completion)
 	}
 
@@ -124,12 +124,12 @@ public final class AlfredClient: AlfredAPI {
 	}
 
 	@discardableResult
-	func postBundle(bundle: BundleModel, completion: @escaping WebService.DecodableCompletion<BundleModel>) -> URLSession.ServicePublisher? {
+	func postBundle(bundle: CodexBundle, completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher? {
 		webService.request(route: APIRouter.postBundle(bundle: bundle), completion: completion)
 	}
 
 	@discardableResult
-	func postObservationSearch(search: SearchParameter, completion: @escaping WebService.DecodableCompletion<BundleModel>) -> URLSession.ServicePublisher? {
+	func postObservationSearch(search: SearchParameter, completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher? {
 		webService.request(route: APIRouter.postObservationSearch(search: search), completion: completion)
 	}
 }

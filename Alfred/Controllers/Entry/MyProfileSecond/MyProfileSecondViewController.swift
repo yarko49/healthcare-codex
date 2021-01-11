@@ -41,7 +41,7 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 		super.setupView()
 		setupDefaultIndexes()
 		setupDatePicker()
-		setupDatePickerAndView(picker: datePicker, viewTF: dateTextView, title: Str.dob)
+		setupDatePickerAndView(picker: datePicker, viewTextField: dateTextView, title: Str.dob)
 		setupPickerAndView(picker: heightPicker, viewTF: heightTextView, title: Str.height)
 		setupPickerAndView(picker: weightPicker, viewTF: weightTextView, title: Str.weight)
 		title = Str.profile
@@ -162,14 +162,14 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 		fixLabelsInPlace(with: picker)
 	}
 
-	private func setupDatePickerAndView(picker: UIDatePicker, viewTF: PickerTextField, title: String) {
-		viewTF.setupValues(labelTitle: title, text: DataContext.shared.userModel?.dob ?? "")
+	private func setupDatePickerAndView(picker: UIDatePicker, viewTextField: PickerTextField, title: String) {
+		viewTextField.setupValues(labelTitle: title, text: DataContext.shared.userModel?.dob ?? "")
 		let tap = PickerTapGesture(target: self, action: #selector(managePicker))
 		tap.datePicker = picker
-		tap.textFieldView = viewTF
+		tap.textFieldView = viewTextField
 		dateTextView.state = .normal
-		viewTF.addGestureRecognizer(tap)
-		pickerStackView.addArrangedSubview(viewTF)
+		viewTextField.addGestureRecognizer(tap)
+		pickerStackView.addArrangedSubview(viewTextField)
 		pickerStackView.addArrangedSubview(picker)
 		picker.isHidden = true
 		datePickerDateChanged(datePicker)
@@ -181,11 +181,9 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 		let picker = (sender.picker == nil) ? sender.datePicker : sender.picker
 
 		if let picker = picker {
-			UIPickerView.transition(with: picker, duration: 0.1,
-			                        options: .curveEaseOut,
-			                        animations: {
-			                        	picker.isHidden.toggle()
-			                        })
+			UIPickerView.transition(with: picker, duration: 0.1, options: .curveEaseOut, animations: {
+				picker.isHidden.toggle()
+			})
 
 			viewTF.textfield.textColor = picker.isHidden ? .black : .lightGray
 		}

@@ -34,7 +34,7 @@ public struct Patient: Codable, Hashable, Identifiable {
 
 	public var groupIdentifier: String?
 	public var tags: [String]?
-	public var remoteId: String?
+	public var remoteID: String?
 	public var source: String?
 	public var userInfo: [String: String]?
 	public var asset: String?
@@ -46,6 +46,10 @@ public struct Patient: Codable, Hashable, Identifiable {
 		self.name = name
 		self.timezone = TimeZone.current
 		self.effectiveDate = Date()
+	}
+
+	var uuid: UUID? {
+		UUID(uuidString: id)
 	}
 
 	public init(from decoder: Decoder) throws {
@@ -62,7 +66,7 @@ public struct Patient: Codable, Hashable, Identifiable {
 		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
 		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
-		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId)
+		self.remoteID = try container.decodeIfPresent(String.self, forKey: .remoteID)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
@@ -83,7 +87,7 @@ public struct Patient: Codable, Hashable, Identifiable {
 		try container.encodeIfPresent(updatedDate, forKey: .updatedDate)
 		try container.encodeIfPresent(groupIdentifier, forKey: .groupIdentifier)
 		try container.encodeIfPresent(tags, forKey: .tags)
-		try container.encodeIfPresent(remoteId, forKey: .remoteId)
+		try container.encodeIfPresent(remoteID, forKey: .remoteID)
 		try container.encodeIfPresent(source, forKey: .source)
 		try container.encodeIfPresent(userInfo, forKey: .userInfo)
 		try container.encodeIfPresent(asset, forKey: .asset)
@@ -102,7 +106,7 @@ public struct Patient: Codable, Hashable, Identifiable {
 		case updatedDate
 		case groupIdentifier
 		case tags
-		case remoteId
+		case remoteID
 		case source
 		case userInfo
 		case asset

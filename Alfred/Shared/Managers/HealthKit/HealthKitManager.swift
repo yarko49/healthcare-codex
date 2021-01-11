@@ -112,17 +112,17 @@ class HealthKitManager {
 	}
 
 	// Post Data from Health Kit to BE
-	func getHealthData(initialUpload: Bool, for quantity: HealthKitDataType, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [Entry]) -> Void) {
+	func getHealthData(initialUpload: Bool, for quantity: HealthKitDataType, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [BundleEntry]) -> Void) {
 		guard let sampleType = quantity.type[0] else { return }
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
 		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: !initialUpload)
-		var entries: [Entry] = []
+		var entries: [BundleEntry] = []
 		let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, _ in
 			if let dataList = results {
 				for data in dataList {
 					if let sample = data as? HKQuantitySample {
-						let resource = Resource(code: quantity.code, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: Int(sample.quantity.doubleValue(for: quantity.unit)), unit: quantity.unit.unitString), birthDate: nil, gender: nil, name: nil, component: nil)
-						let entry = Entry(fullURL: nil, resource: resource, request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
+						let resource = CodexResource(id: nil, code: quantity.code, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: Int(sample.quantity.doubleValue(for: quantity.unit)), unit: quantity.unit.unitString), birthDate: nil, gender: nil, name: nil, component: nil)
+						let entry = BundleEntry(fullURL: nil, resource: resource, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
 						entries.append(entry)
 					}
 				}
@@ -132,20 +132,20 @@ class HealthKitManager {
 		HKHealthStore().execute(query)
 	}
 
-	func getBloodPressure(initialUpload: Bool, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [Entry]) -> Void) {
+	func getBloodPressure(initialUpload: Bool, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [BundleEntry]) -> Void) {
 		guard let bloodPressureDiastolic = HealthKitDataType.bloodPressure.type[0], let bloodPressureSystolic = HealthKitDataType.bloodPressure.type[1], let bloodPressure = HKQuantityType.correlationType(forIdentifier: .bloodPressure) else { return }
 
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
 		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: !initialUpload)
-		var entries: [Entry] = []
+		var entries: [BundleEntry] = []
 		let query = HKSampleQuery(sampleType: bloodPressure, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, _ in
 			if let dataList = results as? [HKCorrelation] {
 				for data in dataList {
 					if let dia = data.objects(for: bloodPressureDiastolic).first as? HKQuantitySample, let sys = data.objects(for: bloodPressureSystolic).first as? HKQuantitySample {
 						let diaComponent = Component(code: DataContext.shared.diastolicBPCode, valueQuantity: ValueQuantity(value: Int(dia.quantity.doubleValue(for: HKUnit.millimeterOfMercury())), unit: HKUnit.millimeterOfMercury().unitString))
 						let sysComponent = Component(code: DataContext.shared.systolicBPCode, valueQuantity: ValueQuantity(value: Int(sys.quantity.doubleValue(for: HKUnit.millimeterOfMercury())), unit: HKUnit.millimeterOfMercury().unitString))
-						let resource = Resource(code: DataContext.shared.bpCode, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
-						let entry = Entry(fullURL: nil, resource: resource, request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
+						let resource = CodexResource(id: nil, code: DataContext.shared.bpCode, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
+						let entry = BundleEntry(fullURL: nil, resource: resource, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
 						entries.append(entry)
 					}
 				}

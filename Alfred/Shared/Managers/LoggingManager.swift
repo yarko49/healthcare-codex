@@ -159,7 +159,7 @@ public struct ConsoleLogHandler: LogHandler {
 
 		var stream = self.stream
 		let fileURL = URL(fileURLWithPath: file)
-		stream.write("\(timestamp) | \(level.icon)[\(processName)][\(fileURL.lastPathComponent):\(line)] \(prettyMetadata.map { " \($0)" } ?? "") \(message)\n")
+		stream.write("\(timestamp) |\(level.icon)[\(processName)][\(fileURL.lastPathComponent):\(line)]\(prettyMetadata.map { " \($0)" } ?? "") \(message)\n")
 	}
 
 	private func prettify(_ metadata: Logger.Metadata) -> String? {

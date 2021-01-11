@@ -2,7 +2,7 @@ import FirebaseAuth
 import Foundation
 
 extension DataContext {
-	func fetchData(user: User, completion: @escaping (Bool) -> Void) {
+	func searchPatient(user: User, completion: @escaping (Bool) -> Void) {
 		AlfredClient.client.postPatientSearch { [weak self] result in
 			switch result {
 			case .success(let response):
@@ -14,6 +14,7 @@ extension DataContext {
 				completion(true)
 			case .failure(let error):
 				ALog.error("Patient Search \(error.localizedDescription)")
+				completion(false)
 			}
 		}
 	}

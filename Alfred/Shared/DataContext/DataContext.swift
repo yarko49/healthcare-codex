@@ -52,10 +52,10 @@ class DataContext {
 	var hasSmartBlockPressureCuff = false
 	var hasSmartWatch = false
 	var hasSmartPedometer = false
-	var editPatient: [UpdatePatientModel]?
-	var patient: Resource?
+	var updatePatient: UpdatePatientModels?
+	var resouce: CodexResource?
 	var userModel: UserModel?
-	var dataModel: BundleModel?
+	var dataModel: CodexBundle?
 	var weightArray: [Int] = []
 	var heightArray: [Int] = []
 
@@ -130,8 +130,7 @@ class DataContext {
 	}
 
 	var gender: Gender {
-		let gender = Gender(rawValue: (userModel?.gender)?.rawValue ?? "")
-		return gender ?? .female
+		userModel?.gender ?? .female
 	}
 
 	let hrCode = Code(coding: [Coding(system: "http://loinc.org", code: "8867-4", display: "Heart rate")])
@@ -144,7 +143,7 @@ class DataContext {
 	let systolicBPCode = Code(coding: [Coding(system: "http://loinc.org", code: "8480-6", display: "Systolic blood pressure"), Coding(system: "http://snomed.info/sct", code: "271649006", display: "Systolic blood pressure")])
 	let stepsCode = Code(coding: [Coding(system: "http://loinc.org", code: "55423-8", display: "Number of steps")])
 
-	var getObservationData: BundleModel?
+	var getObservationData: CodexBundle?
 
 	func clearAll() {
 		clearKeychain()

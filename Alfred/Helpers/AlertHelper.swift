@@ -1,4 +1,3 @@
-import JGProgressHUD
 import UIKit
 
 class AlertHelper {
@@ -12,13 +11,6 @@ class AlertHelper {
 			self.style = style
 			self.action = action
 		}
-	}
-
-	static var progressHUD: JGProgressHUD {
-		let hud = JGProgressHUD(style: .dark)
-		hud.interactionType = .blockAllTouches
-		hud.vibrancyEnabled = true
-		return hud
 	}
 
 	static func showAlert(title: String?, detailText: String?, actions: [AlertAction], style: UIAlertController.Style = .alert, fillProportionally: Bool = false, from viewController: UIViewController? = UIApplication.shared.windows.first?.visibleViewController()) {

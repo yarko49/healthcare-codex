@@ -1,4 +1,5 @@
 import AuthenticationServices
+import CareKitStore
 import CryptoKit
 import FirebaseAuth
 import GoogleSignIn
@@ -227,7 +228,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		}
 
 		showHUD()
-		DataContext.shared.fetchData(user: user, completion: { [weak self] success in
+		DataContext.shared.searchPatient(user: user, completion: { [weak self] success in
 			self?.hideHUD()
 			if success {
 				DataContext.shared.identifyCrashlytics()
@@ -353,12 +354,12 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		}
 
 		myProfileSecondViewController.patientRequestAction = { [weak self] resourceType, birthdate, weight, height, date in
-			let name = Name(use: "official", family: family, given: given)
+			let name = ResourceName(use: "official", family: family, given: given)
 			let joinedNames = given.joined(separator: " ")
 			DataContext.shared.firstName = joinedNames
-			DataContext.shared.patient = Resource(code: nil, effectiveDateTime: nil, id: nil, identifier: nil, meta: nil, resourceType: resourceType, status: nil, subject: nil, valueQuantity: nil, birthDate: birthdate, gender: gender, name: [name], component: nil)
-			let patient = DataContext.shared.patient
-			self?.goToAppleHealthViewControllerFromProfile(patient: patient ?? Resource(code: nil, effectiveDateTime: "", id: "", identifier: nil, meta: nil, resourceType: "", status: "", subject: nil, valueQuantity: nil, birthDate: "", gender: "", name: nil, component: nil), weight: weight, height: height, date: date)
+			DataContext.shared.resouce = CodexResource(id: nil, code: nil, effectiveDateTime: nil, identifier: nil, meta: nil, resourceType: resourceType, status: nil, subject: nil, valueQuantity: nil, birthDate: birthdate, gender: gender, name: [name], component: nil)
+			let patientResource = DataContext.shared.resouce
+			self?.goToAppleHealthViewControllerFromProfile(patient: patientResource ?? CodexResource(id: "", code: nil, effectiveDateTime: "", identifier: nil, meta: nil, resourceType: "", status: "", subject: nil, valueQuantity: nil, birthDate: "", gender: "", name: nil, component: nil), weight: weight, height: height, date: date)
 		}
 
 		myProfileSecondViewController.alertAction = { [weak self] _ in
@@ -368,7 +369,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		navigate(to: myProfileSecondViewController, with: .push)
 	}
 
-	internal func goToAppleHealthViewControllerFromProfile(patient: Resource, weight: Int, height: Int, date: String) {
+	internal func goToAppleHealthViewControllerFromProfile(patient: CodexResource, weight: Int, height: Int, date: String) {
 		let appleHealthViewController = AppleHealthViewController()
 		appleHealthViewController.comingFrom = .myProfile
 
@@ -456,7 +457,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		navigate(to: appleHealthViewController, with: .pushFullScreen)
 	}
 
-	internal func goToMyDevices(patient: Resource, weight: Int, height: Int, date: String) {
+	internal func goToMyDevices(patient: CodexResource, weight: Int, height: Int, date: String) {
 		let devicesViewController = MyDevicesViewController()
 
 		devicesViewController.backBtnAction = { [weak self] in
@@ -469,7 +470,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		navigate(to: devicesViewController, with: .pushFullScreen)
 	}
 
-	internal func patientAPI(patient: Resource, weight: Int, height: Int, date: String) {
+	internal func patientAPI(patient: CodexResource, weight: Int, height: Int, date: String) {
 		showHUD()
 		guard DataContext.shared.userModel == nil else {
 			getHeightWeight(weight: weight, height: height, date: date)
@@ -477,12 +478,12 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		}
 		AlfredClient.client.postPatient(patient: patient) { [weak self] result in
 			self?.hideHUD()
-			DataContext.shared.patient = patient
+			DataContext.shared.resouce = patient
 			switch result {
-			case .success(let patientResponse):
+			case .success(let resource):
 				ALog.info("OK STATUS FOR PATIENT : 200")
-				let defaultName = Name(use: "", family: "", given: [""])
-				DataContext.shared.userModel = UserModel(userID: patientResponse.id ?? "", email: self?.emailrequest ?? "", name: patientResponse.name ?? [defaultName], dob: patient.birthDate, gender: Gender(rawValue: DataContext.shared.patient?.gender ?? ""))
+				let defaultName = ResourceName(use: "", family: "", given: [""])
+				DataContext.shared.userModel = UserModel(userID: resource.id ?? "", email: self?.emailrequest ?? "", name: resource.name ?? [defaultName], dob: patient.birthDate, gender: Gender(rawValue: DataContext.shared.resouce?.gender ?? ""))
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			case .failure(let error):
 				ALog.error("request falied \(error.localizedDescription)")
@@ -493,15 +494,15 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func getHeightWeight(weight: Int, height: Int, date: String) {
-		let weightObservation = Resource(code: DataContext.shared.weightCode, effectiveDateTime: date, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
-		let weightEntry = Entry(fullURL: nil, resource: weightObservation, request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
-		let heightObservation = Resource(code: DataContext.shared.heightCode, effectiveDateTime: date, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: height, unit: Str.heightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
-		let heightEntry = Entry(fullURL: nil, resource: heightObservation, request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
-		let bundle = BundleModel(entry: [weightEntry, heightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
+		let weightObservation = CodexResource(id: nil, code: DataContext.shared.weightCode, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
+		let weightEntry = BundleEntry(fullURL: nil, resource: weightObservation, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
+		let heightObservation = CodexResource(id: nil, code: DataContext.shared.heightCode, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: height, unit: Str.heightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
+		let heightEntry = BundleEntry(fullURL: nil, resource: heightObservation, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
+		let bundle = CodexBundle(entry: [weightEntry, heightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
 		bundleAction(bundle: bundle)
 	}
 
-	internal func bundleAction(bundle: BundleModel) {
+	internal func bundleAction(bundle: CodexBundle) {
 		showHUD()
 		AlfredClient.client.postBundle(bundle: bundle) { [weak self] result in
 			self?.hideHUD()
@@ -523,9 +524,9 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		AlfredClient.client.postProfile(profile: profile) { [weak self] result in
 			self?.hideHUD()
 			switch result {
-			case .success(let resource):
+			case .success(let finished):
 				DataContext.shared.identifyCrashlytics()
-				ALog.info("OK STATUS FOR PROFILE: 200 \(String(describing: DataContext.shared.signUpCompleted)), \(String(describing: resource))")
+				ALog.info("OK STATUS FOR PROFILE: 200 \(String(describing: DataContext.shared.signUpCompleted)), \(finished)")
 				self?.goToAppleHealthViewControllerFromDevices()
 			case .failure(let error):
 				ALog.error("request failed \(error.localizedDescription)")
@@ -631,7 +632,8 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 
 		if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
 			guard let nonce = currentNonce else {
-				fatalError("Invalid state: A login callback was received, but no login request was sent.")
+				ALog.error("Invalid state: A login callback was received, but no login request was sent.")
+				return
 			}
 			guard let appleIDToken = appleIDCredential.identityToken else {
 				ALog.info("Unable to fetch identity token")

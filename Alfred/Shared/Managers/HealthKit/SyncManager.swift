@@ -70,8 +70,8 @@ class SyncManager {
 		}
 	}
 
-	func searchHKData(initialUpload: Bool = true, completion: @escaping (Bool, [Entry]) -> Void) {
-		var allEntries: [Entry] = []
+	func searchHKData(initialUpload: Bool = true, completion: @escaping (Bool, [BundleEntry]) -> Void) {
+		var allEntries: [BundleEntry] = []
 		let importGroup = DispatchGroup()
 		guard let date = Calendar.current.date(byAdding: .year, value: -1, to: Date()) else {
 			completion(false, allEntries)
@@ -102,7 +102,7 @@ class SyncManager {
 		}
 	}
 
-	func uploadHKData(with allEntries: [Entry], chunkSize: Int, progressUpdate: @escaping (Int, Int) -> Void, completion: @escaping (Bool) -> Void) {
+	func uploadHKData(with allEntries: [BundleEntry], chunkSize: Int, progressUpdate: @escaping (Int, Int) -> Void, completion: @escaping (Bool) -> Void) {
 		let chunkGroup = DispatchGroup()
 		var uploaded = 0
 		let chunkedEntries = allEntries.chunked(into: chunkSize)
@@ -128,8 +128,8 @@ class SyncManager {
 		}
 	}
 
-	private func postBundleRequest(for entries: [Entry], completion: @escaping (Bool) -> Void) {
-		let bundle = BundleModel(entry: entries, link: nil, resourceType: "Bundle", total: nil, type: "transaction")
+	private func postBundleRequest(for entries: [BundleEntry], completion: @escaping (Bool) -> Void) {
+		let bundle = CodexBundle(entry: entries, link: nil, resourceType: "Bundle", total: nil, type: "transaction")
 		AlfredClient.client.postBundle(bundle: bundle) { result in
 			switch result {
 			case .failure(let error):

@@ -13,11 +13,11 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		navigationController
 	}
 
-	var observation: Resource?
-	var bundle: BundleModel?
-	var heightWeightBundle: BundleModel?
+	var observation: CodexResource?
+	var bundle: CodexBundle?
+	var heightWeightBundle: CodexBundle?
 	var observationSearch: String?
-	var observationSearchResult: BundleModel?
+	var observationSearchResult: CodexBundle?
 	var chartData: [Int] = []
 	var dateData: [String] = []
 	weak var profileViewController: ProfileViewController?
@@ -38,7 +38,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		} else {
 			if DataContext.shared.isBiometricsEnabled == false {}
 		}
-		showHome()
+		showDailyTasksView()
 	}
 
 	func showHUD(animated: Bool = true) {
@@ -72,6 +72,11 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			let biometricType = self.laContext.biometryType == .faceID ? Str.faceID : Str.touchID
 			AlertHelper.showAlert(title: Str.automaticSignIn, detailText: Str.enroll(biometricType), actions: [okAction, noAction])
 		}
+	}
+
+	internal func showDailyTasksView() {
+		let tasksViewController = CarePlanTasksViewController(storeManager: AppDelegate.carePlanStoreManager.synchronizedStoreManager)
+		navigate(to: tasksViewController, with: .push)
 	}
 
 	internal func showHome() {
@@ -144,14 +149,14 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			case .bloodPressure:
 				let sysComponent = Component(code: DataContext.shared.systolicBPCode, valueQuantity: ValueQuantity(value: value1, unit: Str.pressureUnit))
 				let diaComponent = Component(code: DataContext.shared.diastolicBPCode, valueQuantity: ValueQuantity(value: value2, unit: Str.pressureUnit))
-				let observation = Resource(code: DataContext.shared.bpCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
+				let observation = CodexResource(id: nil, code: DataContext.shared.bpCode, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
 				self?.observation = observation
 				self?.bundle = nil
 			case .weight:
-				let weightEntry = Entry(fullURL: nil, resource: Resource(code: DataContext.shared.weightCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: value1, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
-				let goalWeightEntry = Entry(fullURL: nil, resource: Resource(code: DataContext.shared.idealWeightCode, effectiveDateTime: effectiveDateTime, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: value2, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
+				let weightEntry = BundleEntry(fullURL: nil, resource: CodexResource(id: nil, code: DataContext.shared.weightCode, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: value1, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
+				let goalWeightEntry = BundleEntry(fullURL: nil, resource: CodexResource(id: nil, code: DataContext.shared.idealWeightCode, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: value2, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
 
-				let bundle = BundleModel(entry: [weightEntry, goalWeightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
+				let bundle = CodexBundle(entry: [weightEntry, goalWeightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
 				self?.observation = nil
 				self?.bundle = bundle
 			}
@@ -270,7 +275,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		navigate(to: controller, with: .push)
 	}
 
-	internal func postGetData(search: SearchParameter, completion: @escaping (BundleModel?) -> Void) {
+	internal func postGetData(search: SearchParameter, completion: @escaping (CodexBundle?) -> Void) {
 		showHUD()
 		AlfredClient.client.postObservationSearch(search: search) { [weak self] result in
 			self?.hideHUD()
@@ -353,14 +358,14 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				}
 			}
 			patientUpdate.append(UpdatePatientModel(op: "replace", path: "/gender", value: gender))
-			DataContext.shared.editPatient = patientUpdate
+			DataContext.shared.updatePatient = patientUpdate
 
 			DataContext.shared.userModel?.dob = birthdate
-			let name = [Name(use: "official", family: family, given: given)]
+			let name = [ResourceName(use: "official", family: family, given: given)]
 			DataContext.shared.userModel?.name = name
 			DataContext.shared.userModel?.gender = Gender(rawValue: gender)
 			let defaultPatient = [UpdatePatientModel(op: "", path: "", value: "")]
-			let patient = DataContext.shared.editPatient
+			let patient = DataContext.shared.updatePatient
 			self?.patientAPI(patient: patient ?? defaultPatient, weight: weight, height: height, date: date, birthDay: birthdate, family: family, given: given)
 		}
 
@@ -375,11 +380,11 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		showHUD()
 		AlfredClient.client.patchPatient(patient: patient) { [weak self] result in
 			self?.hideHUD()
-			DataContext.shared.editPatient = patient
+			DataContext.shared.updatePatient = patient
 			switch result {
 			case .success:
 				ALog.info("OK STATUS FOR UPDATE PATIENT : 200")
-				DataContext.shared.userModel = UserModel(userID: DataContext.shared.userModel?.userID ?? "", email: DataContext.shared.userModel?.email, name: [Name(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? Gender(rawValue: "female"))
+				DataContext.shared.userModel = UserModel(userID: DataContext.shared.userModel?.userID ?? "", email: DataContext.shared.userModel?.email, name: [ResourceName(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? Gender(rawValue: "female"))
 				self?.profileViewController?.nameLabel?.attributedText = ProfileHelper.firstName.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			case .failure(let error):
@@ -393,19 +398,19 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		let displayName = DataContext.shared.displayName
 		let referenceId = "Patient/\(DataContext.shared.userModel?.userID ?? "")"
 
-		let weightObservation = Resource(code: DataContext.shared.weightCode, effectiveDateTime: date, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
+		let weightObservation = CodexResource(id: nil, code: DataContext.shared.weightCode, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
 
-		let weightEntry = Entry(fullURL: nil, resource: weightObservation, request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
+		let weightEntry = BundleEntry(fullURL: nil, resource: weightObservation, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
 
-		let heightObservation = Resource(code: DataContext.shared.heightCode, effectiveDateTime: date, id: nil, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: height, unit: Str.heightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
+		let heightObservation = CodexResource(id: nil, code: DataContext.shared.heightCode, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: height, unit: Str.heightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
 
-		let heightEntry = Entry(fullURL: nil, resource: heightObservation, request: BERequest(method: "POST", url: "Observation"), search: nil, response: nil)
-		let bundle = BundleModel(entry: [weightEntry, heightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
+		let heightEntry = BundleEntry(fullURL: nil, resource: heightObservation, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
+		let bundle = CodexBundle(entry: [weightEntry, heightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
 
 		bundleAction(bundle: bundle)
 	}
 
-	internal func bundleAction(bundle: BundleModel) {
+	internal func bundleAction(bundle: CodexBundle) {
 		showHUD()
 		AlfredClient.client.postBundle(bundle: bundle) { [weak self] result in
 			self?.hideHUD()
@@ -436,7 +441,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		gotoSettings()
 	}
 
-	@objc internal func didTapProfileBtn() {
+	@objc internal func didTapProfileButton() {
 		goToProfile()
 	}
 
@@ -475,13 +480,16 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 extension MainAppCoordinator: UINavigationControllerDelegate {
 	func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-		if viewController is HomeViewController {
+		if viewController is CarePlanTasksViewController {
+			let profileButton = UIBarButtonItem(image: UIImage(named: "iconProfile")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapProfileButton))
+			profileButton.tintColor = UIColor.black
+			viewController.navigationItem.setRightBarButton(profileButton, animated: true)
+		} else if viewController is HomeViewController {
 			if viewController.navigationItem.leftBarButtonItem == nil {
-				let profileBtn = UIBarButtonItem(image: UIImage(named: "iconProfile")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapProfileBtn))
+				let profileBtn = UIBarButtonItem(image: UIImage(named: "iconProfile")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapProfileButton))
 				profileBtn.tintColor = UIColor.black
 				viewController.navigationItem.setLeftBarButton(profileBtn, animated: true)
 			}
-
 		} else if viewController is ProfileViewController || viewController is TroubleshootingViewController || viewController is TodayInputViewController {
 			if viewController is ProfileViewController, viewController.navigationItem.rightBarButtonItem == nil {
 				let settingsBtn = UIBarButtonItem(image: UIImage(named: "gear")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapSettings))

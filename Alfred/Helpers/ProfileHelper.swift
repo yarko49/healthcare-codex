@@ -16,13 +16,10 @@ class ProfileHelper {
 	}
 
 	static var gender: Gender {
-		var gender: Gender?
-		if DataContext.shared.userModel?.gender == .male {
-			gender = .male
-		} else if DataContext.shared.userModel?.gender == .female {
-			gender = .female
+		guard let gender = DataContext.shared.userModel?.gender, gender == .female || gender == .male else {
+			return .female
 		}
-		return gender ?? Gender.female
+		return gender
 	}
 
 	static func getGoal(for type: HealthKitQuantityType) -> Double {

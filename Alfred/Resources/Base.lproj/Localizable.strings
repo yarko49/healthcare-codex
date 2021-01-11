@@ -434,3 +434,9 @@
 /* Email Setup */
 "NO_EMAIL_SETUP.title" = "Email Setup";
 
+/* Tasks */
+"TASKS" = "Tasks";
+
+/* Loading... */
+"LOADING_DOTS" = "Loading...";
+

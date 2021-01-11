@@ -6,15 +6,15 @@ enum APIRouter: URLRequestConvertible {
 	case getCarePlan(vectorClock: Bool, valueSpaceSample: Bool)
 	case getQuestionnaire
 	case postQuestionnaireResponse(response: QuestionnaireResponse)
-	case postPatient(patient: Resource)
+	case postPatient(patient: CodexResource)
 	case getProfile
 	case postProfile(profile: Profile)
-	case postObservation(observation: Resource)
+	case postObservation(observation: CodexResource)
 	case getNotifications
 	case postPatientSearch
-	case postBundle(bundle: BundleModel)
+	case postBundle(bundle: CodexBundle)
 	case postObservationSearch(search: SearchParameter)
-	case patchPatient(patient: Edit)
+	case patchPatient(patient: UpdatePatientModels)
 
 	var method: Request.Method {
 		switch self {
