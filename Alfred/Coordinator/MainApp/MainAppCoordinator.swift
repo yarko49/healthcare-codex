@@ -85,8 +85,8 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			DispatchQueue.main.async {
 				self?.showHUD()
 				AlfredClient.client.getCardList { result in
-					var notificationsCards: [NotificationCard]?
 					self?.hideHUD()
+					var notificationsCards: [NotificationCard]?
 					switch result {
 					case .failure(let error):
 						ALog.error("error Fetching notificiation \(error.localizedDescription)")
@@ -190,6 +190,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				height = response?.entry?.first?.resource?.valueQuantity?.value
 			})
 			group.notify(queue: .main) { [weak self] in
+				self?.hideHUD()
 				self?.profileViewController?.weight = weight
 				self?.profileViewController?.height = height
 				self?.profileViewController?.createDetailsLabel()
@@ -234,10 +235,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			profileViewController?.todayHKData = todayData
 		}
 
-		controller.getRangeData = { [weak self] interval, start, end, completion in
+		controller.getRangeData = { interval, start, end, completion in
 			var chartData: [HealthKitQuantityType: [StatModel]] = [:]
 			var goals: [HealthKitQuantityType: Double] = [:]
-			self?.showHUD()
 			let chartGroup = DispatchGroup()
 			DataContext.shared.userAuthorizedQuantities.forEach { quantityType in
 				chartGroup.enter()
@@ -259,8 +259,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				}
 			}
 
-			chartGroup.notify(queue: .main) { [weak self] in
-				self?.hideHUD()
+			chartGroup.notify(queue: .main) {
 				completion?(chartData, goals)
 			}
 		}
@@ -276,23 +275,20 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func postGetData(search: SearchParameter, completion: @escaping (CodexBundle?) -> Void) {
-		showHUD()
-		AlfredClient.client.postObservationSearch(search: search) { [weak self] result in
-			self?.hideHUD()
+		AlfredClient.client.postObservationSearch(search: search) { result in
 			switch result {
 			case .success(let response):
 				DataContext.shared.dataModel = response
 				completion(response)
 			case .failure(let error):
 				ALog.error("Post GetData \(error.localizedDescription)")
+				completion(nil)
 			}
 		}
 	}
 
 	internal func postObservationSearchAction(search: SearchParameter, viewController: ProfileViewController, start: Date, end: Date, hkType: HealthKitQuantityType) {
-		showHUD()
-		AlfredClient.client.postObservationSearch(search: search) { [weak self] result in
-			self?.hideHUD()
+		AlfredClient.client.postObservationSearch(search: search) { result in
 			switch result {
 			case .success:
 				ALog.info("Post Observation Search Action")
@@ -451,7 +447,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 	@objc internal func addAction() {
 		if let observation = observation {
-			parentCoordinator?.showHUD()
+			showHUD()
 			AlfredClient.client.postObservation(observation: observation) { [weak self] result in
 				self?.hideHUD()
 				switch result {
@@ -463,7 +459,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				}
 			}
 		} else if let bundle = bundle {
-			parentCoordinator?.showHUD()
+			showHUD()
 			AlfredClient.client.postBundle(bundle: bundle) { [weak self] result in
 				self?.hideHUD()
 				switch result {
@@ -500,7 +496,6 @@ extension MainAppCoordinator: UINavigationControllerDelegate {
 				addBtn.tintColor = UIColor.cursorOrange
 				viewController.navigationItem.setRightBarButton(addBtn, animated: true)
 			}
-
 			if viewController.navigationItem.leftBarButtonItem == nil {
 				let backBtn = UIBarButtonItem(image: UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(backAction))
 				backBtn.tintColor = .black

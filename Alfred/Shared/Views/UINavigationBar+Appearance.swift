@@ -10,7 +10,7 @@ import UIKit
 extension UINavigationBar {
 	static func applyAppearance() {
 		let navBar = UINavigationBar.appearance()
-		navBar.isTranslucent = true
+		navBar.isTranslucent = false
 //		navBar.barTintColor = UIColor.white
 //		navBar.setBackgroundImage(UIImage(), for: .default)
 //		navBar.shadowImage = UIImage()

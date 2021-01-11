@@ -122,6 +122,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 	}
 
 	internal func profileRequest(profile: Profile) {
+		showHUD()
 		AlfredClient.client.postProfile(profile: profile) { [weak self] result in
 			self?.hideHUD()
 			switch result {

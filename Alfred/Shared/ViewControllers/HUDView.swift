@@ -89,9 +89,6 @@ class HUDView: UIViewController {
 	}
 
 	static func hide(animated: Bool = true) {
-		guard presentedHUD != nil else {
-			return
-		}
 		presentedHUD?.dismiss(animated: animated) {
 			self.presentedHUD?.dismissHandler?()
 			self.presentedHUD = nil

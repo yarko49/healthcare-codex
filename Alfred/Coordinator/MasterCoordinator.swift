@@ -15,13 +15,19 @@ class MasterCoordinator: Coordinator {
 		navigationController
 	}
 
+	var hud: HUDView?
+
 	func showHUD(animated: Bool = true) {
+		guard hud == nil else {
+			return
+		}
 		let title = NSLocalizedString("LOADING_DOTS", comment: "Loading...")
-		HUDView.show(presentingViewController: window.rootViewController, title: title, animated: animated)
+		hud = HUDView.show(presentingViewController: window.rootViewController, title: title, animated: animated)
 	}
 
 	func hideHUD(animated: Bool = true) {
-		HUDView.hide(animated: animated)
+		hud?.dismiss(animated: true, completion: nil)
+		hud = nil
 	}
 
 	init(in window: UIWindow) {
