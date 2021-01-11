@@ -20,4 +20,14 @@ public struct CarePlanResponse: Codable, Hashable {
 		self.tasks = tasks
 		self.vectorClock = vectorClock
 	}
+
+	public var allTasks: [Task] {
+		var flatTasks: [Task] = []
+		for (_, value) in tasks {
+			for (_, innerValue) in value {
+				flatTasks.append(innerValue)
+			}
+		}
+		return flatTasks
+	}
 }

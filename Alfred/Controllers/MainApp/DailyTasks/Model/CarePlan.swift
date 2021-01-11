@@ -13,8 +13,8 @@ public struct CarePlan: Codable, Hashable {
 	public let id: String
 	public let title: String
 	public let patientId: String
-	public let remoteId: String
-	public let groupIdentifier: String
+	public let remoteId: String?
+	public let groupIdentifier: String?
 	public let timezone: TimeZone
 	public let effectiveDate: Date?
 	public let asset: String?

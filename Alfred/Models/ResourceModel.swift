@@ -7,16 +7,19 @@ import Foundation
 
 // MARK: - Resource
 
-struct Resource: Codable {
+struct CodexResource: Codable {
+	let id: String?
 	let code: Code?
-	let effectiveDateTime, id: String?
+	let effectiveDateTime: String?
 	let identifier: [Identifier]?
 	let meta: Meta?
-	let resourceType, status: String?
+	let resourceType: String?
+	let status: String?
 	let subject: Subject?
 	let valueQuantity: ValueQuantity?
-	let birthDate, gender: String?
-	let name: [Name]?
+	let birthDate: String?
+	let gender: String?
+	let name: [ResourceName]?
 	let component: [Component]?
 }
 
@@ -29,8 +32,9 @@ struct Component: Codable {
 
 // MARK: - Name
 
-struct Name: Codable {
-	let use, family: String?
+struct ResourceName: Codable {
+	let use: String?
+	let family: String?
 	let given: [String]?
 }
 

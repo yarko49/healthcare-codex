@@ -17,14 +17,11 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SPLASH" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5TL-5M-Dnr">
-                    <rect key="frame" x="153.5" y="323" width="68" height="21"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="illustration1" translatesAutoresizingMaskIntoConstraints="NO" id="8PY-DW-DbN">
+                    <rect key="frame" x="112.5" y="262.5" width="150" height="142"/>
+                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is supposed to be a copy of the splash screen used to get some time to initialize stuff" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Twd-46-SGl">
-                    <rect key="frame" x="20" y="370" width="335" height="61"/>
+                    <rect key="frame" x="20" y="424.5" width="335" height="61"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -33,13 +30,16 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Twd-46-SGl" firstAttribute="top" secondItem="5TL-5M-Dnr" secondAttribute="bottom" constant="26" id="5hx-ip-YKc"/>
+                <constraint firstItem="8PY-DW-DbN" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="GSV-wG-iEE"/>
                 <constraint firstItem="Twd-46-SGl" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="KKd-yk-43n"/>
-                <constraint firstItem="5TL-5M-Dnr" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="ZHu-bT-GBJ"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Twd-46-SGl" secondAttribute="trailing" constant="20" id="ZqY-Eo-fwV"/>
-                <constraint firstItem="5TL-5M-Dnr" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="nH7-mw-4av"/>
+                <constraint firstItem="8PY-DW-DbN" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="kEZ-WE-Md7"/>
+                <constraint firstItem="Twd-46-SGl" firstAttribute="top" secondItem="8PY-DW-DbN" secondAttribute="bottom" constant="20" id="ovZ-vK-od6"/>
             </constraints>
             <point key="canvasLocation" x="138" y="154"/>
         </view>
     </objects>
+    <resources>
+        <image name="illustration1" width="150" height="142"/>
+    </resources>
 </document>

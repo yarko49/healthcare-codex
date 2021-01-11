@@ -1,8 +1,6 @@
-import JGProgressHUD
 import UIKit
 
 protocol ViewControllerInitializable {
-	var hud: JGProgressHUD { get }
 	func setupView()
 	func bindActions()
 	func setupLayout()
@@ -11,8 +9,6 @@ protocol ViewControllerInitializable {
 }
 
 class BaseViewController: UIViewController, ViewControllerInitializable {
-	let hud = AlertHelper.progressHUD
-
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .white

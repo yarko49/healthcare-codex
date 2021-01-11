@@ -7,9 +7,9 @@ import Foundation
 
 // MARK: - BundleModel
 
-struct BundleModel: Codable {
-	let entry: [Entry]?
-	let link: [Link]?
+struct CodexBundle: Codable {
+	let entry: [BundleEntry]?
+	let link: [BundleLink]?
 	let resourceType: String?
 	let total: Int?
 	let type: String?
@@ -17,12 +17,12 @@ struct BundleModel: Codable {
 
 // MARK: - Entry
 
-struct Entry: Codable {
+struct BundleEntry: Codable {
 	let fullURL: String?
-	let resource: Resource?
-	let request: BERequest?
-	let search: Search?
-	let response: Response?
+	let resource: CodexResource?
+	let request: BundleRequest?
+	let search: BundleSearch?
+	let response: BundleResponse?
 
 	enum CodingKeys: String, CodingKey {
 		case fullURL = "fullUrl"
@@ -32,26 +32,26 @@ struct Entry: Codable {
 
 // MARK: - Search
 
-struct Search: Codable {
+struct BundleSearch: Codable {
 	let mode: String?
 }
 
 // MARK: - Link
 
-struct Link: Codable {
+struct BundleLink: Codable {
 	let relation: String?
 	let url: String?
 }
 
 // MARK: - BERequest
 
-struct BERequest: Codable {
+struct BundleRequest: Codable {
 	let method, url: String?
 }
 
 // MARK: - Response
 
-struct Response: Codable {
+struct BundleResponse: Codable {
 	let etag, lastModified: String?
 	let location: String?
 	let status: String?

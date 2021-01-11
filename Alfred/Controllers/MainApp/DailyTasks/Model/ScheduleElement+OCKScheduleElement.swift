@@ -1,0 +1,52 @@
+//
+//  OCKScheduleElement+ScheduleElement.swift
+//  Alfred
+//
+//  Created by Waqar Malik on 1/2/21.
+//
+
+import CareKitStore
+import Foundation
+
+extension ScheduleElement {
+	init(ockScheduleElement: OCKScheduleElement) {
+		self.start = ockScheduleElement.start
+		self.end = ockScheduleElement.end
+		self.text = ockScheduleElement.text
+
+		let interval = ockScheduleElement.interval
+		self.hour = interval.hour
+		self.minutes = interval.minute
+		self.weekday = interval.weekday
+		switch ockScheduleElement.duration {
+		case .allDay:
+			self.daily = true
+			self.duration = 0
+		case .seconds(let value):
+			self.daily = false
+			self.duration = value
+		}
+		self.interval = 0
+		self.weekly = false
+		self.custom = false
+		self.targetValues = ockScheduleElement.targetValues.map { (value) -> OutcomeValue in
+			OutcomeValue(ockOutcomeValue: value)
+		}
+	}
+}
+
+extension OCKScheduleElement {
+	init(scheduleElement: ScheduleElement) {
+		var components = DateComponents()
+		components.hour = scheduleElement.hour
+		components.minute = scheduleElement.minutes
+		components.weekday = scheduleElement.weekday
+		components.day = 1
+		self.init(start: scheduleElement.start ?? Date(), end: scheduleElement.end, interval: components)
+		self.text = scheduleElement.text
+		self.duration = scheduleElement.daily ? .allDay : .seconds(scheduleElement.duration)
+		self.targetValues = scheduleElement.targetValues?.map { (value) -> OCKOutcomeValue in
+			OCKOutcomeValue(outcomeValue: value)
+		} ?? []
+	}
+}

@@ -24,6 +24,13 @@ extension DateFormatter {
 		return formatter
 	}
 
+	static var rfc3339: ISO8601DateFormatter {
+		let formatter = ISO8601DateFormatter()
+		formatter.timeZone = TimeZone(secondsFromGMT: 0)
+		formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+		return formatter
+	}
+
 	static var wholeDateRequest: DateFormatter {
 		let formatter = DateFormatter()
 		formatter.locale = Locale(identifier: "en_US_POSIX")

@@ -53,7 +53,7 @@ class PatientTests: XCTestCase {
 		let patient = try patientDecode(string: patientDictionary)
 		XCTAssertEqual(patient.id, "patientOtherA", "invalid Id")
 		XCTAssertEqual(patient.groupIdentifier, "shared", "invalid groud Id")
-		XCTAssertEqual(patient.remoteId, "XXX-ID-patientOtherA", "invalid remote Id")
+		XCTAssertEqual(patient.remoteID, "XXX-ID-patientOtherA", "invalid remote Id")
 		XCTAssertEqual(patient.timezone, TimeZone(secondsFromGMT: 28800), "invalid timezone")
 		XCTAssertNotNil(patient.createdDate)
 		XCTAssertNotNil(patient.updatedDate)
@@ -92,7 +92,7 @@ class PatientTests: XCTestCase {
 		let patient = try patientDecode(string: patientDictionary)
 		XCTAssertEqual(patient.id, "patientOtherC", "invalid Id")
 		XCTAssertEqual(patient.groupIdentifier, "inactive", "invalid groud Id")
-		XCTAssertEqual(patient.remoteId, "XXX-ID-patientOtherC", "invalid remote Id")
+		XCTAssertEqual(patient.remoteID, "XXX-ID-patientOtherC", "invalid remote Id")
 		XCTAssertEqual(patient.timezone, TimeZone(secondsFromGMT: 0), "invalid timezone")
 		XCTAssertNotNil(patient.createdDate)
 		XCTAssertNotNil(patient.updatedDate)
@@ -138,7 +138,7 @@ class PatientTests: XCTestCase {
 		let patient = try patientDecode(string: patientDictionary)
 		XCTAssertEqual(patient.id, "patientId", "invalid Id")
 		XCTAssertEqual(patient.groupIdentifier, "active", "invalid groud Id")
-		XCTAssertEqual(patient.remoteId, "XXX-ID-patientId", "invalid remote Id")
+		XCTAssertEqual(patient.remoteID, "XXX-ID-patientId", "invalid remote Id")
 		XCTAssertEqual(patient.timezone, TimeZone(secondsFromGMT: 28800), "invalid timezone")
 		XCTAssertNotNil(patient.createdDate)
 		XCTAssertNotNil(patient.updatedDate)
@@ -202,10 +202,15 @@ class PatientTests: XCTestCase {
 		}
 	}
 
-	func testPerformanceExample() throws {
-		// This is an example of a performance test case.
-		measure {
-			// Put the code you want to measure the time of here.
-		}
+	func testPatientSearchResponse() throws {
+		let patientSearchResponse = AlfredTests.loadTestData(fileName: "PatientSearchResponse.json")
+		XCTAssertNotNil(patientSearchResponse)
+		let decoder = AlfredJSONDecoder()
+		let response = try decoder.decode(CodexBundle.self, from: patientSearchResponse!)
+		XCTAssertEqual(response.total, 1)
+		let resource = response.entry?.first?.resource
+		XCTAssertNotNil(resource)
+//		let patient = Patient(id: nil, resource: resource!, user: nil)
+//		XCTAssertNotNil(patient)
 	}
 }

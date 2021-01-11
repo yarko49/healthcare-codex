@@ -41,10 +41,6 @@ class HomeViewController: BaseViewController {
 		cardCollectionView.alwaysBounceVertical = true
 		cardCollectionView.addSubview(refreshControl)
 		// This is for testing only
-		#if DEBUG
-		let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(fetchCarePlan(_:)))
-		navigationItem.rightBarButtonItem = refreshButton
-		#endif
 	}
 
 	override func viewWillAppear(_ animated: Bool) {

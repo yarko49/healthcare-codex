@@ -17,9 +17,9 @@ public struct ScheduleElement: Codable, Hashable {
 	public var text: String?
 	public var targetValues: [OutcomeValue]?
 	public var duration: TimeInterval // Seconds
-	public var hour: Int
-	public var minutes: Int
-	public var weekday: Int
+	public var hour: Int?
+	public var minutes: Int?
+	public var weekday: Int?
 
 	private enum CodingKeys: String, CodingKey {
 		case start

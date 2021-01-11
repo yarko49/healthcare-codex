@@ -1,6 +1,5 @@
 import Firebase
 import FirebaseAuth
-import JGProgressHUD
 import LocalAuthentication
 import UIKit
 
@@ -9,7 +8,6 @@ class MasterCoordinator: Coordinator {
 	internal var childCoordinators: [CoordinatorKey: Coordinator]
 	internal var navigationController: UINavigationController?
 
-	private let hud: JGProgressHUD = AlertHelper.progressHUD
 	var context = LAContext()
 	var error: NSError?
 
@@ -18,14 +16,12 @@ class MasterCoordinator: Coordinator {
 	}
 
 	func showHUD(animated: Bool = true) {
-		guard !hud.isVisible else {
-			return
-		}
-		hud.show(in: window, animated: animated)
+		let title = NSLocalizedString("LOADING_DOTS", comment: "Loading...")
+		HUDView.show(presentingViewController: window.rootViewController, title: title, animated: animated)
 	}
 
 	func hideHUD(animated: Bool = true) {
-		hud.dismiss(animated: animated)
+		HUDView.hide(animated: animated)
 	}
 
 	init(in window: UIWindow) {
@@ -72,7 +68,7 @@ class MasterCoordinator: Coordinator {
 										self.goToAuth()
 										return
 									}
-									DataContext.shared.fetchData(user: user) { [weak self] success in
+									DataContext.shared.searchPatient(user: user) { [weak self] success in
 										if success {
 											DataContext.shared.identifyCrashlytics()
 											DataContext.shared.getProfileAPI { [weak self] result in

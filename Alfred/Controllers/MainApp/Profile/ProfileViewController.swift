@@ -24,7 +24,7 @@ class ProfileViewController: BaseViewController {
 
 	var backBtnAction: (() -> Void)?
 	var editBtnAction: ((Int, Int) -> Void)?
-	var profileInputAction: (() -> (Resource?, BundleModel?))?
+	var profileInputAction: (() -> (CodexResource?, CodexBundle?))?
 	var comingFrom: Coming = .today
 	var getData: (() -> Void)?
 	var getRangeData: ((HealthStatsDateIntervalType, Date, Date, (([HealthKitQuantityType: [StatModel]]?, [HealthKitQuantityType: Double]?) -> Void)?) -> Void)?

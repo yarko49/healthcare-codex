@@ -42,6 +42,7 @@ class OnboardingViewController: BaseViewController, UIViewControllerTransitionin
 
 	override func setupView() {
 		super.setupView()
+		view.backgroundColor = .onboardingBackground
 		navigationController?.navigationBar.isHidden = true
 		pageControl.currentPage = 0
 

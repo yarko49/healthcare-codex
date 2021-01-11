@@ -5,4 +5,4 @@ struct UpdatePatientModel: Codable {
 	let value: String?
 }
 
-typealias Edit = [UpdatePatientModel]
+typealias UpdatePatientModels = [UpdatePatientModel]

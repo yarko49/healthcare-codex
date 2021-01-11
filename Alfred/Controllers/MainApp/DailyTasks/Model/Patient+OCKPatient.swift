@@ -8,7 +8,7 @@
 import CareKitStore
 import Foundation
 
-public extension OCKPatient {
+extension OCKPatient {
 	init(patient: Patient) {
 		self.init(id: patient.id, name: patient.name)
 		self.sex = patient.sex
@@ -17,7 +17,7 @@ public extension OCKPatient {
 		self.effectiveDate = patient.effectiveDate
 		self.groupIdentifier = patient.groupIdentifier
 		self.tags = patient.tags
-		self.remoteID = patient.remoteId
+		self.remoteID = patient.remoteID
 		self.source = patient.source
 		self.userInfo = patient.userInfo
 		self.asset = patient.asset
@@ -28,7 +28,7 @@ public extension OCKPatient {
 	}
 }
 
-public extension Patient {
+extension Patient {
 	init(ockPatient: OCKPatient) {
 		self.init(id: ockPatient.id, name: ockPatient.name)
 		self.sex = ockPatient.sex
@@ -39,7 +39,7 @@ public extension Patient {
 		self.effectiveDate = ockPatient.effectiveDate
 		self.groupIdentifier = ockPatient.groupIdentifier
 		self.tags = ockPatient.tags
-		self.remoteId = ockPatient.remoteID
+		self.remoteID = ockPatient.remoteID
 		self.source = ockPatient.source
 		self.userInfo = ockPatient.userInfo
 		self.asset = ockPatient.asset
