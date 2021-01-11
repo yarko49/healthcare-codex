@@ -22,10 +22,6 @@ class SettingsViewController: BaseViewController {
 
 	// MARK: - Setup
 
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-	}
-
 	override func setupView() {
 		super.setupView()
 		title = Str.settings
