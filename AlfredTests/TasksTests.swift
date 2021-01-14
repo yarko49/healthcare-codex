@@ -27,7 +27,7 @@ class TasksTests: XCTestCase {
 		let tasksDictionary = carePlan["tasks"] as? [String: Any]
 		XCTAssertNotNil(tasksDictionary)
 		let data = try JSONSerialization.data(withJSONObject: tasksDictionary!, options: .prettyPrinted)
-		let decoder = AlfredJSONDecoder()
+		let decoder = CHJSONDecoder()
 		let tasks = try decoder.decode([String: Tasks].self, from: data)
 		XCTAssertEqual(tasks.count, 2)
 	}

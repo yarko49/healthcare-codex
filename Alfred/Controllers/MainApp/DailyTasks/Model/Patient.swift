@@ -45,7 +45,7 @@ public struct Patient: Codable, Hashable, Identifiable {
 		self.id = id
 		self.name = name
 		self.timezone = TimeZone.current
-		self.effectiveDate = Date()
+		self.effectiveDate = Calendar.current.startOfDay(for: Date())
 	}
 
 	var uuid: UUID? {

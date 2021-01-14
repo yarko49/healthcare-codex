@@ -33,7 +33,7 @@ public final class WebService {
 		}
 	}
 
-	func request<T: Decodable>(route: APIRouter, decoder: JSONDecoder = AlfredJSONDecoder(), completion: @escaping WebService.DecodableCompletion<T>) -> URLSession.ServicePublisher? {
+	func request<T: Decodable>(route: APIRouter, decoder: JSONDecoder = CHJSONDecoder(), completion: @escaping WebService.DecodableCompletion<T>) -> URLSession.ServicePublisher? {
 		guard let request = route.request else {
 			completion(.failure(URLError(.badURL)))
 			return nil
@@ -57,7 +57,7 @@ public final class WebService {
 		return self.request(request: request, completion: completion)
 	}
 
-	func request<T: Decodable>(request: Request, decoder: JSONDecoder = AlfredJSONDecoder(), completion: @escaping WebService.DecodableCompletion<T>) -> URLSession.ServicePublisher? {
+	func request<T: Decodable>(request: Request, decoder: JSONDecoder = CHJSONDecoder(), completion: @escaping WebService.DecodableCompletion<T>) -> URLSession.ServicePublisher? {
 		let publisher = session.servicePublisher(for: request)
 		publisher.retry(configuration.retryCountForRequest)
 			.mapError { [weak self] (failure) -> Error in

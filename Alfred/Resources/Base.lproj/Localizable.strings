@@ -440,3 +440,8 @@
 /* Loading... */
 "LOADING_DOTS" = "Loading...";
 
+"EVENTS_REMAINING" = "Events Remaining";
+
+"NO_DATA" = "No Data";
+
+"LOG" = "Log";

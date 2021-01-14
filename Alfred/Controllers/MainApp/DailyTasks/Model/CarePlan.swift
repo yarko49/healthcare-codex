@@ -16,7 +16,7 @@ public struct CarePlan: Codable, Hashable {
 	public let remoteId: String?
 	public let groupIdentifier: String?
 	public let timezone: TimeZone
-	public let effectiveDate: Date?
+	public let effectiveDate: Date
 	public let asset: String?
 	public let tags: [String]?
 	public let source: String?
@@ -48,7 +48,8 @@ public struct CarePlan: Codable, Hashable {
 		self.remoteId = try container.decode(String.self, forKey: .remoteId)
 		self.groupIdentifier = try container.decode(String.self, forKey: .groupIdentifier)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
-		self.effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate)
+		let date = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
+		self.effectiveDate = Calendar.current.startOfDay(for: date)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
@@ -65,7 +66,7 @@ public struct CarePlan: Codable, Hashable {
 		try container.encode(remoteId, forKey: .remoteId)
 		try container.encode(groupIdentifier, forKey: .groupIdentifier)
 		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)
-		try container.encodeIfPresent(effectiveDate, forKey: .effectiveDate)
+		try container.encode(effectiveDate, forKey: .effectiveDate)
 		try container.encodeIfPresent(asset, forKey: .asset)
 		try container.encodeIfPresent(tags, forKey: .tags)
 		try container.encodeIfPresent(source, forKey: .source)

@@ -23,7 +23,7 @@ class ScheduleTests: XCTestCase {
 	}
 
 	func testScheduleA() throws {
-		let decoder = AlfredJSONDecoder()
+		let decoder = CHJSONDecoder()
 		XCTAssertNotNil(testData)
 		let schedule = try decoder.decode(ScheduleElement.self, from: testData)
 		let startDate = DateFormatter.wholeDate.date(from: "2020-11-11T01:31:00.343Z")

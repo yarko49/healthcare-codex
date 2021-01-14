@@ -6,33 +6,28 @@
 //
 
 import CareKitStore
-import FirebaseAuth
 import Foundation
 
 extension OCKPatient {
-	init?(id: String? = nil, resource: CodexResource, user: User?) {
-		guard let identifier = id ?? resource.id, let name = resource.name?.first else {
+	init?(id: String? = nil, resource: PatientResource, user: RemoteUser?) {
+		guard let identifier = id ?? resource.id, let name = resource.nameComponents else {
 			return nil
 		}
 		let nameComponents = PersonNameComponents(resourceName: name)
 		self.init(id: identifier, name: nameComponents)
-		if let birthdate = resource.birthDate {
-			self.birthday = DateFormatter.yyyyMMdd.date(from: birthdate)
-		}
+		self.birthday = resource.birthday
 
 		if let gender = resource.gender {
 			self.sex = OCKBiologicalSex(rawValue: gender) ?? .other(gender)
 		}
 
-		let rfcFormatter = DateFormatter.rfc3339
-		if let effectiveDate = resource.effectiveDateTime, let date = rfcFormatter.date(from: effectiveDate) {
-			self.effectiveDate = date
-		}
-		if let lastUpdated = resource.meta?.lastUpdated {
+		self.effectiveDate = resource.effectiveDate ?? Date()
+
+		if let lastUpdated = resource.lastUpdated {
 			setUserInfo(item: lastUpdated, forKey: "lastUpdated")
 		}
 
-		self.versionId = resource.meta?.versionID
+		self.versionId = resource.versionId
 		self.email = user?.email
 		self.remoteID = user?.uid
 		setUserInfo(item: user?.phoneNumber, forKey: "phoneNumber")

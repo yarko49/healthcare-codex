@@ -33,6 +33,25 @@ extension ScheduleElement {
 			OutcomeValue(ockOutcomeValue: value)
 		}
 	}
+
+	var outcomeValues: [OCKOutcomeValue] {
+		targetValues?.map { (value) -> OCKOutcomeValue in
+			OCKOutcomeValue(outcomeValue: value)
+		} ?? []
+	}
+
+	var ockSchduleElement: OCKScheduleElement {
+		let startOfDay = Calendar.current.startOfDay(for: start ?? Date())
+		let time = Calendar.current.date(byAdding: .hour, value: hour ?? 0, to: startOfDay)!
+		return OCKScheduleElement(start: time, end: nil, interval: DateComponents(day: 1))
+	}
+
+	var ockSchedule: OCKSchedule {
+		let durationTime = OCKScheduleElement.Duration.seconds(duration)
+		return weekly ?
+			OCKSchedule.weeklyAtTime(weekday: weekday ?? 0, hours: hour ?? 0, minutes: minutes ?? 0, start: start ?? Date(), end: end, targetValues: outcomeValues, text: text, duration: durationTime) :
+			OCKSchedule.dailyAtTime(hour: hour ?? 0, minutes: minutes ?? 0, start: start ?? Date(), end: end, text: text, duration: durationTime, targetValues: outcomeValues)
+	}
 }
 
 extension OCKScheduleElement {
@@ -40,9 +59,9 @@ extension OCKScheduleElement {
 		var components = DateComponents()
 		components.hour = scheduleElement.hour
 		components.minute = scheduleElement.minutes
-		components.weekday = scheduleElement.weekday
-		components.day = 1
-		self.init(start: scheduleElement.start ?? Date(), end: scheduleElement.end, interval: components)
+		components.day = 0
+		let startOfToday = Calendar.current.startOfDay(for: scheduleElement.start ?? Date())
+		self.init(start: startOfToday, end: scheduleElement.end, interval: components)
 		self.text = scheduleElement.text
 		self.duration = scheduleElement.daily ? .allDay : .seconds(scheduleElement.duration)
 		self.targetValues = scheduleElement.targetValues?.map { (value) -> OCKOutcomeValue in
