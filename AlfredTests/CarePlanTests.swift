@@ -236,13 +236,13 @@ class CarePlanTests: XCTestCase {
 		formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
 		encoder.dateEncodingStrategy = .formatted(formatter)
 		let data = try encoder.encode(carePlan)
-		let decoder = AlfredJSONDecoder()
+		let decoder = CHJSONDecoder()
 		let reverse = try decoder.decode(CarePlan.self, from: data)
 		XCTAssertEqual(reverse, carePlan)
 	}
 
 	func carePlanDecode(string: String) throws -> CarePlan {
-		let decoder = AlfredJSONDecoder()
+		let decoder = CHJSONDecoder()
 		if let data = string.data(using: .utf8) {
 			let carePlan = try decoder.decode(CarePlan.self, from: data)
 			return carePlan

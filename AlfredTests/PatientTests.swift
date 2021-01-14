@@ -187,13 +187,13 @@ class PatientTests: XCTestCase {
 		formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
 		encoder.dateEncodingStrategy = .formatted(formatter)
 		let data = try encoder.encode(patient)
-		let decoder = AlfredJSONDecoder()
+		let decoder = CHJSONDecoder()
 		let reverse = try decoder.decode(Patient.self, from: data)
 		XCTAssertEqual(patient, reverse)
 	}
 
 	func patientDecode(string: String) throws -> Patient {
-		let decoder = AlfredJSONDecoder()
+		let decoder = CHJSONDecoder()
 		if let data = string.data(using: .utf8) {
 			let patient = try decoder.decode(Patient.self, from: data)
 			return patient
@@ -205,7 +205,7 @@ class PatientTests: XCTestCase {
 	func testPatientSearchResponse() throws {
 		let patientSearchResponse = AlfredTests.loadTestData(fileName: "PatientSearchResponse.json")
 		XCTAssertNotNil(patientSearchResponse)
-		let decoder = AlfredJSONDecoder()
+		let decoder = CHJSONDecoder()
 		let response = try decoder.decode(CodexBundle.self, from: patientSearchResponse!)
 		XCTAssertEqual(response.total, 1)
 		let resource = response.entry?.first?.resource

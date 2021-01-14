@@ -30,4 +30,15 @@ public struct CarePlanResponse: Codable, Hashable {
 		}
 		return flatTasks
 	}
+
+	public var tasksByKey: [String: Task] {
+		var flatTasks: [String: Task] = [:]
+		for (_, value) in tasks {
+			for (key, innerValue) in value {
+				flatTasks[key] = innerValue
+			}
+		}
+
+		return flatTasks
+	}
 }

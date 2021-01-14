@@ -14,6 +14,11 @@
 		842398CD259C1144006FB3F4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398CC259C1144006FB3F4 /* SceneDelegate.swift */; };
 		842398E2259C1144006FB3F4 /* AlfredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398E1259C1144006FB3F4 /* AlfredTests.swift */; };
 		842398ED259C1145006FB3F4 /* AlfredUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398EC259C1145006FB3F4 /* AlfredUITests.swift */; };
+		842F906F25AE8D8A007421A6 /* GroupIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F906E25AE8D8A007421A6 /* GroupIdentifierType.swift */; };
+		842F907425AE8D9F007421A6 /* TaskLinkType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F907325AE8D9F007421A6 /* TaskLinkType.swift */; };
+		842F907925AE8DFE007421A6 /* OCKTask+CareKitUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F907825AE8DFD007421A6 /* OCKTask+CareKitUI.swift */; };
+		842F908625AEB156007421A6 /* CodexResource+PatientResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F908525AEB156007421A6 /* CodexResource+PatientResource.swift */; };
+		842F908E25AEB56D007421A6 /* FirebaseUser+Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F908D25AEB56D007421A6 /* FirebaseUser+Patient.swift */; };
 		84342FD025A8276C00B3EF5B /* CarePlanTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84342FCF25A8276C00B3EF5B /* CarePlanTasksViewController.swift */; };
 		84476725259C2A4E00C50C09 /* StatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447661C259C2A4E00C50C09 /* StatCell.swift */; };
 		84476726259C2A4E00C50C09 /* TodayStatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447661D259C2A4E00C50C09 /* TodayStatCell.swift */; };
@@ -110,7 +115,7 @@
 		8447678A259C2A4E00C50C09 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A5259C2A4E00C50C09 /* Profile.swift */; };
 		8447678B259C2A4E00C50C09 /* DevicesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A6259C2A4E00C50C09 /* DevicesModel.swift */; };
 		8447678D259C2A4E00C50C09 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A8259C2A4E00C50C09 /* UserModel.swift */; };
-		8447678F259C2A4E00C50C09 /* ResourceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766AA259C2A4E00C50C09 /* ResourceModel.swift */; };
+		8447678F259C2A4E00C50C09 /* CodexResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766AA259C2A4E00C50C09 /* CodexResource.swift */; };
 		84476790259C2A4E00C50C09 /* ComingFrom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766AB259C2A4E00C50C09 /* ComingFrom.swift */; };
 		84476791259C2A4E00C50C09 /* CodexBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766AC259C2A4E00C50C09 /* CodexBundle.swift */; };
 		84476792259C2A4E00C50C09 /* MyNotificationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766AD259C2A4E00C50C09 /* MyNotificationsModel.swift */; };
@@ -177,7 +182,7 @@
 		844767DF259C2A4E00C50C09 /* MainAppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447670D259C2A4E00C50C09 /* MainAppCoordinator.swift */; };
 		844767E0259C2A4E00C50C09 /* QuestionnaireCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447670E259C2A4E00C50C09 /* QuestionnaireCoordinator.swift */; };
 		844767E1259C2A4E00C50C09 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447670F259C2A4E00C50C09 /* Coordinator.swift */; };
-		844767E2259C2A4E00C50C09 /* AlfredJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476711259C2A4E00C50C09 /* AlfredJSONDecoder.swift */; };
+		844767E2259C2A4E00C50C09 /* CHJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476711259C2A4E00C50C09 /* CHJSONDecoder.swift */; };
 		844767E4259C2A4E00C50C09 /* URL+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476714259C2A4E00C50C09 /* URL+Request.swift */; };
 		844767E5259C2A4E00C50C09 /* Data+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476715259C2A4E00C50C09 /* Data+Validation.swift */; };
 		844767E6259C2A4E00C50C09 /* URLComponents+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476716259C2A4E00C50C09 /* URLComponents+Request.swift */; };
@@ -216,7 +221,7 @@
 		84867D4225A95664002EE695 /* AuthenticationOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */; };
 		84867D4725A99016002EE695 /* IllustrationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */; };
 		84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */; };
-		84BDC71C25AB86B30046EFCF /* OCKPatient+CodexResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC71B25AB86B30046EFCF /* OCKPatient+CodexResource.swift */; };
+		84BDC71C25AB86B30046EFCF /* OCKPatient+Remote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC71B25AB86B30046EFCF /* OCKPatient+Remote.swift */; };
 		84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */; };
 		84C22BCB25A5821800D16CFF /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 84C22BCA25A5821800D16CFF /* Logging */; };
 		84C83FD4259C48F200DAEF34 /* PatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBD259C48EF00DAEF34 /* PatientTests.swift */; };
@@ -280,6 +285,11 @@
 		842398E8259C1144006FB3F4 /* AlfredUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlfredUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		842398EC259C1145006FB3F4 /* AlfredUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredUITests.swift; sourceTree = "<group>"; };
 		842398EE259C1145006FB3F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		842F906E25AE8D8A007421A6 /* GroupIdentifierType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupIdentifierType.swift; sourceTree = "<group>"; };
+		842F907325AE8D9F007421A6 /* TaskLinkType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskLinkType.swift; sourceTree = "<group>"; };
+		842F907825AE8DFD007421A6 /* OCKTask+CareKitUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKTask+CareKitUI.swift"; sourceTree = "<group>"; };
+		842F908525AEB156007421A6 /* CodexResource+PatientResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodexResource+PatientResource.swift"; sourceTree = "<group>"; };
+		842F908D25AEB56D007421A6 /* FirebaseUser+Patient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseUser+Patient.swift"; sourceTree = "<group>"; };
 		84342FCF25A8276C00B3EF5B /* CarePlanTasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlanTasksViewController.swift; sourceTree = "<group>"; };
 		84476615259C29FA00C50C09 /* Alfred.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Alfred.entitlements; path = Alfred/Alfred.entitlements; sourceTree = "<group>"; };
 		84476616259C2A0E00C50C09 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -381,7 +391,7 @@
 		844766A5259C2A4E00C50C09 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		844766A6259C2A4E00C50C09 /* DevicesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevicesModel.swift; sourceTree = "<group>"; };
 		844766A8259C2A4E00C50C09 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		844766AA259C2A4E00C50C09 /* ResourceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceModel.swift; sourceTree = "<group>"; };
+		844766AA259C2A4E00C50C09 /* CodexResource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodexResource.swift; sourceTree = "<group>"; };
 		844766AB259C2A4E00C50C09 /* ComingFrom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComingFrom.swift; sourceTree = "<group>"; };
 		844766AC259C2A4E00C50C09 /* CodexBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodexBundle.swift; sourceTree = "<group>"; };
 		844766AD259C2A4E00C50C09 /* MyNotificationsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyNotificationsModel.swift; sourceTree = "<group>"; };
@@ -448,7 +458,7 @@
 		8447670D259C2A4E00C50C09 /* MainAppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainAppCoordinator.swift; sourceTree = "<group>"; };
 		8447670E259C2A4E00C50C09 /* QuestionnaireCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionnaireCoordinator.swift; sourceTree = "<group>"; };
 		8447670F259C2A4E00C50C09 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
-		84476711259C2A4E00C50C09 /* AlfredJSONDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlfredJSONDecoder.swift; sourceTree = "<group>"; };
+		84476711259C2A4E00C50C09 /* CHJSONDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHJSONDecoder.swift; sourceTree = "<group>"; };
 		84476714259C2A4E00C50C09 /* URL+Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Request.swift"; sourceTree = "<group>"; };
 		84476715259C2A4E00C50C09 /* Data+Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Validation.swift"; sourceTree = "<group>"; };
 		84476716259C2A4E00C50C09 /* URLComponents+Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLComponents+Request.swift"; sourceTree = "<group>"; };
@@ -470,7 +480,7 @@
 		84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationOptionsView.swift; sourceTree = "<group>"; };
 		84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustrationCollectionViewCell.swift; sourceTree = "<group>"; };
 		84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
-		84BDC71B25AB86B30046EFCF /* OCKPatient+CodexResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKPatient+CodexResource.swift"; sourceTree = "<group>"; };
+		84BDC71B25AB86B30046EFCF /* OCKPatient+Remote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKPatient+Remote.swift"; sourceTree = "<group>"; };
 		84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersonNameComponents+ResourceName.swift"; sourceTree = "<group>"; };
 		84C83FBD259C48EF00DAEF34 /* PatientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientTests.swift; sourceTree = "<group>"; };
 		84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanTests.swift; sourceTree = "<group>"; };
@@ -1048,7 +1058,7 @@
 				844766A5259C2A4E00C50C09 /* Profile.swift */,
 				844766A6259C2A4E00C50C09 /* DevicesModel.swift */,
 				844766A8259C2A4E00C50C09 /* UserModel.swift */,
-				844766AA259C2A4E00C50C09 /* ResourceModel.swift */,
+				844766AA259C2A4E00C50C09 /* CodexResource.swift */,
 				844766AB259C2A4E00C50C09 /* ComingFrom.swift */,
 				844766AC259C2A4E00C50C09 /* CodexBundle.swift */,
 				844766AD259C2A4E00C50C09 /* MyNotificationsModel.swift */,
@@ -1156,6 +1166,8 @@
 		844766EA259C2A4E00C50C09 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				842F906E25AE8D8A007421A6 /* GroupIdentifierType.swift */,
+				842F907325AE8D9F007421A6 /* TaskLinkType.swift */,
 				844766EF259C2A4E00C50C09 /* CarePlanResponse.swift */,
 				844766F1259C2A4E00C50C09 /* CarePlan.swift */,
 				84DC75A425ABBAD6003B541C /* CarePlan+OCKCarePlan.swift */,
@@ -1163,7 +1175,9 @@
 				844766ED259C2A4E00C50C09 /* KeyedDecodingContainer+TimeZone.swift */,
 				844766EE259C2A4E00C50C09 /* Patient.swift */,
 				844766F4259C2A4E00C50C09 /* Patient+OCKPatient.swift */,
-				84BDC71B25AB86B30046EFCF /* OCKPatient+CodexResource.swift */,
+				842F908525AEB156007421A6 /* CodexResource+PatientResource.swift */,
+				84BDC71B25AB86B30046EFCF /* OCKPatient+Remote.swift */,
+				842F908D25AEB56D007421A6 /* FirebaseUser+Patient.swift */,
 				84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */,
 				844766F0259C2A4E00C50C09 /* OutcomeValue.swift */,
 				844766EB259C2A4E00C50C09 /* OutcomeValue+OCKOutcomeValue.swift */,
@@ -1173,6 +1187,7 @@
 				8461B30325A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift */,
 				844766F6259C2A4E00C50C09 /* Task.swift */,
 				844766F3259C2A4E00C50C09 /* Task+OCKTask.swift */,
+				842F907825AE8DFD007421A6 /* OCKTask+CareKitUI.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1243,7 +1258,7 @@
 		84476710259C2A4E00C50C09 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				84476711259C2A4E00C50C09 /* AlfredJSONDecoder.swift */,
+				84476711259C2A4E00C50C09 /* CHJSONDecoder.swift */,
 				84476724259C2A4E00C50C09 /* AppConfig.swift */,
 				84476713259C2A4E00C50C09 /* WebService */,
 				8447671C259C2A4E00C50C09 /* ViewControllers */,
@@ -1724,6 +1739,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				842F907425AE8D9F007421A6 /* TaskLinkType.swift in Sources */,
 				8447679C259C2A4E00C50C09 /* Ext_UIColor.swift in Sources */,
 				844767DD259C2A4E00C50C09 /* MasterCoordinator.swift in Sources */,
 				84476725259C2A4E00C50C09 /* StatCell.swift in Sources */,
@@ -1741,6 +1757,7 @@
 				84476777259C2A4E00C50C09 /* QuestionnaireCompletionViewController.swift in Sources */,
 				84342FD025A8276C00B3EF5B /* CarePlanTasksViewController.swift in Sources */,
 				84476749259C2A4E00C50C09 /* AppleHealthView.swift in Sources */,
+				842F906F25AE8D8A007421A6 /* GroupIdentifierType.swift in Sources */,
 				844767C7259C2A4E00C50C09 /* Patient.swift in Sources */,
 				844767DE259C2A4E00C50C09 /* SettingsCoordinator.swift in Sources */,
 				844767CE259C2A4E00C50C09 /* ScheduleElement.swift in Sources */,
@@ -1762,8 +1779,9 @@
 				844767A6259C2A4E00C50C09 /* Ext_Sequence.swift in Sources */,
 				844767CF259C2A4E00C50C09 /* Task.swift in Sources */,
 				84476789259C2A4E00C50C09 /* SettingsModel.swift in Sources */,
+				842F908E25AEB56D007421A6 /* FirebaseUser+Patient.swift in Sources */,
 				844767A8259C2A4E00C50C09 /* KeychainConfiguration.swift in Sources */,
-				84BDC71C25AB86B30046EFCF /* OCKPatient+CodexResource.swift in Sources */,
+				84BDC71C25AB86B30046EFCF /* OCKPatient+Remote.swift in Sources */,
 				84476774259C2A4E00C50C09 /* TroubleshootingViewController.swift in Sources */,
 				844767A7259C2A4E00C50C09 /* Ext_Double.swift in Sources */,
 				845AAC9D259C3B0D00FF8F3F /* SubjectModel.swift in Sources */,
@@ -1808,7 +1826,7 @@
 				844767EC259C2A4E00C50C09 /* BaseViewController.swift in Sources */,
 				84476786259C2A4E00C50C09 /* CodeModel.swift in Sources */,
 				844767A2259C2A4E00C50C09 /* Ext_String.swift in Sources */,
-				8447678F259C2A4E00C50C09 /* ResourceModel.swift in Sources */,
+				8447678F259C2A4E00C50C09 /* CodexResource.swift in Sources */,
 				8447678B259C2A4E00C50C09 /* DevicesModel.swift in Sources */,
 				84476759259C2A4E00C50C09 /* EmailSignInViewController.swift in Sources */,
 				84476751259C2A4E00C50C09 /* SelectChunkSizeViewController.swift in Sources */,
@@ -1829,6 +1847,7 @@
 				8447673B259C2A4E00C50C09 /* TextfieldView.swift in Sources */,
 				84476772259C2A4E00C50C09 /* HomeViewController.swift in Sources */,
 				84476743259C2A4E00C50C09 /* ProfileChartView.swift in Sources */,
+				842F907925AE8DFE007421A6 /* OCKTask+CareKitUI.swift in Sources */,
 				844767F0259C2A4E00C50C09 /* UINavigationBar+Appearance.swift in Sources */,
 				84476741259C2A4E00C50C09 /* MultiPartAnswerView.swift in Sources */,
 				8447674A259C2A4E00C50C09 /* PickerTextField.swift in Sources */,
@@ -1872,8 +1891,9 @@
 				844767D3259C2A4E00C50C09 /* HealthKitQuantityType.swift in Sources */,
 				844767C2259C2A4E00C50C09 /* RemoteSynchronizationManager.swift in Sources */,
 				8447675B259C2A4E00C50C09 /* MyProfileSecondViewController.swift in Sources */,
-				844767E2259C2A4E00C50C09 /* AlfredJSONDecoder.swift in Sources */,
+				844767E2259C2A4E00C50C09 /* CHJSONDecoder.swift in Sources */,
 				84476731259C2A4E00C50C09 /* EmailSignInButton.swift in Sources */,
+				842F908625AEB156007421A6 /* CodexResource+PatientResource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2064,7 +2084,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Alfred/Alfred.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Alfred/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2090,7 +2110,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Alfred/Alfred.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Alfred/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

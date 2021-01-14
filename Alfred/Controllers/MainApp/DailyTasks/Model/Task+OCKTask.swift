@@ -10,17 +10,13 @@ import Foundation
 
 extension OCKTask {
 	init(task: Task) {
-		let scheduleElements = task.schedules?.values.map { (element) -> OCKScheduleElement in
-			OCKScheduleElement(scheduleElement: element)
-		} ?? []
-
-		let schedule = OCKSchedule(composing: scheduleElements)
+		let schedule = OCKSchedule(composing: task.ockScheduleElements)
 		self.init(id: task.id, title: task.title, carePlanUUID: nil, schedule: schedule)
 		self.instructions = task.instructions
 		self.impactsAdherence = task.impactsAdherence
 		self.groupIdentifier = task.groupIdentifier
 		self.tags = task.tags
-		self.effectiveDate = task.effectiveDate ?? Date()
+		self.effectiveDate = task.effectiveDate
 		self.remoteID = task.remoteId
 		self.source = task.source
 		self.userInfo = task.userInfo
@@ -72,5 +68,24 @@ extension Task {
 			}
 		}
 		self.timezone = ockTask.timezone
+	}
+
+	var ockScheduleElements: [OCKScheduleElement] {
+		let elements = schedules?.values.map { (element) -> OCKScheduleElement in
+			element.ockSchduleElement
+		} ?? []
+
+		return elements
+	}
+
+	var ockSchedule: OCKSchedule {
+		OCKSchedule(composing: ockScheduleElements)
+	}
+
+	var ockTask: OCKTask {
+		var task = OCKTask(id: id, title: title, carePlanUUID: nil, schedule: ockSchedule)
+		task.instructions = instructions
+		task.impactsAdherence = impactsAdherence
+		return task
 	}
 }

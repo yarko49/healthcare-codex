@@ -9,7 +9,7 @@ import CareKitStore
 import Foundation
 
 extension PersonNameComponents {
-	init(resourceName: ResourceName) {
+	init(resourceName: PatientName) {
 		self.init()
 		var givenNames = resourceName.given
 		self.familyName = resourceName.family

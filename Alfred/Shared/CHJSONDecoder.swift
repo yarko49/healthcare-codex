@@ -1,5 +1,5 @@
 //
-//  AlfredJSONDecoder.swift
+//  CHJSONDecoder.swift
 //  Alfred
 //
 //  Created by Waqar Malik on 12/7/20.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class AlfredJSONDecoder: JSONDecoder {
+public final class CHJSONDecoder: JSONDecoder {
 	let iso8601DateFormatter: ISO8601DateFormatter
 	let noTimezoneDateFormatter: DateFormatter
 

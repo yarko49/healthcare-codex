@@ -26,6 +26,20 @@ extension OCKPatient {
 		}
 		self.timezone = patient.timezone
 	}
+
+	static var sample: OCKPatient {
+		var name = PersonNameComponents()
+		name.familyName = "Pavlov"
+		name.givenName = "Ivan"
+		name.middleName = "Petrovich"
+		name.namePrefix = "Dr."
+		let id = "ivanpavlov"
+		var patient = OCKPatient(id: id, name: name)
+		patient.sex = .male
+		patient.birthday = DateFormatter.yyyyMMdd.date(from: "1849-09-26")
+		patient.effectiveDate = Date()
+		return patient
+	}
 }
 
 extension Patient {
