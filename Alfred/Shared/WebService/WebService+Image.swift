@@ -31,7 +31,7 @@ public extension WebService {
 			.sink { receiveCompltion in
 				switch receiveCompltion {
 				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
+					ALog.error(error: error)
 					completion(.failure(error))
 				case .finished:
 					ALog.info("Finished Dowloading image at \(urlString)")

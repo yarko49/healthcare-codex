@@ -9,7 +9,7 @@ enum Keychain {
 			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key)
 			try passwordItem.savePassword(value)
 		} catch {
-			ALog.error("Error updating keychain - \(error.localizedDescription)")
+			ALog.error("Error updating keychain -", error: error)
 		}
 	}
 
@@ -18,7 +18,7 @@ enum Keychain {
 			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key)
 			try passwordItem.saveData(data)
 		} catch {
-			ALog.error("Error updating keychain - \(error.localizedDescription)")
+			ALog.error("Error updating keychain -", error: error)
 		}
 	}
 
@@ -27,7 +27,7 @@ enum Keychain {
 			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key, accessGroup: Keychain.accessGroup)
 			return try passwordItem.readPassword()
 		} catch {
-			ALog.error("Error reading password from keychain - \(error.localizedDescription)")
+			ALog.error("Error reading password from keychain -", error: error)
 			return nil
 		}
 	}
@@ -37,7 +37,7 @@ enum Keychain {
 			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key, accessGroup: Keychain.accessGroup)
 			return try passwordItem.readData()
 		} catch {
-			ALog.error("Error reading data from keychain - \(error.localizedDescription)")
+			ALog.error("Error reading data from keychain -", error: error)
 			return nil
 		}
 	}
@@ -47,7 +47,7 @@ enum Keychain {
 			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key, accessGroup: Keychain.accessGroup)
 			try passwordItem.deleteItem()
 		} catch {
-			ALog.error("Error deleting password from keychain - \(error.localizedDescription)")
+			ALog.error("Error deleting password from keychain -", error: error)
 		}
 	}
 

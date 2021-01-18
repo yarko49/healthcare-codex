@@ -350,7 +350,7 @@ public extension Request {
 			self.body = data
 			contentType = Request.ContentType.json
 		} catch {
-			ALog.error("Unable to encode body \(error.localizedDescription)")
+			ALog.error("Unable to encode body", error: error)
 		}
 		return self
 	}

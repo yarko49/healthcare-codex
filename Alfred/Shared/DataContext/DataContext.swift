@@ -2,7 +2,7 @@ import Combine
 import FirebaseAuth
 import Foundation
 
-class DataContext {
+class DataContext: ObservableObject {
 	static let shared = DataContext()
 
 	var hasRunOnce: Bool {
@@ -53,8 +53,19 @@ class DataContext {
 	var hasSmartWatch = false
 	var hasSmartPedometer = false
 	var updatePatient: UpdatePatientModels?
-	var resouce: CodexResource?
-	var userModel: UserModel?
+
+	@Published var resouce: CodexResource? {
+		willSet {
+			objectWillChange.send()
+		}
+	}
+
+	@Published var userModel: UserModel? {
+		willSet {
+			objectWillChange.send()
+		}
+	}
+
 	var dataModel: CodexBundle?
 	var weightArray: [Int] = []
 	var heightArray: [Int] = []

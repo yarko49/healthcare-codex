@@ -9,7 +9,7 @@ import Foundation
 
 public typealias CarePlans = [String: CarePlan]
 
-public struct CarePlan: Codable, Hashable {
+public struct CarePlan: Codable, Identifiable {
 	public let id: String
 	public let title: String
 	public let patientId: String
@@ -42,10 +42,11 @@ public struct CarePlan: Codable, Hashable {
 
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-		self.id = try container.decode(String.self, forKey: .id)
+		let theId = try container.decode(String.self, forKey: .id)
+		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId) ?? UUID().uuidString
+		self.id = theId.isEmpty ? remoteId ?? UUID().uuidString : theId
 		self.title = try container.decode(String.self, forKey: .title)
 		self.patientId = try container.decode(String.self, forKey: .patientId)
-		self.remoteId = try container.decode(String.self, forKey: .remoteId)
 		self.groupIdentifier = try container.decode(String.self, forKey: .groupIdentifier)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
 		let date = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()

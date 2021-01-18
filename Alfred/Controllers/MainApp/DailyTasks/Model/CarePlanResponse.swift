@@ -8,14 +8,12 @@
 import CareKitStore
 import Foundation
 
-public struct CarePlanResponse: Codable, Hashable {
-	public let patients: Patients?
+public struct CarePlanResponse: Codable {
 	public let carePlans: CarePlans
 	public let tasks: [String: Tasks]
 	public let vectorClock: [String: Int]
 
-	public init(patients: Patients = [:], carePlans: CarePlans = [:], tasks: [String: Tasks] = [:], vectorClock: [String: Int] = [:]) {
-		self.patients = patients
+	public init(carePlans: CarePlans = [:], tasks: [String: Tasks] = [:], vectorClock: [String: Int] = [:]) {
 		self.carePlans = carePlans
 		self.tasks = tasks
 		self.vectorClock = vectorClock
@@ -40,5 +38,18 @@ public struct CarePlanResponse: Codable, Hashable {
 		}
 
 		return flatTasks
+	}
+
+	private enum CodingKeys: String, CodingKey {
+		case carePlans
+		case tasks
+		case vectorClock
+	}
+
+	public init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		self.carePlans = try container.decode(CarePlans.self, forKey: .carePlans)
+		self.tasks = try container.decode([String: Tasks].self, forKey: .tasks)
+		self.vectorClock = try container.decode([String: Int].self, forKey: .vectorClock)
 	}
 }

@@ -1,6 +1,7 @@
 import Firebase
 import FirebaseAuth
 import LocalAuthentication
+import PKHUD
 import UIKit
 
 class MasterCoordinator: Coordinator {
@@ -15,19 +16,12 @@ class MasterCoordinator: Coordinator {
 		navigationController
 	}
 
-	var hud: HUDView?
-
 	func showHUD(animated: Bool = true) {
-		guard hud == nil else {
-			return
-		}
-		let title = NSLocalizedString("LOADING_DOTS", comment: "Loading...")
-		hud = HUDView.show(presentingViewController: window.rootViewController, title: title, animated: animated)
+		PKHUD.sharedHUD.show()
 	}
 
 	func hideHUD(animated: Bool = true) {
-		hud?.dismiss(animated: true, completion: nil)
-		hud = nil
+		PKHUD.sharedHUD.hide(animated)
 	}
 
 	init(in window: UIWindow) {
@@ -44,8 +38,8 @@ class MasterCoordinator: Coordinator {
 			let firebaseAuth = Auth.auth()
 			do {
 				try firebaseAuth.signOut()
-			} catch let signOutError as NSError {
-				ALog.error("Error signing out: \(signOutError.localizedDescription)")
+			} catch let signOutError {
+				ALog.error("Error signing out:", error: signOutError)
 			}
 			DataContext.shared.hasRunOnce = true
 		}
@@ -65,7 +59,7 @@ class MasterCoordinator: Coordinator {
 						Auth.auth().tenantID = AppConfig.tenantID
 						Auth.auth().currentUser?.getIDToken(completion: { firebaseToken, error in
 							if let error = error {
-								ALog.error("Error signing out: \(error.localizedDescription)")
+								ALog.error("Error signing out:", error: error)
 								self.goToAuth()
 							} else {
 								if let firebaseToken = firebaseToken {
@@ -115,6 +109,7 @@ class MasterCoordinator: Coordinator {
 	internal func syncHKData() {
 		var loadingShouldAppear = true
 		let hkDataUploadViewController = HKDataUploadViewController()
+		showHUD()
 		SyncManager.shared.syncData(initialUpload: false, chunkSize: 4500) { [weak self] uploaded, total in
 			if total > 500, loadingShouldAppear {
 				loadingShouldAppear = false
@@ -124,6 +119,7 @@ class MasterCoordinator: Coordinator {
 				hkDataUploadViewController.maxProgress = total
 			}
 		} completion: { [weak self] success in
+			self?.hideHUD()
 			if success {
 				self?.goToMainApp()
 			} else {
@@ -152,8 +148,8 @@ class MasterCoordinator: Coordinator {
 		let firebaseAuth = Auth.auth()
 		do {
 			try firebaseAuth.signOut()
-		} catch let signOutError as NSError {
-			ALog.error("Error signing out: \(signOutError.localizedDescription)")
+		} catch let signOutError {
+			ALog.error("Error signing out:", error: signOutError)
 		}
 		DispatchQueue.main.async { [weak self] in
 			self?.goToAuth()

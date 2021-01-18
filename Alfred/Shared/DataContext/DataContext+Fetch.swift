@@ -1,9 +1,11 @@
 import FirebaseAuth
 import Foundation
-
+import PKHUD
 extension DataContext {
 	func searchPatient(user: User, completion: @escaping (Bool) -> Void) {
+		PKHUD.sharedHUD.show()
 		AlfredClient.client.postPatientSearch { [weak self] result in
+			PKHUD.sharedHUD.hide()
 			switch result {
 			case .success(let response):
 				guard let resource = response.entry?.first?.resource else {
@@ -13,14 +15,16 @@ extension DataContext {
 				self?.userModel = UserModel(userID: resource.id, email: user.email, name: resource.name, dob: resource.birthDate, gender: Gender(rawValue: resource.gender ?? ""))
 				completion(true)
 			case .failure(let error):
-				ALog.error("Patient Search \(error.localizedDescription)")
+				ALog.error("Patient Search", error: error)
 				completion(false)
 			}
 		}
 	}
 
 	func getProfileAPI(completion: @escaping (Bool) -> Void) {
+		PKHUD.sharedHUD.show()
 		AlfredClient.client.getProfile { [weak self] result in
+			PKHUD.sharedHUD.hide()
 			switch result {
 			case .success(let profile):
 				if let healthMeasurements = profile.healthMeasurements {
@@ -49,7 +53,7 @@ extension DataContext {
 					completion(true)
 				}
 			case .failure(let error):
-				ALog.error("Get Profile \(error.localizedDescription)")
+				ALog.error("Get Profile", error: error)
 				completion(false)
 			}
 		}

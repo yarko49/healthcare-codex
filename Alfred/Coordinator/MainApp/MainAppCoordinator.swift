@@ -54,7 +54,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		let context = laContext
 		laContext.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &theError)
 		if laContext.biometryType == .none {
-			ALog.error("Error \(theError?.localizedDescription ?? "")")
+			ALog.error("Error", error: theError)
 			return
 		}
 		ALog.info("\(String(describing: context.biometryType.rawValue))")
@@ -75,7 +75,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func showDailyTasksView() {
-		let tasksViewController = CarePlanTasksViewController(storeManager: AppDelegate.carePlanStoreManager.synchronizedStoreManager)
+		let tasksViewController = CarePlanDailyTasksController(storeManager: AppDelegate.carePlanStoreManager.synchronizedStoreManager)
 		navigate(to: tasksViewController, with: .push)
 	}
 
@@ -89,7 +89,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 					var notificationsCards: [NotificationCard]?
 					switch result {
 					case .failure(let error):
-						ALog.error("error Fetching notificiation \(error.localizedDescription)")
+						ALog.error("error Fetching notificiation", error: error)
 					case .success(let cardList):
 						notificationsCards = cardList.notifications
 					}
@@ -205,7 +205,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				topGroup.enter()
 				let innergroup = DispatchGroup()
 				var values: [Any] = []
-				quantityType.identifiers.forEach { identifier in
+				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
 					innergroup.enter()
 
 					HealthKitManager.shared.getMostRecentEntry(identifier: identifier) { sample in
@@ -243,7 +243,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				chartGroup.enter()
 				let innergroup = DispatchGroup()
 				var values: [StatModel] = []
-				quantityType.identifiers.forEach { identifier in
+				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
 					innergroup.enter()
 					HealthKitManager.shared.getData(identifier: identifier, startDate: start, endDate: end, intervalType: interval) { dataPoints in
 						let stat = StatModel(type: quantityType, dataPoints: dataPoints)
@@ -281,7 +281,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				DataContext.shared.dataModel = response
 				completion(response)
 			case .failure(let error):
-				ALog.error("Post GetData \(error.localizedDescription)")
+				ALog.error("Post GetData", error: error)
 				completion(nil)
 			}
 		}
@@ -293,7 +293,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			case .success:
 				ALog.info("Post Observation Search Action")
 			case .failure(let error):
-				ALog.error("Post Observation Search Action \(error.localizedDescription)")
+				ALog.error("Post Observation Search Action", error: error)
 			}
 		}
 	}
@@ -384,7 +384,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				self?.profileViewController?.nameLabel?.attributedText = ProfileHelper.firstName.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			case .failure(let error):
-				ALog.error("request failed \(error.localizedDescription)")
+				ALog.error("request failed", error: error)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}
@@ -417,7 +417,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 					self?.navigationController?.popToViewController(profile, animated: true)
 				}
 			case .failure(let error):
-				ALog.error("request failed \(error.localizedDescription)")
+				ALog.error("request failed", error: error)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createBundleFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}
@@ -452,7 +452,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				self?.hideHUD()
 				switch result {
 				case .failure(let error):
-					ALog.error("Error posting Observation \(error.localizedDescription)")
+					ALog.error("Error posting Observation", error: error)
 				case .success:
 					self?.observation = nil
 					self?.navigationController?.popViewController(animated: true)
@@ -464,7 +464,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				self?.hideHUD()
 				switch result {
 				case .failure(let error):
-					ALog.error("Error posting Bundle \(error.localizedDescription)")
+					ALog.error("Error posting Bundle", error: error)
 				case .success:
 					self?.bundle = nil
 					self?.navigationController?.popViewController(animated: true)
@@ -476,7 +476,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 extension MainAppCoordinator: UINavigationControllerDelegate {
 	func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-		if viewController is CarePlanTasksViewController {
+		if viewController is CarePlanDailyTasksController {
 			let profileButton = UIBarButtonItem(image: UIImage(named: "iconProfile")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapProfileButton))
 			profileButton.tintColor = UIColor.black
 			viewController.navigationItem.setRightBarButton(profileButton, animated: true)

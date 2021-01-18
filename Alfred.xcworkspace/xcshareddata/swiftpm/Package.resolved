@@ -110,12 +110,30 @@
         }
       },
       {
+        "package": "PKHUD",
+        "repositoryURL": "git@github.com:pkluz/PKHUD.git",
+        "state": {
+          "branch": null,
+          "revision": "8fd26f23057c6bebd6695524b1c3e05e93aba571",
+          "version": "5.4.0"
+        }
+      },
+      {
         "package": "Promises",
         "repositoryURL": "https://github.com/google/promises.git",
         "state": {
           "branch": null,
           "revision": "afa9a1ace74e116848d4f743599ab83e584ff8cb",
           "version": "1.2.12"
+        }
+      },
+      {
+        "package": "SDWebImage",
+        "repositoryURL": "git@github.com:SDWebImage/SDWebImage.git",
+        "state": {
+          "branch": null,
+          "revision": "564d238f8814c4a82502336fd80b28a9d321ff47",
+          "version": "5.10.2"
         }
       },
       {

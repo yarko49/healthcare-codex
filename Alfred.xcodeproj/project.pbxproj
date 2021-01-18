@@ -19,7 +19,7 @@
 		842F907925AE8DFE007421A6 /* OCKTask+CareKitUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F907825AE8DFD007421A6 /* OCKTask+CareKitUI.swift */; };
 		842F908625AEB156007421A6 /* CodexResource+PatientResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F908525AEB156007421A6 /* CodexResource+PatientResource.swift */; };
 		842F908E25AEB56D007421A6 /* FirebaseUser+Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F908D25AEB56D007421A6 /* FirebaseUser+Patient.swift */; };
-		84342FD025A8276C00B3EF5B /* CarePlanTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84342FCF25A8276C00B3EF5B /* CarePlanTasksViewController.swift */; };
+		84342FD025A8276C00B3EF5B /* CarePlanDailyTasksController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84342FCF25A8276C00B3EF5B /* CarePlanDailyTasksController.swift */; };
 		84476725259C2A4E00C50C09 /* StatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447661C259C2A4E00C50C09 /* StatCell.swift */; };
 		84476726259C2A4E00C50C09 /* TodayStatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447661D259C2A4E00C50C09 /* TodayStatCell.swift */; };
 		84476727259C2A4E00C50C09 /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8447661E259C2A4E00C50C09 /* SettingsCell.xib */; };
@@ -217,13 +217,32 @@
 		848128B1259C59DA004A5308 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 848128B0259C59DA004A5308 /* FirebaseRemoteConfig */; };
 		848128B3259C59DA004A5308 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 848128B2259C59DA004A5308 /* FirebaseAuth */; };
 		848128B5259C59DA004A5308 /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = 848128B4259C59DA004A5308 /* FirebaseDynamicLinks */; };
+		8484104C25B21C5A00171B68 /* PKHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 8484104B25B21C5A00171B68 /* PKHUD */; };
+		848410EB25B292BE00171B68 /* CHOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848410EA25B292BE00171B68 /* CHOperation.swift */; };
+		8484110C25B2A13C00171B68 /* HealthKitAddTasksOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8484110B25B2A13C00171B68 /* HealthKitAddTasksOperation.swift */; };
+		8484111125B2AC2700171B68 /* PatientsAddOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8484111025B2AC2700171B68 /* PatientsAddOperation.swift */; };
+		8484111625B2AC7D00171B68 /* CarePlansAddOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8484111525B2AC7D00171B68 /* CarePlansAddOperation.swift */; };
+		8484111B25B2AE1800171B68 /* TasksAddOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8484111A25B2AE1800171B68 /* TasksAddOperation.swift */; };
+		8484112325B2B59F00171B68 /* QuantityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8484112225B2B59F00171B68 /* QuantityIdentifier.swift */; };
+		8484112B25B2B66B00171B68 /* UnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8484112A25B2B66B00171B68 /* UnitType.swift */; };
+		8484113025B2BAB200171B68 /* HealthKitLinkage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8484112F25B2BAB200171B68 /* HealthKitLinkage.swift */; };
 		84867CC625A8D42A002EE695 /* AuthenticationOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867CC525A8D42A002EE695 /* AuthenticationOptionsViewController.swift */; };
 		84867D4225A95664002EE695 /* AuthenticationOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */; };
 		84867D4725A99016002EE695 /* IllustrationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */; };
+		8487481525B3B2FD008C15E2 /* LoggingOSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487481425B3B2FD008C15E2 /* LoggingOSLog.swift */; };
+		8487481E25B3B3D5008C15E2 /* LogginCrashlytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487481D25B3B3D5008C15E2 /* LogginCrashlytics.swift */; };
+		8487483025B3E622008C15E2 /* FeaturedContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487482F25B3E622008C15E2 /* FeaturedContentViewController.swift */; };
+		8487485A25B3F946008C15E2 /* ButtonLogTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487485925B3F946008C15E2 /* ButtonLogTaskViewController.swift */; };
+		8487486625B3FAB0008C15E2 /* GridTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487486525B3FAB0008C15E2 /* GridTaskViewController.swift */; };
+		8487488B25B4B8F1008C15E2 /* ChecklistTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487488A25B4B8F1008C15E2 /* ChecklistTaskViewController.swift */; };
+		8487489325B504B1008C15E2 /* CarePlanStoreManager+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487489225B504B1008C15E2 /* CarePlanStoreManager+Debug.swift */; };
+		84B43E6025B1227300318CEA /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 84B43E5F25B1227300318CEA /* SDWebImage */; };
+		84B43E6525B1236E00318CEA /* DefaultDiabetesCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 84B43E6425B1236E00318CEA /* DefaultDiabetesCarePlan.json */; };
 		84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */; };
 		84BDC71C25AB86B30046EFCF /* OCKPatient+Remote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC71B25AB86B30046EFCF /* OCKPatient+Remote.swift */; };
 		84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */; };
 		84C22BCB25A5821800D16CFF /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 84C22BCA25A5821800D16CFF /* Logging */; };
+		84C39A4E25B172640063D92C /* Task+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */; };
 		84C83FD4259C48F200DAEF34 /* PatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBD259C48EF00DAEF34 /* PatientTests.swift */; };
 		84C83FD5259C48F200DAEF34 /* CarePlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */; };
 		84C83FD6259C48F200DAEF34 /* ScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */; };
@@ -246,7 +265,6 @@
 		84C83FE8259C48F200DAEF34 /* TaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FD1259C48F200DAEF34 /* TaskTests.swift */; };
 		84C83FE9259C48F200DAEF34 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FD2259C48F200DAEF34 /* URLProtocolMock.swift */; };
 		84C83FEA259C48F200DAEF34 /* Profile.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C83FD3259C48F200DAEF34 /* Profile.json */; };
-		84DC755625AAC28C003B541C /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC755525AAC28C003B541C /* HUDView.swift */; };
 		84DC757625AADBE1003B541C /* PatientSearchResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84DC757525AADBE1003B541C /* PatientSearchResponse.json */; };
 		84DC75A525ABBAD6003B541C /* CarePlan+OCKCarePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC75A425ABBAD6003B541C /* CarePlan+OCKCarePlan.swift */; };
 		84DC75AA25AC0F33003B541C /* ScheduleElementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */; };
@@ -290,7 +308,7 @@
 		842F907825AE8DFD007421A6 /* OCKTask+CareKitUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKTask+CareKitUI.swift"; sourceTree = "<group>"; };
 		842F908525AEB156007421A6 /* CodexResource+PatientResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodexResource+PatientResource.swift"; sourceTree = "<group>"; };
 		842F908D25AEB56D007421A6 /* FirebaseUser+Patient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseUser+Patient.swift"; sourceTree = "<group>"; };
-		84342FCF25A8276C00B3EF5B /* CarePlanTasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlanTasksViewController.swift; sourceTree = "<group>"; };
+		84342FCF25A8276C00B3EF5B /* CarePlanDailyTasksController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlanDailyTasksController.swift; sourceTree = "<group>"; };
 		84476615259C29FA00C50C09 /* Alfred.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Alfred.entitlements; path = Alfred/Alfred.entitlements; sourceTree = "<group>"; };
 		84476616259C2A0E00C50C09 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		84476617259C2A0E00C50C09 /* Environment.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Environment.xcconfig; sourceTree = "<group>"; };
@@ -476,12 +494,29 @@
 		845AAC9C259C3B0C00FF8F3F /* SubjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectModel.swift; sourceTree = "<group>"; };
 		8461B30325A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScheduleElement+OCKScheduleElement.swift"; sourceTree = "<group>"; };
 		847ED200259C4E0F003166BD /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
+		848410EA25B292BE00171B68 /* CHOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHOperation.swift; sourceTree = "<group>"; };
+		8484110B25B2A13C00171B68 /* HealthKitAddTasksOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitAddTasksOperation.swift; sourceTree = "<group>"; };
+		8484111025B2AC2700171B68 /* PatientsAddOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientsAddOperation.swift; sourceTree = "<group>"; };
+		8484111525B2AC7D00171B68 /* CarePlansAddOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlansAddOperation.swift; sourceTree = "<group>"; };
+		8484111A25B2AE1800171B68 /* TasksAddOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksAddOperation.swift; sourceTree = "<group>"; };
+		8484112225B2B59F00171B68 /* QuantityIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityIdentifier.swift; sourceTree = "<group>"; };
+		8484112A25B2B66B00171B68 /* UnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitType.swift; sourceTree = "<group>"; };
+		8484112F25B2BAB200171B68 /* HealthKitLinkage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HealthKitLinkage.swift; path = Alfred/Controllers/MainApp/DailyTasks/HealthKitLinkage.swift; sourceTree = SOURCE_ROOT; };
 		84867CC525A8D42A002EE695 /* AuthenticationOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationOptionsViewController.swift; sourceTree = "<group>"; };
 		84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationOptionsView.swift; sourceTree = "<group>"; };
 		84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustrationCollectionViewCell.swift; sourceTree = "<group>"; };
+		8487481425B3B2FD008C15E2 /* LoggingOSLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingOSLog.swift; sourceTree = "<group>"; };
+		8487481D25B3B3D5008C15E2 /* LogginCrashlytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogginCrashlytics.swift; sourceTree = "<group>"; };
+		8487482F25B3E622008C15E2 /* FeaturedContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedContentViewController.swift; sourceTree = "<group>"; };
+		8487485925B3F946008C15E2 /* ButtonLogTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLogTaskViewController.swift; sourceTree = "<group>"; };
+		8487486525B3FAB0008C15E2 /* GridTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridTaskViewController.swift; sourceTree = "<group>"; };
+		8487488A25B4B8F1008C15E2 /* ChecklistTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistTaskViewController.swift; sourceTree = "<group>"; };
+		8487489225B504B1008C15E2 /* CarePlanStoreManager+Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarePlanStoreManager+Debug.swift"; sourceTree = "<group>"; };
+		84B43E6425B1236E00318CEA /* DefaultDiabetesCarePlan.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultDiabetesCarePlan.json; sourceTree = "<group>"; };
 		84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
 		84BDC71B25AB86B30046EFCF /* OCKPatient+Remote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKPatient+Remote.swift"; sourceTree = "<group>"; };
 		84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersonNameComponents+ResourceName.swift"; sourceTree = "<group>"; };
+		84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+OCKHealthKitTask.swift"; sourceTree = "<group>"; };
 		84C83FBD259C48EF00DAEF34 /* PatientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientTests.swift; sourceTree = "<group>"; };
 		84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanTests.swift; sourceTree = "<group>"; };
 		84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTests.swift; sourceTree = "<group>"; };
@@ -505,7 +540,6 @@
 		84C83FD1259C48F200DAEF34 /* TaskTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskTests.swift; sourceTree = "<group>"; };
 		84C83FD2259C48F200DAEF34 /* URLProtocolMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
 		84C83FD3259C48F200DAEF34 /* Profile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Profile.json; sourceTree = "<group>"; };
-		84DC755525AAC28C003B541C /* HUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
 		84DC757525AADBE1003B541C /* PatientSearchResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PatientSearchResponse.json; sourceTree = "<group>"; };
 		84DC75A425ABBAD6003B541C /* CarePlan+OCKCarePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarePlan+OCKCarePlan.swift"; sourceTree = "<group>"; };
 		84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleElementTests.swift; sourceTree = "<group>"; };
@@ -529,6 +563,7 @@
 				848128B3259C59DA004A5308 /* FirebaseAuth in Frameworks */,
 				845AAC59259C358D00FF8F3F /* CareKitFHIR in Frameworks */,
 				845AAC6B259C364300FF8F3F /* FHIR in Frameworks */,
+				84B43E6025B1227300318CEA /* SDWebImage in Frameworks */,
 				848128B5259C59DA004A5308 /* FirebaseDynamicLinks in Frameworks */,
 				848128AB259C59DA004A5308 /* FirebaseAnalytics in Frameworks */,
 				845AAC71259C36E900FF8F3F /* IQKeyboardManagerSwift in Frameworks */,
@@ -536,6 +571,7 @@
 				848128A9259C59DA004A5308 /* FirebaseDatabase in Frameworks */,
 				84700A84259C331B0083E2AA /* Charts in Frameworks */,
 				845AAC77259C374500FF8F3F /* BonMot in Frameworks */,
+				8484104C25B21C5A00171B68 /* PKHUD in Frameworks */,
 				845AAC5D259C358D00FF8F3F /* CareKitStore in Frameworks */,
 				848128AD259C59DA004A5308 /* FirebaseStorage in Frameworks */,
 				84C22BCB25A5821800D16CFF /* Logging in Frameworks */,
@@ -1153,11 +1189,14 @@
 		844766E3259C2A4E00C50C09 /* DailyTasks */ = {
 			isa = PBXGroup;
 			children = (
-				84342FCF25A8276C00B3EF5B /* CarePlanTasksViewController.swift */,
+				848410DE25B289EE00171B68 /* Operations */,
+				84342FCF25A8276C00B3EF5B /* CarePlanDailyTasksController.swift */,
 				844766E4259C2A4E00C50C09 /* CarePlanStoreManager.swift */,
+				8487489225B504B1008C15E2 /* CarePlanStoreManager+Debug.swift */,
 				844766E6259C2A4E00C50C09 /* Environment+SynchronizedStoreManager.swift */,
 				844766E9259C2A4E00C50C09 /* Enviornment+CarePlanStoreManager.swift */,
 				844766E8259C2A4E00C50C09 /* RemoteSynchronizationManager.swift */,
+				8487485E25B3F954008C15E2 /* TaskViews */,
 				844766EA259C2A4E00C50C09 /* Model */,
 			);
 			path = DailyTasks;
@@ -1187,7 +1226,12 @@
 				8461B30325A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift */,
 				844766F6259C2A4E00C50C09 /* Task.swift */,
 				844766F3259C2A4E00C50C09 /* Task+OCKTask.swift */,
+				84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */,
+				8484112F25B2BAB200171B68 /* HealthKitLinkage.swift */,
+				8484112225B2B59F00171B68 /* QuantityIdentifier.swift */,
+				8484112A25B2B66B00171B68 /* UnitType.swift */,
 				842F907825AE8DFD007421A6 /* OCKTask+CareKitUI.swift */,
+				84B43E6425B1236E00318CEA /* DefaultDiabetesCarePlan.json */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1195,7 +1239,7 @@
 		844766F9259C2A4E00C50C09 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				844766FA259C2A4E00C50C09 /* LoggingManager.swift */,
+				8487481925B3B309008C15E2 /* Logging */,
 				84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */,
 				844766FB259C2A4E00C50C09 /* HealthKit */,
 			);
@@ -1289,7 +1333,6 @@
 			isa = PBXGroup;
 			children = (
 				8447671D259C2A4E00C50C09 /* BaseViewController.swift */,
-				84DC755525AAC28C003B541C /* HUDView.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1312,6 +1355,39 @@
 				84E4660F25A0453C00A10F8B /* ViewNIBLoading.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		848410DE25B289EE00171B68 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				848410EA25B292BE00171B68 /* CHOperation.swift */,
+				8484111025B2AC2700171B68 /* PatientsAddOperation.swift */,
+				8484111525B2AC7D00171B68 /* CarePlansAddOperation.swift */,
+				8484111A25B2AE1800171B68 /* TasksAddOperation.swift */,
+				8484110B25B2A13C00171B68 /* HealthKitAddTasksOperation.swift */,
+			);
+			path = Operations;
+			sourceTree = "<group>";
+		};
+		8487481925B3B309008C15E2 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				844766FA259C2A4E00C50C09 /* LoggingManager.swift */,
+				8487481425B3B2FD008C15E2 /* LoggingOSLog.swift */,
+				8487481D25B3B3D5008C15E2 /* LogginCrashlytics.swift */,
+			);
+			path = Logging;
+			sourceTree = "<group>";
+		};
+		8487485E25B3F954008C15E2 /* TaskViews */ = {
+			isa = PBXGroup;
+			children = (
+				8487482F25B3E622008C15E2 /* FeaturedContentViewController.swift */,
+				8487485925B3F946008C15E2 /* ButtonLogTaskViewController.swift */,
+				8487486525B3FAB0008C15E2 /* GridTaskViewController.swift */,
+				8487488A25B4B8F1008C15E2 /* ChecklistTaskViewController.swift */,
+			);
+			path = TaskViews;
 			sourceTree = "<group>";
 		};
 		85A6E4D4C757514174257A0E /* Pods */ = {
@@ -1367,6 +1443,8 @@
 				848128B2259C59DA004A5308 /* FirebaseAuth */,
 				848128B4259C59DA004A5308 /* FirebaseDynamicLinks */,
 				84C22BCA25A5821800D16CFF /* Logging */,
+				84B43E5F25B1227300318CEA /* SDWebImage */,
+				8484104B25B21C5A00171B68 /* PKHUD */,
 			);
 			productName = Alfred;
 			productReference = 842398C7259C1144006FB3F4 /* Alfred.app */;
@@ -1451,6 +1529,8 @@
 				845AAC75259C374500FF8F3F /* XCRemoteSwiftPackageReference "BonMot" */,
 				848128A5259C59DA004A5308 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				84C22BC925A5821700D16CFF /* XCRemoteSwiftPackageReference "swift-log" */,
+				84B43E5E25B1227300318CEA /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				8484104A25B21C5A00171B68 /* XCRemoteSwiftPackageReference "PKHUD" */,
 			);
 			productRefGroup = 842398C8259C1144006FB3F4 /* Products */;
 			projectDirPath = "";
@@ -1475,6 +1555,7 @@
 				844767AD259C2A4E00C50C09 /* Assets.xcassets in Resources */,
 				8447675C259C2A4E00C50C09 /* MyProfileSecondViewController.xib in Resources */,
 				84476773259C2A4E00C50C09 /* TroubleshootingViewController.xib in Resources */,
+				84B43E6525B1236E00318CEA /* DefaultDiabetesCarePlan.json in Resources */,
 				84476734259C2A4E00C50C09 /* MeasurementCardCell.xib in Resources */,
 				84476767259C2A4E00C50C09 /* AccountDetailsViewController.xib in Resources */,
 				84476758259C2A4E00C50C09 /* MyProfileFirstViewController.xib in Resources */,
@@ -1750,12 +1831,13 @@
 				8447674C259C2A4E00C50C09 /* MockSplashViewController.swift in Sources */,
 				844767E1259C2A4E00C50C09 /* Coordinator.swift in Sources */,
 				844767C9259C2A4E00C50C09 /* OutcomeValue.swift in Sources */,
+				848410EB25B292BE00171B68 /* CHOperation.swift in Sources */,
 				842398CB259C1144006FB3F4 /* AppDelegate.swift in Sources */,
 				844767E8259C2A4E00C50C09 /* WebService+Image.swift in Sources */,
 				84476730259C2A4E00C50C09 /* GoogleSignInButton.swift in Sources */,
 				84476785259C2A4E00C50C09 /* UpdatePatientModel.swift in Sources */,
 				84476777259C2A4E00C50C09 /* QuestionnaireCompletionViewController.swift in Sources */,
-				84342FD025A8276C00B3EF5B /* CarePlanTasksViewController.swift in Sources */,
+				84342FD025A8276C00B3EF5B /* CarePlanDailyTasksController.swift in Sources */,
 				84476749259C2A4E00C50C09 /* AppleHealthView.swift in Sources */,
 				842F906F25AE8D8A007421A6 /* GroupIdentifierType.swift in Sources */,
 				844767C7259C2A4E00C50C09 /* Patient.swift in Sources */,
@@ -1773,15 +1855,18 @@
 				8447677B259C2A4E00C50C09 /* QuestionViewController.swift in Sources */,
 				8447674F259C2A4E00C50C09 /* EmailSentViewController.swift in Sources */,
 				844767A3259C2A4E00C50C09 /* Ext_UILabel.swift in Sources */,
+				8487485A25B3F946008C15E2 /* ButtonLogTaskViewController.swift in Sources */,
 				844767EE259C2A4E00C50C09 /* AlfredClient.swift in Sources */,
 				844767CD259C2A4E00C50C09 /* Patient+OCKPatient.swift in Sources */,
 				844767E5259C2A4E00C50C09 /* Data+Validation.swift in Sources */,
 				844767A6259C2A4E00C50C09 /* Ext_Sequence.swift in Sources */,
 				844767CF259C2A4E00C50C09 /* Task.swift in Sources */,
 				84476789259C2A4E00C50C09 /* SettingsModel.swift in Sources */,
+				8487489325B504B1008C15E2 /* CarePlanStoreManager+Debug.swift in Sources */,
 				842F908E25AEB56D007421A6 /* FirebaseUser+Patient.swift in Sources */,
 				844767A8259C2A4E00C50C09 /* KeychainConfiguration.swift in Sources */,
 				84BDC71C25AB86B30046EFCF /* OCKPatient+Remote.swift in Sources */,
+				8484113025B2BAB200171B68 /* HealthKitLinkage.swift in Sources */,
 				84476774259C2A4E00C50C09 /* TroubleshootingViewController.swift in Sources */,
 				844767A7259C2A4E00C50C09 /* Ext_Double.swift in Sources */,
 				845AAC9D259C3B0D00FF8F3F /* SubjectModel.swift in Sources */,
@@ -1808,6 +1893,8 @@
 				84476779259C2A4E00C50C09 /* QuestionnaireViewController.swift in Sources */,
 				844767ED259C2A4E00C50C09 /* APIRouter.swift in Sources */,
 				8447672A259C2A4E00C50C09 /* BalloonMarker.swift in Sources */,
+				8487481E25B3B3D5008C15E2 /* LogginCrashlytics.swift in Sources */,
+				8484111125B2AC2700171B68 /* PatientsAddOperation.swift in Sources */,
 				84476726259C2A4E00C50C09 /* TodayStatCell.swift in Sources */,
 				84476790259C2A4E00C50C09 /* ComingFrom.swift in Sources */,
 				844767F1259C2A4E00C50C09 /* AppConfig.swift in Sources */,
@@ -1819,6 +1906,7 @@
 				84476792259C2A4E00C50C09 /* MyNotificationsModel.swift in Sources */,
 				8447676C259C2A4E00C50C09 /* MyNotificationsViewController.swift in Sources */,
 				8447679D259C2A4E00C50C09 /* Ext_UIWindow.swift in Sources */,
+				8484112325B2B59F00171B68 /* QuantityIdentifier.swift in Sources */,
 				844767C5259C2A4E00C50C09 /* VectorClock.swift in Sources */,
 				84476753259C2A4E00C50C09 /* SignupViewController.swift in Sources */,
 				84476756259C2A4E00C50C09 /* ResetViewController.swift in Sources */,
@@ -1829,6 +1917,7 @@
 				8447678F259C2A4E00C50C09 /* CodexResource.swift in Sources */,
 				8447678B259C2A4E00C50C09 /* DevicesModel.swift in Sources */,
 				84476759259C2A4E00C50C09 /* EmailSignInViewController.swift in Sources */,
+				8484111B25B2AE1800171B68 /* TasksAddOperation.swift in Sources */,
 				84476751259C2A4E00C50C09 /* SelectChunkSizeViewController.swift in Sources */,
 				84476732259C2A4E00C50C09 /* RoundedButton.swift in Sources */,
 				8447676F259C2A4E00C50C09 /* PrivacyPolicyViewController.swift in Sources */,
@@ -1840,7 +1929,6 @@
 				8447677F259C2A4E00C50C09 /* ProfileViewController.swift in Sources */,
 				844767CA259C2A4E00C50C09 /* CarePlan.swift in Sources */,
 				844767EB259C2A4E00C50C09 /* Request.swift in Sources */,
-				84DC755625AAC28C003B541C /* HUDView.swift in Sources */,
 				844767AC259C2A4E00C50C09 /* Languages.swift in Sources */,
 				8447679A259C2A4E00C50C09 /* ProfileHelper.swift in Sources */,
 				8447672C259C2A4E00C50C09 /* SettingsSwitchCell.swift in Sources */,
@@ -1857,7 +1945,9 @@
 				8461B30425A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift in Sources */,
 				844767D8259C2A4E00C50C09 /* DataContext.swift in Sources */,
 				8447676A259C2A4E00C50C09 /* AccountDetailsViewController.swift in Sources */,
+				8484112B25B2B66B00171B68 /* UnitType.swift in Sources */,
 				844767D6259C2A4E00C50C09 /* DataContext+Content.swift in Sources */,
+				8487481525B3B2FD008C15E2 /* LoggingOSLog.swift in Sources */,
 				8447673D259C2A4E00C50C09 /* CoachCardView.swift in Sources */,
 				844767C3259C2A4E00C50C09 /* Enviornment+CarePlanStoreManager.swift in Sources */,
 				844767D0259C2A4E00C50C09 /* Note+OCKNote.swift in Sources */,
@@ -1870,9 +1960,12 @@
 				84476796259C2A4E00C50C09 /* TextStyle.swift in Sources */,
 				84476781259C2A4E00C50C09 /* OnboardingViewController.swift in Sources */,
 				84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */,
+				8484110C25B2A13C00171B68 /* HealthKitAddTasksOperation.swift in Sources */,
 				844767A0259C2A4E00C50C09 /* Ext_Date.swift in Sources */,
+				8487488B25B4B8F1008C15E2 /* ChecklistTaskViewController.swift in Sources */,
 				8447674D259C2A4E00C50C09 /* AppleHealthViewController.swift in Sources */,
 				844767AA259C2A4E00C50C09 /* LanguageManager.swift in Sources */,
+				8484111625B2AC7D00171B68 /* CarePlansAddOperation.swift in Sources */,
 				844767A1259C2A4E00C50C09 /* Ext_Array.swift in Sources */,
 				844767EF259C2A4E00C50C09 /* AlfredClient+Image.swift in Sources */,
 				8447678A259C2A4E00C50C09 /* Profile.swift in Sources */,
@@ -1880,6 +1973,7 @@
 				84476787259C2A4E00C50C09 /* UnknownModel.swift in Sources */,
 				84476763259C2A4E00C50C09 /* MyDevicesViewController.swift in Sources */,
 				84476798259C2A4E00C50C09 /* AlertHelper.swift in Sources */,
+				8487486625B3FAB0008C15E2 /* GridTaskViewController.swift in Sources */,
 				844767CC259C2A4E00C50C09 /* Task+OCKTask.swift in Sources */,
 				8447672B259C2A4E00C50C09 /* CustomYAxisRenderer.swift in Sources */,
 				84E4661025A0453C00A10F8B /* ViewNIBLoading.swift in Sources */,
@@ -1889,6 +1983,8 @@
 				84476739259C2A4E00C50C09 /* SettingsFooterView.swift in Sources */,
 				8447675F259C2A4E00C50C09 /* ResetMessageViewController.swift in Sources */,
 				844767D3259C2A4E00C50C09 /* HealthKitQuantityType.swift in Sources */,
+				84C39A4E25B172640063D92C /* Task+OCKHealthKitTask.swift in Sources */,
+				8487483025B3E622008C15E2 /* FeaturedContentViewController.swift in Sources */,
 				844767C2259C2A4E00C50C09 /* RemoteSynchronizationManager.swift in Sources */,
 				8447675B259C2A4E00C50C09 /* MyProfileSecondViewController.swift in Sources */,
 				844767E2259C2A4E00C50C09 /* CHJSONDecoder.swift in Sources */,
@@ -2084,7 +2180,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Alfred/Alfred.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 23;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Alfred/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2110,7 +2206,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Alfred/Alfred.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 23;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Alfred/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2318,6 +2414,22 @@
 				minimumVersion = 7.3.1;
 			};
 		};
+		8484104A25B21C5A00171B68 /* XCRemoteSwiftPackageReference "PKHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:pkluz/PKHUD.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		84B43E5E25B1227300318CEA /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		84C22BC925A5821700D16CFF /* XCRemoteSwiftPackageReference "swift-log" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-log.git";
@@ -2408,6 +2520,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 848128A5259C59DA004A5308 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseDynamicLinks;
+		};
+		8484104B25B21C5A00171B68 /* PKHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8484104A25B21C5A00171B68 /* XCRemoteSwiftPackageReference "PKHUD" */;
+			productName = PKHUD;
+		};
+		84B43E5F25B1227300318CEA /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84B43E5E25B1227300318CEA /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
 		};
 		84C22BCA25A5821800D16CFF /* Logging */ = {
 			isa = XCSwiftPackageProductDependency;

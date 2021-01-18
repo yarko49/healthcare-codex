@@ -98,7 +98,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 		Auth.auth().sendPasswordReset(withEmail: email ?? "") { [weak self] error in
 			self?.hideHUD()
 			if error != nil {
-				ALog.error("\(error?.localizedDescription ?? "")")
+				ALog.error(error: error)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.invalidEmail, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			} else {
 				accountResetPasswordViewController?.showCompletionMessage()
@@ -127,7 +127,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 			self?.hideHUD()
 			switch result {
 			case .failure(let error):
-				ALog.error("request failed \(error.localizedDescription)")
+				ALog.error("request failed", error: error)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createProfileFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			case .success(let resource):
 				ALog.info("OK STATUS FOR PROFILE: 200 \(String(describing: resource))")
@@ -205,7 +205,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 			parentCoordinator?.logout()
 			DataContext.shared.clearAll()
 		} catch let signOutError as NSError {
-			ALog.error("Error signing out: \(signOutError.localizedDescription)")
+			ALog.error("Error signing out:", error: signOutError)
 		}
 	}
 
@@ -241,7 +241,7 @@ extension SettingsCoordinator: UINavigationControllerDelegate {
 extension SettingsCoordinator: MFMailComposeViewControllerDelegate {
 	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
 		if let error = error {
-			ALog.error("\(error.localizedDescription)")
+			ALog.error(error: error)
 		}
 
 		controller.dismiss(animated: true, completion: nil)

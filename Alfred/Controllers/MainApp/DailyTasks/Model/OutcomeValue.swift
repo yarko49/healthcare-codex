@@ -63,7 +63,7 @@ public extension OCKOutcomeValueUnderlyingType {
 
 public struct OutcomeValue: Codable, Hashable {
 	public var id: String?
-	public var index: Int?
+	public var index: Int
 	public var remoteId: String?
 	public var units: String?
 	public var source: String?
@@ -71,9 +71,7 @@ public struct OutcomeValue: Codable, Hashable {
 	public var type: OCKOutcomeValueType
 	public var groupIdentifier: String?
 	public var timezone: TimeZone
-	public var effectiveDate: Date?
-	public var createDate: Date?
-	public var updatedDate: Date?
+	public var effectiveDate: Date
 	public var kind: String?
 	public var tags: [String]?
 	public var userInfo: [String: String]?
@@ -84,7 +82,7 @@ public struct OutcomeValue: Codable, Hashable {
 		self.value = value
 		self.units = units
 		self.timezone = TimeZone.current
-		self.effectiveDate = Date()
+		self.effectiveDate = Calendar.current.startOfDay(for: Date())
 		if value is Int { self.type = .integer } else
 		if value is Double { self.type = .double } else
 		if value is String { self.type = .text } else
@@ -93,20 +91,20 @@ public struct OutcomeValue: Codable, Hashable {
 		if value is Date { self.type = .date } else {
 			self.type = .binary
 		}
+		self.index = 0
 	}
 
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.id = try container.decodeIfPresent(String.self, forKey: .id)
-		self.index = try container.decodeIfPresent(Int.self, forKey: .index)
+		self.index = try container.decodeIfPresent(Int.self, forKey: .index) ?? 0
 		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId)
 		self.units = try container.decodeIfPresent(String.self, forKey: .units)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
 		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
-		self.effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate)
-		self.createDate = try container.decodeIfPresent(Date.self, forKey: .createDate)
-		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
+		let date = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
+		self.effectiveDate = Calendar.current.startOfDay(for: date)
 		self.kind = try container.decodeIfPresent(String.self, forKey: .kind)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
@@ -141,8 +139,6 @@ public struct OutcomeValue: Codable, Hashable {
 		try container.encodeIfPresent(groupIdentifier, forKey: .groupIdentifier)
 		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)
 		try container.encodeIfPresent(effectiveDate, forKey: .effectiveDate)
-		try container.encodeIfPresent(createDate, forKey: .createDate)
-		try container.encodeIfPresent(updatedDate, forKey: .updatedDate)
 		try container.encodeIfPresent(kind, forKey: .kind)
 		try container.encodeIfPresent(tags, forKey: .tags)
 		try container.encodeIfPresent(userInfo, forKey: .userInfo)
@@ -196,9 +192,7 @@ public struct OutcomeValue: Codable, Hashable {
 		if let value = groupIdentifier {
 			hasher.combine(value)
 		}
-		if let value = effectiveDate {
-			hasher.combine(value)
-		}
+		hasher.combine(effectiveDate)
 		if let value = kind {
 			hasher.combine(value)
 		}
@@ -215,8 +209,6 @@ public struct OutcomeValue: Codable, Hashable {
 		case groupIdentifier
 		case timezone
 		case effectiveDate
-		case createDate
-		case updatedDate
 		case kind
 		case tags
 		case userInfo

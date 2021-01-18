@@ -445,3 +445,40 @@
 "NO_DATA" = "No Data";
 
 "LOG" = "Log";
+
+/* Address */
+"ADDRESS" = "Address";
+
+/* AppStore */
+"APPSTORE" = "AppStore";
+
+/* Call */
+"CALL" = "Call";
+
+/* Getting Care Plan... */
+"GETTING_CARE_PLAN" = "Getting your care plan...";
+
+/* Links */
+"LINKS" = "Links";
+
+/* Message */
+"MESSAGE" = "Message";
+
+/* URL */
+"URL" = "URL";
+
+/* Website */
+"WEBSITE" = "Website";
+
+/* Anytime */
+"ANYTIME" = "Anytime";
+
+/* Double top record event */
+"DOUBLE_TAP_TO_RECORD_EVENT" = "Double tap to record event";
+
+/* Completed */
+"COMPLETED" = "Completed";
+
+/* Incomplete */
+"INCOMPLETE" = "Incomplete";
+

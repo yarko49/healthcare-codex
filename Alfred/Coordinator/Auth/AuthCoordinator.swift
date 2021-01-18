@@ -99,7 +99,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		actionCodeSettings.setIOSBundleID(bundleId)
 		Auth.auth().sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings) { [weak self] error in
 			if let error = error {
-				ALog.error("Send signin Link \(error.localizedDescription)")
+				ALog.error("Send signin Link", error: error)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.failedSendLink, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 				return
 			}
@@ -260,7 +260,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			guard authorized else {
 				let baseMessage = "HealthKit Authorization Failed"
 				if let error = error {
-					ALog.error("Send signin Link \(baseMessage) \(error.localizedDescription)")
+					ALog.error("Send signin Link \(baseMessage)", error: error)
 				} else {
 					ALog.info("baseMessage \(baseMessage)")
 				}
@@ -404,7 +404,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			guard authorized else {
 				let baseMessage = "HealthKit Authorization Failed"
 				if let error = error {
-					ALog.error("BaseMessage \(baseMessage) Reason: \(error.localizedDescription)")
+					ALog.error("BaseMessage \(baseMessage) Reason:", error: error)
 				} else {
 					ALog.info("Base Message \(baseMessage)")
 				}
@@ -486,7 +486,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 				DataContext.shared.userModel = UserModel(userID: resource.id ?? "", email: self?.emailrequest ?? "", name: resource.name ?? [defaultName], dob: patient.birthDate, gender: Gender(rawValue: DataContext.shared.resouce?.gender ?? ""))
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			case .failure(let error):
-				ALog.error("request falied \(error.localizedDescription)")
+				ALog.error("request falied", error: error)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 				return
 			}
@@ -513,7 +513,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 				let profile = DataContext.shared.createProfile()
 				self?.profileRequest(profile: profile)
 			case .failure(let error):
-				ALog.error("request failed = \(error.localizedDescription)")
+				ALog.error("request failed =", error: error)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createBundleFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}
@@ -529,7 +529,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 				ALog.info("OK STATUS FOR PROFILE: 200 \(String(describing: DataContext.shared.signUpCompleted)), \(finished)")
 				self?.goToAppleHealthViewControllerFromDevices()
 			case .failure(let error):
-				ALog.error("request failed \(error.localizedDescription)")
+				ALog.error("request failed", error: error)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createProfileFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
 		}
@@ -575,7 +575,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 
 	private func getFirebaseAuthTokenResult(authDataResult: AuthDataResult?, error: Error?, completion: @escaping (Bool) -> Void) {
 		if let error = error {
-			ALog.error("\(error.localizedDescription)")
+			ALog.error(error: error)
 			hideHUD()
 			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 		} else if let authDataResult = authDataResult {
@@ -608,12 +608,12 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 extension AuthCoordinator: GIDSignInDelegate {
 	func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
 		if let error = error {
-			ALog.error("\(error.localizedDescription)")
+			ALog.error(error: error)
 			return
 		}
 
 		guard let authentication = user.authentication, error == nil else {
-			ALog.error("\(error?.localizedDescription ?? "")")
+			ALog.error(error: error)
 			return
 		}
 		Auth.auth().tenantID = AppConfig.tenantID
@@ -655,7 +655,7 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 	}
 
 	func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-		ALog.error("Sign in with Apple errored: \(error.localizedDescription)")
+		ALog.error("Sign in with Apple errored:", error: error)
 	}
 
 	func signOut() {
@@ -663,7 +663,7 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 		do {
 			try firebaseAuth.signOut()
 		} catch let signOutError as NSError {
-			ALog.error("Error signing out: \(signOutError.localizedDescription)")
+			ALog.error("Error signing out:", error: signOutError)
 		}
 	}
 }

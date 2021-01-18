@@ -19,10 +19,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var carePlanStoreManager = CarePlanStoreManager()
 
 	class var primaryWindow: UIWindow! {
+		AppDelegate.appDelegate.primaryWindow
+	}
+
+	var primaryWindow: UIWindow! {
 		UIApplication.shared.windows.first
 	}
 
+	var keyWindow: UIWindow! {
+		primaryWindow
+	}
+
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+		FirebaseConfiguration.shared.setLoggerLevel(.min)
 		FirebaseApp.configure()
 		Crashlytics.crashlytics()
 		GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID

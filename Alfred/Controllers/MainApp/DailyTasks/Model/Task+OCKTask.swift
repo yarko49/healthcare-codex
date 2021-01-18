@@ -10,7 +10,7 @@ import Foundation
 
 extension OCKTask {
 	init(task: Task) {
-		let schedule = OCKSchedule(composing: task.ockScheduleElements)
+		let schedule = task.ockSchedule
 		self.init(id: task.id, title: task.title, carePlanUUID: nil, schedule: schedule)
 		self.instructions = task.instructions
 		self.impactsAdherence = task.impactsAdherence
@@ -25,9 +25,44 @@ extension OCKTask {
 			OCKNote(note: note)
 		}
 		self.timezone = task.timezone
-		if let uuidString = task.carePlanId, let uuid = UUID(uuidString: uuidString) {
-			self.carePlanUUID = uuid
+		self.carePlanId = task.carePlanId
+	}
+}
+
+extension OCKTask {
+	var carePlanId: String? {
+		get {
+			userInfo?["carePlanId"]
 		}
+		set {
+			if let planId = newValue {
+				var metaData = userInfo ?? [:]
+				metaData["carePlanId"] = planId
+				userInfo = metaData
+			} else {
+				userInfo?.removeValue(forKey: "carePlanId")
+			}
+		}
+	}
+
+	var featuredContent: [String: String]? {
+		let keys: Set<String> = ["detailView", "detailViewImageLabel", "image", "detailViewCSS", "detailViewHTML", "detailViewImageLabel"]
+		let content = userInfo?.reduce([:]) { (result, item) -> [String: String] in
+			guard keys.contains(item.key) else {
+				return result
+			}
+			var newResult = result
+			newResult[item.key] = item.value
+			return newResult
+		}
+		return content
+	}
+
+	var featuredContentImageURL: URL? {
+		guard let urlString = featuredContent?["image"] else {
+			return nil
+		}
+		return URL(string: urlString)
 	}
 }
 
@@ -49,7 +84,7 @@ extension Task {
 			suffix += 1
 		}
 		self.schedules = schedule
-		self.carePlanId = ockTask.carePlanUUID?.uuidString
+		self.carePlanId = ockTask.carePlanId
 		self.groupIdentifier = ockTask.groupIdentifier
 		self.tags = ockTask.tags
 		self.effectiveDate = ockTask.effectiveDate
@@ -69,7 +104,9 @@ extension Task {
 		}
 		self.timezone = ockTask.timezone
 	}
+}
 
+extension Task {
 	var ockScheduleElements: [OCKScheduleElement] {
 		let elements = schedules?.values.map { (element) -> OCKScheduleElement in
 			element.ockSchduleElement
@@ -82,10 +119,7 @@ extension Task {
 		OCKSchedule(composing: ockScheduleElements)
 	}
 
-	var ockTask: OCKTask {
-		var task = OCKTask(id: id, title: title, carePlanUUID: nil, schedule: ockSchedule)
-		task.instructions = instructions
-		task.impactsAdherence = impactsAdherence
-		return task
+	var ockTask: OCKAnyTask {
+		healthKitLinkage != nil ? OCKHealthKitTask(task: self) : OCKTask(task: self)
 	}
 }

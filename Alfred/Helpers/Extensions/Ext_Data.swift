@@ -12,7 +12,7 @@ extension Data {
 				ALog.info("\(jsonResult)")
 			}
 		} catch {
-			ALog.error("\(error.localizedDescription)")
+			ALog.error(error: error)
 		}
 	}
 }

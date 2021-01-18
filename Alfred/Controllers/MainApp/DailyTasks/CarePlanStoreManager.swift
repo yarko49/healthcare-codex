@@ -26,70 +26,106 @@ class CarePlanStoreManager: ObservableObject {
 		return manager
 	}()
 
-	private(set) lazy var healthKitPassthroughStore = OCKHealthKitPassthroughStore(name: Constants.healthKitPassthroughStore, type: Constants.coreDataStoreType)
+	private(set) lazy var healthKitStore = OCKHealthKitPassthroughStore(name: Constants.healthKitPassthroughStore, type: Constants.coreDataStoreType)
 	private(set) lazy var store = OCKStore(name: Constants.careKitTasksStore, type: Constants.coreDataStoreType, remote: remoteSynchronizationManager)
 	private(set) lazy var synchronizedStoreManager: OCKSynchronizedStoreManager = {
 		let coordinator = OCKStoreCoordinator()
 		coordinator.attach(store: store)
-		coordinator.attach(eventStore: healthKitPassthroughStore)
+		coordinator.attach(eventStore: healthKitStore)
 		let manager = OCKSynchronizedStoreManager(wrapping: coordinator)
 		return manager
 	}()
+
+	private var storeOperationQueue: OperationQueue = {
+		let queue = OperationQueue()
+		queue.qualityOfService = .utility
+		queue.maxConcurrentOperationCount = 1
+		return queue
+	}()
+
+	@Published var patient: OCKPatient? {
+		willSet {
+			objectWillChange.send()
+			ALog.info("Did Create a patient \(String(describing: patient))")
+		}
+	}
+
+	private var cancellables: Set<AnyCancellable> = []
+	init() {
+		DataContext.shared.$resouce.sink { [weak self] newValue in
+			guard let resource = newValue, let user = Auth.auth().currentUser, let patient = OCKPatient(id: nil, resource: resource, user: user) else {
+				return
+			}
+			self?.addPatients(newPatients: [patient], completion: { result in
+				switch result {
+				case .failure(let error):
+					ALog.error(error: error)
+				case .success(let storePatient):
+					self?.patient = storePatient.first
+				}
+			})
+		}.store(in: &cancellables)
+	}
 }
 
 // MARK: - CarePlanResponse
 
 extension CarePlanStoreManager {
 	func insert(carePlansResponse: CarePlanResponse, for patient: OCKPatient?, completion: OCKResultClosure<[String]>?) {
-		var identifiers: [String] = []
-		let ockTasks = carePlansResponse.allTasks.map { (task) -> OCKTask in
-			identifiers.append(task.id)
-			return OCKTask(task: task)
+		let carePlans = carePlansResponse.carePlans.values.compactMap { (plan) -> OCKCarePlan in
+			OCKCarePlan(carePlan: plan)
 		}
-		store.addAnyTasks(ockTasks, callbackQueue: .main) { result in
+
+		let addCarePlansOperation = CarePlansAddOperation(store: store, newCarePlans: carePlans, for: patient)
+		if let patient = patient, patient.uuid == nil {
+			let patientOperation = PatientsAddOperation(store: store, newPatients: [patient]) { [weak self] result in
+				switch result {
+				case .failure(let error):
+					ALog.error(error: error)
+				case .success(let newPatients):
+					self?.patient = newPatients.first
+				}
+			}
+			addCarePlansOperation.addDependency(patientOperation)
+			storeOperationQueue.addOperation(patientOperation)
+		}
+
+		storeOperationQueue.addOperation(addCarePlansOperation)
+
+		let allTasks = carePlansResponse.allTasks.map { (task) -> OCKAnyTask in
+			task.ockTask
+		}
+
+		let healthKitTasks = allTasks.compactMap { (task) -> OCKHealthKitTask? in
+			task as? OCKHealthKitTask
+		}
+
+		let careTasks = allTasks.compactMap { (task) -> OCKTask? in
+			task as? OCKTask
+		}
+
+		let tasksOperation = TasksAddOperation(store: store, newTasks: careTasks)
+		tasksOperation.addDependency(addCarePlansOperation)
+
+		let healthKitTasksOperation = HealthKitAddTasksOperation(store: healthKitStore, newTasks: healthKitTasks) { result in
 			switch result {
 			case .failure(let error):
 				completion?(.failure(error))
 			case .success:
-				completion?(.success(identifiers))
+				completion?(.success([]))
 			}
 		}
+
+		healthKitTasksOperation.addDependency(tasksOperation)
+		storeOperationQueue.addOperation(tasksOperation)
+		storeOperationQueue.addOperation(healthKitTasksOperation)
 	}
 
-	static func carePlanResponse(contentsOf name: String, withExtension: String) -> CarePlanResponse? {
-		guard let fileURL = Bundle.main.url(forResource: name, withExtension: withExtension) else {
-			return nil
-		}
-		do {
-			let data = try Data(contentsOf: fileURL)
-			let carePlanResponse = try CHJSONDecoder().decode(CarePlanResponse.self, from: data)
-			return carePlanResponse
-		} catch {
-			ALog.info("\(error.localizedDescription)")
-			return nil
-		}
-	}
-
-	static func carePlanResponse(name: String, withExtension: String, completion: OCKResultClosure<CarePlanResponse>?) {
-		guard let fileURL = Bundle.main.url(forResource: name, withExtension: withExtension) else {
-			completion?(.failure(.fetchFailed(reason: "File does not exists \(name).\(withExtension)")))
-			return
-		}
-		do {
-			let data = try Data(contentsOf: fileURL)
-			let carePlanResponse = try CHJSONDecoder().decode(CarePlanResponse.self, from: data)
-			completion?(.success(carePlanResponse))
-		} catch {
-			ALog.info("\(error.localizedDescription)")
-			completion?(.failure(.fetchFailed(reason: error.localizedDescription)))
-		}
-	}
-
-	static func carePlanResponseFromServer(completion: OCKResultClosure<CarePlanResponse>?) {
+	class func getCarePlan(completion: OCKResultClosure<CarePlanResponse>?) {
 		AlfredClient.client.getCarePlan { result in
 			switch result {
 			case .failure(let error):
-				ALog.error("\(error.localizedDescription)")
+				ALog.error(error: error)
 				completion?(.failure(.fetchFailed(reason: error.localizedDescription)))
 			case .success(let carePlanResponse):
 				completion?(.success(carePlanResponse))
@@ -98,119 +134,11 @@ extension CarePlanStoreManager {
 	}
 }
 
-// MARK: - CarePlan
-
-extension CarePlanStoreManager {
-	func createOrUpdate(newCarePlans: [OCKCarePlan], for patient: OCKPatient?, completion: OCKResultClosure<[OCKCarePlan]>?) {
-		let dispatchGroup = DispatchGroup()
-		var plans: [OCKCarePlan] = []
-		for plan in newCarePlans {
-			dispatchGroup.enter()
-			createOrUpdate(newCarePlan: plan) { result in
-				switch result {
-				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
-				case .success(var newCarePlan):
-					newCarePlan.patientUUID = patient?.uuid
-					plans.append(newCarePlan)
-				}
-				dispatchGroup.leave()
-			}
-		}
-
-		dispatchGroup.notify(queue: .main) {
-			completion?(.success(plans))
-		}
-	}
-
-	func createOrUpdate(newCarePlan: OCKCarePlan, completion: OCKResultClosure<OCKCarePlan>?) {
-		store.fetchCarePlan(withID: newCarePlan.id) { [weak self] fetchResult in
-			switch fetchResult {
-			case .failure:
-				self?.store.addCarePlan(newCarePlan, completion: completion)
-			case .success:
-				self?.store.updateCarePlan(newCarePlan, completion: completion)
-			}
-		}
-	}
-}
-
-// MARK: - Tasks
-
-extension CarePlanStoreManager {
-	func createOrUpdate(newTasks: [OCKTask], for carePlan: OCKCarePlan?, completion: OCKResultClosure<[OCKTask]>?) {
-		let dispatchGroup = DispatchGroup()
-		var tasks: [OCKTask] = []
-		for var task in newTasks {
-			dispatchGroup.enter()
-			if let plan = carePlan {
-				task.carePlanUUID = plan.uuid
-			}
-			createOrUpdate(newTask: task) { result in
-				switch result {
-				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
-				case .success(let newTask):
-					tasks.append(newTask)
-				}
-				dispatchGroup.leave()
-			}
-		}
-
-		dispatchGroup.notify(queue: .main) {
-			completion?(.success(tasks))
-		}
-	}
-
-	func createOrUpdate(newTask: OCKTask, completion: OCKResultClosure<OCKTask>?) {
-		store.fetchTask(withID: newTask.id) { [weak self] result in
-			switch result {
-			case .failure:
-				self?.store.addTask(newTask, completion: completion)
-			case .success:
-				self?.store.updateTask(newTask, completion: completion)
-			}
-		}
-	}
-}
-
 // MARK: - Patients
 
 extension CarePlanStoreManager {
-	func createOrUpdate(newPatients: [OCKPatient], completion: OCKResultClosure<[OCKPatient]>?) {
-		let dispatchGroup = DispatchGroup()
-		var patients: [OCKPatient] = []
-		for patient in newPatients {
-			dispatchGroup.enter()
-			createOrUpdate(newPatient: patient) { result in
-				switch result {
-				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
-				case .success(let newCarePlan):
-					patients.append(newCarePlan)
-				}
-				dispatchGroup.leave()
-			}
-		}
-
-		dispatchGroup.notify(queue: .main) {
-			completion?(.success(patients))
-		}
-	}
-
-	func createOrUpdate(newPatient: OCKPatient, completion: OCKResultClosure<OCKPatient>?) {
-		store.fetchPatient(withID: newPatient.id) { [weak self] result in
-			switch result {
-			case .failure:
-				self?.store.addPatient(newPatient, completion: completion)
-			case .success:
-				self?.store.updatePatient(newPatient, completion: completion)
-			}
-		}
-	}
-
-	func createPatientFromServer(user: RemoteUser?, completion: OCKResultClosure<OCKPatient>?) {
-		AlfredClient.client.postPatientSearch { [weak self] result in
+	class func getPatient(user: RemoteUser?, completion: OCKResultClosure<OCKPatient>?) {
+		AlfredClient.client.postPatientSearch { result in
 			switch result {
 			case .success(let response):
 				guard let resource = response.entry?.first?.resource else {
@@ -222,12 +150,17 @@ extension CarePlanStoreManager {
 					completion?(.failure(.updateFailed(reason: "Unable to create patient")))
 					return
 				}
-				self?.createOrUpdate(newPatient: newPatient, completion: completion)
+				completion?(.success(newPatient))
 			case .failure(let error):
-				ALog.error("Patient Search \(error.localizedDescription)")
+				ALog.error("Patient Search", error: error)
 				completion?(.failure(.remoteSynchronizationFailed(reason: error.localizedDescription)))
 			}
 		}
+	}
+
+	func addPatients(newPatients: [OCKPatient], completion: OCKResultClosure<[OCKPatient]>?) {
+		let addPatientOperation = PatientsAddOperation(store: store, newPatients: newPatients, completion: completion)
+		storeOperationQueue.addOperation(addPatientOperation)
 	}
 }
 
