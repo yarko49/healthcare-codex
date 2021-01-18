@@ -16,4 +16,5 @@ public enum GroupIdentifierType: String {
 	case instruction = "INSTRUCTION"
 	case featuredContent = "FEATURED_CONTENT"
 	case link = "LINK"
+	case simple = "SIMPLE"
 }

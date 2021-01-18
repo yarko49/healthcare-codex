@@ -157,7 +157,7 @@ public extension URLSession.ServicePublisher {
 			request.body = data
 			request.contentType = Request.ContentType.json
 		} catch {
-			ALog.error("Unable to encode body \(error.localizedDescription)")
+			ALog.error("Unable to encode body", error: error)
 		}
 		return self
 	}

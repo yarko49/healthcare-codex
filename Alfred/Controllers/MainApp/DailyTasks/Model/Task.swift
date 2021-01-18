@@ -5,11 +5,13 @@
 //  Created by Waqar Malik on 12/6/20.
 //
 
+import CareKitStore
 import Foundation
+import HealthKit
 
 public typealias Tasks = [String: Task]
 
-public struct Task: Codable, Hashable, Identifiable {
+public struct Task: Codable, Identifiable {
 	public var carePlanId: String?
 	public let id: String
 	public var title: String?
@@ -27,6 +29,7 @@ public struct Task: Codable, Hashable, Identifiable {
 	public var asset: String?
 	public var notes: [String: Note]?
 	public var timezone: TimeZone
+	public var healthKitLinkage: OCKHealthKitLinkage?
 
 	public init(id: String, title: String?, carePlanUUID: String?) {
 		self.id = id
@@ -39,7 +42,9 @@ public struct Task: Codable, Hashable, Identifiable {
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.carePlanId = try container.decodeIfPresent(String.self, forKey: .carePlanId)
-		self.id = try container.decode(String.self, forKey: .id)
+		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId) ?? UUID().uuidString
+		let theId = try container.decode(String.self, forKey: .id)
+		self.id = theId.isEmpty ? remoteId ?? UUID().uuidString : theId
 		self.title = try container.decodeIfPresent(String.self, forKey: .title)
 		self.instructions = try container.decodeIfPresent(String.self, forKey: .instructions)
 		self.impactsAdherence = try container.decode(Bool.self, forKey: .impactsAdherence)
@@ -50,12 +55,14 @@ public struct Task: Codable, Hashable, Identifiable {
 		self.effectiveDate = Calendar.current.startOfDay(for: date)
 		self.createDate = try container.decodeIfPresent(Date.self, forKey: .createDate)
 		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
-		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
 		self.notes = try container.decodeIfPresent([String: Note].self, forKey: .notes)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
+		if let linkage = try container.decodeIfPresent(HealthKitLinkage.self, forKey: .healthKitLinkage) {
+			self.healthKitLinkage = linkage.hkLinkage
+		}
 	}
 
 	public func encode(to encoder: Encoder) throws {
@@ -77,6 +84,7 @@ public struct Task: Codable, Hashable, Identifiable {
 		try container.encodeIfPresent(asset, forKey: .asset)
 		try container.encodeIfPresent(notes, forKey: .notes)
 		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)
+		try container.encodeIfPresent(healthKitLinkage, forKey: .healthKitLinkage)
 	}
 
 	private enum CodingKeys: String, CodingKey {
@@ -97,5 +105,6 @@ public struct Task: Codable, Hashable, Identifiable {
 		case asset
 		case notes
 		case timezone
+		case healthKitLinkage
 	}
 }

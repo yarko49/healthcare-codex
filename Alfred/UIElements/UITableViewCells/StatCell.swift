@@ -50,8 +50,8 @@ class StatCell: UITableViewCell {
 		chartContainerView.alpha = expanded ? 1 : 0
 		chartContainerView.isHidden = !expanded
 		expandCollapseButton.isSelected = expanded
-		typeLabel.attributedText = quantityType.rawValue.with(style: .semibold20, andColor: quantityType.getColor())
-		typeImageView.image = quantityType.getImage()
+		typeLabel.attributedText = quantityType.rawValue.with(style: .semibold20, andColor: quantityType.color)
+		typeImageView.image = quantityType.image
 		var avgString: String {
 			switch intervalType {
 			case .daily: return ""
@@ -105,7 +105,7 @@ class StatCell: UITableViewCell {
 			let avgNumberString = formatter.string(from: avgNumber) ?? "\(Int(averageValue))"
 			let value = NSMutableAttributedString(attributedString: avgNumberString.with(style: .semibold26, andColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.getUnit().with(style: .regular20, andColor: .black))
+			value.append(quantityType.unit.with(style: .regular20, andColor: .black))
 			avgValueLabel.attributedText = value
 
 			let hiValue = intValues.max() ?? averageValue
@@ -144,7 +144,7 @@ class StatCell: UITableViewCell {
 
 			let value = NSMutableAttributedString(attributedString: String("\(Int(avgSystolic))/\(Int(avgDiastolic))").with(style: .semibold26, andColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.getUnit().with(style: .regular20, andColor: .black))
+			value.append(quantityType.unit.with(style: .regular20, andColor: .black))
 			avgValueLabel.attributedText = value
 
 			let combinedPressure = zip(mappedSystolicsValues, mappedDiastolicsValues).map(+)
@@ -180,7 +180,7 @@ class StatCell: UITableViewCell {
 		if quantityType == .activity {
 			let value = NSMutableAttributedString(attributedString: "0".with(style: .semibold26, andColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.getUnit().with(style: .regular20, andColor: .black))
+			value.append(quantityType.unit.with(style: .regular20, andColor: .black))
 			avgValueLabel.attributedText = value
 
 		} else {

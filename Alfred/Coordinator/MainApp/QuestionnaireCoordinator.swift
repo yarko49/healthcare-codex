@@ -64,7 +64,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 				self?.hideHUD()
 				switch result {
 				case .failure(let error):
-					ALog.error("Error Fetching Questionnaire \(error.localizedDescription)")
+					ALog.error("Error Fetching Questionnaire", error: error)
 				case .success(let questionnaire):
 					if let items = questionnaire.item, let question = items.first {
 						self?.showQuestion(with: items, currentQuestion: question)
@@ -158,7 +158,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 			self?.hideHUD()
 			switch result {
 			case .failure(let error):
-				ALog.error("Cannot post questionnaire response \(error.localizedDescription)")
+				ALog.error("Cannot post questionnaire response", error: error)
 			case .success:
 				self?.goToQuestionnaireCompletion()
 			}

@@ -25,13 +25,13 @@ public struct VectorClock: Codable, Hashable {
 	public func decode(completion: @escaping (OCKRevisionRecord.KnowledgeVector?) -> Void) throws {
 		guard let vectorString = vector, !vectorString.isEmpty else {
 			let error = URLError(.zeroByteResource)
-			ALog.error("vector string missing or empty \(error.localizedDescription)")
+			ALog.error("vector string missing or empty", error: error)
 			throw error
 		}
 
 		guard let data = vectorString.data(using: .utf8) else {
 			let error = URLError(.cannotDecodeContentData)
-			ALog.error("vector string is not convertable \(error.localizedDescription)")
+			ALog.error("vector string is not convertable", error: error)
 			throw error
 		}
 		let cloudVector: OCKRevisionRecord.KnowledgeVector = try JSONDecoder().decode(OCKRevisionRecord.KnowledgeVector.self, from: data)

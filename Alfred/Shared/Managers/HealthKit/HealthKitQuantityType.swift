@@ -13,7 +13,7 @@ enum HealthKitQuantityType: String, CaseIterable {
 	case restingHeartRate = "Resting Heart Rate"
 	case heartRate = "Heart Rate"
 
-	func getHKitQuantityType() -> HKQuantityType? {
+	var healthKitQuantityType: HKQuantityType? {
 		switch self {
 		case .activity:
 			return HKObjectType.quantityType(forIdentifier: .stepCount)
@@ -28,17 +28,22 @@ enum HealthKitQuantityType: String, CaseIterable {
 		}
 	}
 
-	var identifiers: [HKQuantityTypeIdentifier] {
+	var healthKitQuantityTypeIdentifiers: [HKQuantityTypeIdentifier] {
 		switch self {
-		case .weight: return [.bodyMass]
-		case .activity: return [.stepCount]
-		case .bloodPressure: return [.bloodPressureDiastolic, .bloodPressureSystolic]
-		case .heartRate: return [.heartRate]
-		case .restingHeartRate: return [.restingHeartRate]
+		case .weight:
+			return [.bodyMass]
+		case .activity:
+			return [.stepCount]
+		case .bloodPressure:
+			return [.bloodPressureDiastolic, .bloodPressureSystolic]
+		case .heartRate:
+			return [.heartRate]
+		case .restingHeartRate:
+			return [.restingHeartRate]
 		}
 	}
 
-	func getColor() -> UIColor {
+	var color: UIColor {
 		switch self {
 		case .activity:
 			return UIColor.activityBackground
@@ -53,7 +58,7 @@ enum HealthKitQuantityType: String, CaseIterable {
 		}
 	}
 
-	func getImage() -> UIImage {
+	var image: UIImage {
 		switch self {
 		case .activity:
 			return UIImage(named: "activityIcon") ?? UIImage()
@@ -68,7 +73,7 @@ enum HealthKitQuantityType: String, CaseIterable {
 		}
 	}
 
-	func getUnit() -> String {
+	var unit: String {
 		switch self {
 		case .activity:
 			return "steps"
@@ -85,15 +90,20 @@ enum HealthKitQuantityType: String, CaseIterable {
 
 	var hkUnit: HKUnit {
 		switch self {
-		case .activity: return .count()
-		case .bloodPressure: return .millimeterOfMercury()
-		case .heartRate: return HKUnit(from: "count/min")
-		case .restingHeartRate: return HKUnit(from: "count/min")
-		case .weight: return .pound()
+		case .activity:
+			return .count()
+		case .bloodPressure:
+			return .millimeterOfMercury()
+		case .heartRate:
+			return HKUnit(from: "count/min")
+		case .restingHeartRate:
+			return HKUnit(from: "count/min")
+		case .weight:
+			return .pound()
 		}
 	}
 
-	func getStatus(for values: [Double]) -> (UIColor, String) {
+	func status(for values: [Double]) -> (UIColor, String) {
 		guard !values.isEmpty else { return (.clear, "") }
 		switch self {
 		case .weight:

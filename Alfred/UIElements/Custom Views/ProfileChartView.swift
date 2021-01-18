@@ -137,7 +137,7 @@ class ProfileChartView: LineChartView {
 		                                  font: .boldSystemFont(ofSize: 11),
 		                                  textColor: .white,
 		                                  insets: UIEdgeInsets(top: 2, left: 4, bottom: 2, right: 4),
-		                                  unit: quantityType.getUnit(),
+		                                  unit: quantityType.unit,
 		                                  numberFormatter: numberFormatter, intervalType: chartIntervalType)
 		balloonMarker.chartView = self
 		marker = balloonMarker

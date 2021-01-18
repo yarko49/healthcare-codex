@@ -80,7 +80,7 @@ public final class WebService {
 			.sink(receiveCompletion: { receiveCompletion in
 				switch receiveCompletion {
 				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
+					ALog.error(error: error)
 					completion(.failure(error))
 				case .finished:
 					ALog.info("Finished Dowloading")
@@ -119,7 +119,7 @@ public final class WebService {
 			.sink(receiveCompletion: { receiveCompletion in
 				switch receiveCompletion {
 				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
+					ALog.error(error: error)
 					completion(.failure(error))
 				case .finished:
 					ALog.info("Finished Dowloading")
@@ -148,7 +148,7 @@ public final class WebService {
 			.sink(receiveCompletion: { receiveCompletion in
 				switch receiveCompletion {
 				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
+					ALog.error(error: error)
 					completion(.failure(error))
 				case .finished:
 					ALog.info("Finished Dowloading")

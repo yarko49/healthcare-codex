@@ -51,7 +51,7 @@ public final class AlfredClient: AlfredAPI {
 				userInfo["url"] = url
 			}
 			let crashlyticsError = NSError(domain: errorToSend.domain, code: errorToSend.code, userInfo: userInfo)
-			ALog.error("\(crashlyticsError.localizedDescription)")
+			ALog.error(error: crashlyticsError)
 		}
 	}
 

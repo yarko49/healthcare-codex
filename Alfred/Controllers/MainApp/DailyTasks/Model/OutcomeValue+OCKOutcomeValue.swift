@@ -10,7 +10,7 @@ import Foundation
 
 extension OCKOutcomeValue {
 	init(outcomeValue: OutcomeValue) {
-		self.init(outcomeValue.value)
+		self.init(outcomeValue.value, units: outcomeValue.units)
 		self.index = outcomeValue.index
 		self.remoteID = outcomeValue.remoteId
 		self.units = outcomeValue.units
@@ -32,13 +32,11 @@ extension OutcomeValue {
 		self.init(ockOutcomeValue.value)
 		self.id = ockOutcomeValue.remoteID
 		self.type = ockOutcomeValue.type
-		self.index = ockOutcomeValue.index
+		self.index = ockOutcomeValue.index ?? 0
 		self.remoteId = ockOutcomeValue.remoteID
 		self.units = ockOutcomeValue.units
 		self.source = ockOutcomeValue.source
 		self.groupIdentifier = ockOutcomeValue.groupIdentifier
-		self.createDate = ockOutcomeValue.createdDate
-		self.updatedDate = ockOutcomeValue.updatedDate
 		self.timezone = ockOutcomeValue.timezone
 		self.kind = ockOutcomeValue.kind
 		self.tags = ockOutcomeValue.tags

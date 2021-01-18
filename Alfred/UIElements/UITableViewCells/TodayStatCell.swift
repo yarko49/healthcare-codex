@@ -20,8 +20,8 @@ class TodayStatCell: UITableViewCell {
 	}
 
 	func setup(for quantityType: HealthKitQuantityType, with data: [Any]?) {
-		typeLabel.attributedText = quantityType.rawValue.with(style: .semibold20, andColor: quantityType.getColor())
-		typeImageView.image = quantityType.getImage()
+		typeLabel.attributedText = quantityType.rawValue.with(style: .semibold20, andColor: quantityType.color)
+		typeImageView.image = quantityType.image
 
 		if let samples = data as? [HKQuantitySample] {
 			setup(for: quantityType, with: samples)
@@ -38,9 +38,9 @@ class TodayStatCell: UITableViewCell {
 			let quantityValue = samples.first?.quantity.doubleValue(for: quantityType.hkUnit) ?? 0
 			let value = NSMutableAttributedString(attributedString: String(Int(quantityValue)).with(style: .semibold26, andColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.getUnit().with(style: .regular20, andColor: .black))
+			value.append(quantityType.unit.with(style: .regular20, andColor: .black))
 			valueLabel.attributedText = value
-			let status = quantityType.getStatus(for: [quantityValue])
+			let status = quantityType.status(for: [quantityValue])
 			statusLabel.attributedText = status.1.with(style: .regular13, andColor: .lightGrey)
 			statusIndicatorView.backgroundColor = status.0
 		case .bloodPressure where samples.count == 2:
@@ -52,9 +52,9 @@ class TodayStatCell: UITableViewCell {
 			guard let systolic = pressureData.first, let diastolic = pressureData.last else { return }
 			let value = NSMutableAttributedString(attributedString: "\(systolic)/\(diastolic)".with(style: .semibold26, andColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.getUnit().with(style: .regular20, andColor: .black))
+			value.append(quantityType.unit.with(style: .regular20, andColor: .black))
 			valueLabel.attributedText = value
-			let status = quantityType.getStatus(for: [Double(systolic), Double(diastolic)])
+			let status = quantityType.status(for: [Double(systolic), Double(diastolic)])
 			statusLabel.attributedText = status.1.with(style: .regular13, andColor: .lightGrey)
 			statusIndicatorView.backgroundColor = status.0
 		default:
@@ -72,10 +72,10 @@ class TodayStatCell: UITableViewCell {
 		let numberString = formatter.string(from: number) ?? "\(Int(quantityValue))"
 		let value = NSMutableAttributedString(attributedString: numberString.with(style: .semibold26, andColor: .black))
 		value.append(NSAttributedString(string: " "))
-		value.append(quantityType.getUnit().with(style: .regular20, andColor: .black))
+		value.append(quantityType.unit.with(style: .regular20, andColor: .black))
 		valueLabel.attributedText = value
 		dateLabel.attributedText = Str.today.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
-		let status = quantityType.getStatus(for: [quantityValue])
+		let status = quantityType.status(for: [quantityValue])
 		statusLabel.attributedText = status.1.with(style: .regular13, andColor: .lightGrey)
 		statusIndicatorView.backgroundColor = status.0
 	}
@@ -84,7 +84,7 @@ class TodayStatCell: UITableViewCell {
 		if quantityType == .activity {
 			let value = NSMutableAttributedString(attributedString: "0".with(style: .semibold26, andColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.getUnit().with(style: .regular20, andColor: .black))
+			value.append(quantityType.unit.with(style: .regular20, andColor: .black))
 			valueLabel.attributedText = value
 			dateLabel.attributedText = Str.today.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
 		} else {

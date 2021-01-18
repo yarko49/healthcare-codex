@@ -63,7 +63,7 @@ class SyncManager {
 						completion(Date())
 					}
 				case .failure(let error):
-					ALog.error("Post Observation Search \(error.localizedDescription)")
+					ALog.error("Post Observation Search", error: error)
 					completion(Date())
 				}
 			}
@@ -133,7 +133,7 @@ class SyncManager {
 		AlfredClient.client.postBundle(bundle: bundle) { result in
 			switch result {
 			case .failure(let error):
-				ALog.error("Post Bundle \(error.localizedDescription)")
+				ALog.error("Post Bundle", error: error)
 				completion(false)
 			case .success:
 				completion(true)

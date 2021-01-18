@@ -16,8 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		MasterCoordinator(in: self.window!)
 	}()
 
-	lazy var dailyTasksViewController: CarePlanTasksViewController = {
-		let controller = CarePlanTasksViewController(storeManager: AppDelegate.appDelegate.carePlanStoreManager.synchronizedStoreManager)
+	lazy var dailyTasksViewController: CarePlanDailyTasksController = {
+		let controller = CarePlanDailyTasksController(storeManager: AppDelegate.appDelegate.carePlanStoreManager.synchronizedStoreManager)
 		return controller
 	}()
 
@@ -30,6 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		}
 
 		window = UIWindow(windowScene: scene)
+//		window?.rootViewController = dailyTasksViewController
 		window?.makeKeyAndVisible()
 		if let incomingURL = connectionOptions.userActivities.first?.webpageURL {
 			handleIncomingURL(incomingURL)
@@ -75,7 +76,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	func handleIncomingURL(_ incomingURL: URL) {
 		DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) { [weak self] dynamicLink, error in
 			if let error = error {
-				ALog.error("Error \(error.localizedDescription)")
+				ALog.error("Error", error: error)
 				return
 			}
 			if let dynamicLink = dynamicLink {

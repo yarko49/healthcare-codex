@@ -42,7 +42,7 @@ class RemoteConfigManager: ObservableObject {
 		remoteConfig.fetchAndActivate { [weak self] activateStatus, error in
 			switch activateStatus {
 			case .error:
-				ALog.error("Could not fetch config  \(error?.localizedDescription ?? "No error available.")")
+				ALog.error("Could not fetch config", error: error)
 			case .successFetchedFromRemote, .successUsingPreFetchedData:
 				self?.updatecProperties()
 			@unknown default:
