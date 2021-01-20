@@ -15,9 +15,9 @@ extension ScheduleElement {
 		self.text = ockScheduleElement.text
 
 		let interval = ockScheduleElement.interval
-		self.hour = interval.hour
-		self.minutes = interval.minute
-		self.weekday = interval.weekday
+		self.hour = interval.hour ?? .zero
+		self.minutes = interval.minute ?? .zero
+		self.weekday = interval.weekday ?? .zero
 		switch ockScheduleElement.duration {
 		case .allDay:
 			self.daily = true
@@ -55,7 +55,7 @@ extension OCKScheduleElement {
 		components.hour = scheduleElement.hour
 		components.minute = scheduleElement.minutes
 		components.day = 1
-		self.init(start: scheduleElement.start ?? Date(), end: scheduleElement.end, interval: components)
+		self.init(start: scheduleElement.start, end: scheduleElement.end, interval: components)
 		self.text = scheduleElement.text ?? NSLocalizedString("ANYTIME", comment: "Anytime")
 		self.duration = (scheduleElement.duration > 0) ? .seconds(scheduleElement.duration) : .allDay
 		self.targetValues = scheduleElement.ockOutcomeValues

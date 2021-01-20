@@ -1,6 +1,7 @@
 import Combine
 import FirebaseAuth
 import Foundation
+import JGProgressHUD
 
 class DataContext: ObservableObject {
 	static let shared = DataContext()
@@ -64,6 +65,20 @@ class DataContext: ObservableObject {
 		willSet {
 			objectWillChange.send()
 		}
+	}
+
+	private let hud: JGProgressHUD = {
+		let view = JGProgressHUD(style: .dark)
+		view.vibrancyEnabled = true
+		return view
+	}()
+
+	func showHUD(animated: Bool = true) {
+		hud.show(in: AppDelegate.primaryWindow, animated: true)
+	}
+
+	func hideHUD(animated: Bool = true) {
+		hud.dismiss(animated: animated)
 	}
 
 	var dataModel: CodexBundle?

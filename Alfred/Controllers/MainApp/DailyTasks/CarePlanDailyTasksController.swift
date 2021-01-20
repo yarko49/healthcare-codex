@@ -8,7 +8,7 @@
 import CareKit
 import CareKitStore
 import CareKitUI
-import PKHUD
+import JGProgressHUD
 import SwiftUI
 import UIKit
 
@@ -16,6 +16,13 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 	var carePlanStoreManager: CarePlanStoreManager {
 		AppDelegate.appDelegate.carePlanStoreManager
 	}
+
+	private let hud: JGProgressHUD = {
+		let view = JGProgressHUD(style: .dark)
+		view.vibrancyEnabled = true
+
+		return view
+	}()
 
 	var identifiers: [String] = []
 	override func viewDidLoad() {
@@ -29,6 +36,7 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 	}
 
 	var insertViewsAnimated: Bool = false
+
 	override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController, prepare listViewController: OCKListViewController, for date: Date) {
 		var query = OCKTaskQuery(for: date)
 		query.excludesTasksWithNoEvents = true
@@ -93,9 +101,9 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 
 private extension CarePlanDailyTasksController {
 	func fetchCarePlan() {
-		PKHUD.sharedHUD.show()
+		hud.show(in: navigationController?.view ?? view, animated: true)
 		CarePlanStoreManager.getCarePlan { [weak self] result in
-			PKHUD.sharedHUD.hide()
+			self?.hud.dismiss(animated: true)
 			switch result {
 			case .failure(let error):
 				ALog.error(error: error)

@@ -1,13 +1,18 @@
 import Firebase
 import FirebaseAuth
+import JGProgressHUD
 import LocalAuthentication
-import PKHUD
 import UIKit
 
 class MasterCoordinator: Coordinator {
 	private var window: UIWindow
 	internal var childCoordinators: [CoordinatorKey: Coordinator]
 	internal var navigationController: UINavigationController?
+	internal let hud: JGProgressHUD = {
+		let view = JGProgressHUD(style: .dark)
+		view.vibrancyEnabled = true
+		return view
+	}()
 
 	var context = LAContext()
 	var error: NSError?
@@ -17,11 +22,11 @@ class MasterCoordinator: Coordinator {
 	}
 
 	func showHUD(animated: Bool = true) {
-		PKHUD.sharedHUD.show()
+		hud.show(in: window, animated: animated)
 	}
 
 	func hideHUD(animated: Bool = true) {
-		PKHUD.sharedHUD.hide(animated)
+		hud.dismiss(animated: animated)
 	}
 
 	init(in window: UIWindow) {

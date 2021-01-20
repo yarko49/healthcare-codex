@@ -107,8 +107,20 @@ extension Task {
 }
 
 extension Task {
+	var sortedScheduleElements: [ScheduleElement]? {
+		schedules?.values.sorted(by: { (lhs, rhs) -> Bool in
+			if lhs.hour < rhs.hour {
+				return true
+			} else if lhs.hour == rhs.hour {
+				return lhs.minutes <= rhs.minutes // if the hours are same then minutes decide
+			} else {
+				return false // if hour is greator
+			}
+		})
+	}
+
 	var ockScheduleElements: [OCKScheduleElement] {
-		let elements = schedules?.values.map { (element) -> OCKScheduleElement in
+		let elements = sortedScheduleElements?.map { (element) -> OCKScheduleElement in
 			element.ockSchduleElement
 		} ?? []
 

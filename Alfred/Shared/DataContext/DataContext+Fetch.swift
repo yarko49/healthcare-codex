@@ -1,11 +1,11 @@
 import FirebaseAuth
 import Foundation
-import PKHUD
+
 extension DataContext {
 	func searchPatient(user: User, completion: @escaping (Bool) -> Void) {
-		PKHUD.sharedHUD.show()
+		showHUD()
 		AlfredClient.client.postPatientSearch { [weak self] result in
-			PKHUD.sharedHUD.hide()
+			self?.hideHUD()
 			switch result {
 			case .success(let response):
 				guard let resource = response.entry?.first?.resource else {
@@ -22,9 +22,9 @@ extension DataContext {
 	}
 
 	func getProfileAPI(completion: @escaping (Bool) -> Void) {
-		PKHUD.sharedHUD.show()
+		showHUD()
 		AlfredClient.client.getProfile { [weak self] result in
-			PKHUD.sharedHUD.hide()
+			self?.hideHUD()
 			switch result {
 			case .success(let profile):
 				if let healthMeasurements = profile.healthMeasurements {

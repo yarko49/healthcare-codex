@@ -51,7 +51,6 @@ class AlfredTests: XCTestCase {
 				XCTFail("Error Fetching Care Plan = \(error.localizedDescription)")
 			case .success(let carePlanResponse):
 				XCTAssertNotNil(carePlanResponse.carePlans)
-				XCTAssertNotNil(carePlanResponse.patients)
 				XCTAssertTrue(true)
 				expect.fulfill()
 			}
@@ -74,7 +73,6 @@ class AlfredTests: XCTestCase {
 				XCTFail("Error Fetching DefaultDiabetes Care Plan = \(error.localizedDescription)")
 			case .success(let carePlanResponse):
 				XCTAssertNotNil(carePlanResponse.carePlans)
-				XCTAssertNil(carePlanResponse.patients)
 				XCTAssertTrue(true)
 				expect.fulfill()
 			}

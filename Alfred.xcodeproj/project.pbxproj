@@ -217,7 +217,6 @@
 		848128B1259C59DA004A5308 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 848128B0259C59DA004A5308 /* FirebaseRemoteConfig */; };
 		848128B3259C59DA004A5308 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 848128B2259C59DA004A5308 /* FirebaseAuth */; };
 		848128B5259C59DA004A5308 /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = 848128B4259C59DA004A5308 /* FirebaseDynamicLinks */; };
-		8484104C25B21C5A00171B68 /* PKHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 8484104B25B21C5A00171B68 /* PKHUD */; };
 		848410EB25B292BE00171B68 /* CHOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848410EA25B292BE00171B68 /* CHOperation.swift */; };
 		8484110C25B2A13C00171B68 /* HealthKitAddTasksOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8484110B25B2A13C00171B68 /* HealthKitAddTasksOperation.swift */; };
 		8484111125B2AC2700171B68 /* PatientsAddOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8484111025B2AC2700171B68 /* PatientsAddOperation.swift */; };
@@ -236,6 +235,7 @@
 		8487486625B3FAB0008C15E2 /* GridTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487486525B3FAB0008C15E2 /* GridTaskViewController.swift */; };
 		8487488B25B4B8F1008C15E2 /* ChecklistTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487488A25B4B8F1008C15E2 /* ChecklistTaskViewController.swift */; };
 		8487489325B504B1008C15E2 /* CarePlanStoreManager+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487489225B504B1008C15E2 /* CarePlanStoreManager+Debug.swift */; };
+		8487493425B6A594008C15E2 /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 8487493325B6A594008C15E2 /* JGProgressHUD */; };
 		84B43E6025B1227300318CEA /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 84B43E5F25B1227300318CEA /* SDWebImage */; };
 		84B43E6525B1236E00318CEA /* DefaultDiabetesCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 84B43E6425B1236E00318CEA /* DefaultDiabetesCarePlan.json */; };
 		84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */; };
@@ -243,6 +243,7 @@
 		84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */; };
 		84C22BCB25A5821800D16CFF /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 84C22BCA25A5821800D16CFF /* Logging */; };
 		84C39A4E25B172640063D92C /* Task+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */; };
+		84C517E325B7DAD400D684E5 /* DefaultDiabetesCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 84B43E6425B1236E00318CEA /* DefaultDiabetesCarePlan.json */; };
 		84C83FD4259C48F200DAEF34 /* PatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBD259C48EF00DAEF34 /* PatientTests.swift */; };
 		84C83FD5259C48F200DAEF34 /* CarePlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */; };
 		84C83FD6259C48F200DAEF34 /* ScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */; };
@@ -256,7 +257,6 @@
 		84C83FDE259C48F200DAEF34 /* TasksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FC7259C48F100DAEF34 /* TasksTests.swift */; };
 		84C83FDF259C48F200DAEF34 /* Profile2.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C83FC8259C48F100DAEF34 /* Profile2.json */; };
 		84C83FE0259C48F200DAEF34 /* FIHRQuestionnaire.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C83FC9259C48F100DAEF34 /* FIHRQuestionnaire.json */; };
-		84C83FE1259C48F200DAEF34 /* DefaultDiabetesCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C83FCA259C48F100DAEF34 /* DefaultDiabetesCarePlan.json */; };
 		84C83FE2259C48F200DAEF34 /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FCB259C48F100DAEF34 /* ProfileTests.swift */; };
 		84C83FE3259C48F200DAEF34 /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FCC259C48F100DAEF34 /* NoteTests.swift */; };
 		84C83FE5259C48F200DAEF34 /* DateFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FCE259C48F200DAEF34 /* DateFormatterTests.swift */; };
@@ -530,7 +530,6 @@
 		84C83FC7259C48F100DAEF34 /* TasksTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksTests.swift; sourceTree = "<group>"; };
 		84C83FC8259C48F100DAEF34 /* Profile2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Profile2.json; sourceTree = "<group>"; };
 		84C83FC9259C48F100DAEF34 /* FIHRQuestionnaire.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FIHRQuestionnaire.json; sourceTree = "<group>"; };
-		84C83FCA259C48F100DAEF34 /* DefaultDiabetesCarePlan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DefaultDiabetesCarePlan.json; sourceTree = "<group>"; };
 		84C83FCB259C48F100DAEF34 /* ProfileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTests.swift; sourceTree = "<group>"; };
 		84C83FCC259C48F100DAEF34 /* NoteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTests.swift; sourceTree = "<group>"; };
 		84C83FCD259C48F100DAEF34 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -562,6 +561,7 @@
 				845AAC5F259C358D00FF8F3F /* CareKitUI in Frameworks */,
 				848128B3259C59DA004A5308 /* FirebaseAuth in Frameworks */,
 				845AAC59259C358D00FF8F3F /* CareKitFHIR in Frameworks */,
+				8487493425B6A594008C15E2 /* JGProgressHUD in Frameworks */,
 				845AAC6B259C364300FF8F3F /* FHIR in Frameworks */,
 				84B43E6025B1227300318CEA /* SDWebImage in Frameworks */,
 				848128B5259C59DA004A5308 /* FirebaseDynamicLinks in Frameworks */,
@@ -571,7 +571,6 @@
 				848128A9259C59DA004A5308 /* FirebaseDatabase in Frameworks */,
 				84700A84259C331B0083E2AA /* Charts in Frameworks */,
 				845AAC77259C374500FF8F3F /* BonMot in Frameworks */,
-				8484104C25B21C5A00171B68 /* PKHUD in Frameworks */,
 				845AAC5D259C358D00FF8F3F /* CareKitStore in Frameworks */,
 				848128AD259C59DA004A5308 /* FirebaseStorage in Frameworks */,
 				84C22BCB25A5821800D16CFF /* Logging in Frameworks */,
@@ -657,11 +656,11 @@
 		842398E0259C1144006FB3F4 /* AlfredTests */ = {
 			isa = PBXGroup;
 			children = (
+				84B43E6425B1236E00318CEA /* DefaultDiabetesCarePlan.json */,
 				842398E1259C1144006FB3F4 /* AlfredTests.swift */,
 				84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */,
 				84C83FC0259C48F000DAEF34 /* ClockTests.swift */,
 				84C83FCE259C48F200DAEF34 /* DateFormatterTests.swift */,
-				84C83FCA259C48F100DAEF34 /* DefaultDiabetesCarePlan.json */,
 				84C83FC9259C48F100DAEF34 /* FIHRQuestionnaire.json */,
 				84C83FCD259C48F100DAEF34 /* Info.plist */,
 				84C83FCC259C48F100DAEF34 /* NoteTests.swift */,
@@ -1231,7 +1230,6 @@
 				8484112225B2B59F00171B68 /* QuantityIdentifier.swift */,
 				8484112A25B2B66B00171B68 /* UnitType.swift */,
 				842F907825AE8DFD007421A6 /* OCKTask+CareKitUI.swift */,
-				84B43E6425B1236E00318CEA /* DefaultDiabetesCarePlan.json */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1444,7 +1442,7 @@
 				848128B4259C59DA004A5308 /* FirebaseDynamicLinks */,
 				84C22BCA25A5821800D16CFF /* Logging */,
 				84B43E5F25B1227300318CEA /* SDWebImage */,
-				8484104B25B21C5A00171B68 /* PKHUD */,
+				8487493325B6A594008C15E2 /* JGProgressHUD */,
 			);
 			productName = Alfred;
 			productReference = 842398C7259C1144006FB3F4 /* Alfred.app */;
@@ -1530,7 +1528,7 @@
 				848128A5259C59DA004A5308 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				84C22BC925A5821700D16CFF /* XCRemoteSwiftPackageReference "swift-log" */,
 				84B43E5E25B1227300318CEA /* XCRemoteSwiftPackageReference "SDWebImage" */,
-				8484104A25B21C5A00171B68 /* XCRemoteSwiftPackageReference "PKHUD" */,
+				8487493225B6A594008C15E2 /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
 			);
 			productRefGroup = 842398C8259C1144006FB3F4 /* Products */;
 			projectDirPath = "";
@@ -1600,11 +1598,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84C83FE1259C48F200DAEF34 /* DefaultDiabetesCarePlan.json in Resources */,
 				84C83FD9259C48F200DAEF34 /* Notifications.json in Resources */,
 				84DC757625AADBE1003B541C /* PatientSearchResponse.json in Resources */,
 				84C83FDC259C48F200DAEF34 /* VectorClockResponse.json in Resources */,
 				84C83FD8259C48F200DAEF34 /* TestImage.png in Resources */,
+				84C517E325B7DAD400D684E5 /* DefaultDiabetesCarePlan.json in Resources */,
 				84C83FEA259C48F200DAEF34 /* Profile.json in Resources */,
 				84C83FDA259C48F200DAEF34 /* Outcomes.json in Resources */,
 				84C83FE7259C48F200DAEF34 /* TaskB2.json in Resources */,
@@ -2414,12 +2412,12 @@
 				minimumVersion = 7.3.1;
 			};
 		};
-		8484104A25B21C5A00171B68 /* XCRemoteSwiftPackageReference "PKHUD" */ = {
+		8487493225B6A594008C15E2 /* XCRemoteSwiftPackageReference "JGProgressHUD" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:pkluz/PKHUD.git";
+			repositoryURL = "https://github.com/JonasGessner/JGProgressHUD.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
+				minimumVersion = 2.2.0;
 			};
 		};
 		84B43E5E25B1227300318CEA /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
@@ -2521,10 +2519,10 @@
 			package = 848128A5259C59DA004A5308 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseDynamicLinks;
 		};
-		8484104B25B21C5A00171B68 /* PKHUD */ = {
+		8487493325B6A594008C15E2 /* JGProgressHUD */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8484104A25B21C5A00171B68 /* XCRemoteSwiftPackageReference "PKHUD" */;
-			productName = PKHUD;
+			package = 8487493225B6A594008C15E2 /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
+			productName = JGProgressHUD;
 		};
 		84B43E5F25B1227300318CEA /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
