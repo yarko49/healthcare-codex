@@ -276,7 +276,9 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	internal func syncHKData() {
 		var loadingShouldAppear = true
 		let hkDataUploadViewController = HKDataUploadViewController()
+		showHUD()
 		SyncManager.shared.syncData(initialUpload: false, chunkSize: chunkSize) { [weak self] uploaded, total in
+			self?.hideHUD()
 			if total > 500, loadingShouldAppear {
 				loadingShouldAppear = false
 				self?.navigate(to: hkDataUploadViewController, with: .push)
@@ -471,11 +473,11 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func patientAPI(patient: CodexResource, weight: Int, height: Int, date: String) {
-		showHUD()
 		guard DataContext.shared.userModel == nil else {
 			getHeightWeight(weight: weight, height: height, date: date)
 			return
 		}
+		showHUD()
 		AlfredClient.client.postPatient(patient: patient) { [weak self] result in
 			self?.hideHUD()
 			DataContext.shared.resouce = patient

@@ -138,4 +138,17 @@ class TaskTests: XCTestCase {
 		XCTAssertNotNil(linkItems)
 		XCTAssertEqual(linkItems?.count, 3)
 	}
+
+	func testScheduleElementsSorting() throws {
+		let data = CarePlanStoreManager.sampleResponse
+		let carePlan = data.tasks["defaultDiabetesCarePlan"]
+		XCTAssertNotNil(carePlan)
+		let task = carePlan?["FoodDiaryRecall2"]
+		XCTAssertNotNil(task)
+		let sortedElements = task?.sortedScheduleElements
+		XCTAssertEqual(sortedElements?.count, 3)
+		XCTAssertEqual(sortedElements?[0].hour, 8)
+		XCTAssertEqual(sortedElements?[1].hour, 12)
+		XCTAssertEqual(sortedElements?[2].hour, 18)
+	}
 }

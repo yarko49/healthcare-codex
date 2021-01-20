@@ -23,7 +23,7 @@ class PatientTests: XCTestCase {
 			"""
 			{
 			      "id" : "patientOtherA",
-			      "remoteId" : "XXX-ID-patientOtherA",
+			      "remoteID" : "XXX-ID-patientOtherA",
 			      "createdDate" : "2020-11-25T02:10:11.022Z",
 			      "asset" : "",
 			      "tags" : [
@@ -69,7 +69,7 @@ class PatientTests: XCTestCase {
 			"""
 			    {
 			      "id" : "patientOtherC",
-			      "remoteId" : "XXX-ID-patientOtherC",
+			      "remoteID" : "XXX-ID-patientOtherC",
 			      "createdDate" : "2020-11-25T02:10:11.022Z",
 			      "asset" : "",
 			      "updatedDate" : "2020-11-25T02:10:11.022Z",
@@ -108,7 +108,7 @@ class PatientTests: XCTestCase {
 			"""
 			    {
 			          "id" : "patientId",
-			          "remoteId" : "XXX-ID-patientId",
+			          "remoteID" : "XXX-ID-patientId",
 			          "createdDate" : "2020-11-25T02:10:11.022Z",
 			          "asset" : "",
 			          "tags" : [
