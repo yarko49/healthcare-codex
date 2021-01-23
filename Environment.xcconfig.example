@@ -20,3 +20,5 @@ TENANT_ID =
 
 // Firebase DeepLink URL
 FIREBASE_DEEPLINK_URL =
+
+SUPPORT_EMAIL = 
