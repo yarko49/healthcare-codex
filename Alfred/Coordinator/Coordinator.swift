@@ -1,6 +1,8 @@
 import UIKit
 
 protocol Coordinator: AnyObject {
+	typealias ActionHandler = () -> Void
+
 	var navigationController: UINavigationController? { get }
 	var childCoordinators: [CoordinatorKey: Coordinator] { get set }
 

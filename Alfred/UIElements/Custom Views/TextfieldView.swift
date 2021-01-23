@@ -12,19 +12,25 @@ class TextfieldView: UIView {
 	@IBOutlet var textfield: UITextField!
 	@IBOutlet var contentView: UIView!
 
-	var textIsPassword: Bool = false {
-		didSet {
-			textfield.isSecureTextEntry = textIsPassword
+	var isSecureTextEntry: Bool {
+		get {
+			textfield?.isSecureTextEntry ?? false
+		}
+		set {
+			textfield?.isSecureTextEntry = newValue
 		}
 	}
 
-	var labelTitle: String? {
-		didSet {
-			titleLabel.attributedText = labelTitle?.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.078)
+	var title: String? {
+		get {
+			titleLabel.text
+		}
+		set {
+			titleLabel.attributedText = newValue?.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.078)
 		}
 	}
 
-	var tfText: String? {
+	var text: String? {
 		get {
 			textfield.text
 		}
@@ -45,20 +51,21 @@ class TextfieldView: UIView {
 
 	convenience init(labelTitle: String, tfText: String, textIsPassword: Bool) {
 		self.init(frame: CGRect.zero)
-		self.labelTitle = labelTitle
-		self.tfText = tfText
-		self.textIsPassword = textIsPassword
+		self.title = labelTitle
+		self.text = tfText
+		self.isSecureTextEntry = textIsPassword
 		commonInit()
 	}
 
 	func setupValues(labelTitle: String, text: String, textIsPassword: Bool) {
-		self.labelTitle = labelTitle
-		tfText = text
-		self.textIsPassword = textIsPassword
+		title = labelTitle
+		self.text = text
+		isSecureTextEntry = textIsPassword
 		setup()
 	}
 
 	func commonInit() {
+		isSecureTextEntry = false
 		Bundle.main.loadNibNamed(Self.nibName, owner: self, options: nil)
 		contentView.fixInView(self)
 		setup()
@@ -69,8 +76,8 @@ class TextfieldView: UIView {
 		addGestureRecognizer(tap)
 		textfield.delegate = self
 		textfield.tintColor = .cursorOrange
-		titleLabel.attributedText = labelTitle?.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.078)
-		textfield.attributedText = tfText?.with(style: .regular20, andColor: .black, andLetterSpacing: 0.38)
+		titleLabel.attributedText = title?.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.078)
+		textfield.attributedText = text?.with(style: .regular20, andColor: .black, andLetterSpacing: 0.38)
 	}
 
 	@objc func tapAction() {

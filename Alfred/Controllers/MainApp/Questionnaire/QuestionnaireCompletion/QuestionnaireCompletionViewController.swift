@@ -22,12 +22,6 @@ class QuestionnaireCompletionViewController: BaseViewController {
 
 	// MARK: - Setup
 
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-
-		navigationController?.setNavigationBarHidden(true, animated: false)
-	}
-
 	override func setupView() {
 		super.setupView()
 	}

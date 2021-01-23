@@ -8,11 +8,6 @@
 import AuthenticationServices
 import UIKit
 
-enum AuthenticationOptionsViewType {
-	case signup
-	case signin
-}
-
 protocol AuthenticationOptionsViewDelegate: AnyObject {
 	func authenticationOptionsView(_ view: AuthenticationOptionsView, didSelectProvider provider: AuthenticationProviderType)
 	func authenticationOptionsViewDidCancel(_ view: AuthenticationOptionsView)
@@ -22,8 +17,8 @@ class AuthenticationOptionsView: UIView {
 	static let height: CGFloat = 310.0
 	weak var delegate: AuthenticationOptionsViewDelegate?
 
-	init(frame: CGRect, viewType: AuthenticationOptionsViewType = .signin) {
-		self.viewType = viewType
+	init(frame: CGRect, authorizationFlowType: AuthorizationFlowType = .signIn) {
+		self.authorizationFlowType = authorizationFlowType
 		super.init(frame: frame)
 		configureView(frame: frame)
 	}
@@ -38,7 +33,7 @@ class AuthenticationOptionsView: UIView {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	let viewType: AuthenticationOptionsViewType
+	let authorizationFlowType: AuthorizationFlowType
 
 	let barView: UIView = {
 		let view = UIView(frame: .zero)
@@ -79,7 +74,7 @@ class AuthenticationOptionsView: UIView {
 	}()
 
 	private(set) lazy var appleSignInButton: ASAuthorizationAppleIDButton = {
-		let button = ASAuthorizationAppleIDButton(type: self.viewType == .signup ? .signUp : .signIn, style: .black)
+		let button = ASAuthorizationAppleIDButton(type: self.authorizationFlowType.appleAuthButtonType, style: .black)
 		button.cornerRadius = 20.0
 		button.layer.cornerCurve = .continuous
 		return button
@@ -92,7 +87,7 @@ class AuthenticationOptionsView: UIView {
 	private(set) lazy var googleSignInButton: UIButton = {
 		let button = UIButton.googleSignInButton
 		button.layer.cornerRadius = 24.0
-		let title = self.viewType == .signup ? Str.signUpWithGoogle : Str.signInWithGoogle
+		let title = authorizationFlowType.googleButtonTitle
 		button.setTitle(title, for: .normal)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		return button
@@ -105,7 +100,7 @@ class AuthenticationOptionsView: UIView {
 	private(set) lazy var emailSignInButton: UIButton = {
 		let button = UIButton.emailSignInButton
 		button.layer.cornerRadius = 24.0
-		let title = self.viewType == .signup ? Str.signUpWithYourEmail : Str.signInWithYourEmail
+		let title = authorizationFlowType.emailButtonTitle
 		button.setTitle(title, for: .normal)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		return button
@@ -128,7 +123,7 @@ class AuthenticationOptionsView: UIView {
 		clipsToBounds = true
 
 		modeLabel.translatesAutoresizingMaskIntoConstraints = false
-		modeLabel.text = viewType == .signup ? Str.signup : Str.signInModal
+		modeLabel.text = authorizationFlowType.modalTitle
 		addSubview(modeLabel)
 		NSLayoutConstraint.activate([modeLabel.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 2.5),
 		                             modeLabel.widthAnchor.constraint(equalToConstant: 60.0),

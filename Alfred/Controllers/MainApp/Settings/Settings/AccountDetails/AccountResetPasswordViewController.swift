@@ -77,6 +77,6 @@ class AccountResetPasswordViewController: BaseViewController {
 	}
 
 	@IBAction func passwordResetTapped(_ sender: Any) {
-		sendEmailAction?(emailTF.tfText)
+		sendEmailAction?(emailTF.text)
 	}
 }

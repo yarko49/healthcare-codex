@@ -10,7 +10,7 @@ import UIKit
 class HKDataUploadViewController: BaseViewController {
 	// MARK: - Coordinator Actions
 
-	var queryAction: (() -> Void)?
+	var queryAction: Coordinator.ActionHandler?
 
 	// MARK: - Properties
 
@@ -33,12 +33,6 @@ class HKDataUploadViewController: BaseViewController {
 	}
 
 	// MARK: - Setup
-
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-
-		navigationController?.navigationBar.isHidden = true
-	}
 
 	override func setupView() {
 		super.setupView()
