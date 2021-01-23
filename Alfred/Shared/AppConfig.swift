@@ -25,6 +25,10 @@ final class AppConfig: ObservableObject {
 		path("Environment", "Firebase Deeplink URL")!
 	}
 
+    static var supportEmail: String {
+        path("Environment", "Support Email")!
+    }
+    
 	static func path(_ keys: String...) -> String? {
 		var current = Bundle.main.infoDictionary
 		for (index, key) in keys.enumerated() {

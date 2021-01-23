@@ -51,6 +51,8 @@
 		<string>$(FIREBASE_DEEPLINK_URL)</string>
 		<key>Tenant ID</key>
 		<string>$(TENANT_ID)</string>
+		<key>Support Email</key>
+		<string>${SUPPORT_EMAIL)</string>
 	</dict>
 	<key>FacebookAdvertiserIDCollectionEnabled</key>
 	<false/>
