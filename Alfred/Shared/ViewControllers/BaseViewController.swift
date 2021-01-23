@@ -12,6 +12,7 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .white
+		navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.back"), style: .plain, target: nil, action: nil)
 		setupView()
 		bindActions()
 		setupLayout()

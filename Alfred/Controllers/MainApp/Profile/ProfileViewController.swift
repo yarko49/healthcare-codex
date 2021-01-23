@@ -6,13 +6,13 @@
 import HealthKit
 import UIKit
 
-enum Coming {
+enum Coming: Hashable, CaseIterable {
 	case today
 	case edit
 	case signup
 }
 
-enum HealthStatsDateIntervalType {
+enum HealthStatsDateIntervalType: Hashable, CaseIterable {
 	case daily
 	case weekly
 	case monthly
@@ -22,13 +22,13 @@ enum HealthStatsDateIntervalType {
 class ProfileViewController: BaseViewController {
 	// MARK: Coordinator Actions
 
-	var backBtnAction: (() -> Void)?
+	var backBtnAction: Coordinator.ActionHandler?
 	var editBtnAction: ((Int, Int) -> Void)?
 	var profileInputAction: (() -> (CodexResource?, CodexBundle?))?
 	var comingFrom: Coming = .today
-	var getData: (() -> Void)?
+	var getData: Coordinator.ActionHandler?
 	var getRangeData: ((HealthStatsDateIntervalType, Date, Date, (([HealthKitQuantityType: [StatModel]]?, [HealthKitQuantityType: Double]?) -> Void)?) -> Void)?
-	var getTodayData: (() -> Void)?
+	var getTodayData: Coordinator.ActionHandler?
 
 	// MARK: IBOutlets
 
@@ -126,14 +126,6 @@ class ProfileViewController: BaseViewController {
 	override func setupView() {
 		title = Str.profile
 		let name = ProfileHelper.firstName
-		navigationController?.navigationBar.isHidden = false
-		let navBar = navigationController?.navigationBar
-		navBar?.setBackgroundImage(UIImage(), for: .default)
-		navBar?.shadowImage = UIImage()
-		navBar?.isHidden = false
-		navBar?.isTranslucent = false
-		navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backBtnTapped))
-		navigationItem.leftBarButtonItem?.tintColor = UIColor.black
 		resetExpandState()
 		topView.backgroundColor = UIColor.profile
 		separatorLineView.backgroundColor = UIColor.swipe
@@ -218,10 +210,6 @@ class ProfileViewController: BaseViewController {
 			default: break
 			}
 		})
-	}
-
-	@objc func backBtnTapped() {
-		backBtnAction?()
 	}
 
 	@IBAction func previousDateBtnTapped(_ sender: Any) {

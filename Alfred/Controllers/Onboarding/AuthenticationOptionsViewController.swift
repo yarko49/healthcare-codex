@@ -8,7 +8,7 @@
 import AuthenticationServices
 import UIKit
 
-enum AuthenticationProviderType {
+enum AuthenticationProviderType: Hashable, CaseIterable {
 	case apple
 	case google
 	case email
@@ -26,7 +26,7 @@ class AuthenticationOptionsViewController: BaseViewController {
 		static let panMinimumYTranslation: CGFloat = 150.0
 	}
 
-	var viewType: AuthenticationOptionsViewType = .signup
+	var authorizationFlowType: AuthorizationFlowType = .signUp
 	weak var delegate: AuthenticationOptionsViewControllerDelegate?
 	private var bottonYConstraint: NSLayoutConstraint!
 
@@ -83,7 +83,7 @@ class AuthenticationOptionsViewController: BaseViewController {
 	}()
 
 	private lazy var contentView: AuthenticationOptionsView = {
-		let view = AuthenticationOptionsView(frame: .zero, viewType: self.viewType)
+		let view = AuthenticationOptionsView(frame: .zero, authorizationFlowType: self.authorizationFlowType)
 		return view
 	}()
 

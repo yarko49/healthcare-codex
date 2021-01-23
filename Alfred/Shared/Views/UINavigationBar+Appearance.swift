@@ -11,10 +11,10 @@ extension UINavigationBar {
 	static func applyAppearance() {
 		let navBar = UINavigationBar.appearance()
 		navBar.isTranslucent = false
-//		navBar.barTintColor = UIColor.white
-//		navBar.setBackgroundImage(UIImage(), for: .default)
-//		navBar.shadowImage = UIImage()
-
+		navBar.barTintColor = .onboardingBackground
+		navBar.setBackgroundImage(UIImage(), for: .default)
+		navBar.shadowImage = UIImage()
+		navBar.tintColor = .black
 		navBar.titleTextAttributes = [NSAttributedString.Key.font: Font.sfProSemibold.of(size: 17), NSAttributedString.Key.foregroundColor: UIColor.black]
 	}
 }

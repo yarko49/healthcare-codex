@@ -14,6 +14,7 @@
 		842398CD259C1144006FB3F4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398CC259C1144006FB3F4 /* SceneDelegate.swift */; };
 		842398E2259C1144006FB3F4 /* AlfredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398E1259C1144006FB3F4 /* AlfredTests.swift */; };
 		842398ED259C1145006FB3F4 /* AlfredUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398EC259C1145006FB3F4 /* AlfredUITests.swift */; };
+		842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842DFC1225BBDA5900066A07 /* HealthViewController.swift */; };
 		842F906F25AE8D8A007421A6 /* GroupIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F906E25AE8D8A007421A6 /* GroupIdentifierType.swift */; };
 		842F907425AE8D9F007421A6 /* TaskLinkType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F907325AE8D9F007421A6 /* TaskLinkType.swift */; };
 		842F907925AE8DFE007421A6 /* OCKTask+CareKitUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F907825AE8DFD007421A6 /* OCKTask+CareKitUI.swift */; };
@@ -30,7 +31,6 @@
 		8447672C259C2A4E00C50C09 /* SettingsSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476623259C2A4E00C50C09 /* SettingsSwitchCell.swift */; };
 		8447672D259C2A4E00C50C09 /* StatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476624259C2A4E00C50C09 /* StatCell.xib */; };
 		8447672E259C2A4E00C50C09 /* SettingsSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476625259C2A4E00C50C09 /* SettingsSwitchCell.xib */; };
-		8447672F259C2A4E00C50C09 /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476627259C2A4E00C50C09 /* BottomButton.swift */; };
 		84476730259C2A4E00C50C09 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476628259C2A4E00C50C09 /* GoogleSignInButton.swift */; };
 		84476731259C2A4E00C50C09 /* EmailSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476629259C2A4E00C50C09 /* EmailSignInButton.swift */; };
 		84476732259C2A4E00C50C09 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447662A259C2A4E00C50C09 /* RoundedButton.swift */; };
@@ -55,20 +55,12 @@
 		8447674A259C2A4E00C50C09 /* PickerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476645259C2A4E00C50C09 /* PickerTextField.swift */; };
 		8447674B259C2A4E00C50C09 /* MockSplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476649259C2A4E00C50C09 /* MockSplashViewController.xib */; };
 		8447674C259C2A4E00C50C09 /* MockSplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447664A259C2A4E00C50C09 /* MockSplashViewController.swift */; };
-		8447674D259C2A4E00C50C09 /* AppleHealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447664C259C2A4E00C50C09 /* AppleHealthViewController.swift */; };
-		8447674E259C2A4E00C50C09 /* AppleHealthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8447664D259C2A4E00C50C09 /* AppleHealthViewController.xib */; };
-		8447674F259C2A4E00C50C09 /* EmailSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447664F259C2A4E00C50C09 /* EmailSentViewController.swift */; };
-		84476750259C2A4E00C50C09 /* EmailSentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476650259C2A4E00C50C09 /* EmailSentViewController.xib */; };
 		84476751259C2A4E00C50C09 /* SelectChunkSizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476652259C2A4E00C50C09 /* SelectChunkSizeViewController.swift */; };
 		84476752259C2A4E00C50C09 /* SelectChunkSizeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476653259C2A4E00C50C09 /* SelectChunkSizeViewController.xib */; };
-		84476753259C2A4E00C50C09 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476655259C2A4E00C50C09 /* SignupViewController.swift */; };
-		84476754259C2A4E00C50C09 /* SignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476656259C2A4E00C50C09 /* SignupViewController.xib */; };
 		84476755259C2A4E00C50C09 /* ResetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476658259C2A4E00C50C09 /* ResetViewController.xib */; };
 		84476756259C2A4E00C50C09 /* ResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476659259C2A4E00C50C09 /* ResetViewController.swift */; };
 		84476757259C2A4E00C50C09 /* MyProfileFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447665B259C2A4E00C50C09 /* MyProfileFirstViewController.swift */; };
 		84476758259C2A4E00C50C09 /* MyProfileFirstViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8447665C259C2A4E00C50C09 /* MyProfileFirstViewController.xib */; };
-		84476759259C2A4E00C50C09 /* EmailSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447665E259C2A4E00C50C09 /* EmailSignInViewController.swift */; };
-		8447675A259C2A4E00C50C09 /* EmailSignInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8447665F259C2A4E00C50C09 /* EmailSignInViewController.xib */; };
 		8447675B259C2A4E00C50C09 /* MyProfileSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476661259C2A4E00C50C09 /* MyProfileSecondViewController.swift */; };
 		8447675C259C2A4E00C50C09 /* MyProfileSecondViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476662259C2A4E00C50C09 /* MyProfileSecondViewController.xib */; };
 		8447675D259C2A4E00C50C09 /* HKDataUploadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476664259C2A4E00C50C09 /* HKDataUploadViewController.xib */; };
@@ -103,8 +95,6 @@
 		8447677C259C2A4E00C50C09 /* QuestionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476694259C2A4E00C50C09 /* QuestionViewController.xib */; };
 		8447677E259C2A4E00C50C09 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84476697259C2A4E00C50C09 /* ProfileViewController.xib */; };
 		8447677F259C2A4E00C50C09 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476698259C2A4E00C50C09 /* ProfileViewController.swift */; };
-		84476780259C2A4E00C50C09 /* OnboardingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8447669A259C2A4E00C50C09 /* OnboardingViewController.xib */; };
-		84476781259C2A4E00C50C09 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447669B259C2A4E00C50C09 /* OnboardingViewController.swift */; };
 		84476782259C2A4E00C50C09 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447669D259C2A4E00C50C09 /* Gender.swift */; };
 		84476784259C2A4E00C50C09 /* StatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447669F259C2A4E00C50C09 /* StatModel.swift */; };
 		84476785259C2A4E00C50C09 /* UpdatePatientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A0259C2A4E00C50C09 /* UpdatePatientModel.swift */; };
@@ -236,6 +226,10 @@
 		8487488B25B4B8F1008C15E2 /* ChecklistTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487488A25B4B8F1008C15E2 /* ChecklistTaskViewController.swift */; };
 		8487489325B504B1008C15E2 /* CarePlanStoreManager+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487489225B504B1008C15E2 /* CarePlanStoreManager+Debug.swift */; };
 		8487493425B6A594008C15E2 /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 8487493325B6A594008C15E2 /* JGProgressHUD */; };
+		849F362125B9161300FC2D1B /* TitledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F362025B9161300FC2D1B /* TitledTextField.swift */; };
+		849F362C25B92DD100FC2D1B /* EmailSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F362B25B92DD100FC2D1B /* EmailSentViewController.swift */; };
+		849F378F25BA7F2200FC2D1B /* AuthorizationFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */; };
+		849F37A125BA8CF300FC2D1B /* ScreenFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */; };
 		84B43E6025B1227300318CEA /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 84B43E5F25B1227300318CEA /* SDWebImage */; };
 		84B43E6525B1236E00318CEA /* DefaultDiabetesCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 84B43E6425B1236E00318CEA /* DefaultDiabetesCarePlan.json */; };
 		84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */; };
@@ -244,6 +238,10 @@
 		84C22BCB25A5821800D16CFF /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 84C22BCA25A5821800D16CFF /* Logging */; };
 		84C39A4E25B172640063D92C /* Task+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */; };
 		84C517E325B7DAD400D684E5 /* DefaultDiabetesCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 84B43E6425B1236E00318CEA /* DefaultDiabetesCarePlan.json */; };
+		84C517F525B7E55F00D684E5 /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C517F425B7E55F00D684E5 /* BottomButton.swift */; };
+		84C5180225B7EC5C00D684E5 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5180125B7EC5C00D684E5 /* OnboardingViewController.swift */; };
+		84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5181225B7F93600D684E5 /* IllustrationView.swift */; };
+		84C5182A25B8014500D684E5 /* EmailAuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5182925B8014500D684E5 /* EmailAuthorizationViewController.swift */; };
 		84C83FD4259C48F200DAEF34 /* PatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBD259C48EF00DAEF34 /* PatientTests.swift */; };
 		84C83FD5259C48F200DAEF34 /* CarePlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */; };
 		84C83FD6259C48F200DAEF34 /* ScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */; };
@@ -303,6 +301,7 @@
 		842398E8259C1144006FB3F4 /* AlfredUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlfredUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		842398EC259C1145006FB3F4 /* AlfredUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredUITests.swift; sourceTree = "<group>"; };
 		842398EE259C1145006FB3F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		842DFC1225BBDA5900066A07 /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
 		842F906E25AE8D8A007421A6 /* GroupIdentifierType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupIdentifierType.swift; sourceTree = "<group>"; };
 		842F907325AE8D9F007421A6 /* TaskLinkType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskLinkType.swift; sourceTree = "<group>"; };
 		842F907825AE8DFD007421A6 /* OCKTask+CareKitUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKTask+CareKitUI.swift"; sourceTree = "<group>"; };
@@ -324,7 +323,6 @@
 		84476623259C2A4E00C50C09 /* SettingsSwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSwitchCell.swift; sourceTree = "<group>"; };
 		84476624259C2A4E00C50C09 /* StatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatCell.xib; sourceTree = "<group>"; };
 		84476625259C2A4E00C50C09 /* SettingsSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsSwitchCell.xib; sourceTree = "<group>"; };
-		84476627259C2A4E00C50C09 /* BottomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
 		84476628259C2A4E00C50C09 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
 		84476629259C2A4E00C50C09 /* EmailSignInButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailSignInButton.swift; sourceTree = "<group>"; };
 		8447662A259C2A4E00C50C09 /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
@@ -349,20 +347,12 @@
 		84476645259C2A4E00C50C09 /* PickerTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerTextField.swift; sourceTree = "<group>"; };
 		84476649259C2A4E00C50C09 /* MockSplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MockSplashViewController.xib; sourceTree = "<group>"; };
 		8447664A259C2A4E00C50C09 /* MockSplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSplashViewController.swift; sourceTree = "<group>"; };
-		8447664C259C2A4E00C50C09 /* AppleHealthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleHealthViewController.swift; sourceTree = "<group>"; };
-		8447664D259C2A4E00C50C09 /* AppleHealthViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppleHealthViewController.xib; sourceTree = "<group>"; };
-		8447664F259C2A4E00C50C09 /* EmailSentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailSentViewController.swift; sourceTree = "<group>"; };
-		84476650259C2A4E00C50C09 /* EmailSentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmailSentViewController.xib; sourceTree = "<group>"; };
 		84476652259C2A4E00C50C09 /* SelectChunkSizeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectChunkSizeViewController.swift; sourceTree = "<group>"; };
 		84476653259C2A4E00C50C09 /* SelectChunkSizeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectChunkSizeViewController.xib; sourceTree = "<group>"; };
-		84476655259C2A4E00C50C09 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
-		84476656259C2A4E00C50C09 /* SignupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignupViewController.xib; sourceTree = "<group>"; };
 		84476658259C2A4E00C50C09 /* ResetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResetViewController.xib; sourceTree = "<group>"; };
 		84476659259C2A4E00C50C09 /* ResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetViewController.swift; sourceTree = "<group>"; };
 		8447665B259C2A4E00C50C09 /* MyProfileFirstViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileFirstViewController.swift; sourceTree = "<group>"; };
 		8447665C259C2A4E00C50C09 /* MyProfileFirstViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProfileFirstViewController.xib; sourceTree = "<group>"; };
-		8447665E259C2A4E00C50C09 /* EmailSignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailSignInViewController.swift; sourceTree = "<group>"; };
-		8447665F259C2A4E00C50C09 /* EmailSignInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmailSignInViewController.xib; sourceTree = "<group>"; };
 		84476661259C2A4E00C50C09 /* MyProfileSecondViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileSecondViewController.swift; sourceTree = "<group>"; };
 		84476662259C2A4E00C50C09 /* MyProfileSecondViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProfileSecondViewController.xib; sourceTree = "<group>"; };
 		84476664259C2A4E00C50C09 /* HKDataUploadViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HKDataUploadViewController.xib; sourceTree = "<group>"; };
@@ -397,8 +387,6 @@
 		84476694259C2A4E00C50C09 /* QuestionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionViewController.xib; sourceTree = "<group>"; };
 		84476697259C2A4E00C50C09 /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		84476698259C2A4E00C50C09 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		8447669A259C2A4E00C50C09 /* OnboardingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OnboardingViewController.xib; sourceTree = "<group>"; };
-		8447669B259C2A4E00C50C09 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		8447669D259C2A4E00C50C09 /* Gender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 		8447669F259C2A4E00C50C09 /* StatModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatModel.swift; sourceTree = "<group>"; };
 		844766A0259C2A4E00C50C09 /* UpdatePatientModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatePatientModel.swift; sourceTree = "<group>"; };
@@ -512,11 +500,19 @@
 		8487486525B3FAB0008C15E2 /* GridTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridTaskViewController.swift; sourceTree = "<group>"; };
 		8487488A25B4B8F1008C15E2 /* ChecklistTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistTaskViewController.swift; sourceTree = "<group>"; };
 		8487489225B504B1008C15E2 /* CarePlanStoreManager+Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarePlanStoreManager+Debug.swift"; sourceTree = "<group>"; };
+		849F362025B9161300FC2D1B /* TitledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitledTextField.swift; sourceTree = "<group>"; };
+		849F362B25B92DD100FC2D1B /* EmailSentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSentViewController.swift; sourceTree = "<group>"; };
+		849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFlowType.swift; sourceTree = "<group>"; };
+		849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenFlowType.swift; sourceTree = "<group>"; };
 		84B43E6425B1236E00318CEA /* DefaultDiabetesCarePlan.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultDiabetesCarePlan.json; sourceTree = "<group>"; };
 		84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
 		84BDC71B25AB86B30046EFCF /* OCKPatient+Remote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKPatient+Remote.swift"; sourceTree = "<group>"; };
 		84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersonNameComponents+ResourceName.swift"; sourceTree = "<group>"; };
 		84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+OCKHealthKitTask.swift"; sourceTree = "<group>"; };
+		84C517F425B7E55F00D684E5 /* BottomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
+		84C5180125B7EC5C00D684E5 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		84C5181225B7F93600D684E5 /* IllustrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustrationView.swift; sourceTree = "<group>"; };
+		84C5182925B8014500D684E5 /* EmailAuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthorizationViewController.swift; sourceTree = "<group>"; };
 		84C83FBD259C48EF00DAEF34 /* PatientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientTests.swift; sourceTree = "<group>"; };
 		84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanTests.swift; sourceTree = "<group>"; };
 		84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTests.swift; sourceTree = "<group>"; };
@@ -649,6 +645,7 @@
 				842398CA259C1144006FB3F4 /* AppDelegate.swift */,
 				842398CC259C1144006FB3F4 /* SceneDelegate.swift */,
 				842398D8259C1144006FB3F4 /* Info.plist */,
+				84C517ED25B7E18800D684E5 /* DealthRow */,
 			);
 			path = Alfred;
 			sourceTree = "<group>";
@@ -728,7 +725,7 @@
 		84476626259C2A4E00C50C09 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				84476627259C2A4E00C50C09 /* BottomButton.swift */,
+				84C517F425B7E55F00D684E5 /* BottomButton.swift */,
 				84476628259C2A4E00C50C09 /* GoogleSignInButton.swift */,
 				84476629259C2A4E00C50C09 /* EmailSignInButton.swift */,
 				8447662A259C2A4E00C50C09 /* RoundedButton.swift */,
@@ -761,6 +758,7 @@
 				84476635259C2A4E00C50C09 /* PickerTextField.xib */,
 				84476636259C2A4E00C50C09 /* TextfieldView.swift */,
 				84476642259C2A4E00C50C09 /* TextfieldView.xib */,
+				849F362025B9161300FC2D1B /* TitledTextField.swift */,
 				84476644259C2A4E00C50C09 /* AppleHealthView.swift */,
 				84476637259C2A4E00C50C09 /* AppleHealthView.xib */,
 				84476638259C2A4E00C50C09 /* CoachCardView.swift */,
@@ -779,9 +777,10 @@
 		84476646259C2A4E00C50C09 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				84476699259C2A4E00C50C09 /* Onboarding */,
+				8447665D259C2A4E00C50C09 /* EmailSignIn */,
 				84476647259C2A4E00C50C09 /* Entry */,
 				8447666A259C2A4E00C50C09 /* MainApp */,
-				84476699259C2A4E00C50C09 /* Onboarding */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -789,14 +788,11 @@
 		84476647259C2A4E00C50C09 /* Entry */ = {
 			isa = PBXGroup;
 			children = (
+				8447664B259C2A4E00C50C09 /* Health */,
 				84476648259C2A4E00C50C09 /* MockSplash */,
-				8447664B259C2A4E00C50C09 /* AppleHealth */,
-				8447664E259C2A4E00C50C09 /* EmailSent */,
 				84476651259C2A4E00C50C09 /* ChangeChunkSize */,
-				84476654259C2A4E00C50C09 /* Signup */,
 				84476657259C2A4E00C50C09 /* Reset */,
 				8447665A259C2A4E00C50C09 /* MyProfileFirst */,
-				8447665D259C2A4E00C50C09 /* EmailSignIn */,
 				84476660259C2A4E00C50C09 /* MyProfileSecond */,
 				84476663259C2A4E00C50C09 /* HKDataUpload */,
 				84476666259C2A4E00C50C09 /* ResetMessage */,
@@ -813,22 +809,13 @@
 			path = MockSplash;
 			sourceTree = "<group>";
 		};
-		8447664B259C2A4E00C50C09 /* AppleHealth */ = {
+		8447664B259C2A4E00C50C09 /* Health */ = {
 			isa = PBXGroup;
 			children = (
-				8447664C259C2A4E00C50C09 /* AppleHealthViewController.swift */,
-				8447664D259C2A4E00C50C09 /* AppleHealthViewController.xib */,
+				842DFC1225BBDA5900066A07 /* HealthViewController.swift */,
+				849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */,
 			);
-			path = AppleHealth;
-			sourceTree = "<group>";
-		};
-		8447664E259C2A4E00C50C09 /* EmailSent */ = {
-			isa = PBXGroup;
-			children = (
-				8447664F259C2A4E00C50C09 /* EmailSentViewController.swift */,
-				84476650259C2A4E00C50C09 /* EmailSentViewController.xib */,
-			);
-			path = EmailSent;
+			path = Health;
 			sourceTree = "<group>";
 		};
 		84476651259C2A4E00C50C09 /* ChangeChunkSize */ = {
@@ -838,15 +825,6 @@
 				84476653259C2A4E00C50C09 /* SelectChunkSizeViewController.xib */,
 			);
 			path = ChangeChunkSize;
-			sourceTree = "<group>";
-		};
-		84476654259C2A4E00C50C09 /* Signup */ = {
-			isa = PBXGroup;
-			children = (
-				84476655259C2A4E00C50C09 /* SignupViewController.swift */,
-				84476656259C2A4E00C50C09 /* SignupViewController.xib */,
-			);
-			path = Signup;
 			sourceTree = "<group>";
 		};
 		84476657259C2A4E00C50C09 /* Reset */ = {
@@ -870,8 +848,8 @@
 		8447665D259C2A4E00C50C09 /* EmailSignIn */ = {
 			isa = PBXGroup;
 			children = (
-				8447665E259C2A4E00C50C09 /* EmailSignInViewController.swift */,
-				8447665F259C2A4E00C50C09 /* EmailSignInViewController.xib */,
+				84C5182925B8014500D684E5 /* EmailAuthorizationViewController.swift */,
+				849F362B25B92DD100FC2D1B /* EmailSentViewController.swift */,
 			);
 			path = EmailSignIn;
 			sourceTree = "<group>";
@@ -987,7 +965,6 @@
 		84476681259C2A4E00C50C09 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				84476682259C2A4E00C50C09 /* Home */,
 				84476685259C2A4E00C50C09 /* Troubleshooting */,
 				84476688259C2A4E00C50C09 /* TodayInput */,
 			);
@@ -1070,9 +1047,9 @@
 		84476699259C2A4E00C50C09 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				8447669B259C2A4E00C50C09 /* OnboardingViewController.swift */,
-				8447669A259C2A4E00C50C09 /* OnboardingViewController.xib */,
+				84C5180125B7EC5C00D684E5 /* OnboardingViewController.swift */,
 				84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */,
+				84C5181225B7F93600D684E5 /* IllustrationView.swift */,
 				84867CC525A8D42A002EE695 /* AuthenticationOptionsViewController.swift */,
 				84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */,
 			);
@@ -1283,6 +1260,7 @@
 			isa = PBXGroup;
 			children = (
 				84476708259C2A4E00C50C09 /* AuthCoordinator.swift */,
+				849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1386,6 +1364,14 @@
 				8487488A25B4B8F1008C15E2 /* ChecklistTaskViewController.swift */,
 			);
 			path = TaskViews;
+			sourceTree = "<group>";
+		};
+		84C517ED25B7E18800D684E5 /* DealthRow */ = {
+			isa = PBXGroup;
+			children = (
+				84476682259C2A4E00C50C09 /* Home */,
+			);
+			path = DealthRow;
 			sourceTree = "<group>";
 		};
 		85A6E4D4C757514174257A0E /* Pods */ = {
@@ -1558,7 +1544,6 @@
 				84476767259C2A4E00C50C09 /* AccountDetailsViewController.xib in Resources */,
 				84476758259C2A4E00C50C09 /* MyProfileFirstViewController.xib in Resources */,
 				8447673C259C2A4E00C50C09 /* AppleHealthView.xib in Resources */,
-				84476754259C2A4E00C50C09 /* SignupViewController.xib in Resources */,
 				844767AF259C2A4E00C50C09 /* Localizable.strings in Resources */,
 				8447672D259C2A4E00C50C09 /* StatCell.xib in Resources */,
 				8447673F259C2A4E00C50C09 /* CoachCardView.xib in Resources */,
@@ -1571,24 +1556,20 @@
 				8447677E259C2A4E00C50C09 /* ProfileViewController.xib in Resources */,
 				8447677A259C2A4E00C50C09 /* QuestionnaireViewController.xib in Resources */,
 				8447672E259C2A4E00C50C09 /* SettingsSwitchCell.xib in Resources */,
-				8447674E259C2A4E00C50C09 /* AppleHealthViewController.xib in Resources */,
 				8447673A259C2A4E00C50C09 /* PickerTextField.xib in Resources */,
 				84476776259C2A4E00C50C09 /* TodayInputViewController.xib in Resources */,
 				84476762259C2A4E00C50C09 /* MyDevicesViewController.xib in Resources */,
 				84476747259C2A4E00C50C09 /* TextfieldView.xib in Resources */,
 				847ED201259C4E0F003166BD /* Fonts in Resources */,
-				84476780259C2A4E00C50C09 /* OnboardingViewController.xib in Resources */,
 				8447673E259C2A4E00C50C09 /* MultiPartAnswerView.xib in Resources */,
 				84476742259C2A4E00C50C09 /* CircleProgressBarView.xib in Resources */,
 				84476729259C2A4E00C50C09 /* TodayStatCell.xib in Resources */,
-				84476750259C2A4E00C50C09 /* EmailSentViewController.xib in Resources */,
 				84476738259C2A4E00C50C09 /* SettingsFooterView.xib in Resources */,
 				8447676D259C2A4E00C50C09 /* SettingsViewController.xib in Resources */,
 				84476744259C2A4E00C50C09 /* AnswerView.xib in Resources */,
 				8447676E259C2A4E00C50C09 /* PrivacyPolicyViewController.xib in Resources */,
 				84476765259C2A4E00C50C09 /* TermsOfServiceViewController.xib in Resources */,
 				8447677C259C2A4E00C50C09 /* QuestionViewController.xib in Resources */,
-				8447675A259C2A4E00C50C09 /* EmailSignInViewController.xib in Resources */,
 				84476778259C2A4E00C50C09 /* QuestionnaireCompletionViewController.xib in Resources */,
 				8447676B259C2A4E00C50C09 /* MyNotificationsViewController.xib in Resources */,
 			);
@@ -1821,11 +1802,13 @@
 				842F907425AE8D9F007421A6 /* TaskLinkType.swift in Sources */,
 				8447679C259C2A4E00C50C09 /* Ext_UIColor.swift in Sources */,
 				844767DD259C2A4E00C50C09 /* MasterCoordinator.swift in Sources */,
+				84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */,
 				84476725259C2A4E00C50C09 /* StatCell.swift in Sources */,
 				844767D9259C2A4E00C50C09 /* DataContext+Keychain.swift in Sources */,
 				84867D4725A99016002EE695 /* IllustrationCollectionViewCell.swift in Sources */,
 				84476782259C2A4E00C50C09 /* Gender.swift in Sources */,
 				84867D4225A95664002EE695 /* AuthenticationOptionsView.swift in Sources */,
+				84C5182A25B8014500D684E5 /* EmailAuthorizationViewController.swift in Sources */,
 				8447674C259C2A4E00C50C09 /* MockSplashViewController.swift in Sources */,
 				844767E1259C2A4E00C50C09 /* Coordinator.swift in Sources */,
 				844767C9259C2A4E00C50C09 /* OutcomeValue.swift in Sources */,
@@ -1851,7 +1834,6 @@
 				844767D2259C2A4E00C50C09 /* SyncManager.swift in Sources */,
 				84476784259C2A4E00C50C09 /* StatModel.swift in Sources */,
 				8447677B259C2A4E00C50C09 /* QuestionViewController.swift in Sources */,
-				8447674F259C2A4E00C50C09 /* EmailSentViewController.swift in Sources */,
 				844767A3259C2A4E00C50C09 /* Ext_UILabel.swift in Sources */,
 				8487485A25B3F946008C15E2 /* ButtonLogTaskViewController.swift in Sources */,
 				844767EE259C2A4E00C50C09 /* AlfredClient.swift in Sources */,
@@ -1886,8 +1868,8 @@
 				84476766259C2A4E00C50C09 /* TermsOfServiceViewController.swift in Sources */,
 				844767E9259C2A4E00C50C09 /* ServicePublisher.swift in Sources */,
 				844767C8259C2A4E00C50C09 /* CarePlanResponse.swift in Sources */,
+				84C5180225B7EC5C00D684E5 /* OnboardingViewController.swift in Sources */,
 				844767C4259C2A4E00C50C09 /* OutcomeValue+OCKOutcomeValue.swift in Sources */,
-				8447672F259C2A4E00C50C09 /* BottomButton.swift in Sources */,
 				84476779259C2A4E00C50C09 /* QuestionnaireViewController.swift in Sources */,
 				844767ED259C2A4E00C50C09 /* APIRouter.swift in Sources */,
 				8447672A259C2A4E00C50C09 /* BalloonMarker.swift in Sources */,
@@ -1906,7 +1888,6 @@
 				8447679D259C2A4E00C50C09 /* Ext_UIWindow.swift in Sources */,
 				8484112325B2B59F00171B68 /* QuantityIdentifier.swift in Sources */,
 				844767C5259C2A4E00C50C09 /* VectorClock.swift in Sources */,
-				84476753259C2A4E00C50C09 /* SignupViewController.swift in Sources */,
 				84476756259C2A4E00C50C09 /* ResetViewController.swift in Sources */,
 				844767C0259C2A4E00C50C09 /* Environment+SynchronizedStoreManager.swift in Sources */,
 				844767EC259C2A4E00C50C09 /* BaseViewController.swift in Sources */,
@@ -1914,7 +1895,6 @@
 				844767A2259C2A4E00C50C09 /* Ext_String.swift in Sources */,
 				8447678F259C2A4E00C50C09 /* CodexResource.swift in Sources */,
 				8447678B259C2A4E00C50C09 /* DevicesModel.swift in Sources */,
-				84476759259C2A4E00C50C09 /* EmailSignInViewController.swift in Sources */,
 				8484111B25B2AE1800171B68 /* TasksAddOperation.swift in Sources */,
 				84476751259C2A4E00C50C09 /* SelectChunkSizeViewController.swift in Sources */,
 				84476732259C2A4E00C50C09 /* RoundedButton.swift in Sources */,
@@ -1929,6 +1909,7 @@
 				844767EB259C2A4E00C50C09 /* Request.swift in Sources */,
 				844767AC259C2A4E00C50C09 /* Languages.swift in Sources */,
 				8447679A259C2A4E00C50C09 /* ProfileHelper.swift in Sources */,
+				849F362125B9161300FC2D1B /* TitledTextField.swift in Sources */,
 				8447672C259C2A4E00C50C09 /* SettingsSwitchCell.swift in Sources */,
 				8447673B259C2A4E00C50C09 /* TextfieldView.swift in Sources */,
 				84476772259C2A4E00C50C09 /* HomeViewController.swift in Sources */,
@@ -1947,25 +1928,28 @@
 				844767D6259C2A4E00C50C09 /* DataContext+Content.swift in Sources */,
 				8487481525B3B2FD008C15E2 /* LoggingOSLog.swift in Sources */,
 				8447673D259C2A4E00C50C09 /* CoachCardView.swift in Sources */,
+				849F362C25B92DD100FC2D1B /* EmailSentViewController.swift in Sources */,
 				844767C3259C2A4E00C50C09 /* Enviornment+CarePlanStoreManager.swift in Sources */,
+				849F37A125BA8CF300FC2D1B /* ScreenFlowType.swift in Sources */,
 				844767D0259C2A4E00C50C09 /* Note+OCKNote.swift in Sources */,
 				84E4660225A040F100A10F8B /* ViewIdentifiable.swift in Sources */,
 				844767D7259C2A4E00C50C09 /* DataContext+Fetch.swift in Sources */,
 				844767A9259C2A4E00C50C09 /* KeychainPasswordItem.swift in Sources */,
 				84476791259C2A4E00C50C09 /* CodexBundle.swift in Sources */,
 				844767A5259C2A4E00C50C09 /* Ext_Data.swift in Sources */,
+				842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */,
 				84476797259C2A4E00C50C09 /* AppFont.swift in Sources */,
+				84C517F525B7E55F00D684E5 /* BottomButton.swift in Sources */,
 				84476796259C2A4E00C50C09 /* TextStyle.swift in Sources */,
-				84476781259C2A4E00C50C09 /* OnboardingViewController.swift in Sources */,
 				84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */,
 				8484110C25B2A13C00171B68 /* HealthKitAddTasksOperation.swift in Sources */,
 				844767A0259C2A4E00C50C09 /* Ext_Date.swift in Sources */,
 				8487488B25B4B8F1008C15E2 /* ChecklistTaskViewController.swift in Sources */,
-				8447674D259C2A4E00C50C09 /* AppleHealthViewController.swift in Sources */,
 				844767AA259C2A4E00C50C09 /* LanguageManager.swift in Sources */,
 				8484111625B2AC7D00171B68 /* CarePlansAddOperation.swift in Sources */,
 				844767A1259C2A4E00C50C09 /* Ext_Array.swift in Sources */,
 				844767EF259C2A4E00C50C09 /* AlfredClient+Image.swift in Sources */,
+				849F378F25BA7F2200FC2D1B /* AuthorizationFlowType.swift in Sources */,
 				8447678A259C2A4E00C50C09 /* Profile.swift in Sources */,
 				84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */,
 				84476787259C2A4E00C50C09 /* UnknownModel.swift in Sources */,

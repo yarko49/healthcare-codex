@@ -30,7 +30,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		}
 
 		window = UIWindow(windowScene: scene)
-//		window?.rootViewController = dailyTasksViewController
 		window?.makeKeyAndVisible()
 		if let incomingURL = connectionOptions.userActivities.first?.webpageURL {
 			handleIncomingURL(incomingURL)

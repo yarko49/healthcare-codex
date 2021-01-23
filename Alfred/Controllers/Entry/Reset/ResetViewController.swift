@@ -9,7 +9,7 @@ import UIKit
 class ResetViewController: BaseViewController {
 	// MARK: - Coordinator Actions
 
-	var backBtnAction: (() -> Void)?
+	var backBtnAction: Coordinator.ActionHandler?
 	var nextAction: ((_ email: String?) -> Void)?
 
 	// MARK: - IBOutlets
@@ -22,16 +22,7 @@ class ResetViewController: BaseViewController {
 
 	override func setupView() {
 		super.setupView()
-		navigationController?.navigationBar.isHidden = false
-		let navBar = navigationController?.navigationBar
-		navBar?.setBackgroundImage(UIImage(), for: .default)
-		navBar?.shadowImage = UIImage()
-		navBar?.isHidden = false
-		navBar?.isTranslucent = false
-		navBar?.layoutIfNeeded()
 		title = "Reset Password"
-		navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backBtnTapped))
-		navigationItem.leftBarButtonItem?.tintColor = UIColor.black
 		saveButton.addTarget(self, action: #selector(saveBtnTapped), for: .touchUpInside)
 		setup()
 	}
@@ -49,10 +40,6 @@ class ResetViewController: BaseViewController {
 	}
 
 	@IBAction func saveBtnTapped(_ sender: Any) {
-		nextAction?(emailTextfieldView.tfText)
-	}
-
-	@objc func backBtnTapped() {
-		backBtnAction?()
+		nextAction?(emailTextfieldView.text)
 	}
 }

@@ -3,10 +3,10 @@ import FirebaseAuth
 import UIKit
 
 class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGestureRecognizerDelegate {
-	var backBtnAction: (() -> Void)?
+	var backBtnAction: Coordinator.ActionHandler?
 	var sendDataAction: ((String, String, [String]) -> Void)?
 	var alertAction: ((_ tv: TextfieldView?) -> Void)?
-	var alert: (() -> Void)?
+	var alert: Coordinator.ActionHandler?
 
 	@IBOutlet var sexStackView: UIStackView!
 	@IBOutlet var sexLabel: UILabel!

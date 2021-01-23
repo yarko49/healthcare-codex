@@ -482,3 +482,6 @@
 /* Incomplete */
 "INCOMPLETE" = "Incomplete";
 
+/* Authorizing... */
+"AUTHORIZING" = "Authorizing...";
+

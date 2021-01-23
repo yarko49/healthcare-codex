@@ -8,7 +8,7 @@ enum Input: String, Codable {
 }
 
 class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDelegate {
-	var backBtnAction: (() -> Void)?
+	var backBtnAction: Coordinator.ActionHandler?
 	var alertAction: ((_ tv: PickerTextField) -> Void)?
 	var patientRequestAction: ((_ resourceType: String, _ birthdate: String, _ weight: Int, _ height: Int, _ date: String) -> Void)?
 
