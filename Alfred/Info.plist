@@ -55,12 +55,12 @@
 		<string>$(TENANT_ID)</string>
 		<key>Zendesk App Id</key>
 		<string>$(ZENDESK_APP_ID)</string>
+		<key>Zendesk Chat Account Key</key>
+		<string>$(ZENDESK_CHAT_ACCOUNT_KEY)</string>
 		<key>Zendesk Client Id</key>
 		<string>$(ZENDESK_CLIENT_ID)</string>
 		<key>Zendesk URL</key>
 		<string>$(ZENDESK_URL)</string>
-		<key>Zendesk Chat Account Key</key>
-		<string>$(ZENDESK_CHAT_ACCOUNT_KEY)</string>
 	</dict>
 	<key>FacebookAdvertiserIDCollectionEnabled</key>
 	<false/>
@@ -76,12 +76,16 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Alfred app wants Camera Access Rights [temp]</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>With Face ID you will be able to sign in securely and automatically.</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>Alfred app wants Health Share rights. [temp]</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Alfred app wants Health Update rights. [temp]</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Alfred app wants Photo Library Access Rights [temp]</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

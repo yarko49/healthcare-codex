@@ -103,7 +103,9 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 
 private extension CarePlanDailyTasksController {
 	func fetchCarePlan() {
+		hud.show(in: navigationController?.view ?? view)
 		CarePlanStoreManager.getCarePlan { [weak self] result in
+			self?.hud.dismiss()
 			switch result {
 			case .failure(let error):
 				ALog.error(error: error)
