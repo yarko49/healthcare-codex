@@ -8,7 +8,6 @@ import UIKit
 
 class SyncManager {
 	static let shared = SyncManager()
-
 	func syncData(initialUpload: Bool = true, chunkSize: Int?, progressUpdate: @escaping (Int, Int) -> Void = { _, _ in }, completion: @escaping (Bool) -> Void) {
 		guard let chunkSize = chunkSize else {
 			completion(false)

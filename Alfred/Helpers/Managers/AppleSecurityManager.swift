@@ -29,7 +29,7 @@ class AppleSecurityManager {
 				var random: UInt8 = 0
 				let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
 				if errorCode != errSecSuccess {
-					fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
+					ALog.error("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
 				}
 				return random
 			}

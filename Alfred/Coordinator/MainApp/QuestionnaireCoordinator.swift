@@ -11,7 +11,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 		let navigationController = UINavigationController()
 		let navBar = navigationController.navigationBar
 		navBar.barTintColor = UIColor.lightBackground
-		navBar.titleTextAttributes = [NSAttributedString.Key.font: Font.sfProBold.of(size: 24), NSAttributedString.Key.foregroundColor: UIColor.black]
+		navBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24.0, weight: .bold), NSAttributedString.Key.foregroundColor: UIColor.black]
 
 		return navigationController
 	}()

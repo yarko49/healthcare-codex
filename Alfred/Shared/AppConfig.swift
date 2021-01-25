@@ -25,10 +25,26 @@ final class AppConfig: ObservableObject {
 		path("Environment", "Firebase Deeplink URL")!
 	}
 
-    static var supportEmail: String {
-        path("Environment", "Support Email")!
-    }
-    
+	static var supportEmail: String {
+		path("Environment", "Support Email")!
+	}
+
+	static var zendeskAppId: String {
+		path("Environment", "Zendesk App Id")!
+	}
+
+	static var zendeskClientId: String {
+		path("Environment", "Zendesk Client Id")!
+	}
+
+	static var zendeskURL: String {
+		path("Environment", "Zendesk URL")!
+	}
+
+	static var zendeskChatAccountKey: String {
+		path("Environment", "Zendesk Chat Account Key")!
+	}
+
 	static func path(_ keys: String...) -> String? {
 		var current = Bundle.main.infoDictionary
 		for (index, key) in keys.enumerated() {

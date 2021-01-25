@@ -13,6 +13,7 @@ protocol AlfredAPI {
 	func register(withEmail email: String, password: String, andConfirmPassword confirmPassword: String, completion: @escaping WebService.DecodableCompletion<Bool>)
 	func logout(completion: @escaping WebService.DecodableCompletion<Bool>)
 	func getCarePlan(vectorClock: Bool, valueSpaceSample: Bool, completion: @escaping WebService.DecodableCompletion<CarePlanResponse>) -> URLSession.ServicePublisher?
+	func postCarePlan(carePlanResponse: CarePlanResponse, completion: @escaping WebService.DecodableCompletion<[String: Int]>) -> URLSession.ServicePublisher?
 	func getQuestionnaire(completion: @escaping WebService.DecodableCompletion<Questionnaire>) -> URLSession.ServicePublisher?
 	func postQuestionnaireResponse(questionnaireResponse: QuestionnaireResponse, completion: @escaping WebService.DecodableCompletion<SubmittedQuestionnaire>) -> URLSession.ServicePublisher?
 	func postObservation(observation: CodexResource, completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher?
@@ -70,6 +71,12 @@ public final class AlfredClient: AlfredAPI {
 	@discardableResult
 	public func getCarePlan(vectorClock: Bool = false, valueSpaceSample: Bool = false, completion: @escaping WebService.DecodableCompletion<CarePlanResponse>) -> URLSession.ServicePublisher? {
 		let route = APIRouter.getCarePlan(vectorClock: vectorClock, valueSpaceSample: valueSpaceSample)
+		return webService.request(route: route, completion: completion)
+	}
+
+	@discardableResult
+	func postCarePlan(carePlanResponse: CarePlanResponse, completion: @escaping WebService.DecodableCompletion<[String: Int]>) -> URLSession.ServicePublisher? {
+		let route = APIRouter.postCarePlan(carePlanResponse: carePlanResponse)
 		return webService.request(route: route, completion: completion)
 	}
 

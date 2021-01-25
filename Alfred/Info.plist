@@ -49,10 +49,18 @@
 		<string>$(API_KEY)</string>
 		<key>Firebase Deeplink URL</key>
 		<string>$(FIREBASE_DEEPLINK_URL)</string>
+		<key>Support Email</key>
+		<string>$(SUPPORT_EMAIL)</string>
 		<key>Tenant ID</key>
 		<string>$(TENANT_ID)</string>
-		<key>Support Email</key>
-		<string>${SUPPORT_EMAIL)</string>
+		<key>Zendesk App Id</key>
+		<string>$(ZENDESK_APP_ID)</string>
+		<key>Zendesk Client Id</key>
+		<string>$(ZENDESK_CLIENT_ID)</string>
+		<key>Zendesk URL</key>
+		<string>$(ZENDESK_URL)</string>
+		<key>Zendesk Chat Account Key</key>
+		<string>$(ZENDESK_CHAT_ACCOUNT_KEY)</string>
 	</dict>
 	<key>FacebookAdvertiserIDCollectionEnabled</key>
 	<false/>
@@ -74,23 +82,6 @@
 	<string>Alfred app wants Health Share rights. [temp]</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Alfred app wants Health Update rights. [temp]</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Fonts/SF-Pro-Text-Bold.otf</string>
-		<string>Fonts/SF-Pro-Text-BoldItalic.otf</string>
-		<string>Fonts/SF-Pro-Text-Heavy.otf</string>
-		<string>Fonts/SF-Pro-Text-HeavyItalic.otf</string>
-		<string>Fonts/SF-Pro-Text-Light.otf</string>
-		<string>Fonts/SF-Pro-Text-LightItalic.otf</string>
-		<string>Fonts/SF-Pro-Text-Medium.otf</string>
-		<string>Fonts/SF-Pro-Text-MediumItalic.otf</string>
-		<string>Fonts/SF-Pro-Text-Regular.otf</string>
-		<string>Fonts/SF-Pro-Text-RegularItalic.otf</string>
-		<string>Fonts/SF-Pro-Text-Semibold.otf</string>
-		<string>Fonts/SF-Pro-Text-SemiboldItalic.otf</string>
-		<string>Fonts/SF-Pro-Text-Thin.otf</string>
-		<string>Fonts/Roboto-Medium.ttf</string>
-	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

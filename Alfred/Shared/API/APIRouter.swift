@@ -4,6 +4,7 @@ enum APIRouter: URLRequestConvertible {
 	static let baseURLPath = AppConfig.apiBaseUrl
 
 	case getCarePlan(vectorClock: Bool, valueSpaceSample: Bool)
+	case postCarePlan(carePlanResponse: CarePlanResponse)
 	case getQuestionnaire
 	case postQuestionnaireResponse(response: QuestionnaireResponse)
 	case postPatient(patient: CodexResource)
@@ -19,6 +20,7 @@ enum APIRouter: URLRequestConvertible {
 	var method: Request.Method {
 		switch self {
 		case .getCarePlan: return .get
+		case .postCarePlan: return .post
 		case .getQuestionnaire: return .get
 		case .postQuestionnaireResponse: return .post
 		case .postObservation: return .post
@@ -35,7 +37,7 @@ enum APIRouter: URLRequestConvertible {
 
 	var path: String {
 		switch self {
-		case .getCarePlan: return "/carePlan"
+		case .getCarePlan, .postCarePlan: return "/carePlan"
 		case .getQuestionnaire: return "/fhir/Questionnaire"
 		case .postQuestionnaireResponse: return "/fhir/QuestionnaireResponse"
 		case .postObservation: return "/fhir/Observation"
@@ -75,6 +77,8 @@ enum APIRouter: URLRequestConvertible {
 			data = try? JSONEncoder().encode(response)
 		case .patchPatient(let editResponse):
 			data = try? JSONEncoder().encode(editResponse)
+		case .postCarePlan(let carePlanResponse):
+			data = try? JSONEncoder().encode(carePlanResponse)
 		default:
 			data = nil
 		}
@@ -94,7 +98,7 @@ enum APIRouter: URLRequestConvertible {
 			} else if valueSpaceSample {
 				headers[Request.Header.CarePlanPrefer] = "return=ValueSpaceSample"
 			}
-		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile:
+		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile, .postCarePlan:
 			break
 		case .postObservation, .postPatient, .postPatientSearch, .postBundle, .postQuestionnaireResponse, .postObservationSearch:
 			headers[Request.Header.contentType] = Request.ContentType.fhirjson
@@ -106,7 +110,7 @@ enum APIRouter: URLRequestConvertible {
 
 	var parameters: [String: Any]? {
 		switch self {
-		case .getQuestionnaire, .postQuestionnaireResponse, .postObservation, .postPatient, .getProfile, .postProfile, .getNotifications, .postPatientSearch, .postBundle, .postObservationSearch, .patchPatient, .getCarePlan:
+		case .getQuestionnaire, .postQuestionnaireResponse, .postObservation, .postPatient, .getProfile, .postProfile, .getNotifications, .postPatientSearch, .postBundle, .postObservationSearch, .patchPatient, .getCarePlan, .postCarePlan:
 			return nil
 		}
 	}

@@ -241,6 +241,14 @@ class CarePlanTests: XCTestCase {
 		// XCTAssertEqual(reverse, carePlan)
 	}
 
+	func testCarePlanEncodeDecode() throws {
+		let data = AlfredTests.loadTestData(fileName: "DefaultDiabetesCarePlan.json")
+		XCTAssertNotNil(data)
+		let decoder = CHJSONDecoder()
+		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: data!)
+		XCTAssertNotNil(carePlanResponse.tasks)
+	}
+
 	func carePlanDecode(string: String) throws -> CarePlan {
 		let decoder = CHJSONDecoder()
 		if let data = string.data(using: .utf8) {

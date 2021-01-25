@@ -343,7 +343,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			DataContext.shared.firstName = joinedNames
 			DataContext.shared.resouce = CodexResource(id: nil, code: nil, effectiveDateTime: nil, identifier: nil, meta: nil, resourceType: resourceType, status: nil, subject: nil, valueQuantity: nil, birthDate: birthdate, gender: gender, name: [name], component: nil)
 			let patientResource = DataContext.shared.resouce
-			self?.goToAppleHealthViewControllerFromProfile(patient: patientResource ?? CodexResource(id: "", code: nil, effectiveDateTime: "", identifier: nil, meta: nil, resourceType: "", status: "", subject: nil, valueQuantity: nil, birthDate: "", gender: "", name: nil, component: nil), weight: weight, height: height, date: date)
+			self?.goToHealthViewControllerFromProfile(patient: patientResource ?? CodexResource(id: "", code: nil, effectiveDateTime: "", identifier: nil, meta: nil, resourceType: "", status: "", subject: nil, valueQuantity: nil, birthDate: "", gender: "", name: nil, component: nil), weight: weight, height: height, date: date)
 		}
 
 		myProfileSecondViewController.alertAction = { [weak self] _ in
@@ -353,7 +353,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		navigate(to: myProfileSecondViewController, with: .push)
 	}
 
-	internal func goToAppleHealthViewControllerFromProfile(patient: CodexResource, weight: Int, height: Int, date: String) {
+	internal func goToHealthViewControllerFromProfile(patient: CodexResource, weight: Int, height: Int, date: String) {
 		let healthViewController = HealthViewController()
 		healthViewController.screenFlowType = .selectDevices
 		healthViewController.authorizationFlowType = authorizationFlowType
@@ -364,7 +364,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		navigate(to: healthViewController, with: .pushFullScreen)
 	}
 
-	internal func goToAppleHealthViewControllerFromDevices() {
+	internal func goToHealthViewControllerFromDevices() {
 		let healthViewController = HealthViewController()
 		healthViewController.screenFlowType = .healthKit
 		healthViewController.authorizationFlowType = authorizationFlowType
@@ -416,10 +416,10 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 				hkDataUploadViewController.maxProgress = total
 			} completion: { success in
 				if success {
-					self?.goToAppleHealthViewControllerFromActivate()
+					self?.goToHealthViewControllerFromActivate()
 				} else {
 					let okAction = AlertHelper.AlertAction(withTitle: Str.ok) { [weak self] in
-						self?.goToAppleHealthViewControllerFromActivate()
+						self?.goToHealthViewControllerFromActivate()
 					}
 					AlertHelper.showAlert(title: Str.error, detailText: Str.importHealthDataFailed, actions: [okAction])
 				}
@@ -428,7 +428,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		navigate(to: hkDataUploadViewController, with: .push)
 	}
 
-	internal func goToAppleHealthViewControllerFromActivate() {
+	internal func goToHealthViewControllerFromActivate() {
 		let healthViewController = HealthViewController()
 		healthViewController.screenFlowType = .activate
 		healthViewController.authorizationFlowType = authorizationFlowType
@@ -509,7 +509,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			case .success(let finished):
 				DataContext.shared.identifyCrashlytics()
 				ALog.info("OK STATUS FOR PROFILE: 200 \(String(describing: DataContext.shared.signUpCompleted)), \(finished)")
-				self?.goToAppleHealthViewControllerFromDevices()
+				self?.goToHealthViewControllerFromDevices()
 			case .failure(let error):
 				ALog.error("request failed", error: error)
 				AlertHelper.showAlert(title: Str.error, detailText: Str.createProfileFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])

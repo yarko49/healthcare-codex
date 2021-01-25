@@ -56,7 +56,14 @@ public struct CarePlan: Codable, Identifiable {
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
 		self.notes = try container.decodeIfPresent([String: Note].self, forKey: .notes)
-		self.tasks = try container.decodeIfPresent(Tasks.self, forKey: .tasks)
+		let keyedTasks = try container.decodeIfPresent(Tasks.self, forKey: .tasks) ?? [:]
+		var updatedTasks: Tasks = [:]
+		for (key, value) in keyedTasks {
+			var copy = value
+			copy.id = key
+			updatedTasks[key] = copy
+		}
+		self.tasks = updatedTasks
 	}
 
 	public func encode(to encoder: Encoder) throws {
