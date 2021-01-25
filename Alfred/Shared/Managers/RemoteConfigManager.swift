@@ -32,7 +32,7 @@ struct RemoteLogging: Codable, Hashable {
 
 class RemoteConfigManager: ObservableObject {
 	private let remoteConfig = RemoteConfig.remoteConfig()
-    @Published var feedbackEmail: String = AppConfig.supportEmail
+	@Published var feedbackEmail: String = AppConfig.supportEmail
 	@Published var remoteLogging = RemoteLogging()
 
 	func refresh() {

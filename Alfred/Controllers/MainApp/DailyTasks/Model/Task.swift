@@ -13,7 +13,7 @@ public typealias Tasks = [String: Task]
 
 public struct Task: Codable, Identifiable {
 	public var carePlanId: String?
-	public let id: String
+	public var id: String
 	public var title: String?
 	public var instructions: String?
 	public var impactsAdherence: Bool = true

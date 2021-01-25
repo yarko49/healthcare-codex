@@ -24,7 +24,6 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 		return view
 	}()
 
-	var identifiers: [String] = []
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = NSLocalizedString("TASKS", comment: "Tasks")
@@ -32,9 +31,12 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		fetchCarePlan()
+		if !isLoaded {
+			fetchCarePlan()
+		}
 	}
 
+	private var isLoaded: Bool = false
 	var insertViewsAnimated: Bool = false
 
 	override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController, prepare listViewController: OCKListViewController, for date: Date) {
@@ -101,9 +103,7 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 
 private extension CarePlanDailyTasksController {
 	func fetchCarePlan() {
-		hud.show(in: navigationController?.view ?? view, animated: true)
 		CarePlanStoreManager.getCarePlan { [weak self] result in
-			self?.hud.dismiss(animated: true)
 			switch result {
 			case .failure(let error):
 				ALog.error(error: error)
@@ -112,8 +112,7 @@ private extension CarePlanDailyTasksController {
 					switch insertResult {
 					case .failure(let error):
 						ALog.error(error: error)
-					case .success(let identifiers):
-						self?.identifiers = identifiers
+					case .success:
 						self?.reload()
 					}
 				})

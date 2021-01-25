@@ -15,6 +15,6 @@ extension UINavigationBar {
 		navBar.setBackgroundImage(UIImage(), for: .default)
 		navBar.shadowImage = UIImage()
 		navBar.tintColor = .black
-		navBar.titleTextAttributes = [NSAttributedString.Key.font: Font.sfProSemibold.of(size: 17), NSAttributedString.Key.foregroundColor: UIColor.black]
+		navBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17.0, weight: .semibold), NSAttributedString.Key.foregroundColor: UIColor.black]
 	}
 }

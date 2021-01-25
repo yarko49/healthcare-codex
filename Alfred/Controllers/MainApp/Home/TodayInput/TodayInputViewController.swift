@@ -147,7 +147,7 @@ class TodayInputViewController: BaseViewController {
 	}
 
 	private func fixLabelsInPlace(with picker: UIPickerView) {
-		let font = Font.sfProBold.of(size: 12)
+		let font = UIFont.systemFont(ofSize: 12.0, weight: .bold)
 		let fontSize: CGFloat = font.pointSize
 		let componentWidth: CGFloat = view.frame.width / CGFloat(picker.numberOfComponents)
 		let yPos = (picker.frame.size.height / 2) - (fontSize / 2)

@@ -35,7 +35,7 @@
             "daily": true,
             "weekly": false,
             "weekday": 0,
-            "hour": 0,
+            "hour": 8,
             "minutes": 0,
             "duration": 0,
             "interval": 0,
@@ -67,7 +67,7 @@
             "daily": true,
             "weekly": false,
             "weekday": 0,
-            "hour": 0,
+            "hour": 8,
             "minutes": 0,
             "duration": 0,
             "interval": 0,
@@ -99,7 +99,7 @@
             "daily": true,
             "weekly": false,
             "weekday": 0,
-            "hour": 0,
+            "hour": 8,
             "minutes": 0,
             "duration": 0,
             "interval": 0,
@@ -129,7 +129,7 @@
             "daily": true,
             "weekly": false,
             "weekday": 0,
-            "hour": 0,
+            "hour": 8,
             "minutes": 0,
             "duration": 0,
             "interval": 0,
@@ -159,7 +159,7 @@
             "daily": true,
             "weekly": false,
             "weekday": 0,
-            "hour": 0,
+            "hour": 8,
             "minutes": 0,
             "duration": 0,
             "interval": 0,
@@ -179,6 +179,7 @@
         "source": "",
         "timezone": 0,
         "userInfo": {
+          "category": "featured-content",
           "detailView": "Healthy Recipes\nSpinach & Kale",
           "detailViewImageLabel": "Some Ideas",
           "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg"
@@ -210,7 +211,9 @@
         "asset": "",
         "source": "",
         "timezone": 0,
-        "userInfo": {},
+        "userInfo": {
+          "category": "surveysquestionnaires"
+        },
         "effectiveDate": null,
         "title": "Food Diary",
         "schedules": {
@@ -218,8 +221,8 @@
             "custom": false,
             "daily": true,
             "weekly": false,
-            "weekday": 8,
-            "hour": 0,
+            "weekday": 0,
+            "hour": 8,
             "minutes": 0,
             "duration": 0,
             "interval": 0,
@@ -367,14 +370,13 @@
       "FoodDiaryRecall2": {
         "groupIdentifier": "CHECKLIST",
         "remoteId": "78ab8c0a-5c2a-556c-8ed1-10b1a54e3b13",
-        "id": "",
+        "id": "FoodDiaryRecall2",
         "asset": "",
         "source": "",
-        "tags": [
-          "surveysquestionnaires"
-        ],
         "timezone": 0,
-        "userInfo": {},
+        "userInfo": {
+          "category": "surveysquestionnaires"
+        },
         "effectiveDate": null,
         "title": "Daily Food Diary",
         "schedules": {
@@ -478,6 +480,7 @@
         "source": "",
         "timezone": 0,
         "userInfo": {
+          "category": "featured-content",
           "linkURL0": "https://med.stanford.edu/",
           "linkURLTitle0": "Stanford Medicine",
           "linkLocation0": "37.4275,122.1697",
@@ -508,14 +511,13 @@
       "MorningExercise": {
         "groupIdentifier": "SIMPLE",
         "remoteId": "2ee39636-91fc-5095-b7d9-289df60e487b",
-        "id": "",
+        "id": "MorningExercise",
         "asset": "",
         "source": "",
-        "tags": [
-          "activity"
-        ],
         "timezone": 0,
-        "userInfo": {},
+        "userInfo": {
+          "category": "physical-therapy"
+        },
         "effectiveDate": null,
         "title": "15 Minutes of Morning Exercise",
         "schedules": {
@@ -524,7 +526,7 @@
             "daily": true,
             "weekly": false,
             "weekday": 0,
-            "hour": 6,
+            "hour": 8,
             "minutes": 0,
             "duration": 21600,
             "interval": 0,
@@ -554,7 +556,7 @@
             "daily": true,
             "weekly": false,
             "weekday": 0,
-            "hour": 0,
+            "hour": 8,
             "minutes": 0,
             "duration": 0,
             "interval": 0,
@@ -606,7 +608,7 @@
             "daily": true,
             "weekly": false,
             "weekday": 0,
-            "hour": 0,
+            "hour": 8,
             "minutes": 0,
             "duration": 0,
             "interval": 0,
@@ -641,7 +643,7 @@
             "daily": true,
             "weekly": false,
             "weekday": 0,
-            "hour": 0,
+            "hour": 8,
             "minutes": 0,
             "duration": 0,
             "interval": 0,
