@@ -1,3 +1,4 @@
+import CareKitStore
 import FirebaseAuth
 import Foundation
 
@@ -13,7 +14,7 @@ extension DataContext {
 					return
 				}
 				self?.resource = resource
-				self?.userModel = UserModel(userID: resource.id, email: user.email, name: resource.name, dob: resource.birthDate, gender: Gender(rawValue: resource.gender ?? ""))
+				self?.userModel = UserModel(userID: resource.id, email: user.email, name: resource.name, dob: resource.birthDate, gender: OCKBiologicalSex(rawValue: resource.gender ?? ""))
 				completion(true)
 			case .failure(let error):
 				ALog.error("Patient Search", error: error)

@@ -8,7 +8,6 @@
 import Foundation
 
 extension Dictionary {
-	// swiftlint:disable:next identifier_name
 	var ws_queryItems: [URLQueryItem] {
 		let items = map { (item) -> URLQueryItem in
 			URLQueryItem(name: "\(item.key)", value: "\(item.value)")
@@ -16,7 +15,6 @@ extension Dictionary {
 		return items
 	}
 
-	// swiftlint:disable:next identifier_name
 	var ws_percentEncodedData: Data? {
 		ws_percentEncodedData(with: nil)
 	}
@@ -25,7 +23,6 @@ extension Dictionary {
 		ws_percentEncodedQueryString(with: allowedCharacters)?.data(using: .utf8, allowLossyConversion: false)
 	}
 
-	// swiftlint:disable:next identifier_name
 	var ws_percentEncodedQueryString: String? {
 		ws_percentEncodedQueryString()
 	}

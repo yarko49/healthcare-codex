@@ -1,3 +1,4 @@
+import CareKitStore
 import HealthKit
 import LocalAuthentication
 import UIKit
@@ -298,7 +299,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		}
 	}
 
-	internal func goToMyProfileFirstViewController(source: ComingFrom = .profile, weight: Int, height: Int) {
+	internal func goToMyProfileFirstViewController(source: NavigationSourceType = .profile, weight: Int, height: Int) {
 		let myProfileFirstViewController = MyProfileFirstViewController()
 		myProfileFirstViewController.comingFrom = source
 		myProfileFirstViewController.firstText = DataContext.shared.userModel?.displayFirstName ?? ""
@@ -324,7 +325,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		navigate(to: myProfileFirstViewController, with: .push)
 	}
 
-	internal func goToMyProfileSecondViewController(gender: String, family: String, given: [String], source: ComingFrom = .profile, weight: Int, height: Int) {
+	internal func goToMyProfileSecondViewController(gender: String, family: String, given: [String], source: NavigationSourceType = .profile, weight: Int, height: Int) {
 		let myProfileSecondViewController = MyProfileSecondViewController()
 		myProfileSecondViewController.comingFrom = source
 		myProfileSecondViewController.profileWeight = weight
@@ -359,7 +360,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			DataContext.shared.userModel?.dob = birthdate
 			let name = [ResourceName(use: "official", family: family, given: given)]
 			DataContext.shared.userModel?.name = name
-			DataContext.shared.userModel?.gender = Gender(rawValue: gender)
+			DataContext.shared.userModel?.gender = OCKBiologicalSex(rawValue: gender)
 			let defaultPatient = [UpdatePatientModel(op: "", path: "", value: "")]
 			let patient = DataContext.shared.updatePatient
 			self?.patientAPI(patient: patient ?? defaultPatient, weight: weight, height: height, date: date, birthDay: birthdate, family: family, given: given)
@@ -381,7 +382,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			switch result {
 			case .success:
 				ALog.info("OK STATUS FOR UPDATE PATIENT : 200")
-				DataContext.shared.userModel = UserModel(userID: DataContext.shared.userModel?.userID ?? "", email: DataContext.shared.userModel?.email, name: [ResourceName(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? Gender(rawValue: "female"))
+				DataContext.shared.userModel = UserModel(userID: DataContext.shared.userModel?.userID ?? "", email: DataContext.shared.userModel?.email, name: [ResourceName(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? OCKBiologicalSex(rawValue: "female"))
 				self?.profileViewController?.nameLabel?.attributedText = (ProfileHelper.firstName ?? "").with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			case .failure(let error):
@@ -489,7 +490,7 @@ extension MainAppCoordinator: UINavigationControllerDelegate {
 			}
 		} else if viewController is ProfileViewController || viewController is TroubleshootingViewController || viewController is TodayInputViewController {
 			if viewController is ProfileViewController, viewController.navigationItem.rightBarButtonItem == nil {
-				let settingsBtn = UIBarButtonItem(image: UIImage(named: "gear")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapSettings))
+				let settingsBtn = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapSettings))
 				settingsBtn.tintColor = .black
 				viewController.navigationItem.setRightBarButton(settingsBtn, animated: true)
 			} else if viewController is TodayInputViewController, viewController.navigationItem.rightBarButtonItem == nil {
@@ -498,7 +499,7 @@ extension MainAppCoordinator: UINavigationControllerDelegate {
 				viewController.navigationItem.setRightBarButton(addBtn, animated: true)
 			}
 			if viewController.navigationItem.leftBarButtonItem == nil {
-				let backBtn = UIBarButtonItem(image: UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(backAction))
+				let backBtn = UIBarButtonItem(image: UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(backAction))
 				backBtn.tintColor = .black
 				viewController.navigationItem.setLeftBarButton(backBtn, animated: true)
 			}

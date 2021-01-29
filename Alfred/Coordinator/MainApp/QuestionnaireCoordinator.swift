@@ -213,7 +213,7 @@ extension QuestionnaireCoordinator: UINavigationControllerDelegate {
 
 			if viewController.navigationItem.leftBarButtonItem == nil {
 				let backBtn = UIButton(type: .system)
-				backBtn.setImage(UIImage(named: "back"), for: .normal)
+				backBtn.setImage(UIImage(systemName: "chevron.left"), for: .normal)
 				backBtn.setTitle(Str.previous, for: .normal)
 				backBtn.addTarget(self, action: #selector(backAction), for: .touchUpInside)
 				backBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -10)

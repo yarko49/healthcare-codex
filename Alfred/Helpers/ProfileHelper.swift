@@ -1,3 +1,4 @@
+import CareKitStore
 import Foundation
 
 class ProfileHelper {
@@ -15,7 +16,7 @@ class ProfileHelper {
 		DataContext.shared.userModel?.birthdayYear
 	}
 
-	static var gender: Gender {
+	static var gender: OCKBiologicalSex {
 		guard let gender = DataContext.shared.userModel?.gender, gender == .female || gender == .male else {
 			return .female
 		}

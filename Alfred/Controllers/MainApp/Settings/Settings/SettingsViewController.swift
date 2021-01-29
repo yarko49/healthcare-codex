@@ -12,7 +12,7 @@ class SettingsViewController: BaseViewController {
 
 	// MARK: - Properties
 
-	var settings: [Settings] = Settings.allValues
+	var settings: [SettingsType] = SettingsType.allCases
 	let rowHeight: CGFloat = 60
 	let footerHeight: CGFloat = 110
 

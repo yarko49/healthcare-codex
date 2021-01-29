@@ -12,7 +12,7 @@ import UIKit
 		}
 	}
 
-	@IBInspectable var roundedBackgroundColor: CGColor? = UIColor.blue?.cgColor {
+	@IBInspectable var roundedBackgroundColor: UIColor? = UIColor.blue {
 		didSet {
 			setBackgroundColor()
 		}
@@ -24,7 +24,7 @@ import UIKit
 		}
 	}
 
-	@IBInspectable var roundedBorderColor: CGColor? = UIColor.blue?.cgColor {
+	@IBInspectable var roundedBorderColor: UIColor? = UIColor.blue {
 		didSet {
 			setBorderColor()
 		}
@@ -56,7 +56,7 @@ import UIKit
 	}
 
 	func setBackgroundColor() {
-		layer.backgroundColor = roundedBackgroundColor
+		layer.backgroundColor = roundedBackgroundColor?.cgColor
 	}
 
 	func setTitleColor() {
@@ -65,7 +65,7 @@ import UIKit
 
 	func setBorderColor() {
 		layer.borderWidth = 2
-		layer.borderColor = roundedBorderColor
+		layer.borderColor = roundedBorderColor?.cgColor
 	}
 
 	func refreshCorners(value: CGFloat) {

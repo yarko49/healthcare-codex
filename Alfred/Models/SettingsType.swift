@@ -5,7 +5,7 @@
 
 import Foundation
 
-enum Settings: CustomStringConvertible {
+enum SettingsType: CustomStringConvertible, CaseIterable {
 	case accountDetails
 	case myDevices
 	case notifications
@@ -32,6 +32,4 @@ enum Settings: CustomStringConvertible {
 			return Str.termsOfService
 		}
 	}
-
-	static let allValues = [accountDetails, myDevices, notifications, systemAuthorization, feedback, privacyPolicy, termsOfService]
 }

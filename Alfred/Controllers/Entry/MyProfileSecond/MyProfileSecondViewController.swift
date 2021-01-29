@@ -21,7 +21,7 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 	var dobDate: String?
 	var identifier: String?
 	var effectiveDate: String?
-	var comingFrom: ComingFrom = .signUp
+	var comingFrom: NavigationSourceType = .signUp
 	let feetData = [Array(3 ... 8), Array(0 ... 12)]
 	var feet: Int?
 	var inches: Int?

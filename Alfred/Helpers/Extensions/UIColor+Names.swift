@@ -79,4 +79,13 @@ extension UIColor {
 
 		return nil
 	}
+
+	public convenience init(rgbHex hex: UInt) {
+		let alpha = hex & 0xFF
+		let blue = (hex >> 8) & 0xFF
+		let green = (hex >> 16) & 0xFF
+		let red = (hex >> 24) & 0xFF
+
+		self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: CGFloat(alpha) / 255.0)
+	}
 }

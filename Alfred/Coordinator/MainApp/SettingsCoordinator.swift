@@ -230,7 +230,7 @@ extension SettingsCoordinator: UINavigationControllerDelegate {
 	func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
 		if viewController is SettingsViewController {
 			if viewController.navigationItem.leftBarButtonItem == nil {
-				let backBtn = UIBarButtonItem(image: UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(backAction))
+				let backBtn = UIBarButtonItem(image: UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(backAction))
 				backBtn.tintColor = .black
 				viewController.navigationItem.setLeftBarButton(backBtn, animated: true)
 			}
