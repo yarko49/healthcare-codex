@@ -12,6 +12,7 @@ extension DataContext {
 					completion(false)
 					return
 				}
+				self?.resource = resource
 				self?.userModel = UserModel(userID: resource.id, email: user.email, name: resource.name, dob: resource.birthDate, gender: Gender(rawValue: resource.gender ?? ""))
 				completion(true)
 			case .failure(let error):

@@ -7,12 +7,12 @@ class ProfileHelper {
 		return (feet, inches)
 	}
 
-	static var firstName: String {
-		DataContext.shared.displayFirstName
+	static var firstName: String? {
+		DataContext.shared.userModel?.displayFirstName
 	}
 
-	static var birthdate: Int {
-		DataContext.shared.birthdayYear
+	static var birthdate: Int? {
+		DataContext.shared.userModel?.birthdayYear
 	}
 
 	static var gender: Gender {

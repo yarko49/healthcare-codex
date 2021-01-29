@@ -189,7 +189,7 @@ class TodayInputViewController: BaseViewController {
 
 	private func setupObservation() {
 		var effectiveDateTime = ""
-		if let date = DataContext.shared.getDate() {
+		if let date = Date().byRemovingFractionalSeconds {
 			effectiveDateTime = DateFormatter.wholeDateRequest.string(from: date)
 		} else {
 			return

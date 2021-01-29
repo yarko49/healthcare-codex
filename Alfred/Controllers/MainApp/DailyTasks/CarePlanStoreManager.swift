@@ -46,6 +46,8 @@ class CarePlanStoreManager: ObservableObject {
 	@Published var patient: OCKPatient? {
 		willSet {
 			objectWillChange.send()
+		}
+		didSet {
 			ALog.info("Did Create a patient \(String(describing: patient))")
 		}
 	}
@@ -53,7 +55,7 @@ class CarePlanStoreManager: ObservableObject {
 	private var cancellables: Set<AnyCancellable> = []
 
 	init() {
-		DataContext.shared.$resouce.sink { [weak self] newValue in
+		DataContext.shared.$resource.sink { [weak self] newValue in
 			guard let resource = newValue, let user = Auth.auth().currentUser, let patient = OCKPatient(id: nil, resource: resource, user: user) else {
 				return
 			}

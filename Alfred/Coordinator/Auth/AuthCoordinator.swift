@@ -17,7 +17,6 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 
 	var currentNonce: String?
 	var emailrequest: String?
-	var bundleIdentifier: String?
 	var healthDataSuccessfullyUploaded = true
 	var chunkSize = 4500
 	var authorizationFlowType: AuthorizationFlowType = .signUp
@@ -239,7 +238,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		DataContext.shared.searchPatient(user: user, completion: { [weak self] success in
 			self?.hideHUD()
 			if success {
-				DataContext.shared.identifyCrashlytics()
+				LoggingManager.identify(userId: DataContext.shared.userModel?.userID)
 				self?.getProfile()
 			} else {
 				self?.goToMyProfileFirstViewController(from: .signIn)
@@ -341,8 +340,8 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			let name = ResourceName(use: "official", family: family, given: given)
 			let joinedNames = given.joined(separator: " ")
 			DataContext.shared.firstName = joinedNames
-			DataContext.shared.resouce = CodexResource(id: nil, code: nil, effectiveDateTime: nil, identifier: nil, meta: nil, resourceType: resourceType, status: nil, subject: nil, valueQuantity: nil, birthDate: birthdate, gender: gender, name: [name], component: nil)
-			let patientResource = DataContext.shared.resouce
+			DataContext.shared.resource = CodexResource(id: nil, code: nil, effectiveDateTime: nil, identifier: nil, meta: nil, resourceType: resourceType, status: nil, subject: nil, valueQuantity: nil, birthDate: birthdate, gender: gender, name: [name], component: nil)
+			let patientResource = DataContext.shared.resource
 			self?.goToHealthViewControllerFromProfile(patient: patientResource ?? CodexResource(id: "", code: nil, effectiveDateTime: "", identifier: nil, meta: nil, resourceType: "", status: "", subject: nil, valueQuantity: nil, birthDate: "", gender: "", name: nil, component: nil), weight: weight, height: height, date: date)
 		}
 
@@ -460,12 +459,12 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		showHUD()
 		AlfredClient.client.postPatient(patient: patient) { [weak self] result in
 			self?.hideHUD()
-			DataContext.shared.resouce = patient
+			DataContext.shared.resource = patient
 			switch result {
 			case .success(let resource):
 				ALog.info("OK STATUS FOR PATIENT : 200")
 				let defaultName = ResourceName(use: "", family: "", given: [""])
-				DataContext.shared.userModel = UserModel(userID: resource.id ?? "", email: self?.emailrequest ?? "", name: resource.name ?? [defaultName], dob: patient.birthDate, gender: Gender(rawValue: DataContext.shared.resouce?.gender ?? ""))
+				DataContext.shared.userModel = UserModel(userID: resource.id ?? "", email: self?.emailrequest ?? "", name: resource.name ?? [defaultName], dob: patient.birthDate, gender: Gender(rawValue: DataContext.shared.resource?.gender ?? ""))
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			case .failure(let error):
 				ALog.error("request falied", error: error)
@@ -476,9 +475,9 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func getHeightWeight(weight: Int, height: Int, date: String) {
-		let weightObservation = CodexResource(id: nil, code: DataContext.shared.weightCode, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
+		let weightObservation = CodexResource(id: nil, code: MedicalCode.bodyWeight, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
 		let weightEntry = BundleEntry(fullURL: nil, resource: weightObservation, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
-		let heightObservation = CodexResource(id: nil, code: DataContext.shared.heightCode, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: height, unit: Str.heightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
+		let heightObservation = CodexResource(id: nil, code: MedicalCode.bodyHeight, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: height, unit: Str.heightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
 		let heightEntry = BundleEntry(fullURL: nil, resource: heightObservation, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
 		let bundle = CodexBundle(entry: [weightEntry, heightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
 		bundleAction(bundle: bundle)
@@ -492,7 +491,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			case .success(let response):
 				ALog.info("response \(String(describing: response))")
 				DataContext.shared.signUpCompleted = true
-				let profile = DataContext.shared.createProfile()
+				let profile = Profile(dataContext: DataContext.shared)
 				self?.profileRequest(profile: profile)
 			case .failure(let error):
 				ALog.error("request failed =", error: error)
@@ -507,7 +506,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			self?.hideHUD()
 			switch result {
 			case .success(let finished):
-				DataContext.shared.identifyCrashlytics()
+				LoggingManager.identify(userId: DataContext.shared.userModel?.userID)
 				ALog.info("OK STATUS FOR PROFILE: 200 \(String(describing: DataContext.shared.signUpCompleted)), \(finished)")
 				self?.goToHealthViewControllerFromDevices()
 			case .failure(let error):

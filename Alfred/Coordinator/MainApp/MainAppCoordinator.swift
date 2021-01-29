@@ -33,10 +33,10 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func start() {
-		if DataContext.shared.haveAskedUserforBiometrics == false {
+		if UserDefaults.standard.haveAskedUserforBiometrics == false {
 			enrollWithBiometrics()
 		} else {
-			if DataContext.shared.isBiometricsEnabled == false {}
+			if UserDefaults.standard.isBiometricsEnabled == false {}
 		}
 		showDailyTasksView()
 	}
@@ -63,10 +63,10 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	func enrollWithBiometrics() {
 		evaluateBiometrics()
 		let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
-			DataContext.shared.isBiometricsEnabled = true
+			UserDefaults.standard.isBiometricsEnabled = true
 		}
 		let noAction = AlertHelper.AlertAction(withTitle: Str.no) {
-			DataContext.shared.isBiometricsEnabled = false
+			UserDefaults.standard.isBiometricsEnabled = false
 		}
 		DispatchQueue.main.async {
 			let biometricType = self.laContext.biometryType == .faceID ? Str.faceID : Str.touchID
@@ -147,14 +147,14 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 			switch inputType {
 			case .bloodPressure:
-				let sysComponent = Component(code: DataContext.shared.systolicBPCode, valueQuantity: ValueQuantity(value: value1, unit: Str.pressureUnit))
-				let diaComponent = Component(code: DataContext.shared.diastolicBPCode, valueQuantity: ValueQuantity(value: value2, unit: Str.pressureUnit))
-				let observation = CodexResource(id: nil, code: DataContext.shared.bpCode, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
+				let sysComponent = Component(code: MedicalCode.systolicBloodPressure, valueQuantity: ValueQuantity(value: value1, unit: Str.pressureUnit))
+				let diaComponent = Component(code: MedicalCode.diastolicBloodPressure, valueQuantity: ValueQuantity(value: value2, unit: Str.pressureUnit))
+				let observation = CodexResource(id: nil, code: MedicalCode.bloodPressure, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
 				self?.observation = observation
 				self?.bundle = nil
 			case .weight:
-				let weightEntry = BundleEntry(fullURL: nil, resource: CodexResource(id: nil, code: DataContext.shared.weightCode, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: value1, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
-				let goalWeightEntry = BundleEntry(fullURL: nil, resource: CodexResource(id: nil, code: DataContext.shared.idealWeightCode, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: value2, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
+				let weightEntry = BundleEntry(fullURL: nil, resource: CodexResource(id: nil, code: MedicalCode.bodyWeight, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: value1, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
+				let goalWeightEntry = BundleEntry(fullURL: nil, resource: CodexResource(id: nil, code: MedicalCode.idealBodyWeight, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: value2, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
 
 				let bundle = CodexBundle(entry: [weightEntry, goalWeightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
 				self?.observation = nil
@@ -177,13 +177,13 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			let group = DispatchGroup()
 			var weight: Int? = 0
 			var height: Int? = 0
-			let weightParam = SearchParameter(sort: "-date", count: 1, code: DataContext.shared.weightCode.coding?.first?.code)
+			let weightParam = SearchParameter(sort: "-date", count: 1, code: MedicalCode.bodyWeight.coding?.first?.code)
 			group.enter()
 			self?.postGetData(search: weightParam, completion: { response in
 				group.leave()
 				weight = response?.entry?.first?.resource?.valueQuantity?.value
 			})
-			let heightParam = SearchParameter(sort: "-date", count: 1, code: DataContext.shared.heightCode.coding?.first?.code)
+			let heightParam = SearchParameter(sort: "-date", count: 1, code: MedicalCode.bodyHeight.coding?.first?.code)
 			group.enter()
 			self?.postGetData(search: heightParam, completion: { response in
 				group.leave()
@@ -200,7 +200,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 		var todayData: [HealthKitQuantityType: [Any]] = [:]
 		let topGroup = DispatchGroup()
-		DataContext.shared.userAuthorizedQuantities.forEach { quantityType in
+		HealthKitQuantityType.allCases.forEach { quantityType in
 			if quantityType != .activity {
 				topGroup.enter()
 				let innergroup = DispatchGroup()
@@ -239,7 +239,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			var chartData: [HealthKitQuantityType: [StatModel]] = [:]
 			var goals: [HealthKitQuantityType: Double] = [:]
 			let chartGroup = DispatchGroup()
-			DataContext.shared.userAuthorizedQuantities.forEach { quantityType in
+			HealthKitQuantityType.allCases.forEach { quantityType in
 				chartGroup.enter()
 				let innergroup = DispatchGroup()
 				var values: [StatModel] = []
@@ -301,9 +301,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	internal func goToMyProfileFirstViewController(source: ComingFrom = .profile, weight: Int, height: Int) {
 		let myProfileFirstViewController = MyProfileFirstViewController()
 		myProfileFirstViewController.comingFrom = source
-		myProfileFirstViewController.firstText = DataContext.shared.displayFirstName
-		myProfileFirstViewController.lastText = DataContext.shared.displayLastName
-		myProfileFirstViewController.gender = DataContext.shared.gender
+		myProfileFirstViewController.firstText = DataContext.shared.userModel?.displayFirstName ?? ""
+		myProfileFirstViewController.lastText = DataContext.shared.userModel?.displayLastName ?? ""
+		myProfileFirstViewController.gender = DataContext.shared.userModel?.gender
 
 		myProfileFirstViewController.backBtnAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: true)
@@ -372,6 +372,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		navigate(to: myProfileSecondViewController, with: .push)
 	}
 
+	// swiftlint:disable:next function_parameter_count
 	internal func patientAPI(patient: [UpdatePatientModel], weight: Int, height: Int, date: String, birthDay: String, family: String, given: [String]) {
 		showHUD()
 		AlfredClient.client.patchPatient(patient: patient) { [weak self] result in
@@ -381,7 +382,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			case .success:
 				ALog.info("OK STATUS FOR UPDATE PATIENT : 200")
 				DataContext.shared.userModel = UserModel(userID: DataContext.shared.userModel?.userID ?? "", email: DataContext.shared.userModel?.email, name: [ResourceName(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? Gender(rawValue: "female"))
-				self?.profileViewController?.nameLabel?.attributedText = ProfileHelper.firstName.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
+				self?.profileViewController?.nameLabel?.attributedText = (ProfileHelper.firstName ?? "").with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			case .failure(let error):
 				ALog.error("request failed", error: error)
@@ -391,14 +392,14 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func getHeightWeight(weight: Int, height: Int, date: String) {
-		let displayName = DataContext.shared.displayName
+		let displayName = DataContext.shared.userModel?.displayName
 		let referenceId = "Patient/\(DataContext.shared.userModel?.userID ?? "")"
 
-		let weightObservation = CodexResource(id: nil, code: DataContext.shared.weightCode, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
+		let weightObservation = CodexResource(id: nil, code: MedicalCode.bodyWeight, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
 
 		let weightEntry = BundleEntry(fullURL: nil, resource: weightObservation, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
 
-		let heightObservation = CodexResource(id: nil, code: DataContext.shared.heightCode, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: height, unit: Str.heightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
+		let heightObservation = CodexResource(id: nil, code: MedicalCode.bodyHeight, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: height, unit: Str.heightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
 
 		let heightEntry = BundleEntry(fullURL: nil, resource: heightObservation, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
 		let bundle = CodexBundle(entry: [weightEntry, heightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
@@ -424,7 +425,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func logout() {
-		DataContext.shared.removeBiometrics()
+		UserDefaults.standard.removeBiometrics()
 		parentCoordinator?.goToAuth()
 	}
 

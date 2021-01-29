@@ -8,7 +8,7 @@ import Foundation
 import Logging
 
 var ALog: Logger = {
-	let level = DataContext.shared.remoteConfigManager.remoteLogging.logLevel
+	let level = Logger.Level.info // DataContext.shared.remoteConfigManager.remoteLogging.logLevel
 	return LoggingManager.createLogger(level: .info, remoteLevel: level, label: "Logger")
 }()
 
@@ -34,7 +34,10 @@ extension Logger.Level {
 }
 
 enum LoggingManager {
-	static func identify(userId: String) {
+	static func identify(userId: String?) {
+		guard let userId = userId else {
+			return
+		}
 		Crashlytics.crashlytics().setUserID(userId)
 	}
 

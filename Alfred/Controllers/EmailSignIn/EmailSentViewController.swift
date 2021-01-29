@@ -38,9 +38,9 @@ class EmailSentViewController: BaseViewController {
 			Str.sentEmailAtSignUp(email).with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.32))
 		view.addSubview(illustrationView)
 		NSLayoutConstraint.activate([illustrationView.heightAnchor.constraint(equalToConstant: 450.0),
-		                             illustrationView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 10.0),
 		                             illustrationView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: illustrationView.trailingAnchor, multiplier: 0.0)])
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: illustrationView.trailingAnchor, multiplier: 0.0),
+		                             mailButton.topAnchor.constraint(equalToSystemSpacingBelow: illustrationView.bottomAnchor, multiplier: 1.0)])
 	}
 
 	private let mailButton: UIButton = {
