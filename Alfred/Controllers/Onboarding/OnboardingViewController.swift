@@ -143,9 +143,9 @@ class OnboardingViewController: BaseViewController, UIViewControllerTransitionin
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(collectionView)
 		NSLayoutConstraint.activate([collectionView.heightAnchor.constraint(equalToConstant: 450.0),
-		                             collectionView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 10.0),
 		                             collectionView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: collectionView.trailingAnchor, multiplier: 0.0)])
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: collectionView.trailingAnchor, multiplier: 0.0),
+		                             signUpButton.topAnchor.constraint(equalToSystemSpacingBelow: collectionView.bottomAnchor, multiplier: 1.0)])
 
 		collectionView.register(IllustrationCollectionViewCell.self, forCellWithReuseIdentifier: IllustrationCollectionViewCell.reuseIdentifier)
 		dataSource = UICollectionViewDiffableDataSource<Int, IllustartionItem>(collectionView: collectionView, cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in

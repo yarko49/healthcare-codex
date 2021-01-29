@@ -1,3 +1,4 @@
+import FirebaseAuth
 import Foundation
 
 extension DataContext {
@@ -12,32 +13,31 @@ extension DataContext {
 
 	var authToken: String? {
 		get {
-			Keychain.read(valueWithKey: KeychainKey.authToken.key)
+			KeychainConfiguration.read(valueWithKey: KeychainKey.authToken.key)
 		}
 		set {
 			guard let newValue = newValue else {
-				Keychain.delete(valueWithKey: KeychainKey.authToken.key)
+				KeychainConfiguration.delete(valueWithKey: KeychainKey.authToken.key)
 				return
 			}
-			Keychain.store(value: newValue, withKey: KeychainKey.authToken.key)
-			remoteConfigManager.refresh()
+			KeychainConfiguration.store(value: newValue, withKey: KeychainKey.authToken.key)
 		}
 	}
 
 	var emailForLink: String? {
 		get {
-			Keychain.read(valueWithKey: KeychainKey.emailForLink.key)
+			KeychainConfiguration.read(valueWithKey: KeychainKey.emailForLink.key)
 		}
 		set {
 			guard let newValue = newValue else {
-				Keychain.delete(valueWithKey: KeychainKey.emailForLink.key)
+				KeychainConfiguration.delete(valueWithKey: KeychainKey.emailForLink.key)
 				return
 			}
-			Keychain.store(value: newValue, withKey: KeychainKey.emailForLink.key)
+			KeychainConfiguration.store(value: newValue, withKey: KeychainKey.emailForLink.key)
 		}
 	}
 
 	func clearKeychain() {
-		Keychain.logout()
+		KeychainConfiguration.logout()
 	}
 }

@@ -50,18 +50,18 @@ enum HealthKitDataType: CustomStringConvertible {
 		}
 	}
 
-	var code: Code {
+	var code: MedicalCode {
 		switch self {
 		case .bodyMass:
-			return DataContext.shared.weightCode
+			return MedicalCode.bodyWeight
 		case .heartRate:
-			return DataContext.shared.hrCode
+			return MedicalCode.heartRate
 		case .restingHeartRate:
-			return DataContext.shared.restingHRCode
+			return MedicalCode.restingHeartRate
 		case .stepCount:
-			return DataContext.shared.stepsCode
+			return MedicalCode.stepsCount
 		case .bloodPressure:
-			return DataContext.shared.bpCode
+			return MedicalCode.bloodPressure
 		}
 	}
 
@@ -121,7 +121,7 @@ class HealthKitManager {
 			if let dataList = results {
 				for data in dataList {
 					if let sample = data as? HKQuantitySample {
-						let resource = CodexResource(id: nil, code: quantity.code, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: ValueQuantity(value: Int(sample.quantity.doubleValue(for: quantity.unit)), unit: quantity.unit.unitString), birthDate: nil, gender: nil, name: nil, component: nil)
+						let resource = CodexResource(id: nil, code: quantity.code, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID ?? "", type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: Int(sample.quantity.doubleValue(for: quantity.unit)), unit: quantity.unit.unitString), birthDate: nil, gender: nil, name: nil, component: nil)
 						let entry = BundleEntry(fullURL: nil, resource: resource, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
 						entries.append(entry)
 					}
@@ -142,9 +142,9 @@ class HealthKitManager {
 			if let dataList = results as? [HKCorrelation] {
 				for data in dataList {
 					if let dia = data.objects(for: bloodPressureDiastolic).first as? HKQuantitySample, let sys = data.objects(for: bloodPressureSystolic).first as? HKQuantitySample {
-						let diaComponent = Component(code: DataContext.shared.diastolicBPCode, valueQuantity: ValueQuantity(value: Int(dia.quantity.doubleValue(for: HKUnit.millimeterOfMercury())), unit: HKUnit.millimeterOfMercury().unitString))
-						let sysComponent = Component(code: DataContext.shared.systolicBPCode, valueQuantity: ValueQuantity(value: Int(sys.quantity.doubleValue(for: HKUnit.millimeterOfMercury())), unit: HKUnit.millimeterOfMercury().unitString))
-						let resource = CodexResource(id: nil, code: DataContext.shared.bpCode, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.patientID, type: "Patient", identifier: nil, display: DataContext.shared.displayName), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
+						let diaComponent = Component(code: MedicalCode.diastolicBloodPressure, valueQuantity: ValueQuantity(value: Int(dia.quantity.doubleValue(for: HKUnit.millimeterOfMercury())), unit: HKUnit.millimeterOfMercury().unitString))
+						let sysComponent = Component(code: MedicalCode.systolicBloodPressure, valueQuantity: ValueQuantity(value: Int(sys.quantity.doubleValue(for: HKUnit.millimeterOfMercury())), unit: HKUnit.millimeterOfMercury().unitString))
+						let resource = CodexResource(id: nil, code: MedicalCode.bloodPressure, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID ?? "", type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
 						let entry = BundleEntry(fullURL: nil, resource: resource, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
 						entries.append(entry)
 					}

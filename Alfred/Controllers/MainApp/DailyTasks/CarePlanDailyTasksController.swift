@@ -31,12 +31,9 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		if !isLoaded {
-			fetchCarePlan()
-		}
+		fetchCarePlan()
 	}
 
-	private var isLoaded: Bool = false
 	var insertViewsAnimated: Bool = false
 
 	override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController, prepare listViewController: OCKListViewController, for date: Date) {
@@ -116,6 +113,7 @@ private extension CarePlanDailyTasksController {
 						ALog.error(error: error)
 					case .success:
 						self?.reload()
+						UserDefaults.standard.isCarePlanPopulated = true
 					}
 				})
 			}

@@ -90,4 +90,16 @@ extension Date {
 		guard let range = Calendar.current.range(of: .day, in: .month, for: self) else { return 30 }
 		return range.count
 	}
+
+	var byRemovingFractionalSeconds: Date? {
+		let calendar = Calendar.current
+		var newComponents = DateComponents()
+		newComponents.timeZone = .current
+		newComponents.second = calendar.component(.second, from: self)
+		newComponents.hour = calendar.component(.hour, from: self)
+		newComponents.day = calendar.component(.day, from: self)
+		newComponents.month = calendar.component(.month, from: self)
+		newComponents.year = calendar.component(.year, from: self)
+		return calendar.date(from: newComponents)
+	}
 }

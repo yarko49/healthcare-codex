@@ -28,7 +28,7 @@ struct QuestionnaireIdentifier: Codable {
 
 struct IdentifierID: Codable {
 	let text, value: String?
-	let coding: [Coding]?
+	let coding: [MedicalCode.Coding]?
 }
 
 // MARK: - Item

@@ -14,6 +14,10 @@ class MasterCoordinator: Coordinator {
 		return view
 	}()
 
+	let remoteConfigManager = RemoteConfigManager()
+	private var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
+	private var idTokenDidChangeListenerHandle: IDTokenDidChangeListenerHandle?
+
 	var context = LAContext()
 	var error: NSError?
 
@@ -34,11 +38,31 @@ class MasterCoordinator: Coordinator {
 		self.window = window
 		self.window.rootViewController = rootViewController
 		self.window.makeKeyAndVisible()
+		self.authStateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener { auth, user in
+			ALog.info("Auth State Did Change")
+			ALog.info("\(auth)")
+			ALog.info("\(String(describing: user))")
+		}
+
+		self.idTokenDidChangeListenerHandle = Auth.auth().addIDTokenDidChangeListener { auth, user in
+			ALog.info("ID Token Did Change")
+			ALog.info("\(auth)")
+			ALog.info("\(String(describing: user))")
+		}
+	}
+
+	deinit {
+		if let listener = authStateDidChangeListenerHandle {
+			Auth.auth().removeStateDidChangeListener(listener)
+		}
+		if let listener = idTokenDidChangeListenerHandle {
+			Auth.auth().removeIDTokenDidChangeListener(listener)
+		}
 	}
 
 	public func start() {
 		NotificationCenter.default.addObserver(self, selector: #selector(handleLogout(_:)), name: .applicationDidLogout, object: nil)
-		if !DataContext.shared.hasRunOnce {
+		if !UserDefaults.standard.hasRunOnce {
 			DataContext.shared.clearAll()
 			let firebaseAuth = Auth.auth()
 			do {
@@ -46,69 +70,82 @@ class MasterCoordinator: Coordinator {
 			} catch let signOutError {
 				ALog.error("Error signing out:", error: signOutError)
 			}
-			DataContext.shared.hasRunOnce = true
+			UserDefaults.standard.hasRunOnce = true
+			UserDefaults.standard.isCarePlanPopulated = false
 		}
 		showMockSplashScreen()
 	}
 
 	internal func showMockSplashScreen() {
-		let mockSplashViewController = MockSplashViewController()
+		let mockSplashViewController = SplashViewController()
 		window.rootViewController = mockSplashViewController
-
-		if Auth.auth().currentUser == nil {
+		guard Auth.auth().currentUser != nil else {
 			goToAuth()
-		} else {
-			if DataContext.shared.isBiometricsEnabled {
-				biometricsAuthentication { completion in
-					if completion {
-						Auth.auth().tenantID = AppConfig.tenantID
-						Auth.auth().currentUser?.getIDToken(completion: { firebaseToken, error in
-							if let error = error {
-								ALog.error("Error signing out:", error: error)
-								self.goToAuth()
-							} else {
-								if let firebaseToken = firebaseToken {
-									DataContext.shared.authToken = firebaseToken
-									guard let user = Auth.auth().currentUser else {
-										self.goToAuth()
-										return
-									}
-									DataContext.shared.searchPatient(user: user) { [weak self] success in
-										if success {
-											DataContext.shared.identifyCrashlytics()
-											DataContext.shared.getProfileAPI { [weak self] result in
-												if result {
-													self?.syncHKData()
-												} else {
-													self?.goToAuth()
-												}
-											}
-										} else {
-											self?.goToAuth()
-										}
-									}
-								} else {
-									self.goToAuth()
-								}
-							}
-						})
+			return
+		}
+		#if DEBUG
+		firebaseAuthentication { [weak self] success in
+			DispatchQueue.main.async {
+				success ? self?.goToMainApp() : self?.goToAuth()
+			}
+		}
+		#else
+		biometricsAuthentication()
+		#endif
+	}
+
+	internal func biometricsAuthentication() {
+		guard UserDefaults.standard.isBiometricsEnabled else {
+			goToAuth()
+			return
+		}
+		let reason = Str.authWithBiometrics
+		context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, _ in
+			guard success else {
+				DispatchQueue.main.async {
+					self?.goToAuth()
+				}
+				return
+			}
+			self?.firebaseAuthentication(completion: { success in
+				DispatchQueue.main.async {
+					if success {
+						self?.syncHKData()
 					} else {
-						DispatchQueue.main.async {
-							self.goToAuth()
-						}
+						self?.goToAuth()
 					}
 				}
-			} else {
-				goToAuth()
-			}
+			})
 		}
 	}
 
-	internal func biometricsAuthentication(completion: @escaping (Bool) -> Void) {
-		let reason = Str.authWithBiometrics
-		context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
-			completion(success)
-		}
+	internal func firebaseAuthentication(completion: @escaping (Bool) -> Void) {
+		Auth.auth().tenantID = AppConfig.tenantID
+		Auth.auth().currentUser?.getIDToken(completion: { firebaseToken, error in
+			guard error == nil else {
+				ALog.error("Error signing out:", error: error)
+				completion(false)
+				return
+			}
+			guard let firebaseToken = firebaseToken else {
+				completion(false)
+				return
+			}
+			DataContext.shared.authToken = firebaseToken
+			guard let user = Auth.auth().currentUser else {
+				completion(false)
+				return
+			}
+
+			DataContext.shared.searchPatient(user: user) { success in
+				guard success else {
+					completion(false)
+					return
+				}
+				LoggingManager.identify(userId: DataContext.shared.userModel?.userID)
+				DataContext.shared.getProfileAPI(completion: completion)
+			}
+		})
 	}
 
 	internal func syncHKData() {

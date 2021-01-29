@@ -125,7 +125,7 @@ class ProfileViewController: BaseViewController {
 
 	override func setupView() {
 		title = Str.profile
-		let name = ProfileHelper.firstName
+		let name = ProfileHelper.firstName ?? ""
 		resetExpandState()
 		topView.backgroundColor = UIColor.profile
 		separatorLineView.backgroundColor = UIColor.swipe
@@ -146,7 +146,7 @@ class ProfileViewController: BaseViewController {
 
 	private func resetExpandState() {
 		patientTrendsTableView?.contentOffset = CGPoint.zero
-		DataContext.shared.userAuthorizedQuantities.forEach {
+		HealthKitQuantityType.allCases.forEach {
 			expandCollapseState[$0] = false
 		}
 	}
@@ -262,11 +262,11 @@ class ProfileViewController: BaseViewController {
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		DataContext.shared.userAuthorizedQuantities.count
+		HealthKitQuantityType.allCases.count
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let type = DataContext.shared.userAuthorizedQuantities[indexPath.row]
+		let type = HealthKitQuantityType.allCases[indexPath.row]
 		if currentDateInterval == .daily {
 			let cell = tableView.dequeueReusableCell(withIdentifier: TodayStatCell.reuseIdentifier, for: indexPath) as? TodayStatCell
 			cell?.selectionStyle = .none

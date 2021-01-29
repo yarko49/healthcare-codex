@@ -14,13 +14,13 @@ class AccountDetailsViewController: BaseViewController {
 
 	// MARK: - Properties
 
-	var firstNameTV = TextfieldView()
-	var lastNameTV = TextfieldView()
-	var emailTV = TextfieldView()
+	var firstNameTextView = TextfieldView()
+	var lastNameTextView = TextfieldView()
+	var emailTextView = TextfieldView()
 
 	// MARK: - IBOutlets
 
-	@IBOutlet var textfieldSV: UIStackView!
+	@IBOutlet var textfieldStackView: UIStackView!
 	@IBOutlet var passwordLbl: UILabel!
 	@IBOutlet var passwordTF: UITextField!
 
@@ -44,17 +44,17 @@ class AccountDetailsViewController: BaseViewController {
 
 		title = Str.accountDetails
 
-		let firstName = DataContext.shared.displayFirstName
-		let lastName = DataContext.shared.displayLastName
+		let firstName = DataContext.shared.userModel?.displayFirstName ?? ""
+		let lastName = DataContext.shared.userModel?.displayLastName ?? ""
 		guard let email = DataContext.shared.userModel?.email else { return }
 
-		firstNameTV.setupValues(labelTitle: Str.firstName, text: firstName, textIsPassword: false)
-		lastNameTV.setupValues(labelTitle: Str.lastName, text: lastName, textIsPassword: false)
-		emailTV.setupValues(labelTitle: Str.email, text: email, textIsPassword: false)
+		firstNameTextView.setupValues(labelTitle: Str.firstName, text: firstName, textIsPassword: false)
+		lastNameTextView.setupValues(labelTitle: Str.lastName, text: lastName, textIsPassword: false)
+		emailTextView.setupValues(labelTitle: Str.email, text: email, textIsPassword: false)
 
-		textfieldSV.addArrangedSubview(firstNameTV)
-		textfieldSV.addArrangedSubview(lastNameTV)
-		textfieldSV.addArrangedSubview(emailTV)
+		textfieldStackView.addArrangedSubview(firstNameTextView)
+		textfieldStackView.addArrangedSubview(lastNameTextView)
+		textfieldStackView.addArrangedSubview(emailTextView)
 		passwordTF.isUserInteractionEnabled = false
 	}
 

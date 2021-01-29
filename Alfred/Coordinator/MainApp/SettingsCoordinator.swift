@@ -114,7 +114,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 		}
 
 		devicesViewController.profileRequestAction = { [weak self] in
-			let profile = DataContext.shared.createProfile()
+			let profile = Profile(dataContext: DataContext.shared)
 			self?.profileRequest(profile: profile)
 		}
 
@@ -139,7 +139,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 	internal func goToNotifications() {
 		let myNotificationsViewController = MyNotificationsViewController()
 		myNotificationsViewController.backBtnAction = { [weak self] in
-			let profile = DataContext.shared.createProfile()
+			let profile = Profile(dataContext: DataContext.shared)
 			self?.profileRequest(profile: profile)
 		}
 		navigate(to: myNotificationsViewController, with: .pushFullScreen)
@@ -161,7 +161,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 		let controller = MFMailComposeViewController()
 		let subject = NSLocalizedString("FEEDBACK_SUBJECT", comment: "Feedback")
 		controller.setSubject(subject)
-		let toEmail = DataContext.shared.remoteConfigManager.feedbackEmail
+		let toEmail = "" // DataContext.shared.remoteConfigManager.feedbackEmail
 		controller.setToRecipients([toEmail])
 		controller.mailComposeDelegate = self
 		navigate(to: controller, with: .present)

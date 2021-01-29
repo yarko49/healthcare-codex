@@ -9,7 +9,7 @@ import Foundation
 
 struct CodexResource: Codable {
 	let id: String?
-	let code: Code?
+	let code: MedicalCode?
 	let effectiveDateTime: String?
 	let identifier: [Identifier]?
 	let meta: Meta?
@@ -26,7 +26,7 @@ struct CodexResource: Codable {
 // MARK: - Component
 
 struct Component: Codable {
-	let code: Code?
+	let code: MedicalCode?
 	let valueQuantity: ValueQuantity?
 }
 

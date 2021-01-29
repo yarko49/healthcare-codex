@@ -39,15 +39,15 @@ class SyncManager {
 		}
 		switch quantity {
 		case .bodyMass:
-			search = SearchParameter(sort: "-date", count: 1, code: DataContext.shared.weightCode.coding?.first?.code)
+			search = SearchParameter(sort: "-date", count: 1, code: MedicalCode.bodyWeight.coding?.first?.code)
 		case .stepCount:
-			search = SearchParameter(sort: "-date", count: 1, code: DataContext.shared.stepsCode.coding?.first?.code)
+			search = SearchParameter(sort: "-date", count: 1, code: MedicalCode.stepsCount.coding?.first?.code)
 		case .bloodPressure:
-			search = SearchParameter(sort: "-date", count: 1, code: DataContext.shared.bpCode.coding?.first?.code)
+			search = SearchParameter(sort: "-date", count: 1, code: MedicalCode.bloodPressure.coding?.first?.code)
 		case .restingHeartRate:
-			search = SearchParameter(sort: "-date", count: 1, code: DataContext.shared.restingHRCode.coding?.first?.code)
+			search = SearchParameter(sort: "-date", count: 1, code: MedicalCode.restingHeartRate.coding?.first?.code)
 		case .heartRate:
-			search = SearchParameter(sort: "-date", count: 1, code: DataContext.shared.hrCode.coding?.first?.code)
+			search = SearchParameter(sort: "-date", count: 1, code: MedicalCode.heartRate.coding?.first?.code)
 		}
 		if let search = search {
 			AlfredClient.client.postObservationSearch(search: search) { result in

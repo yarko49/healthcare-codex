@@ -199,7 +199,7 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 
 	private func setupObservation() {
 		effectiveDate = ""
-		if let date = DataContext.shared.getDate() {
+		if let date = Date().byRemovingFractionalSeconds {
 			effectiveDate = DateFormatter.wholeDateRequest.string(from: date)
 		} else {
 			return
