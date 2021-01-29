@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -7,7 +8,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingsCell" rowHeight="137" id="Cdu-wX-SrU" customClass="SettingsCell" customModule="alfred_ios" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingsCell" rowHeight="137" id="Cdu-wX-SrU" customClass="SettingsCell" customModule="Alfred" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="306" height="80"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Cdu-wX-SrU" id="Zg4-oJ-er4">
@@ -23,8 +24,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ctaBtn" translatesAutoresizingMaskIntoConstraints="NO" id="NtH-Oc-vhI">
-                                <rect key="frame" x="282" y="34" width="6" height="12"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="NtH-Oc-vhI">
+                                <rect key="frame" x="282" y="36" width="6" height="8.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="6" id="XUf-ns-4fR"/>
                                     <constraint firstAttribute="height" constant="12" id="b7m-sH-O5T"/>
@@ -56,6 +57,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ctaBtn" width="8" height="14"/>
+        <image name="chevron.right" catalog="system" width="96" height="128"/>
     </resources>
 </document>

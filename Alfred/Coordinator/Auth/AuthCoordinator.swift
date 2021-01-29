@@ -307,7 +307,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		parentCoordinator?.goToMainApp()
 	}
 
-	internal func goToMyProfileFirstViewController(from screen: ComingFrom = .signUp) {
+	internal func goToMyProfileFirstViewController(from screen: NavigationSourceType = .signUp) {
 		let myProfileFirstViewController = MyProfileFirstViewController()
 		myProfileFirstViewController.comingFrom = screen
 
@@ -464,7 +464,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			case .success(let resource):
 				ALog.info("OK STATUS FOR PATIENT : 200")
 				let defaultName = ResourceName(use: "", family: "", given: [""])
-				DataContext.shared.userModel = UserModel(userID: resource.id ?? "", email: self?.emailrequest ?? "", name: resource.name ?? [defaultName], dob: patient.birthDate, gender: Gender(rawValue: DataContext.shared.resource?.gender ?? ""))
+				DataContext.shared.userModel = UserModel(userID: resource.id ?? "", email: self?.emailrequest ?? "", name: resource.name ?? [defaultName], dob: patient.birthDate, gender: OCKBiologicalSex(rawValue: DataContext.shared.resource?.gender ?? ""))
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			case .failure(let error):
 				ALog.error("request falied", error: error)

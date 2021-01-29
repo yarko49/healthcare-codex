@@ -1,6 +1,6 @@
 import Foundation
 
-enum ComingFrom: String, Codable {
+enum NavigationSourceType: String, Codable {
 	case signIn
 	case signUp
 	case profile

@@ -1,3 +1,4 @@
+import CareKitStore
 import Foundation
 
 struct UserModel {
@@ -5,7 +6,7 @@ struct UserModel {
 	var email: String?
 	var name: [ResourceName]?
 	var dob: String?
-	var gender: Gender?
+	var gender: OCKBiologicalSex?
 }
 
 extension UserModel {

@@ -32,11 +32,6 @@ class AccountResetPasswordViewController: BaseViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
-		let backBtn = UIBarButtonItem(image: UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(backBtnTapped))
-		backBtn.tintColor = .black
-
-		navigationItem.leftBarButtonItem = backBtn
 	}
 
 	override func setupView() {
@@ -45,8 +40,8 @@ class AccountResetPasswordViewController: BaseViewController {
 		emailTF.setupValues(labelTitle: Str.emailAddress, text: "", textIsPassword: false)
 		completionLbl.isHidden = true
 		sendBtn.cornerRadius = 29
-		sendBtn.roundedBorderColor = UIColor.grey.cgColor
-		sendBtn.roundedBackgroundColor = UIColor.white.cgColor
+		sendBtn.roundedBorderColor = UIColor.grey
+		sendBtn.roundedBackgroundColor = UIColor.white
 	}
 
 	override func viewDidAppear(_ animated: Bool) {

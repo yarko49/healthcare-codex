@@ -1,3 +1,4 @@
+import CareKitStore
 import Firebase
 import FirebaseAuth
 import UIKit
@@ -18,12 +19,12 @@ class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGe
 	@IBOutlet var nextButton: BottomButton!
 	@IBOutlet var bottomView: UIView!
 
-	var gender: Gender?
-	var comingFrom: ComingFrom = .signUp
+	var gender: OCKBiologicalSex?
+	var comingFrom: NavigationSourceType = .signUp
 	var firstText: String = ""
 	var lastText: String = ""
 
-	private var selectedGender: Gender? {
+	private var selectedGender: OCKBiologicalSex? {
 		didSet {
 			if selectedGender == .female {
 				setupSexButton(maleTxtColor: .activityBackground, maleBackground: .white, femaleTextColor: .white, femaleBackground: .activityBackground)
@@ -40,14 +41,6 @@ class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGe
 		scrollView.isScrollEnabled = false
 
 		title = Str.profile
-
-		// TODO: "Back" appears slightly before coming to this screen for some reason, we probably have to set the navigation controller before coming to this screen.
-		if comingFrom == .signIn {
-			navigationItem.setHidesBackButton(true, animated: true)
-		} else {
-			navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backBtnTapped))
-			navigationItem.leftBarButtonItem?.tintColor = UIColor.black
-		}
 
 		firstNameTextfieldView.setupValues(labelTitle: Str.firstName, text: firstText, textIsPassword: false)
 		lastNameTextfieldView.setupValues(labelTitle: Str.lastName, text: lastText, textIsPassword: false)

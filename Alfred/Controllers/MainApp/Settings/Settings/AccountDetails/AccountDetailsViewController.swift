@@ -32,11 +32,6 @@ class AccountDetailsViewController: BaseViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
-		let backBtn = UIBarButtonItem(image: UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(backBtnTapped))
-		backBtn.tintColor = .black
-
-		navigationItem.leftBarButtonItem = backBtn
 	}
 
 	override func setupView() {

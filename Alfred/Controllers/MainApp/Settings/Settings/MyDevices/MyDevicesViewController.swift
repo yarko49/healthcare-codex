@@ -34,7 +34,7 @@ class MyDevicesViewController: BaseViewController {
 		super.setupView()
 
 		title = Str.myDevices
-		let backBtn = UIBarButtonItem(image: UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(backBtnTapped))
+		let backBtn = UIBarButtonItem(image: UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(backBtnTapped))
 		backBtn.tintColor = .black
 		nextBtn.setupButton()
 		navigationItem.leftBarButtonItem = backBtn
