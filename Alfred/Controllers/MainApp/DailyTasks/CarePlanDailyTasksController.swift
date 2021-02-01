@@ -27,7 +27,7 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = NSLocalizedString("TASKS", comment: "Tasks")
-        registerProvider()
+		registerProvider()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
