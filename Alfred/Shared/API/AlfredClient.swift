@@ -25,6 +25,7 @@ protocol AlfredAPI {
 	func getCardList(completion: @escaping WebService.DecodableCompletion<CardList>) -> URLSession.ServicePublisher?
 	func postBundle(bundle: CodexBundle, completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher?
 	func postObservationSearch(search: SearchParameter, completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher?
+	func registerProvider(identifier: String, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher?
 }
 
 public final class AlfredClient: AlfredAPI {
@@ -138,5 +139,10 @@ public final class AlfredClient: AlfredAPI {
 	@discardableResult
 	func postObservationSearch(search: SearchParameter, completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher? {
 		webService.request(route: APIRouter.postObservationSearch(search: search), completion: completion)
+	}
+
+	@discardableResult
+	func registerProvider(identifier: String, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher? {
+		webService.request(route: APIRouter.registerProvider(HealthCareProvider(id: identifier)), completion: completion)
 	}
 }

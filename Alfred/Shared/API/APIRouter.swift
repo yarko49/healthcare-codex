@@ -5,6 +5,7 @@ enum APIRouter: URLRequestConvertible {
 
 	case getCarePlan(vectorClock: Bool, valueSpaceSample: Bool)
 	case postCarePlan(carePlanResponse: CarePlanResponse)
+	case registerProvider(HealthCareProvider)
 	case getQuestionnaire
 	case postQuestionnaireResponse(response: QuestionnaireResponse)
 	case postPatient(patient: CodexResource)
@@ -21,6 +22,7 @@ enum APIRouter: URLRequestConvertible {
 		switch self {
 		case .getCarePlan: return .get
 		case .postCarePlan: return .post
+		case .registerProvider: return .post
 		case .getQuestionnaire: return .get
 		case .postQuestionnaireResponse: return .post
 		case .postObservation: return .post
@@ -38,6 +40,7 @@ enum APIRouter: URLRequestConvertible {
 	var path: String {
 		switch self {
 		case .getCarePlan, .postCarePlan: return "/carePlan"
+		case .registerProvider: return "/mobile/organization/register"
 		case .getQuestionnaire: return "/fhir/Questionnaire"
 		case .postQuestionnaireResponse: return "/fhir/QuestionnaireResponse"
 		case .postObservation: return "/fhir/Observation"
@@ -79,6 +82,8 @@ enum APIRouter: URLRequestConvertible {
 			data = try? JSONEncoder().encode(editResponse)
 		case .postCarePlan(let carePlanResponse):
 			data = try? JSONEncoder().encode(carePlanResponse)
+		case .registerProvider(let provider):
+			data = try? JSONEncoder().encode(provider)
 		default:
 			data = nil
 		}
@@ -98,7 +103,7 @@ enum APIRouter: URLRequestConvertible {
 			} else if valueSpaceSample {
 				headers[Request.Header.CarePlanPrefer] = "return=ValueSpaceSample"
 			}
-		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile, .postCarePlan:
+		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile, .postCarePlan, .registerProvider:
 			break
 		case .postObservation, .postPatient, .postPatientSearch, .postBundle, .postQuestionnaireResponse, .postObservationSearch:
 			headers[Request.Header.contentType] = Request.ContentType.fhirjson
@@ -110,7 +115,7 @@ enum APIRouter: URLRequestConvertible {
 
 	var parameters: [String: Any]? {
 		switch self {
-		case .getQuestionnaire, .postQuestionnaireResponse, .postObservation, .postPatient, .getProfile, .postProfile, .getNotifications, .postPatientSearch, .postBundle, .postObservationSearch, .patchPatient, .getCarePlan, .postCarePlan:
+		case .getQuestionnaire, .postQuestionnaireResponse, .postObservation, .postPatient, .getProfile, .postProfile, .getNotifications, .postPatientSearch, .postBundle, .postObservationSearch, .patchPatient, .getCarePlan, .postCarePlan, .registerProvider:
 			return nil
 		}
 	}
