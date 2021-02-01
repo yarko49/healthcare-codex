@@ -88,7 +88,7 @@ enum APIRouter: URLRequestConvertible {
 	var headers: [String: String] {
 		var headers = [Request.Header.contentType: Request.ContentType.json,
 		               Request.Header.xAPIKey: AppConfig.apiKey]
-		if let authToken = DataContext.shared.authToken {
+		if let authToken = Keychain.authToken {
 			headers[Request.Header.userAuthorization] = "Bearer " + authToken
 		}
 		switch self {
