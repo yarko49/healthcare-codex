@@ -56,7 +56,7 @@ class DataContext: ObservableObject {
 	var getObservationData: CodexBundle?
 
 	func clearAll() {
-		clearKeychain()
+		Keychain.clearKeychain()
 		clearVariables()
 	}
 

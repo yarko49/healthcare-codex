@@ -106,7 +106,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 				return
 			}
 
-			DataContext.shared.emailForLink = email
+			Keychain.emailForLink = email
 			self?.emailrequest = email
 			self?.emailSentSuccess(email: email)
 		}
@@ -135,7 +135,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func verifySendLink(link: String) {
-		if let email = DataContext.shared.emailForLink {
+		if let email = Keychain.emailForLink {
 			goToWelcomeView(email: email, link: link)
 		} else {
 			start()
@@ -158,7 +158,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 								self?.hideHUD()
 								user = authResult
 								if let viewController = healthViewController, viewController.authorizationFlowType == .signIn {
-									self?.goToMainApp()
+									self?.goToHealthKitAuthorization()
 								} else {
 									healthViewController?.screenFlowType = .welcomeSuccess
 								}
@@ -560,16 +560,16 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			hideHUD()
 			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 		} else if let authDataResult = authDataResult {
-			authDataResult.user.getIDTokenResult { [weak self] authTokenResult, _ in
+			authDataResult.user.getIDToken { [weak self] token, _ in
 				self?.hideHUD()
 				if let error = error {
 					ALog.info("\(error.localizedDescription)")
 					AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 					completion(false)
-				} else if let authTokenResult = authTokenResult {
+				} else if let authTokenResult = token {
 					self?.emailrequest = Auth.auth().currentUser?.email
-					DataContext.shared.authToken = authTokenResult.token
-					ALog.info("firebaseToken: \(authTokenResult.token)")
+					Keychain.authToken = authTokenResult
+					ALog.info("firebaseToken: \(authTokenResult)")
 					completion(true)
 				}
 			}

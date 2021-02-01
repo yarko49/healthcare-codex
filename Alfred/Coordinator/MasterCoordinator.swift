@@ -15,9 +15,6 @@ class MasterCoordinator: Coordinator {
 	}()
 
 	let remoteConfigManager = RemoteConfigManager()
-	private var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
-	private var idTokenDidChangeListenerHandle: IDTokenDidChangeListenerHandle?
-
 	var context = LAContext()
 	var error: NSError?
 
@@ -38,26 +35,6 @@ class MasterCoordinator: Coordinator {
 		self.window = window
 		self.window.rootViewController = rootViewController
 		self.window.makeKeyAndVisible()
-		self.authStateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener { auth, user in
-			ALog.info("Auth State Did Change")
-			ALog.info("\(auth)")
-			ALog.info("\(String(describing: user))")
-		}
-
-		self.idTokenDidChangeListenerHandle = Auth.auth().addIDTokenDidChangeListener { auth, user in
-			ALog.info("ID Token Did Change")
-			ALog.info("\(auth)")
-			ALog.info("\(String(describing: user))")
-		}
-	}
-
-	deinit {
-		if let listener = authStateDidChangeListenerHandle {
-			Auth.auth().removeStateDidChangeListener(listener)
-		}
-		if let listener = idTokenDidChangeListenerHandle {
-			Auth.auth().removeIDTokenDidChangeListener(listener)
-		}
 	}
 
 	public func start() {
@@ -83,15 +60,7 @@ class MasterCoordinator: Coordinator {
 			goToAuth()
 			return
 		}
-		#if DEBUG
-		firebaseAuthentication { [weak self] success in
-			DispatchQueue.main.async {
-				success ? self?.goToMainApp() : self?.goToAuth()
-			}
-		}
-		#else
 		biometricsAuthentication()
-		#endif
 	}
 
 	internal func biometricsAuthentication() {
@@ -121,17 +90,17 @@ class MasterCoordinator: Coordinator {
 
 	internal func firebaseAuthentication(completion: @escaping (Bool) -> Void) {
 		Auth.auth().tenantID = AppConfig.tenantID
-		Auth.auth().currentUser?.getIDToken(completion: { firebaseToken, error in
+		Auth.auth().currentUser?.getIDToken(completion: { token, error in
 			guard error == nil else {
 				ALog.error("Error signing out:", error: error)
 				completion(false)
 				return
 			}
-			guard let firebaseToken = firebaseToken else {
+			guard let firebaseToken = token else {
 				completion(false)
 				return
 			}
-			DataContext.shared.authToken = firebaseToken
+			Keychain.authToken = firebaseToken
 			guard let user = Auth.auth().currentUser else {
 				completion(false)
 				return

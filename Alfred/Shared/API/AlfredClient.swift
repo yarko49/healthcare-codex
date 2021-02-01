@@ -35,7 +35,7 @@ public final class AlfredClient: AlfredAPI {
 	}
 
 	public var authToken: String? {
-		DataContext.shared.authToken
+		Keychain.authToken
 	}
 
 	let webService: WebService
