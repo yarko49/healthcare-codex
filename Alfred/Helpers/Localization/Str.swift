@@ -197,6 +197,8 @@ internal enum Str {
 	internal static let feedback = Languages.tr("FEEDBACK")
 	internal static let privacyPolicy = Languages.tr("PRIVACY_POLICY")
 	internal static let termsOfService = Languages.tr("TERMS_OF_SERVICE")
+	internal static let support = Languages.tr("SUPPORT")
+	internal static let troubleShoot = Languages.tr("TROUBLESHOOT")
 	internal static func version(_ arg: String) -> String {
 		Languages.tr("VERSION", [arg])
 	}

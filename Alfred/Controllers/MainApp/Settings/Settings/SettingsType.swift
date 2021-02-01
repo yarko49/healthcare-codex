@@ -13,8 +13,10 @@ enum SettingsType: CustomStringConvertible, CaseIterable {
 	case feedback
 	case privacyPolicy
 	case termsOfService
+	case support
+	case troubleShoot
 
-	var description: String {
+	var title: String {
 		switch self {
 		case .accountDetails:
 			return Str.accountDetails
@@ -26,10 +28,18 @@ enum SettingsType: CustomStringConvertible, CaseIterable {
 			return Str.systemAuthorization
 		case .feedback:
 			return Str.feedback
+		case .troubleShoot:
+			return Str.troubleShoot
+		case .support:
+			return Str.support
 		case .privacyPolicy:
 			return Str.privacyPolicy
 		case .termsOfService:
 			return Str.termsOfService
 		}
+	}
+
+	var description: String {
+		title
 	}
 }

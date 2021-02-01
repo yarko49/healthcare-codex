@@ -485,3 +485,9 @@
 /* Authorizing... */
 "AUTHORIZING" = "Authorizing...";
 
+/* Support */
+"SUPPORT" = "Support";
+
+/* Troubleshoot */
+"TROUBLESHOOT" = "Troubleshoot";
+

@@ -1,5 +1,10 @@
+import ChatSDK
 import FirebaseAuth
 import MessageUI
+import MessagingAPI
+import MessagingSDK
+import SDKConfigurations
+import SupportSDK
 import UIKit
 
 class SettingsCoordinator: NSObject, Coordinator {
@@ -39,27 +44,30 @@ class SettingsCoordinator: NSObject, Coordinator {
 
 	internal func goToSettings() {
 		let settingsViewController = SettingsViewController()
-		settingsViewController.accountDetailsAction = { [weak self] in
-			self?.goToAccountDetails()
+
+		settingsViewController.itemSelectionAction = { [weak self] item in
+			switch item {
+			case .accountDetails:
+				self?.goToAccountDetails()
+			case .myDevices:
+				self?.goToMyDevices()
+			case .notifications:
+				self?.goToNotifications()
+			case .systemAuthorization:
+				self?.goToSystemAuthorization()
+			case .feedback:
+				self?.showFeedback()
+			case .privacyPolicy:
+				self?.goToPrivacyPolicy()
+			case .termsOfService:
+				self?.goToTermsOfService()
+			case .support:
+				self?.showSupport()
+			case .troubleShoot:
+				self?.showHelpCenter()
+			}
 		}
-		settingsViewController.myDevicesAction = { [weak self] in
-			self?.goToMyDevices()
-		}
-		settingsViewController.notificationsAction = { [weak self] in
-			self?.goToNotifications()
-		}
-		settingsViewController.systemAuthorizationAction = { [weak self] in
-			self?.goToSystemAuthorization()
-		}
-		settingsViewController.feedbackAction = { [weak self] in
-			self?.goToFeedback()
-		}
-		settingsViewController.privacyPolicyAction = { [weak self] in
-			self?.goToPrivacyPolicy()
-		}
-		settingsViewController.termsOfServiceAction = { [weak self] in
-			self?.goToTermsOfService()
-		}
+
 		settingsViewController.logoutAction = { [weak self] in
 			self?.logout()
 		}
@@ -165,6 +173,31 @@ class SettingsCoordinator: NSObject, Coordinator {
 		controller.setToRecipients([toEmail])
 		controller.mailComposeDelegate = self
 		navigate(to: controller, with: .present)
+	}
+
+	internal func showFeedback() {
+		let config = RequestUiConfiguration()
+		config.subject = "iOS Ticket"
+		config.tags = ["ios", "mobile"]
+		let requestListController = RequestUi.buildRequestList(with: [config])
+		navigate(to: requestListController, with: .push)
+	}
+
+	internal func showHelpCenter() {
+		let helpCenter = HelpCenterUi.buildHelpCenterOverviewUi(withConfigs: [])
+		navigate(to: helpCenter, with: .push)
+	}
+
+	internal func showSupport() {
+		do {
+			let messagingConfiguration = MessagingConfiguration()
+			let supportEngine = try SupportEngine.engine()
+			let chatEngine = try ChatEngine.engine()
+			let viewController = try Messaging.instance.buildUI(engines: [supportEngine, chatEngine], configs: [messagingConfiguration])
+			navigate(to: viewController, with: .push)
+		} catch {
+			ALog.error("Unable to show support", error: error)
+		}
 	}
 
 	internal func showMailSetupAlert() {

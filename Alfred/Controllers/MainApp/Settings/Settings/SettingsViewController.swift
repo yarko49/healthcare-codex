@@ -1,68 +1,69 @@
 import UIKit
 
 class SettingsViewController: BaseViewController {
-	var accountDetailsAction: (() -> Void)?
-	var myDevicesAction: (() -> Void)?
-	var notificationsAction: (() -> Void)?
-	var systemAuthorizationAction: (() -> Void)?
-	var feedbackAction: (() -> Void)?
-	var privacyPolicyAction: (() -> Void)?
-	var termsOfServiceAction: (() -> Void)?
 	var logoutAction: (() -> Void)?
+	var itemSelectionAction: ((SettingsType) -> Void)?
 
 	// MARK: - Properties
 
-	var settings: [SettingsType] = SettingsType.allCases
 	let rowHeight: CGFloat = 60
 	let footerHeight: CGFloat = 110
 
 	// MARK: - IBOutlets
 
-	@IBOutlet var settingsTV: UITableView!
+	let tableView: UITableView = {
+		let view = UITableView(frame: .zero, style: .plain)
+		view.layoutMargins = UIEdgeInsets.zero
+		view.separatorInset = UIEdgeInsets.zero
+		view.separatorStyle = .singleLine
+		view.isScrollEnabled = false
+		return view
+	}()
+
+	let settingsFooterView: SettingsFooterView = {
+		let view = SettingsFooterView(frame: .zero)
+		return view
+	}()
+
+	var dataSource: UITableViewDiffableDataSource<Int, SettingsType>!
 
 	// MARK: - Setup
 
-	override func setupView() {
-		super.setupView()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		title = Str.settings
-		setupTableView()
-		setupFooter()
-	}
+		settingsFooterView.translatesAutoresizingMaskIntoConstraints = false
+		settingsFooterView.delegate = self
+		view.addSubview(settingsFooterView)
+		NSLayoutConstraint.activate([settingsFooterView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: settingsFooterView.trailingAnchor, multiplier: 0.0),
+		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: settingsFooterView.bottomAnchor, multiplier: 0.0),
+		                             settingsFooterView.heightAnchor.constraint(equalToConstant: footerHeight)])
 
-	private func setupTableView() {
-		settingsTV.register(UINib(nibName: SettingsCell.nibName, bundle: nil), forCellReuseIdentifier: SettingsCell.reuseIdentifier)
-		settingsTV.rowHeight = rowHeight
-		settingsTV.dataSource = self
-		settingsTV.delegate = self
-		settingsTV.isScrollEnabled = true
-		settingsTV.layoutMargins = UIEdgeInsets.zero
-		settingsTV.separatorInset = UIEdgeInsets.zero
-	}
+		tableView.translatesAutoresizingMaskIntoConstraints = false
+		view.addSubview(tableView)
+		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 0.0),
+		                             tableView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: tableView.trailingAnchor, multiplier: 0.0),
+		                             settingsFooterView.topAnchor.constraint(equalToSystemSpacingBelow: tableView.bottomAnchor, multiplier: 0.0)])
 
-	private func setupFooter() {
-		let settingsFooter = SettingsFooterView(viewHeight: footerHeight)
-		settingsFooter.delegate = self
-		settingsTV.tableFooterView = settingsFooter
-		settingsTV.separatorStyle = .singleLine
-	}
+		tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.reuseIdentifier)
+		tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: UITableViewHeaderFooterView.reuseIdentifier)
+		dataSource = UITableViewDiffableDataSource<Int, SettingsType>(tableView: tableView, cellProvider: { (tableView, indexPath, type) -> UITableViewCell? in
+			let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.reuseIdentifier, for: indexPath)
+			cell.layoutMargins = UIEdgeInsets.zero
+			cell.accessoryType = .disclosureIndicator
+			cell.textLabel?.attributedText = type.title.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: -0.41)
+			return cell
+		})
 
-	override func populateData() {
-		super.populateData()
-	}
-
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-		guard let footerView = settingsTV.tableFooterView else {
-			return
-		}
-
-		let guide = view.safeAreaLayoutGuide
-		let height = guide.layoutFrame.size.height
-		let heightCheck = height - CGFloat(settings.count) * rowHeight
-		let fHeight = heightCheck < footerHeight ? footerHeight : heightCheck
-		if footerView.frame.size.height != fHeight {
-			footerView.frame.size.height = fHeight
-			settingsTV.tableFooterView = footerView
+		tableView.rowHeight = rowHeight
+		tableView.delegate = self
+		var snapshot = dataSource.snapshot()
+		snapshot.appendSections([0])
+		snapshot.appendItems(SettingsType.allCases, toSection: 0)
+		dataSource.apply(snapshot, animatingDifferences: false) {
+			ALog.info("Finished Apply Snapshot")
 		}
 	}
 
@@ -71,41 +72,20 @@ class SettingsViewController: BaseViewController {
 
 // MARK: - UITableViewDataSource & UITableViewDelegate
 
-extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		settings.count
-	}
-
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.reuseIdentifier, for: indexPath) as? SettingsCell
-		cell?.layoutMargins = UIEdgeInsets.zero
-
-		cell?.setup(name: settings[indexPath.row].description)
-		return cell!
-	}
-
+extension SettingsViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		switch settings[indexPath.row] {
-		case .accountDetails:
-			accountDetailsAction?()
-		case .myDevices:
-			myDevicesAction?()
-		case .notifications:
-			notificationsAction?()
-		case .systemAuthorization:
-			systemAuthorizationAction?()
-		case .feedback:
-			feedbackAction?()
-		case .privacyPolicy:
-			privacyPolicyAction?()
-		case .termsOfService:
-			termsOfServiceAction?()
+		defer {
+			tableView.deselectRow(at: indexPath, animated: true)
 		}
+		guard let item = dataSource.itemIdentifier(for: indexPath) else {
+			return
+		}
+		itemSelectionAction?(item)
 	}
 }
 
 extension SettingsViewController: SettingsFooterViewDelegate {
-	func didTapLogout() {
+	func settingsFooterViewDidTapLogout(_ view: SettingsFooterView) {
 		logoutAction?()
 	}
 }
