@@ -63,6 +63,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		Support.initialize(withZendesk: Zendesk.instance)
 		Chat.initialize(accountKey: AppConfig.zendeskChatAccountKey)
 		// AnswerBot.initialize(withZendesk: Zendesk.instance, support: Support.instance!)
+
+		let identity = Identity.createAnonymous()
+		Zendesk.instance?.setIdentity(identity)
 		ALog.info("Zendesk Initialized")
 	}
 }

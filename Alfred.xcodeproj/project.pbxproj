@@ -15,7 +15,6 @@
 		842398E2259C1144006FB3F4 /* AlfredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398E1259C1144006FB3F4 /* AlfredTests.swift */; };
 		842398ED259C1145006FB3F4 /* AlfredUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398EC259C1145006FB3F4 /* AlfredUITests.swift */; };
 		842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842DFC1225BBDA5900066A07 /* HealthViewController.swift */; };
-		842DFC4625BBF42100066A07 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC4825BBF42100066A07 /* SettingsViewController.xib */; };
 		842DFC5225BBF44B00066A07 /* SelectChunkSizeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC5425BBF44B00066A07 /* SelectChunkSizeViewController.xib */; };
 		842DFC5825BBF45100066A07 /* ResetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC5A25BBF45100066A07 /* ResetViewController.xib */; };
 		842DFC5E25BBF45C00066A07 /* MyProfileFirstViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC6025BBF45C00066A07 /* MyProfileFirstViewController.xib */; };
@@ -100,7 +99,6 @@
 		84476786259C2A4E00C50C09 /* MedicalCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A1259C2A4E00C50C09 /* MedicalCode.swift */; };
 		84476787259C2A4E00C50C09 /* UnknownCaseRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A2259C2A4E00C50C09 /* UnknownCaseRepresentable.swift */; };
 		84476788259C2A4E00C50C09 /* Questionnaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A3259C2A4E00C50C09 /* Questionnaire.swift */; };
-		84476789259C2A4E00C50C09 /* SettingsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A4259C2A4E00C50C09 /* SettingsType.swift */; };
 		8447678A259C2A4E00C50C09 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A5259C2A4E00C50C09 /* Profile.swift */; };
 		8447678B259C2A4E00C50C09 /* DevicesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A6259C2A4E00C50C09 /* DevicesModel.swift */; };
 		8447678D259C2A4E00C50C09 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A8259C2A4E00C50C09 /* UserModel.swift */; };
@@ -263,6 +261,7 @@
 		84DC757625AADBE1003B541C /* PatientSearchResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84DC757525AADBE1003B541C /* PatientSearchResponse.json */; };
 		84DC75A525ABBAD6003B541C /* CarePlan+OCKCarePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC75A425ABBAD6003B541C /* CarePlan+OCKCarePlan.swift */; };
 		84DC75AA25AC0F33003B541C /* ScheduleElementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */; };
+		84E0624825C7C2E7008142C6 /* SettingsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A4259C2A4E00C50C09 /* SettingsType.swift */; };
 		84E1203D25C3BB4C004E08F3 /* MedicalCode+Supported.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1203C25C3BB4C004E08F3 /* MedicalCode+Supported.swift */; };
 		84E4660225A040F100A10F8B /* ViewIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E4660125A040F100A10F8B /* ViewIdentifiable.swift */; };
 		84E4661025A0453C00A10F8B /* ViewNIBLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E4660F25A0453C00A10F8B /* ViewNIBLoading.swift */; };
@@ -300,7 +299,6 @@
 		842398EC259C1145006FB3F4 /* AlfredUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredUITests.swift; sourceTree = "<group>"; };
 		842398EE259C1145006FB3F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		842DFC1225BBDA5900066A07 /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
-		842DFC4725BBF42100066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SettingsViewController.xib; sourceTree = "<group>"; };
 		842DFC5325BBF44B00066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SelectChunkSizeViewController.xib; sourceTree = "<group>"; };
 		842DFC5925BBF45100066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ResetViewController.xib; sourceTree = "<group>"; };
 		842DFC5F25BBF45C00066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MyProfileFirstViewController.xib; sourceTree = "<group>"; };
@@ -903,7 +901,7 @@
 				84476679259C2A4E00C50C09 /* MyNotifications */,
 				8447667D259C2A4E00C50C09 /* Privacy Policy */,
 				84476680259C2A4E00C50C09 /* SettingsViewController.swift */,
-				842DFC4825BBF42100066A07 /* SettingsViewController.xib */,
+				844766A4259C2A4E00C50C09 /* SettingsType.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1058,7 +1056,6 @@
 				844766A2259C2A4E00C50C09 /* UnknownCaseRepresentable.swift */,
 				844766AE259C2A4E00C50C09 /* QuestionnaireResponse.swift */,
 				844766A3259C2A4E00C50C09 /* Questionnaire.swift */,
-				844766A4259C2A4E00C50C09 /* SettingsType.swift */,
 				844766A5259C2A4E00C50C09 /* Profile.swift */,
 				844766A6259C2A4E00C50C09 /* DevicesModel.swift */,
 				844766A8259C2A4E00C50C09 /* UserModel.swift */,
@@ -1567,7 +1564,6 @@
 				842DFD0025BBF54400066A07 /* CircleProgressBarView.xib in Resources */,
 				842DFCC125BBF4F900066A07 /* TodayStatCell.xib in Resources */,
 				842DFCD625BBF51100066A07 /* SettingsFooterView.xib in Resources */,
-				842DFC4625BBF42100066A07 /* SettingsViewController.xib in Resources */,
 				842DFCF425BBF53900066A07 /* AnswerView.xib in Resources */,
 				842DFC9425BBF49300066A07 /* PrivacyPolicyViewController.xib in Resources */,
 				842DFC7C25BBF48000066A07 /* TermsOfServiceViewController.xib in Resources */,
@@ -1816,6 +1812,7 @@
 				844767E8259C2A4E00C50C09 /* WebService+Image.swift in Sources */,
 				84476730259C2A4E00C50C09 /* GoogleSignInButton.swift in Sources */,
 				84476785259C2A4E00C50C09 /* UpdatePatientModel.swift in Sources */,
+				84E0624825C7C2E7008142C6 /* SettingsType.swift in Sources */,
 				84476777259C2A4E00C50C09 /* QuestionnaireCompletionViewController.swift in Sources */,
 				84342FD025A8276C00B3EF5B /* CarePlanDailyTasksController.swift in Sources */,
 				84476749259C2A4E00C50C09 /* AppleHealthView.swift in Sources */,
@@ -1841,7 +1838,6 @@
 				844767E5259C2A4E00C50C09 /* Data+Validation.swift in Sources */,
 				844767A6259C2A4E00C50C09 /* Sequence+Sum.swift in Sources */,
 				844767CF259C2A4E00C50C09 /* Task.swift in Sources */,
-				84476789259C2A4E00C50C09 /* SettingsType.swift in Sources */,
 				8487489325B504B1008C15E2 /* CarePlanStoreManager+Debug.swift in Sources */,
 				842F908E25AEB56D007421A6 /* FirebaseUser+Patient.swift in Sources */,
 				844767A8259C2A4E00C50C09 /* Keychain.swift in Sources */,
@@ -2019,14 +2015,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		842DFC4825BBF42100066A07 /* SettingsViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				842DFC4725BBF42100066A07 /* Base */,
-			);
-			name = SettingsViewController.xib;
-			sourceTree = "<group>";
-		};
 		842DFC5425BBF44B00066A07 /* SelectChunkSizeViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2426,7 +2414,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Alfred/Alfred.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Alfred/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2452,7 +2440,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Alfred/Alfred.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Alfred/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
