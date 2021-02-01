@@ -212,6 +212,7 @@
 		8484112B25B2B66B00171B68 /* UnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8484112A25B2B66B00171B68 /* UnitType.swift */; };
 		8484113025B2BAB200171B68 /* HealthKitLinkage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8484112F25B2BAB200171B68 /* HealthKitLinkage.swift */; };
 		848574A525C78C6A000D9BCF /* Keychain+AuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848574A425C78C6A000D9BCF /* Keychain+AuthToken.swift */; };
+		848574B625C78F92000D9BCF /* HealthCareProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848574B525C78F92000D9BCF /* HealthCareProvider.swift */; };
 		84867CC625A8D42A002EE695 /* AuthenticationOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867CC525A8D42A002EE695 /* AuthenticationOptionsViewController.swift */; };
 		84867D4225A95664002EE695 /* AuthenticationOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */; };
 		84867D4725A99016002EE695 /* IllustrationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */; };
@@ -483,6 +484,7 @@
 		8484112A25B2B66B00171B68 /* UnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitType.swift; sourceTree = "<group>"; };
 		8484112F25B2BAB200171B68 /* HealthKitLinkage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HealthKitLinkage.swift; path = Alfred/Controllers/MainApp/DailyTasks/HealthKitLinkage.swift; sourceTree = SOURCE_ROOT; };
 		848574A425C78C6A000D9BCF /* Keychain+AuthToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keychain+AuthToken.swift"; sourceTree = "<group>"; };
+		848574B525C78F92000D9BCF /* HealthCareProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCareProvider.swift; sourceTree = "<group>"; };
 		84867CC525A8D42A002EE695 /* AuthenticationOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationOptionsViewController.swift; sourceTree = "<group>"; };
 		84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationOptionsView.swift; sourceTree = "<group>"; };
 		84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustrationCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1192,6 +1194,7 @@
 				8484112225B2B59F00171B68 /* QuantityIdentifier.swift */,
 				8484112A25B2B66B00171B68 /* UnitType.swift */,
 				842F907825AE8DFD007421A6 /* OCKTask+CareKitUI.swift */,
+				848574B525C78F92000D9BCF /* HealthCareProvider.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1829,6 +1832,7 @@
 				844767BE259C2A4E00C50C09 /* CarePlanStoreManager.swift in Sources */,
 				844767D2259C2A4E00C50C09 /* SyncManager.swift in Sources */,
 				84476784259C2A4E00C50C09 /* StatModel.swift in Sources */,
+				848574B625C78F92000D9BCF /* HealthCareProvider.swift in Sources */,
 				8447677B259C2A4E00C50C09 /* QuestionViewController.swift in Sources */,
 				844767A3259C2A4E00C50C09 /* UILabel+Height.swift in Sources */,
 				8487485A25B3F946008C15E2 /* ButtonLogTaskViewController.swift in Sources */,

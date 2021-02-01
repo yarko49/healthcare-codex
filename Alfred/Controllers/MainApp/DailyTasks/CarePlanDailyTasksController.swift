@@ -32,6 +32,7 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		fetchCarePlan()
+		registerProvider()
 	}
 
 	var insertViewsAnimated: Bool = false
@@ -123,6 +124,20 @@ private extension CarePlanDailyTasksController {
 	func populateSamplePlan() {
 		carePlanStoreManager.insert(carePlansResponse: CarePlanStoreManager.sampleResponse, for: carePlanStoreManager.patient) { _ in
 			self.reload()
+		}
+	}
+}
+
+extension CarePlanDailyTasksController {
+	func registerProvider() {
+		let provider = "CodexPilotHealthcareOrganization"
+		AlfredClient.client.registerProvider(identifier: provider) { result in
+			switch result {
+			case .failure(let error):
+				ALog.error("Unable to register healthcare provider \(error.localizedDescription)")
+			case .success:
+				ALog.info("Did Register the provider \(provider)")
+			}
 		}
 	}
 }
