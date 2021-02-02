@@ -34,7 +34,7 @@ class OnboardingViewController: BaseViewController, UIViewControllerTransitionin
 		view.addSubview(bottomStackView)
 		NSLayoutConstraint.activate([bottomStackView.widthAnchor.constraint(equalToConstant: 256.0),
 		                             bottomStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: bottomStackView.bottomAnchor, multiplier: 0.0),
+		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: bottomStackView.bottomAnchor, multiplier: 2.0),
 		                             bottomStackView.heightAnchor.constraint(equalToConstant: 30.0)])
 
 		messageLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -125,6 +125,7 @@ class OnboardingViewController: BaseViewController, UIViewControllerTransitionin
 		label.font = UIFont.preferredFont(forTextStyle: .body)
 		label.textColor = .lightGrey
 		label.text = Str.alreadyHaveAccount
+		label.adjustsFontSizeToFitWidth = true
 		return label
 	}()
 
