@@ -11,17 +11,8 @@ class DataContext: ObservableObject {
 	var hasSmartPedometer = false
 	var updatePatient: UpdatePatientModels?
 
-	@Published var resource: CodexResource? {
-		willSet {
-			objectWillChange.send()
-		}
-	}
-
-	@Published var userModel: UserModel? {
-		willSet {
-			objectWillChange.send()
-		}
-	}
+	@Published var resource: CodexResource?
+	@Published var userModel: UserModel?
 
 	private let hud: JGProgressHUD = {
 		let view = JGProgressHUD(style: .dark)

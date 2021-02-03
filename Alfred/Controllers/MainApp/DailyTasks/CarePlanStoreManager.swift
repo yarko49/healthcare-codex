@@ -21,7 +21,7 @@ class CarePlanStoreManager: ObservableObject {
 	}
 
 	private(set) lazy var remoteSynchronizationManager: RemoteSynchronizationManager = {
-		let manager = RemoteSynchronizationManager()
+		let manager = RemoteSynchronizationManager(automaticallySynchronizes: false)
 		manager.delegate = self
 		return manager
 	}()
@@ -43,15 +43,7 @@ class CarePlanStoreManager: ObservableObject {
 		return queue
 	}()
 
-	@Published var patient: OCKPatient? {
-		willSet {
-			objectWillChange.send()
-		}
-		didSet {
-			ALog.info("Did Create a patient \(String(describing: patient))")
-		}
-	}
-
+	@Published var patient: OCKPatient?
 	private var cancellables: Set<AnyCancellable> = []
 
 	init() {

@@ -214,6 +214,8 @@
 		84867CC625A8D42A002EE695 /* AuthenticationOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867CC525A8D42A002EE695 /* AuthenticationOptionsViewController.swift */; };
 		84867D4225A95664002EE695 /* AuthenticationOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */; };
 		84867D4725A99016002EE695 /* IllustrationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */; };
+		84873BA225CA7765004195BB /* OCKStore+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84873BA125CA7765004195BB /* OCKStore+Update.swift */; };
+		84873BAA25CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84873BA925CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift */; };
 		8487481525B3B2FD008C15E2 /* LoggingOSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487481425B3B2FD008C15E2 /* LoggingOSLog.swift */; };
 		8487481E25B3B3D5008C15E2 /* LogginCrashlytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487481D25B3B3D5008C15E2 /* LogginCrashlytics.swift */; };
 		8487483025B3E622008C15E2 /* FeaturedContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487482F25B3E622008C15E2 /* FeaturedContentViewController.swift */; };
@@ -486,6 +488,8 @@
 		84867CC525A8D42A002EE695 /* AuthenticationOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationOptionsViewController.swift; sourceTree = "<group>"; };
 		84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationOptionsView.swift; sourceTree = "<group>"; };
 		84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustrationCollectionViewCell.swift; sourceTree = "<group>"; };
+		84873BA125CA7765004195BB /* OCKStore+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKStore+Update.swift"; sourceTree = "<group>"; };
+		84873BA925CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKHealthKitPassthroughStore+Update.swift"; sourceTree = "<group>"; };
 		8487481425B3B2FD008C15E2 /* LoggingOSLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingOSLog.swift; sourceTree = "<group>"; };
 		8487481D25B3B3D5008C15E2 /* LogginCrashlytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogginCrashlytics.swift; sourceTree = "<group>"; };
 		8487482F25B3E622008C15E2 /* FeaturedContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedContentViewController.swift; sourceTree = "<group>"; };
@@ -1333,6 +1337,8 @@
 		848410DE25B289EE00171B68 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
+				84873BA125CA7765004195BB /* OCKStore+Update.swift */,
+				84873BA925CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift */,
 				848410EA25B292BE00171B68 /* CHOperation.swift */,
 				8484111025B2AC2700171B68 /* PatientsAddOperation.swift */,
 				8484111525B2AC7D00171B68 /* CarePlansAddOperation.swift */,
@@ -1830,6 +1836,7 @@
 				844767D2259C2A4E00C50C09 /* SyncManager.swift in Sources */,
 				84476784259C2A4E00C50C09 /* StatModel.swift in Sources */,
 				848574B625C78F92000D9BCF /* HealthCareProvider.swift in Sources */,
+				84873BA225CA7765004195BB /* OCKStore+Update.swift in Sources */,
 				8447677B259C2A4E00C50C09 /* QuestionViewController.swift in Sources */,
 				844767A3259C2A4E00C50C09 /* UILabel+Height.swift in Sources */,
 				8487485A25B3F946008C15E2 /* ButtonLogTaskViewController.swift in Sources */,
@@ -1918,6 +1925,7 @@
 				84476793259C2A4E00C50C09 /* QuestionnaireResponse.swift in Sources */,
 				844767DB259C2A4E00C50C09 /* AuthCoordinator.swift in Sources */,
 				84867CC625A8D42A002EE695 /* AuthenticationOptionsViewController.swift in Sources */,
+				84873BAA25CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift in Sources */,
 				8461B30425A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift in Sources */,
 				844767D8259C2A4E00C50C09 /* DataContext.swift in Sources */,
 				8447676A259C2A4E00C50C09 /* AccountDetailsViewController.swift in Sources */,

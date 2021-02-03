@@ -52,7 +52,7 @@ class TasksAddOperation: AsynchronousOperation, TasksResultProvider {
 			}
 		}
 
-		store.addTasks(mappedTasks, callbackQueue: callbackQueue) { [weak self] result in
+		store.createOrUpdateTasks(mappedTasks, callbackQueue: callbackQueue) { [weak self] result in
 			defer {
 				self?.complete()
 			}

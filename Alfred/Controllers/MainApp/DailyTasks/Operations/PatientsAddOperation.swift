@@ -34,7 +34,7 @@ class PatientsAddOperation: AsynchronousOperation, PatientsResultProvider {
 			complete()
 			return
 		}
-		store.addPatients(newPatients, callbackQueue: callbackQueue) { [weak self] result in
+		store.createOrUpdatePatients(newPatients, callbackQueue: callbackQueue) { [weak self] result in
 			defer {
 				self?.complete()
 			}
