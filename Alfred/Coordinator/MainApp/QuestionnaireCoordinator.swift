@@ -209,18 +209,6 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 extension QuestionnaireCoordinator: UINavigationControllerDelegate {
 	func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
 		if viewController is QuestionViewController {
-			viewController.navigationItem.hidesBackButton = true
-
-			if viewController.navigationItem.leftBarButtonItem == nil {
-				let backBtn = UIButton(type: .system)
-				backBtn.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-				backBtn.setTitle(Str.previous, for: .normal)
-				backBtn.addTarget(self, action: #selector(backAction), for: .touchUpInside)
-				backBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -10)
-				backBtn.sizeToFit()
-				viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBtn)
-			}
-
 			if viewController.navigationItem.rightBarButtonItem == nil {
 				let cancelBtn = UIBarButtonItem(title: Str.cancel, style: UIBarButtonItem.Style.plain, target: self, action: #selector(cancelAction))
 				viewController.navigationItem.setRightBarButton(cancelBtn, animated: true)

@@ -8,7 +8,6 @@ enum Input: String, Codable {
 }
 
 class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDelegate {
-	var backBtnAction: Coordinator.ActionHandler?
 	var alertAction: ((_ tv: PickerTextField) -> Void)?
 	var patientRequestAction: ((_ resourceType: String, _ birthdate: String, _ weight: Int, _ height: Int, _ date: String) -> Void)?
 
@@ -45,8 +44,6 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 		setupPickerAndView(picker: heightPicker, viewTF: heightTextView, title: Str.height)
 		setupPickerAndView(picker: weightPicker, viewTF: weightTextView, title: Str.weight)
 		title = Str.profile
-		navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backBtnTapped))
-		navigationItem.leftBarButtonItem?.tintColor = UIColor.black
 		infoLabel.attributedText = Str.information.with(style: .regular17, andColor: UIColor.lightGray, andLetterSpacing: -0.32)
 		infoLabel.numberOfLines = 0
 		nextButton.setAttributedTitle(Str.next.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 5), for: .normal)
@@ -123,10 +120,6 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 			picker.preferredDatePickerStyle = .wheels
 		}
 		datePicker = picker
-	}
-
-	override func populateData() {
-		super.populateData()
 	}
 
 	private func setupPickerAndView(picker: UIPickerView, viewTF: PickerTextField, title: String) {
@@ -264,10 +257,6 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 
 		setupObservation()
 		patientRequestAction?("Patient", dobDate ?? "", profileWeight, profileHeight, effectiveDate ?? "")
-	}
-
-	@objc func backBtnTapped() {
-		backBtnAction?()
 	}
 }
 

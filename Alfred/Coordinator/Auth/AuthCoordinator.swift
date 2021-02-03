@@ -179,7 +179,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			}
 		}
 
-		healthViewController.nextBtnAction = { [weak self, weak healthViewController] in
+		healthViewController.nextButtonAction = { [weak self, weak healthViewController] in
 			if let viewController = healthViewController, viewController.screenFlowType == .welcomeSuccess, viewController.authorizationFlowType == .signIn {
 				self?.goToMainApp()
 			} else if user != nil {
@@ -195,9 +195,6 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 
 	internal func goToReset() {
 		let resetViewController = ResetViewController()
-		resetViewController.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
 		resetViewController.nextAction = { [weak self] email in
 			self?.resetPassword(email: email)
 		}
@@ -218,10 +215,6 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 
 	internal func goToResetMessage() {
 		let resetMessageViewController = ResetMessageViewController()
-		resetMessageViewController.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
-
 		resetMessageViewController.backToSignInAction = { [weak self] in
 			self?.navigationController?.popViewController(animated: false)
 			self?.navigationController?.popViewController(animated: true)
@@ -311,10 +304,6 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		let myProfileFirstViewController = MyProfileFirstViewController()
 		myProfileFirstViewController.comingFrom = screen
 
-		myProfileFirstViewController.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
-
 		let sendDataAction: ((String, String, [String]) -> Void)? = { [weak self] gender, family, given in
 			self?.goToMyProfileSecondViewController(gender: gender, family: family, given: given)
 		}
@@ -332,9 +321,6 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 
 	internal func goToMyProfileSecondViewController(gender: String, family: String, given: [String]) {
 		let myProfileSecondViewController = MyProfileSecondViewController()
-		myProfileSecondViewController.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
 
 		myProfileSecondViewController.patientRequestAction = { [weak self] resourceType, birthdate, weight, height, date in
 			let name = ResourceName(use: "official", family: family, given: given)
@@ -356,7 +342,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		let healthViewController = HealthViewController()
 		healthViewController.screenFlowType = .selectDevices
 		healthViewController.authorizationFlowType = authorizationFlowType
-		healthViewController.nextBtnAction = { [weak self] in
+		healthViewController.nextButtonAction = { [weak self] in
 			self?.goToMyDevices(patient: patient, weight: weight, height: height, date: date)
 		}
 
@@ -431,7 +417,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		let healthViewController = HealthViewController()
 		healthViewController.screenFlowType = .activate
 		healthViewController.authorizationFlowType = authorizationFlowType
-		healthViewController.nextBtnAction = { [weak self] in
+		healthViewController.nextButtonAction = { [weak self] in
 			self?.goToMainApp()
 		}
 
@@ -440,10 +426,6 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 
 	internal func goToMyDevices(patient: CodexResource, weight: Int, height: Int, date: String) {
 		let devicesViewController = MyDevicesViewController()
-
-		devicesViewController.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
 
 		devicesViewController.profileRequestAction = { [weak self] in
 			self?.patientAPI(patient: patient, weight: weight, height: height, date: date)
@@ -518,19 +500,11 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 
 	internal func goToPrivacyPolicy() {
 		let privacyPolicyViewController = PrivacyPolicyViewController()
-
-		privacyPolicyViewController.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
 		navigate(to: privacyPolicyViewController, with: .pushFullScreen)
 	}
 
 	internal func goToTermsOfService() {
 		let termsOfServiceViewController = TermsOfServiceViewController()
-
-		termsOfServiceViewController.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
 		navigate(to: termsOfServiceViewController, with: .pushFullScreen)
 	}
 

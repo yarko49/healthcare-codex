@@ -22,8 +22,7 @@ enum HealthStatsDateIntervalType: Hashable, CaseIterable {
 class ProfileViewController: BaseViewController {
 	// MARK: Coordinator Actions
 
-	var backBtnAction: Coordinator.ActionHandler?
-	var editBtnAction: ((Int, Int) -> Void)?
+	var editButtonAction: ((Int, Int) -> Void)?
 	var profileInputAction: (() -> (CodexResource?, CodexBundle?))?
 	var comingFrom: Coming = .today
 	var getData: Coordinator.ActionHandler?
@@ -255,8 +254,8 @@ class ProfileViewController: BaseViewController {
 		}
 	}
 
-	@IBAction func editBtnTapped(_ sender: Any) {
-		editBtnAction?(weight ?? 0, height ?? 0)
+	@IBAction func editButtonTapped(_ sender: Any) {
+		editButtonAction?(weight ?? 0, height ?? 0)
 	}
 }
 

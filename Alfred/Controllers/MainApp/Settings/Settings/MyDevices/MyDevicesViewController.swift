@@ -10,7 +10,6 @@ import UIKit
 class MyDevicesViewController: BaseViewController {
 	// MARK: Coordinator Actions
 
-	var backBtnAction: (() -> Void)?
 	var profileRequestAction: (() -> Void)?
 
 	// MARK: - Properties
@@ -26,18 +25,11 @@ class MyDevicesViewController: BaseViewController {
 
 	// MARK: - Setup
 
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-	}
-
 	override func setupView() {
 		super.setupView()
 
 		title = Str.myDevices
-		let backBtn = UIBarButtonItem(image: UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(backBtnTapped))
-		backBtn.tintColor = .black
 		nextBtn.setupButton()
-		navigationItem.leftBarButtonItem = backBtn
 		bottomView.backgroundColor = UIColor.next
 		nextBtn.backgroundColor = UIColor.next
 		nextBtn.setAttributedTitle(Str.next.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 5), for: .normal)
@@ -58,14 +50,6 @@ class MyDevicesViewController: BaseViewController {
 		devicesSettingsTV.allowsSelection = false
 	}
 
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-	}
-
-	override func populateData() {
-		super.populateData()
-	}
-
 	// MARK: - Actions
 
 	@IBAction func nextBtnTapped(_ sender: Any) {
@@ -73,10 +57,6 @@ class MyDevicesViewController: BaseViewController {
 	}
 
 	@objc func allowDevices() {}
-
-	@objc func backBtnTapped() {
-		backBtnAction?()
-	}
 }
 
 // MARK: - UITableViewDataSource & UITableViewDelegate

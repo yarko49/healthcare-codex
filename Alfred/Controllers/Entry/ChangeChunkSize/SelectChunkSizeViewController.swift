@@ -9,32 +9,15 @@ class SelectChunkSizeViewController: BaseViewController {
 	// MARK: - Coordinator Actions
 
 	var continueAction: ((Int) -> Void)?
-
-	// MARK: - Properties
-
-	// MARK: - IBOutlets
-
 	@IBOutlet var textField: UITextField!
 
 	var number = 4500
-
-	// MARK: - Setup
-
 	override func setupView() {
 		super.setupView()
-
 		textField.delegate = self
 	}
 
-	override func localize() {
-		super.localize()
-	}
-
-	override func populateData() {
-		super.populateData()
-	}
-
-	@IBAction func continueBtnTapped(_ sender: Any) {
+	@IBAction func continueButtonTapped(_ sender: Any) {
 		continueAction?(number)
 	}
 }

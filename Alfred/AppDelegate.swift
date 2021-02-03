@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		Crashlytics.crashlytics()
 		GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
 		IQKeyboardManager.shared.enable = true
-		configureZendesk()
+		Self.configureZendesk()
 		UINavigationBar.applyAppearance()
 		return true
 	}
@@ -58,14 +58,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Use this method to release any resources that were specific to the discarded scenes, as they will not return.
 	}
 
-	func configureZendesk() {
+	static func configureZendesk() {
 		Zendesk.initialize(appId: AppConfig.zendeskAppId, clientId: AppConfig.zendeskClientId, zendeskUrl: AppConfig.zendeskURL)
 		Support.initialize(withZendesk: Zendesk.instance)
-		Chat.initialize(accountKey: AppConfig.zendeskChatAccountKey)
+		Chat.initialize(accountKey: AppConfig.zendeskChatAccountKey, appId: AppConfig.zendeskChatAppId)
 		// AnswerBot.initialize(withZendesk: Zendesk.instance, support: Support.instance!)
-
 		let identity = Identity.createAnonymous()
 		Zendesk.instance?.setIdentity(identity)
 		ALog.info("Zendesk Initialized")
+	}
+
+	static func configureChat(name: String, email: String, phoneNumber: String?) {
+		let chatAPIConfiguration = ChatAPIConfiguration()
+		chatAPIConfiguration.department = "Department name"
+		chatAPIConfiguration.visitorInfo = VisitorInfo(name: name, email: email, phoneNumber: phoneNumber ?? "")
+		Chat.instance?.configuration = chatAPIConfiguration
 	}
 }

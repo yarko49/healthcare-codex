@@ -9,7 +9,6 @@ import UIKit
 class ResetViewController: BaseViewController {
 	// MARK: - Coordinator Actions
 
-	var backBtnAction: Coordinator.ActionHandler?
 	var nextAction: ((_ email: String?) -> Void)?
 
 	// MARK: - IBOutlets
@@ -23,7 +22,7 @@ class ResetViewController: BaseViewController {
 	override func setupView() {
 		super.setupView()
 		title = "Reset Password"
-		saveButton.addTarget(self, action: #selector(saveBtnTapped), for: .touchUpInside)
+		saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
 		setup()
 	}
 
@@ -39,7 +38,7 @@ class ResetViewController: BaseViewController {
 		resetLabel.numberOfLines = 0
 	}
 
-	@IBAction func saveBtnTapped(_ sender: Any) {
+	@IBAction func saveButtonTapped(_ sender: Any) {
 		nextAction?(emailTextfieldView.text)
 	}
 }

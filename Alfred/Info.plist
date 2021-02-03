@@ -55,12 +55,14 @@
 		<string>$(TENANT_ID)</string>
 		<key>Zendesk App Id</key>
 		<string>$(ZENDESK_APP_ID)</string>
-		<key>Zendesk Chat Account Key</key>
-		<string>$(ZENDESK_CHAT_ACCOUNT_KEY)</string>
 		<key>Zendesk Client Id</key>
 		<string>$(ZENDESK_CLIENT_ID)</string>
 		<key>Zendesk URL</key>
 		<string>$(ZENDESK_URL)</string>
+		<key>Zendesk Chat Account Key</key>
+		<string>$(ZENDESK_CHAT_ACCOUNT_KEY)</string>
+		<key>Zendesk Chat App Id</key>
+		<string>$(ZENDESK_CHAT_APP_ID)</string>
 	</dict>
 	<key>FacebookAdvertiserIDCollectionEnabled</key>
 	<false/>

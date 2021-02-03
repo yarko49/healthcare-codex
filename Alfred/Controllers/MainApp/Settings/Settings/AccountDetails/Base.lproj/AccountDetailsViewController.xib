@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -9,8 +10,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AccountDetailsViewController" customModule="Alfred" customModuleProvider="target">
             <connections>
-                <outlet property="passwordLbl" destination="lYj-nV-cCk" id="zVg-AY-ZZU"/>
-                <outlet property="passwordTF" destination="Va6-Um-3nM" id="W25-Ee-QsH"/>
+                <outlet property="passwordLabel" destination="lYj-nV-cCk" id="zVg-AY-ZZU"/>
+                <outlet property="passwordTextField" destination="Va6-Um-3nM" id="W25-Ee-QsH"/>
                 <outlet property="textfieldStackView" destination="ut3-4k-8cj" id="HSd-Y5-cTd"/>
                 <outlet property="view" destination="VQZ-zD-dHh" id="ZI8-Sl-MRK"/>
             </connections>
@@ -21,13 +22,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2JO-9D-vJ5">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                     <subviews>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G7N-ko-wL5">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cv4-J1-hTa">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N8x-Oz-nX7">
                                             <rect key="frame" x="0.0" y="358" width="414" height="41"/>
