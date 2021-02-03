@@ -39,7 +39,7 @@ public final class RemoteSynchronizationManager: OCKRemoteSynchronizable {
 
 	public func pushRevisions(deviceRevision: OCKRevisionRecord, overwriteRemote: Bool, completion: @escaping (Error?) -> Void) {
 		ALog.info("pushRevisions: Device Revision: \(deviceRevision), overwrite Remote: \(overwriteRemote)")
-		completion(OCKStoreError.remoteSynchronizationFailed(reason: "Backend not setup yet"))
+		completion(nil)
 	}
 
 	public func chooseConflictResolutionPolicy(_ conflict: OCKMergeConflictDescription, completion: @escaping (OCKMergeConflictResolutionPolicy) -> Void) {

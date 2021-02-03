@@ -57,7 +57,7 @@ class CarePlansAddOperation: AsynchronousOperation, CarePlansResultProvider {
 			}
 		}
 
-		store.addCarePlans(mappedCarePlans, callbackQueue: callbackQueue) { [weak self] result in
+		store.createOrUpdateCarePlans(mappedCarePlans, callbackQueue: callbackQueue) { [weak self] result in
 			defer {
 				self?.complete()
 			}
