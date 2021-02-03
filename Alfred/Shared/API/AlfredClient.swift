@@ -18,7 +18,7 @@ protocol AlfredAPI {
 	func postQuestionnaireResponse(questionnaireResponse: QuestionnaireResponse, completion: @escaping WebService.DecodableCompletion<SubmittedQuestionnaire>) -> URLSession.ServicePublisher?
 	func postObservation(observation: CodexResource, completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher?
 	func getProfile(completion: @escaping WebService.DecodableCompletion<Profile>) -> URLSession.ServicePublisher?
-	func postProfile(profile: Profile, completion: @escaping WebService.DecodableCompletion<Profile>) -> URLSession.ServicePublisher?
+	func postProfile(profile: Profile, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher?
 	func postPatient(patient: CodexResource, completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher?
 	func patchPatient(patient: [UpdatePatientModel], completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher?
 	func postPatientSearch(completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher?
@@ -107,7 +107,7 @@ public final class AlfredClient: AlfredAPI {
 	}
 
 	@discardableResult
-	func postProfile(profile: Profile, completion: @escaping WebService.DecodableCompletion<Profile>) -> URLSession.ServicePublisher? {
+	func postProfile(profile: Profile, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher? {
 		webService.request(route: APIRouter.postProfile(profile: profile), completion: completion)
 	}
 

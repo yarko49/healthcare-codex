@@ -45,6 +45,10 @@ final class AppConfig: ObservableObject {
 		path("Environment", "Zendesk Chat Account Key")!
 	}
 
+	static var zendeskChatAppId: String {
+		path("Environment", "Zendesk Chat App Id")!
+	}
+
 	static func path(_ keys: String...) -> String? {
 		var current = Bundle.main.infoDictionary
 		for (index, key) in keys.enumerated() {

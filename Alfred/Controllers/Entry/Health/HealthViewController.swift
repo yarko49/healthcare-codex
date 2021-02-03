@@ -8,7 +8,7 @@
 import UIKit
 
 class HealthViewController: BaseViewController {
-	var nextBtnAction: Coordinator.ActionHandler?
+	var nextButtonAction: Coordinator.ActionHandler?
 	var notNowAction: Coordinator.ActionHandler?
 	var activateAction: Coordinator.ActionHandler?
 	var signInAction: Coordinator.ActionHandler?
@@ -148,6 +148,6 @@ class HealthViewController: BaseViewController {
 	}
 
 	@objc func nextButtonTapped() {
-		nextBtnAction?()
+		nextButtonAction?()
 	}
 }

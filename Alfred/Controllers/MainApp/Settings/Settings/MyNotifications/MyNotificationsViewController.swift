@@ -7,12 +7,9 @@ import Foundation
 import UIKit
 
 class MyNotificationsViewController: BaseViewController {
-	// MARK: Coordinator Actions
-
-	var backBtnAction: (() -> Void)?
-
 	// MARK: - Properties
 
+	var closeAction: (() -> Void)?
 	var notificationsSettings: [MyNotifications] = MyNotifications.allValues
 	let rowHeight: CGFloat = 60
 
@@ -22,18 +19,13 @@ class MyNotificationsViewController: BaseViewController {
 
 	// MARK: - Setup
 
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-	}
-
-	override func viewDidLoad() {
-		super.viewDidLoad()
-	}
-
 	override func setupView() {
 		super.setupView()
 
 		title = Str.myNotifications
+		let barButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .done, target: self, action: #selector(close(_:)))
+		barButtonItem.tintColor = .black
+		navigationItem.leftBarButtonItem = barButtonItem
 
 		myNotificationsTV.register(UINib(nibName: SettingsSwitchCell.nibName, bundle: nil), forCellReuseIdentifier: SettingsSwitchCell.reuseIdentifier)
 		myNotificationsTV.rowHeight = rowHeight
@@ -47,18 +39,8 @@ class MyNotificationsViewController: BaseViewController {
 		myNotificationsTV.allowsSelection = false
 	}
 
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-	}
-
-	override func populateData() {
-		super.populateData()
-	}
-
-	// MARK: - Actions
-
-	@objc func backBtnTapped() {
-		backBtnAction?()
+	@IBAction func close(_ sender: Any) {
+		closeAction?()
 	}
 }
 

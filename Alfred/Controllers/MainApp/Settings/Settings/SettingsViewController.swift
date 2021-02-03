@@ -1,6 +1,7 @@
 import UIKit
 
 class SettingsViewController: BaseViewController {
+	var didFinishAction: (() -> Void)?
 	var logoutAction: (() -> Void)?
 	var itemSelectionAction: ((SettingsType) -> Void)?
 
@@ -32,6 +33,10 @@ class SettingsViewController: BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = Str.settings
+		let leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .done, target: self, action: #selector(close(_:)))
+		leftBarButtonItem.tintColor = .black
+		navigationItem.leftBarButtonItem = leftBarButtonItem
+
 		settingsFooterView.translatesAutoresizingMaskIntoConstraints = false
 		settingsFooterView.delegate = self
 		view.addSubview(settingsFooterView)
@@ -67,7 +72,9 @@ class SettingsViewController: BaseViewController {
 		}
 	}
 
-	// MARK: - Actions
+	@IBAction func close(_ sender: Any) {
+		didFinishAction?()
+	}
 }
 
 // MARK: - UITableViewDataSource & UITableViewDelegate

@@ -265,13 +265,10 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			}
 		}
 
-		controller.editBtnAction = { [weak self] weight, height in
+		controller.editButtonAction = { [weak self] weight, height in
 			self?.goToMyProfileFirstViewController(source: .profile, weight: weight, height: height)
 		}
 
-		controller.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
 		navigate(to: controller, with: .push)
 	}
 
@@ -306,10 +303,6 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		myProfileFirstViewController.lastText = DataContext.shared.userModel?.displayLastName ?? ""
 		myProfileFirstViewController.gender = DataContext.shared.userModel?.gender
 
-		myProfileFirstViewController.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
-
 		let sendDataAction: ((String, String, [String]) -> Void)? = { [weak self] gender, family, given in
 			self?.goToMyProfileSecondViewController(gender: gender, family: family, given: given, source: source, weight: weight, height: height)
 		}
@@ -330,10 +323,6 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 		myProfileSecondViewController.comingFrom = source
 		myProfileSecondViewController.profileWeight = weight
 		myProfileSecondViewController.profileHeight = height
-
-		myProfileSecondViewController.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
 
 		myProfileSecondViewController.patientRequestAction = { [weak self] _, birthdate, weight, height, date in
 			let joinedNames = given.joined(separator: " ")
@@ -497,11 +486,6 @@ extension MainAppCoordinator: UINavigationControllerDelegate {
 				let addBtn = UIBarButtonItem(title: Str.add, style: UIBarButtonItem.Style.plain, target: self, action: #selector(addAction))
 				addBtn.tintColor = UIColor.cursorOrange
 				viewController.navigationItem.setRightBarButton(addBtn, animated: true)
-			}
-			if viewController.navigationItem.leftBarButtonItem == nil {
-				let backBtn = UIBarButtonItem(image: UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(backAction))
-				backBtn.tintColor = .black
-				viewController.navigationItem.setLeftBarButton(backBtn, animated: true)
 			}
 		}
 	}

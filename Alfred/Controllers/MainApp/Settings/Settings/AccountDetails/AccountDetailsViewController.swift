@@ -9,7 +9,6 @@ import UIKit
 class AccountDetailsViewController: BaseViewController {
 	// MARK: Coordinator Actions
 
-	var backBtnAction: (() -> Void)?
 	var resetPasswordAction: (() -> Void)?
 
 	// MARK: - Properties
@@ -21,18 +20,10 @@ class AccountDetailsViewController: BaseViewController {
 	// MARK: - IBOutlets
 
 	@IBOutlet var textfieldStackView: UIStackView!
-	@IBOutlet var passwordLbl: UILabel!
-	@IBOutlet var passwordTF: UITextField!
+	@IBOutlet var passwordLabel: UILabel!
+	@IBOutlet var passwordTextField: UITextField!
 
 	// MARK: - Setup
-
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-	}
-
-	override func viewDidLoad() {
-		super.viewDidLoad()
-	}
 
 	override func setupView() {
 		super.setupView()
@@ -50,30 +41,18 @@ class AccountDetailsViewController: BaseViewController {
 		textfieldStackView.addArrangedSubview(firstNameTextView)
 		textfieldStackView.addArrangedSubview(lastNameTextView)
 		textfieldStackView.addArrangedSubview(emailTextView)
-		passwordTF.isUserInteractionEnabled = false
-	}
-
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
+		passwordTextField.isUserInteractionEnabled = false
 	}
 
 	override func localize() {
 		super.localize()
 
-		passwordLbl.attributedText = Str.password.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.078)
-		passwordTF.isSecureTextEntry = true
-		passwordTF.attributedText = "1234567890".with(style: .regular17, andColor: .black, andLetterSpacing: 0.38)
-	}
-
-	override func populateData() {
-		super.populateData()
+		passwordLabel.attributedText = Str.password.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.078)
+		passwordTextField.isSecureTextEntry = true
+		passwordTextField.attributedText = "1234567890".with(style: .regular17, andColor: .black, andLetterSpacing: 0.38)
 	}
 
 	// MARK: - Actions
-
-	@objc func backBtnTapped() {
-		backBtnAction?()
-	}
 
 	@IBAction func passwordResetTapped(_ sender: Any) {
 		resetPasswordAction?()

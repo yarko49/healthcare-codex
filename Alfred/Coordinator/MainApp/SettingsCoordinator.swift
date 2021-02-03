@@ -71,15 +71,16 @@ class SettingsCoordinator: NSObject, Coordinator {
 		settingsViewController.logoutAction = { [weak self] in
 			self?.logout()
 		}
+
+		settingsViewController.didFinishAction = { [weak settingsViewController] in
+			settingsViewController?.dismiss(animated: true, completion: nil)
+		}
+
 		navigate(to: settingsViewController, with: .pushFullScreen)
 	}
 
 	internal func goToAccountDetails() {
 		let accountDetailsViewController = AccountDetailsViewController()
-
-		accountDetailsViewController.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
 
 		accountDetailsViewController.resetPasswordAction = { [weak self] in
 			self?.goToPasswordReset()
@@ -91,9 +92,6 @@ class SettingsCoordinator: NSObject, Coordinator {
 	internal func goToPasswordReset() {
 		let accountResetPasswordViewController = AccountResetPasswordViewController()
 
-		accountResetPasswordViewController.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
 		accountResetPasswordViewController.sendEmailAction = { [weak self, weak accountResetPasswordViewController] email in
 			self?.resetPassword(accountResetPasswordViewController: accountResetPasswordViewController, email: email)
 		}
@@ -116,11 +114,6 @@ class SettingsCoordinator: NSObject, Coordinator {
 
 	internal func goToMyDevices() {
 		let devicesViewController = MyDevicesViewController()
-
-		devicesViewController.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
-
 		devicesViewController.profileRequestAction = { [weak self] in
 			let profile = Profile(dataContext: DataContext.shared)
 			self?.profileRequest(profile: profile)
@@ -146,7 +139,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 
 	internal func goToNotifications() {
 		let myNotificationsViewController = MyNotificationsViewController()
-		myNotificationsViewController.backBtnAction = { [weak self] in
+		myNotificationsViewController.closeAction = { [weak self] in
 			let profile = Profile(dataContext: DataContext.shared)
 			self?.profileRequest(profile: profile)
 		}
@@ -213,21 +206,11 @@ class SettingsCoordinator: NSObject, Coordinator {
 
 	internal func goToPrivacyPolicy() {
 		let privacyPolicyViewController = PrivacyPolicyViewController()
-
-		privacyPolicyViewController.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
-
 		navigate(to: privacyPolicyViewController, with: .pushFullScreen)
 	}
 
 	internal func goToTermsOfService() {
 		let termsOfServiceViewController = TermsOfServiceViewController()
-
-		termsOfServiceViewController.backBtnAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: true)
-		}
-
 		navigate(to: termsOfServiceViewController, with: .pushFullScreen)
 	}
 
@@ -260,15 +243,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 }
 
 extension SettingsCoordinator: UINavigationControllerDelegate {
-	func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-		if viewController is SettingsViewController {
-			if viewController.navigationItem.leftBarButtonItem == nil {
-				let backBtn = UIBarButtonItem(image: UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(backAction))
-				backBtn.tintColor = .black
-				viewController.navigationItem.setLeftBarButton(backBtn, animated: true)
-			}
-		}
-	}
+	func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {}
 }
 
 extension SettingsCoordinator: MFMailComposeViewControllerDelegate {

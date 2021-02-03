@@ -9,69 +9,45 @@ import UIKit
 class AccountResetPasswordViewController: BaseViewController {
 	// MARK: Coordinator Actions
 
-	var backBtnAction: (() -> Void)?
 	var sendEmailAction: ((_ email: String?) -> Void)?
-
-	// MARK: - Properties
-
-	@IBOutlet var resetPasswordView: UIView!
-	@IBOutlet var textfieldSV: UIStackView!
-	@IBOutlet var sendBtn: RoundedButton!
-	@IBOutlet var resetPasswordDescLbl: UILabel!
-	@IBOutlet var completionLbl: UILabel!
-
-	@IBOutlet var emailTF: TextfieldView!
 
 	// MARK: - IBOutlets
 
+	@IBOutlet var resetPasswordView: UIView!
+	@IBOutlet var textfieldStackView: UIStackView!
+	@IBOutlet var sendButton: RoundedButton!
+	@IBOutlet var resetPasswordDescLabel: UILabel!
+	@IBOutlet var completionLabel: UILabel!
+	@IBOutlet var emailTextField: TextfieldView!
+
 	// MARK: - Setup
-
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-	}
-
-	override func viewDidLoad() {
-		super.viewDidLoad()
-	}
 
 	override func setupView() {
 		super.setupView()
 		title = Str.resetPassword
-		emailTF.setupValues(labelTitle: Str.emailAddress, text: "", textIsPassword: false)
-		completionLbl.isHidden = true
-		sendBtn.cornerRadius = 29
-		sendBtn.roundedBorderColor = UIColor.grey
-		sendBtn.roundedBackgroundColor = UIColor.white
-	}
-
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
+		emailTextField.setupValues(labelTitle: Str.emailAddress, text: "", textIsPassword: false)
+		completionLabel.isHidden = true
+		sendButton.cornerRadius = 29
+		sendButton.roundedBorderColor = UIColor.grey
+		sendButton.roundedBackgroundColor = UIColor.white
 	}
 
 	override func localize() {
 		super.localize()
 
-		resetPasswordDescLbl.attributedText = Str.resetPasswordDesc.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.408)
-		sendBtn.setAttributedTitle(Str.send.uppercased().with(style: .regular17, andColor: .grey, andLetterSpacing: 3), for: .normal)
-		completionLbl.attributedText = Str.resetPasswordResponse.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.408)
-	}
-
-	override func populateData() {
-		super.populateData()
+		resetPasswordDescLabel.attributedText = Str.resetPasswordDesc.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.408)
+		sendButton.setAttributedTitle(Str.send.uppercased().with(style: .regular17, andColor: .grey, andLetterSpacing: 3), for: .normal)
+		completionLabel.attributedText = Str.resetPasswordResponse.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.408)
 	}
 
 	func showCompletionMessage() {
-		completionLbl.isHidden = false
+		completionLabel.isHidden = false
 		resetPasswordView.isHidden = true
 	}
 
 	// MARK: - Actions
 
-	@objc func backBtnTapped() {
-		backBtnAction?()
-	}
-
 	@IBAction func passwordResetTapped(_ sender: Any) {
-		sendEmailAction?(emailTF.text)
+		sendEmailAction?(emailTextField.text)
 	}
 }

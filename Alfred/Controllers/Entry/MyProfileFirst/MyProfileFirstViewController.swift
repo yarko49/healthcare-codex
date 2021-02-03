@@ -4,7 +4,6 @@ import FirebaseAuth
 import UIKit
 
 class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGestureRecognizerDelegate {
-	var backBtnAction: Coordinator.ActionHandler?
 	var sendDataAction: ((String, String, [String]) -> Void)?
 	var alertAction: ((_ tv: TextfieldView?) -> Void)?
 	var alert: Coordinator.ActionHandler?
@@ -86,10 +85,6 @@ class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGe
 		} else if sender == femaleButton {
 			selectedGender = .female
 		}
-	}
-
-	@objc func backBtnTapped() {
-		backBtnAction?()
 	}
 
 	@objc func dismissKeyboard() {
