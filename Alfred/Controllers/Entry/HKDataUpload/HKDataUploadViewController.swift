@@ -8,42 +8,63 @@ import Foundation
 import UIKit
 
 class HKDataUploadViewController: BaseViewController {
-	// MARK: - Coordinator Actions
-
 	var queryAction: Coordinator.ActionHandler?
 
-	// MARK: - Properties
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		titleLabel.translatesAutoresizingMaskIntoConstraints = false
+		view.addSubview(titleLabel)
+		NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
+		                             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 12.0),
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 2.0)])
 
-	// MARK: - IBOutlets
+		waitLabel.translatesAutoresizingMaskIntoConstraints = false
+		view.addSubview(waitLabel)
+		NSLayoutConstraint.activate([waitLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 4.0),
+		                             waitLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: waitLabel.trailingAnchor, multiplier: 2.0)])
 
-	@IBOutlet var titleLabel: UILabel!
-	@IBOutlet var waitLabel: UILabel!
-	@IBOutlet var progressLabel: UILabel!
-
-	var maxProgress: Int = 0 {
-		didSet {
-			progressLabel.text = "\(progress)/\(maxProgress)"
-		}
+		progressBar.translatesAutoresizingMaskIntoConstraints = false
+		view.addSubview(progressBar)
+		NSLayoutConstraint.activate([progressBar.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 5.0),
+		                             progressBar.topAnchor.constraint(equalToSystemSpacingBelow: waitLabel.bottomAnchor, multiplier: 5.0),
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: progressBar.trailingAnchor, multiplier: 5.0)])
 	}
 
+	var titleLabel: UILabel = {
+		let label = UILabel(frame: .zero)
+		label.numberOfLines = 3
+		label.textAlignment = .center
+		label.attributedText = Str.importingHealthData.with(style: .regular28, andColor: .black, andLetterSpacing: 0.36)
+		return label
+	}()
+
+	var waitLabel: UILabel = {
+		let label = UILabel(frame: .zero)
+		label.numberOfLines = 1
+		label.textAlignment = .center
+		label.attributedText = Str.justASec.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.32)
+		return label
+	}()
+
+	let progressBar: UIProgressView = {
+		let view = UIProgressView(progressViewStyle: .bar)
+		return view
+	}()
+
+	var maxProgress: Int = 0
 	var progress: Int = 0 {
 		didSet {
-			progressLabel.text = "\(progress)/\(maxProgress)"
+			guard maxProgress > 0 else {
+				progressBar.setProgress(0, animated: true)
+				return
+			}
+			let value = Float(progress / maxProgress)
+			progressBar.setProgress(value, animated: true)
 		}
 	}
 
 	// MARK: - Setup
-
-	override func setupView() {
-		super.setupView()
-	}
-
-	override func localize() {
-		super.localize()
-
-		titleLabel.attributedText = Str.importingHealthData.with(style: .regular28, andColor: .black, andLetterSpacing: 0.36)
-		waitLabel.attributedText = Str.justASec.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.32)
-	}
 
 	override func populateData() {
 		super.populateData()

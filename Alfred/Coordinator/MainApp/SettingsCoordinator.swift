@@ -153,21 +153,6 @@ class SettingsCoordinator: NSObject, Coordinator {
 		}
 	}
 
-	internal func goToFeedback() {
-		guard MFMailComposeViewController.canSendMail() else {
-			showMailSetupAlert()
-			return
-		}
-
-		let controller = MFMailComposeViewController()
-		let subject = NSLocalizedString("FEEDBACK_SUBJECT", comment: "Feedback")
-		controller.setSubject(subject)
-		let toEmail = "" // DataContext.shared.remoteConfigManager.feedbackEmail
-		controller.setToRecipients([toEmail])
-		controller.mailComposeDelegate = self
-		navigate(to: controller, with: .present)
-	}
-
 	internal func showFeedback() {
 		let config = RequestUiConfiguration()
 		config.subject = "iOS Ticket"
@@ -186,6 +171,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 			let messagingConfiguration = MessagingConfiguration()
 			let supportEngine = try SupportEngine.engine()
 			let chatEngine = try ChatEngine.engine()
+			// let answerBotEngine = try AnswerBotEngine.engine()
 			let viewController = try Messaging.instance.buildUI(engines: [supportEngine, chatEngine], configs: [messagingConfiguration])
 			navigate(to: viewController, with: .push)
 		} catch {

@@ -274,25 +274,20 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func syncHKData() {
-		var loadingShouldAppear = true
 		let hkDataUploadViewController = HKDataUploadViewController()
-		showHUD()
-		SyncManager.shared.syncData(initialUpload: false, chunkSize: chunkSize) { [weak self] uploaded, total in
-			self?.hideHUD()
-			if total > 500, loadingShouldAppear {
-				loadingShouldAppear = false
-				self?.navigate(to: hkDataUploadViewController, with: .push)
-			} else if total > 500 {
-				hkDataUploadViewController.progress = uploaded
-				hkDataUploadViewController.maxProgress = total
-			}
-		} completion: { [weak self] success in
-			if success {
-				self?.goToMainApp()
-			} else {
-				AlertHelper.showAlert(title: Str.error, detailText: Str.importHealthDataFailed, actions: [])
-				self?.goToMainApp()
-			}
+		navigate(to: hkDataUploadViewController, with: .present)
+		SyncManager.shared.syncData(initialUpload: false, chunkSize: chunkSize) { [weak hkDataUploadViewController] uploaded, total in
+			hkDataUploadViewController?.progress = uploaded
+			hkDataUploadViewController?.maxProgress = total
+		} completion: { [weak hkDataUploadViewController, weak self] success in
+			hkDataUploadViewController?.dismiss(animated: true, completion: {
+				if success {
+					self?.goToMainApp()
+				} else {
+					AlertHelper.showAlert(title: Str.error, detailText: Str.importHealthDataFailed, actions: [])
+					self?.goToMainApp()
+				}
+			})
 		}
 	}
 
@@ -534,16 +529,16 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			hideHUD()
 			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 		} else if let authDataResult = authDataResult {
-			authDataResult.user.getIDToken { [weak self] token, _ in
+			authDataResult.user.getIDTokenResult { [weak self] tokenResult, error in
 				self?.hideHUD()
 				if let error = error {
 					ALog.info("\(error.localizedDescription)")
 					AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 					completion(false)
-				} else if let authTokenResult = token {
+				} else if let authToken = tokenResult?.token {
 					self?.emailrequest = Auth.auth().currentUser?.email
-					Keychain.authToken = authTokenResult
-					ALog.info("firebaseToken: \(authTokenResult)")
+					Keychain.authToken = authToken
+					ALog.info("firebaseToken: \(authToken)")
 					completion(true)
 				}
 			}
