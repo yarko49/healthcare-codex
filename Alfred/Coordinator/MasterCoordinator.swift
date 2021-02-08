@@ -90,13 +90,13 @@ class MasterCoordinator: Coordinator {
 
 	internal func firebaseAuthentication(completion: @escaping (Bool) -> Void) {
 		Auth.auth().tenantID = AppConfig.tenantID
-		Auth.auth().currentUser?.getIDToken(completion: { token, error in
+		Auth.auth().currentUser?.getIDTokenResult(completion: { tokenResult, error in
 			guard error == nil else {
 				ALog.error("Error signing out:", error: error)
 				completion(false)
 				return
 			}
-			guard let firebaseToken = token else {
+			guard let firebaseToken = tokenResult?.token else {
 				completion(false)
 				return
 			}
@@ -118,19 +118,12 @@ class MasterCoordinator: Coordinator {
 	}
 
 	internal func syncHKData() {
-		var loadingShouldAppear = true
 		let hkDataUploadViewController = HKDataUploadViewController()
-		showHUD()
-		SyncManager.shared.syncData(initialUpload: false, chunkSize: 4500) { [weak self] uploaded, total in
-			if total > 500, loadingShouldAppear {
-				loadingShouldAppear = false
-				self?.window.rootViewController = hkDataUploadViewController
-			} else if total > 500 {
-				hkDataUploadViewController.progress = uploaded
-				hkDataUploadViewController.maxProgress = total
-			}
+		window.rootViewController = hkDataUploadViewController
+		SyncManager.shared.syncData(initialUpload: false, chunkSize: 4500) { [weak hkDataUploadViewController] uploaded, total in
+			hkDataUploadViewController?.maxProgress = total
+			hkDataUploadViewController?.progress = uploaded
 		} completion: { [weak self] success in
-			self?.hideHUD()
 			if success {
 				self?.goToMainApp()
 			} else {

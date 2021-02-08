@@ -10,6 +10,7 @@
 		08803B38FC9107E295E7E0FF /* Pods_AlfredTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9215EA08C1E1BB01BD32192 /* Pods_AlfredTests.framework */; };
 		2155CF876527A229A4FA39DB /* Pods_Alfred.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DA7D7C7A163AA0A1A054AFF /* Pods_Alfred.framework */; };
 		5571791DD4A436E8369E5A16 /* Pods_Alfred_AlfredUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F760A7030BE9D1A8FBAF385B /* Pods_Alfred_AlfredUITests.framework */; };
+		8419CF0B25CE42EB005F9617 /* FeaturedContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419CF0A25CE42EB005F9617 /* FeaturedContentDetailViewController.swift */; };
 		842398CB259C1144006FB3F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398CA259C1144006FB3F4 /* AppDelegate.swift */; };
 		842398CD259C1144006FB3F4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398CC259C1144006FB3F4 /* SceneDelegate.swift */; };
 		842398E2259C1144006FB3F4 /* AlfredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398E1259C1144006FB3F4 /* AlfredTests.swift */; };
@@ -19,7 +20,6 @@
 		842DFC5825BBF45100066A07 /* ResetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC5A25BBF45100066A07 /* ResetViewController.xib */; };
 		842DFC5E25BBF45C00066A07 /* MyProfileFirstViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC6025BBF45C00066A07 /* MyProfileFirstViewController.xib */; };
 		842DFC6425BBF46000066A07 /* MyProfileSecondViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC6625BBF46000066A07 /* MyProfileSecondViewController.xib */; };
-		842DFC6A25BBF47000066A07 /* HKDataUploadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC6C25BBF47000066A07 /* HKDataUploadViewController.xib */; };
 		842DFC7025BBF47500066A07 /* ResetMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC7225BBF47500066A07 /* ResetMessageViewController.xib */; };
 		842DFC7625BBF47B00066A07 /* MyDevicesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC7825BBF47B00066A07 /* MyDevicesViewController.xib */; };
 		842DFC7C25BBF48000066A07 /* TermsOfServiceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC7E25BBF48000066A07 /* TermsOfServiceViewController.xib */; };
@@ -290,6 +290,7 @@
 		151DACDCB06E69AB81534ACC /* Pods-Alfred-AlfredUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alfred-AlfredUITests.debug.xcconfig"; path = "Target Support Files/Pods-Alfred-AlfredUITests/Pods-Alfred-AlfredUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5F468A3038E236FC397B6BE5 /* Pods-AlfredTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlfredTests.debug.xcconfig"; path = "Target Support Files/Pods-AlfredTests/Pods-AlfredTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7F6441AE1BDC15A7051D6757 /* Pods-Alfred-AlfredUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alfred-AlfredUITests.release.xcconfig"; path = "Target Support Files/Pods-Alfred-AlfredUITests/Pods-Alfred-AlfredUITests.release.xcconfig"; sourceTree = "<group>"; };
+		8419CF0A25CE42EB005F9617 /* FeaturedContentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedContentDetailViewController.swift; sourceTree = "<group>"; };
 		842398C7259C1144006FB3F4 /* Alfred.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Alfred.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		842398CA259C1144006FB3F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		842398CC259C1144006FB3F4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -305,7 +306,6 @@
 		842DFC5925BBF45100066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ResetViewController.xib; sourceTree = "<group>"; };
 		842DFC5F25BBF45C00066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MyProfileFirstViewController.xib; sourceTree = "<group>"; };
 		842DFC6525BBF46000066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MyProfileSecondViewController.xib; sourceTree = "<group>"; };
-		842DFC6B25BBF47000066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/HKDataUploadViewController.xib; sourceTree = "<group>"; };
 		842DFC7125BBF47500066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ResetMessageViewController.xib; sourceTree = "<group>"; };
 		842DFC7725BBF47B00066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MyDevicesViewController.xib; sourceTree = "<group>"; };
 		842DFC7D25BBF48000066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TermsOfServiceViewController.xib; sourceTree = "<group>"; };
@@ -862,7 +862,6 @@
 			isa = PBXGroup;
 			children = (
 				84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */,
-				842DFC6C25BBF47000066A07 /* HKDataUploadViewController.xib */,
 			);
 			path = HKDataUpload;
 			sourceTree = "<group>";
@@ -1365,6 +1364,7 @@
 				8487485925B3F946008C15E2 /* ButtonLogTaskViewController.swift */,
 				8487486525B3FAB0008C15E2 /* GridTaskViewController.swift */,
 				8487488A25B4B8F1008C15E2 /* ChecklistTaskViewController.swift */,
+				8419CF0A25CE42EB005F9617 /* FeaturedContentDetailViewController.swift */,
 			);
 			path = TaskViews;
 			sourceTree = "<group>";
@@ -1556,7 +1556,6 @@
 				842DFD0625BBF54900066A07 /* HomeViewController.xib in Resources */,
 				844767AE259C2A4E00C50C09 /* LaunchScreen.storyboard in Resources */,
 				842DFC7025BBF47500066A07 /* ResetMessageViewController.xib in Resources */,
-				842DFC6A25BBF47000066A07 /* HKDataUploadViewController.xib in Resources */,
 				842DFC8825BBF48800066A07 /* AccountResetPasswordViewController.xib in Resources */,
 				845AACAE259C3CEF00FF8F3F /* GoogleService-Info.plist in Resources */,
 				842DFCB525BBF4B500066A07 /* ProfileViewController.xib in Resources */,
@@ -1899,6 +1898,7 @@
 				844767A2259C2A4E00C50C09 /* String+Validation.swift in Sources */,
 				8447678F259C2A4E00C50C09 /* CodexResource.swift in Sources */,
 				8447678B259C2A4E00C50C09 /* DevicesModel.swift in Sources */,
+				8419CF0B25CE42EB005F9617 /* FeaturedContentDetailViewController.swift in Sources */,
 				84E1203D25C3BB4C004E08F3 /* MedicalCode+Supported.swift in Sources */,
 				8484111B25B2AE1800171B68 /* TasksAddOperation.swift in Sources */,
 				84476751259C2A4E00C50C09 /* SelectChunkSizeViewController.swift in Sources */,
@@ -2053,14 +2053,6 @@
 				842DFC6525BBF46000066A07 /* Base */,
 			);
 			name = MyProfileSecondViewController.xib;
-			sourceTree = "<group>";
-		};
-		842DFC6C25BBF47000066A07 /* HKDataUploadViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				842DFC6B25BBF47000066A07 /* Base */,
-			);
-			name = HKDataUploadViewController.xib;
 			sourceTree = "<group>";
 		};
 		842DFC7225BBF47500066A07 /* ResetMessageViewController.xib */ = {
@@ -2422,7 +2414,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Alfred/Alfred.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Alfred/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2448,7 +2440,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Alfred/Alfred.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Alfred/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
