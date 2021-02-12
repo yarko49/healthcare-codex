@@ -192,6 +192,7 @@
 		845AAC9D259C3B0D00FF8F3F /* Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845AAC9C259C3B0C00FF8F3F /* Subject.swift */; };
 		845AACAE259C3CEF00FF8F3F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84476616259C2A0E00C50C09 /* GoogleService-Info.plist */; };
 		8461B30425A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8461B30325A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift */; };
+		846E785725D4F553004F8885 /* DefaultCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 846E785625D4F553004F8885 /* DefaultCarePlan.json */; };
 		84700A84259C331B0083E2AA /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 84700A83259C331B0083E2AA /* Charts */; };
 		848128A7259C59DA004A5308 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 848128A6259C59DA004A5308 /* FirebaseFirestore */; };
 		848128A9259C59DA004A5308 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 848128A8259C59DA004A5308 /* FirebaseDatabase */; };
@@ -475,6 +476,7 @@
 		844F06EE25C1236000D26119 /* Profile+DataContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Profile+DataContext.swift"; sourceTree = "<group>"; };
 		845AAC9C259C3B0C00FF8F3F /* Subject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subject.swift; sourceTree = "<group>"; };
 		8461B30325A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScheduleElement+OCKScheduleElement.swift"; sourceTree = "<group>"; };
+		846E785625D4F553004F8885 /* DefaultCarePlan.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultCarePlan.json; sourceTree = "<group>"; };
 		848410EA25B292BE00171B68 /* CHOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHOperation.swift; sourceTree = "<group>"; };
 		8484110B25B2A13C00171B68 /* HealthKitAddTasksOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitAddTasksOperation.swift; sourceTree = "<group>"; };
 		8484111025B2AC2700171B68 /* PatientsAddOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientsAddOperation.swift; sourceTree = "<group>"; };
@@ -676,6 +678,7 @@
 				84C83FD2259C48F200DAEF34 /* URLProtocolMock.swift */,
 				84C83FC4259C48F100DAEF34 /* ValueSpaceResponse.json */,
 				842398E3259C1144006FB3F4 /* Info.plist */,
+				846E785625D4F553004F8885 /* DefaultCarePlan.json */,
 			);
 			path = AlfredTests;
 			sourceTree = "<group>";
@@ -1589,6 +1592,7 @@
 				84C83FEA259C48F200DAEF34 /* Profile.json in Resources */,
 				84C83FDA259C48F200DAEF34 /* Outcomes.json in Resources */,
 				84C83FE7259C48F200DAEF34 /* TaskB2.json in Resources */,
+				846E785725D4F553004F8885 /* DefaultCarePlan.json in Resources */,
 				84C83FDF259C48F200DAEF34 /* Profile2.json in Resources */,
 				84C83FE0259C48F200DAEF34 /* FIHRQuestionnaire.json in Resources */,
 				84C83FE6259C48F200DAEF34 /* SechduleA.json in Resources */,
