@@ -17,7 +17,7 @@ class CarePlanStoreManager: ObservableObject {
 	enum Constants {
 		static let careKitTasksStore = "TasksStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
-		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk
+		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk()
 	}
 
 	private(set) lazy var remoteSynchronizationManager: RemoteSynchronizationManager = {
@@ -60,6 +60,9 @@ class CarePlanStoreManager: ObservableObject {
 				}
 			})
 		}.store(in: &cancellables)
+
+		store.resetDelegate = self
+		healthKitStore.resetDelegate = self
 	}
 }
 
@@ -67,6 +70,12 @@ class CarePlanStoreManager: ObservableObject {
 
 extension CarePlanStoreManager {
 	func insert(carePlansResponse: CarePlanResponse, for patient: OCKPatient?, completion: OCKResultClosure<[String]>?) {
+		do {
+			try resetAllContents()
+		} catch {
+			ALog.error("\(error.localizedDescription)")
+		}
+
 		let carePlans = carePlansResponse.carePlans.values.compactMap { (plan) -> OCKCarePlan in
 			OCKCarePlan(carePlan: plan)
 		}
@@ -159,6 +168,15 @@ extension CarePlanStoreManager {
 	}
 }
 
+// MARK: - Reset
+
+extension CarePlanStoreManager {
+	func resetAllContents() throws {
+		try store.reset()
+		try healthKitStore.reset()
+	}
+}
+
 // MARK: - OCKRemoteSynchronizationDelegate
 
 extension CarePlanStoreManager: OCKRemoteSynchronizationDelegate {
@@ -168,5 +186,11 @@ extension CarePlanStoreManager: OCKRemoteSynchronizationDelegate {
 
 	public func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
 		ALog.info("Did Update Progress")
+	}
+}
+
+extension CarePlanStoreManager: OCKResetDelegate {
+	func storeDidReset(_ store: OCKAnyResettableStore) {
+		ALog.info("Store \(store) did reset")
 	}
 }

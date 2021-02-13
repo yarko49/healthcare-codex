@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/carekit-apple/CareKit.git",
         "state": {
           "branch": "main",
-          "revision": "56796e8c7915b5813a47f54d746219a29685cb81",
+          "revision": "4d9200e0b2ad68e6d2c8502f10971200bccf8863",
           "version": null
         }
       },
@@ -96,8 +96,35 @@
         "repositoryURL": "https://github.com/firebase/firebase-ios-sdk.git",
         "state": {
           "branch": null,
-          "revision": "3721a5b8a6233237098f90e5f065dada7641a40b",
-          "version": "7.4.0"
+          "revision": "0dd2ad1054177670dfa5bb1bbc6767e2a965095d",
+          "version": "7.6.0"
+        }
+      },
+      {
+        "package": "GoogleAppMeasurement",
+        "repositoryURL": "https://github.com/google/GoogleAppMeasurement.git",
+        "state": {
+          "branch": null,
+          "revision": "38205d8e39f806f71b048f93427337c9511c9402",
+          "version": "7.5.1"
+        }
+      },
+      {
+        "package": "GoogleDataTransport",
+        "repositoryURL": "https://github.com/google/GoogleDataTransport.git",
+        "state": {
+          "branch": null,
+          "revision": "2e8a342494d20fcf209b61a45cddc1668b5ccc6d",
+          "version": "8.2.0"
+        }
+      },
+      {
+        "package": "GoogleUtilities",
+        "repositoryURL": "https://github.com/google/GoogleUtilities.git",
+        "state": {
+          "branch": null,
+          "revision": "2c7d33099a3c3da1139bb1e8eb94e46e0dacf075",
+          "version": "7.2.2"
         }
       },
       {
@@ -195,8 +222,8 @@
         "repositoryURL": "git@github.com:SDWebImage/SDWebImage.git",
         "state": {
           "branch": null,
-          "revision": "564d238f8814c4a82502336fd80b28a9d321ff47",
-          "version": "5.10.2"
+          "revision": "a6b6e44eadf0d39250c10a7cc0e3b91d0bdb0e94",
+          "version": "5.10.4"
         }
       },
       {

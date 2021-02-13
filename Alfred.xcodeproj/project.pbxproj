@@ -1084,7 +1084,6 @@
 				844766B6259C2A4E00C50C09 /* Managers */,
 				844766B8259C2A4E00C50C09 /* ProfileHelper.swift */,
 				844766B9259C2A4E00C50C09 /* Extensions */,
-				844766C7259C2A4E00C50C09 /* Keychain */,
 				844766CA259C2A4E00C50C09 /* Localization */,
 			);
 			path = Helpers;
@@ -1266,6 +1265,7 @@
 		84476710259C2A4E00C50C09 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				844766C7259C2A4E00C50C09 /* Keychain */,
 				844F06D725C1132800D26119 /* Extensions */,
 				84476711259C2A4E00C50C09 /* CHJSONDecoder.swift */,
 				84476724259C2A4E00C50C09 /* AppConfig.swift */,
