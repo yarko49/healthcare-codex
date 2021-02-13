@@ -35,15 +35,19 @@ class EmailAuthorizationViewController: BaseViewController {
 		                             termsOfServiceTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: termsOfServiceTextView.bottomAnchor, multiplier: 0.0)])
 
-		emailTextfieldView.translatesAutoresizingMaskIntoConstraints = false
-		view.addSubview(emailTextfieldView)
-		NSLayoutConstraint.activate([emailTextfieldView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 10.0),
-		                             emailTextfieldView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 3.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: emailTextfieldView.trailingAnchor, multiplier: 3.0)])
+		emailTextField.translatesAutoresizingMaskIntoConstraints = false
+		view.addSubview(emailTextField)
+		NSLayoutConstraint.activate([emailTextField.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 10.0),
+		                             emailTextField.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 3.0),
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: emailTextField.trailingAnchor, multiplier: 3.0)])
 		signInButton.addTarget(self, action: #selector(signInButtonTapped(_:)), for: .touchUpInside)
 		view.addSubview(signInButton)
 		NSLayoutConstraint.activate([signInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: signInButton.bottomAnchor, multiplier: 10.0)])
+
+		if authorizationFlowType == .signIn {
+			emailTextField.text = Keychain.emailForLink
+		}
 	}
 
 	let messageLabel: UILabel = {
@@ -54,7 +58,7 @@ class EmailAuthorizationViewController: BaseViewController {
 		return label
 	}()
 
-	let emailTextfieldView: TitledTextField = {
+	let emailTextField: TitledTextField = {
 		let view = TitledTextField(frame: .zero)
 		view.textfield.keyboardType = .emailAddress
 		view.textfield.autocapitalizationType = .none
@@ -98,8 +102,8 @@ class EmailAuthorizationViewController: BaseViewController {
 	}()
 
 	@IBAction func signInButtonTapped(_ sender: Any) {
-		guard let email = emailTextfieldView.text, !email.isEmpty, email.isValidEmail() else {
-			alertAction?(Str.invalidEmail, Str.enterEmail, emailTextfieldView)
+		guard let email = emailTextField.text, !email.isEmpty, email.isValidEmail() else {
+			alertAction?(Str.invalidEmail, Str.enterEmail, emailTextField)
 			return
 		}
 		authorizeWithEmail?(email, authorizationFlowType)
