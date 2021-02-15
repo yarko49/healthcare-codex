@@ -1,0 +1,493 @@
+/* Login screen */
+"EMAIL" = "Email";
+
+"PASSWORD" = "Password";
+
+"CONFIRM_PASSWORD" = "Confirm password";
+
+"REGISTER" = "Register";
+
+"LOG_IN_CTA" = "Already have an account? Log in";
+
+"REGISTER_CTA" = "Register";
+
+"HOME" = "Home";
+
+"HELLO" = "Hello";
+
+"HELLO_NAME" = "Hello, %@";
+
+/* Close */
+"CLOSE" = "Close";
+
+/* Cancel */
+"CANCEL" = "Cancel";
+
+"SIGN_IN_WITH_GOOGLE" = "Sign in with Google";
+
+"SIGN_IN_WITH_APPLE" = "Sign in with Apple";
+
+"SIGN_IN_WITH_YOUR_EMAIL" = "Sign in with your email";
+
+"SIGN_UP_WITH_GOOGLE" = "Sign up with Google";
+
+"SIGN_UP_WITH_APPLE" = "Sign up with Apple";
+
+"SIGN_UP_WITH_YOUR_EMAIL" = "Sign up with your email";
+
+"FORGOT_PASSWORD" = "Forgot password?";
+
+"SIGN_IN" = "SIGN IN";
+
+"SIGN_UP" = "Sign up";
+
+"SIGN_IN_MODAL" = "Sign in";
+
+"SAVE" = "SAVE";
+
+"WELCOME_BACK" = "Welcome Back";
+
+"FACE_ID" = "FaceID";
+
+"TOUCH_ID" = "TouchID";
+
+"BIOMETRICS_QUESTION_MESSAGE" = "Would you like to use %@ to automatically sign in next time?";
+
+"AUTHENTICATE_WITH_TOUCH_ID" = "With Touch ID you will be able to sign in securely and automatically.";
+
+"WE_WILL_EMAIL_YOU_A_LINK_TO_RESET_YOUR_PASSWORD" = "We will email you a link to \n reset your password";
+
+"BY_REGISTERING_I_ACCEPT_THE_TERMS_OF_SERVICES_AND_PRIVACY_POLICY" = "By registering, I accept the Terms \n of Services and Privacy Policy";
+
+"SIGN_UP_FOR_ALFRED_WITH_YOUR_EMAIL" = "Sign up for Allie with your email";
+
+"NO" = "NO";
+
+"ENABLE_AUTOMATIC_SIGN_IN" = "Enable automatic sign in";
+
+"SEND_LINK" = "Send Link";
+
+"EMAIL_SENT" = "Email Sent";
+
+"CHECK_MAIL" = "Check your email";
+
+"SENT_EMAIL_AT_SIGN_IN" = "We just sent an email to you at %@. Click the link, and you’ll be automatically signed in.";
+
+"SENT_EMAIL_AT_SIGN_UP" = "We just sent an email to you at %@. Click the link, and you’ll be automatically signed up.";
+
+"OPEN_MAIL_APP" = "Open mail app";
+
+"WELCOME" = "Welcome";
+
+"SUCCESSFUL_SIGN_UP" = "Successful Sign up!";
+
+"SUCCESSFUL_SIGN_IN" = "Successful Sign in!";
+
+"CONTINUE_PROFILE" = "Continue to create your profile";
+
+/* Onboarding */
+"SLIDE_1_TITLE" = "Allie";
+
+"SLIDE_1_DESC" = "Your Personal Health Assistant";
+
+"SLIDE_2_TITLE" = "Daily Data for a Healthier You";
+
+"SLIDE_2_DESC" = "Track your weight, steps, BP and heart rate daily";
+
+"SLIDE_3_TITLE" = "A Better Health Partnership";
+
+"SLIDE_3_DESC" = "Facilitates collaboration with your doctor";
+
+/* Already have an Account? */
+"ALREADY_HAVE_ACCOUNT" = "Already have an Account?";
+
+"LOG_IN" = "Log in";
+
+"MY_PROFILE" = "My Profile";
+
+"GENDER_IDENTITY" = "Gender Identity";
+
+"SEX" = "Sex";
+
+"MALE" = "Male";
+
+"FEMALE" = "Female";
+
+"TRANS" = "Trans";
+
+/* CIS */
+"CIS" = "CIS";
+
+"NEXT" = "Next";
+
+"THIS_INFORMATION_HELPS_US_PROVIDE_CUSTOM_RECOMMENDATIONS" = "This information helps us provide \n custom recommendations.";
+
+"DATE_OF_BIRTH" = "Date of birth";
+
+"HEIGHT" = "Height";
+
+"FAILED_TO_CONFIRM_EMAIL" = "Failed to confirm email";
+
+"INVALID_TEXT" = "Invalid text";
+
+"TEXT_SHOULD_NOT_CONTAIN_SPECIAL_CHARACTERS_OR_NUMBERS" = "Text should neither be empty nor contain special characters or numbers";
+
+"SIGN_UP_FAILED" = "Sign up failed.";
+
+"FAILED_SEND_LINK" = "Failed to send a link.";
+
+"INVALID_OPTION" = "Invalid option";
+
+"PLEASE_SELECT_GENDER" = "Please select gender";
+
+"FIELDS_CANNOT_BE_EMPTY" = "Fields cannot be empty";
+
+"INVALID_INPUT" = "invalid input";
+
+"SELECT_DEVICES" = "Select your smart Devices";
+
+"SELECT_DEVICES_MESSAGE" = "This allows Allie to collect your daily health data automatically,making it easy to track your health and provide the best care for you. We will always keep your data private and secure.";
+
+"IMPORT_DATA" = "Activate Apple Health to import & export data that can help you track your healthier you.";
+
+"IMPORT_DATA_MESSAGE" = "This will allow Allie to compare different measurements to give you the right type of assistance.";
+
+"SYNCED" = "We are all setup!! Allie is now in sync with Health!";
+
+/* Done */
+"DONE" = "Done";
+
+"IMPORTING_HEALTH_DATA" = "We’re importing your Health data.";
+
+"JUST_A_SEC" = "Just a sec...";
+
+"UPLOAD_HEALTH_DATA_FAILED" = "Some Apple Health data failed to be uploaded.";
+
+"IMPORT_HEALTH_DATA_FAILED" = "Some Apple Health data failed to be imported.";
+
+/* Sign in */
+"IF_YOUR_ACCOUNT_IS_ASSOCIATED_WITH_THIS_EMAIL_ADDRESS_YOU_WILL_RECEIVE_AN_EMAIL_TO_RESET_YOUR_PASSWORD_IF_YOU_DON'T_PLEASE_TRY_ANOTHER_EMAIL_ADDRESS" = "if your account is associated with this \n email address you will receive an email \n to reset your pasword. If you don't, \n please try another email address";
+
+"INVALID_EMAIL_ADDRESS" = "Invalid email address";
+
+"INVALID_PASSWORD" = "Invalid Password";
+
+"PLEASE_ENTER_EMAIL_ADDRESS" = "Please enter email address";
+
+"PLEASE_ENTER_PASSWORD" = "Please enter password";
+
+/* OK */
+"OK" = "OK";
+
+"BACK_TO_SIGN_IN" = "Back to Sign in";
+
+"SIGN_IN_FAILED" = "Sign in failed..";
+
+/* Reset Password */
+"FAILED_TO_SEND_VERIFICATION_EMAIL_THE_ACCOUNT_MAY_HAVE_BEEN_DELETED_OR_DOES_NOT_EXIST" = "Failed to send verification email, the account may have been deleted or does not exist.";
+
+"ERROR" = "Error";
+
+/* Profile stats */
+"TODAY" = "Today";
+
+/* Wk */
+"WK" = "Wk";
+
+"MO" = "Mo";
+
+/* Yr */
+"YR" = "Yr";
+
+"HIGH" = "High";
+
+"DAILY_AVERAGE" = "Daily Average";
+
+"MONTHLY_AVERAGE" = "Monthly Average";
+
+"WEEKLY_AVERAGE" = "Weekly Average";
+
+/* Yearly Average */
+"YEARLY_AVERAGE" = "Yearly Average";
+
+"EDIT" = "EDIT";
+
+"PROFILE" = "Profile";
+
+"HEALTHY" = "Healthy";
+
+"HEAVY" = "Heavy";
+
+"OBESE" = "Obese";
+
+"LIGHT" = "Light";
+
+"MODERATE" = "Moderate";
+
+"VIGOROUS" = "Vigorous";
+
+"NORMAL" = "Normal";
+
+"LOW" = "Low";
+
+"ELEVATED" = "Elevated";
+
+"HYPERTENSION_(STAGE_1)" = "Hypertension (Stage 1)";
+
+"HYPERTENSION_(STAGE_2)" = "Hypertension (Stage 2)";
+
+"HYPERTENSIVE_CRISIS" = "Hypertensive crisis";
+
+"WEIGHT" = "Weight";
+
+/* Activity */
+"ACTIVITY" = "Activity";
+
+"BLOOD_PRESSURE" = "Blood Pressure";
+
+"RESTING_HEART_RATE" = "Resting Heart Rate";
+
+"HEART_RATE" = "Heart Rate";
+
+/* years */
+"YEARS" = "years";
+
+/* Now */
+"NOW" = "Now";
+
+/* Yesterday */
+"YESTERDAY" = "Yesterday";
+
+"GET_MORE_INFORMATION" = "Get more information";
+
+"SYS_DIA" = "Sys: %d   Dia: %d";
+
+"LBS_DEC" = "%d.%d lbs";
+
+"LBS" = "%d lbs";
+
+"GOAL_WEIGHT" = "Goal Weight";
+
+"DEFAULT_TIME" = "12:00 AM";
+
+"DEFAULT_DATE" = "January 1, 1970";
+
+"DEFAULT_WEIGHT" = "150 lb";
+
+"DEFAULT_HEIGHT" = "5 ft 6";
+
+/* Date */
+"DATE" = "Date";
+
+/* Time */
+"TIME" = "Time";
+
+"LB" = "lb";
+
+/* Sys */
+"SYS" = "Sys";
+
+/* Dia */
+"DIA" = "Dia";
+
+/* Add */
+"ADD" = "Add";
+
+"FEET" = "ft";
+
+"INCHES" = "in";
+
+"COMPLETE_SURVEY" = "Complete Survey";
+
+/* lbs */
+"WEIGHT_UNIT" = "lbs";
+
+"HEIGHT_UNIT" = "feet";
+
+"PRESSURE_UNIT" = "mmHg";
+
+"ENTER_BP" = "Enter BP";
+
+"ENTER_WEIGHT" = "Enter Weight";
+
+/* Settings */
+"SETTINGS" = "Settings";
+
+"LOG_OUT" = "Log out";
+
+/* Account Details */
+"ACCOUNT_DETAILS" = "Account Details";
+
+"DEVICES" = "Devices";
+
+"NOTIFICATIONS" = "Notifications";
+
+"SYSTEM_AUTHORIZATION" = "System Authorization";
+
+"FEEDBACK" = "Feedback";
+
+"PRIVACY_POLICY" = "Privacy Policy";
+
+"TERMS_OF_SERVICE" = "Terms of Service";
+
+"VERSION" = "Version %@";
+
+"FIRST_NAME" = "First Name";
+
+"LAST_NAME" = "Last Name";
+
+"EMAIL_ADDRESS" = "Email Address";
+
+"RESET_PASSWORD" = "Reset Password";
+
+"SEND" = "Send";
+
+"RESET_PASSWORD_DESC" = "We will email you a link to reset your password";
+
+"RESET_PASSWORD_RESPONSE" = "If your account is associated with this email address you will receive an email to reset your password. If you don’t, please try another email address.";
+
+"NOT_NOW" = "Not now";
+
+/* Activate */
+"ACTIVATE" = "Activate";
+
+/* My Devices */
+"SMART_SCALE" = "Smart scale";
+
+"SMART_BLOCK_PRESSURE_CUFF" = "Smart blood pressure meter";
+
+"SMART_PEDOMETER" = "Smart pedometer/tracker (no HR)";
+
+"SMART_WATCH" = "Smart watch/tracker (with HR)";
+
+/* My Notifications */
+"MY_NOTIFICATIONS" = "My Notifications";
+
+/* Activity Push Notifications */
+"ACTIVITY_PUSH_NOTIFICATIONS" = "Activity Push Notifications";
+
+"BLOOD_PRESSURE_PUSH_NOTIFICATIONS" = "Blood Pressure Push Notifications";
+
+"WEIGHT_IN_PUSH_NOTIFICATIONS" = "Weight in Push Notifications";
+
+"SURVEY_PUSH_NOTIFICATIONS" = "Survey Push Notifications";
+
+/* Questionnaire */
+"OF_PARTS" = "%d of %d parts";
+
+"QUESTION" = "Question %d";
+
+"PREVIOUS" = "Previous";
+
+"SUBMIT" = "Submit";
+
+"THANK_YOU" = "Thank You!";
+
+"SURVEY_SUBMIT" = "Your survey has been submitted!";
+
+/* My profile */
+"CREATE_PATIENT_FAILED" = "Failed to create patient record";
+
+"CREATE_PROFILE_FAILED" = "Failed to create patient profile";
+
+"CREATE_BUNDLE_FAILED" = "Weight/Height submission failed.";
+
+/* Profile Stats */
+"NO_HEALTH_DATA_FOUND_TODAY" = "No measurements found for today";
+
+"NO_HEALTH_DATA_FOUND_RANGE" = "No measurements found for this date range";
+
+"BLOOD_PRESSURE_ELEVATED" = "Elevated";
+
+"BLOOD_PRESSURE_HIGH" = "Hypertension stage 1";
+
+"BLOOD_PRESSURE_HIGH_2" = "Hypertension stage 2";
+
+"BLOOD_PRESSURE_CRISIS" = "Hypertensive crisis";
+
+"BELOW_NORMAL" = "Below normal";
+
+"ON_TRACK" = "On track";
+
+"NOT_NORMAL" = "Not normal";
+
+"WEEKLY_AVG" = "Weekly average";
+
+"MONTHLY_AVG" = "Monthly average";
+
+/* Yearly average */
+"YEARLY_AVG" = "Yearly average";
+
+"WEEK_TOTAL" = "Week total";
+
+"MONTH_TOTAL" = "Month total";
+
+/* Year total */
+"YEAR_TOTAL" = "Year total";
+
+/* Feedback */
+"FEEDBACK_SUBJECT" = "Feedback";
+
+/* Please setup default email! */
+"NO_EMAIL_SETUP.message" = "Please setup email on this device.";
+
+/* Email Setup */
+"NO_EMAIL_SETUP.title" = "Email Setup";
+
+/* Tasks */
+"TASKS" = "Tasks";
+
+/* Loading... */
+"LOADING_DOTS" = "Loading...";
+
+"EVENTS_REMAINING" = "Events Remaining";
+
+"NO_DATA" = "No Data";
+
+"LOG" = "Log";
+
+/* Address */
+"ADDRESS" = "Address";
+
+/* AppStore */
+"APPSTORE" = "AppStore";
+
+/* Call */
+"CALL" = "Call";
+
+/* Getting Care Plan... */
+"GETTING_CARE_PLAN" = "Getting your care plan...";
+
+/* Links */
+"LINKS" = "Links";
+
+/* Message */
+"MESSAGE" = "Message";
+
+/* URL */
+"URL" = "URL";
+
+/* Website */
+"WEBSITE" = "Website";
+
+/* Anytime */
+"ANYTIME" = "Anytime";
+
+/* Double top record event */
+"DOUBLE_TAP_TO_RECORD_EVENT" = "Double tap to record event";
+
+/* Completed */
+"COMPLETED" = "Completed";
+
+/* Incomplete */
+"INCOMPLETE" = "Incomplete";
+
+/* Authorizing... */
+"AUTHORIZING" = "Authorizing...";
+
+/* Support */
+"SUPPORT" = "Support";
+
+/* Troubleshoot */
+"TROUBLESHOOT" = "Troubleshoot";
+

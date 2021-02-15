@@ -1,4 +1,4 @@
-# foresight-alfred-ios
+# foresight-allie-ios
 
 ### Dependencies
 
@@ -20,7 +20,7 @@ The application leverages an `Environment.xcconfig`  file to configure relevant 
 
 ### Compile 
 
-1. Open Alfred.xcworkspace file using Xcode
+1. Open Allie.xcworkspace file using Xcode
 2. Compile and Run on desired simulator ( iOS version 12.0 and above)
 
 ### Architecture 
