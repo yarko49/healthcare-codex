@@ -1,8 +1,9 @@
+import AnswerBotSDK
 import ChatSDK
 import FirebaseAuth
 import MessageUI
-import MessagingAPI
 import MessagingSDK
+import SafariServices
 import SDKConfigurations
 import SupportSDK
 import UIKit
@@ -162,8 +163,12 @@ class SettingsCoordinator: NSObject, Coordinator {
 	}
 
 	internal func showHelpCenter() {
-		let helpCenter = HelpCenterUi.buildHelpCenterOverviewUi(withConfigs: [])
-		navigate(to: helpCenter, with: .push)
+		guard let url = URL(string: "https://codexhealth.zendesk.com/hc/en-us") else {
+			return
+		}
+		let safarViewController = SFSafariViewController(url: url)
+		safarViewController.delegate = self
+		navigate(to: safarViewController, with: .push)
 	}
 
 	internal func showSupport() {
@@ -171,8 +176,8 @@ class SettingsCoordinator: NSObject, Coordinator {
 			let messagingConfiguration = MessagingConfiguration()
 			let supportEngine = try SupportEngine.engine()
 			let chatEngine = try ChatEngine.engine()
-			// let answerBotEngine = try AnswerBotEngine.engine()
-			let viewController = try Messaging.instance.buildUI(engines: [supportEngine, chatEngine], configs: [messagingConfiguration])
+			let answerBotEngine = try AnswerBotEngine.engine()
+			let viewController = try Messaging.instance.buildUI(engines: [supportEngine, chatEngine, answerBotEngine], configs: [messagingConfiguration])
 			navigate(to: viewController, with: .push)
 		} catch {
 			ALog.error("Unable to show support", error: error)
@@ -248,3 +253,5 @@ extension SettingsCoordinator: UIAdaptivePresentationControllerDelegate {
 		stop()
 	}
 }
+
+extension SettingsCoordinator: SFSafariViewControllerDelegate {}

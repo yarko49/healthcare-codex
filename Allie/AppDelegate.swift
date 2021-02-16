@@ -1,3 +1,4 @@
+import AnswerBotProvidersSDK
 import ChatProvidersSDK
 import Firebase
 import FirebaseAuth
@@ -62,10 +63,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		Zendesk.initialize(appId: AppConfig.zendeskAppId, clientId: AppConfig.zendeskClientId, zendeskUrl: AppConfig.zendeskURL)
 		Support.initialize(withZendesk: Zendesk.instance)
 		Chat.initialize(accountKey: AppConfig.zendeskChatAccountKey, appId: AppConfig.zendeskChatAppId)
-		// AnswerBot.initialize(withZendesk: Zendesk.instance, support: Support.instance!)
-		let identity = Identity.createAnonymous()
-		Zendesk.instance?.setIdentity(identity)
-		ALog.info("Zendesk Initialized")
+		AnswerBot.initialize(withZendesk: Zendesk.instance, support: Support.instance!)
+        ALog.info("Zendesk Initialized")
 	}
 
 	static func configureChat(name: String, email: String, phoneNumber: String?) {
