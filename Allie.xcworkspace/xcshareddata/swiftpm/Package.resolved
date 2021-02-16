@@ -11,6 +11,24 @@
         }
       },
       {
+        "package": "ZendeskAnswerBotProvidersSDK",
+        "repositoryURL": "https://github.com/zendesk/answer_bot_providers_sdk_ios",
+        "state": {
+          "branch": null,
+          "revision": "c7ea7c67fd88e7b0106d72212825eb366b33d03d",
+          "version": "2.1.2"
+        }
+      },
+      {
+        "package": "ZendeskAnswerBotSDK",
+        "repositoryURL": "https://github.com/zendesk/answer_bot_sdk_ios",
+        "state": {
+          "branch": null,
+          "revision": "7cb94523976884a3fae8be27fe7407d8ccaaa828",
+          "version": "2.1.2"
+        }
+      },
+      {
         "package": "BonMot",
         "repositoryURL": "https://github.com/Rightpoint/BonMot.git",
         "state": {

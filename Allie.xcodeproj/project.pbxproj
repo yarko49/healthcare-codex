@@ -178,6 +178,7 @@
 		844767EF259C2A4E00C50C09 /* APIClient+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476721259C2A4E00C50C09 /* APIClient+Image.swift */; };
 		844767F0259C2A4E00C50C09 /* UINavigationBar+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476723259C2A4E00C50C09 /* UINavigationBar+Appearance.swift */; };
 		844767F1259C2A4E00C50C09 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476724259C2A4E00C50C09 /* AppConfig.swift */; };
+		84491C4125DB907200AB8C09 /* ZendeskAnswerBotSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84491C4025DB907200AB8C09 /* ZendeskAnswerBotSDK */; };
 		844F06DF25C113B500D26119 /* UserDefaults+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F06DE25C113B500D26119 /* UserDefaults+Settings.swift */; };
 		844F06EA25C122DA00D26119 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F06E925C122DA00D26119 /* Bundle+Version.swift */; };
 		844F06EF25C1236000D26119 /* Profile+DataContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F06EE25C1236000D26119 /* Profile+DataContext.swift */; };
@@ -566,6 +567,7 @@
 				84FE81EB25D8E45A00D156C1 /* FirebaseAnalytics in Frameworks */,
 				84FE81EF25D8E45A00D156C1 /* FirebaseMessaging in Frameworks */,
 				84700A84259C331B0083E2AA /* Charts in Frameworks */,
+				84491C4125DB907200AB8C09 /* ZendeskAnswerBotSDK in Frameworks */,
 				845AAC77259C374500FF8F3F /* BonMot in Frameworks */,
 				84FE81F325D8E45A00D156C1 /* FirebaseDynamicLinks in Frameworks */,
 				845AAC5D259C358D00FF8F3F /* CareKitStore in Frameworks */,
@@ -1443,6 +1445,7 @@
 				84FE81F025D8E45A00D156C1 /* FirebaseAuth */,
 				84FE81F225D8E45A00D156C1 /* FirebaseDynamicLinks */,
 				84FE81F425D8E45A00D156C1 /* FirebaseRemoteConfig */,
+				84491C4025DB907200AB8C09 /* ZendeskAnswerBotSDK */,
 			);
 			productName = Alfred;
 			productReference = 842398C7259C1144006FB3F4 /* Allie.app */;
@@ -1531,6 +1534,7 @@
 				842DFD0C25BBF78100066A07 /* XCRemoteSwiftPackageReference "support_sdk_ios" */,
 				8487BBC625BE8249007A0D3A /* XCRemoteSwiftPackageReference "chat_sdk_ios" */,
 				84FE81E925D8E45A00D156C1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				84491C3F25DB907000AB8C09 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */,
 			);
 			productRefGroup = 842398C8259C1144006FB3F4 /* Products */;
 			projectDirPath = "";
@@ -2618,6 +2622,14 @@
 				minimumVersion = 5.2.0;
 			};
 		};
+		84491C3F25DB907000AB8C09 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/zendesk/answer_bot_sdk_ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.2;
+			};
+		};
 		845AAC57259C358D00FF8F3F /* XCRemoteSwiftPackageReference "CareKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/carekit-apple/CareKit.git";
@@ -2705,6 +2717,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 842DFD0C25BBF78100066A07 /* XCRemoteSwiftPackageReference "support_sdk_ios" */;
 			productName = ZendeskSupportSDK;
+		};
+		84491C4025DB907200AB8C09 /* ZendeskAnswerBotSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84491C3F25DB907000AB8C09 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */;
+			productName = ZendeskAnswerBotSDK;
 		};
 		845AAC58259C358D00FF8F3F /* CareKitFHIR */ = {
 			isa = XCSwiftPackageProductDependency;
