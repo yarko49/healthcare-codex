@@ -209,7 +209,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
 					innergroup.enter()
 
-					HealthKitManager.shared.getMostRecentEntry(identifier: identifier) { sample in
+					HealthKitManager.shared.queryMostRecentEntry(identifier: identifier) { sample in
 						if let quantitySample = sample as? HKQuantitySample {
 							values.append(quantitySample)
 						}
@@ -223,7 +223,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				}
 			} else {
 				topGroup.enter()
-				HealthKitManager.shared.getTodaySteps { (statistics) -> Void in
+				HealthKitManager.shared.queryTodaySteps { (statistics) -> Void in
 					if let statistics = statistics {
 						todayData[quantityType] = [statistics]
 					}
@@ -246,7 +246,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 				var values: [StatModel] = []
 				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
 					innergroup.enter()
-					HealthKitManager.shared.getData(identifier: identifier, startDate: start, endDate: end, intervalType: interval) { dataPoints in
+					HealthKitManager.shared.queryData(identifier: identifier, startDate: start, endDate: end, intervalType: interval) { dataPoints in
 						let stat = StatModel(type: quantityType, dataPoints: dataPoints)
 						values.append(stat)
 						innergroup.leave()

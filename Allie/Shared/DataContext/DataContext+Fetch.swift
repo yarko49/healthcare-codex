@@ -36,7 +36,7 @@ extension DataContext {
 						self?.weightGoal = weight.goal ?? 0.0
 					}
 					if let bloodPressure = healthMeasurements.bloodPressure {
-						self?.hasSmartBlockPressureCuff = (bloodPressure.available ?? false)
+						self?.hasSmartBloodPressureCuff = (bloodPressure.available ?? false)
 						self?.bloodPressurePushNotificationsIsOn = bloodPressure.notificationsEnabled ?? false
 						self?.bpGoal = bloodPressure.goal ?? 0.0
 					}

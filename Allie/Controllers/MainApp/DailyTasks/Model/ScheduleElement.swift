@@ -5,9 +5,10 @@
 //  Created by Waqar Malik on 12/6/20.
 //
 
+import CareKitStore
 import Foundation
 
-public struct ScheduleElement: Codable, Hashable {
+public struct ScheduleElement: Codable {
 	public var start: Date
 	public var end: Date?
 	public var weekly: Bool
@@ -15,7 +16,7 @@ public struct ScheduleElement: Codable, Hashable {
 	public var interval: TimeInterval // Seconds
 	public var custom: Bool
 	public var text: String?
-	public var targetValues: [OutcomeValue]?
+	public var targetValues: [OCKOutcomeValue]?
 	public var duration: TimeInterval // Seconds
 	public var hour: Int
 	public var minutes: Int
@@ -46,10 +47,31 @@ public struct ScheduleElement: Codable, Hashable {
 		self.interval = try container.decodeIfPresent(TimeInterval.self, forKey: .duration) ?? .zero
 		self.custom = try container.decodeIfPresent(Bool.self, forKey: .custom) ?? false
 		self.text = try container.decodeIfPresent(String.self, forKey: .text)
-		self.targetValues = try container.decodeIfPresent([OutcomeValue].self, forKey: .targetValues)
+		self.targetValues = try container.decodeIfPresent([OutcomeValue].self, forKey: .targetValues)?.map { (value) -> OCKOutcomeValue in
+			OCKOutcomeValue(outcomeValue: value)
+		}
 		self.duration = try container.decodeIfPresent(TimeInterval.self, forKey: .duration) ?? .zero
 		self.hour = try container.decodeIfPresent(Int.self, forKey: .hour) ?? .zero
 		self.minutes = try container.decodeIfPresent(Int.self, forKey: .minutes) ?? .zero
 		self.weekday = try container.decodeIfPresent(Int.self, forKey: .weekday) ?? .zero
+	}
+
+	public func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encode(start, forKey: .start)
+		try container.encodeIfPresent(end, forKey: .end)
+		try container.encode(weekly, forKey: .weekly)
+		try container.encode(daily, forKey: .daily)
+		try container.encode(interval, forKey: .interval)
+		try container.encode(custom, forKey: .custom)
+		try container.encodeIfPresent(text, forKey: .text)
+		try container.encode(duration, forKey: .duration)
+		try container.encode(hour, forKey: .hour)
+		try container.encode(minutes, forKey: .minutes)
+		try container.encode(weekday, forKey: .weekday)
+		let values = targetValues?.map { (outcome) -> OutcomeValue in
+			OutcomeValue(ockOutcomeValue: outcome)
+		}
+		try container.encodeIfPresent(values, forKey: .targetValues)
 	}
 }

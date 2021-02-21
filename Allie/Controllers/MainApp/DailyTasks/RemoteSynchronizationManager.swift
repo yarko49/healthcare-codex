@@ -11,13 +11,12 @@ import Foundation
 public final class RemoteSynchronizationManager: OCKRemoteSynchronizable {
 	public weak var delegate: OCKRemoteSynchronizationDelegate?
 	public var automaticallySynchronizes: Bool
-	public var mergeConflictResolutionPolicy: OCKMergeConflictResolutionPolicy = .keepRemote
 
 	public init(automaticallySynchronizes: Bool = true) {
 		self.automaticallySynchronizes = automaticallySynchronizes
 	}
 
-	public func pullRevisions(since knowledgeVector: OCKRevisionRecord.KnowledgeVector, mergeRevision: @escaping (OCKRevisionRecord, @escaping (Error?) -> Void) -> Void, completion: @escaping (Error?) -> Void) {
+	public func pullRevisions(since knowledgeVector: OCKRevisionRecord.KnowledgeVector, mergeRevision: @escaping (OCKRevisionRecord) -> Void, completion: @escaping (Error?) -> Void) {
 		APIClient.client.getCarePlan { result in
 			switch result {
 			case .failure(let error):
@@ -26,9 +25,7 @@ public final class RemoteSynchronizationManager: OCKRemoteSynchronizable {
 				let vectorClock = carePlanResponses.vectorClock
 				guard let backendRevision = vectorClock["backend"] else {
 					let revision = OCKRevisionRecord(entities: [], knowledgeVector: .init())
-					mergeRevision(revision) { error in
-						completion(error)
-					}
+					mergeRevision(revision)
 					return
 				}
 				ALog.info("\(knowledgeVector), backend revision \(backendRevision)")
@@ -37,12 +34,12 @@ public final class RemoteSynchronizationManager: OCKRemoteSynchronizable {
 		}
 	}
 
-	public func pushRevisions(deviceRevision: OCKRevisionRecord, overwriteRemote: Bool, completion: @escaping (Error?) -> Void) {
-		ALog.info("pushRevisions: Device Revision: \(deviceRevision), overwrite Remote: \(overwriteRemote)")
+	public func pushRevisions(deviceRevision: OCKRevisionRecord, completion: @escaping (Error?) -> Void) {
+		ALog.info("pushRevisions: Device Revision: \(deviceRevision)")
 		completion(nil)
 	}
 
-	public func chooseConflictResolutionPolicy(_ conflict: OCKMergeConflictDescription, completion: @escaping (OCKMergeConflictResolutionPolicy) -> Void) {
-		completion(mergeConflictResolutionPolicy)
+	public func chooseConflictResolution(conflicts: [OCKEntity], completion: @escaping OCKResultClosure<OCKEntity>) {
+		completion(.failure(.remoteSynchronizationFailed(reason: "Missing data")))
 	}
 }

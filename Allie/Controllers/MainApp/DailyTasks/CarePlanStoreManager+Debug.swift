@@ -11,7 +11,7 @@ import Foundation
 extension CarePlanStoreManager {
 	class var sampleResponse: CarePlanResponse {
 		carePlanResponse(contentsOf: "DefaultDiabetesCarePlan", withExtension: "json") ??
-			CarePlanResponse(carePlans: [:], tasks: [:], vectorClock: [:])
+			CarePlanResponse(carePlans: [], tasks: [:], vectorClock: [:])
 	}
 
 	class var samplePatient: OCKPatient {

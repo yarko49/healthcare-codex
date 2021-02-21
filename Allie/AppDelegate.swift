@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		Support.initialize(withZendesk: Zendesk.instance)
 		Chat.initialize(accountKey: AppConfig.zendeskChatAccountKey, appId: AppConfig.zendeskChatAppId)
 		AnswerBot.initialize(withZendesk: Zendesk.instance, support: Support.instance!)
-        ALog.info("Zendesk Initialized")
+		ALog.info("Zendesk Initialized")
 	}
 
 	static func configureChat(name: String, email: String, phoneNumber: String?) {

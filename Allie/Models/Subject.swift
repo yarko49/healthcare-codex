@@ -8,7 +8,8 @@ import Foundation
 // MARK: - Subject
 
 struct Subject: Codable {
-	let reference, type: String?
+	let reference: String?
+	let type: String?
 	let identifier: Identifier?
 	let display: String?
 }
@@ -19,7 +20,8 @@ struct Identifier: Codable {
 	let assigner: Assigner?
 	let use: String?
 	let type: TypeClass?
-	let system, value: String?
+	let system: String?
+	let value: String?
 }
 
 // MARK: - TypeClass

@@ -23,9 +23,7 @@ extension OCKHealthKitTask {
 		self.source = task.source
 		self.userInfo = task.userInfo
 		self.asset = task.asset
-		self.notes = task.notes?.values.map { (note) -> OCKNote in
-			OCKNote(note: note)
-		}
+		// self.notes = task.notes?.values
 		self.timezone = task.timezone
 		if let carePlanId = task.carePlanId {
 			var metaData = userInfo ?? [:]

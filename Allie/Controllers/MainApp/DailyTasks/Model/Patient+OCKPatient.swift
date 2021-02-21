@@ -21,9 +21,7 @@ extension OCKPatient {
 		self.source = patient.source
 		self.userInfo = patient.userInfo
 		self.asset = patient.asset
-		self.notes = patient.notes?.compactMap { (note) -> OCKNote? in
-			OCKNote(note: note)
-		}
+		self.notes = patient.notes
 		self.timezone = patient.timezone
 	}
 
@@ -57,9 +55,7 @@ extension Patient {
 		self.source = ockPatient.source
 		self.userInfo = ockPatient.userInfo
 		self.asset = ockPatient.asset
-		self.notes = ockPatient.notes?.compactMap { (ockNote) -> Note? in
-			Note(ockNote: ockNote)
-		}
+		self.notes = ockPatient.notes
 		self.timezone = ockPatient.timezone
 	}
 }

@@ -14,7 +14,7 @@ extension Profile {
 		let lastSyncTime = Date().byRemovingFractionalSeconds ?? Date()
 		let dateNow = DateFormatter.wholeDateRequest.string(from: lastSyncTime)
 
-		let bloodPressure = HealthMeasurements.Measuremement(notificationsEnabled: dataContext.bloodPressurePushNotificationsIsOn, available: dataContext.hasSmartBlockPressureCuff, goal: 0.0)
+		let bloodPressure = HealthMeasurements.Measuremement(notificationsEnabled: dataContext.bloodPressurePushNotificationsIsOn, available: dataContext.hasSmartBloodPressureCuff, goal: 0.0)
 		let heartRate = HealthMeasurements.Measuremement(notificationsEnabled: dataContext.surveyPushNotificationsIsOn, available: dataContext.hasSmartWatch, goal: 0.0)
 		let restingHR = HealthMeasurements.Measuremement(notificationsEnabled: dataContext.surveyPushNotificationsIsOn, available: dataContext.hasSmartWatch, goal: 0.0)
 		let steps = HealthMeasurements.Measuremement(notificationsEnabled: dataContext.activityPushNotificationsIsOn, available: dataContext.hasSmartPedometer || dataContext.hasSmartWatch, goal: 0.0)

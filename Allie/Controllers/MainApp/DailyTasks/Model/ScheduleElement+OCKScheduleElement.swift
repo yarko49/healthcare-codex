@@ -29,15 +29,11 @@ extension ScheduleElement {
 		self.interval = 0
 		self.weekly = false
 		self.custom = false
-		self.targetValues = ockScheduleElement.targetValues.map { (value) -> OutcomeValue in
-			OutcomeValue(ockOutcomeValue: value)
-		}
+		self.targetValues = ockScheduleElement.targetValues
 	}
 
 	var ockOutcomeValues: [OCKOutcomeValue] {
-		targetValues?.map { (value) -> OCKOutcomeValue in
-			OCKOutcomeValue(outcomeValue: value)
-		} ?? []
+		targetValues ?? []
 	}
 
 	var ockSchduleElement: OCKScheduleElement {

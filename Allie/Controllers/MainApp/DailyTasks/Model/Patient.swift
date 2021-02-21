@@ -10,18 +10,7 @@ import Foundation
 
 public typealias Patients = [String: Patient]
 
-extension OCKBiologicalSex: Hashable {
-	public func hash(into hasher: inout Hasher) {
-		switch self {
-		case .male, .female:
-			hasher.combine(self)
-		case .other(let value):
-			hasher.combine(value)
-		}
-	}
-}
-
-public struct Patient: Codable, Hashable, Identifiable {
+public struct Patient: Codable, Identifiable {
 	public let id: String
 	public var name: PersonNameComponents
 	public var sex: OCKBiologicalSex?
@@ -38,7 +27,7 @@ public struct Patient: Codable, Hashable, Identifiable {
 	public var source: String?
 	public var userInfo: [String: String]?
 	public var asset: String?
-	public var notes: [Note]?
+	public var notes: [OCKNote]?
 	public var timezone: TimeZone
 
 	init(id: String, name: PersonNameComponents) {
@@ -70,7 +59,7 @@ public struct Patient: Codable, Hashable, Identifiable {
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
-		self.notes = try container.decodeIfPresent([Note].self, forKey: .notes)
+		self.notes = try container.decodeIfPresent([OCKNote].self, forKey: .notes)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
 	}
 

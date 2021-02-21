@@ -21,13 +21,6 @@ extension CarePlan {
 		self.tags = ockCarePlan.tags
 		self.source = ockCarePlan.source
 		self.userInfo = ockCarePlan.userInfo
-		self.notes = ockCarePlan.notes?.reduce(into: [:]) { result, ockNote in
-			let note = Note(ockNote: ockNote)
-			if let id = note.id {
-				result?[id] = note
-			}
-		}
-		self.tasks = nil
 	}
 }
 
@@ -41,8 +34,5 @@ extension OCKCarePlan {
 		self.userInfo = carePlan.userInfo
 		self.remoteID = carePlan.remoteId
 		self.asset = carePlan.asset
-		self.notes = carePlan.notes?.values.map { (note) -> OCKNote in
-			OCKNote(note: note)
-		}
 	}
 }

@@ -51,7 +51,7 @@
         "repositoryURL": "https://github.com/carekit-apple/CareKit.git",
         "state": {
           "branch": "main",
-          "revision": "4d9200e0b2ad68e6d2c8502f10971200bccf8863",
+          "revision": "0ea1535364bfd96ebfd542bfeee15cf4ff8ae2ec",
           "version": null
         }
       },
@@ -260,15 +260,6 @@
           "branch": null,
           "revision": "77012b126f416c354e905326543313eee8b08321",
           "version": "5.2.0"
-        }
-      },
-      {
-        "package": "FHIR",
-        "repositoryURL": "https://github.com/smart-on-fhir/Swift-FHIR.git",
-        "state": {
-          "branch": null,
-          "revision": "b68fb5d6c8137de4a06894e683dc1a726a832907",
-          "version": "4.2.1"
         }
       },
       {

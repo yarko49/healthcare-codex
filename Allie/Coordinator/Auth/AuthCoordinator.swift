@@ -276,7 +276,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	internal func syncHKData() {
 		let hkDataUploadViewController = HKDataUploadViewController()
 		navigate(to: hkDataUploadViewController, with: .present)
-		SyncManager.shared.syncData(initialUpload: false, chunkSize: chunkSize) { [weak hkDataUploadViewController] uploaded, total in
+		HealthKitSyncManager.syncData(initialUpload: false, chunkSize: chunkSize) { [weak hkDataUploadViewController] uploaded, total in
 			hkDataUploadViewController?.progress = uploaded
 			hkDataUploadViewController?.maxProgress = total
 		} completion: { [weak hkDataUploadViewController, weak self] success in
@@ -391,7 +391,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	internal func startInitialUpload() {
 		let hkDataUploadViewController = HKDataUploadViewController()
 		hkDataUploadViewController.queryAction = { [weak self] in
-			SyncManager.shared.syncData(chunkSize: self?.chunkSize) { uploaded, total in
+			HealthKitSyncManager.syncData(chunkSize: self?.chunkSize) { uploaded, total in
 				hkDataUploadViewController.progress = uploaded
 				hkDataUploadViewController.maxProgress = total
 			} completion: { success in

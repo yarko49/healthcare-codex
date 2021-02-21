@@ -13,128 +13,58 @@ private enum HealthkitError: Error {
 	case dataTypeNotAvailable
 }
 
-enum HealthKitDataType: CustomStringConvertible {
-	case bodyMass
-	case heartRate
-	case restingHeartRate
-	case stepCount
-	case bloodPressure
-
-	var description: String {
-		switch self {
-		case .bodyMass:
-			return "bodyMass"
-		case .heartRate:
-			return "heartRate"
-		case .restingHeartRate:
-			return "restingHeartRate"
-		case .stepCount:
-			return "stepCount"
-		case .bloodPressure:
-			return "bloodPressure"
-		}
-	}
-
-	var unit: HKUnit {
-		switch self {
-		case .bodyMass:
-			return HKUnit.pound()
-		case .heartRate:
-			return HKUnit(from: "count/min")
-		case .restingHeartRate:
-			return HKUnit(from: "count/min")
-		case .stepCount:
-			return HKUnit.count()
-		case .bloodPressure:
-			return HKUnit.millimeterOfMercury()
-		}
-	}
-
-	var code: MedicalCode {
-		switch self {
-		case .bodyMass:
-			return MedicalCode.bodyWeight
-		case .heartRate:
-			return MedicalCode.heartRate
-		case .restingHeartRate:
-			return MedicalCode.restingHeartRate
-		case .stepCount:
-			return MedicalCode.stepsCount
-		case .bloodPressure:
-			return MedicalCode.bloodPressure
-		}
-	}
-
-	var type: [HKQuantityType?] {
-		switch self {
-		case .bodyMass:
-			return [HKObjectType.quantityType(forIdentifier: .bodyMass)]
-		case .heartRate:
-			return [HKObjectType.quantityType(forIdentifier: .heartRate)]
-		case .restingHeartRate:
-			return [HKObjectType.quantityType(forIdentifier: .restingHeartRate)]
-		case .stepCount:
-			return [HKObjectType.quantityType(forIdentifier: .stepCount)]
-		case .bloodPressure:
-			return [HKObjectType.quantityType(forIdentifier: .bloodPressureDiastolic), HKObjectType.quantityType(forIdentifier: .bloodPressureSystolic)]
-		}
-	}
-
-	static let allValues = [bodyMass, heartRate, restingHeartRate, stepCount, bloodPressure]
-}
-
 class HealthKitManager {
 	static let shared = HealthKitManager()
+	private let healthKitStore = HKHealthStore()
 
 	func authorizeHealthKit(completion: @escaping (Bool, Error?) -> Void) {
 		guard HKHealthStore.isHealthDataAvailable() else {
 			completion(false, HealthkitError.notAvailableOnDevice)
 			return
 		}
-		guard let bodyMass = HealthKitDataType.bodyMass.type[0],
-		      let heartRate = HealthKitDataType.heartRate.type[0],
-		      let restingHeartRate = HealthKitDataType.restingHeartRate.type[0],
-		      let bloodPressureDiastolic = HealthKitDataType.bloodPressure.type[0],
-		      let bloodPressureSystolic = HealthKitDataType.bloodPressure.type[1],
-		      let stepCount = HealthKitDataType.stepCount.type[0]
+		guard let bodyMass = HealthKitDataType.bodyMass.quantityType[0],
+		      let heartRate = HealthKitDataType.heartRate.quantityType[0],
+		      let restingHeartRate = HealthKitDataType.restingHeartRate.quantityType[0],
+		      let bloodPressureDiastolic = HealthKitDataType.bloodPressure.quantityType[0],
+		      let bloodPressureSystolic = HealthKitDataType.bloodPressure.quantityType[1],
+		      let stepCount = HealthKitDataType.stepCount.quantityType[0],
+		      let bloodGloucose = HealthKitDataType.bloodGlucose.quantityType[0]
 		else {
 			completion(false, HealthkitError.dataTypeNotAvailable)
 			return
 		}
 
 		let healthKitTypesToWrite: Set<HKSampleType> = []
-
-		let healthKitTypesToRead: Set<HKQuantityType> = [bodyMass, heartRate, restingHeartRate, bloodPressureDiastolic, bloodPressureSystolic, stepCount]
-
-		HKHealthStore().requestAuthorization(toShare: healthKitTypesToWrite, read: healthKitTypesToRead) { success, error in
+		let healthKitTypesToRead: Set<HKQuantityType> = [bodyMass, heartRate, restingHeartRate, bloodPressureDiastolic, bloodPressureSystolic, stepCount, bloodGloucose]
+		healthKitStore.requestAuthorization(toShare: healthKitTypesToWrite, read: healthKitTypesToRead) { success, error in
 			completion(success, error)
 		}
 	}
 
 	// Post Data from Health Kit to BE
-	func getHealthData(initialUpload: Bool, for quantity: HealthKitDataType, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [BundleEntry]) -> Void) {
-		guard let sampleType = quantity.type[0] else { return }
+	func queryHealthData(initialUpload: Bool, for quantity: HealthKitDataType, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [BundleEntry]) -> Void) {
+		guard let sampleType = quantity.quantityType[0] else { return }
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
 		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: !initialUpload)
-		var entries: [BundleEntry] = []
 		let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, _ in
-			if let dataList = results {
-				for data in dataList {
-					if let sample = data as? HKQuantitySample {
-						let resource = CodexResource(id: nil, code: quantity.code, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID ?? "", type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: Int(sample.quantity.doubleValue(for: quantity.unit)), unit: quantity.unit.unitString), birthDate: nil, gender: nil, name: nil, component: nil)
-						let entry = BundleEntry(fullURL: nil, resource: resource, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
-						entries.append(entry)
-					}
-				}
+			let quantitySamples = results?.compactMap { (sample) -> HKQuantitySample? in
+				sample as? HKQuantitySample
+			}.filter { (sample) -> Bool in
+				!sample.ch_isUserEntered
+			} ?? []
+
+			let entries: [BundleEntry] = quantitySamples.compactMap { (data) -> BundleEntry? in
+				let resource = CodexResource(id: nil, code: quantity.code, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID ?? "", type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: Int(data.quantity.doubleValue(for: quantity.unit)), unit: quantity.unit.unitString), birthDate: nil, gender: nil, name: nil, component: nil)
+				let entry = BundleEntry(fullURL: nil, resource: resource, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
+				return entry
 			}
 			completion(true, entries)
 		}
-		HKHealthStore().execute(query)
+		healthKitStore.execute(query)
 	}
 
-	func getBloodPressure(initialUpload: Bool, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [BundleEntry]) -> Void) {
-		guard let bloodPressureDiastolic = HealthKitDataType.bloodPressure.type[0], let bloodPressureSystolic = HealthKitDataType.bloodPressure.type[1], let bloodPressure = HKQuantityType.correlationType(forIdentifier: .bloodPressure) else { return }
-
+	func queryBloodPressure(initialUpload: Bool, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [BundleEntry]) -> Void) {
+		guard let bloodPressureDiastolic = HealthKitDataType.bloodPressure.quantityType[0], let bloodPressureSystolic = HealthKitDataType.bloodPressure.quantityType[1], let bloodPressure = HKQuantityType.correlationType(forIdentifier: .bloodPressure) else { return }
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
 		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: !initialUpload)
 		var entries: [BundleEntry] = []
@@ -152,10 +82,10 @@ class HealthKitManager {
 			}
 			completion(true, entries)
 		}
-		HKHealthStore().execute(query)
+		healthKitStore.execute(query)
 	}
 
-	func getMostRecentEntry(identifier: HKQuantityTypeIdentifier, completion: @escaping (HKSample?) -> Void) {
+	func queryMostRecentEntry(identifier: HKQuantityTypeIdentifier, completion: @escaping (HKSample?) -> Void) {
 		guard let type = HKSampleType.quantityType(forIdentifier: identifier) else {
 			completion(nil)
 			return
@@ -169,10 +99,10 @@ class HealthKitManager {
 				completion(sample)
 			}
 		}
-		HKHealthStore().execute(query)
+		healthKitStore.execute(query)
 	}
 
-	func getTodaySteps(completion: @escaping (HKStatistics?) -> Void) {
+	func queryTodaySteps(completion: @escaping (HKStatistics?) -> Void) {
 		guard let stepsQuantityType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
 			completion(nil)
 			return
@@ -186,10 +116,10 @@ class HealthKitManager {
 			completion(result)
 		}
 
-		HKHealthStore().execute(query)
+		healthKitStore.execute(query)
 	}
 
-	func getData(identifier: HKQuantityTypeIdentifier, startDate: Date, endDate: Date, intervalType: HealthStatsDateIntervalType, completion: @escaping (([StatsDataPoint]) -> Void)) {
+	func queryData(identifier: HKQuantityTypeIdentifier, startDate: Date, endDate: Date, intervalType: HealthStatsDateIntervalType, completion: @escaping (([StatsDataPoint]) -> Void)) {
 		guard let type = HKObjectType.quantityType(forIdentifier: identifier) else {
 			completion([])
 			return
@@ -225,6 +155,32 @@ class HealthKitManager {
 			}
 			completion(data)
 		}
-		HKHealthStore().execute(query)
+		healthKitStore.execute(query)
+	}
+
+	func queryBloodGlucose(completion: @escaping (Result<[HKQuantitySample], Error>) -> Void) {
+		guard let sampleType = HealthKitDataType.bloodGlucose.quantityType[0] else {
+			return
+		}
+		let limit: Int = 0
+		let predicate = HKQuery.predicateForSamples(withStart: Date(), end: Date(), options: [.strictStartDate])
+		let endKey = HKSampleSortIdentifierEndDate
+		let sortDescriptor = NSSortDescriptor(key: endKey, ascending: false)
+		let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: limit, sortDescriptors: [sortDescriptor]) { _, samples, error in
+			guard error == nil else {
+				let theError = error ?? HealthkitError.dataTypeNotAvailable
+				ALog.error("\(theError.localizedDescription)")
+				completion(.failure(theError))
+				return
+			}
+			let quantitySamples = samples?.compactMap { (sample) -> HKQuantitySample? in
+				sample as? HKQuantitySample
+			}
+			let filtered = quantitySamples?.filter { (sample) -> Bool in
+				!sample.ch_isUserEntered
+			}
+			completion(.success(filtered ?? []))
+		}
+		healthKitStore.execute(query)
 	}
 }

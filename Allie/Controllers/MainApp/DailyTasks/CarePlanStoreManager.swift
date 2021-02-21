@@ -26,8 +26,8 @@ class CarePlanStoreManager: ObservableObject {
 		return manager
 	}()
 
-	private(set) lazy var healthKitStore = OCKHealthKitPassthroughStore(name: Constants.healthKitPassthroughStore, type: Constants.coreDataStoreType)
 	private(set) lazy var store = OCKStore(name: Constants.careKitTasksStore, type: Constants.coreDataStoreType, remote: remoteSynchronizationManager)
+	private(set) lazy var healthKitStore = OCKHealthKitPassthroughStore(store: store)
 	private(set) lazy var synchronizedStoreManager: OCKSynchronizedStoreManager = {
 		let coordinator = OCKStoreCoordinator()
 		coordinator.attach(store: store)
@@ -76,12 +76,11 @@ extension CarePlanStoreManager {
 			ALog.error("\(error.localizedDescription)")
 		}
 
-		let carePlans = carePlansResponse.carePlans.values.compactMap { (plan) -> OCKCarePlan in
-			OCKCarePlan(carePlan: plan)
+		let carePlans = carePlansResponse.carePlans.map { (carePlan) -> OCKCarePlan in
+			OCKCarePlan(carePlan: carePlan)
 		}
-
 		let addCarePlansOperation = CarePlansAddOperation(store: store, newCarePlans: carePlans, for: patient)
-		if let patient = patient, patient.uuid == nil {
+		if let patient = patient {
 			let patientOperation = PatientsAddOperation(store: store, newPatients: [patient]) { [weak self] result in
 				switch result {
 				case .failure(let error):

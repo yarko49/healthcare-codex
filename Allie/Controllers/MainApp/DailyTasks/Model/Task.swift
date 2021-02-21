@@ -9,8 +9,6 @@ import CareKitStore
 import Foundation
 import HealthKit
 
-public typealias Tasks = [String: Task]
-
 public struct Task: Codable, Identifiable {
 	public var carePlanId: String?
 	public var id: String
@@ -27,7 +25,7 @@ public struct Task: Codable, Identifiable {
 	public var source: String?
 	public var userInfo: [String: String]?
 	public var asset: String?
-	public var notes: [String: Note]?
+	public var notes: [String: OCKNote]?
 	public var timezone: TimeZone
 	public var healthKitLinkage: OCKHealthKitLinkage?
 
@@ -58,7 +56,7 @@ public struct Task: Codable, Identifiable {
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
-		self.notes = try container.decodeIfPresent([String: Note].self, forKey: .notes)
+		self.notes = try container.decodeIfPresent([String: OCKNote].self, forKey: .notes)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
 		if let linkage = try container.decodeIfPresent(HealthKitLinkage.self, forKey: .healthKitLinkage) {
 			self.healthKitLinkage = linkage.hkLinkage

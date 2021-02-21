@@ -9,24 +9,24 @@ import CareKitStore
 import Foundation
 
 public struct CarePlanResponse: Codable {
-	public let carePlans: CarePlans
-	public let tasks: [String: Tasks]
+	public let carePlans: [CarePlan]
+	public let tasks: [String: [String: Task]]
 	public let vectorClock: [String: Int]
 
-	public init(carePlans: CarePlans = [:], tasks: [String: Tasks] = [:], vectorClock: [String: Int] = [:]) {
+	public init(carePlans: [CarePlan] = [], tasks: [String: [String: Task]] = [:], vectorClock: [String: Int] = [:]) {
 		self.carePlans = carePlans
 		self.tasks = tasks
 		self.vectorClock = vectorClock
 	}
 
 	public var allTasks: [Task] {
-		var flatTasks: [Task] = []
-		for (_, value) in tasks {
-			for (_, innerValue) in value {
-				flatTasks.append(innerValue)
+		tasksByKey.map { (item) -> Task in
+			var newTask = item.value
+			if item.value.id.isEmpty {
+				newTask.id = item.key
 			}
+			return newTask
 		}
-		return flatTasks
 	}
 
 	public var tasksByKey: [String: Task] {
@@ -48,8 +48,15 @@ public struct CarePlanResponse: Codable {
 
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-		self.carePlans = try container.decode(CarePlans.self, forKey: .carePlans)
-		self.tasks = try container.decode([String: Tasks].self, forKey: .tasks)
+		let plans = try container.decode([String: CarePlan].self, forKey: .carePlans)
+		self.carePlans = plans.map { (item) -> CarePlan in
+			var newPlan = item.value
+			if newPlan.id == "" {
+				newPlan.id = item.key
+			}
+			return newPlan
+		}
+		self.tasks = try container.decode([String: [String: Task]].self, forKey: .tasks)
 		self.vectorClock = try container.decode([String: Int].self, forKey: .vectorClock)
 	}
 }

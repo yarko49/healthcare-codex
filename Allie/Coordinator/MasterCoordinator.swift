@@ -120,7 +120,7 @@ class MasterCoordinator: Coordinator {
 	internal func syncHKData() {
 		let hkDataUploadViewController = HKDataUploadViewController()
 		window.rootViewController = hkDataUploadViewController
-		SyncManager.shared.syncData(initialUpload: false, chunkSize: 4500) { [weak hkDataUploadViewController] uploaded, total in
+		HealthKitSyncManager.syncData(initialUpload: false, chunkSize: 4500) { [weak hkDataUploadViewController] uploaded, total in
 			hkDataUploadViewController?.maxProgress = total
 			hkDataUploadViewController?.progress = uploaded
 		} completion: { [weak self] success in

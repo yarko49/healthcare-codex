@@ -14,7 +14,7 @@ class MyDevicesViewController: BaseViewController {
 
 	// MARK: - Properties
 
-	var devicesSettings: [DevicesSettings] = DevicesSettings.allValues
+	var devicesSettings: [SmartDeviceType] = SmartDeviceType.allCases
 	let rowHeight: CGFloat = 60
 
 	// MARK: - IBOutlets
@@ -27,7 +27,6 @@ class MyDevicesViewController: BaseViewController {
 
 	override func setupView() {
 		super.setupView()
-
 		title = Str.myDevices
 		nextBtn.setupButton()
 		bottomView.backgroundColor = UIColor.next
