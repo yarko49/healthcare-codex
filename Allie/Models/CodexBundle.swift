@@ -46,13 +46,15 @@ struct BundleLink: Codable {
 // MARK: - BERequest
 
 struct BundleRequest: Codable {
-	let method, url: String?
+	let method: String?
+	let url: String?
 }
 
 // MARK: - Response
 
 struct BundleResponse: Codable {
-	let etag, lastModified: String?
+	let etag: String?
+	let lastModified: String?
 	let location: String?
 	let status: String?
 }

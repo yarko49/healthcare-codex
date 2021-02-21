@@ -21,9 +21,7 @@ extension OCKTask {
 		self.source = task.source
 		self.userInfo = task.userInfo
 		self.asset = task.asset
-		self.notes = task.notes?.values.map { (note) -> OCKNote in
-			OCKNote(note: note)
-		}
+		// self.notes = task.notes?.values
 		self.timezone = task.timezone
 		self.carePlanId = task.carePlanId
 	}
@@ -68,7 +66,7 @@ extension OCKTask {
 
 extension Task {
 	init(ockTask: OCKTask) {
-		self.carePlanId = ockTask.uuid?.uuidString
+		self.carePlanId = ockTask.uuid.uuidString
 		self.id = ockTask.id
 		self.title = ockTask.title
 		self.instructions = ockTask.instructions
@@ -93,15 +91,6 @@ extension Task {
 		self.remoteId = ockTask.remoteID
 		self.source = ockTask.source
 		self.userInfo = ockTask.userInfo
-		if let ockNotes = ockTask.notes {
-			self.notes = [:]
-			for ockNote in ockNotes {
-				let note = Note(ockNote: ockNote)
-				if let id = note.id {
-					notes?[id] = note
-				}
-			}
-		}
 		self.timezone = ockTask.timezone
 	}
 }

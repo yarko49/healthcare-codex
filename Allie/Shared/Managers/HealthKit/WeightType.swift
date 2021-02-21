@@ -1,7 +1,6 @@
-//  HealthQualityType.swift
+//  WeightType.swift
 
 import Foundation
-import HealthKit
 import UIKit
 
 enum WeightType: String, CaseIterable {
@@ -9,7 +8,7 @@ enum WeightType: String, CaseIterable {
 	case heavy = "Heavy"
 	case obese = "Obese"
 
-	func getHKitQualityString() -> String? {
+	var qualityString: String? {
 		switch self {
 		case .healthy:
 			return Str.healthy
@@ -20,7 +19,7 @@ enum WeightType: String, CaseIterable {
 		}
 	}
 
-	func getImage() -> UIImage {
+	var image: UIImage {
 		switch self {
 		case .healthy:
 			return UIImage(named: "healthy") ?? UIImage()

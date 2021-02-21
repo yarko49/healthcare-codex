@@ -1,7 +1,8 @@
 import Foundation
 
 struct UpdatePatientModel: Codable {
-	let op, path: String?
+	let op: String?
+	let path: String?
 	let value: String?
 }
 

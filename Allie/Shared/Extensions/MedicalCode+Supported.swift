@@ -17,4 +17,5 @@ extension MedicalCode {
 	static let diastolicBloodPressure = MedicalCode(coding: [MedicalCode.Coding(system: "http://loinc.org", code: "8462-4", display: "Diastolic blood pressure")])
 	static let systolicBloodPressure = MedicalCode(coding: [MedicalCode.Coding(system: "http://loinc.org", code: "8480-6", display: "Systolic blood pressure"), MedicalCode.Coding(system: "http://snomed.info/sct", code: "271649006", display: "Systolic blood pressure")])
 	static let stepsCount = MedicalCode(coding: [MedicalCode.Coding(system: "http://loinc.org", code: "55423-8", display: "Number of steps")])
+	static let bloodGlucose = MedicalCode(coding: [MedicalCode.Coding(system: "http://loinc.org", code: "2339-0", display: "Glucose in Blood")])
 }

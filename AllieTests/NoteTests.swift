@@ -37,13 +37,10 @@ class NoteTests: XCTestCase {
 			"""
 		let decoder = CHJSONDecoder()
 		if let data = careplanNoteDictionary.data(using: .utf8) {
-			let note = try decoder.decode(Note.self, from: data)
+			let note = try decoder.decode(OCKNote.self, from: data)
 			XCTAssertEqual(note.author, "test", "invalid author")
 			XCTAssertEqual(note.content, "test content here", "invalid content")
 			XCTAssertEqual(note.title, "test")
-			XCTAssertEqual(note.remoteId, "XXXX-ID-test", "invalid remote Id")
-			XCTAssertEqual(note.groupIdentifier, "test", "invalid group Id")
-			XCTAssertEqual(note.timezone, TimeZone(secondsFromGMT: 0), "invalid timezone")
 		} else {
 			throw URLError(.cannotDecodeRawData)
 		}
@@ -67,14 +64,10 @@ class NoteTests: XCTestCase {
 			"""
 		let decoder = CHJSONDecoder()
 		if let data = careplanNoteDictionary.data(using: .utf8) {
-			let note = try decoder.decode(Note.self, from: data)
+			let note = try decoder.decode(OCKNote.self, from: data)
 			XCTAssertEqual(note.author, "testB", "invalid author")
 			XCTAssertEqual(note.content, "test", "invalid content")
 			XCTAssertEqual(note.title, "test")
-			XCTAssertEqual(note.remoteId, "XXXX-ID-test2", "invalid remote Id")
-			XCTAssertEqual(note.groupIdentifier, "test", "invalid group Id")
-			XCTAssertEqual(note.timezone, TimeZone(secondsFromGMT: 0), "invalid timezone")
-			XCTAssertNil(note.effectiveDate)
 		} else {
 			throw URLError(.cannotDecodeRawData)
 		}

@@ -9,80 +9,72 @@ class SettingsSwitchCell: UITableViewCell {
 	@IBOutlet var descriptionLabel: UILabel!
 	@IBOutlet var settingsSwitch: UISwitch!
 
-	var devicesType = DevicesSettings.none
-	var notificationsType = MyNotifications.none
+	var smartDeviceType: SmartDeviceType?
+	var notificationsType: NotificationType?
 
 	override func awakeFromNib() {
 		super.awakeFromNib()
 		selectionStyle = .none
 	}
 
-	func setup(type: DevicesSettings) {
-		devicesType = type
-
-		settingsSwitch.isOn = initializeDevicesSwitch()
-		descriptionLabel.attributedText = devicesType.description.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: -0.41)
+	func setup(type: SmartDeviceType) {
+		smartDeviceType = type
+		settingsSwitch.isOn = hasSmartDevice
+		descriptionLabel.attributedText = smartDeviceType?.title.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: -0.41)
 	}
 
-	func setup(type: MyNotifications) {
+	func setup(type: NotificationType) {
 		notificationsType = type
 
-		settingsSwitch.isOn = initializeNotificationsSwitch()
-		descriptionLabel.attributedText = notificationsType.description.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: -0.41)
+		settingsSwitch.isOn = isNotificationEnabled
+		descriptionLabel.attributedText = notificationsType?.title.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: -0.41)
 	}
 
-	private func initializeDevicesSwitch() -> Bool {
-		switch devicesType {
-		case .smartScale:
-			return DataContext.shared.hasSmartScale
-		case .smartBlockPressureCuff:
-			return DataContext.shared.hasSmartBlockPressureCuff
-		case .smartWatch:
-			return DataContext.shared.hasSmartWatch
-		case .smartPedometer:
-			return DataContext.shared.hasSmartPedometer
-		default:
+	private var hasSmartDevice: Bool {
+		guard let deviceType = smartDeviceType else {
 			return false
 		}
+		return DataContext.shared.hasSmartDevice(type: deviceType)
 	}
 
-	private func initializeNotificationsSwitch() -> Bool {
-		switch notificationsType {
-		case .activityPushNotifications:
-			return DataContext.shared.activityPushNotificationsIsOn
-		case .bloodPressurePushNotifications:
-			return DataContext.shared.bloodPressurePushNotificationsIsOn
-		case .weightInPushNotifications:
-			return DataContext.shared.weightInPushNotificationsIsOn
-		case .surveyPushNotifications:
-			return DataContext.shared.surveyPushNotificationsIsOn
-		default:
+	private var isNotificationEnabled: Bool {
+		guard let notificationType = notificationsType else {
 			return false
+		}
+		switch notificationType {
+		case .activity:
+			return DataContext.shared.activityPushNotificationsIsOn
+		case .bloodPressure:
+			return DataContext.shared.bloodPressurePushNotificationsIsOn
+		case .weightIn:
+			return DataContext.shared.weightInPushNotificationsIsOn
+		case .survey:
+			return DataContext.shared.surveyPushNotificationsIsOn
 		}
 	}
 
 	@IBAction func switchValueChanged(_ sender: Any) {
-		switch devicesType {
-		case .smartScale:
+		switch smartDeviceType {
+		case .scale:
 			DataContext.shared.hasSmartScale.toggle()
-		case .smartBlockPressureCuff:
-			DataContext.shared.hasSmartBlockPressureCuff.toggle()
-		case .smartWatch:
+		case .bloodPressureCuff:
+			DataContext.shared.hasSmartBloodPressureCuff.toggle()
+		case .watch:
 			DataContext.shared.hasSmartWatch.toggle()
-		case .smartPedometer:
+		case .pedometer:
 			DataContext.shared.hasSmartPedometer.toggle()
 		default:
 			break
 		}
 
 		switch notificationsType {
-		case .activityPushNotifications:
+		case .activity:
 			DataContext.shared.activityPushNotificationsIsOn.toggle()
-		case .bloodPressurePushNotifications:
+		case .bloodPressure:
 			DataContext.shared.bloodPressurePushNotificationsIsOn.toggle()
-		case .weightInPushNotifications:
+		case .weightIn:
 			DataContext.shared.weightInPushNotificationsIsOn.toggle()
-		case .surveyPushNotifications:
+		case .survey:
 			DataContext.shared.surveyPushNotificationsIsOn.toggle()
 		default:
 			break

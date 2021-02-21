@@ -10,7 +10,7 @@ class MyNotificationsViewController: BaseViewController {
 	// MARK: - Properties
 
 	var closeAction: (() -> Void)?
-	var notificationsSettings: [MyNotifications] = MyNotifications.allValues
+	var notificationsSettings: [NotificationType] = NotificationType.allCases
 	let rowHeight: CGFloat = 60
 
 	// MARK: - IBOutlets

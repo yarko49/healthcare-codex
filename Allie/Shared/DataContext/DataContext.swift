@@ -5,10 +5,47 @@ import JGProgressHUD
 class DataContext: ObservableObject {
 	static let shared = DataContext()
 
-	var hasSmartScale = false
-	var hasSmartBlockPressureCuff = false
-	var hasSmartWatch = false
-	var hasSmartPedometer = false
+	var smartDevices: Set<SmartDeviceType> = []
+	func hasSmartDevice(type: SmartDeviceType) -> Bool {
+		smartDevices.contains(type)
+	}
+
+	var hasSmartScale: Bool {
+		get {
+			smartDevices.contains(.scale)
+		}
+		set {
+			if newValue { smartDevices.insert(.scale) } else { smartDevices.remove(.scale) }
+		}
+	}
+
+	var hasSmartBloodPressureCuff: Bool {
+		get {
+			smartDevices.contains(.bloodPressureCuff)
+		}
+		set {
+			if newValue { smartDevices.insert(.bloodPressureCuff) } else { smartDevices.remove(.bloodPressureCuff) }
+		}
+	}
+
+	var hasSmartWatch: Bool {
+		get {
+			smartDevices.contains(.watch)
+		}
+		set {
+			if newValue { smartDevices.insert(.watch) } else { smartDevices.remove(.watch) }
+		}
+	}
+
+	var hasSmartPedometer: Bool {
+		get {
+			smartDevices.contains(.pedometer)
+		}
+		set {
+			if newValue { smartDevices.insert(.pedometer) } else { smartDevices.remove(.pedometer) }
+		}
+	}
+
 	var updatePatient: UpdatePatientModels?
 
 	@Published var resource: CodexResource?
@@ -43,7 +80,6 @@ class DataContext: ObservableObject {
 	var surveyPushNotificationsIsOn = false
 	var signUpCompleted = false
 	var firstName: String?
-
 	var getObservationData: CodexBundle?
 
 	func clearAll() {
@@ -52,10 +88,7 @@ class DataContext: ObservableObject {
 	}
 
 	func clearVariables() {
-		hasSmartScale = false
-		hasSmartBlockPressureCuff = false
-		hasSmartWatch = false
-		hasSmartPedometer = false
+		smartDevices.removeAll()
 		activityPushNotificationsIsOn = false
 		bloodPressurePushNotificationsIsOn = false
 		weightInPushNotificationsIsOn = false

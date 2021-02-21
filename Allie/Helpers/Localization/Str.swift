@@ -215,7 +215,7 @@ internal enum Str {
 
 	// My Devices
 	internal static let smartScale = Languages.tr("SMART_SCALE")
-	internal static let smartBlockPressureCuff = Languages.tr("SMART_BLOCK_PRESSURE_CUFF")
+	internal static let smartBloodPressureCuff = Languages.tr("SMART_BLOCK_PRESSURE_CUFF")
 	internal static let smartPedometer = Languages.tr("SMART_PEDOMETER")
 	internal static let smartWatch = Languages.tr("SMART_WATCH")
 

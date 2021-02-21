@@ -78,7 +78,6 @@ class CarePlanTests: XCTestCase {
 		XCTAssertEqual(carePlan.timezone, TimeZone(secondsFromGMT: 28800), "invalid timezone")
 		XCTAssertNotNil(carePlan.effectiveDate)
 		XCTAssertNotNil(carePlan.tags)
-		XCTAssertNotNil(carePlan.notes)
 		XCTAssertNotNil(carePlan.userInfo)
 	}
 
@@ -112,7 +111,6 @@ class CarePlanTests: XCTestCase {
 		XCTAssertEqual(carePlan.timezone, TimeZone(secondsFromGMT: 0), "invalid timezone")
 		XCTAssertNotNil(carePlan.effectiveDate)
 		XCTAssertNil(carePlan.tags)
-		XCTAssertNil(carePlan.notes)
 		XCTAssertNotNil(carePlan.userInfo)
 	}
 
@@ -143,7 +141,6 @@ class CarePlanTests: XCTestCase {
 		XCTAssertEqual(carePlan.timezone, TimeZone(secondsFromGMT: 0), "invalid timezone")
 		XCTAssertNotNil(carePlan.effectiveDate)
 		XCTAssertNil(carePlan.tags)
-		XCTAssertNil(carePlan.notes)
 		XCTAssertNil(carePlan.userInfo)
 	}
 
@@ -152,31 +149,32 @@ class CarePlanTests: XCTestCase {
 		// Use XCTAssert and related functions to verify your tests produce the correct results.
 		let careplanDictionary =
 			"""
-			{
-			      "source" : "test-clinician-healthcare",
-			      "patientId" : "patientId",
-			      "remoteId" : "XXXX-ID-CarePlanD",
-			      "id" : "CarePlanD",
-			      "title" : "Sourced Care Plan",
-			      "groupIdentifier" : "HealthcareProviderXYZ",
-			      "timezone" : 0,
-			      "asset" : "alfred.codexhealth.com",
-			      "effectiveDate" : "2020-11-11T01:31:00.343Z"
+			    {
+			      "groupIdentifier": "",
+			      "remoteId": "defaultDiabetesCarePlan",
+			      "id": "",
+			      "asset": "",
+			      "source": "",
+			      "timezone": 0,
+			      "userInfo": {},
+			      "effectiveDate": null,
+			      "title": "Diabetes Care Plan",
+			      "patientId": "",
+			      "tasks": null
 			    }
 			"""
 		let carePlan = try carePlanDecode(string: careplanDictionary)
-		XCTAssertEqual(carePlan.id, "CarePlanD", "invalid Id")
-		XCTAssertEqual(carePlan.patientId, "patientId", "invalid remote Id")
-		XCTAssertEqual(carePlan.title, "Sourced Care Plan")
-		XCTAssertEqual(carePlan.remoteId, "XXXX-ID-CarePlanD", "invalid remote Id")
-		XCTAssertEqual(carePlan.groupIdentifier, "HealthcareProviderXYZ", "invalid group Id")
+		XCTAssertEqual(carePlan.id, "", "invalid Id")
+		XCTAssertEqual(carePlan.patientId, "", "invalid remote Id")
+		XCTAssertEqual(carePlan.title, "Diabetes Care Plan")
+		XCTAssertEqual(carePlan.remoteId, "defaultDiabetesCarePlan", "invalid remote Id")
+		XCTAssertEqual(carePlan.groupIdentifier, "", "invalid group Id")
 		XCTAssertEqual(carePlan.timezone, TimeZone(secondsFromGMT: 0), "invalid timezone")
-		XCTAssertEqual(carePlan.source, "test-clinician-healthcare")
-		XCTAssertEqual(carePlan.asset, "alfred.codexhealth.com")
+		XCTAssertEqual(carePlan.source, "")
+		XCTAssertEqual(carePlan.asset, "")
 		XCTAssertNotNil(carePlan.effectiveDate)
 		XCTAssertNil(carePlan.tags)
-		XCTAssertNil(carePlan.notes)
-		XCTAssertNil(carePlan.userInfo)
+		XCTAssertNotNil(carePlan.userInfo)
 	}
 
 	func testCarePlanReverse() throws {
