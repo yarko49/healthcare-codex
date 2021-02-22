@@ -8,9 +8,13 @@
 import AuthenticationServices
 import Foundation
 
-enum AuthorizationFlowType: Hashable, CaseIterable {
+enum AuthorizationFlowType: String, Hashable, CaseIterable, CustomStringConvertible {
 	case signIn
 	case signUp
+
+	var description: String {
+		rawValue
+	}
 }
 
 extension AuthorizationFlowType {

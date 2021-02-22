@@ -15,4 +15,9 @@ class SplashViewController: BaseViewController {
 		NSLayoutConstraint.activate([imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0.0),
 		                             imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0)])
 	}
+
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "SplashView"])
+	}
 }

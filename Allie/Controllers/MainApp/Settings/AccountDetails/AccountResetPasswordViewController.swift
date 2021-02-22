@@ -20,6 +20,11 @@ class AccountResetPasswordViewController: BaseViewController {
 	@IBOutlet var completionLabel: UILabel!
 	@IBOutlet var emailTextField: TextfieldView!
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "AccountResetPasswordView"])
+	}
+
 	// MARK: - Setup
 
 	override func setupView() {

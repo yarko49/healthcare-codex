@@ -7,13 +7,17 @@
 
 import UIKit
 
-enum ScreenFlowType: Hashable, CaseIterable {
+enum ScreenFlowType: String, Hashable, CaseIterable, CustomStringConvertible {
 	case welcome
 	case welcomeSuccess
 	case welcomeFailure
 	case selectDevices
 	case healthKit
 	case activate
+
+	var description: String {
+		rawValue
+	}
 
 	var image: UIImage? {
 		switch self {

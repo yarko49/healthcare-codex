@@ -23,6 +23,11 @@ class MyDevicesViewController: BaseViewController {
 	@IBOutlet var nextBtn: BottomButton!
 	@IBOutlet var devicesSettingsTV: UITableView!
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "MyDevicesView"])
+	}
+
 	// MARK: - Setup
 
 	override func setupView() {

@@ -50,6 +50,11 @@ class EmailAuthorizationViewController: BaseViewController {
 		}
 	}
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "EmailAuthorizationView", .authFlowType: authorizationFlowType])
+	}
+
 	let messageLabel: UILabel = {
 		let label = UILabel(frame: .zero)
 		label.font = UIFont.preferredFont(forTextStyle: .body)

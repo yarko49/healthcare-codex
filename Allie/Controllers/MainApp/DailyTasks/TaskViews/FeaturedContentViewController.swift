@@ -38,6 +38,11 @@ class FeaturedContentViewController: UIViewController, OCKFeaturedContentViewDel
 		view = featuredContentView
 	}
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "FeaturedContentView"])
+	}
+
 	private func configureView(task: OCKTask?) {
 		self.task = task
 		featuredContentView.label.text = task?.title

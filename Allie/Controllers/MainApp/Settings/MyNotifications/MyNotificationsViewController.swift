@@ -17,6 +17,11 @@ class MyNotificationsViewController: BaseViewController {
 
 	@IBOutlet var myNotificationsTV: UITableView!
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "MyNotificationsView"])
+	}
+
 	// MARK: - Setup
 
 	override func setupView() {

@@ -55,6 +55,11 @@ class OnboardingViewController: BaseViewController, UIViewControllerTransitionin
 		signUpButton.addTarget(self, action: #selector(signUpBottomButtonTapped(_:)), for: .touchUpInside)
 	}
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "OnboardingView"])
+	}
+
 	@IBAction func signUpBottomButtonTapped(_ sender: Any) {
 		showModal(authorizationFlow: .signUp)
 	}

@@ -31,6 +31,11 @@ class HKDataUploadViewController: BaseViewController {
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: progressBar.trailingAnchor, multiplier: 5.0)])
 	}
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "HKDataUploadView"])
+	}
+
 	var titleLabel: UILabel = {
 		let label = UILabel(frame: .zero)
 		label.numberOfLines = 3

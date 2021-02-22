@@ -59,6 +59,7 @@ class AuthenticationOptionsViewController: BaseViewController {
 			self?.bottonYConstraint.constant = 0.0
 			self?.view.layoutIfNeeded()
 		}
+		AnalyticsManager.send(event: .pageView, properties: [.name: "AuthenticationOptionsView"])
 	}
 
 	override func viewWillDisappear(_ animated: Bool) {

@@ -19,6 +19,11 @@ class ResetViewController: BaseViewController {
 	@IBOutlet var stackView: UIStackView!
 	@IBOutlet var emailTextfieldView: TextfieldView!
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "ResetView"])
+	}
+
 	override func setupView() {
 		super.setupView()
 		title = "Reset Password"
