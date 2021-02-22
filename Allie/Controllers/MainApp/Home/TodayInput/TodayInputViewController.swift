@@ -80,8 +80,9 @@ class TodayInputViewController: BaseViewController {
 
 	// MARK: - Setup
 
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "TodayInputView"])
 	}
 
 	override func setupView() {
@@ -112,10 +113,6 @@ class TodayInputViewController: BaseViewController {
 			goalWeightPTF.textfield.textColor = .black
 		}
 		setupObservation()
-	}
-
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
 	}
 
 	override func populateData() {

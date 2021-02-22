@@ -68,6 +68,11 @@ class HealthViewController: BaseViewController {
 		}
 	}
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "HealthView", .screenFlowType: screenFlowType])
+	}
+
 	let illustrationView: IllustrationView = {
 		let view = IllustrationView(frame: .zero)
 		view.imageView.image = nil

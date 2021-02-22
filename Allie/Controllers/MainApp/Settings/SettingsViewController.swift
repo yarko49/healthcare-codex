@@ -72,6 +72,11 @@ class SettingsViewController: BaseViewController {
 		}
 	}
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "SettingsView"])
+	}
+
 	@IBAction func close(_ sender: Any) {
 		didFinishAction?()
 	}

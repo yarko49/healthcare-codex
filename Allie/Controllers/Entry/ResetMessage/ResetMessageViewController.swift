@@ -11,6 +11,11 @@ class ResetMessageViewController: BaseViewController {
 	@IBOutlet var resetMesasageLabel: UILabel!
 	@IBOutlet var backButton: UIButton!
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "ResetMessageView"])
+	}
+
 	override func setupView() {
 		super.setupView()
 		title = Str.signup

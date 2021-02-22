@@ -17,7 +17,7 @@ class CarePlanStoreManager: ObservableObject {
 	enum Constants {
 		static let careKitTasksStore = "TasksStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
-		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk()
+		static let coreDataStoreType: OCKCoreDataStoreType = .inMemory
 	}
 
 	private(set) lazy var remoteSynchronizationManager: RemoteSynchronizationManager = {

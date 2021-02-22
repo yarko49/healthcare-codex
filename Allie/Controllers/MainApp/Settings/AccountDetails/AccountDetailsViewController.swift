@@ -23,6 +23,11 @@ class AccountDetailsViewController: BaseViewController {
 	@IBOutlet var passwordLabel: UILabel!
 	@IBOutlet var passwordTextField: UITextField!
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "AccountsDetailsView"])
+	}
+
 	// MARK: - Setup
 
 	override func setupView() {

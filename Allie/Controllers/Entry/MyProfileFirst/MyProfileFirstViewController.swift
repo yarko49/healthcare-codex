@@ -23,6 +23,11 @@ class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGe
 	var firstText: String = ""
 	var lastText: String = ""
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "MyProfileFirstView"])
+	}
+
 	private var selectedGender: OCKBiologicalSex? {
 		didSet {
 			if selectedGender == .female {

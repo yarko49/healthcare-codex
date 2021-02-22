@@ -43,6 +43,11 @@ class EmailSentViewController: BaseViewController {
 		                             mailButton.topAnchor.constraint(equalToSystemSpacingBelow: illustrationView.bottomAnchor, multiplier: 1.0)])
 	}
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "EmailSentView", .authFlowType: authorizationFlowType])
+	}
+
 	private let mailButton: UIButton = {
 		let button = UIButton(type: .custom)
 		button.backgroundColor = .grey

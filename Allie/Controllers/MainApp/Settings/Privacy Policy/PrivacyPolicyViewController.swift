@@ -16,6 +16,11 @@ class PrivacyPolicyViewController: BaseViewController {
 
 	// MARK: - Setup
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "PrivacyPolicyView"])
+	}
+
 	override func setupView() {
 		super.setupView()
 

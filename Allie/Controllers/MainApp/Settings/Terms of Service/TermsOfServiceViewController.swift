@@ -14,6 +14,11 @@ class TermsOfServiceViewController: BaseViewController {
 
 	// MARK: - Setup
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "TermsOfServiceView"])
+	}
+
 	override func setupView() {
 		super.setupView()
 

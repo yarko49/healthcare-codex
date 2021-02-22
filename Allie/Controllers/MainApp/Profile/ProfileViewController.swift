@@ -159,6 +159,11 @@ class ProfileViewController: BaseViewController {
 		ageDiff = calendar.component(.year, from: date) - (age ?? 0)
 	}
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "ProfileView"])
+	}
+
 	func createDetailsLabel() {
 		(feet, inches) = ProfileHelper.computeHeight(value: height ?? 0)
 

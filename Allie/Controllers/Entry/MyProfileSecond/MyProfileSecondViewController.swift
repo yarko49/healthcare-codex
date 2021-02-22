@@ -36,6 +36,11 @@ class MyProfileSecondViewController: BaseViewController, UIGestureRecognizerDele
 	var weightTextView = PickerTextField()
 	var heightTextView = PickerTextField()
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "MyProfileSecondView"])
+	}
+
 	override func setupView() {
 		super.setupView()
 		setupDefaultIndexes()

@@ -20,6 +20,11 @@ class SelectChunkSizeViewController: BaseViewController {
 	@IBAction func continueButtonTapped(_ sender: Any) {
 		continueAction?(number)
 	}
+
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "SelectChunkSize"])
+	}
 }
 
 extension SelectChunkSizeViewController: UITextFieldDelegate {

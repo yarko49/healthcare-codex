@@ -8,10 +8,9 @@
 import UIKit
 
 class FeaturedContentDetailViewController: UIViewController {
-	override func viewDidLoad() {
-		super.viewDidLoad()
-
-		// Do any additional setup after loading the view.
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		AnalyticsManager.send(event: .pageView, properties: [.name: "FeaturedContentDetailView"])
 	}
 
 	let imageView: UIImageView = {
