@@ -14,6 +14,8 @@
 		842398CD259C1144006FB3F4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398CC259C1144006FB3F4 /* SceneDelegate.swift */; };
 		842398E2259C1144006FB3F4 /* AllieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398E1259C1144006FB3F4 /* AllieTests.swift */; };
 		842398ED259C1145006FB3F4 /* AlfredUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398EC259C1145006FB3F4 /* AlfredUITests.swift */; };
+		8426AAB725E4BFF200100FC7 /* AppAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8426AAB625E4BFF200100FC7 /* AppAuth */; };
+		8426AAB925E4BFF200100FC7 /* AppAuthCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8426AAB825E4BFF200100FC7 /* AppAuthCore */; };
 		842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842DFC1225BBDA5900066A07 /* HealthViewController.swift */; };
 		842DFC5225BBF44B00066A07 /* SelectChunkSizeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC5425BBF44B00066A07 /* SelectChunkSizeViewController.xib */; };
 		842DFC5825BBF45100066A07 /* ResetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC5A25BBF45100066A07 /* ResetViewController.xib */; };
@@ -564,11 +566,13 @@
 				84944E9E25E08D3C00FB1938 /* CareKitUI in Frameworks */,
 				84B43E6025B1227300318CEA /* SDWebImage in Frameworks */,
 				842DFD0E25BBF78100066A07 /* ZendeskSupportSDK in Frameworks */,
+				8426AAB925E4BFF200100FC7 /* AppAuthCore in Frameworks */,
 				845AAC71259C36E900FF8F3F /* IQKeyboardManagerSwift in Frameworks */,
 				84FE81EB25D8E45A00D156C1 /* FirebaseAnalytics in Frameworks */,
 				84FE81EF25D8E45A00D156C1 /* FirebaseMessaging in Frameworks */,
 				84700A84259C331B0083E2AA /* Charts in Frameworks */,
 				84491C4125DB907200AB8C09 /* ZendeskAnswerBotSDK in Frameworks */,
+				8426AAB725E4BFF200100FC7 /* AppAuth in Frameworks */,
 				845AAC77259C374500FF8F3F /* BonMot in Frameworks */,
 				84FE81F325D8E45A00D156C1 /* FirebaseDynamicLinks in Frameworks */,
 				84FE81F125D8E45A00D156C1 /* FirebaseAuth in Frameworks */,
@@ -1430,6 +1434,8 @@
 				84944E9925E08D3C00FB1938 /* CareKit */,
 				84944E9B25E08D3C00FB1938 /* CareKitStore */,
 				84944E9D25E08D3C00FB1938 /* CareKitUI */,
+				8426AAB625E4BFF200100FC7 /* AppAuth */,
+				8426AAB825E4BFF200100FC7 /* AppAuthCore */,
 			);
 			productName = Alfred;
 			productReference = 842398C7259C1144006FB3F4 /* Allie.app */;
@@ -1518,6 +1524,7 @@
 				84FE81E925D8E45A00D156C1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				84491C3F25DB907000AB8C09 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */,
 				84944E9625E08D3B00FB1938 /* XCRemoteSwiftPackageReference "CareKit" */,
+				8426AAB525E4BFF200100FC7 /* XCRemoteSwiftPackageReference "AppAuth-iOS" */,
 			);
 			productRefGroup = 842398C8259C1144006FB3F4 /* Products */;
 			projectDirPath = "";
@@ -2598,6 +2605,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8426AAB525E4BFF200100FC7 /* XCRemoteSwiftPackageReference "AppAuth-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/openid/AppAuth-iOS.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
 		842DFD0C25BBF78100066A07 /* XCRemoteSwiftPackageReference "support_sdk_ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/zendesk/support_sdk_ios.git";
@@ -2689,6 +2704,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8426AAB625E4BFF200100FC7 /* AppAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8426AAB525E4BFF200100FC7 /* XCRemoteSwiftPackageReference "AppAuth-iOS" */;
+			productName = AppAuth;
+		};
+		8426AAB825E4BFF200100FC7 /* AppAuthCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8426AAB525E4BFF200100FC7 /* XCRemoteSwiftPackageReference "AppAuth-iOS" */;
+			productName = AppAuthCore;
+		};
 		842DFD0D25BBF78100066A07 /* ZendeskSupportSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 842DFD0C25BBF78100066A07 /* XCRemoteSwiftPackageReference "support_sdk_ios" */;

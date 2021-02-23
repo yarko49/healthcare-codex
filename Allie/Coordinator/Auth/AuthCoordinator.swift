@@ -94,7 +94,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 
 	internal func sendEmailLink(email: String) {
 		guard let bundleId = Bundle.main.bundleIdentifier else { return }
-		Auth.auth().tenantID = nil
+		Auth.auth().tenantID = AppConfig.tenantID
 		let actionCodeSettings = ActionCodeSettings()
 		actionCodeSettings.url = URL(string: AppConfig.firebaseDeeplinkURL)
 		actionCodeSettings.handleCodeInApp = true
@@ -150,7 +150,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		let signInAction: (() -> Void)? = { [weak self, weak healthViewController] in
 			self?.showHUD()
 			if Auth.auth().isSignIn(withEmailLink: link) {
-				Auth.auth().tenantID = nil
+				Auth.auth().tenantID = AppConfig.tenantID
 				Auth.auth().signIn(withEmail: email, link: link) { [weak self] authResult, error in
 					if error == nil {
 						self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
