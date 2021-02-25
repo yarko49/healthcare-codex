@@ -10,11 +10,10 @@ import Foundation
 
 extension OCKStore {
 	func createOrUpdatePatient(_ patient: OCKPatient, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKPatient, OCKStoreError>) -> Void)? = nil) {
-		fetchAnyPatient(withID: patient.id, callbackQueue: callbackQueue) { [weak self] result in
-			switch result {
-			case .failure:
-				self?.addPatient(patient, callbackQueue: callbackQueue, completion: completion)
-			case .success:
+		addPatient(patient, callbackQueue: callbackQueue) { [weak self] result in
+			if case .success(let addPatient) = result {
+				completion?(.success(addPatient))
+			} else {
 				self?.updatePatient(patient, callbackQueue: callbackQueue, completion: completion)
 			}
 		}
@@ -45,11 +44,10 @@ extension OCKStore {
 	}
 
 	func createOrUpdateCarePlan(_ carePlan: OCKCarePlan, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKCarePlan, OCKStoreError>) -> Void)? = nil) {
-		fetchAnyCarePlan(withID: carePlan.id, callbackQueue: callbackQueue) { [weak self] result in
-			switch result {
-			case .failure:
-				self?.addCarePlan(carePlan, callbackQueue: callbackQueue, completion: completion)
-			case .success:
+		addCarePlan(carePlan, callbackQueue: callbackQueue) { [weak self] result in
+			if case .success(let addCarePlan) = result {
+				completion?(.success(addCarePlan))
+			} else {
 				self?.updateCarePlan(carePlan, callbackQueue: callbackQueue, completion: completion)
 			}
 		}
@@ -80,11 +78,10 @@ extension OCKStore {
 	}
 
 	func createOrUpdateTask(_ task: OCKTask, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKTask, OCKStoreError>) -> Void)? = nil) {
-		fetchAnyTask(withID: task.id, callbackQueue: callbackQueue) { [weak self] result in
-			switch result {
-			case .failure:
-				self?.addTask(task, callbackQueue: callbackQueue, completion: completion)
-			case .success:
+		addTask(task, callbackQueue: callbackQueue) { [weak self] result in
+			if case .success(let addedTask) = result {
+				completion?(.success(addedTask))
+			} else {
 				self?.updateTask(task, callbackQueue: callbackQueue, completion: completion)
 			}
 		}
@@ -101,6 +98,7 @@ extension OCKStore {
 				self?.createOrUpdateTask(task, callbackQueue: queue, completion: { result in
 					switch result {
 					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
 						errors[task.id] = error
 					case .success(let updated):
 						updatedTasks.append(updated)

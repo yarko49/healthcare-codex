@@ -52,12 +52,17 @@ class FeaturedContentViewController: UIViewController, OCKFeaturedContentViewDel
 	}
 
 	func didTapView(_ view: OCKFeaturedContentView) {
-		let detailViewText = task?.userInfo?["detailView"] ?? ""
-		let imageTitle = task?.userInfo?["detailViewImageLabel"] ?? featuredContentView.label.text
-		let detailViewController = OCKDetailViewController(html: .init(html: detailViewText, css: nil), imageOverlayStyle: .unspecified, showsCloseButton: true)
-		detailViewController.detailView.imageView.image = featuredContentView.imageView.image
-		detailViewController.detailView.imageLabel.text = imageTitle
-		detailViewController.detailView.imageLabel.textColor = .white
-		present(detailViewController, animated: true)
+		if let html = task?.featuredContentDetailViewHTML {
+			let css = task?.featuredContentDetailViewCSS
+			let imageURL = task?.featuredContentImageURL
+			let title = task?.featuredContentDetailViewImageLabel ?? featuredContentView.label.text
+			showHTMLCSSContent(title: title, html: html, css: css, imageURL: imageURL)
+		} else if let text = task?.featuredContentDetailViewText {
+			let imageURL = task?.featuredContentImageURL
+			let title = task?.featuredContentDetailViewImageLabel
+			showTextContent(title: title, content: text, imageURL: imageURL)
+		} else if let url = task?.featuredContentDetailViewURL {
+			showURLContent(url: url)
+		}
 	}
 }
