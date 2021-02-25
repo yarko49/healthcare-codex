@@ -21,7 +21,11 @@ extension OCKTask {
 		self.source = task.source
 		self.userInfo = task.userInfo
 		self.asset = task.asset
-		// self.notes = task.notes?.values
+		if let notes = task.notes?.values {
+			self.notes = Array(notes)
+		} else {
+			self.notes = nil
+		}
 		self.timezone = task.timezone
 		self.carePlanId = task.carePlanId
 	}
@@ -42,22 +46,37 @@ extension OCKTask {
 			}
 		}
 	}
+}
 
-	var featuredContent: [String: String]? {
-		let keys: Set<String> = ["detailView", "detailViewImageLabel", "image", "detailViewCSS", "detailViewHTML", "detailViewImageLabel"]
-		let content = userInfo?.reduce([:]) { (result, item) -> [String: String] in
-			guard keys.contains(item.key) else {
-				return result
-			}
-			var newResult = result
-			newResult[item.key] = item.value
-			return newResult
+// MARK: - Featured Content
+
+extension OCKTask {
+	var featuredContentDetailViewImageLabel: String? {
+		userInfo?["detailViewImageLabel"]
+	}
+
+	var featuredContentDetailViewHTML: String? {
+		userInfo?["detailViewHTML"]
+	}
+
+	var featuredContentDetailViewCSS: String? {
+		userInfo?["detailViewCSS"]
+	}
+
+	var featuredContentDetailViewText: String? {
+		userInfo?["detailViewText"]
+	}
+
+	var featuredContentDetailViewURL: URL? {
+		guard let urlString = userInfo?["detailViewURL"] else {
+			return nil
 		}
-		return content
+
+		return URL(string: urlString)
 	}
 
 	var featuredContentImageURL: URL? {
-		guard let urlString = featuredContent?["image"] else {
+		guard let urlString = userInfo?["image"] else {
 			return nil
 		}
 		return URL(string: urlString)

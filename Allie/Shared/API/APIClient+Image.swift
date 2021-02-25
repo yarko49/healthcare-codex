@@ -1,5 +1,5 @@
 //
-//  AllieClient+Image.swift
+//  APIClient+Image.swift
 //  Allie
 //
 //  Created by Waqar Malik on 12/29/20.

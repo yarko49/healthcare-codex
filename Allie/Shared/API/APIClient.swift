@@ -1,5 +1,5 @@
 //
-//  AllieClient.swift
+//  APIClient.swift
 //  Allie
 //
 //  Created by Waqar Malik on 12/16/20.
@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import ModelsR4
 
 protocol AllieAPI {
 	func login(email: String, password: String, completion: @escaping WebService.DecodableCompletion<Bool>)

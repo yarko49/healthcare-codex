@@ -36,11 +36,11 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 		fetchCarePlan()
 	}
 
+	var showHUD: Bool = true
 	var insertViewsAnimated: Bool = false
 
 	override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController, prepare listViewController: OCKListViewController, for date: Date) {
-		var query = OCKTaskQuery(for: date)
-		query.excludesTasksWithNoEvents = true
+		let query = OCKTaskQuery(for: date)
 		storeManager.store.fetchAnyTasks(query: query, callbackQueue: .main) { [weak self] result in
 			guard let self = self else {
 				return
@@ -56,7 +56,7 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 					let eventQuery = OCKEventQuery(for: date)
 					switch taskType {
 					case .simple:
-						let viewController = OCKSimpleTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						let viewController = SimpleTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .link:
@@ -102,9 +102,14 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 
 private extension CarePlanDailyTasksController {
 	func fetchCarePlan() {
-		hud.show(in: navigationController?.view ?? view)
+		if showHUD {
+			hud.show(in: navigationController?.view ?? view)
+		}
 		CarePlanStoreManager.getCarePlan { [weak self] result in
-			self?.hud.dismiss()
+			if let showHUD = self?.showHUD, showHUD {
+				self?.hud.dismiss()
+				self?.showHUD = false
+			}
 			switch result {
 			case .failure(let error):
 				ALog.error(error: error)

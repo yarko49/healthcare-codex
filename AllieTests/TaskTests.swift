@@ -141,9 +141,7 @@ class TaskTests: XCTestCase {
 
 	func testScheduleElementsSorting() throws {
 		let data = CarePlanStoreManager.sampleResponse
-		let carePlan = data.tasks["defaultDiabetesCarePlan"]
-		XCTAssertNotNil(carePlan)
-		let task = carePlan?["FoodDiaryRecall2"]
+		let task = data.tasks["FoodDiaryRecall2"]
 		XCTAssertNotNil(task)
 		let sortedElements = task?.sortedScheduleElements
 		XCTAssertEqual(sortedElements?.count, 3)

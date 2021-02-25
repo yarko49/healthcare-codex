@@ -1,11 +1,14 @@
 {
   "carePlans": {
-    "initial-care-plan": {
+    "defaultDiabetesCarePlan": {
       "groupIdentifier": "",
       "remoteId": "defaultDiabetesCarePlan",
       "id": "",
       "asset": "",
       "source": "",
+      "tags": [
+        "default"
+      ],
       "timezone": 0,
       "userInfo": {},
       "effectiveDate": null,
@@ -15,8 +18,263 @@
     }
   },
   "tasks": {
-    "initial-care-plan": {
-      "featured-content-easy-and-healthy-recipes": {
+    "defaultDiabetesCarePlan": {
+      "DMSymptomsDrowsy": {
+        "groupIdentifier": "LOG",
+        "remoteId": "DMSymptomsDrowsy",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "symptoms",
+          "subtitle": "Feeling Drowsy",
+          "logText": "Logged drowsy"
+        },
+        "effectiveDate": null,
+        "title": "Drowsy",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Anytime today",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Report symptoms of Drowsy",
+        "impactsAdherence": false
+      },
+      "DMSymptomsFatigue": {
+        "groupIdentifier": "LOG",
+        "remoteId": "DMSymptomsFatigue",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "symptoms",
+          "subtitle": "Feeling Fatigued",
+          "logText": "Logged fatigue"
+        },
+        "effectiveDate": null,
+        "title": "Fatigue",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Anytime today",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Report symptoms of Fatigue",
+        "impactsAdherence": false
+      },
+      "DMSymptomsHypoglycemia": {
+        "groupIdentifier": "LOG",
+        "remoteId": "DMSymptomsHypoglycemia",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "symptoms",
+          "subtitle": "Record",
+          "logText": "Logged"
+        },
+        "effectiveDate": null,
+        "title": "Hypoglycemia",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Anytime today",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Report symptoms of Hypoglycemia",
+        "impactsAdherence": false
+      },
+      "DMSymptomsNumbness-Tingling": {
+        "groupIdentifier": "LOG",
+        "remoteId": "DMSymptomsNumbness-Tingling",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "symptoms",
+          "subtitle": "Record",
+          "logText": "Logged"
+        },
+        "effectiveDate": null,
+        "title": "Numbness/Tingling",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Anytime today",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Report symptoms of Numbness/Tingling",
+        "impactsAdherence": false
+      },
+      "DMSymptomsPolydipsia": {
+        "groupIdentifier": "LOG",
+        "remoteId": "DMSymptomsPolydipsia",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "symptoms"
+        },
+        "effectiveDate": null,
+        "title": "Polydipsia",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Anytime today",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Report symptoms of Polydipsia",
+        "impactsAdherence": false
+      },
+      "DMSymptomsPolyuria-Nocturia": {
+        "groupIdentifier": "LOG",
+        "remoteId": "DMSymptomsPolyuria-Nocturia",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "symptoms"
+        },
+        "effectiveDate": null,
+        "title": "Polyuria/Nocturia",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Anytime today",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Report symptoms of Polyuria/Nocturia",
+        "impactsAdherence": false
+      },
+      "FeaturedContentHTML": {
+        "groupIdentifier": "FEATURED_CONTENT",
+        "remoteId": "FeaturedContentHTML",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "featured-content",
+          "detailViewCSS": "\n.headline { \n    font-size: 23px; \n    font-weight: 700; \n}n.subheadline { \n    font-size: 15px; \n    font-weight: 300; \n} \np { \n    padding: 0px; \n    margin: 0px; \n}",
+          "detailViewHTML": "<p>Codex found that It&#39s tough balancing a busy schedule. During the busiest of times, healthy routines are often the first things we sacrifice to \nmake more room in the day for work or family. But sacrificing healthy \nhabits will end up hurting us in the long run - They give us strength and energy to go about our day. Preparing healthy meals doesn&#39tq \nrequire exotic ingredients and endless time in the kitchen.</p> \n<br> \n<p class=\"headline\">Avocado Tomato Toast</p> \n<p class=\"subheadline\">10 minutes</p>n<br> \n<p>Avocados are everywhere these days, and for good reason. They&#39re incredibly filling and a great replacement for other foods that /nare high in fat. Sprinkle on some granulated garlic and a touch of red pepper if you&#39re feeling adventurous.</p>",
+          "detailViewImageLabel": "Some Ideas",
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg"
+        },
+        "effectiveDate": null,
+        "title": "Easy & Healthy Recipes",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 0,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "all day",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Instructions not to be displayed by Featured Content",
+        "impactsAdherence": false
+      },
+      "FeaturedContentURL": {
+        "groupIdentifier": "FEATURED_CONTENT",
+        "remoteId": "FeaturedContentURL",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "featured-content",
+          "detailViewImageLabel": "Some Ideas",
+          "detailViewURL": "https://www.researchandcare.org/",
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg"
+        },
+        "effectiveDate": null,
+        "title": "Easy & Healthy Recipes",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 0,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "all day",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Instructions not to be displayed by Featured Content",
+        "impactsAdherence": false
+      },
+      "FeaturedTask": {
         "groupIdentifier": "FEATURED_CONTENT",
         "remoteId": "FeaturedTask",
         "id": "",
@@ -45,24 +303,24 @@
             "start": null
           }
         },
-        "carePlanId": "",
+        "carePlanId": "defaultDiabetesCarePlan",
         "instructions": "Instructions not to be displayed by Featured Content",
         "impactsAdherence": false
       },
-      "food-dairy-checklist": {
-        "groupIdentifier": "CHECKLIST",
-        "remoteId": "",
-        "id": "FoodDiaryRecall2",
+      "Heartrate": {
+        "groupIdentifier": "LABELED_VALUE",
+        "remoteId": "Heartrate",
+        "id": "",
         "asset": "",
         "source": "",
         "timezone": 0,
         "userInfo": {
-          "category": "surveysquestionnaires"
+          "category": "measurements"
         },
         "effectiveDate": null,
-        "title": "Daily Food Diary",
+        "title": "Heart Rate",
         "schedules": {
-          "breakfast": {
+          "scheduleA": {
             "custom": false,
             "daily": true,
             "weekly": false,
@@ -71,521 +329,20 @@
             "minutes": 0,
             "duration": 0,
             "interval": 0,
-            "text": "Breakfast",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          },
-          "dinner": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 18,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Dinner",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          },
-          "lunch": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 12,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Lunch",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
+            "text": "string",
             "start": null
           }
         },
-        "carePlanId": "",
-        "instructions": "Record your daily meals",
-        "impactsAdherence": true
-      },
-      "food-dairy-grid": {
-        "groupIdentifier": "GRID",
-        "remoteId": "",
-        "id": "FoodDiaryRecall",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "surveysquestionnaires"
+        "carePlanId": "defaultDiabetesCarePlan",
+        "healthKitLinkage": {
+          "quantityIdentifier": "heartRate",
+          "quantitytype": "discrete",
+          "unit": "bpm"
         },
-        "effectiveDate": null,
-        "title": "Food Diary",
-        "schedules": {
-          "breakfast": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Breakfast",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          },
-          "dinner": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 18,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Dinner",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          },
-          "drinks": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 18,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Drinks",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          },
-          "lunch": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 12,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Lunch",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          },
-          "snacks": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 15,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Snacks",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          }
-        },
-        "carePlanId": "",
-        "instructions": "Record your daily meals",
+        "instructions": "Most recent measurement",
         "impactsAdherence": false
       },
-      "food-diary-checklist": {
-        "groupIdentifier": "CHECKLIST",
-        "remoteId": "",
-        "id": "FoodDiaryRecall2",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "surveysquestionnaires"
-        },
-        "effectiveDate": null,
-        "title": "Daily Food Diary",
-        "schedules": {
-          "breakfast": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Breakfast",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          },
-          "dinner": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 18,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Dinner",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          },
-          "lunch": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 12,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Lunch",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          }
-        },
-        "carePlanId": "",
-        "instructions": "Record your daily meals",
-        "impactsAdherence": true
-      },
-      "food-diary-grid": {
-        "groupIdentifier": "GRID",
-        "remoteId": "",
-        "id": "FoodDiaryRecall",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "surveysquestionnaires"
-        },
-        "effectiveDate": null,
-        "title": "Food Diary",
-        "schedules": {
-          "breakfast": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Breakfast",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          },
-          "dinner": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 18,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Dinner",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          },
-          "drinks": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 18,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Drinks",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          },
-          "lunch": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 12,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Lunch",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          },
-          "snacks": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 15,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Snacks",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "",
-                "value": true,
-                "type": "boolean"
-              }
-            ],
-            "start": null
-          }
-        },
-        "carePlanId": "",
-        "instructions": "Record your daily meals",
-        "impactsAdherence": false
-      },
-      "links-stanford-medicine": {
+      "Link": {
         "groupIdentifier": "LINK",
         "remoteId": "Link",
         "id": "",
@@ -617,11 +374,11 @@
             "start": null
           }
         },
-        "carePlanId": "",
+        "carePlanId": "defaultDiabetesCarePlan",
         "instructions": "Helpful links",
         "impactsAdherence": false
       },
-      "measurement-activity": {
+      "activity": {
         "groupIdentifier": "NUMERIC_PROGRESS",
         "remoteId": "activity",
         "id": "",
@@ -664,7 +421,7 @@
             "start": null
           }
         },
-        "carePlanId": "",
+        "carePlanId": "defaultDiabetesCarePlan",
         "healthKitLinkage": {
           "quantityIdentifier": "steps",
           "quantitytype": "cumulative",
@@ -673,20 +430,20 @@
         "instructions": "Your total steps today",
         "impactsAdherence": true
       },
-      "measurement-heart-rate": {
-        "groupIdentifier": "LABELED_VALUE",
-        "remoteId": "Heartrate",
-        "id": "",
+      "food-dairy-checklist": {
+        "groupIdentifier": "CHECKLIST",
+        "remoteId": "food-dairy-checklist",
+        "id": "FoodDiaryRecall2",
         "asset": "",
         "source": "",
         "timezone": 0,
         "userInfo": {
-          "category": "measurements"
+          "category": "surveysquestionnaires"
         },
         "effectiveDate": null,
-        "title": "Heart Rate",
+        "title": "Daily Food Diary",
         "schedules": {
-          "scheduleA": {
+          "breakfast": {
             "custom": false,
             "daily": true,
             "weekly": false,
@@ -695,20 +452,253 @@
             "minutes": 0,
             "duration": 0,
             "interval": 0,
-            "text": "string",
+            "text": "Breakfast",
+            "targetValues": [
+              {
+                "groupIdentifier": "",
+                "remoteId": "",
+                "id": "",
+                "asset": "",
+                "source": "",
+                "timezone": 0,
+                "userInfo": {},
+                "effectiveDate": null,
+                "index": 0,
+                "kind": "",
+                "units": "",
+                "value": true,
+                "type": "boolean"
+              }
+            ],
+            "start": null
+          },
+          "dinner": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 18,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Dinner",
+            "targetValues": [
+              {
+                "groupIdentifier": "",
+                "remoteId": "",
+                "id": "",
+                "asset": "",
+                "source": "",
+                "timezone": 0,
+                "userInfo": {},
+                "effectiveDate": null,
+                "index": 0,
+                "kind": "",
+                "units": "",
+                "value": true,
+                "type": "boolean"
+              }
+            ],
+            "start": null
+          },
+          "lunch": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 12,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Lunch",
+            "targetValues": [
+              {
+                "groupIdentifier": "",
+                "remoteId": "",
+                "id": "",
+                "asset": "",
+                "source": "",
+                "timezone": 0,
+                "userInfo": {},
+                "effectiveDate": null,
+                "index": 0,
+                "kind": "",
+                "units": "",
+                "value": true,
+                "type": "boolean"
+              }
+            ],
             "start": null
           }
         },
-        "carePlanId": "",
-        "healthKitLinkage": {
-          "quantityIdentifier": "heartRate",
-          "quantitytype": "discrete",
-          "unit": "bpm"
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Record your daily meals",
+        "impactsAdherence": true
+      },
+      "food-dairy-grid": {
+        "groupIdentifier": "GRID",
+        "remoteId": "food-dairy-grid",
+        "id": "FoodDiaryRecall",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "surveysquestionnaires"
         },
-        "instructions": "Most recent measurement",
+        "effectiveDate": null,
+        "title": "Food Diary",
+        "schedules": {
+          "breakfast": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Breakfast",
+            "targetValues": [
+              {
+                "groupIdentifier": "",
+                "remoteId": "",
+                "id": "",
+                "asset": "",
+                "source": "",
+                "timezone": 0,
+                "userInfo": {},
+                "effectiveDate": null,
+                "index": 0,
+                "kind": "",
+                "units": "",
+                "value": true,
+                "type": "boolean"
+              }
+            ],
+            "start": null
+          },
+          "dinner": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 18,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Dinner",
+            "targetValues": [
+              {
+                "groupIdentifier": "",
+                "remoteId": "",
+                "id": "",
+                "asset": "",
+                "source": "",
+                "timezone": 0,
+                "userInfo": {},
+                "effectiveDate": null,
+                "index": 0,
+                "kind": "",
+                "units": "",
+                "value": true,
+                "type": "boolean"
+              }
+            ],
+            "start": null
+          },
+          "drinks": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 18,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Drinks",
+            "targetValues": [
+              {
+                "groupIdentifier": "",
+                "remoteId": "",
+                "id": "",
+                "asset": "",
+                "source": "",
+                "timezone": 0,
+                "userInfo": {},
+                "effectiveDate": null,
+                "index": 0,
+                "kind": "",
+                "units": "",
+                "value": true,
+                "type": "boolean"
+              }
+            ],
+            "start": null
+          },
+          "lunch": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 12,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Lunch",
+            "targetValues": [
+              {
+                "groupIdentifier": "",
+                "remoteId": "",
+                "id": "",
+                "asset": "",
+                "source": "",
+                "timezone": 0,
+                "userInfo": {},
+                "effectiveDate": null,
+                "index": 0,
+                "kind": "",
+                "units": "",
+                "value": true,
+                "type": "boolean"
+              }
+            ],
+            "start": null
+          },
+          "snacks": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 15,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Snacks",
+            "targetValues": [
+              {
+                "groupIdentifier": "",
+                "remoteId": "",
+                "id": "",
+                "asset": "",
+                "source": "",
+                "timezone": 0,
+                "userInfo": {},
+                "effectiveDate": null,
+                "index": 0,
+                "kind": "",
+                "units": "",
+                "value": true,
+                "type": "boolean"
+              }
+            ],
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Record your daily meals",
         "impactsAdherence": false
       },
-      "measurement-heart-rate-resting": {
+      "restingHeartrate": {
         "groupIdentifier": "LABELED_VALUE",
         "remoteId": "restingHeartrate",
         "id": "",
@@ -734,7 +724,7 @@
             "start": null
           }
         },
-        "carePlanId": "",
+        "carePlanId": "defaultDiabetesCarePlan",
         "healthKitLinkage": {
           "quantityIdentifier": "restingHeartRate",
           "quantitytype": "discrete",
@@ -743,203 +733,18 @@
         "instructions": "Most recent measurement",
         "impactsAdherence": false
       },
-      "symptom-cough": {
-        "groupIdentifier": "LOG",
-        "remoteId": "DMSymptomsFatigue",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "symptoms",
-          "subtitle": "Feeling Fatigued",
-          "logText": "Logged fatigue"
-        },
-        "effectiveDate": null,
-        "title": "Fatigue",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Anytime today",
-            "start": null
-          }
-        },
-        "carePlanId": "",
-        "instructions": "Report symptoms of Fatigue",
-        "impactsAdherence": false
-      },
-      "symptom-fatigue": {
-        "groupIdentifier": "LOG",
-        "remoteId": "DMSymptomsFatigue",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "symptoms",
-          "subtitle": "Feeling Fatigued",
-          "logText": "Logged fatigue"
-        },
-        "effectiveDate": null,
-        "title": "Fatigue",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Anytime today",
-            "start": null
-          }
-        },
-        "carePlanId": "",
-        "instructions": "Report symptoms of Fatigue",
-        "impactsAdherence": false
-      },
-      "symptom-hypoglycemia": {
-        "groupIdentifier": "LOG",
-        "remoteId": "DMSymptomsHypoglycemia",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "symptoms",
-          "subtitle": "Record",
-          "logText": "Logged"
-        },
-        "effectiveDate": null,
-        "title": "Hypoglycemia",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Anytime today",
-            "start": null
-          }
-        },
-        "carePlanId": "",
-        "instructions": "Report symptoms of Hypoglycemia",
-        "impactsAdherence": false
-      },
-      "symptom-numbness-tingling": {
-        "groupIdentifier": "LOG",
-        "remoteId": "DMSymptomsNumbness/Tingling",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "symptoms",
-          "subtitle": "Record",
-          "logText": "Logged"
-        },
-        "effectiveDate": null,
-        "title": "Numbness/Tingling",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Anytime today",
-            "start": null
-          }
-        },
-        "carePlanId": "",
-        "instructions": "Report symptoms of Numbness/Tingling",
-        "impactsAdherence": false
-      },
-      "symptom-polydipsia": {
-        "groupIdentifier": "LOG",
-        "remoteId": "DMSymptomsPolydipsia",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "symptoms"
-        },
-        "effectiveDate": null,
-        "title": "Polydipsia",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Anytime today",
-            "start": null
-          }
-        },
-        "carePlanId": "",
-        "instructions": "Report symptoms of Polydipsia",
-        "impactsAdherence": false
-      },
-      "symptom-polyuria-nocturia": {
-        "groupIdentifier": "LOG",
-        "remoteId": "DMSymptomsPolyuria/Nocturia",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "symptoms"
-        },
-        "effectiveDate": null,
-        "title": "Polyuria/Nocturia",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Anytime today",
-            "start": null
-          }
-        },
-        "carePlanId": "",
-        "instructions": "Report symptoms of Polyuria/Nocturia",
-        "impactsAdherence": false
-      },
       "task-15-minutes-of-morning-exercise": {
         "groupIdentifier": "SIMPLE",
-        "remoteId": "",
+        "remoteId": "task-15-minutes-of-morning-exercise",
         "id": "MorningExercise",
         "asset": "",
         "source": "",
         "timezone": 0,
         "userInfo": {
-          "category": "physical-therapy"
+          "category": "physical-therapy",
+          "detailViewImageLabel": "Some Ideas",
+          "detailViewURL": "https://www.researchandcare.org/",
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg"
         },
         "effectiveDate": null,
         "title": "15 Minutes of Morning Exercise",
@@ -957,13 +762,80 @@
             "start": null
           }
         },
-        "carePlanId": "",
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "",
+        "impactsAdherence": true
+      },
+      "task-30-minutes-of-morning-exercise": {
+        "groupIdentifier": "SIMPLE",
+        "remoteId": "task-30-minutes-of-morning-exercise",
+        "id": "MorningExercise",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "physical-therapy",
+          "detailViewText": "Healthy Recipes\nSpinach & Kale",
+          "detailViewImageLabel": "Some Ideas",
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg"
+        },
+        "effectiveDate": null,
+        "title": "30 Minutes of Morning Exercise",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 21600,
+            "interval": 0,
+            "text": "",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "",
+        "impactsAdherence": true
+      },
+      "task-45-minutes-of-morning-exercise": {
+        "groupIdentifier": "SIMPLE",
+        "remoteId": "task-45-minutes-of-morning-exercise",
+        "id": "MorningExercise",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "physical-therapy",
+          "detailViewCSS": "\n.headline { \n    font-size: 23px; \n    font-weight: 700; \n}n.subheadline { \n    font-size: 15px; \n    font-weight: 300; \n} \np { \n    padding: 0px; \n    margin: 0px; \n}",
+          "detailViewHTML": "<p>Codex found that It&#39s tough balancing a busy schedule. During the busiest of times, healthy routines are often the first things we sacrifice to \nmake more room in the day for work or family. But sacrificing healthy \nhabits will end up hurting us in the long run - They give us strength and energy to go about our day. Preparing healthy meals doesn&#39tq \nrequire exotic ingredients and endless time in the kitchen.</p> \n<br> \n<p class=\"headline\">Avocado Tomato Toast</p> \n<p class=\"subheadline\">10 minutes</p>n<br> \n<p>Avocados are everywhere these days, and for good reason. They&#39re incredibly filling and a great replacement for other foods that /nare high in fat. Sprinkle on some granulated garlic and a touch of red pepper if you&#39re feeling adventurous.</p>",
+          "detailViewImageLabel": "Some Ideas",
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg"
+        },
+        "effectiveDate": null,
+        "title": "45 Minutes of Morning Exercise",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 21600,
+            "interval": 0,
+            "text": "",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
         "instructions": "",
         "impactsAdherence": true
       }
     }
   },
   "vectorClock": {
-    "backend": 0
+    "backend": 1
   }
 }

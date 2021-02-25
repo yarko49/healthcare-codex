@@ -1,8 +1,8 @@
 //
-//  ButtonLogTaskViewController.swift
+//  SimpleTaskViewController.swift
 //  Allie
 //
-//  Created by Waqar Malik on 1/16/21.
+//  Created by Waqar Malik on 2/24/21.
 //
 
 import CareKit
@@ -10,7 +10,7 @@ import CareKitStore
 import CareKitUI
 import UIKit
 
-class ButtonLogTaskViewController: OCKButtonLogTaskViewController {
+class SimpleTaskViewController: OCKSimpleTaskViewController {
 	var task: OCKTask?
 
 	override public init(task: OCKAnyTask, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {

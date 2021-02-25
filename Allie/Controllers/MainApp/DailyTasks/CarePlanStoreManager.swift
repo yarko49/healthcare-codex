@@ -17,7 +17,7 @@ class CarePlanStoreManager: ObservableObject {
 	enum Constants {
 		static let careKitTasksStore = "TasksStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
-		static let coreDataStoreType: OCKCoreDataStoreType = .inMemory
+		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk(protection: .completeUnlessOpen)
 	}
 
 	private(set) lazy var remoteSynchronizationManager: RemoteSynchronizationManager = {
@@ -69,7 +69,7 @@ class CarePlanStoreManager: ObservableObject {
 // MARK: - CarePlanResponse
 
 extension CarePlanStoreManager {
-	func insert(carePlansResponse: CarePlanResponse, for patient: OCKPatient?, completion: OCKResultClosure<[String]>?) {
+	func insert(carePlansResponse: CarePlanResponse, for patient: OCKPatient?, completion: OCKResultClosure<Bool>?) {
 		do {
 			try resetAllContents()
 		} catch {
@@ -79,6 +79,7 @@ extension CarePlanStoreManager {
 		let carePlans = carePlansResponse.carePlans.map { (carePlan) -> OCKCarePlan in
 			OCKCarePlan(carePlan: carePlan)
 		}
+
 		let addCarePlansOperation = CarePlansAddOperation(store: store, newCarePlans: carePlans, for: patient)
 		if let patient = patient {
 			let patientOperation = PatientsAddOperation(store: store, newPatients: [patient]) { [weak self] result in
@@ -115,11 +116,11 @@ extension CarePlanStoreManager {
 			case .failure(let error):
 				completion?(.failure(error))
 			case .success:
-				completion?(.success([]))
+				completion?(.success(true))
 			}
 		}
 
-		healthKitTasksOperation.addDependency(tasksOperation)
+		healthKitTasksOperation.addDependency(addCarePlansOperation)
 		storeOperationQueue.addOperation(tasksOperation)
 		storeOperationQueue.addOperation(healthKitTasksOperation)
 	}

@@ -6,6 +6,7 @@
 //
 
 @testable import Allie
+import CareKitStore
 import Foundation
 import XCTest
 
@@ -37,7 +38,7 @@ class AllieTests: XCTestCase {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 	}
 
-	func testCarePlanResponse() throws {
+	func testCarePlanValueSpaceResponse() throws {
 		let carePlanResponse = AllieTests.loadTestData(fileName: "ValueSpaceResponse.json")
 		XCTAssertNotNil(carePlanResponse)
 		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
@@ -81,26 +82,35 @@ class AllieTests: XCTestCase {
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 	}
 
-	func testGetFIHRQuestionnaire() {
-		let response = AllieTests.loadTestData(fileName: "FIHRQuestionnaire.json")
-		XCTAssertNotNil(response)
-		let url = APIRouter.getQuestionnaire.urlRequest?.url
-		XCTAssert(!response!.isEmpty)
-		URLProtocolMock.testData[url!] = response
-		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
-		let expect = expectation(description: "FIHRQuestionnaire")
-		client?.getQuestionnaire(completion: { result in
+	func testDefaultCarePlan() throws {
+		let carePlanResponseData = AllieTests.loadTestData(fileName: "DefaultCarePlan.json")
+		XCTAssertNotNil(carePlanResponseData)
+		let decoder = CHJSONDecoder()
+		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: carePlanResponseData!)
+		let allTasks = carePlanResponse.allTasks
+		for task in allTasks {
+			let ockTask = task.ockTask as? OCKTask
+			print("effective \(task.effectiveDate), \(ockTask?.effectiveDate ?? Date())")
+		}
+	}
+
+	func testInsertCarePlanStore() throws {
+		let carePlanResponseData = AllieTests.loadTestData(fileName: "DefaultCarePlan.json")
+		XCTAssertNotNil(carePlanResponseData)
+		let decoder = CHJSONDecoder()
+		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: carePlanResponseData!)
+		let storeManager = CarePlanStoreManager()
+		let expect = expectation(description: "InsertCarePlans")
+		storeManager.insert(carePlansResponse: carePlanResponse, for: storeManager.patient) { result in
 			switch result {
 			case .failure(let error):
 				XCTFail("Error Fetching DefaultDiabetes Care Plan = \(error.localizedDescription)")
-			case .success(let questionnaire):
-				XCTAssertNotNil(questionnaire.resourceType)
-				XCTAssertEqual(questionnaire.resourceType, "Questionnaire")
+			case .success(let cardList):
+				print(cardList)
 				XCTAssertTrue(true)
 				expect.fulfill()
 			}
-			URLProtocolMock.response = nil
-		})
+		}
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 	}
 
@@ -144,12 +154,5 @@ class AllieTests: XCTestCase {
 			URLProtocolMock.response = nil
 		})
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
-	}
-
-	func testPerformanceExample() throws {
-		// This is an example of a performance test case.
-		measure {
-			// Put the code you want to measure the time of here.
-		}
 	}
 }

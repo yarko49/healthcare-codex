@@ -10,34 +10,17 @@ import Foundation
 
 public struct CarePlanResponse: Codable {
 	public let carePlans: [CarePlan]
-	public let tasks: [String: [String: Task]]
+	public let tasks: [String: Task]
 	public let vectorClock: [String: Int]
 
-	public init(carePlans: [CarePlan] = [], tasks: [String: [String: Task]] = [:], vectorClock: [String: Int] = [:]) {
+	public init(carePlans: [CarePlan] = [], tasks: [String: Task] = [:], vectorClock: [String: Int] = [:]) {
 		self.carePlans = carePlans
 		self.tasks = tasks
 		self.vectorClock = vectorClock
 	}
 
 	public var allTasks: [Task] {
-		tasksByKey.map { (item) -> Task in
-			var newTask = item.value
-			if item.value.id.isEmpty {
-				newTask.id = item.key
-			}
-			return newTask
-		}
-	}
-
-	public var tasksByKey: [String: Task] {
-		var flatTasks: [String: Task] = [:]
-		for (_, value) in tasks {
-			for (key, innerValue) in value {
-				flatTasks[key] = innerValue
-			}
-		}
-
-		return flatTasks
+		Array(tasks.values)
 	}
 
 	private enum CodingKeys: String, CodingKey {
@@ -56,7 +39,14 @@ public struct CarePlanResponse: Codable {
 			}
 			return newPlan
 		}
-		self.tasks = try container.decode([String: [String: Task]].self, forKey: .tasks)
+		let tasks = try container.decode([String: [String: Task]].self, forKey: .tasks)
+		var flatTasks: [String: Task] = [:]
+		for (_, value) in tasks {
+			for (key, innerValue) in value {
+				flatTasks[key] = innerValue
+			}
+		}
+		self.tasks = flatTasks
 		self.vectorClock = try container.decode([String: Int].self, forKey: .vectorClock)
 	}
 }
