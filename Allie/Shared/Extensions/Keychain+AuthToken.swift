@@ -11,6 +11,7 @@ extension Keychain {
 	enum KeychainKey: String {
 		case authToken = "AUTH_TOKEN"
 		case emailForLink = "EMAIL_FOR_LINK"
+		case userIdentifier = "UserIdentifier"
 	}
 
 	class var authToken: String? {
@@ -28,6 +29,19 @@ extension Keychain {
 		}
 		set {
 			Self[KeychainKey.emailForLink.rawValue] = newValue
+		}
+	}
+
+	class var patientID: String? {
+		"Patient/\(userId ?? "")"
+	}
+
+	class var userId: String? {
+		get {
+			Self[KeychainKey.userIdentifier.rawValue]
+		}
+		set {
+			Self[KeychainKey.userIdentifier.rawValue] = newValue
 		}
 	}
 

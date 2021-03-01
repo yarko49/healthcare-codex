@@ -28,12 +28,12 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 		super.viewDidLoad()
 		title = NSLocalizedString("TASKS", comment: "Tasks")
 		registerProvider()
+		fetchCarePlan()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		AnalyticsManager.send(event: .pageView, properties: [.name: "CarePlanDailyTasks"])
-		fetchCarePlan()
 	}
 
 	var showHUD: Bool = true

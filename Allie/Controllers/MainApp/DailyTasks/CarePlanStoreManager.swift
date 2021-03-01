@@ -70,12 +70,6 @@ class CarePlanStoreManager: ObservableObject {
 
 extension CarePlanStoreManager {
 	func insert(carePlansResponse: CarePlanResponse, for patient: OCKPatient?, completion: OCKResultClosure<Bool>?) {
-		do {
-			try resetAllContents()
-		} catch {
-			ALog.error("\(error.localizedDescription)")
-		}
-
 		let carePlans = carePlansResponse.carePlans.map { (carePlan) -> OCKCarePlan in
 			OCKCarePlan(carePlan: carePlan)
 		}

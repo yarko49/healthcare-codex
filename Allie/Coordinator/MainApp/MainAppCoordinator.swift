@@ -78,6 +78,9 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	internal func showDailyTasksView() {
 		let tasksViewController = CarePlanDailyTasksController(storeManager: AppDelegate.carePlanStoreManager.synchronizedStoreManager)
 		navigate(to: tasksViewController, with: .push)
+		DispatchQueue.global(qos: .background).async { [weak self] in
+			self?.parentCoordinator?.syncHealthKitData()
+		}
 	}
 
 	internal func showHome() {
@@ -150,12 +153,12 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			case .bloodPressure:
 				let sysComponent = Component(code: MedicalCode.systolicBloodPressure, valueQuantity: ValueQuantity(value: value1, unit: Str.pressureUnit))
 				let diaComponent = Component(code: MedicalCode.diastolicBloodPressure, valueQuantity: ValueQuantity(value: value2, unit: Str.pressureUnit))
-				let observation = CodexResource(id: nil, code: MedicalCode.bloodPressure, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
+				let observation = CodexResource(id: nil, code: MedicalCode.bloodPressure, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: Keychain.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
 				self?.observation = observation
 				self?.bundle = nil
 			case .weight:
-				let weightEntry = BundleEntry(fullURL: nil, resource: CodexResource(id: nil, code: MedicalCode.bodyWeight, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: value1, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
-				let goalWeightEntry = BundleEntry(fullURL: nil, resource: CodexResource(id: nil, code: MedicalCode.idealBodyWeight, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: value2, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
+				let weightEntry = BundleEntry(fullURL: nil, resource: CodexResource(id: nil, code: MedicalCode.bodyWeight, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: Keychain.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: value1, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
+				let goalWeightEntry = BundleEntry(fullURL: nil, resource: CodexResource(id: nil, code: MedicalCode.idealBodyWeight, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: Keychain.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: value2, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
 
 				let bundle = CodexBundle(entry: [weightEntry, goalWeightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
 				self?.observation = nil
@@ -371,7 +374,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 			switch result {
 			case .success:
 				ALog.info("OK STATUS FOR UPDATE PATIENT : 200")
-				DataContext.shared.userModel = UserModel(userID: DataContext.shared.userModel?.userID ?? "", email: DataContext.shared.userModel?.email, name: [ResourceName(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? OCKBiologicalSex(rawValue: "female"))
+				DataContext.shared.userModel = UserModel(userID: Keychain.patientID ?? "", email: DataContext.shared.userModel?.email, name: [ResourceName(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? OCKBiologicalSex(rawValue: "female"))
 				self?.profileViewController?.nameLabel?.attributedText = (ProfileHelper.firstName ?? "").with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 				self?.getHeightWeight(weight: weight, height: height, date: date)
 			case .failure(let error):
@@ -383,7 +386,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 	internal func getHeightWeight(weight: Int, height: Int, date: String) {
 		let displayName = DataContext.shared.userModel?.displayName
-		let referenceId = "Patient/\(DataContext.shared.userModel?.userID ?? "")"
+		let referenceId = "Patient/\(Keychain.userId ?? "")"
 
 		let weightObservation = CodexResource(id: nil, code: MedicalCode.bodyWeight, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
 

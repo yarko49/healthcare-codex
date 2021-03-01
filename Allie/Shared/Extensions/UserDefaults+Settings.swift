@@ -8,6 +8,12 @@
 import Foundation
 
 extension UserDefaults {
+	static func registerDefautlts() {
+		let defaults: [String: Any] = [Self.isCarePlanPopulatedKey: false, Self.hasRunOnceKey: false, Self.hasCompletedOnboardingKey: false,
+		                               Self.isBiometricsEnabledKey: false, Self.healthKitUploadChunkSizeKey: 4500]
+		UserDefaults.standard.register(defaults: defaults)
+	}
+
 	private static let isCarePlanPopulatedKey = "carePlanPopulated"
 	var isCarePlanPopulated: Bool {
 		get {
@@ -54,5 +60,15 @@ extension UserDefaults {
 
 	func removeBiometrics() {
 		removeObject(forKey: Self.isBiometricsEnabledKey)
+	}
+
+	private static let healthKitUploadChunkSizeKey = "HealthKitUploadChunkSize"
+	var healthKikUploadChunkSize: Int {
+		get {
+			integer(forKey: Self.healthKitUploadChunkSizeKey)
+		}
+		set {
+			set(newValue, forKey: Self.healthKitUploadChunkSizeKey)
+		}
 	}
 }
