@@ -3,22 +3,28 @@ import FirebaseAuth
 import Foundation
 
 extension DataContext {
-	func searchPatient(user: User, completion: @escaping (Bool) -> Void) {
+	func searchPatient(user: User, completion: @escaping (String?) -> Void) {
 		showHUD()
 		APIClient.client.postPatientSearch { [weak self] result in
 			self?.hideHUD()
 			switch result {
 			case .success(let response):
-				guard let resource = response.entry?.first?.resource else {
-					completion(false)
-					return
+				if let resource = response.entry?.first?.resource {
+					self?.resource = resource
+					self?.userModel = UserModel(userID: resource.id, email: user.email, name: resource.name, dob: resource.birthDate, gender: OCKBiologicalSex(rawValue: resource.gender ?? ""))
+					completion(resource.id)
+				} else if let urlString = response.link?.first?.url, let components = URLComponents(string: urlString) {
+					let identifier = components.queryItems?.filter { (item) -> Bool in
+						item.name == "identifier"
+					}.first?.value ?? ""
+					let identifierValue = identifier.components(separatedBy: "|").last
+					completion(identifierValue)
+				} else {
+					completion(nil)
 				}
-				self?.resource = resource
-				self?.userModel = UserModel(userID: resource.id, email: user.email, name: resource.name, dob: resource.birthDate, gender: OCKBiologicalSex(rawValue: resource.gender ?? ""))
-				completion(true)
 			case .failure(let error):
 				ALog.error("Patient Search", error: error)
-				completion(false)
+				completion(nil)
 			}
 		}
 	}

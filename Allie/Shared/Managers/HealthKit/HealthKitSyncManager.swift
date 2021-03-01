@@ -30,6 +30,26 @@ class HealthKitSyncManager {
 		}
 	}
 
+	class func syncDataBackground(initialUpload: Bool = true, chunkSize: Int?, progressUpdate: @escaping (Int, Int) -> Void = { _, _ in }, completion: @escaping (Bool) -> Void) {
+		guard let chunkSize = chunkSize else {
+			completion(false)
+			return
+		}
+
+		searchHKData(initialUpload: initialUpload) { importSuccess, allEntries in
+			if importSuccess {
+				progressUpdate(0, allEntries.count)
+				self.uploadHKData(with: allEntries, chunkSize: chunkSize, progressUpdate: { uploaded, total in
+					progressUpdate(uploaded, total)
+				}, completion: { success in
+					completion(success)
+				})
+			} else {
+				completion(importSuccess)
+			}
+		}
+	}
+
 	class func getLatestDate(for quantity: HealthKitDataType, completion: @escaping (Date) -> Void) {
 		guard let date = Calendar.current.date(byAdding: .year, value: -1, to: Date()) else {
 			completion(Date())

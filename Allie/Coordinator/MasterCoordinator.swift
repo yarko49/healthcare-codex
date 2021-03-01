@@ -79,7 +79,7 @@ class MasterCoordinator: Coordinator {
 			self?.firebaseAuthentication(completion: { success in
 				DispatchQueue.main.async {
 					if success {
-						self?.syncHKData()
+						self?.goToMainApp()
 					} else {
 						self?.goToAuth()
 					}
@@ -106,29 +106,25 @@ class MasterCoordinator: Coordinator {
 				return
 			}
 
-			DataContext.shared.searchPatient(user: user) { success in
-				guard success else {
+			DataContext.shared.searchPatient(user: user) { identifier in
+				guard let userId = identifier else {
 					completion(false)
 					return
 				}
-				LoggingManager.identify(userId: DataContext.shared.userModel?.userID)
-				DataContext.shared.getProfileAPI(completion: completion)
+				Keychain.userId = userId
+				LoggingManager.identify(userId: userId)
+				DataContext.shared.signUpCompleted = true
+				completion(true)
 			}
 		})
 	}
 
-	internal func syncHKData() {
-		let hkDataUploadViewController = HKDataUploadViewController()
-		window.rootViewController = hkDataUploadViewController
-		HealthKitSyncManager.syncData(initialUpload: false, chunkSize: 4500) { [weak hkDataUploadViewController] uploaded, total in
-			hkDataUploadViewController?.maxProgress = total
-			hkDataUploadViewController?.progress = uploaded
-		} completion: { [weak self] success in
-			if success {
-				self?.goToMainApp()
-			} else {
-				AlertHelper.showAlert(title: Str.error, detailText: Str.importHealthDataFailed, actions: [])
-				self?.goToMainApp()
+	func syncHealthKitData() {
+		HealthKitSyncManager.syncDataBackground(initialUpload: false, chunkSize: UserDefaults.standard.healthKikUploadChunkSize) { uploaded, total in
+			ALog.info("HealthKit data upload progress = \(uploaded), total: \(total)")
+		} completion: { success in
+			if success == false {
+				// show alert
 			}
 		}
 	}

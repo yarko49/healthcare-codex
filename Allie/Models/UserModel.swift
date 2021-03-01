@@ -41,10 +41,6 @@ extension UserModel {
 		return displayName.joined(separator: " ")
 	}
 
-	var patientID: String {
-		"Patient/\(userID ?? "")"
-	}
-
 	var birthdayYear: Int {
 		let age = dob
 		let yearString = age?.prefix(4)

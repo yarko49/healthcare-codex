@@ -21,6 +21,7 @@ enum APIRouter: URLRequestConvertible {
 	case postObservation(observation: CodexResource)
 	case getNotifications
 	case postPatientSearch
+	case getPatient(identifier: String)
 	case postBundle(bundle: CodexBundle)
 	case postObservationSearch(search: SearchParameter)
 	case patchPatient(patient: UpdatePatientModels)
@@ -38,6 +39,7 @@ enum APIRouter: URLRequestConvertible {
 		case .postProfile: return .post
 		case .getNotifications: return .get
 		case .postPatientSearch: return .post
+		case .getPatient: return .get
 		case .postBundle: return .post
 		case .postObservationSearch: return .post
 		case .patchPatient: return .patch
@@ -58,6 +60,7 @@ enum APIRouter: URLRequestConvertible {
 		case .postBundle: return "/fhir/Bundle"
 		case .postObservationSearch: return "/fhir/Observation/_search"
 		case .patchPatient: return "/fhir/Patient"
+		case .getPatient: return "/fhir/Patient"
 		}
 	}
 
@@ -110,7 +113,7 @@ enum APIRouter: URLRequestConvertible {
 			} else if valueSpaceSample {
 				headers[Request.Header.CarePlanPrefer] = "return=ValueSpaceSample"
 			}
-		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile, .postCarePlan, .registerProvider:
+		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile, .postCarePlan, .registerProvider, .getPatient:
 			break
 		case .postObservation, .postPatient, .postPatientSearch, .postBundle, .postQuestionnaireResponse, .postObservationSearch:
 			headers[Request.Header.contentType] = Request.ContentType.fhirjson
@@ -122,7 +125,16 @@ enum APIRouter: URLRequestConvertible {
 
 	var parameters: [String: Any]? {
 		switch self {
-		case .getQuestionnaire, .postQuestionnaireResponse, .postObservation, .postPatient, .getProfile, .postProfile, .getNotifications, .postPatientSearch, .postBundle, .postObservationSearch, .patchPatient, .getCarePlan, .postCarePlan, .registerProvider:
+		case .getQuestionnaire, .postQuestionnaireResponse, .postObservation, .postPatient, .getProfile, .postProfile, .getNotifications, .postPatientSearch, .postBundle, .postObservationSearch, .patchPatient, .getCarePlan, .postCarePlan, .registerProvider, .getPatient:
+			return nil
+		}
+	}
+
+	var queryParameters: [URLQueryItem]? {
+		switch self {
+		case .getPatient(let identifier):
+			return [URLQueryItem(name: "identifier", value: identifier)]
+		default:
 			return nil
 		}
 	}
@@ -133,6 +145,9 @@ enum APIRouter: URLRequestConvertible {
 		}
 		var request = Request(method, url: url)
 		request.setHeaders(headers)
+		if let queryItems = queryParameters {
+			request.setQueryItems(queryItems)
+		}
 		if let body = body {
 			request.setJSONData(body)
 		}

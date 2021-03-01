@@ -17,8 +17,6 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 
 	var currentNonce: String?
 	var emailrequest: String?
-	var healthDataSuccessfullyUploaded = true
-	var chunkSize = 4500
 	var authorizationFlowType: AuthorizationFlowType = .signUp
 
 	var rootViewController: UIViewController? {
@@ -228,10 +226,10 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		}
 
 		showHUD()
-		DataContext.shared.searchPatient(user: user, completion: { [weak self] success in
+		DataContext.shared.searchPatient(user: user, completion: { [weak self] identifier in
 			self?.hideHUD()
-			if success {
-				LoggingManager.identify(userId: DataContext.shared.userModel?.userID)
+			if let userId = identifier {
+				LoggingManager.identify(userId: userId)
 				self?.getProfile()
 			} else {
 				self?.goToMyProfileFirstViewController(from: .signIn)
@@ -268,26 +266,8 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			}
 			ALog.info("HealthKit Successfully Authorized.")
 			DispatchQueue.main.async {
-				self.syncHKData()
+				self.goToMainApp()
 			}
-		}
-	}
-
-	internal func syncHKData() {
-		let hkDataUploadViewController = HKDataUploadViewController()
-		navigate(to: hkDataUploadViewController, with: .present)
-		HealthKitSyncManager.syncData(initialUpload: false, chunkSize: chunkSize) { [weak hkDataUploadViewController] uploaded, total in
-			hkDataUploadViewController?.progress = uploaded
-			hkDataUploadViewController?.maxProgress = total
-		} completion: { [weak hkDataUploadViewController, weak self] success in
-			hkDataUploadViewController?.dismiss(animated: true, completion: {
-				if success {
-					self?.goToMainApp()
-				} else {
-					AlertHelper.showAlert(title: Str.error, detailText: Str.importHealthDataFailed, actions: [])
-					self?.goToMainApp()
-				}
-			})
 		}
 	}
 
@@ -381,7 +361,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	internal func setChunkSize() {
 		let changeChunkSizeViewController = SelectChunkSizeViewController()
 		let continueAction: ((Int) -> Void)? = { [weak self] chunkSize in
-			self?.chunkSize = chunkSize
+			UserDefaults.standard.healthKikUploadChunkSize = chunkSize
 			self?.startInitialUpload()
 		}
 		changeChunkSizeViewController.continueAction = continueAction
@@ -391,7 +371,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	internal func startInitialUpload() {
 		let hkDataUploadViewController = HKDataUploadViewController()
 		hkDataUploadViewController.queryAction = { [weak self] in
-			HealthKitSyncManager.syncData(chunkSize: self?.chunkSize) { uploaded, total in
+			HealthKitSyncManager.syncData(chunkSize: UserDefaults.standard.healthKikUploadChunkSize) { uploaded, total in
 				hkDataUploadViewController.progress = uploaded
 				hkDataUploadViewController.maxProgress = total
 			} completion: { success in
@@ -452,9 +432,9 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	}
 
 	internal func getHeightWeight(weight: Int, height: Int, date: String) {
-		let weightObservation = CodexResource(id: nil, code: MedicalCode.bodyWeight, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
+		let weightObservation = CodexResource(id: nil, code: MedicalCode.bodyWeight, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: Keychain.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
 		let weightEntry = BundleEntry(fullURL: nil, resource: weightObservation, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
-		let heightObservation = CodexResource(id: nil, code: MedicalCode.bodyHeight, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: height, unit: Str.heightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
+		let heightObservation = CodexResource(id: nil, code: MedicalCode.bodyHeight, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: Keychain.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: height, unit: Str.heightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
 		let heightEntry = BundleEntry(fullURL: nil, resource: heightObservation, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
 		let bundle = CodexBundle(entry: [weightEntry, heightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
 		bundleAction(bundle: bundle)
@@ -483,7 +463,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			self?.hideHUD()
 			switch result {
 			case .success(let finished):
-				LoggingManager.identify(userId: DataContext.shared.userModel?.userID)
+				LoggingManager.identify(userId: Keychain.userId)
 				ALog.info("OK STATUS FOR PROFILE: 200 \(String(describing: DataContext.shared.signUpCompleted)), \(finished)")
 				self?.goToHealthViewControllerFromDevices()
 			case .failure(let error):

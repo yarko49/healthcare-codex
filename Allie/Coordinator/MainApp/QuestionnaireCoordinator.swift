@@ -144,7 +144,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 			items.append(item)
 		}
 
-		let questionnaireResponse = QuestionnaireResponse(resourceType: "QuestionnaireResponse", identifier: QuestionnaireIdentifier(assigner: nil, system: nil, type: IdentifierID(text: "", value: "", coding: MedicalCode.heartRate.coding), use: nil, value: nil), questionnaire: "string", status: "completed", authored: DateFormatter.wholeDateRequest.string(from: Date()), author: Assigner(reference: DataContext.shared.userModel?.patientID), source: Subject(reference: DataContext.shared.userModel?.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), item: items)
+		let questionnaireResponse = QuestionnaireResponse(resourceType: "QuestionnaireResponse", identifier: QuestionnaireIdentifier(assigner: nil, system: nil, type: IdentifierID(text: "", value: "", coding: MedicalCode.heartRate.coding), use: nil, value: nil), questionnaire: "string", status: "completed", authored: DateFormatter.wholeDateRequest.string(from: Date()), author: Assigner(reference: Keychain.patientID), source: Subject(reference: Keychain.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), item: items)
 		return questionnaireResponse
 	}
 

@@ -54,7 +54,7 @@ class HealthKitManager {
 			} ?? []
 
 			let entries: [BundleEntry] = quantitySamples.compactMap { (data) -> BundleEntry? in
-				let resource = CodexResource(id: nil, code: quantity.code, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID ?? "", type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: Int(data.quantity.doubleValue(for: quantity.unit)), unit: quantity.unit.unitString), birthDate: nil, gender: nil, name: nil, component: nil)
+				let resource = CodexResource(id: nil, code: quantity.code, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: Keychain.patientID ?? "", type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: Int(data.quantity.doubleValue(for: quantity.unit)), unit: quantity.unit.unitString), birthDate: nil, gender: nil, name: nil, component: nil)
 				let entry = BundleEntry(fullURL: nil, resource: resource, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
 				return entry
 			}
@@ -74,7 +74,7 @@ class HealthKitManager {
 					if let dia = data.objects(for: bloodPressureDiastolic).first as? HKQuantitySample, let sys = data.objects(for: bloodPressureSystolic).first as? HKQuantitySample {
 						let diaComponent = Component(code: MedicalCode.diastolicBloodPressure, valueQuantity: ValueQuantity(value: Int(dia.quantity.doubleValue(for: HKUnit.millimeterOfMercury())), unit: HKUnit.millimeterOfMercury().unitString))
 						let sysComponent = Component(code: MedicalCode.systolicBloodPressure, valueQuantity: ValueQuantity(value: Int(sys.quantity.doubleValue(for: HKUnit.millimeterOfMercury())), unit: HKUnit.millimeterOfMercury().unitString))
-						let resource = CodexResource(id: nil, code: MedicalCode.bloodPressure, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: DataContext.shared.userModel?.patientID ?? "", type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
+						let resource = CodexResource(id: nil, code: MedicalCode.bloodPressure, effectiveDateTime: DateFormatter.wholeDateRequest.string(from: data.startDate), identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: Keychain.patientID ?? "", type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
 						let entry = BundleEntry(fullURL: nil, resource: resource, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
 						entries.append(entry)
 					}
