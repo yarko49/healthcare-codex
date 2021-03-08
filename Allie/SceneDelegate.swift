@@ -15,8 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		MasterCoordinator(in: self.window!)
 	}()
 
-	lazy var dailyTasksViewController: CarePlanDailyTasksController = {
-		let controller = CarePlanDailyTasksController(storeManager: AppDelegate.appDelegate.carePlanStoreManager.synchronizedStoreManager)
+	lazy var dailyTasksViewController: DailyTasksPageViewController = {
+		let controller = DailyTasksPageViewController(storeManager: AppDelegate.careManager.synchronizedStoreManager)
 		return controller
 	}()
 

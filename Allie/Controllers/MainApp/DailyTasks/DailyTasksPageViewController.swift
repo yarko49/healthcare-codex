@@ -1,5 +1,5 @@
 //
-//  CarePlanDailyTasksController.swift
+//  DailyTasksPageViewController.swift
 //  Allie
 //
 //  Created by Waqar Malik on 1/7/21.
@@ -8,13 +8,14 @@
 import CareKit
 import CareKitStore
 import CareKitUI
+import Combine
 import JGProgressHUD
 import SwiftUI
 import UIKit
 
-class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
-	var carePlanStoreManager: CarePlanStoreManager {
-		AppDelegate.appDelegate.carePlanStoreManager
+class DailyTasksPageViewController: OCKDailyTasksPageViewController {
+	var careManager: CareManager {
+		AppDelegate.careManager
 	}
 
 	private let hud: JGProgressHUD = {
@@ -27,8 +28,17 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = NSLocalizedString("TASKS", comment: "Tasks")
-		registerProvider()
-		fetchCarePlan()
+		refreshCarePlan()
+	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		Timer.publish(every: 10.0, tolerance: 2.0, on: .current, in: .common, options: nil)
+			.sink { _ in
+				ALog.info("Timer Fired")
+			} receiveValue: { [weak self] _ in
+				self?.refreshCarePlan()
+			}.store(in: &cancellables)
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -36,7 +46,8 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 		AnalyticsManager.send(event: .pageView, properties: [.name: "CarePlanDailyTasks"])
 	}
 
-	var showHUD: Bool = true
+	var cancellables: Set<AnyCancellable> = []
+
 	var insertViewsAnimated: Bool = false
 
 	override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController, prepare listViewController: OCKListViewController, for date: Date) {
@@ -98,51 +109,24 @@ class CarePlanDailyTasksController: OCKDailyTasksPageViewController {
 			}
 		}
 	}
-}
 
-private extension CarePlanDailyTasksController {
-	func fetchCarePlan() {
-		if showHUD {
-			hud.show(in: navigationController?.view ?? view)
-		}
-		CarePlanStoreManager.getCarePlan { [weak self] result in
-			if let showHUD = self?.showHUD, showHUD {
-				self?.hud.dismiss()
-				self?.showHUD = false
-			}
+	func refreshCarePlan() {
+		CareManager.getCarePlan { [weak self] result in
 			switch result {
 			case .failure(let error):
 				ALog.error(error: error)
 			case .success(let carePlans):
-				self?.carePlanStoreManager.insert(carePlansResponse: carePlans, for: self?.carePlanStoreManager.patient, completion: { insertResult in
+				self?.careManager.insert(carePlansResponse: carePlans, for: nil, completion: { insertResult in
 					switch insertResult {
 					case .failure(let error):
 						ALog.error(error: error)
 					case .success:
-						self?.reload()
-						UserDefaults.standard.isCarePlanPopulated = true
+						ALog.info("added the care plan")
+						DispatchQueue.main.async {
+							self?.reload()
+						}
 					}
 				})
-			}
-		}
-	}
-
-	func populateSamplePlan() {
-		carePlanStoreManager.insert(carePlansResponse: CarePlanStoreManager.sampleResponse, for: carePlanStoreManager.patient) { _ in
-			self.reload()
-		}
-	}
-}
-
-extension CarePlanDailyTasksController {
-	func registerProvider() {
-		let provider = "CodexPilotHealthcareOrganization"
-		APIClient.client.registerProvider(identifier: provider) { result in
-			switch result {
-			case .failure(let error):
-				ALog.error("Unable to register healthcare provider \(error.localizedDescription)")
-			case .success:
-				ALog.info("Did Register the provider \(provider)")
 			}
 		}
 	}

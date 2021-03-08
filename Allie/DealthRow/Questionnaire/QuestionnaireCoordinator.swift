@@ -6,7 +6,7 @@
 import Foundation
 import UIKit
 
-class QuestionnaireCoordinator: NSObject, Coordinator {
+class QuestionnaireCoordinator: NSObject, Coordinable {
 	internal var navigationController: UINavigationController? = {
 		let navigationController = UINavigationController()
 		let navBar = navigationController.navigationBar
@@ -16,7 +16,7 @@ class QuestionnaireCoordinator: NSObject, Coordinator {
 		return navigationController
 	}()
 
-	internal var childCoordinators: [CoordinatorKey: Coordinator]
+	internal var childCoordinators: [CoordinatorType: Coordinable]
 	internal weak var parentCoordinator: MainAppCoordinator?
 
 	var rootViewController: UIViewController? {

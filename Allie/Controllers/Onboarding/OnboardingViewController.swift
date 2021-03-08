@@ -21,9 +21,9 @@ struct IllustartionItem: Hashable {
 }
 
 class OnboardingViewController: BaseViewController, UIViewControllerTransitioningDelegate {
-	var signInWithAppleAction: Coordinator.ActionHandler?
-	var signInWithEmailAction: Coordinator.ActionHandler?
-	var signupAction: Coordinator.ActionHandler?
+	var signInWithAppleAction: Coordinable.ActionHandler?
+	var signInWithEmailAction: Coordinable.ActionHandler?
+	var signupAction: Coordinable.ActionHandler?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()

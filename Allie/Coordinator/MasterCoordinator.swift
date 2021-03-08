@@ -1,12 +1,13 @@
+import CareKitStore
 import Firebase
 import FirebaseAuth
 import JGProgressHUD
 import LocalAuthentication
 import UIKit
 
-class MasterCoordinator: Coordinator {
+class MasterCoordinator: Coordinable {
 	private var window: UIWindow
-	internal var childCoordinators: [CoordinatorKey: Coordinator]
+	internal var childCoordinators: [CoordinatorType: Coordinable]
 	internal var navigationController: UINavigationController?
 	internal let hud: JGProgressHUD = {
 		let view = JGProgressHUD(style: .dark)
@@ -38,7 +39,6 @@ class MasterCoordinator: Coordinator {
 	}
 
 	public func start() {
-		NotificationCenter.default.addObserver(self, selector: #selector(handleLogout(_:)), name: .applicationDidLogout, object: nil)
 		if !UserDefaults.standard.hasRunOnce {
 			DataContext.shared.clearAll()
 			let firebaseAuth = Auth.auth()
@@ -61,6 +61,35 @@ class MasterCoordinator: Coordinator {
 			return
 		}
 		biometricsAuthentication()
+	}
+
+	public func goToAuth(url: String = "") {
+		removeChild(.mainAppCoordinator)
+		DataContext.shared.clearAll()
+		let authCoordinator = AuthCoordinator(withParent: self, deepLink: url)
+		addChild(coordinator: authCoordinator, with: .authCoordinator)
+		window.rootViewController = authCoordinator.rootViewController
+	}
+
+	public func goToMainApp(showingLoader: Bool = true) {
+		removeChild(.authCoordinator)
+		let mainAppCoordinator = MainAppCoordinator(with: self)
+		addChild(coordinator: mainAppCoordinator, with: .mainAppCoordinator)
+		let rootViewController = mainAppCoordinator.rootViewController
+		window.rootViewController = rootViewController
+		if let user = Auth.auth().currentUser {
+			if showingLoader {
+				hud.show(in: rootViewController?.view ?? AppDelegate.primaryWindow)
+			}
+
+			syncPatient(user: user) { [weak self] _ in
+				if showingLoader {
+					DispatchQueue.main.async {
+						self?.hud.dismiss()
+					}
+				}
+			}
+		}
 	}
 
 	internal func biometricsAuthentication() {
@@ -101,20 +130,54 @@ class MasterCoordinator: Coordinator {
 				return
 			}
 			Keychain.authToken = firebaseToken
-			guard let user = Auth.auth().currentUser else {
-				completion(false)
-				return
-			}
+			DataContext.shared.signUpCompleted = true
+			completion(true)
+		})
+	}
 
-			DataContext.shared.searchPatient(user: user) { identifier in
-				guard let userId = identifier else {
-					completion(false)
-					return
+	func syncPatient(user: RemoteUser, completion: @escaping (Bool) -> Void) {
+		CareManager.register(provider: AppDelegate.careManager.provider)
+		AppDelegate.careManager.findOrCreate(user: user, completion: { addResult in
+			switch addResult {
+			case .failure(let error):
+				ALog.error("Unable to add Patient to store", error: error)
+				completion(false)
+			case .success(let patient):
+				CareManager.getCarePlan { carePlanResult in
+					switch carePlanResult {
+					case .failure(let error):
+						ALog.error("Error Fetching care Plan \(error.localizedDescription)")
+					case .success(let carePlan):
+						if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.FHIRId, !FHIRid.isEmpty {
+							let ockPatient = OCKPatient(patient: serverPatient)
+							AppDelegate.careManager.insert(carePlansResponse: carePlan, for: ockPatient, completion: nil)
+							completion(true)
+						} else {
+							CareManager.postPatient(patient: patient) { postPatientResult in
+								switch postPatientResult {
+								case .failure(let error):
+									ALog.error("error creating \(error.localizedDescription)")
+									completion(false)
+								case .success(let vectorClock):
+									ALog.info("vectorClock: \(vectorClock)")
+									CareManager.getCarePlan { newCarePlanResult in
+										switch newCarePlanResult {
+										case .failure(let error):
+											ALog.error("error creating \(error.localizedDescription)")
+											completion(false)
+										case .success(let newCarePlanResponse):
+											if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.FHIRId, !FHIRid.isEmpty {
+												let ockPatient = OCKPatient(patient: serverPatient)
+												AppDelegate.careManager.insert(carePlansResponse: newCarePlanResponse, for: ockPatient, completion: nil)
+											}
+											completion(true)
+										}
+									}
+								}
+							}
+						}
+					}
 				}
-				Keychain.userId = userId
-				LoggingManager.identify(userId: userId)
-				DataContext.shared.signUpCompleted = true
-				completion(true)
 			}
 		})
 	}
@@ -129,31 +192,16 @@ class MasterCoordinator: Coordinator {
 		}
 	}
 
-	public func goToAuth(url: String = "") {
-		removeChild(.mainAppCoordinator)
-		DataContext.shared.clearAll()
-		let authCoordinator = AuthCoordinator(withParent: self, deepLink: url)
-		addChild(coordinator: authCoordinator, with: .authCoordinator)
-		window.rootViewController = authCoordinator.rootViewController
-	}
-
-	public func goToMainApp(showingLoader: Bool = true) {
-		removeChild(.authCoordinator)
-		let mainAppCoordinator = MainAppCoordinator(with: self)
-		addChild(coordinator: mainAppCoordinator, with: .mainAppCoordinator)
-		window.rootViewController = mainAppCoordinator.rootViewController
-	}
-
-	@objc func handleLogout(_ sender: Notification) {
+	func logout() {
 		let firebaseAuth = Auth.auth()
 		do {
 			try firebaseAuth.signOut()
-		} catch let signOutError {
+			DataContext.shared.clearAll()
+			UserDefaults.standard.removeBiometrics()
+			try AppDelegate.careManager.resetAllContents()
+			goToAuth()
+		} catch let signOutError as NSError {
 			ALog.error("Error signing out:", error: signOutError)
-		}
-		DispatchQueue.main.async { [weak self] in
-			self?.goToAuth()
-			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 		}
 	}
 }

@@ -16,11 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		UIApplication.shared.delegate as? AppDelegate
 	}
 
-	class var carePlanStoreManager: CarePlanStoreManager {
-		AppDelegate.appDelegate.carePlanStoreManager
+	class var careManager: CareManager {
+		AppDelegate.appDelegate.careManager
 	}
 
-	var carePlanStoreManager = CarePlanStoreManager()
+	var careManager = CareManager()
 
 	class var primaryWindow: UIWindow! {
 		AppDelegate.appDelegate.primaryWindow

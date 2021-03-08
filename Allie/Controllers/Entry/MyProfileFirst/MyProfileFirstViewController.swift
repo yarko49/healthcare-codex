@@ -6,7 +6,7 @@ import UIKit
 class MyProfileFirstViewController: BaseViewController, UITextViewDelegate, UIGestureRecognizerDelegate {
 	var sendDataAction: ((String, String, [String]) -> Void)?
 	var alertAction: ((_ tv: TextfieldView?) -> Void)?
-	var alert: Coordinator.ActionHandler?
+	var alert: Coordinable.ActionHandler?
 
 	@IBOutlet var sexStackView: UIStackView!
 	@IBOutlet var sexLabel: UILabel!

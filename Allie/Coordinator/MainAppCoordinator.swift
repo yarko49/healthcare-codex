@@ -3,9 +3,9 @@ import HealthKit
 import LocalAuthentication
 import UIKit
 
-class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDelegate {
+class MainAppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelegate {
 	internal var navigationController: UINavigationController?
-	internal var childCoordinators: [CoordinatorKey: Coordinator]
+	internal var childCoordinators: [CoordinatorType: Coordinable]
 	internal weak var parentCoordinator: MasterCoordinator?
 
 	var laContext = LAContext()
@@ -76,7 +76,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func showDailyTasksView() {
-		let tasksViewController = CarePlanDailyTasksController(storeManager: AppDelegate.carePlanStoreManager.synchronizedStoreManager)
+		let tasksViewController = DailyTasksPageViewController(storeManager: AppDelegate.careManager.synchronizedStoreManager)
 		navigate(to: tasksViewController, with: .push)
 		DispatchQueue.global(qos: .background).async { [weak self] in
 			self?.parentCoordinator?.syncHealthKitData()
@@ -418,8 +418,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 	}
 
 	internal func logout() {
-		UserDefaults.standard.removeBiometrics()
-		parentCoordinator?.goToAuth()
+		parentCoordinator?.logout()
 	}
 
 	deinit {
@@ -470,7 +469,7 @@ class MainAppCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDe
 
 extension MainAppCoordinator: UINavigationControllerDelegate {
 	func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-		if viewController is CarePlanDailyTasksController {
+		if viewController is DailyTasksPageViewController {
 			let profileButton = UIBarButtonItem(image: UIImage(named: "iconProfile")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapProfileButton))
 			profileButton.tintColor = UIColor.black
 			viewController.navigationItem.setRightBarButton(profileButton, animated: true)

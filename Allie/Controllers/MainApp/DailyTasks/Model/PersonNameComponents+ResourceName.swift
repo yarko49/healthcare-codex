@@ -9,15 +9,14 @@ import CareKitStore
 import Foundation
 
 extension PersonNameComponents {
-	init(resourceName: PatientName) {
+	init(name: String) {
+		var components = name.components(separatedBy: " ")
 		self.init()
-		var givenNames = resourceName.given
-		self.familyName = resourceName.family
-		self.givenName = givenNames?.first
-		givenNames?.removeFirst()
-		if givenNames?.isEmpty == false {
-			self.middleName = givenNames?.joined(separator: " ")
-		}
+		self.familyName = components.last
+		components.removeLast()
+		self.givenName = components.first
+		components.removeFirst()
+		self.middleName = components.joined(separator: " ")
 	}
 
 	var fullName: String? {

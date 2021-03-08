@@ -1,21 +1,23 @@
 //
-//  CarePlanStoreManager.swift
+//  CareManager.swift
 //  Allie
 //
 //  Created by Waqar Malik on 11/23/20.
 //
 
 import CareKit
+import CareKitFHIR
 import CareKitStore
 import Combine
 import FirebaseAuth
 import Foundation
+import ModelsR4
 
-class CarePlanStoreManager: ObservableObject {
+class CareManager: ObservableObject {
 	typealias BoolCompletion = (Bool) -> Void
 
 	enum Constants {
-		static let careKitTasksStore = "TasksStore"
+		static let careStore = "CareStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
 		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk(protection: .completeUnlessOpen)
 	}
@@ -26,7 +28,7 @@ class CarePlanStoreManager: ObservableObject {
 		return manager
 	}()
 
-	private(set) lazy var store = OCKStore(name: Constants.careKitTasksStore, type: Constants.coreDataStoreType, remote: remoteSynchronizationManager)
+	private(set) lazy var store = OCKStore(name: Constants.careStore, type: Constants.coreDataStoreType, remote: remoteSynchronizationManager)
 	private(set) lazy var healthKitStore = OCKHealthKitPassthroughStore(store: store)
 	private(set) lazy var synchronizedStoreManager: OCKSynchronizedStoreManager = {
 		let coordinator = OCKStoreCoordinator()
@@ -45,22 +47,10 @@ class CarePlanStoreManager: ObservableObject {
 
 	@Published var patient: OCKPatient?
 	private var cancellables: Set<AnyCancellable> = []
+	@Published var vectorClock: [String: Int] = [:]
+	@Published var provider: String = "CodexPilotHealthcareOrganization"
 
 	init() {
-		DataContext.shared.$resource.sink { [weak self] newValue in
-			guard let resource = newValue, let user = Auth.auth().currentUser, let patient = OCKPatient(id: nil, resource: resource, user: user) else {
-				return
-			}
-			self?.addPatients(newPatients: [patient], completion: { result in
-				switch result {
-				case .failure(let error):
-					ALog.error(error: error)
-				case .success(let storePatient):
-					self?.patient = storePatient.first
-				}
-			})
-		}.store(in: &cancellables)
-
 		store.resetDelegate = self
 		healthKitStore.resetDelegate = self
 	}
@@ -68,9 +58,9 @@ class CarePlanStoreManager: ObservableObject {
 
 // MARK: - CarePlanResponse
 
-extension CarePlanStoreManager {
+extension CareManager {
 	func insert(carePlansResponse: CarePlanResponse, for patient: OCKPatient?, completion: OCKResultClosure<Bool>?) {
-		let carePlans = carePlansResponse.carePlans.map { (carePlan) -> OCKCarePlan in
+		let carePlans = carePlansResponse.allCarePlans.map { (carePlan) -> OCKCarePlan in
 			OCKCarePlan(carePlan: carePlan)
 		}
 
@@ -130,28 +120,63 @@ extension CarePlanStoreManager {
 			}
 		}
 	}
+
+	class func postPatient(patient: OCKPatient, completion: @escaping WebService.RequestCompletion<[String: Any]>) {
+		let alliePatient = AlliePatient(ockPatient: patient)
+		APIClient.client.postPatient(patient: alliePatient, completion: completion)
+	}
+
+	class func register(provider: String) {
+		APIClient.client.registerProvider(identifier: provider) { result in
+			switch result {
+			case .failure(let error):
+				ALog.error("Unable to register healthcare provider \(error.localizedDescription)")
+			case .success:
+				ALog.info("Did Register the provider \(provider)")
+			}
+		}
+	}
 }
 
 // MARK: - Patients
 
-extension CarePlanStoreManager {
-	class func getPatient(user: RemoteUser?, completion: OCKResultClosure<OCKPatient>?) {
-		APIClient.client.postPatientSearch { result in
+extension CareManager {
+	func findPatient(identifier: String, completion: OCKResultClosure<OCKPatient>?) {
+		store.fetchPatient(withID: identifier, callbackQueue: .main) { result in
 			switch result {
-			case .success(let response):
-				guard let resource = response.entry?.first?.resource else {
-					completion?(.failure(.fetchFailed(reason: "Server did not return patient")))
-					return
-				}
-
-				guard let newPatient = OCKPatient(resource: resource, user: user) else {
-					completion?(.failure(.updateFailed(reason: "Unable to create patient")))
-					return
-				}
-				completion?(.success(newPatient))
 			case .failure(let error):
-				ALog.error("Patient Search", error: error)
-				completion?(.failure(.remoteSynchronizationFailed(reason: error.localizedDescription)))
+				completion?(.failure(error))
+			case .success(let patient):
+				let ockPatient = patient as OCKPatient
+				completion?(.success(ockPatient))
+			}
+		}
+	}
+
+	func findOrCreate(user: RemoteUser, completion: OCKResultClosure<OCKPatient>?) {
+		findPatient(identifier: user.uid) { [weak self] result in
+			switch result {
+			case .success(let patient):
+				completion?(.success(patient))
+			case .failure(let error):
+				ALog.error("\(error.localizedDescription)")
+				guard let patient = OCKPatient(user: user) else {
+					completion?(.failure(.addFailed(reason: "Invalid Input")))
+					return
+				}
+				self?.store.addPatient(patient, completion: completion)
+			}
+		}
+	}
+
+	func createOrUpdate(patient: OCKPatient, completion: OCKResultClosure<OCKPatient>?) {
+		store.createOrUpdatePatient(patient) { [weak self] result in
+			switch result {
+			case .failure(let error):
+				completion?(.failure(error))
+			case .success(let patient):
+				self?.patient = patient
+				completion?(.success(patient))
 			}
 		}
 	}
@@ -164,7 +189,7 @@ extension CarePlanStoreManager {
 
 // MARK: - Reset
 
-extension CarePlanStoreManager {
+extension CareManager {
 	func resetAllContents() throws {
 		try store.reset()
 		try healthKitStore.reset()
@@ -173,7 +198,7 @@ extension CarePlanStoreManager {
 
 // MARK: - OCKRemoteSynchronizationDelegate
 
-extension CarePlanStoreManager: OCKRemoteSynchronizationDelegate {
+extension CareManager: OCKRemoteSynchronizationDelegate {
 	public func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
 		ALog.info("Did Request Synchronization")
 	}
@@ -183,7 +208,7 @@ extension CarePlanStoreManager: OCKRemoteSynchronizationDelegate {
 	}
 }
 
-extension CarePlanStoreManager: OCKResetDelegate {
+extension CareManager: OCKResetDelegate {
 	func storeDidReset(_ store: OCKAnyResettableStore) {
 		ALog.info("Store \(store) did reset")
 	}

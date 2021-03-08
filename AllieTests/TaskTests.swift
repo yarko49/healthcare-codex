@@ -140,7 +140,7 @@ class TaskTests: XCTestCase {
 	}
 
 	func testScheduleElementsSorting() throws {
-		let data = CarePlanStoreManager.sampleResponse
+		let data = CareManager.sampleResponse
 		let task = data.tasks["FoodDiaryRecall2"]
 		XCTAssertNotNil(task)
 		let sortedElements = task?.sortedScheduleElements

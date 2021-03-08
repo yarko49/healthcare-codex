@@ -67,33 +67,4 @@ class ProfileTests: XCTestCase {
 		})
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 	}
-
-	func testPostPofile() throws {
-		let profileData = AllieTests.loadTestData(fileName: "Profile.json")
-		XCTAssertNotNil(profileData)
-		let profile = try JSONDecoder().decode(Profile.self, from: profileData!)
-		let url = APIRouter.postProfile(profile: profile).urlRequest?.url
-		URLProtocolMock.testData[url!] = profileData!
-		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
-		let expect = expectation(description: "PostProfile")
-		client?.postProfile(profile: profile, completion: { result in
-			switch result {
-			case .failure(let error):
-				XCTFail("Error Fetching Profile2 = \(error.localizedDescription)")
-			case .success(let value):
-				XCTAssertEqual(value, true)
-				XCTAssertTrue(true)
-				expect.fulfill()
-			}
-			URLProtocolMock.response = nil
-		})
-		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
-	}
-
-	func testPerformanceExample() throws {
-		// This is an example of a performance test case.
-		measure {
-			// Put the code you want to measure the time of here.
-		}
-	}
 }

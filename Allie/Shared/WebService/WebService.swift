@@ -41,20 +41,20 @@ public final class WebService {
 		return self.request(request: request, decoder: decoder, completion: completion)
 	}
 
-	func request(route: APIRouter, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.ServicePublisher? {
+	func requestSerializable(route: APIRouter, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.ServicePublisher? {
 		guard let request = route.request else {
 			completion(.failure(URLError(.badURL)))
 			return nil
 		}
-		return self.request(request: request, completion: completion)
+		return requestSerializable(request: request, completion: completion)
 	}
 
-	func request(route: APIRouter, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher? {
+	func requestSimple(route: APIRouter, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher? {
 		guard let request = route.request else {
 			completion(.failure(URLError(.badURL)))
 			return nil
 		}
-		return self.request(request: request, completion: completion)
+		return requestSimple(request: request, completion: completion)
 	}
 
 	func request<T: Decodable>(request: Request, decoder: JSONDecoder = CHJSONDecoder(), completion: @escaping WebService.DecodableCompletion<T>) -> URLSession.ServicePublisher? {
@@ -91,7 +91,7 @@ public final class WebService {
 		return publisher
 	}
 
-	func request(request: Request, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.ServicePublisher? {
+	func requestSerializable(request: Request, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.ServicePublisher? {
 		let publisher = session.servicePublisher(for: request)
 		publisher.retry(configuration.retryCountForRequest)
 			.mapError { [weak self] (failure) -> Error in
@@ -101,11 +101,11 @@ public final class WebService {
 				return failure
 			}
 			.tryMap { [weak self] result -> Data in
-				let data = try result.data.ws_validate(result.response).ws_validate()
 				if self?.configuration.logResponses == true {
-					let string = String(data: data, encoding: .utf8)
+					let string = String(data: result.data, encoding: .utf8)
 					ALog.info("\(string ?? "")")
 				}
+				let data = try result.data.ws_validate(result.response).ws_validate()
 				return data
 			}
 			.tryMap { (data) -> [String: Any] in
@@ -130,7 +130,7 @@ public final class WebService {
 		return publisher
 	}
 
-	func request(request: Request, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher? {
+	func requestSimple(request: Request, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher? {
 		let publisher = session.servicePublisher(for: request)
 		publisher.retry(configuration.retryCountForRequest)
 			.mapError { [weak self] (failure) -> Error in

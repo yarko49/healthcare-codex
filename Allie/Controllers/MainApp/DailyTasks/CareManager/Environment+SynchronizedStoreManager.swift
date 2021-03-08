@@ -11,7 +11,7 @@ import SwiftUI
 
 private struct SynchronizedStoreManagerEnvironmentKey: EnvironmentKey {
 	static var defaultValue: OCKSynchronizedStoreManager {
-		AppDelegate.appDelegate.carePlanStoreManager.synchronizedStoreManager
+		AppDelegate.careManager.synchronizedStoreManager
 	}
 }
 

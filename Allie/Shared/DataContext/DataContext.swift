@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 import JGProgressHUD
+import ModelsR4
 
 class DataContext: ObservableObject {
 	static let shared = DataContext()
@@ -48,7 +49,7 @@ class DataContext: ObservableObject {
 
 	var updatePatient: UpdatePatientModels?
 
-	@Published var resource: CodexResource?
+	@Published var resource: ModelsR4.Patient?
 	@Published var userModel: UserModel?
 
 	private let hud: JGProgressHUD = {
