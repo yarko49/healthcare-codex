@@ -99,7 +99,7 @@ class AllieTests: XCTestCase {
 		XCTAssertNotNil(carePlanResponseData)
 		let decoder = CHJSONDecoder()
 		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: carePlanResponseData!)
-		let storeManager = CarePlanStoreManager()
+		let storeManager = CareManager()
 		let expect = expectation(description: "InsertCarePlans")
 		storeManager.insert(carePlansResponse: carePlanResponse, for: storeManager.patient) { result in
 			switch result {

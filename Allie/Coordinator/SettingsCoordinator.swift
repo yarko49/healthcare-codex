@@ -8,12 +8,12 @@ import SDKConfigurations
 import SupportSDK
 import UIKit
 
-class SettingsCoordinator: NSObject, Coordinator {
+class SettingsCoordinator: NSObject, Coordinable {
 	internal var navigationController: UINavigationController? = {
 		UINavigationController(nibName: nil, bundle: nil)
 	}()
 
-	internal var childCoordinators: [CoordinatorKey: Coordinator]
+	internal var childCoordinators: [CoordinatorType: Coordinable]
 	internal weak var parentCoordinator: MainAppCoordinator?
 
 	var rootViewController: UIViewController? {
@@ -206,14 +206,7 @@ class SettingsCoordinator: NSObject, Coordinator {
 	}
 
 	private func logout() {
-		let firebaseAuth = Auth.auth()
-		do {
-			try firebaseAuth.signOut()
-			parentCoordinator?.logout()
-			DataContext.shared.clearAll()
-		} catch let signOutError as NSError {
-			ALog.error("Error signing out:", error: signOutError)
-		}
+		parentCoordinator?.logout()
 	}
 
 	internal func stop() {

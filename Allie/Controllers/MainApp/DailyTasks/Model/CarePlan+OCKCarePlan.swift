@@ -13,7 +13,7 @@ extension CarePlan {
 		self.id = ockCarePlan.id
 		self.title = ockCarePlan.title
 		self.timezone = ockCarePlan.timezone
-		self.patientId = ockCarePlan.patientUUID?.uuidString ?? ""
+		self.patientId = ockCarePlan.patientUUID?.uuidString
 		self.remoteId = ockCarePlan.remoteID
 		self.groupIdentifier = ockCarePlan.groupIdentifier
 		self.effectiveDate = ockCarePlan.effectiveDate

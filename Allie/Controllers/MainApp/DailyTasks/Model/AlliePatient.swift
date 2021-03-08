@@ -8,9 +8,39 @@
 import CareKitStore
 import Foundation
 
-public typealias Patients = [String: Patient]
+public protocol AlliePatientExtensible {
+	var email: String? { get set }
+	var phoneNumber: String? { get set }
+	var versionId: String? { get set }
+	var deviceManufacturer: String? { get set }
+	var deviceSoftwareVersion: String? { get set }
+	var FHIRId: String? { get set }
+	var measurementWeightGoal: Int? { get set }
+	var isMeasurementWeightEnabled: Bool { get set }
+	var isMeasurementWeightNotificationEnabled: Bool { get set }
+	var isMeasurementBloodPressureEnabled: Bool { get set }
+	var isMeasurementBloodPressureNotificationEnabled: Bool { get set }
+	var measurementHeartRateGoal: Int? { get set }
+	var isMeasurementHeartRateEnabled: Bool { get set }
+	var isMeasurementHeartRateNotificationEnabled: Bool { get set }
+	var measurementRestingHeartRateGoal: Int? { get set }
+	var isMeasurementRestingHeartRateEnabled: Bool { get set }
+	var isMeasurementRestingHeartRateNotificationEnabled: Bool { get set }
+	var measurementStepsGoal: Int? { get set }
+	var isMeasurementStepsEnabled: Bool { get set }
+	var isMeasurementStepsNotificationEnabled: Bool { get set }
+	var measurementBloodGlucoseGoal: Int? { get set }
+	var isMeasurementBloodGlucoseEnabled: Bool { get set }
+	var isMeasurementBloodGlucoseNotificationEnabled: Bool { get set }
+	var notificationsEnabled: Bool { get set }
+	var isSignUpCompleted: Bool { get set }
+	var userInfo: [String: String]? { get set }
+	mutating func setUserInfo(item: String?, forKey key: String)
+}
 
-public struct Patient: Codable, Identifiable {
+public typealias AlliePatients = [AlliePatient]
+
+public struct AlliePatient: Codable, Identifiable, OCKAnyPatient {
 	public let id: String
 	public var name: PersonNameComponents
 	public var sex: OCKBiologicalSex?
@@ -27,8 +57,8 @@ public struct Patient: Codable, Identifiable {
 	public var source: String?
 	public var userInfo: [String: String]?
 	public var asset: String?
-	public var notes: [OCKNote]?
 	public var timezone: TimeZone
+	public var notes: [OCKNote]?
 
 	init(id: String, name: PersonNameComponents) {
 		self.id = id
@@ -57,9 +87,12 @@ public struct Patient: Codable, Identifiable {
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
 		self.remoteID = try container.decodeIfPresent(String.self, forKey: .remoteID)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
-		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
+		let userInfo = try container.decodeIfPresent([String: AnyPrimitiveValue].self, forKey: .userInfo)
+		let mapped = userInfo?.compactMapValues { (value) -> String? in
+			value.stringValue
+		}
+		self.userInfo = mapped
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
-		self.notes = try container.decodeIfPresent([OCKNote].self, forKey: .notes)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
 	}
 
@@ -80,7 +113,6 @@ public struct Patient: Codable, Identifiable {
 		try container.encodeIfPresent(source, forKey: .source)
 		try container.encodeIfPresent(userInfo, forKey: .userInfo)
 		try container.encodeIfPresent(asset, forKey: .asset)
-		try container.encodeIfPresent(notes, forKey: .notes)
 		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)
 	}
 
@@ -103,3 +135,5 @@ public struct Patient: Codable, Identifiable {
 		case timezone
 	}
 }
+
+extension AlliePatient: AlliePatientExtensible {}

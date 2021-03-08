@@ -10,17 +10,18 @@ import Foundation
 enum APIRouter: URLRequestConvertible {
 	static let baseURLPath = AppConfig.apiBaseUrl
 
+	case registerProvider(HealthCareProvider)
 	case getCarePlan(vectorClock: Bool, valueSpaceSample: Bool)
 	case postCarePlan(carePlanResponse: CarePlanResponse)
-	case registerProvider(HealthCareProvider)
+	case postPatient(patient: AlliePatient)
+	case postObservation(observation: CodexResource)
+
+	// DeathRow
 	case getQuestionnaire
 	case postQuestionnaireResponse(response: QuestionnaireResponse)
-	case postPatient(patient: CodexResource)
 	case getProfile
 	case postProfile(profile: Profile)
-	case postObservation(observation: CodexResource)
 	case getNotifications
-	case postPatientSearch
 	case getPatient(identifier: String)
 	case postBundle(bundle: CodexBundle)
 	case postObservationSearch(search: SearchParameter)
@@ -28,17 +29,17 @@ enum APIRouter: URLRequestConvertible {
 
 	var method: Request.Method {
 		switch self {
+		case .registerProvider: return .post
 		case .getCarePlan: return .get
 		case .postCarePlan: return .post
-		case .registerProvider: return .post
+		case .postPatient: return .post
+		case .postObservation: return .post
+
 		case .getQuestionnaire: return .get
 		case .postQuestionnaireResponse: return .post
-		case .postObservation: return .post
-		case .postPatient: return .post
 		case .getProfile: return .get
 		case .postProfile: return .post
 		case .getNotifications: return .get
-		case .postPatientSearch: return .post
 		case .getPatient: return .get
 		case .postBundle: return .post
 		case .postObservationSearch: return .post
@@ -48,15 +49,15 @@ enum APIRouter: URLRequestConvertible {
 
 	var path: String {
 		switch self {
-		case .getCarePlan, .postCarePlan: return "/carePlan"
 		case .registerProvider: return "/mobile/organization/register"
+		case .getCarePlan, .postCarePlan: return "/carePlan"
+		case .postPatient: return "/carePlan"
+		case .postObservation: return "/fhir/Observation"
+
 		case .getQuestionnaire: return "/fhir/Questionnaire"
 		case .postQuestionnaireResponse: return "/fhir/QuestionnaireResponse"
-		case .postObservation: return "/fhir/Observation"
-		case .postPatient: return "/fhir/Patient"
 		case .getProfile, .postProfile: return "/profile"
 		case .getNotifications: return "/notifications"
-		case .postPatientSearch: return "/fhir/Patient/_search"
 		case .postBundle: return "/fhir/Bundle"
 		case .postObservationSearch: return "/fhir/Observation/_search"
 		case .patchPatient: return "/fhir/Patient"
@@ -75,25 +76,30 @@ enum APIRouter: URLRequestConvertible {
 
 	var body: Data? {
 		var data: Data?
+		let encoder = JSONEncoder()
+		encoder.dateEncodingStrategy = .iso8601
+
 		switch self {
-		case .postObservation(let observation):
-			data = try? JSONEncoder().encode(observation)
-		case .postPatient(let patient):
-			data = try? JSONEncoder().encode(patient)
-		case .postProfile(let profile):
-			data = try? JSONEncoder().encode(profile)
-		case .postBundle(let bundle):
-			data = try? JSONEncoder().encode(bundle)
-		case .postObservationSearch(let search):
-			data = try? JSONEncoder().encode(search)
-		case .postQuestionnaireResponse(let response):
-			data = try? JSONEncoder().encode(response)
-		case .patchPatient(let editResponse):
-			data = try? JSONEncoder().encode(editResponse)
-		case .postCarePlan(let carePlanResponse):
-			data = try? JSONEncoder().encode(carePlanResponse)
 		case .registerProvider(let provider):
-			data = try? JSONEncoder().encode(provider)
+			data = try? encoder.encode(provider)
+		case .postCarePlan(let carePlanResponse):
+			data = try? encoder.encode(carePlanResponse)
+		case .postPatient(let patient):
+			let carePlan = CarePlanResponse(carePlans: [:], patients: [patient.id: patient], tasks: [:], vectorClock: [:])
+			data = try? encoder.encode(carePlan)
+		case .postObservation(let observation):
+			data = try? encoder.encode(observation)
+
+		case .postProfile(let profile):
+			data = try? encoder.encode(profile)
+		case .postBundle(let bundle):
+			data = try? encoder.encode(bundle)
+		case .postObservationSearch(let search):
+			data = try? encoder.encode(search)
+		case .postQuestionnaireResponse(let response):
+			data = try? encoder.encode(response)
+		case .patchPatient(let editResponse):
+			data = try? encoder.encode(editResponse)
 		default:
 			data = nil
 		}
@@ -113,9 +119,14 @@ enum APIRouter: URLRequestConvertible {
 			} else if valueSpaceSample {
 				headers[Request.Header.CarePlanPrefer] = "return=ValueSpaceSample"
 			}
-		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile, .postCarePlan, .registerProvider, .getPatient:
+		case .registerProvider, .postCarePlan, .postPatient:
 			break
-		case .postObservation, .postPatient, .postPatientSearch, .postBundle, .postQuestionnaireResponse, .postObservationSearch:
+		case .postObservation:
+			headers[Request.Header.contentType] = Request.ContentType.fhirjson
+
+		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile, .getPatient:
+			break
+		case .postBundle, .postQuestionnaireResponse, .postObservationSearch:
 			headers[Request.Header.contentType] = Request.ContentType.fhirjson
 		case .patchPatient:
 			headers[Request.Header.contentType] = Request.ContentType.patchjson
@@ -125,7 +136,10 @@ enum APIRouter: URLRequestConvertible {
 
 	var parameters: [String: Any]? {
 		switch self {
-		case .getQuestionnaire, .postQuestionnaireResponse, .postObservation, .postPatient, .getProfile, .postProfile, .getNotifications, .postPatientSearch, .postBundle, .postObservationSearch, .patchPatient, .getCarePlan, .postCarePlan, .registerProvider, .getPatient:
+		case .registerProvider, .getCarePlan, .postCarePlan, .postPatient, .postObservation:
+			return nil
+
+		case .getQuestionnaire, .postQuestionnaireResponse, .getProfile, .postProfile, .getNotifications, .postBundle, .postObservationSearch, .patchPatient, .getPatient:
 			return nil
 		}
 	}

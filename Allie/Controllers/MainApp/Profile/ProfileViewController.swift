@@ -25,9 +25,9 @@ class ProfileViewController: BaseViewController {
 	var editButtonAction: ((Int, Int) -> Void)?
 	var profileInputAction: (() -> (CodexResource?, CodexBundle?))?
 	var comingFrom: Coming = .today
-	var getData: Coordinator.ActionHandler?
+	var getData: Coordinable.ActionHandler?
 	var getRangeData: ((HealthStatsDateIntervalType, Date, Date, (([HealthKitQuantityType: [StatModel]]?, [HealthKitQuantityType: Double]?) -> Void)?) -> Void)?
-	var getTodayData: Coordinator.ActionHandler?
+	var getTodayData: Coordinable.ActionHandler?
 
 	// MARK: IBOutlets
 

@@ -8,9 +8,9 @@
 import UIKit
 
 class EmailSentViewController: BaseViewController {
-	var openMailApp: Coordinator.ActionHandler?
-	var goToTermsOfService: Coordinator.ActionHandler?
-	var goToPrivacyPolicy: Coordinator.ActionHandler?
+	var openMailApp: Coordinable.ActionHandler?
+	var goToTermsOfService: Coordinable.ActionHandler?
+	var goToPrivacyPolicy: Coordinable.ActionHandler?
 
 	var email: String = ""
 	var authorizationFlowType: AuthorizationFlowType = .signIn

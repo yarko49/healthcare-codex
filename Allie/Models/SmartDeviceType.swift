@@ -9,6 +9,7 @@ enum SmartDeviceType: String, CaseIterable, Hashable {
 	case bloodPressureCuff
 	case watch
 	case pedometer
+	// case bloodGlucoseMonitor
 
 	var title: String {
 		switch self {

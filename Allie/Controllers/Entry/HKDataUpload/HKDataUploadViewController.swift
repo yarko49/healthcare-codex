@@ -8,7 +8,7 @@ import Foundation
 import UIKit
 
 class HKDataUploadViewController: BaseViewController {
-	var queryAction: Coordinator.ActionHandler?
+	var queryAction: Coordinable.ActionHandler?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()

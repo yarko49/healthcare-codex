@@ -6,7 +6,7 @@ import BonMot
 import UIKit
 
 class ResetMessageViewController: BaseViewController {
-	var backToSignInAction: Coordinator.ActionHandler?
+	var backToSignInAction: Coordinable.ActionHandler?
 
 	@IBOutlet var resetMesasageLabel: UILabel!
 	@IBOutlet var backButton: UIButton!

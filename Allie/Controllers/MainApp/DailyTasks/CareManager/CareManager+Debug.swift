@@ -8,10 +8,10 @@
 import CareKitStore
 import Foundation
 
-extension CarePlanStoreManager {
+extension CareManager {
 	class var sampleResponse: CarePlanResponse {
 		carePlanResponse(contentsOf: "DefaultDiabetesCarePlan", withExtension: "json") ??
-			CarePlanResponse(carePlans: [], tasks: [:], vectorClock: [:])
+			CarePlanResponse(carePlans: [:], patients: [:], tasks: [:], vectorClock: [:])
 	}
 
 	class var samplePatient: OCKPatient {

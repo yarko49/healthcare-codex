@@ -1,31 +1,31 @@
 import UIKit
 
-protocol Coordinator: AnyObject {
+protocol Coordinable: AnyObject {
 	typealias ActionHandler = () -> Void
 
 	var navigationController: UINavigationController? { get }
-	var childCoordinators: [CoordinatorKey: Coordinator] { get set }
+	var childCoordinators: [CoordinatorType: Coordinable] { get set }
 
 	func start()
-	func addChild(coordinator: Coordinator, with key: CoordinatorKey)
-	func removeChild(coordinator: Coordinator)
+	func addChild(coordinator: Coordinable, with key: CoordinatorType)
+	func removeChild(coordinator: Coordinable)
 
 	func showHUD(animated: Bool)
 	func hideHUD(animated: Bool)
 }
 
-extension Coordinator {
-	func addChild(coordinator: Coordinator, with key: CoordinatorKey) {
+extension Coordinable {
+	func addChild(coordinator: Coordinable, with key: CoordinatorType) {
 		childCoordinators[key] = coordinator
 	}
 
-	func removeChild(coordinator: Coordinator) {
+	func removeChild(coordinator: Coordinable) {
 		childCoordinators = childCoordinators.filter {
 			$0.value !== coordinator
 		}
 	}
 
-	func removeChild(_ key: CoordinatorKey) {
+	func removeChild(_ key: CoordinatorType) {
 		if let coord = childCoordinators[key] {
 			removeChild(coordinator: coord)
 		}
@@ -37,7 +37,7 @@ extension Coordinator {
 
 // MARK: Controller Navigation
 
-extension Coordinator {
+extension Coordinable {
 	func navigate(to viewController: UIViewController, with presentationStyle: NavigationStyle, animated: Bool = true, resetingStack: Bool = false) {
 		switch presentationStyle {
 		case .present:
@@ -62,7 +62,7 @@ enum NavigationStyle: CaseIterable, Hashable {
 
 // MARK: Modal Presentation
 
-extension Coordinator {
+extension Coordinable {
 	func showAlert(title: String?, detailText: String?, actions: [AlertHelper.AlertAction], fillProportionally: Bool = false) {
 		AlertHelper.showAlert(title: title, detailText: detailText, actions: actions, fillProportionally: fillProportionally, from: navigationController)
 	}

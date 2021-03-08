@@ -1,6 +1,6 @@
 import Foundation
 
-enum CoordinatorKey: String, CaseIterable, Hashable {
+enum CoordinatorType: String, CaseIterable, Hashable {
 	case masterCoordinator
 	case authCoordinator
 	case mainAppCoordinator

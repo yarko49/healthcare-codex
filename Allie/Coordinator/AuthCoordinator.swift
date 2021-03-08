@@ -7,12 +7,12 @@ import HealthKit
 import LocalAuthentication
 import UIKit
 
-class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDelegate {
+class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelegate {
 	internal var navigationController: UINavigationController? = {
 		UINavigationController()
 	}()
 
-	internal var childCoordinators: [CoordinatorKey: Coordinator]
+	internal var childCoordinators: [CoordinatorType: Coordinable]
 	internal weak var parentCoordinator: MasterCoordinator?
 
 	var currentNonce: String?
@@ -144,7 +144,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		let healthViewController = HealthViewController()
 		healthViewController.screenFlowType = .welcome
 		healthViewController.authorizationFlowType = authorizationFlowType
-		var user: AuthDataResult?
+		var authDataResult: AuthDataResult?
 		let signInAction: (() -> Void)? = { [weak self, weak healthViewController] in
 			self?.showHUD()
 			if Auth.auth().isSignIn(withEmailLink: link) {
@@ -153,8 +153,7 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 					if error == nil {
 						self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
 							DispatchQueue.main.async {
-								self?.hideHUD()
-								user = authResult
+								authDataResult = authResult
 								if let viewController = healthViewController, viewController.authorizationFlowType == .signIn {
 									self?.goToHealthKitAuthorization()
 								} else {
@@ -180,8 +179,8 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 		healthViewController.nextButtonAction = { [weak self, weak healthViewController] in
 			if let viewController = healthViewController, viewController.screenFlowType == .welcomeSuccess, viewController.authorizationFlowType == .signIn {
 				self?.goToMainApp()
-			} else if user != nil {
-				self?.checkIfUserExists(user: user)
+			} else if authDataResult != nil {
+				self?.checkIfUserExists(user: authDataResult)
 			} else {
 				self?.start()
 			}
@@ -225,16 +224,16 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			return
 		}
 
-		showHUD()
-		DataContext.shared.searchPatient(user: user, completion: { [weak self] identifier in
-			self?.hideHUD()
-			if let userId = identifier {
-				LoggingManager.identify(userId: userId)
-				self?.getProfile()
-			} else {
-				self?.goToMyProfileFirstViewController(from: .signIn)
-			}
-		})
+//		showHUD()
+//		DataContext.shared.searchPatient(user: user, completion: { [weak self] identifier in
+//			self?.hideHUD()
+//			if let userId = identifier {
+//				LoggingManager.identify(userId: userId)
+//				self?.getProfile()
+//			} else {
+//				self?.goToMyProfileFirstViewController(from: .signIn)
+//			}
+//		})
 	}
 
 	internal func getProfile() {
@@ -297,13 +296,13 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 	internal func goToMyProfileSecondViewController(gender: String, family: String, given: [String]) {
 		let myProfileSecondViewController = MyProfileSecondViewController()
 
-		myProfileSecondViewController.patientRequestAction = { [weak self] resourceType, birthdate, weight, height, date in
-			let name = ResourceName(use: "official", family: family, given: given)
-			let joinedNames = given.joined(separator: " ")
-			DataContext.shared.firstName = joinedNames
-			DataContext.shared.resource = CodexResource(id: nil, code: nil, effectiveDateTime: nil, identifier: nil, meta: nil, resourceType: resourceType, status: nil, subject: nil, valueQuantity: nil, birthDate: birthdate, gender: gender, name: [name], component: nil)
-			let patientResource = DataContext.shared.resource
-			self?.goToHealthViewControllerFromProfile(patient: patientResource ?? CodexResource(id: "", code: nil, effectiveDateTime: "", identifier: nil, meta: nil, resourceType: "", status: "", subject: nil, valueQuantity: nil, birthDate: "", gender: "", name: nil, component: nil), weight: weight, height: height, date: date)
+		myProfileSecondViewController.patientRequestAction = { [weak self] _, _, _, _, _ in
+//			let name = ResourceName(use: "official", family: family, given: given)
+//			let joinedNames = given.joined(separator: " ")
+//			DataContext.shared.firstName = joinedNames
+//			DataContext.shared.resource = CodexResource(id: nil, code: nil, effectiveDateTime: nil, identifier: nil, meta: nil, resourceType: resourceType, status: nil, subject: nil, valueQuantity: nil, birthDate: birthdate, gender: gender, name: [name], component: nil)
+//			let patientResource = DataContext.shared.resource
+//			self?.goToHealthViewControllerFromProfile(patient: patientResource ?? CodexResource(id: "", code: nil, effectiveDateTime: "", identifier: nil, meta: nil, resourceType: "", status: "", subject: nil, valueQuantity: nil, birthDate: "", gender: "", name: nil, component: nil), weight: weight, height: height, date: date)
 		}
 
 		myProfileSecondViewController.alertAction = { [weak self] _ in
@@ -414,21 +413,21 @@ class AuthCoordinator: NSObject, Coordinator, UIViewControllerTransitioningDeleg
 			return
 		}
 		showHUD()
-		APIClient.client.postPatient(patient: patient) { [weak self] result in
-			self?.hideHUD()
-			DataContext.shared.resource = patient
-			switch result {
-			case .success(let resource):
-				ALog.info("OK STATUS FOR PATIENT : 200")
-				let defaultName = ResourceName(use: "", family: "", given: [""])
-				DataContext.shared.userModel = UserModel(userID: resource.id ?? "", email: self?.emailrequest ?? "", name: resource.name ?? [defaultName], dob: patient.birthDate, gender: OCKBiologicalSex(rawValue: DataContext.shared.resource?.gender ?? ""))
-				self?.getHeightWeight(weight: weight, height: height, date: date)
-			case .failure(let error):
-				ALog.error("request falied", error: error)
-				AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-				return
-			}
-		}
+//		APIClient.client.postPatient(patient: patient) { [weak self] result in
+//			self?.hideHUD()
+//			DataContext.shared.resource = patient
+//			switch result {
+//			case .success(let resource):
+//				ALog.info("OK STATUS FOR PATIENT : 200")
+//				let defaultName = ResourceName(use: "", family: "", given: [""])
+//				DataContext.shared.userModel = UserModel(userID: resource.id ?? "", email: self?.emailrequest ?? "", name: resource.name ?? [defaultName], dob: patient.birthDate, gender: OCKBiologicalSex(rawValue: DataContext.shared.resource?.gender ?? ""))
+//				self?.getHeightWeight(weight: weight, height: height, date: date)
+//			case .failure(let error):
+//				ALog.error("request falied", error: error)
+//				AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+//				return
+//			}
+//		}
 	}
 
 	internal func getHeightWeight(weight: Int, height: Int, date: String) {

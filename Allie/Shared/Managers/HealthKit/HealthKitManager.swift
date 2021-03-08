@@ -16,6 +16,9 @@ private enum HealthkitError: Error {
 class HealthKitManager {
 	static let shared = HealthKitManager()
 	private let healthKitStore = HKHealthStore()
+	private var patientId: String? {
+		AppDelegate.careManager.patient?.FHIRId
+	}
 
 	func authorizeHealthKit(completion: @escaping (Bool, Error?) -> Void) {
 		guard HKHealthStore.isHealthDataAvailable() else {

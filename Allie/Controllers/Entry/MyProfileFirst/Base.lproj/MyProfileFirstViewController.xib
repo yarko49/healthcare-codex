@@ -36,11 +36,11 @@
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="O0h-rh-lWI">
                                     <rect key="frame" x="0.0" y="93.5" width="414" height="152"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ykp-28-uLl" customClass="TextfieldView" customModule="Alfred" customModuleProvider="target">
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ykp-28-uLl" customClass="TextfieldView" customModule="Allie" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         </view>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I4X-4n-YGo" customClass="TextfieldView" customModule="Alfred" customModuleProvider="target">
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I4X-4n-YGo" customClass="TextfieldView" customModule="Allie" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="101" width="414" height="51"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         </view>
@@ -103,7 +103,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mQT-TX-wfE">
                     <rect key="frame" x="0.0" y="802" width="414" height="94"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WT2-Rj-P4m" customClass="BottomButton" customModule="Alfred" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WT2-Rj-P4m" customClass="BottomButton" customModule="Allie" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="CXV-Kb-yV2"/>

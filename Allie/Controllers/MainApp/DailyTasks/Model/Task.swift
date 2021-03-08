@@ -9,6 +9,8 @@ import CareKitStore
 import Foundation
 import HealthKit
 
+public typealias Tasks = [Task]
+
 public struct Task: Codable, Identifiable {
 	public var carePlanId: String?
 	public var id: String

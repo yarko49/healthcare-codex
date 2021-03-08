@@ -9,7 +9,7 @@ import CareKitStore
 import Foundation
 
 extension OCKPatient {
-	init(patient: Patient) {
+	init(patient: AlliePatient) {
 		self.init(id: patient.id, name: patient.name)
 		self.sex = patient.sex
 		self.birthday = patient.birthday
@@ -21,26 +21,15 @@ extension OCKPatient {
 		self.source = patient.source
 		self.userInfo = patient.userInfo
 		self.asset = patient.asset
-		self.notes = patient.notes
 		self.timezone = patient.timezone
 	}
 
-	static var sample: OCKPatient {
-		var name = PersonNameComponents()
-		name.familyName = "Pavlov"
-		name.givenName = "Ivan"
-		name.middleName = "Petrovich"
-		name.namePrefix = "Dr."
-		let id = "ivanpavlov"
-		var patient = OCKPatient(id: id, name: name)
-		patient.sex = .male
-		patient.birthday = DateFormatter.yyyyMMdd.date(from: "1849-09-26")
-		patient.effectiveDate = Date()
-		return patient
+	var alliePatient: AlliePatient {
+		AlliePatient(ockPatient: self)
 	}
 }
 
-extension Patient {
+extension AlliePatient {
 	init(ockPatient: OCKPatient) {
 		self.init(id: ockPatient.id, name: ockPatient.name)
 		self.sex = ockPatient.sex
@@ -55,7 +44,10 @@ extension Patient {
 		self.source = ockPatient.source
 		self.userInfo = ockPatient.userInfo
 		self.asset = ockPatient.asset
-		self.notes = ockPatient.notes
 		self.timezone = ockPatient.timezone
+	}
+
+	var ockPatient: OCKPatient {
+		OCKPatient(patient: self)
 	}
 }

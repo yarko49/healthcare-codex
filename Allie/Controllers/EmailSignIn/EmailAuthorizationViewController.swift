@@ -10,8 +10,8 @@ import UIKit
 class EmailAuthorizationViewController: BaseViewController {
 	var authorizeWithEmail: ((_ email: String, _ type: AuthorizationFlowType) -> Void)?
 	var alertAction: ((_ title: String?, _ detail: String?, _ textfield: TitledTextField) -> Void)?
-	var goToTermsOfService: Coordinator.ActionHandler?
-	var goToPrivacyPolicy: Coordinator.ActionHandler?
+	var goToTermsOfService: Coordinable.ActionHandler?
+	var goToPrivacyPolicy: Coordinable.ActionHandler?
 
 	var authorizationFlowType: AuthorizationFlowType = .signIn
 

@@ -71,4 +71,14 @@ extension UserDefaults {
 			set(newValue, forKey: Self.healthKitUploadChunkSizeKey)
 		}
 	}
+
+	private static let vectorClockKey = "vectorClock"
+	var vectorClock: [String: Int] {
+		get {
+			object(forKey: Self.vectorClockKey) as? [String: Int] ?? [:]
+		}
+		set {
+			set(newValue, forKey: Self.vectorClockKey)
+		}
+	}
 }

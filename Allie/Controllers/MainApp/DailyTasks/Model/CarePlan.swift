@@ -8,10 +8,12 @@
 import CareKitStore
 import Foundation
 
+public typealias CarePlans = [CarePlan]
+
 public struct CarePlan: Codable, Identifiable {
 	public var id: String
 	public var title: String
-	public var patientId: String
+	public var patientId: String?
 	public var remoteId: String?
 	public var groupIdentifier: String?
 	public var timezone: TimeZone
@@ -42,7 +44,7 @@ public struct CarePlan: Codable, Identifiable {
 		self.id = try container.decode(String.self, forKey: .id)
 		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId) ?? UUID().uuidString
 		self.title = try container.decode(String.self, forKey: .title)
-		self.patientId = try container.decode(String.self, forKey: .patientId)
+		self.patientId = try container.decodeIfPresent(String.self, forKey: .patientId)
 		self.groupIdentifier = try container.decode(String.self, forKey: .groupIdentifier)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
 		let date = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
@@ -57,7 +59,7 @@ public struct CarePlan: Codable, Identifiable {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(id, forKey: .id)
 		try container.encode(title, forKey: .title)
-		try container.encode(patientId, forKey: .patientId)
+		try container.encodeIfPresent(patientId, forKey: .patientId)
 		try container.encode(remoteId, forKey: .remoteId)
 		try container.encode(groupIdentifier, forKey: .groupIdentifier)
 		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)

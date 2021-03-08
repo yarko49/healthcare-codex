@@ -8,10 +8,10 @@
 import UIKit
 
 class HealthViewController: BaseViewController {
-	var nextButtonAction: Coordinator.ActionHandler?
-	var notNowAction: Coordinator.ActionHandler?
-	var activateAction: Coordinator.ActionHandler?
-	var signInAction: Coordinator.ActionHandler?
+	var nextButtonAction: Coordinable.ActionHandler?
+	var notNowAction: Coordinable.ActionHandler?
+	var activateAction: Coordinable.ActionHandler?
+	var signInAction: Coordinable.ActionHandler?
 
 	var screenFlowType: ScreenFlowType = .welcome {
 		didSet {
