@@ -24,7 +24,7 @@ extension Profile {
 
 		let additionalProp1 = Devices.Device(model: device.model ?? "", version: device.firmwareVersion ?? "", id: device.udiDeviceIdentifier ?? "", lastSyncTime: dateNow, manufacturer: "Apple", name: "software", softwareVersion: device.softwareVersion ?? "")
 		let devices = Devices(additionalProp1: additionalProp1, additionalProp2: Devices.Device(model: "", version: "", id: "", lastSyncTime: dateNow, manufacturer: "", name: "", softwareVersion: ""), additionalProp3: Devices.Device(model: "", version: "", id: "", lastSyncTime: dateNow, manufacturer: "", name: "", softwareVersion: ""))
-
-		self.init(notificationsEnabled: true, registrationToken: "", healthMeasurements: healthMeasurements, devices: devices, signUpCompleted: dataContext.signUpCompleted)
+		let signUpCompleted = AppDelegate.appCoordinator?.signUpCompleted ?? false
+		self.init(notificationsEnabled: true, registrationToken: "", healthMeasurements: healthMeasurements, devices: devices, signUpCompleted: signUpCompleted)
 	}
 }

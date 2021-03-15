@@ -1,9 +1,12 @@
 import CareKitStore
 import HealthKit
 import LocalAuthentication
+import ModelsR4
 import UIKit
 
 class MainAppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelegate {
+	let type: CoordinatorType = .mainAppCoordinator
+
 	internal var navigationController: UINavigationController?
 	internal var childCoordinators: [CoordinatorType: Coordinable]
 	internal weak var parentCoordinator: MasterCoordinator?
@@ -14,11 +17,9 @@ class MainAppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDe
 		navigationController
 	}
 
-	var observation: CodexResource?
-	var bundle: CodexBundle?
-	var heightWeightBundle: CodexBundle?
+	var observation: ModelsR4.Observation?
+	var bundle: ModelsR4.Bundle?
 	var observationSearch: String?
-	var observationSearchResult: CodexBundle?
 	var chartData: [Int] = []
 	var dateData: [String] = []
 	weak var profileViewController: ProfileViewController?
@@ -34,7 +35,7 @@ class MainAppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDe
 	}
 
 	internal func start() {
-		if UserDefaults.standard.haveAskedUserforBiometrics == false {
+		if UserDefaults.standard.haveAskedUserForBiometrics == false {
 			enrollWithBiometrics()
 		} else {
 			if UserDefaults.standard.isBiometricsEnabled == false {}
@@ -63,10 +64,13 @@ class MainAppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDe
 
 	func enrollWithBiometrics() {
 		evaluateBiometrics()
-		let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
+		UserDefaults.standard.haveAskedUserForBiometrics = true
+		let yesTitle = NSLocalizedString("YES", comment: "Yes")
+		let okAction = AlertHelper.AlertAction(withTitle: yesTitle) {
 			UserDefaults.standard.isBiometricsEnabled = true
 		}
-		let noAction = AlertHelper.AlertAction(withTitle: Str.no) {
+		let noTitle = NSLocalizedString("NO", comment: "No")
+		let noAction = AlertHelper.AlertAction(withTitle: noTitle) {
 			UserDefaults.standard.isBiometricsEnabled = false
 		}
 		DispatchQueue.main.async {
@@ -78,59 +82,17 @@ class MainAppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDe
 	internal func showDailyTasksView() {
 		let tasksViewController = DailyTasksPageViewController(storeManager: AppDelegate.careManager.synchronizedStoreManager)
 		navigate(to: tasksViewController, with: .push)
-		DispatchQueue.global(qos: .background).async { [weak self] in
-			self?.parentCoordinator?.syncHealthKitData()
-		}
-	}
-
-	internal func showHome() {
-		let homeViewController = HomeViewController()
-		let getCardsAction: (() -> Void)? = { [weak self] in
-			DispatchQueue.main.async {
-				self?.showHUD()
-				APIClient.client.getCardList { result in
-					self?.hideHUD()
-					var notificationsCards: [NotificationCard]?
-					switch result {
-					case .failure(let error):
-						ALog.error("error Fetching notificiation", error: error)
-					case .success(let cardList):
-						notificationsCards = cardList.notifications
-					}
-					homeViewController.setupCards(with: notificationsCards)
-				}
-				homeViewController.refreshControl.endRefreshing()
-			}
-		}
-
-		let questionnaireAction: (() -> Void)? = { [weak self] in
-			self?.goToQuestionnaire()
-		}
-
-		let measurementCellAction: ((InputType) -> Void)? = { [weak self] inputType in
-			self?.goToInput(with: inputType)
-		}
-
-		let troubleshootingAction: ((String?, String?, String?, IconType?) -> Void)? = { [weak self] previewTitle, title, text, icon in
-			self?.goToTroubleshooting(previewTitle: previewTitle, title: title, text: text, icon: icon)
-		}
-
-		homeViewController.getCardsAction = getCardsAction
-		homeViewController.questionnaireAction = questionnaireAction
-		homeViewController.measurementCellAction = measurementCellAction
-		homeViewController.troubleshootingAction = troubleshootingAction
-		navigate(to: homeViewController, with: .push)
 	}
 
 	internal func gotoSettings() {
 		let settingsCoord = SettingsCoordinator(with: self)
-		addChild(coordinator: settingsCoord, with: .settingsCoordinator)
+		addChild(coordinator: settingsCoord)
 		settingsCoord.start()
 	}
 
 	internal func goToQuestionnaire() {
 		let questionnaireCoord = QuestionnaireCoordinator(with: self)
-		addChild(coordinator: questionnaireCoord, with: .questionnaireCoordinator)
+		addChild(coordinator: questionnaireCoord)
 		questionnaireCoord.start()
 	}
 
@@ -144,25 +106,34 @@ class MainAppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDe
 		navigate(to: troubleshootingViewController, with: .push)
 	}
 
-	internal func goToInput(with type: InputType) {
+	internal func goToInput(with type: HKQuantityTypeIdentifier) {
 		let todayInputViewController = TodayInputViewController()
-		todayInputViewController.inputType = type
-		let inputAction: ((Int?, Int?, String?, InputType) -> Void)? = { [weak self] value1, value2, effectiveDateTime, inputType in
-
-			switch inputType {
-			case .bloodPressure:
-				let sysComponent = Component(code: MedicalCode.systolicBloodPressure, valueQuantity: ValueQuantity(value: value1, unit: Str.pressureUnit))
-				let diaComponent = Component(code: MedicalCode.diastolicBloodPressure, valueQuantity: ValueQuantity(value: value2, unit: Str.pressureUnit))
-				let observation = CodexResource(id: nil, code: MedicalCode.bloodPressure, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: Keychain.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: nil, birthDate: nil, gender: nil, name: nil, component: [sysComponent, diaComponent])
-				self?.observation = observation
-				self?.bundle = nil
-			case .weight:
-				let weightEntry = BundleEntry(fullURL: nil, resource: CodexResource(id: nil, code: MedicalCode.bodyWeight, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: Keychain.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: value1, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
-				let goalWeightEntry = BundleEntry(fullURL: nil, resource: CodexResource(id: nil, code: MedicalCode.idealBodyWeight, effectiveDateTime: effectiveDateTime, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: Keychain.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: value2, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil), request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
-
-				let bundle = CodexBundle(entry: [weightEntry, goalWeightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
-				self?.observation = nil
-				self?.bundle = bundle
+		todayInputViewController.quantityTypeIdentifier = type
+		let inputAction: ((Int, Int, Date, HKQuantityTypeIdentifier) -> Void)? = { [weak self] value1, value2, effectiveDateTime, inputType in
+			do {
+				let factory = try ObservationFactory()
+				switch inputType {
+				case .bloodPressureSystolic:
+					let observation = try factory.observation(from: [Double(value1), Double(value2)], identifier: HKCorrelationTypeIdentifier.bloodPressure.rawValue, date: effectiveDateTime)
+					observation.subject = AppDelegate.careManager.patient?.subject
+					self?.observation = observation
+					self?.bundle = nil
+				case .bodyMass:
+					let weightObservation = try factory.observation(from: [Double(value1)], identifier: HKQuantityTypeIdentifier.bodyMass.rawValue, date: effectiveDateTime)
+					let qoalObservation = try factory.observation(from: [Double(value2)], identifier: "HKQuantityTypeIdentifierIdealBodyMass", date: effectiveDateTime)
+					let observationPath = "/mobile/fhir/Observation"
+					let request = ModelsR4.BundleEntryRequest(method: FHIRPrimitive<HTTPVerb>(HTTPVerb.POST), url: FHIRPrimitive<FHIRURI>(stringLiteral: observationPath))
+					let fullURL = FHIRPrimitive<FHIRURI>(stringLiteral: AppConfig.apiBaseUrl + observationPath)
+					let weightEntry = ModelsR4.BundleEntry(extension: nil, fullUrl: fullURL, id: nil, link: nil, modifierExtension: nil, request: request, resource: .observation(weightObservation), response: nil, search: nil)
+					let goalWeightEntry = ModelsR4.BundleEntry(extension: nil, fullUrl: fullURL, id: nil, link: nil, modifierExtension: nil, request: request, resource: .observation(qoalObservation), response: nil, search: nil)
+					let bundle = ModelsR4.Bundle(entry: [weightEntry, goalWeightEntry], type: FHIRPrimitive<BundleType>(.transaction))
+					self?.observation = nil
+					self?.bundle = bundle
+				default:
+					break
+				}
+			} catch {
+				ALog.error("\(error.localizedDescription)")
 			}
 		}
 		todayInputViewController.inputAction = inputAction
@@ -177,27 +148,15 @@ class MainAppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDe
 		profileViewController = controller
 
 		controller.getData = { [weak self] in
-			self?.showHUD()
-			let group = DispatchGroup()
-			var weight: Int? = 0
-			var height: Int? = 0
-			let weightParam = SearchParameter(sort: "-date", count: 1, code: MedicalCode.bodyWeight.coding?.first?.code)
-			group.enter()
-			self?.postGetData(search: weightParam, completion: { response in
-				group.leave()
-				weight = response?.entry?.first?.resource?.valueQuantity?.value
-			})
-			let heightParam = SearchParameter(sort: "-date", count: 1, code: MedicalCode.bodyHeight.coding?.first?.code)
-			group.enter()
-			self?.postGetData(search: heightParam, completion: { response in
-				group.leave()
-				height = response?.entry?.first?.resource?.valueQuantity?.value
-			})
-			group.notify(queue: .main) { [weak self] in
-				self?.hideHUD()
-				self?.profileViewController?.weight = weight
-				self?.profileViewController?.height = height
-				self?.profileViewController?.createDetailsLabel()
+			AppDelegate.careManager.loadPatient { result in
+				switch result {
+				case .failure(let error):
+					ALog.error("\(error.localizedDescription)")
+				case .success(let patient):
+					self?.profileViewController?.weight = patient.weight
+					self?.profileViewController?.height = patient.height
+					self?.profileViewController?.createDetailsLabel()
+				}
 			}
 			self?.profileViewController?.patientTrendsTableView.reloadData()
 		}
@@ -279,7 +238,6 @@ class MainAppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDe
 		APIClient.client.postObservationSearch(search: search) { result in
 			switch result {
 			case .success(let response):
-				DataContext.shared.dataModel = response
 				completion(response)
 			case .failure(let error):
 				ALog.error("Post GetData", error: error)
@@ -301,12 +259,13 @@ class MainAppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDe
 
 	internal func goToMyProfileFirstViewController(source: NavigationSourceType = .profile, weight: Int, height: Int) {
 		let myProfileFirstViewController = MyProfileFirstViewController()
+		let patient = AppDelegate.careManager.patient
 		myProfileFirstViewController.comingFrom = source
-		myProfileFirstViewController.firstText = DataContext.shared.userModel?.displayFirstName ?? ""
-		myProfileFirstViewController.lastText = DataContext.shared.userModel?.displayLastName ?? ""
-		myProfileFirstViewController.gender = DataContext.shared.userModel?.gender
+		myProfileFirstViewController.firstText = patient?.name.givenName ?? ""
+		myProfileFirstViewController.lastText = patient?.name.familyName ?? ""
+		myProfileFirstViewController.gender = patient?.sex
 
-		let sendDataAction: ((String, String, [String]) -> Void)? = { [weak self] gender, family, given in
+		let sendDataAction: ((OCKBiologicalSex, String, [String]) -> Void)? = { [weak self] gender, family, given in
 			self?.goToMyProfileSecondViewController(gender: gender, family: family, given: given, source: source, weight: weight, height: height)
 		}
 
@@ -321,41 +280,27 @@ class MainAppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDe
 		navigate(to: myProfileFirstViewController, with: .push)
 	}
 
-	internal func goToMyProfileSecondViewController(gender: String, family: String, given: [String], source: NavigationSourceType = .profile, weight: Int, height: Int) {
+	internal func goToMyProfileSecondViewController(gender: OCKBiologicalSex, family: String, given: [String], source: NavigationSourceType = .profile, weight: Int, height: Int) {
 		let myProfileSecondViewController = MyProfileSecondViewController()
 		myProfileSecondViewController.comingFrom = source
 		myProfileSecondViewController.profileWeight = weight
 		myProfileSecondViewController.profileHeight = height
 
 		myProfileSecondViewController.patientRequestAction = { [weak self] _, birthdate, weight, height, date in
-			let joinedNames = given.joined(separator: " ")
-			DataContext.shared.firstName = joinedNames
-			var patientUpdate = [UpdatePatientModel(op: "replace", path: "/name/0/family", value: family), UpdatePatientModel(op: "replace", path: "/birthDate", value: birthdate)]
-			let currentNames = DataContext.shared.userModel?.name?.first?.given ?? []
-			given.enumerated().forEach {
-				if $0.offset < currentNames.count {
-					patientUpdate.append(UpdatePatientModel(op: "replace", path: "/name/0/given/\($0.offset)", value: given[$0.offset]))
-				} else {
-					patientUpdate.append(UpdatePatientModel(op: "add", path: "/name/0/given/\($0.offset)", value: given[$0.offset]))
-				}
+			var patient = AppDelegate.careManager.patient
+			var givenNames = given
+			patient?.name.givenName = givenNames.first
+			givenNames.removeFirst()
+			patient?.name.middleName = givenNames.joined(separator: " ")
+			patient?.name.familyName = family
+			patient?.sex = gender
+			patient?.effectiveDate = date
+			patient?.birthday = birthdate
+			patient?.weight = weight
+			patient?.height = height
+			AppDelegate.careManager.createOrUpdate(patient: patient!) { [weak self] _ in
+				self?.parentCoordinator?.uploadPatient(patient: patient!)
 			}
-
-			if currentNames.count > given.count {
-				for index in given.count ... (currentNames.count - 1) {
-					ALog.info("removing: \(currentNames[index]), \(index)")
-					patientUpdate.append(UpdatePatientModel(op: "remove", path: "/name/0/given/\(given.count)", value: nil))
-				}
-			}
-			patientUpdate.append(UpdatePatientModel(op: "replace", path: "/gender", value: gender))
-			DataContext.shared.updatePatient = patientUpdate
-
-			DataContext.shared.userModel?.dob = birthdate
-			let name = [ResourceName(use: "official", family: family, given: given)]
-			DataContext.shared.userModel?.name = name
-			DataContext.shared.userModel?.gender = OCKBiologicalSex(rawValue: gender)
-			let defaultPatient = [UpdatePatientModel(op: "", path: "", value: "")]
-			let patient = DataContext.shared.updatePatient
-			self?.patientAPI(patient: patient ?? defaultPatient, weight: weight, height: height, date: date, birthDay: birthdate, family: family, given: given)
 		}
 
 		myProfileSecondViewController.alertAction = { [weak self] _ in
@@ -363,58 +308,6 @@ class MainAppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDe
 			self?.showAlert(title: Str.invalidInput, detailText: Str.emptyPickerField, actions: [okAction])
 		}
 		navigate(to: myProfileSecondViewController, with: .push)
-	}
-
-	// swiftlint:disable:next function_parameter_count
-	internal func patientAPI(patient: [UpdatePatientModel], weight: Int, height: Int, date: String, birthDay: String, family: String, given: [String]) {
-		showHUD()
-		APIClient.client.patchPatient(patient: patient) { [weak self] result in
-			self?.hideHUD()
-			DataContext.shared.updatePatient = patient
-			switch result {
-			case .success:
-				ALog.info("OK STATUS FOR UPDATE PATIENT : 200")
-				DataContext.shared.userModel = UserModel(userID: Keychain.patientID ?? "", email: DataContext.shared.userModel?.email, name: [ResourceName(use: "", family: family, given: given)], dob: birthDay, gender: DataContext.shared.userModel?.gender ?? OCKBiologicalSex(rawValue: "female"))
-				self?.profileViewController?.nameLabel?.attributedText = (ProfileHelper.firstName ?? "").with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
-				self?.getHeightWeight(weight: weight, height: height, date: date)
-			case .failure(let error):
-				ALog.error("request failed", error: error)
-				AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-			}
-		}
-	}
-
-	internal func getHeightWeight(weight: Int, height: Int, date: String) {
-		let displayName = DataContext.shared.userModel?.displayName
-		let referenceId = "Patient/\(Keychain.userId ?? "")"
-
-		let weightObservation = CodexResource(id: nil, code: MedicalCode.bodyWeight, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
-
-		let weightEntry = BundleEntry(fullURL: nil, resource: weightObservation, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
-
-		let heightObservation = CodexResource(id: nil, code: MedicalCode.bodyHeight, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: referenceId, type: "Patient", identifier: nil, display: displayName), valueQuantity: ValueQuantity(value: height, unit: Str.heightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
-
-		let heightEntry = BundleEntry(fullURL: nil, resource: heightObservation, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
-		let bundle = CodexBundle(entry: [weightEntry, heightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
-
-		bundleAction(bundle: bundle)
-	}
-
-	internal func bundleAction(bundle: CodexBundle) {
-		showHUD()
-		APIClient.client.postBundle(bundle: bundle) { [weak self] result in
-			self?.hideHUD()
-			switch result {
-			case .success:
-				self?.heightWeightBundle = bundle
-				if let profile = self?.profileViewController {
-					self?.navigationController?.popToViewController(profile, animated: true)
-				}
-			case .failure(let error):
-				ALog.error("request failed", error: error)
-				AlertHelper.showAlert(title: Str.error, detailText: Str.createBundleFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-			}
-		}
 	}
 
 	internal func logout() {

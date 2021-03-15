@@ -7,6 +7,7 @@ import Foundation
 
 // MARK: - Resource
 
+// ModelsR4.Observation
 struct CodexResource: Codable {
 	let id: String?
 	let code: MedicalCode?
@@ -25,6 +26,7 @@ struct CodexResource: Codable {
 
 // MARK: - Component
 
+// ModelsR4.ObservationComponent
 struct Component: Codable {
 	let code: MedicalCode?
 	let valueQuantity: ValueQuantity?
@@ -40,6 +42,7 @@ struct ResourceName: Codable {
 
 // MARK: - ValueQuantity
 
+// ModelsR4.Quantity
 struct ValueQuantity: Codable {
 	let value: Int?
 	let unit: String?

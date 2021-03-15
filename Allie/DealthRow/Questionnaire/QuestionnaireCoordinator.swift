@@ -7,6 +7,8 @@ import Foundation
 import UIKit
 
 class QuestionnaireCoordinator: NSObject, Coordinable {
+	let type: CoordinatorType = .questionnaireCoordinator
+
 	internal var navigationController: UINavigationController? = {
 		let navigationController = UINavigationController()
 		let navBar = navigationController.navigationBar
@@ -173,7 +175,7 @@ class QuestionnaireCoordinator: NSObject, Coordinable {
 	internal func stop() {
 		rootViewController?.dismiss(animated: true, completion: { [weak self] in
 			guard let self = self else { return }
-			self.parentCoordinator?.removeChild(.questionnaireCoordinator)
+			self.parentCoordinator?.removeCoordinator(ofType: .questionnaireCoordinator)
 			if let visibleController = self.parentCoordinator?.navigationController?.visibleViewController, let homeViewController = visibleController as? HomeViewController {
 				homeViewController.viewWillAppear(true)
 			}

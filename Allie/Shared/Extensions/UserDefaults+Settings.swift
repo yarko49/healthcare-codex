@@ -10,7 +10,7 @@ import Foundation
 extension UserDefaults {
 	static func registerDefautlts() {
 		let defaults: [String: Any] = [Self.isCarePlanPopulatedKey: false, Self.hasRunOnceKey: false, Self.hasCompletedOnboardingKey: false,
-		                               Self.isBiometricsEnabledKey: false, Self.healthKitUploadChunkSizeKey: 4500]
+		                               Self.isBiometricsEnabledKey: false, Self.healthKitUploadChunkSizeKey: 4500, Self.haveAskedUserForBiometricsKey: false]
 		UserDefaults.standard.register(defaults: defaults)
 	}
 
@@ -54,8 +54,14 @@ extension UserDefaults {
 		}
 	}
 
-	var haveAskedUserforBiometrics: Bool {
-		object(forKey: Self.isBiometricsEnabledKey) != nil
+	private static let haveAskedUserForBiometricsKey = "haveAskedUserForBiometrics"
+	var haveAskedUserForBiometrics: Bool {
+		get {
+			bool(forKey: Self.haveAskedUserForBiometricsKey)
+		}
+		set {
+			set(newValue, forKey: Self.haveAskedUserForBiometricsKey)
+		}
 	}
 
 	func removeBiometrics() {
@@ -63,7 +69,7 @@ extension UserDefaults {
 	}
 
 	private static let healthKitUploadChunkSizeKey = "HealthKitUploadChunkSize"
-	var healthKikUploadChunkSize: Int {
+	var healthKitUploadChunkSize: Int {
 		get {
 			integer(forKey: Self.healthKitUploadChunkSizeKey)
 		}
