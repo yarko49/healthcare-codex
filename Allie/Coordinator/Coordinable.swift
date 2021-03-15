@@ -1,34 +1,42 @@
 import UIKit
 
 protocol Coordinable: AnyObject {
+	var type: CoordinatorType { get }
 	typealias ActionHandler = () -> Void
 
 	var navigationController: UINavigationController? { get }
 	var childCoordinators: [CoordinatorType: Coordinable] { get set }
 
+	subscript(type: CoordinatorType) -> Coordinable? { get set }
 	func start()
-	func addChild(coordinator: Coordinable, with key: CoordinatorType)
-	func removeChild(coordinator: Coordinable)
+	func addChild(coordinator: Coordinable)
+	func removeChild(coordinator: Coordinable) -> Coordinable?
 
 	func showHUD(animated: Bool)
 	func hideHUD(animated: Bool)
 }
 
 extension Coordinable {
-	func addChild(coordinator: Coordinable, with key: CoordinatorType) {
-		childCoordinators[key] = coordinator
-	}
-
-	func removeChild(coordinator: Coordinable) {
-		childCoordinators = childCoordinators.filter {
-			$0.value !== coordinator
+	subscript(type: CoordinatorType) -> Coordinable? {
+		get {
+			childCoordinators[type]
+		} set {
+			childCoordinators[type] = newValue
 		}
 	}
 
-	func removeChild(_ key: CoordinatorType) {
-		if let coord = childCoordinators[key] {
-			removeChild(coordinator: coord)
-		}
+	func addChild(coordinator: Coordinable) {
+		childCoordinators[coordinator.type] = coordinator
+	}
+
+	@discardableResult
+	func removeChild(coordinator: Coordinable) -> Coordinable? {
+		childCoordinators.removeValue(forKey: coordinator.type)
+	}
+
+	@discardableResult
+	func removeCoordinator(ofType type: CoordinatorType) -> Coordinable? {
+		childCoordinators.removeValue(forKey: type)
 	}
 
 	func showHUD(animated: Bool) {}

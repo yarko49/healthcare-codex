@@ -9,6 +9,8 @@ import SupportSDK
 import UIKit
 
 class SettingsCoordinator: NSObject, Coordinable {
+	let type: CoordinatorType = .settingsCoordinator
+
 	internal var navigationController: UINavigationController? = {
 		UINavigationController(nibName: nil, bundle: nil)
 	}()
@@ -168,7 +170,7 @@ class SettingsCoordinator: NSObject, Coordinable {
 		}
 		let safarViewController = SFSafariViewController(url: url)
 		safarViewController.delegate = self
-		navigate(to: safarViewController, with: .push)
+		navigate(to: safarViewController, with: .present)
 	}
 
 	internal func showSupport() {
@@ -212,7 +214,7 @@ class SettingsCoordinator: NSObject, Coordinable {
 	internal func stop() {
 		rootViewController?.dismiss(animated: true, completion: { [weak self] in
 			guard let self = self else { return }
-			self.parentCoordinator?.removeChild(.settingsCoordinator)
+			self.parentCoordinator?.removeCoordinator(ofType: .settingsCoordinator)
 		})
 	}
 

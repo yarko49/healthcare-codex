@@ -491,3 +491,15 @@
 /* Troubleshoot */
 "TROUBLESHOOT" = "Troubleshoot";
 
+/* Select Chunk Size: */
+"SELECT_CHUNK_SIZE" = "Select Chunk Size:";
+
+/* Continue */
+"CONTINUE" = "Continue";
+
+/* Biological Sex */
+"BIOLOGICAL_SEX" = "Biological Sex";
+
+/* Yes */
+"YES" = "Yes";
+

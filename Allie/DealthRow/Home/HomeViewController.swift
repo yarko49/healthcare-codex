@@ -1,3 +1,4 @@
+import HealthKit
 import UIKit
 
 class HomeViewController: BaseViewController {
@@ -6,7 +7,7 @@ class HomeViewController: BaseViewController {
 	var getCardsAction: (() -> Void)?
 	var questionnaireAction: (() -> Void)?
 	var troubleshootingAction: ((String?, String?, String?, IconType?) -> Void)?
-	var measurementCellAction: ((InputType) -> Void)?
+	var measurementCellAction: ((HKQuantityTypeIdentifier) -> Void)?
 
 	// MARK: - Properties
 
@@ -129,9 +130,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 			case .activity:
 				break
 			case .bloodPressure:
-				measurementCellAction?(.bloodPressure)
+				measurementCellAction?(.bloodPressureSystolic)
 			case .weight:
-				measurementCellAction?(.weight)
+				measurementCellAction?(.bodyMass)
 			case .questionnaire:
 				if measurementCardsList[indexPath.row].data.progressPercent != 1 {
 					questionnaireAction?()

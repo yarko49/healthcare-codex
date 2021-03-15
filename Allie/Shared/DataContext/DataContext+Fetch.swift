@@ -31,7 +31,7 @@ extension DataContext {
 						self?.rhrGoal = restingHeartRate.goal ?? 0.0
 					}
 
-					self?.signUpCompleted = profile.signUpCompleted ?? false
+					AppDelegate.appCoordinator?.signUpCompleted = profile.signUpCompleted ?? false
 					completion(true)
 				}
 			case .failure(let error):

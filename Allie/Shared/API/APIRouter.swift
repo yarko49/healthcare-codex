@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ModelsR4
 
 enum APIRouter: URLRequestConvertible {
 	static let baseURLPath = AppConfig.apiBaseUrl
@@ -14,7 +15,7 @@ enum APIRouter: URLRequestConvertible {
 	case getCarePlan(vectorClock: Bool, valueSpaceSample: Bool)
 	case postCarePlan(carePlanResponse: CarePlanResponse)
 	case postPatient(patient: AlliePatient)
-	case postObservation(observation: CodexResource)
+	case postObservation(observation: ModelsR4.Observation)
 
 	// DeathRow
 	case getQuestionnaire
@@ -23,7 +24,7 @@ enum APIRouter: URLRequestConvertible {
 	case postProfile(profile: Profile)
 	case getNotifications
 	case getPatient(identifier: String)
-	case postBundle(bundle: CodexBundle)
+	case postBundle(bundle: ModelsR4.Bundle)
 	case postObservationSearch(search: SearchParameter)
 	case patchPatient(patient: UpdatePatientModels)
 
@@ -48,21 +49,23 @@ enum APIRouter: URLRequestConvertible {
 	}
 
 	var path: String {
+		var path = "/mobile"
 		switch self {
-		case .registerProvider: return "/mobile/organization/register"
-		case .getCarePlan, .postCarePlan: return "/carePlan"
-		case .postPatient: return "/carePlan"
-		case .postObservation: return "/fhir/Observation"
+		case .registerProvider: path += "/organization/register"
+		case .getCarePlan, .postCarePlan, .postPatient: path += "/carePlan"
+		case .postObservation: path += "/fhir/Observation"
 
-		case .getQuestionnaire: return "/fhir/Questionnaire"
-		case .postQuestionnaireResponse: return "/fhir/QuestionnaireResponse"
-		case .getProfile, .postProfile: return "/profile"
-		case .getNotifications: return "/notifications"
-		case .postBundle: return "/fhir/Bundle"
-		case .postObservationSearch: return "/fhir/Observation/_search"
-		case .patchPatient: return "/fhir/Patient"
-		case .getPatient: return "/fhir/Patient"
+		case .getQuestionnaire: path += "/fhir/Questionnaire"
+		case .postQuestionnaireResponse: path += "/fhir/QuestionnaireResponse"
+		case .getProfile, .postProfile: path += "/profile"
+		case .getNotifications: path += "/notifications"
+		case .postBundle: path += "/fhir/Bundle"
+		case .postObservationSearch: path += "/fhir/Observation/_search"
+		case .patchPatient: path += "/fhir/Patient"
+		case .getPatient: path += "/fhir/Patient"
 		}
+
+		return path
 	}
 
 	var encoding: Request.ParameterEncoding {

@@ -13,7 +13,8 @@ protocol AllieAPI {
 	func registerProvider(identifier: String, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher?
 	func getCarePlan(vectorClock: Bool, valueSpaceSample: Bool, completion: @escaping WebService.DecodableCompletion<CarePlanResponse>) -> URLSession.ServicePublisher?
 	func postCarePlan(carePlanResponse: CarePlanResponse, completion: @escaping WebService.DecodableCompletion<[String: Int]>) -> URLSession.ServicePublisher?
-	func postObservation(observation: CodexResource, completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher?
+	func postBundle(bundle: ModelsR4.Bundle, completion: @escaping WebService.DecodableCompletion<ModelsR4.Bundle>) -> URLSession.ServicePublisher?
+	func postObservation(observation: ModelsR4.Observation, completion: @escaping WebService.DecodableCompletion<ModelsR4.Observation>) -> URLSession.ServicePublisher?
 	func postPatient(patient: AlliePatient, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.ServicePublisher?
 
 	// Death Row
@@ -23,7 +24,6 @@ protocol AllieAPI {
 	func postProfile(profile: Profile, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher?
 	func patchPatient(patient: [UpdatePatientModel], completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher?
 	func getCardList(completion: @escaping WebService.DecodableCompletion<CardList>) -> URLSession.ServicePublisher?
-	func postBundle(bundle: CodexBundle, completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher?
 	func postObservationSearch(search: SearchParameter, completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher?
 }
 
@@ -56,6 +56,8 @@ public final class APIClient: AllieAPI {
 		}
 	}
 
+//	func postBundle(bundle: ModelsR4.Bundle) async -> ModelsR4.Bundle {}
+
 	@discardableResult
 	func registerProvider(identifier: String, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher? {
 		webService.request(route: APIRouter.registerProvider(HealthCareProvider(id: identifier)), completion: completion)
@@ -74,7 +76,7 @@ public final class APIClient: AllieAPI {
 	}
 
 	@discardableResult
-	func postObservation(observation: CodexResource, completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher? {
+	func postObservation(observation: ModelsR4.Observation, completion: @escaping WebService.DecodableCompletion<ModelsR4.Observation>) -> URLSession.ServicePublisher? {
 		webService.request(route: APIRouter.postObservation(observation: observation), completion: completion)
 	}
 
@@ -120,7 +122,7 @@ public final class APIClient: AllieAPI {
 	}
 
 	@discardableResult
-	func postBundle(bundle: CodexBundle, completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher? {
+	func postBundle(bundle: ModelsR4.Bundle, completion: @escaping WebService.DecodableCompletion<ModelsR4.Bundle>) -> URLSession.ServicePublisher? {
 		webService.request(route: APIRouter.postBundle(bundle: bundle), completion: completion)
 	}
 

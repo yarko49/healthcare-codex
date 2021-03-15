@@ -47,8 +47,6 @@ class DataContext: ObservableObject {
 		}
 	}
 
-	var updatePatient: UpdatePatientModels?
-
 	@Published var resource: ModelsR4.Patient?
 	@Published var userModel: UserModel?
 
@@ -79,8 +77,6 @@ class DataContext: ObservableObject {
 	var bloodPressurePushNotificationsIsOn = false
 	var weightInPushNotificationsIsOn = false
 	var surveyPushNotificationsIsOn = false
-	var signUpCompleted = false
-	var firstName: String?
 	var getObservationData: CodexBundle?
 
 	func clearAll() {
@@ -99,6 +95,5 @@ class DataContext: ObservableObject {
 		stepsGoal = 0.0
 		hrGoal = 0.0
 		rhrGoal = 0.0
-		userModel = nil
 	}
 }

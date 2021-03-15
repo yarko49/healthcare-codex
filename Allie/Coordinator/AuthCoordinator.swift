@@ -8,6 +8,8 @@ import LocalAuthentication
 import UIKit
 
 class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelegate {
+	let type: CoordinatorType = .authCoordinator
+
 	internal var navigationController: UINavigationController? = {
 		UINavigationController()
 	}()
@@ -91,8 +93,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	}
 
 	internal func sendEmailLink(email: String) {
-		guard let bundleId = Bundle.main.bundleIdentifier else { return }
-		Auth.auth().tenantID = AppConfig.tenantID
+		let bundleId = Bundle.main.bundleIdentifier!
 		let actionCodeSettings = ActionCodeSettings()
 		actionCodeSettings.url = URL(string: AppConfig.firebaseDeeplinkURL)
 		actionCodeSettings.handleCodeInApp = true
@@ -148,14 +149,13 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		let signInAction: (() -> Void)? = { [weak self, weak healthViewController] in
 			self?.showHUD()
 			if Auth.auth().isSignIn(withEmailLink: link) {
-				Auth.auth().tenantID = AppConfig.tenantID
 				Auth.auth().signIn(withEmail: email, link: link) { [weak self] authResult, error in
 					if error == nil {
 						self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
 							DispatchQueue.main.async {
 								authDataResult = authResult
 								if let viewController = healthViewController, viewController.authorizationFlowType == .signIn {
-									self?.goToHealthKitAuthorization()
+									self?.parentCoordinator?.goToHealthKitAuthorization()
 								} else {
 									healthViewController?.screenFlowType = .welcomeSuccess
 								}
@@ -223,49 +223,29 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		guard let user = Auth.auth().currentUser else {
 			return
 		}
-
-//		showHUD()
-//		DataContext.shared.searchPatient(user: user, completion: { [weak self] identifier in
-//			self?.hideHUD()
-//			if let userId = identifier {
-//				LoggingManager.identify(userId: userId)
-//				self?.getProfile()
-//			} else {
-//				self?.goToMyProfileFirstViewController(from: .signIn)
-//			}
-//		})
-	}
-
-	internal func getProfile() {
 		showHUD()
-		DataContext.shared.getProfileAPI { [weak self] success in
+		APIClient.client.getCarePlan { [weak self] carePlanResult in
 			self?.hideHUD()
-			if success {
-				if DataContext.shared.signUpCompleted {
-					self?.goToHealthKitAuthorization()
+			switch carePlanResult {
+			case .failure(let error):
+				ALog.error("Unable to fetch CarePlan: ", error: error)
+				self?.goToProfileSetupViewController(user: user)
+			case .success(let carePlan):
+				if let patient = carePlan.allPatients.first {
+					LoggingManager.identify(userId: patient.id)
+					let ockPatient = OCKPatient(patient: patient)
+					AppDelegate.careManager.createOrUpdate(patient: ockPatient) { patientResult in
+						switch patientResult {
+						case .failure(let error):
+							ALog.error("Unable to add patient to store", error: error)
+						case .success:
+							self?.parentCoordinator?.signUpCompleted = true
+							self?.parentCoordinator?.goToHealthKitAuthorization()
+						}
+					}
 				} else {
-					self?.goToMyProfileFirstViewController(from: .signIn)
+					self?.goToProfileSetupViewController(user: user)
 				}
-			} else {
-				self?.goToMyProfileFirstViewController(from: .signIn)
-			}
-		}
-	}
-
-	internal func goToHealthKitAuthorization() {
-		HealthKitManager.shared.authorizeHealthKit { authorized, error in
-			guard authorized else {
-				let baseMessage = "HealthKit Authorization Failed"
-				if let error = error {
-					ALog.error("Send signin Link \(baseMessage)", error: error)
-				} else {
-					ALog.info("baseMessage \(baseMessage)")
-				}
-				return
-			}
-			ALog.info("HealthKit Successfully Authorized.")
-			DispatchQueue.main.async {
-				self.goToMainApp()
 			}
 		}
 	}
@@ -274,11 +254,24 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		parentCoordinator?.goToMainApp()
 	}
 
-	internal func goToMyProfileFirstViewController(from screen: NavigationSourceType = .signUp) {
+	func goToProfileSetupViewController(user: RemoteUser) {
+		try? AppDelegate.careManager.resetAllContents()
+		AppDelegate.careManager.findOrCreate(user: user) { [weak self] result in
+			switch result {
+			case .failure(let error):
+				ALog.error("\(error.localizedDescription)")
+			case .success(let patient):
+				LoggingManager.identify(userId: patient.id)
+				AppDelegate.careManager.patient = patient
+				self?.goToMyProfileFirstViewController()
+			}
+		}
+	}
+
+	func goToMyProfileFirstViewController(from screen: NavigationSourceType = .signUp) {
 		let myProfileFirstViewController = MyProfileFirstViewController()
 		myProfileFirstViewController.comingFrom = screen
-
-		let sendDataAction: ((String, String, [String]) -> Void)? = { [weak self] gender, family, given in
+		let sendDataAction: ((OCKBiologicalSex, String, [String]) -> Void)? = { [weak self] gender, family, given in
 			self?.goToMyProfileSecondViewController(gender: gender, family: family, given: given)
 		}
 
@@ -293,16 +286,24 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		navigate(to: myProfileFirstViewController, with: .push)
 	}
 
-	internal func goToMyProfileSecondViewController(gender: String, family: String, given: [String]) {
+	internal func goToMyProfileSecondViewController(gender: OCKBiologicalSex, family: String, given: [String]) {
 		let myProfileSecondViewController = MyProfileSecondViewController()
 
-		myProfileSecondViewController.patientRequestAction = { [weak self] _, _, _, _, _ in
-//			let name = ResourceName(use: "official", family: family, given: given)
-//			let joinedNames = given.joined(separator: " ")
-//			DataContext.shared.firstName = joinedNames
-//			DataContext.shared.resource = CodexResource(id: nil, code: nil, effectiveDateTime: nil, identifier: nil, meta: nil, resourceType: resourceType, status: nil, subject: nil, valueQuantity: nil, birthDate: birthdate, gender: gender, name: [name], component: nil)
-//			let patientResource = DataContext.shared.resource
-//			self?.goToHealthViewControllerFromProfile(patient: patientResource ?? CodexResource(id: "", code: nil, effectiveDateTime: "", identifier: nil, meta: nil, resourceType: "", status: "", subject: nil, valueQuantity: nil, birthDate: "", gender: "", name: nil, component: nil), weight: weight, height: height, date: date)
+		myProfileSecondViewController.patientRequestAction = { [weak self] _, birthday, weight, height, effectiveDate in
+			var patient = AppDelegate.careManager.patient
+			var givenNames = given
+			patient?.name.givenName = givenNames.first
+			givenNames.removeFirst()
+			patient?.name.middleName = givenNames.joined(separator: " ")
+			patient?.name.familyName = family
+			patient?.sex = gender
+			patient?.effectiveDate = effectiveDate
+			patient?.birthday = birthday
+			patient?.weight = weight
+			patient?.height = height
+			AppDelegate.careManager.createOrUpdate(patient: patient!) { _ in
+				self?.goToHealthViewControllerFromProfile(patient: patient!)
+			}
 		}
 
 		myProfileSecondViewController.alertAction = { [weak self] _ in
@@ -312,12 +313,12 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		navigate(to: myProfileSecondViewController, with: .push)
 	}
 
-	internal func goToHealthViewControllerFromProfile(patient: CodexResource, weight: Int, height: Int, date: String) {
+	internal func goToHealthViewControllerFromProfile(patient: OCKPatient) {
 		let healthViewController = HealthViewController()
 		healthViewController.screenFlowType = .selectDevices
 		healthViewController.authorizationFlowType = authorizationFlowType
 		healthViewController.nextButtonAction = { [weak self] in
-			self?.goToMyDevices(patient: patient, weight: weight, height: height, date: date)
+			self?.goToMyDevices(patient: patient)
 		}
 
 		navigate(to: healthViewController, with: .pushFullScreen)
@@ -360,8 +361,8 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	internal func setChunkSize() {
 		let changeChunkSizeViewController = SelectChunkSizeViewController()
 		let continueAction: ((Int) -> Void)? = { [weak self] chunkSize in
-			UserDefaults.standard.healthKikUploadChunkSize = chunkSize
-			self?.startInitialUpload()
+			UserDefaults.standard.healthKitUploadChunkSize = chunkSize
+			self?.goToHealthViewControllerFromActivate()
 		}
 		changeChunkSizeViewController.continueAction = continueAction
 		navigate(to: changeChunkSizeViewController, with: .push)
@@ -370,7 +371,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	internal func startInitialUpload() {
 		let hkDataUploadViewController = HKDataUploadViewController()
 		hkDataUploadViewController.queryAction = { [weak self] in
-			HealthKitSyncManager.syncData(chunkSize: UserDefaults.standard.healthKikUploadChunkSize) { uploaded, total in
+			HealthKitSyncManager.syncData(chunkSize: UserDefaults.standard.healthKitUploadChunkSize) { uploaded, total in
 				hkDataUploadViewController.progress = uploaded
 				hkDataUploadViewController.maxProgress = total
 			} completion: { success in
@@ -387,7 +388,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		navigate(to: hkDataUploadViewController, with: .push)
 	}
 
-	internal func goToHealthViewControllerFromActivate() {
+	func goToHealthViewControllerFromActivate() {
 		let healthViewController = HealthViewController()
 		healthViewController.screenFlowType = .activate
 		healthViewController.authorizationFlowType = authorizationFlowType
@@ -398,86 +399,22 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		navigate(to: healthViewController, with: .pushFullScreen)
 	}
 
-	internal func goToMyDevices(patient: CodexResource, weight: Int, height: Int, date: String) {
+	func goToMyDevices(patient: OCKPatient) {
 		let devicesViewController = MyDevicesViewController()
 
 		devicesViewController.profileRequestAction = { [weak self] in
-			self?.patientAPI(patient: patient, weight: weight, height: height, date: date)
+			self?.parentCoordinator?.uploadPatient(patient: patient)
+			self?.goToHealthViewControllerFromDevices()
 		}
 		navigate(to: devicesViewController, with: .pushFullScreen)
 	}
 
-	internal func patientAPI(patient: CodexResource, weight: Int, height: Int, date: String) {
-		guard DataContext.shared.userModel == nil else {
-			getHeightWeight(weight: weight, height: height, date: date)
-			return
-		}
-		showHUD()
-//		APIClient.client.postPatient(patient: patient) { [weak self] result in
-//			self?.hideHUD()
-//			DataContext.shared.resource = patient
-//			switch result {
-//			case .success(let resource):
-//				ALog.info("OK STATUS FOR PATIENT : 200")
-//				let defaultName = ResourceName(use: "", family: "", given: [""])
-//				DataContext.shared.userModel = UserModel(userID: resource.id ?? "", email: self?.emailrequest ?? "", name: resource.name ?? [defaultName], dob: patient.birthDate, gender: OCKBiologicalSex(rawValue: DataContext.shared.resource?.gender ?? ""))
-//				self?.getHeightWeight(weight: weight, height: height, date: date)
-//			case .failure(let error):
-//				ALog.error("request falied", error: error)
-//				AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-//				return
-//			}
-//		}
-	}
-
-	internal func getHeightWeight(weight: Int, height: Int, date: String) {
-		let weightObservation = CodexResource(id: nil, code: MedicalCode.bodyWeight, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: Keychain.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: weight, unit: Str.weightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
-		let weightEntry = BundleEntry(fullURL: nil, resource: weightObservation, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
-		let heightObservation = CodexResource(id: nil, code: MedicalCode.bodyHeight, effectiveDateTime: date, identifier: nil, meta: nil, resourceType: "Observation", status: "final", subject: Subject(reference: Keychain.patientID, type: "Patient", identifier: nil, display: DataContext.shared.userModel?.displayName), valueQuantity: ValueQuantity(value: height, unit: Str.heightUnit), birthDate: nil, gender: nil, name: nil, component: nil)
-		let heightEntry = BundleEntry(fullURL: nil, resource: heightObservation, request: BundleRequest(method: "POST", url: "Observation"), search: nil, response: nil)
-		let bundle = CodexBundle(entry: [weightEntry, heightEntry], link: nil, resourceType: "Bundle", total: nil, type: "transaction")
-		bundleAction(bundle: bundle)
-	}
-
-	internal func bundleAction(bundle: CodexBundle) {
-		showHUD()
-		APIClient.client.postBundle(bundle: bundle) { [weak self] result in
-			self?.hideHUD()
-			switch result {
-			case .success(let response):
-				ALog.info("response \(String(describing: response))")
-				DataContext.shared.signUpCompleted = true
-				let profile = Profile(dataContext: DataContext.shared)
-				self?.profileRequest(profile: profile)
-			case .failure(let error):
-				ALog.error("request failed =", error: error)
-				AlertHelper.showAlert(title: Str.error, detailText: Str.createBundleFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-			}
-		}
-	}
-
-	internal func profileRequest(profile: Profile) {
-		showHUD()
-		APIClient.client.postProfile(profile: profile) { [weak self] result in
-			self?.hideHUD()
-			switch result {
-			case .success(let finished):
-				LoggingManager.identify(userId: Keychain.userId)
-				ALog.info("OK STATUS FOR PROFILE: 200 \(String(describing: DataContext.shared.signUpCompleted)), \(finished)")
-				self?.goToHealthViewControllerFromDevices()
-			case .failure(let error):
-				ALog.error("request failed", error: error)
-				AlertHelper.showAlert(title: Str.error, detailText: Str.createProfileFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-			}
-		}
-	}
-
-	internal func goToPrivacyPolicy() {
+	func goToPrivacyPolicy() {
 		let privacyPolicyViewController = PrivacyPolicyViewController()
 		navigate(to: privacyPolicyViewController, with: .pushFullScreen)
 	}
 
-	internal func goToTermsOfService() {
+	func goToTermsOfService() {
 		let termsOfServiceViewController = TermsOfServiceViewController()
 		navigate(to: termsOfServiceViewController, with: .pushFullScreen)
 	}
@@ -527,7 +464,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	private func checkIfUserExists(user: AuthDataResult?) {
 		let newUser = user?.additionalUserInfo?.isNewUser
 		if newUser == true {
-			goToMyProfileFirstViewController()
+			goToProfileSetupViewController(user: (user?.user)!)
 		} else {
 			getPatientInfo()
 		}
@@ -545,7 +482,6 @@ extension AuthCoordinator: GIDSignInDelegate {
 			ALog.error(error: error)
 			return
 		}
-		Auth.auth().tenantID = AppConfig.tenantID
 		let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
 		Auth.auth().signIn(with: credential) { [weak self] authResult, error in
 			self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
@@ -574,7 +510,6 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 			}
 
 			let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-			Auth.auth().tenantID = AppConfig.tenantID
 			Auth.auth().signIn(with: credential) { [weak self] authResult, error in
 				self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
 					self?.checkIfUserExists(user: authResult)

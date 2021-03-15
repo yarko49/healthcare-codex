@@ -6,6 +6,8 @@ import LocalAuthentication
 import UIKit
 
 class MasterCoordinator: Coordinable {
+	let type: CoordinatorType = .masterCoordinator
+
 	private var window: UIWindow
 	internal var childCoordinators: [CoordinatorType: Coordinable]
 	internal var navigationController: UINavigationController?
@@ -15,9 +17,9 @@ class MasterCoordinator: Coordinable {
 		return view
 	}()
 
-	let remoteConfigManager = RemoteConfigManager()
-	var context = LAContext()
-	var error: NSError?
+	lazy var remoteConfigManager = RemoteConfigManager()
+	lazy var context = LAContext()
+	var signUpCompleted: Bool = false
 
 	public var rootViewController: UIViewController? {
 		navigationController
@@ -50,43 +52,35 @@ class MasterCoordinator: Coordinable {
 			UserDefaults.standard.hasRunOnce = true
 			UserDefaults.standard.isCarePlanPopulated = false
 		}
-		showMockSplashScreen()
-	}
-
-	internal func showMockSplashScreen() {
-		let mockSplashViewController = SplashViewController()
-		window.rootViewController = mockSplashViewController
-		guard Auth.auth().currentUser != nil else {
+		if Auth.auth().currentUser == nil {
 			goToAuth()
-			return
+		} else {
+			biometricsAuthentication()
 		}
-		biometricsAuthentication()
 	}
 
 	public func goToAuth(url: String = "") {
-		removeChild(.mainAppCoordinator)
+		removeCoordinator(ofType: .mainAppCoordinator)
+		Keychain.clearKeychain()
 		DataContext.shared.clearAll()
 		let authCoordinator = AuthCoordinator(withParent: self, deepLink: url)
-		addChild(coordinator: authCoordinator, with: .authCoordinator)
+		addChild(coordinator: authCoordinator)
 		window.rootViewController = authCoordinator.rootViewController
 	}
 
-	public func goToMainApp(showingLoader: Bool = true) {
-		removeChild(.authCoordinator)
+	public func goToMainApp() {
+		removeCoordinator(ofType: .authCoordinator)
 		let mainAppCoordinator = MainAppCoordinator(with: self)
-		addChild(coordinator: mainAppCoordinator, with: .mainAppCoordinator)
+		addChild(coordinator: mainAppCoordinator)
 		let rootViewController = mainAppCoordinator.rootViewController
+		var transitionOptions = UIWindow.TransitionOptions()
+		transitionOptions.direction = .fade
+		window.setRootViewController(rootViewController, options: transitionOptions)
 		window.rootViewController = rootViewController
 		if let user = Auth.auth().currentUser {
-			if showingLoader {
-				hud.show(in: rootViewController?.view ?? AppDelegate.primaryWindow)
-			}
-
-			syncPatient(user: user) { [weak self] _ in
-				if showingLoader {
-					DispatchQueue.main.async {
-						self?.hud.dismiss()
-					}
+			syncPatient(user: user) { result in
+				if result {
+					NotificationCenter.default.post(name: .patientDidSnychronize, object: nil)
 				}
 			}
 		}
@@ -118,8 +112,7 @@ class MasterCoordinator: Coordinable {
 	}
 
 	internal func firebaseAuthentication(completion: @escaping (Bool) -> Void) {
-		Auth.auth().tenantID = AppConfig.tenantID
-		Auth.auth().currentUser?.getIDTokenResult(completion: { tokenResult, error in
+		Auth.auth().currentUser?.getIDTokenResult(completion: { [weak self] tokenResult, error in
 			guard error == nil else {
 				ALog.error("Error signing out:", error: error)
 				completion(false)
@@ -130,60 +123,74 @@ class MasterCoordinator: Coordinable {
 				return
 			}
 			Keychain.authToken = firebaseToken
-			DataContext.shared.signUpCompleted = true
+			self?.signUpCompleted = true
 			completion(true)
 		})
 	}
 
+	func uploadPatient(patient: OCKPatient) {
+		syncPatient(patient: patient) { result in
+			if result == true {
+				ALog.info("OK STATUS FOR PATIENT : 200")
+			} else {
+				AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+			}
+		}
+	}
+
 	func syncPatient(user: RemoteUser, completion: @escaping (Bool) -> Void) {
 		CareManager.register(provider: AppDelegate.careManager.provider)
-		AppDelegate.careManager.findOrCreate(user: user, completion: { addResult in
+		AppDelegate.careManager.findOrCreate(user: user, completion: { [weak self] addResult in
 			switch addResult {
 			case .failure(let error):
 				ALog.error("Unable to add Patient to store", error: error)
 				completion(false)
 			case .success(let patient):
-				CareManager.getCarePlan { carePlanResult in
-					switch carePlanResult {
-					case .failure(let error):
-						ALog.error("Error Fetching care Plan \(error.localizedDescription)")
-					case .success(let carePlan):
-						if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.FHIRId, !FHIRid.isEmpty {
-							let ockPatient = OCKPatient(patient: serverPatient)
-							AppDelegate.careManager.insert(carePlansResponse: carePlan, for: ockPatient, completion: nil)
-							completion(true)
-						} else {
-							CareManager.postPatient(patient: patient) { postPatientResult in
-								switch postPatientResult {
+				self?.syncPatient(patient: patient, completion: completion)
+			}
+		})
+	}
+
+	func syncPatient(patient: OCKPatient, completion: @escaping (Bool) -> Void) {
+		CareManager.getCarePlan { carePlanResult in
+			switch carePlanResult {
+			case .failure(let error):
+				ALog.error("Error Fetching care Plan \(error.localizedDescription)")
+			case .success(let carePlan):
+				if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.FHIRId, !FHIRid.isEmpty {
+					let ockPatient = OCKPatient(patient: serverPatient)
+					AppDelegate.careManager.insert(carePlansResponse: carePlan, for: ockPatient, completion: nil)
+					completion(true)
+				} else {
+					CareManager.postPatient(patient: patient) { postPatientResult in
+						switch postPatientResult {
+						case .failure(let error):
+							ALog.error("error creating \(error.localizedDescription)")
+							completion(false)
+						case .success(let vectorClock):
+							ALog.info("vectorClock: \(vectorClock)")
+							CareManager.getCarePlan { newCarePlanResult in
+								switch newCarePlanResult {
 								case .failure(let error):
 									ALog.error("error creating \(error.localizedDescription)")
 									completion(false)
-								case .success(let vectorClock):
-									ALog.info("vectorClock: \(vectorClock)")
-									CareManager.getCarePlan { newCarePlanResult in
-										switch newCarePlanResult {
-										case .failure(let error):
-											ALog.error("error creating \(error.localizedDescription)")
-											completion(false)
-										case .success(let newCarePlanResponse):
-											if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.FHIRId, !FHIRid.isEmpty {
-												let ockPatient = OCKPatient(patient: serverPatient)
-												AppDelegate.careManager.insert(carePlansResponse: newCarePlanResponse, for: ockPatient, completion: nil)
-											}
-											completion(true)
-										}
+								case .success(let newCarePlanResponse):
+									if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.FHIRId, !FHIRid.isEmpty {
+										let ockPatient = OCKPatient(patient: serverPatient)
+										AppDelegate.careManager.insert(carePlansResponse: newCarePlanResponse, for: ockPatient, completion: nil)
 									}
+									completion(true)
 								}
 							}
 						}
 					}
 				}
 			}
-		})
+		}
 	}
 
 	func syncHealthKitData() {
-		HealthKitSyncManager.syncDataBackground(initialUpload: false, chunkSize: UserDefaults.standard.healthKikUploadChunkSize) { uploaded, total in
+		HealthKitSyncManager.syncDataBackground(initialUpload: false, chunkSize: UserDefaults.standard.healthKitUploadChunkSize) { uploaded, total in
 			ALog.info("HealthKit data upload progress = \(uploaded), total: \(total)")
 		} completion: { success in
 			if success == false {
@@ -202,6 +209,24 @@ class MasterCoordinator: Coordinable {
 			goToAuth()
 		} catch let signOutError as NSError {
 			ALog.error("Error signing out:", error: signOutError)
+		}
+	}
+
+	func goToHealthKitAuthorization() {
+		HealthKitManager.shared.authorizeHealthKit { [weak self] authorized, error in
+			guard authorized else {
+				let baseMessage = "HealthKit Authorization Failed"
+				if let error = error {
+					ALog.error("Send signin Link \(baseMessage)", error: error)
+				} else {
+					ALog.info("baseMessage \(baseMessage)")
+				}
+				return
+			}
+			ALog.info("HealthKit Successfully Authorized.")
+			DispatchQueue.main.async {
+				self?.goToMainApp()
+			}
 		}
 	}
 }
