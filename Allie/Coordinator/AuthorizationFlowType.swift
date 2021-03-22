@@ -53,4 +53,22 @@ extension AuthorizationFlowType {
 			return .signUp
 		}
 	}
+
+	var toggleButtonTitle: String? {
+		switch self {
+		case .signIn:
+			return NSLocalizedString("SIGN_UP", comment: "Sign Up")
+		case .signUp:
+			return NSLocalizedString("LOG_IN", comment: "Log In")
+		}
+	}
+
+	var message: String? {
+		switch self {
+		case .signIn:
+			return NSLocalizedString("DONT_HAVE_ACCOUNT", comment: "Sign Up")
+		case .signUp:
+			return NSLocalizedString("ALREADY_HAVE_ACCOUNT", comment: "Already have an Account?")
+		}
+	}
 }

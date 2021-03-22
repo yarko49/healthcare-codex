@@ -10,10 +10,11 @@ import Foundation
 
 extension OCKStore {
 	func createOrUpdatePatient(_ patient: OCKPatient, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKPatient, OCKStoreError>) -> Void)? = nil) {
-		addPatient(patient, callbackQueue: callbackQueue) { [weak self] result in
-			if case .success(let addPatient) = result {
-				completion?(.success(addPatient))
-			} else {
+		fetchPatient(withID: patient.id) { [weak self] result in
+			switch result {
+			case .failure:
+				self?.addPatient(patient, callbackQueue: callbackQueue, completion: completion)
+			case .success:
 				self?.updatePatient(patient, callbackQueue: callbackQueue, completion: completion)
 			}
 		}
@@ -44,10 +45,11 @@ extension OCKStore {
 	}
 
 	func createOrUpdateCarePlan(_ carePlan: OCKCarePlan, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKCarePlan, OCKStoreError>) -> Void)? = nil) {
-		addCarePlan(carePlan, callbackQueue: callbackQueue) { [weak self] result in
-			if case .success(let addCarePlan) = result {
-				completion?(.success(addCarePlan))
-			} else {
+		fetchCarePlan(withID: carePlan.id, callbackQueue: callbackQueue) { [weak self] result in
+			switch result {
+			case .failure:
+				self?.addCarePlan(carePlan, callbackQueue: callbackQueue, completion: completion)
+			case .success:
 				self?.updateCarePlan(carePlan, callbackQueue: callbackQueue, completion: completion)
 			}
 		}
@@ -78,10 +80,11 @@ extension OCKStore {
 	}
 
 	func createOrUpdateTask(_ task: OCKTask, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKTask, OCKStoreError>) -> Void)? = nil) {
-		addTask(task, callbackQueue: callbackQueue) { [weak self] result in
-			if case .success(let addedTask) = result {
-				completion?(.success(addedTask))
-			} else {
+		fetchTask(withID: task.id, callbackQueue: callbackQueue) { [weak self] result in
+			switch result {
+			case .failure:
+				self?.addTask(task, callbackQueue: callbackQueue, completion: completion)
+			case .success:
 				self?.updateTask(task, callbackQueue: callbackQueue, completion: completion)
 			}
 		}

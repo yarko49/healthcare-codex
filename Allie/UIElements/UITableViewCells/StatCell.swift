@@ -46,7 +46,7 @@ class StatCell: UITableViewCell {
 		heightAnchor.isActive = true
 	}
 
-	func setup(for quantityType: HealthKitQuantityType, with data: [StatModel]?, intervalType: HealthStatsDateIntervalType, expanded: Bool, goal: Double) {
+	func setup(for quantityType: HealthKitQuantityType, with data: [StatModel]?, intervalType: HealthStatsDateIntervalType, expanded: Bool, goal: Int) {
 		chartContainerView.alpha = expanded ? 1 : 0
 		chartContainerView.isHidden = !expanded
 		expandCollapseButton.isSelected = expanded

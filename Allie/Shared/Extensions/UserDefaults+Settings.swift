@@ -64,6 +64,56 @@ extension UserDefaults {
 		}
 	}
 
+	private static let hasSmartScaleKey = "hasSmartScale"
+	var hasSmartScale: Bool {
+		get {
+			bool(forKey: Self.hasSmartScaleKey)
+		}
+		set {
+			set(newValue, forKey: Self.hasSmartScaleKey)
+		}
+	}
+
+	private static let hasSmartBloodPressureCuffKey = "hasSmartBloodPressureCuff"
+	var hasSmartBloodPressureCuff: Bool {
+		get {
+			bool(forKey: Self.hasSmartBloodPressureCuffKey)
+		}
+		set {
+			set(newValue, forKey: Self.hasSmartBloodPressureCuffKey)
+		}
+	}
+
+	private static let hasSmartWatchKey = "hasSmartWatch"
+	var hasSmartWatch: Bool {
+		get {
+			bool(forKey: Self.hasSmartWatchKey)
+		}
+		set {
+			set(newValue, forKey: Self.hasSmartWatchKey)
+		}
+	}
+
+	private static let hasSmartPedometerKey = "hasSmartPedometer"
+	var hasSmartPedometer: Bool {
+		get {
+			bool(forKey: Self.hasSmartPedometerKey)
+		}
+		set {
+			set(newValue, forKey: Self.hasSmartPedometerKey)
+		}
+	}
+
+	private static let hasSmartBloodGlucoseMonitorKey = "hasSmartBloodGlucoseMonitor"
+	var hasSmartBloodGlucoseMonitor: Bool {
+		get {
+			bool(forKey: Self.hasSmartBloodGlucoseMonitorKey)
+		}
+		set {
+			set(newValue, forKey: Self.hasSmartBloodGlucoseMonitorKey)
+		}
+	}
+
 	func removeBiometrics() {
 		removeObject(forKey: Self.isBiometricsEnabledKey)
 	}

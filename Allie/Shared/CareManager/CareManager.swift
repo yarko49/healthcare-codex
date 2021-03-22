@@ -59,18 +59,32 @@ class CareManager: ObservableObject {
 // MARK: - CarePlanResponse
 
 extension CareManager {
-	func insert(carePlansResponse: CarePlanResponse, for patient: OCKPatient?, completion: OCKResultClosure<Bool>?) {
+	func insert(carePlansResponse: CarePlanResponse, completion: OCKResultClosure<Bool>?) {
+		var newPatient: OCKPatient? = patient
+		if let thePatient = carePlansResponse.allPatients.first, patient == nil {
+			newPatient = OCKPatient(patient: thePatient)
+		}
+
 		let carePlans = carePlansResponse.allCarePlans.map { (carePlan) -> OCKCarePlan in
 			OCKCarePlan(carePlan: carePlan)
 		}
 
-		let addCarePlansOperation = CarePlansAddOperation(store: store, newCarePlans: carePlans, for: patient)
-		if let patient = patient {
+		let addCarePlansOperation = CarePlansAddOperation(store: store, newCarePlans: carePlans, for: patient) { result in
+			switch result {
+			case .failure(let error):
+				ALog.error("\(error.localizedDescription)")
+			case .success(let carePlans):
+				ALog.info("carePlans count = \(carePlans.count)")
+			}
+		}
+
+		if let patient = newPatient {
 			let patientOperation = PatientsAddOperation(store: store, newPatients: [patient]) { [weak self] result in
 				switch result {
 				case .failure(let error):
 					ALog.error(error: error)
 				case .success(let newPatients):
+					ALog.info("Patient Count = \(newPatients.count)")
 					self?.patient = newPatients.first
 				}
 			}
@@ -92,14 +106,23 @@ extension CareManager {
 			task as? OCKTask
 		}
 
-		let tasksOperation = TasksAddOperation(store: store, newTasks: careTasks)
+		let tasksOperation = TasksAddOperation(store: store, newTasks: careTasks) { result in
+			switch result {
+			case .failure(let error):
+				ALog.error("\(error.localizedDescription)")
+			case .success(let tasks):
+				ALog.info("tasks count = \(tasks.count)")
+			}
+		}
 		tasksOperation.addDependency(addCarePlansOperation)
 
 		let healthKitTasksOperation = HealthKitAddTasksOperation(store: healthKitStore, newTasks: healthKitTasks) { result in
 			switch result {
 			case .failure(let error):
+				ALog.error("\(error.localizedDescription)")
 				completion?(.failure(error))
-			case .success:
+			case .success(let tasks):
+				ALog.info("HK tasks count = \(tasks.count)")
 				completion?(.success(true))
 			}
 		}
@@ -126,15 +149,8 @@ extension CareManager {
 		APIClient.client.postPatient(patient: alliePatient, completion: completion)
 	}
 
-	class func register(provider: String) {
-		APIClient.client.registerProvider(identifier: provider) { result in
-			switch result {
-			case .failure(let error):
-				ALog.error("Unable to register healthcare provider \(error.localizedDescription)")
-			case .success:
-				ALog.info("Did Register the provider \(provider)")
-			}
-		}
+	class func register(provider: String) -> Future<Bool, Never> {
+		APIClient.client.regiterProvider(identifier: provider)
 	}
 }
 
@@ -147,11 +163,31 @@ extension CareManager {
 			case .failure(let error):
 				completion?(.failure(error))
 			case .success(let patients):
-				if let patient = patients.last {
+				let sorted = patients.sorted { lhs, rhs in
+					guard let ldate = lhs.updatedDate, let rdate = rhs.updatedDate else {
+						return false
+					}
+					return ldate < rdate
+				}
+				if let patient = sorted.last {
 					self?.patient = patient
 					completion?(.success(patient))
 				} else {
 					completion?(.failure(.fetchFailed(reason: "No patients in the store")))
+				}
+			}
+		}
+	}
+
+	func findPatient(identifier: String) -> Future<OCKPatient, Error> {
+		Future { [weak self] promise in
+			self?.store.fetchPatient(withID: identifier, callbackQueue: .main) { result in
+				switch result {
+				case .failure(let error):
+					promise(.failure(error))
+				case .success(let anyPatient):
+					let patient = anyPatient as OCKPatient
+					promise(.success(patient))
 				}
 			}
 		}
@@ -170,19 +206,21 @@ extension CareManager {
 	}
 
 	func findOrCreate(user: RemoteUser, completion: OCKResultClosure<OCKPatient>?) {
-		findPatient(identifier: user.uid) { [weak self] result in
-			switch result {
-			case .success(let patient):
-				completion?(.success(patient))
-			case .failure(let error):
-				ALog.error("\(error.localizedDescription)")
-				guard let patient = OCKPatient(user: user) else {
-					completion?(.failure(.addFailed(reason: "Invalid Input")))
-					return
+		findPatient(identifier: user.uid)
+			.sink { [weak self] completionResult in
+				switch completionResult {
+				case .failure:
+					guard let patient = OCKPatient(user: user) else {
+						completion?(.failure(.addFailed(reason: "Invalid Input")))
+						return
+					}
+					self?.store.addPatient(patient, completion: completion)
+				case .finished:
+					break
 				}
-				self?.store.addPatient(patient, completion: completion)
-			}
-		}
+			} receiveValue: { patient in
+				completion?(.success(patient))
+			}.store(in: &cancellables)
 	}
 
 	func createOrUpdate(patient: OCKPatient, completion: OCKResultClosure<OCKPatient>?) {

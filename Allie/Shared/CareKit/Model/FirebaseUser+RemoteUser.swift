@@ -5,8 +5,9 @@
 //  Created by Waqar Malik on 1/12/21.
 //
 
+import CareKitStore
 import FirebaseAuth
-import Foundation
+import UIKit
 
 protocol RemoteUser {
 	var uid: String { get }
@@ -16,3 +17,37 @@ protocol RemoteUser {
 }
 
 extension User: RemoteUser {}
+
+extension OCKPatient {
+	init?(user: RemoteUser?) {
+		guard let identifier = user?.uid else {
+			return nil
+		}
+		var nameComponents = PersonNameComponents()
+		if let name = user?.displayName {
+			nameComponents = PersonNameComponents(name: name)
+		}
+		self.init(id: identifier, name: nameComponents)
+		self.email = user?.email
+		self.phoneNumber = user?.phoneNumber
+		self.deviceManufacturer = "Apple"
+		self.deviceSoftwareVersion = UIDevice.current.systemVersion
+	}
+}
+
+extension AlliePatient {
+	init?(user: RemoteUser?) {
+		guard let identifier = user?.uid else {
+			return nil
+		}
+		var nameComponents = PersonNameComponents()
+		if let name = user?.displayName {
+			nameComponents = PersonNameComponents(name: name)
+		}
+		self.init(id: identifier, name: nameComponents)
+		self.email = user?.email
+		self.phoneNumber = user?.phoneNumber
+		self.deviceManufacturer = "Apple"
+		self.deviceSoftwareVersion = UIDevice.current.systemVersion
+	}
+}

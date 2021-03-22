@@ -11,9 +11,10 @@ import HealthKit
 
 public typealias Tasks = [Task]
 
-public struct Task: Codable, Identifiable {
+public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 	public var carePlanId: String?
 	public var id: String
+	public var carePlanUUID: UUID?
 	public var title: String?
 	public var instructions: String?
 	public var impactsAdherence: Bool = true
@@ -42,9 +43,12 @@ public struct Task: Codable, Identifiable {
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.carePlanId = try container.decodeIfPresent(String.self, forKey: .carePlanId)
-		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId) ?? UUID().uuidString
-		let theId = try container.decode(String.self, forKey: .id)
-		self.id = theId.isEmpty ? remoteId ?? UUID().uuidString : theId
+		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId)
+		self.id = try container.decode(String.self, forKey: .id)
+		if id.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+			self.id = remoteId ?? ""
+		}
+		self.carePlanUUID = try container.decodeIfPresent(UUID.self, forKey: .carePlanUUID)
 		self.title = try container.decodeIfPresent(String.self, forKey: .title)
 		self.instructions = try container.decodeIfPresent(String.self, forKey: .instructions)
 		self.impactsAdherence = try container.decode(Bool.self, forKey: .impactsAdherence)
@@ -69,6 +73,7 @@ public struct Task: Codable, Identifiable {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encodeIfPresent(carePlanId, forKey: .carePlanId)
 		try container.encode(id, forKey: .id)
+		try container.encodeIfPresent(carePlanUUID, forKey: .carePlanUUID)
 		try container.encodeIfPresent(title, forKey: .title)
 		try container.encodeIfPresent(instructions, forKey: .instructions)
 		try container.encode(impactsAdherence, forKey: .impactsAdherence)
@@ -90,6 +95,7 @@ public struct Task: Codable, Identifiable {
 	private enum CodingKeys: String, CodingKey {
 		case carePlanId
 		case id
+		case carePlanUUID
 		case title
 		case instructions
 		case impactsAdherence

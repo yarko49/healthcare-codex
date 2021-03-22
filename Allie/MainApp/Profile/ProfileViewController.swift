@@ -4,6 +4,7 @@
 //
 
 import HealthKit
+import ModelsR4
 import UIKit
 
 enum Coming: Hashable, CaseIterable {
@@ -23,10 +24,10 @@ class ProfileViewController: BaseViewController {
 	// MARK: Coordinator Actions
 
 	var editButtonAction: ((Int, Int) -> Void)?
-	var profileInputAction: (() -> (CodexResource?, CodexBundle?))?
+	var profileInputAction: (() -> (ModelsR4.Observation?, ModelsR4.Bundle?))?
 	var comingFrom: Coming = .today
 	var getData: Coordinable.ActionHandler?
-	var getRangeData: ((HealthStatsDateIntervalType, Date, Date, (([HealthKitQuantityType: [StatModel]]?, [HealthKitQuantityType: Double]?) -> Void)?) -> Void)?
+	var getRangeData: ((HealthStatsDateIntervalType, Date, Date, (([HealthKitQuantityType: [StatModel]]?, [HealthKitQuantityType: Int]?) -> Void)?) -> Void)?
 	var getTodayData: Coordinable.ActionHandler?
 
 	// MARK: IBOutlets
@@ -64,7 +65,7 @@ class ProfileViewController: BaseViewController {
 		}
 	}
 
-	var goals: [HealthKitQuantityType: Double] = [:] {
+	var goals: [HealthKitQuantityType: Int] = [:] {
 		didSet {
 			patientTrendsTableView?.reloadData()
 		}
@@ -286,7 +287,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 				tableView.reloadRows(at: [indexPath], with: .none)
 				tableView.contentOffset = currentContentOffset
 			}
-			cell?.setup(for: type, with: currentHKData[type], intervalType: currentDateInterval, expanded: expandCollapseState[type] ?? false, goal: goals[type] ?? 0.0)
+			cell?.setup(for: type, with: currentHKData[type], intervalType: currentDateInterval, expanded: expandCollapseState[type] ?? false, goal: goals[type] ?? 0)
 			return cell!
 		}
 	}

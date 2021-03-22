@@ -19,16 +19,16 @@ class IllustrationCollectionViewCell: UICollectionViewCell {
 	}
 
 	class var defaultHeight: CGFloat {
-		450.0
+		400.0
 	}
 
 	let illustrationView: IllustrationView = {
 		let view = IllustrationView(frame: .zero)
+		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 
 	private func configureView() {
-		illustrationView.translatesAutoresizingMaskIntoConstraints = false
 		contentView.addSubview(illustrationView)
 		NSLayoutConstraint.activate([illustrationView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 0.0),
 		                             illustrationView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 0.0),

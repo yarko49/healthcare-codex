@@ -16,13 +16,13 @@ class SettingsCoordinator: NSObject, Coordinable {
 	}()
 
 	internal var childCoordinators: [CoordinatorType: Coordinable]
-	internal weak var parentCoordinator: MainAppCoordinator?
+	internal weak var parentCoordinator: AppCoordinator?
 
 	var rootViewController: UIViewController? {
 		navigationController
 	}
 
-	init(with parent: MainAppCoordinator?) {
+	init(with parent: AppCoordinator?) {
 		self.parentCoordinator = parent
 		self.childCoordinators = [:]
 		super.init()
@@ -61,9 +61,9 @@ class SettingsCoordinator: NSObject, Coordinable {
 			case .feedback:
 				self?.showFeedback()
 			case .privacyPolicy:
-				self?.goToPrivacyPolicy()
+				self?.gotoPrivacyPolicy()
 			case .termsOfService:
-				self?.goToTermsOfService()
+				self?.gotoTermsOfService()
 			case .support:
 				self?.showSupport()
 			case .troubleShoot:
@@ -92,7 +92,7 @@ class SettingsCoordinator: NSObject, Coordinable {
 		navigate(to: accountDetailsViewController, with: .pushFullScreen)
 	}
 
-	internal func goToPasswordReset() {
+	func goToPasswordReset() {
 		let accountResetPasswordViewController = AccountResetPasswordViewController()
 
 		accountResetPasswordViewController.sendEmailAction = { [weak self, weak accountResetPasswordViewController] email in
@@ -102,7 +102,7 @@ class SettingsCoordinator: NSObject, Coordinable {
 		navigate(to: accountResetPasswordViewController, with: .pushFullScreen)
 	}
 
-	internal func resetPassword(accountResetPasswordViewController: AccountResetPasswordViewController?, email: String?) {
+	func resetPassword(accountResetPasswordViewController: AccountResetPasswordViewController?, email: String?) {
 		showHUD()
 		Auth.auth().sendPasswordReset(withEmail: email ?? "") { [weak self] error in
 			self?.hideHUD()
@@ -115,36 +115,34 @@ class SettingsCoordinator: NSObject, Coordinable {
 		}
 	}
 
-	internal func goToMyDevices() {
-		let devicesViewController = MyDevicesViewController()
-		devicesViewController.profileRequestAction = { [weak self] in
-			let profile = Profile(dataContext: DataContext.shared)
-			self?.profileRequest(profile: profile)
+	func goToMyDevices() {
+		let devicesViewController = DevicesSelectionViewController()
+		devicesViewController.nextButtonAction = { [weak self] in
+			self?.profileRequest()
 		}
 
 		navigate(to: devicesViewController, with: .pushFullScreen)
 	}
 
-	internal func profileRequest(profile: Profile) {
-		showHUD()
-		APIClient.client.postProfile(profile: profile) { [weak self] result in
-			self?.hideHUD()
+	func profileRequest() {
+		careManager.loadPatient { [weak self] result in
 			switch result {
 			case .failure(let error):
-				ALog.error("request failed", error: error)
-				AlertHelper.showAlert(title: Str.error, detailText: Str.createProfileFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-			case .success(let resource):
-				ALog.info("OK STATUS FOR PROFILE: 200 \(String(describing: resource))")
-				self?.navigationController?.popViewController(animated: true)
+				ALog.error("\(error.localizedDescription)")
+			case .success(let patient):
+				let alliePatient = AlliePatient(ockPatient: patient)
+				APIClient.client.postPatient(patient: alliePatient) { result in
+					ALog.info("\(result)")
+				}
 			}
 		}
+		navigationController?.popViewController(animated: true)
 	}
 
-	internal func goToNotifications() {
-		let myNotificationsViewController = MyNotificationsViewController()
-		myNotificationsViewController.closeAction = { [weak self] in
-			let profile = Profile(dataContext: DataContext.shared)
-			self?.profileRequest(profile: profile)
+	func goToNotifications() {
+		let myNotificationsViewController = NotificationSettingsController()
+		myNotificationsViewController.dismissAction = { [weak self] in
+			self?.profileRequest()
 		}
 		navigate(to: myNotificationsViewController, with: .pushFullScreen)
 	}
@@ -197,13 +195,15 @@ class SettingsCoordinator: NSObject, Coordinable {
 		navigate(to: alertController, with: .present)
 	}
 
-	internal func goToPrivacyPolicy() {
-		let privacyPolicyViewController = PrivacyPolicyViewController()
+	internal func gotoPrivacyPolicy() {
+		let privacyPolicyViewController = HTMLViewerController()
+		privacyPolicyViewController.title = Str.privacyPolicy
 		navigate(to: privacyPolicyViewController, with: .pushFullScreen)
 	}
 
-	internal func goToTermsOfService() {
-		let termsOfServiceViewController = TermsOfServiceViewController()
+	internal func gotoTermsOfService() {
+		let termsOfServiceViewController = HTMLViewerController()
+		termsOfServiceViewController.title = Str.privacyPolicy
 		navigate(to: termsOfServiceViewController, with: .pushFullScreen)
 	}
 
@@ -213,8 +213,8 @@ class SettingsCoordinator: NSObject, Coordinable {
 
 	internal func stop() {
 		rootViewController?.dismiss(animated: true, completion: { [weak self] in
-			guard let self = self else { return }
-			self.parentCoordinator?.removeCoordinator(ofType: .settingsCoordinator)
+			guard let strongSelf = self else { return }
+			strongSelf.parentCoordinator?.removeCoordinator(ofType: .settingsCoordinator)
 		})
 	}
 

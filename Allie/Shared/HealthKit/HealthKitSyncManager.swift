@@ -57,22 +57,6 @@ class HealthKitSyncManager {
 			completion(Date())
 			return
 		}
-		APIClient.client.postObservationSearch(search: quantity.searchParameter) { result in
-			switch result {
-			case .success(let response):
-				if let stringDate = response.entry?.first?.resource?.effectiveDateTime, var searchDate = DateFormatter.wholeDateRequest.date(from: stringDate) {
-					searchDate.addTimeInterval(60)
-					completion(searchDate)
-				} else if response.entry == nil {
-					completion(date)
-				} else {
-					completion(Date())
-				}
-			case .failure(let error):
-				ALog.error("Post Observation Search", error: error)
-				completion(Date())
-			}
-		}
 	}
 
 	class func searchHKData(initialUpload: Bool = true, completion: @escaping (Bool, [ModelsR4.BundleEntry]) -> Void) {

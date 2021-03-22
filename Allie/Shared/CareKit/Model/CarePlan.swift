@@ -18,10 +18,13 @@ public struct CarePlan: Codable, Identifiable {
 	public var groupIdentifier: String?
 	public var timezone: TimeZone
 	public var effectiveDate: Date
+	public var deletedDate: Date?
 	public var asset: String?
 	public var tags: [String]?
 	public var source: String?
 	public var userInfo: [String: String]?
+	public var createdDate: Date?
+	public var updatedDate: Date?
 
 	private enum CodingKeys: String, CodingKey {
 		case id
@@ -31,28 +34,37 @@ public struct CarePlan: Codable, Identifiable {
 		case groupIdentifier
 		case timezone
 		case effectiveDate
+		case deletedDate
 		case asset
 		case tags
 		case source
 		case userInfo
 		case notes
 		case tasks
+		case createdDate
+		case updatedDate
 	}
 
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.id = try container.decode(String.self, forKey: .id)
-		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId) ?? UUID().uuidString
+		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId)
 		self.title = try container.decode(String.self, forKey: .title)
 		self.patientId = try container.decodeIfPresent(String.self, forKey: .patientId)
 		self.groupIdentifier = try container.decode(String.self, forKey: .groupIdentifier)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
 		let date = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
 		self.effectiveDate = Calendar.current.startOfDay(for: date)
+		self.deletedDate = try container.decodeIfPresent(Date.self, forKey: .deletedDate)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
+		self.createdDate = try container.decodeIfPresent(Date.self, forKey: .createdDate)
+		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
+		if id.isEmpty {
+			self.id = remoteId ?? ""
+		}
 	}
 
 	public func encode(to encoder: Encoder) throws {
@@ -64,9 +76,12 @@ public struct CarePlan: Codable, Identifiable {
 		try container.encode(groupIdentifier, forKey: .groupIdentifier)
 		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)
 		try container.encode(effectiveDate, forKey: .effectiveDate)
+		try container.encodeIfPresent(deletedDate, forKey: .deletedDate)
 		try container.encodeIfPresent(asset, forKey: .asset)
 		try container.encodeIfPresent(tags, forKey: .tags)
 		try container.encodeIfPresent(source, forKey: .source)
 		try container.encodeIfPresent(userInfo, forKey: .userInfo)
+		try container.encodeIfPresent(createdDate, forKey: .createdDate)
+		try container.encodeIfPresent(updatedDate, forKey: .updatedDate)
 	}
 }

@@ -11,8 +11,8 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	var window: UIWindow?
 
-	lazy var appCoordinator: MasterCoordinator = {
-		MasterCoordinator(in: self.window!)
+	lazy var mainCoordinator: MainCoordinator = {
+		MainCoordinator(in: self.window!)
 	}()
 
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -24,11 +24,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		}
 
 		window = UIWindow(windowScene: scene)
-		window?.makeKeyAndVisible()
 		if let incomingURL = connectionOptions.userActivities.first?.webpageURL {
 			handleIncomingURL(incomingURL)
 		} else {
-			appCoordinator.start()
+			mainCoordinator.start()
 		}
 	}
 
@@ -85,10 +84,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 			return
 		}
 		DispatchQueue.main.async { [weak self] in
-			if let coord = (self?.appCoordinator.childCoordinators[.authCoordinator] as? AuthCoordinator) {
+			if let coord = (self?.mainCoordinator.childCoordinators[.authCoordinator] as? AuthCoordinator) {
 				coord.verifySendLink(link: url.absoluteString)
 			} else {
-				self?.appCoordinator.goToAuth(url: url.absoluteString)
+				self?.mainCoordinator.goToAuth(url: url.absoluteString)
 			}
 		}
 	}

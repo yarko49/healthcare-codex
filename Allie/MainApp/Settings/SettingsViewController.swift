@@ -18,6 +18,7 @@ class SettingsViewController: BaseViewController {
 		view.separatorInset = UIEdgeInsets.zero
 		view.separatorStyle = .singleLine
 		view.isScrollEnabled = false
+		view.tableFooterView = UIView()
 		return view
 	}()
 

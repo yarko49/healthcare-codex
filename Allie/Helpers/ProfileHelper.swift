@@ -23,18 +23,18 @@ class ProfileHelper {
 		AppDelegate.careManager.patient?.sex ?? .female
 	}
 
-	static func getGoal(for type: HealthKitQuantityType) -> Double {
+	static func getGoal(for type: HealthKitQuantityType) -> Int {
 		switch type {
 		case .weight:
-			return DataContext.shared.weightGoal
+			return AppDelegate.careManager.patient?.measurementWeightGoal ?? 0
 		case .bloodPressure:
-			return DataContext.shared.bpGoal
+			return AppDelegate.careManager.patient?.measurementBloodPressureGoal ?? 0
 		case .activity:
-			return DataContext.shared.stepsGoal
+			return AppDelegate.careManager.patient?.measurementStepsGoal ?? 0
 		case .heartRate:
-			return DataContext.shared.hrGoal
+			return AppDelegate.careManager.patient?.measurementHeartRateGoal ?? 0
 		case .restingHeartRate:
-			return DataContext.shared.rhrGoal
+			return AppDelegate.careManager.patient?.measurementRestingHeartRateGoal ?? 0
 		}
 	}
 }

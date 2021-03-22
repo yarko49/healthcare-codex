@@ -49,7 +49,7 @@ class ProfileChartView: LineChartView {
 		xAxis.labelFont = .boldSystemFont(ofSize: 13.0)
 	}
 
-	func setup(with healthData: [StatModel], quantityType: HealthKitQuantityType, intervalType: HealthStatsDateIntervalType, goal: Double) {
+	func setup(with healthData: [StatModel], quantityType: HealthKitQuantityType, intervalType: HealthStatsDateIntervalType, goal: Int) {
 		guard let statModel = healthData.first, let firstDate = statModel.dataPoints.first?.date, let lastDate = statModel.dataPoints.last?.date else { data = nil; return }
 
 		rightAxis.enabled = false
@@ -153,8 +153,8 @@ class ProfileChartView: LineChartView {
 		}
 	}
 
-	func setUpBaseline(min: Double, max: Double, dataSets: [LineChartDataSet], goal: Double) {
-		baseLine.limit = goal
+	func setUpBaseline(min: Double, max: Double, dataSets: [LineChartDataSet], goal: Int) {
+		baseLine.limit = Double(goal)
 		leftAxis.axisMinimum = baseLine.limit < min ? baseLine.limit - 10.0 : min
 		leftAxis.axisMaximum = baseLine.limit > max ? baseLine.limit + 10.0 : max
 		baseLine.lineWidth = 1

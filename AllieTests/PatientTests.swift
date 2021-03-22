@@ -200,16 +200,4 @@ class PatientTests: XCTestCase {
 			throw URLError(.cannotDecodeRawData)
 		}
 	}
-
-	func testPatientSearchResponse() throws {
-		let patientSearchResponse = AllieTests.loadTestData(fileName: "PatientSearchResponse.json")
-		XCTAssertNotNil(patientSearchResponse)
-		let decoder = CHJSONDecoder()
-		let response = try decoder.decode(CodexBundle.self, from: patientSearchResponse!)
-		XCTAssertEqual(response.total, 1)
-		let resource = response.entry?.first?.resource
-		XCTAssertNotNil(resource)
-//		let patient = Patient(id: nil, resource: resource!, user: nil)
-//		XCTAssertNotNil(patient)
-	}
 }

@@ -8,38 +8,6 @@
 import CareKitStore
 import Foundation
 
-public protocol AlliePatientExtensible {
-	var weight: Int? { get set }
-	var height: Int? { get set }
-	var email: String? { get set }
-	var phoneNumber: String? { get set }
-	var versionId: String? { get set }
-	var deviceManufacturer: String? { get set }
-	var deviceSoftwareVersion: String? { get set }
-	var FHIRId: String? { get set }
-	var measurementWeightGoal: Int? { get set }
-	var isMeasurementWeightEnabled: Bool { get set }
-	var isMeasurementWeightNotificationEnabled: Bool { get set }
-	var isMeasurementBloodPressureEnabled: Bool { get set }
-	var isMeasurementBloodPressureNotificationEnabled: Bool { get set }
-	var measurementHeartRateGoal: Int? { get set }
-	var isMeasurementHeartRateEnabled: Bool { get set }
-	var isMeasurementHeartRateNotificationEnabled: Bool { get set }
-	var measurementRestingHeartRateGoal: Int? { get set }
-	var isMeasurementRestingHeartRateEnabled: Bool { get set }
-	var isMeasurementRestingHeartRateNotificationEnabled: Bool { get set }
-	var measurementStepsGoal: Int? { get set }
-	var isMeasurementStepsEnabled: Bool { get set }
-	var isMeasurementStepsNotificationEnabled: Bool { get set }
-	var measurementBloodGlucoseGoal: Int? { get set }
-	var isMeasurementBloodGlucoseEnabled: Bool { get set }
-	var isMeasurementBloodGlucoseNotificationEnabled: Bool { get set }
-	var notificationsEnabled: Bool { get set }
-	var isSignUpCompleted: Bool { get set }
-	var userInfo: [String: String]? { get set }
-	mutating func setUserInfo(item: String?, forKey key: String)
-}
-
 public typealias AlliePatients = [AlliePatient]
 
 public struct AlliePatient: Codable, Identifiable, OCKAnyPatient {
@@ -53,7 +21,7 @@ public struct AlliePatient: Codable, Identifiable, OCKAnyPatient {
 	public var createdDate: Date?
 	public var updatedDate: Date?
 
-	public var groupIdentifier: String?
+	public var groupIdentifier: String? // shared, active, inactive
 	public var tags: [String]?
 	public var remoteID: String?
 	public var source: String?
@@ -67,10 +35,6 @@ public struct AlliePatient: Codable, Identifiable, OCKAnyPatient {
 		self.name = name
 		self.timezone = TimeZone.current
 		self.effectiveDate = Calendar.current.startOfDay(for: Date())
-	}
-
-	var uuid: UUID? {
-		UUID(uuidString: id)
 	}
 
 	public init(from decoder: Decoder) throws {
@@ -96,6 +60,9 @@ public struct AlliePatient: Codable, Identifiable, OCKAnyPatient {
 		self.userInfo = mapped
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
+		if remoteID == nil {
+			self.remoteID = FHIRId
+		}
 	}
 
 	public func encode(to encoder: Encoder) throws {
@@ -138,4 +105,4 @@ public struct AlliePatient: Codable, Identifiable, OCKAnyPatient {
 	}
 }
 
-extension AlliePatient: AlliePatientExtensible {}
+extension AlliePatient: AnyPatientExtensible {}
