@@ -17,232 +17,44 @@
       "tasks": null
     }
   },
-  "patients": {
-    "2DDpX07xvPgPOUagEMYrOVlS2Nq1": {
-      "groupIdentifier": "",
-      "remoteId": "",
-      "id": "2DDpX07xvPgPOUagEMYrOVlS2Nq1",
-      "asset": "",
-      "source": "",
-      "timezone": -28800,
-      "createdDate": "2021-03-04T05:33:05Z",
-      "effectiveDate": "2021-03-04T05:33:05Z",
-      "updatedDate": "2021-03-04T05:33:05Z",
-      "name": {
-        "namePrefix": "",
-        "givenName": "",
-        "middleName": "",
-        "familyName": "",
-        "nameSuffix": "",
-        "nickname": ""
-      },
-      "userInfo": {
-        "deviceManufacturer": "",
-        "deviceSoftwareVersion": "",
-        "FHIRId": "7a7740ac-659c-419f-8ef3-680b7326011f",
-        "measurementBloodPressureEnabled": false,
-        "measurementHeartRateEnabled": false,
-        "measurementRestingHeartRateEnabled": false,
-        "measurementStepsEnabled": false,
-        "measurementWeightEnabled": false,
-        "notificationsEnabled": false,
-        "signUpCompleted": false
-      }
-    }
-  },
   "tasks": {
     "defaultDiabetesCarePlan": {
-      "DMSymptomsDrowsy": {
-        "groupIdentifier": "LOG",
-        "remoteId": "DMSymptomsDrowsy",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "symptoms",
-          "subtitle": "Feeling Drowsy",
-          "logText": "Logged drowsy"
-        },
-        "effectiveDate": null,
-        "title": "Drowsy",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Anytime today",
-            "start": null
-          }
-        },
-        "carePlanId": "defaultDiabetesCarePlan",
-        "instructions": "Report symptoms of Drowsy",
-        "impactsAdherence": false
-      },
-      "DMSymptomsFatigue": {
-        "groupIdentifier": "LOG",
-        "remoteId": "DMSymptomsFatigue",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "symptoms",
-          "subtitle": "Feeling Fatigued",
-          "logText": "Logged fatigue"
-        },
-        "effectiveDate": null,
-        "title": "Fatigue",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Anytime today",
-            "start": null
-          }
-        },
-        "carePlanId": "defaultDiabetesCarePlan",
-        "instructions": "Report symptoms of Fatigue",
-        "impactsAdherence": false
-      },
-      "DMSymptomsHypoglycemia": {
-        "groupIdentifier": "LOG",
-        "remoteId": "DMSymptomsHypoglycemia",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "symptoms",
-          "subtitle": "Record",
-          "logText": "Logged"
-        },
-        "effectiveDate": null,
-        "title": "Hypoglycemia",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Anytime today",
-            "start": null
-          }
-        },
-        "carePlanId": "defaultDiabetesCarePlan",
-        "instructions": "Report symptoms of Hypoglycemia",
-        "impactsAdherence": false
-      },
-      "DMSymptomsNumbness-Tingling": {
-        "groupIdentifier": "LOG",
-        "remoteId": "DMSymptomsNumbness-Tingling",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "symptoms",
-          "subtitle": "Record",
-          "logText": "Logged"
-        },
-        "effectiveDate": null,
-        "title": "Numbness/Tingling",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Anytime today",
-            "start": null
-          }
-        },
-        "carePlanId": "defaultDiabetesCarePlan",
-        "instructions": "Report symptoms of Numbness/Tingling",
-        "impactsAdherence": false
-      },
-      "DMSymptomsPolydipsia": {
-        "groupIdentifier": "LOG",
-        "remoteId": "DMSymptomsPolydipsia",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "symptoms"
-        },
-        "effectiveDate": null,
-        "title": "Polydipsia",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Anytime today",
-            "start": null
-          }
-        },
-        "carePlanId": "defaultDiabetesCarePlan",
-        "instructions": "Report symptoms of Polydipsia",
-        "impactsAdherence": false
-      },
-      "DMSymptomsPolyuria-Nocturia": {
-        "groupIdentifier": "LOG",
-        "remoteId": "DMSymptomsPolyuria-Nocturia",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "symptoms"
-        },
-        "effectiveDate": null,
-        "title": "Polyuria/Nocturia",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Anytime today",
-            "start": null
-          }
-        },
-        "carePlanId": "defaultDiabetesCarePlan",
-        "instructions": "Report symptoms of Polyuria/Nocturia",
-        "impactsAdherence": false
-      },
-      "FeaturedContentHTML": {
+      "featured-content-easy-and-healthy-recipes": {
         "groupIdentifier": "FEATURED_CONTENT",
-        "remoteId": "FeaturedContentHTML",
+        "remoteId": "featured-content-easy-and-healthy-recipes",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "featured-content",
+          "detailViewText": "Healthy Recipes\nSpinach & Kale",
+          "detailViewImageLabel": "Some Ideas",
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg"
+        },
+        "effectiveDate": null,
+        "title": "Easy & Healthy Recipes",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 0,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "all day",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Instructions not to be displayed by Featured Content",
+        "impactsAdherence": false
+      },
+      "featured-content-easy-and-healthy-recipes-html": {
+        "groupIdentifier": "FEATURED_CONTENT",
+        "remoteId": "featured-content-easy-and-healthy-recipes-html",
         "id": "",
         "asset": "",
         "source": "",
@@ -274,9 +86,9 @@
         "instructions": "Instructions not to be displayed by Featured Content",
         "impactsAdherence": false
       },
-      "FeaturedContentURL": {
+      "featured-content-easy-and-healthy-recipes-url": {
         "groupIdentifier": "FEATURED_CONTENT",
-        "remoteId": "FeaturedContentURL",
+        "remoteId": "featured-content-easy-and-healthy-recipes-url",
         "id": "",
         "asset": "",
         "source": "",
@@ -307,166 +119,10 @@
         "instructions": "Instructions not to be displayed by Featured Content",
         "impactsAdherence": false
       },
-      "FeaturedTask": {
-        "groupIdentifier": "FEATURED_CONTENT",
-        "remoteId": "FeaturedTask",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "featured-content",
-          "detailViewText": "Healthy Recipes\nSpinach & Kale",
-          "detailViewImageLabel": "Some Ideas",
-          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg"
-        },
-        "effectiveDate": null,
-        "title": "Easy & Healthy Recipes",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 0,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "all day",
-            "start": null
-          }
-        },
-        "carePlanId": "defaultDiabetesCarePlan",
-        "instructions": "Instructions not to be displayed by Featured Content",
-        "impactsAdherence": false
-      },
-      "Heartrate": {
-        "groupIdentifier": "LABELED_VALUE",
-        "remoteId": "Heartrate",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "measurements"
-        },
-        "effectiveDate": null,
-        "title": "Heart Rate",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "string",
-            "start": null
-          }
-        },
-        "carePlanId": "defaultDiabetesCarePlan",
-        "healthKitLinkage": {
-          "quantityIdentifier": "heartRate",
-          "quantitytype": "discrete",
-          "unit": "bpm"
-        },
-        "instructions": "Most recent measurement",
-        "impactsAdherence": false
-      },
-      "Link": {
-        "groupIdentifier": "LINK",
-        "remoteId": "Link",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "linkURL0": "https://med.stanford.edu/",
-          "linkURLTitle0": "Stanford Medicine",
-          "linkLocation0": "37.4275,122.1697",
-          "linkLocationTitle0": "Stanford Address",
-          "linkEmail0": "support@codexhealth.com",
-          "linkEmailTitle0": "Email Support",
-          "category": "featured-content"
-        },
-        "effectiveDate": null,
-        "title": "Links",
-        "schedules": {
-          "daily": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 0,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "",
-            "start": null
-          }
-        },
-        "carePlanId": "defaultDiabetesCarePlan",
-        "instructions": "Helpful links",
-        "impactsAdherence": false
-      },
-      "activity": {
-        "groupIdentifier": "NUMERIC_PROGRESS",
-        "remoteId": "activity",
-        "id": "",
-        "asset": "",
-        "source": "",
-        "timezone": 0,
-        "userInfo": {
-          "category": "measurements"
-        },
-        "effectiveDate": null,
-        "title": "Activity",
-        "schedules": {
-          "scheduleA": {
-            "custom": false,
-            "daily": true,
-            "weekly": false,
-            "weekday": 0,
-            "hour": 8,
-            "minutes": 0,
-            "duration": 0,
-            "interval": 0,
-            "text": "Anytime",
-            "targetValues": [
-              {
-                "groupIdentifier": "",
-                "remoteId": "",
-                "id": "",
-                "asset": "",
-                "source": "",
-                "timezone": 0,
-                "userInfo": {},
-                "effectiveDate": null,
-                "index": 0,
-                "kind": "",
-                "units": "count",
-                "value": 10000,
-                "type": "integer"
-              }
-            ],
-            "start": null
-          }
-        },
-        "carePlanId": "defaultDiabetesCarePlan",
-        "healthKitLinkage": {
-          "quantityIdentifier": "steps",
-          "quantitytype": "cumulative",
-          "unit": "count"
-        },
-        "instructions": "Your total steps today",
-        "impactsAdherence": true
-      },
       "food-dairy-checklist": {
         "groupIdentifier": "CHECKLIST",
         "remoteId": "food-dairy-checklist",
-        "id": "FoodDiaryRecall2",
+        "id": "",
         "asset": "",
         "source": "",
         "timezone": 0,
@@ -571,7 +227,7 @@
       "food-dairy-grid": {
         "groupIdentifier": "GRID",
         "remoteId": "food-dairy-grid",
-        "id": "FoodDiaryRecall",
+        "id": "",
         "asset": "",
         "source": "",
         "timezone": 0,
@@ -731,9 +387,132 @@
         "instructions": "Record your daily meals",
         "impactsAdherence": false
       },
-      "restingHeartrate": {
+      "links-stanford-medicine": {
+        "groupIdentifier": "LINK",
+        "remoteId": "links-stanford-medicine",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "linkURL0": "https://med.stanford.edu/",
+          "linkURLTitle0": "Stanford Medicine",
+          "linkLocation0": "37.4275,122.1697",
+          "linkLocationTitle0": "Stanford Address",
+          "linkEmail0": "support@codexhealth.com",
+          "linkEmailTitle0": "Email Support",
+          "category": "featured-content"
+        },
+        "effectiveDate": null,
+        "title": "Links",
+        "schedules": {
+          "daily": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 0,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Helpful links",
+        "impactsAdherence": false
+      },
+      "measurement-activity": {
+        "groupIdentifier": "NUMERIC_PROGRESS",
+        "remoteId": "measurement-activity",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "measurements"
+        },
+        "effectiveDate": null,
+        "title": "Activity",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Anytime",
+            "targetValues": [
+              {
+                "groupIdentifier": "",
+                "remoteId": "",
+                "id": "",
+                "asset": "",
+                "source": "",
+                "timezone": 0,
+                "userInfo": {},
+                "effectiveDate": null,
+                "index": 0,
+                "kind": "",
+                "units": "count",
+                "value": 10000,
+                "type": "integer"
+              }
+            ],
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "healthKitLinkage": {
+          "quantityIdentifier": "steps",
+          "quantitytype": "cumulative",
+          "unit": "count"
+        },
+        "instructions": "Your total steps today",
+        "impactsAdherence": true
+      },
+      "measurement-heart-rate": {
         "groupIdentifier": "LABELED_VALUE",
-        "remoteId": "restingHeartrate",
+        "remoteId": "measurement-heart-rate",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "measurements"
+        },
+        "effectiveDate": null,
+        "title": "Heart Rate",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "string",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "healthKitLinkage": {
+          "quantityIdentifier": "heartRate",
+          "quantitytype": "discrete",
+          "unit": "bpm"
+        },
+        "instructions": "Most recent measurement",
+        "impactsAdherence": false
+      },
+      "measurement-heart-rate-resting": {
+        "groupIdentifier": "LABELED_VALUE",
+        "remoteId": "measurement-heart-rate-resting",
         "id": "",
         "asset": "",
         "source": "",
@@ -766,10 +545,198 @@
         "instructions": "Most recent measurement",
         "impactsAdherence": false
       },
+      "symptom-drowsy": {
+        "groupIdentifier": "LOG",
+        "remoteId": "symptom-drowsy",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "symptoms",
+          "subtitle": "Feeling Drowsy",
+          "logText": "Logged drowsy"
+        },
+        "effectiveDate": null,
+        "title": "Drowsy",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Anytime today",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Report symptoms of Drowsy",
+        "impactsAdherence": false
+      },
+      "symptom-fatigue": {
+        "groupIdentifier": "LOG",
+        "remoteId": "symptom-fatigue",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "symptoms",
+          "subtitle": "Feeling Fatigued",
+          "logText": "Logged fatigue"
+        },
+        "effectiveDate": null,
+        "title": "Fatigue",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Anytime today",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Report symptoms of Fatigue",
+        "impactsAdherence": false
+      },
+      "symptom-hypoglycemia": {
+        "groupIdentifier": "LOG",
+        "remoteId": "symptom-hypoglycemia",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "symptoms",
+          "subtitle": "Record",
+          "logText": "Logged"
+        },
+        "effectiveDate": null,
+        "title": "Hypoglycemia",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Anytime today",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Report symptoms of Hypoglycemia",
+        "impactsAdherence": false
+      },
+      "symptom-numbness-tingling": {
+        "groupIdentifier": "LOG",
+        "remoteId": "symptom-numbness-tingling",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "symptoms",
+          "subtitle": "Record",
+          "logText": "Logged"
+        },
+        "effectiveDate": null,
+        "title": "Numbness/Tingling",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Anytime today",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Report symptoms of Numbness/Tingling",
+        "impactsAdherence": false
+      },
+      "symptom-polydipsia": {
+        "groupIdentifier": "LOG",
+        "remoteId": "symptom-polydipsia",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "symptoms"
+        },
+        "effectiveDate": null,
+        "title": "Polydipsia",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Anytime today",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Report symptoms of Polydipsia",
+        "impactsAdherence": false
+      },
+      "symptom-polyuria-nocturia": {
+        "groupIdentifier": "LOG",
+        "remoteId": "symptom-polyuria-nocturia",
+        "id": "",
+        "asset": "",
+        "source": "",
+        "timezone": 0,
+        "userInfo": {
+          "category": "symptoms"
+        },
+        "effectiveDate": null,
+        "title": "Polyuria/Nocturia",
+        "schedules": {
+          "scheduleA": {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "weekday": 0,
+            "hour": 8,
+            "minutes": 0,
+            "duration": 0,
+            "interval": 0,
+            "text": "Anytime today",
+            "start": null
+          }
+        },
+        "carePlanId": "defaultDiabetesCarePlan",
+        "instructions": "Report symptoms of Polyuria/Nocturia",
+        "impactsAdherence": false
+      },
       "task-15-minutes-of-morning-exercise": {
         "groupIdentifier": "SIMPLE",
         "remoteId": "task-15-minutes-of-morning-exercise",
-        "id": "MorningExercise",
+        "id": "",
         "asset": "",
         "source": "",
         "timezone": 0,
@@ -802,7 +769,7 @@
       "task-30-minutes-of-morning-exercise": {
         "groupIdentifier": "SIMPLE",
         "remoteId": "task-30-minutes-of-morning-exercise",
-        "id": "MorningExercise",
+        "id": "",
         "asset": "",
         "source": "",
         "timezone": 0,
@@ -835,7 +802,7 @@
       "task-45-minutes-of-morning-exercise": {
         "groupIdentifier": "SIMPLE",
         "remoteId": "task-45-minutes-of-morning-exercise",
-        "id": "MorningExercise",
+        "id": "",
         "asset": "",
         "source": "",
         "timezone": 0,
@@ -869,6 +836,6 @@
     }
   },
   "vectorClock": {
-    "backend": 4
+    "backend": 1
   }
 }

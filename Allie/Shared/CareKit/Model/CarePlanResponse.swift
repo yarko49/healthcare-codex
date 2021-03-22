@@ -9,12 +9,12 @@ import CareKitStore
 import Foundation
 
 public struct CarePlanResponse: Codable {
-	public let carePlans: [String: CarePlan]
-	public let patients: [String: AlliePatient]?
-	public let tasks: [String: [String: Task]]
-	public let vectorClock: [String: Int]
+	public var carePlans: [String: CarePlan]
+	public var patients: [String: AlliePatient]?
+	public var tasks: [String: [String: Task]]
+	public var vectorClock: [String: Int]
 
-	public init(carePlans: [String: CarePlan] = [:], patients: [String: AlliePatient] = [:], tasks: [String: [String: Task]] = [:], vectorClock: [String: Int] = [:]) {
+	public init(carePlans: [String: CarePlan] = [:], patients: [String: AlliePatient]? = nil, tasks: [String: [String: Task]] = [:], vectorClock: [String: Int] = [:]) {
 		self.carePlans = carePlans
 		self.tasks = tasks
 		self.vectorClock = vectorClock
@@ -62,7 +62,7 @@ public struct CarePlanResponse: Codable {
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.carePlans = try container.decode([String: CarePlan].self, forKey: .carePlans)
-		self.patients = try container.decodeIfPresent([String: AlliePatient].self, forKey: .patients) ?? [:]
+		self.patients = try container.decode([String: AlliePatient].self, forKey: .patients)
 		self.tasks = try container.decode([String: [String: Task]].self, forKey: .tasks)
 		self.vectorClock = try container.decode([String: Int].self, forKey: .vectorClock)
 	}

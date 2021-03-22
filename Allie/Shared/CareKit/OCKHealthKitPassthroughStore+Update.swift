@@ -10,10 +10,11 @@ import Foundation
 
 extension OCKHealthKitPassthroughStore {
 	func createOrUpdateTask(_ task: OCKHealthKitTask, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKHealthKitTask, OCKStoreError>) -> Void)? = nil) {
-		addTask(task, callbackQueue: callbackQueue) { [weak self] result in
-			if case .success(let addedTask) = result {
-				completion?(.success(addedTask))
-			} else {
+		fetchTask(withID: task.id, callbackQueue: callbackQueue) { [weak self] result in
+			switch result {
+			case .failure:
+				self?.addTask(task, callbackQueue: callbackQueue, completion: completion)
+			case .success:
 				self?.updateTask(task, callbackQueue: callbackQueue, completion: completion)
 			}
 		}

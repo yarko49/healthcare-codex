@@ -19,7 +19,7 @@ class ObservationsConfigTest: XCTestCase {
 	}
 
 	func testCreate() throws {
-		let config = ObservationsConfig()
+		let config = try? ObservationsConfig()
 		XCTAssertNotNil(config)
 		let heartRate = config?[code: "HKQuantityTypeIdentifierHeartRate"]
 		XCTAssertNotNil(heartRate)

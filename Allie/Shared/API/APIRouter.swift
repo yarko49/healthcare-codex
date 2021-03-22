@@ -16,17 +16,7 @@ enum APIRouter: URLRequestConvertible {
 	case postCarePlan(carePlanResponse: CarePlanResponse)
 	case postPatient(patient: AlliePatient)
 	case postObservation(observation: ModelsR4.Observation)
-
-	// DeathRow
-	case getQuestionnaire
-	case postQuestionnaireResponse(response: QuestionnaireResponse)
-	case getProfile
-	case postProfile(profile: Profile)
-	case getNotifications
-	case getPatient(identifier: String)
 	case postBundle(bundle: ModelsR4.Bundle)
-	case postObservationSearch(search: SearchParameter)
-	case patchPatient(patient: UpdatePatientModels)
 
 	var method: Request.Method {
 		switch self {
@@ -35,16 +25,7 @@ enum APIRouter: URLRequestConvertible {
 		case .postCarePlan: return .post
 		case .postPatient: return .post
 		case .postObservation: return .post
-
-		case .getQuestionnaire: return .get
-		case .postQuestionnaireResponse: return .post
-		case .getProfile: return .get
-		case .postProfile: return .post
-		case .getNotifications: return .get
-		case .getPatient: return .get
 		case .postBundle: return .post
-		case .postObservationSearch: return .post
-		case .patchPatient: return .patch
 		}
 	}
 
@@ -54,15 +35,7 @@ enum APIRouter: URLRequestConvertible {
 		case .registerProvider: path += "/organization/register"
 		case .getCarePlan, .postCarePlan, .postPatient: path += "/carePlan"
 		case .postObservation: path += "/fhir/Observation"
-
-		case .getQuestionnaire: path += "/fhir/Questionnaire"
-		case .postQuestionnaireResponse: path += "/fhir/QuestionnaireResponse"
-		case .getProfile, .postProfile: path += "/profile"
-		case .getNotifications: path += "/notifications"
 		case .postBundle: path += "/fhir/Bundle"
-		case .postObservationSearch: path += "/fhir/Observation/_search"
-		case .patchPatient: path += "/fhir/Patient"
-		case .getPatient: path += "/fhir/Patient"
 		}
 
 		return path
@@ -93,16 +66,8 @@ enum APIRouter: URLRequestConvertible {
 		case .postObservation(let observation):
 			data = try? encoder.encode(observation)
 
-		case .postProfile(let profile):
-			data = try? encoder.encode(profile)
 		case .postBundle(let bundle):
 			data = try? encoder.encode(bundle)
-		case .postObservationSearch(let search):
-			data = try? encoder.encode(search)
-		case .postQuestionnaireResponse(let response):
-			data = try? encoder.encode(response)
-		case .patchPatient(let editResponse):
-			data = try? encoder.encode(editResponse)
 		default:
 			data = nil
 		}
@@ -127,12 +92,8 @@ enum APIRouter: URLRequestConvertible {
 		case .postObservation:
 			headers[Request.Header.contentType] = Request.ContentType.fhirjson
 
-		case .getQuestionnaire, .getNotifications, .getProfile, .postProfile, .getPatient:
-			break
-		case .postBundle, .postQuestionnaireResponse, .postObservationSearch:
+		case .postBundle:
 			headers[Request.Header.contentType] = Request.ContentType.fhirjson
-		case .patchPatient:
-			headers[Request.Header.contentType] = Request.ContentType.patchjson
 		}
 		return headers
 	}
@@ -142,18 +103,13 @@ enum APIRouter: URLRequestConvertible {
 		case .registerProvider, .getCarePlan, .postCarePlan, .postPatient, .postObservation:
 			return nil
 
-		case .getQuestionnaire, .postQuestionnaireResponse, .getProfile, .postProfile, .getNotifications, .postBundle, .postObservationSearch, .patchPatient, .getPatient:
+		case .postBundle:
 			return nil
 		}
 	}
 
 	var queryParameters: [URLQueryItem]? {
-		switch self {
-		case .getPatient(let identifier):
-			return [URLQueryItem(name: "identifier", value: identifier)]
-		default:
-			return nil
-		}
+		nil
 	}
 
 	var request: Request? {

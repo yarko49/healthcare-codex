@@ -10,21 +10,14 @@ import Foundation
 import ModelsR4
 
 protocol AllieAPI {
-	func registerProvider(identifier: String, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher?
+	func regiterProvider(identifier: String) -> Future<Bool, Never>
 	func getCarePlan(vectorClock: Bool, valueSpaceSample: Bool, completion: @escaping WebService.DecodableCompletion<CarePlanResponse>) -> URLSession.ServicePublisher?
+	func getCarePlan() -> Future<[String: Any], Error>
 	func postCarePlan(carePlanResponse: CarePlanResponse, completion: @escaping WebService.DecodableCompletion<[String: Int]>) -> URLSession.ServicePublisher?
 	func postBundle(bundle: ModelsR4.Bundle, completion: @escaping WebService.DecodableCompletion<ModelsR4.Bundle>) -> URLSession.ServicePublisher?
 	func postObservation(observation: ModelsR4.Observation, completion: @escaping WebService.DecodableCompletion<ModelsR4.Observation>) -> URLSession.ServicePublisher?
+	func postPatient(patient: AlliePatient) -> Future<[String: Any], Error>
 	func postPatient(patient: AlliePatient, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.ServicePublisher?
-
-	// Death Row
-	func getQuestionnaire(completion: @escaping WebService.DecodableCompletion<Questionnaire>) -> URLSession.ServicePublisher?
-	func postQuestionnaireResponse(questionnaireResponse: QuestionnaireResponse, completion: @escaping WebService.DecodableCompletion<SubmittedQuestionnaire>) -> URLSession.ServicePublisher?
-	func getProfile(completion: @escaping WebService.DecodableCompletion<Profile>) -> URLSession.ServicePublisher?
-	func postProfile(profile: Profile, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher?
-	func patchPatient(patient: [UpdatePatientModel], completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher?
-	func getCardList(completion: @escaping WebService.DecodableCompletion<CardList>) -> URLSession.ServicePublisher?
-	func postObservationSearch(search: SearchParameter, completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher?
 }
 
 public final class APIClient: AllieAPI {
@@ -58,9 +51,32 @@ public final class APIClient: AllieAPI {
 
 //	func postBundle(bundle: ModelsR4.Bundle) async -> ModelsR4.Bundle {}
 
-	@discardableResult
-	func registerProvider(identifier: String, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher? {
-		webService.request(route: APIRouter.registerProvider(HealthCareProvider(id: identifier)), completion: completion)
+	func regiterProvider(identifier: String) -> Future<Bool, Never> {
+		Future { [weak self] promise in
+			_ = self?.webService.requestSimple(route: APIRouter.registerProvider(HealthCareProvider(id: identifier)), completion: { result in
+				switch result {
+				case .failure(let error):
+					ALog.error("\(error.localizedDescription)")
+					promise(.success(false))
+				case .success:
+					promise(.success(true))
+				}
+			})
+		}
+	}
+
+	func getCarePlan() -> Future<[String: Any], Error> {
+		Future { [weak self] promise in
+			let route = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false)
+			_ = self?.webService.requestSerializable(route: route) { result in
+				switch result {
+				case .failure(let error):
+					promise(.failure(error))
+				case .success(let plan):
+					promise(.success(plan))
+				}
+			}
+		}
 	}
 
 	@discardableResult
@@ -81,6 +97,25 @@ public final class APIClient: AllieAPI {
 	}
 
 	@discardableResult
+	func postBundle(bundle: ModelsR4.Bundle, completion: @escaping WebService.DecodableCompletion<ModelsR4.Bundle>) -> URLSession.ServicePublisher? {
+		webService.request(route: APIRouter.postBundle(bundle: bundle), completion: completion)
+	}
+
+	func postPatient(patient: AlliePatient) -> Future<[String: Any], Error> {
+		Future { [weak self] promise in
+			let route = APIRouter.postPatient(patient: patient)
+			_ = self?.webService.requestSerializable(route: route) { result in
+				switch result {
+				case .failure(let error):
+					promise(.failure(error))
+				case .success(let clock):
+					promise(.success(clock))
+				}
+			}
+		}
+	}
+
+	@discardableResult
 	func postPatient(patient: AlliePatient, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.ServicePublisher? {
 		webService.requestSerializable(route: .postPatient(patient: patient), completion: completion)
 	}
@@ -88,46 +123,5 @@ public final class APIClient: AllieAPI {
 	@discardableResult
 	func getRawReaults(route: APIRouter, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.ServicePublisher? {
 		webService.requestSerializable(route: route, completion: completion)
-	}
-
-	// DeathRow
-	@discardableResult
-	func getQuestionnaire(completion: @escaping WebService.DecodableCompletion<Questionnaire>) -> URLSession.ServicePublisher? {
-		webService.request(route: APIRouter.getQuestionnaire, completion: completion)
-	}
-
-	@discardableResult
-	func postQuestionnaireResponse(questionnaireResponse: QuestionnaireResponse, completion: @escaping WebService.DecodableCompletion<SubmittedQuestionnaire>) -> URLSession.ServicePublisher? {
-		webService.request(route: APIRouter.postQuestionnaireResponse(response: questionnaireResponse), completion: completion)
-	}
-
-	@discardableResult
-	func getProfile(completion: @escaping WebService.DecodableCompletion<Profile>) -> URLSession.ServicePublisher? {
-		webService.request(route: APIRouter.getProfile, completion: completion)
-	}
-
-	@discardableResult
-	func postProfile(profile: Profile, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher? {
-		webService.request(route: APIRouter.postProfile(profile: profile), completion: completion)
-	}
-
-	@discardableResult
-	func patchPatient(patient: [UpdatePatientModel], completion: @escaping WebService.DecodableCompletion<CodexResource>) -> URLSession.ServicePublisher? {
-		webService.request(route: APIRouter.patchPatient(patient: patient), completion: completion)
-	}
-
-	@discardableResult
-	func getCardList(completion: @escaping WebService.DecodableCompletion<CardList>) -> URLSession.ServicePublisher? {
-		webService.request(route: APIRouter.getNotifications, completion: completion)
-	}
-
-	@discardableResult
-	func postBundle(bundle: ModelsR4.Bundle, completion: @escaping WebService.DecodableCompletion<ModelsR4.Bundle>) -> URLSession.ServicePublisher? {
-		webService.request(route: APIRouter.postBundle(bundle: bundle), completion: completion)
-	}
-
-	@discardableResult
-	func postObservationSearch(search: SearchParameter, completion: @escaping WebService.DecodableCompletion<CodexBundle>) -> URLSession.ServicePublisher? {
-		webService.request(route: APIRouter.postObservationSearch(search: search), completion: completion)
 	}
 }

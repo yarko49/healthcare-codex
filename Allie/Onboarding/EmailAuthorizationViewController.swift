@@ -10,8 +10,8 @@ import UIKit
 class EmailAuthorizationViewController: BaseViewController {
 	var authorizeWithEmail: ((_ email: String, _ type: AuthorizationFlowType) -> Void)?
 	var alertAction: ((_ title: String?, _ detail: String?, _ textfield: TitledTextField) -> Void)?
-	var goToTermsOfService: Coordinable.ActionHandler?
-	var goToPrivacyPolicy: Coordinable.ActionHandler?
+	var gotoTermsOfService: Coordinable.ActionHandler?
+	var gotoPrivacyPolicy: Coordinable.ActionHandler?
 
 	var authorizationFlowType: AuthorizationFlowType = .signIn
 
@@ -118,9 +118,9 @@ class EmailAuthorizationViewController: BaseViewController {
 extension EmailAuthorizationViewController: UITextViewDelegate {
 	func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
 		if URL.absoluteString == "1" {
-			goToTermsOfService?()
+			gotoTermsOfService?()
 		} else if URL.absoluteString == "2" {
-			goToPrivacyPolicy?()
+			gotoPrivacyPolicy?()
 		}
 		return true
 	}

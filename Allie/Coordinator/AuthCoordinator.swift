@@ -1,3 +1,8 @@
+//
+//  AuthCoordinator.swift
+//  Allie
+//
+
 import AuthenticationServices
 import CareKitStore
 import CryptoKit
@@ -10,12 +15,12 @@ import UIKit
 class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelegate {
 	let type: CoordinatorType = .authCoordinator
 
-	internal var navigationController: UINavigationController? = {
+	var navigationController: UINavigationController? = {
 		UINavigationController()
 	}()
 
-	internal var childCoordinators: [CoordinatorType: Coordinable]
-	internal weak var parentCoordinator: MasterCoordinator?
+	var childCoordinators: [CoordinatorType: Coordinable] = [:]
+	weak var parentCoordinator: MainCoordinator?
 
 	var currentNonce: String?
 	var emailrequest: String?
@@ -25,9 +30,8 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		navigationController
 	}
 
-	init(withParent parent: MasterCoordinator?, deepLink: String = "") {
+	init(parentCoordinator parent: MainCoordinator?, deepLink: String = "") {
 		self.parentCoordinator = parent
-		self.childCoordinators = [:]
 		super.init()
 		GIDSignIn.sharedInstance().delegate = self
 
@@ -38,8 +42,8 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		}
 	}
 
-	internal func start() {
-		showOnboarding()
+	func start() {
+		gotoOnboarding()
 	}
 
 	func showHUD(animated: Bool = true) {
@@ -50,25 +54,26 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		parentCoordinator?.hideHUD(animated: animated)
 	}
 
-	internal func showOnboarding() {
+	func gotoOnboarding(authorizationFlowType type: AuthorizationFlowType = .signUp) {
+		authorizationFlowType = type
 		let onboardingViewController = OnboardingViewController()
-		onboardingViewController.signInWithAppleAction = { [weak self] in
+		onboardingViewController.authorizationFlowType = type
+		onboardingViewController.appleAuthoizationAction = { [weak self] in
 			self?.signInWithApple()
 		}
 
-		onboardingViewController.signInWithEmailAction = { [weak self] in
-			self?.authorizationFlowType = .signIn
-			self?.goToEmailAuthorization()
+		onboardingViewController.emailAuthorizationAction = { [weak self] authorizationFlowType in
+			self?.authorizationFlowType = authorizationFlowType
+			self?.gotoEmailAuthorization()
 		}
 
-		onboardingViewController.signupAction = { [weak self] in
-			self?.authorizationFlowType = .signUp
-			self?.goToEmailAuthorization()
+		onboardingViewController.authorizationFlowChangedAction = { [weak self] authorizationFlowType in
+			self?.gotoOnboarding(authorizationFlowType: authorizationFlowType)
 		}
-		navigate(to: onboardingViewController, with: .push)
+		navigate(to: onboardingViewController, with: .resetStack)
 	}
 
-	internal func goToEmailAuthorization() {
+	func gotoEmailAuthorization() {
 		let emailAuthViewController = EmailAuthorizationViewController()
 		emailAuthViewController.authorizationFlowType = authorizationFlowType
 		emailAuthViewController.alertAction = { [weak self] title, detail, textField in
@@ -78,11 +83,11 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			self?.showAlert(title: title, detailText: detail, actions: [okAction], fillProportionally: false)
 		}
 
-		emailAuthViewController.goToTermsOfService = { [weak self] in
-			self?.goToTermsOfService()
+		emailAuthViewController.gotoTermsOfService = { [weak self] in
+			self?.gotoTermsOfService()
 		}
-		emailAuthViewController.goToPrivacyPolicy = { [weak self] in
-			self?.goToPrivacyPolicy()
+		emailAuthViewController.gotoPrivacyPolicy = { [weak self] in
+			self?.gotoPrivacyPolicy()
 		}
 
 		emailAuthViewController.authorizeWithEmail = { [weak self] email, _ in
@@ -92,7 +97,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		navigate(to: emailAuthViewController, with: .push)
 	}
 
-	internal func sendEmailLink(email: String) {
+	func sendEmailLink(email: String) {
 		let bundleId = Bundle.main.bundleIdentifier!
 		let actionCodeSettings = ActionCodeSettings()
 		actionCodeSettings.url = URL(string: AppConfig.firebaseDeeplinkURL)
@@ -125,23 +130,23 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			}
 		}
 		emailSentViewController.goToTermsOfService = { [weak self] in
-			self?.goToTermsOfService()
+			self?.gotoTermsOfService()
 		}
 		emailSentViewController.goToPrivacyPolicy = { [weak self] in
-			self?.goToPrivacyPolicy()
+			self?.gotoPrivacyPolicy()
 		}
 		navigate(to: emailSentViewController, with: .push)
 	}
 
 	internal func verifySendLink(link: String) {
 		if let email = Keychain.emailForLink {
-			goToWelcomeView(email: email, link: link)
+			gotoWelcomeView(email: email, link: link)
 		} else {
 			start()
 		}
 	}
 
-	internal func goToWelcomeView(email: String, link: String) {
+	internal func gotoWelcomeView(email: String, link: String) {
 		let healthViewController = HealthViewController()
 		healthViewController.screenFlowType = .welcome
 		healthViewController.authorizationFlowType = authorizationFlowType
@@ -155,7 +160,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 							DispatchQueue.main.async {
 								authDataResult = authResult
 								if let viewController = healthViewController, viewController.authorizationFlowType == .signIn {
-									self?.parentCoordinator?.goToHealthKitAuthorization()
+									self?.parentCoordinator?.gotoHealthKitAuthorization()
 								} else {
 									healthViewController?.screenFlowType = .welcomeSuccess
 								}
@@ -178,7 +183,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 
 		healthViewController.nextButtonAction = { [weak self, weak healthViewController] in
 			if let viewController = healthViewController, viewController.screenFlowType == .welcomeSuccess, viewController.authorizationFlowType == .signIn {
-				self?.goToMainApp()
+				self?.parentCoordinator?.gotoHealthKitAuthorization()
 			} else if authDataResult != nil {
 				self?.checkIfUserExists(user: authDataResult)
 			} else {
@@ -190,7 +195,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		navigate(to: healthViewController, with: .pushFullScreen)
 	}
 
-	internal func goToReset() {
+	internal func gotoReset() {
 		let resetViewController = ResetViewController()
 		resetViewController.nextAction = { [weak self] email in
 			self?.resetPassword(email: email)
@@ -229,50 +234,44 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			switch carePlanResult {
 			case .failure(let error):
 				ALog.error("Unable to fetch CarePlan: ", error: error)
-				self?.goToProfileSetupViewController(user: user)
+				self?.gotoProfileSetupViewController(user: user)
 			case .success(let carePlan):
 				if let patient = carePlan.allPatients.first {
 					LoggingManager.identify(userId: patient.id)
 					let ockPatient = OCKPatient(patient: patient)
-					AppDelegate.careManager.createOrUpdate(patient: ockPatient) { patientResult in
+					try? AppDelegate.careManager.resetAllContents()
+					self?.careManager.createOrUpdate(patient: ockPatient) { patientResult in
 						switch patientResult {
 						case .failure(let error):
 							ALog.error("Unable to add patient to store", error: error)
 						case .success:
-							self?.parentCoordinator?.signUpCompleted = true
-							self?.parentCoordinator?.goToHealthKitAuthorization()
+							self?.parentCoordinator?.gotoHealthKitAuthorization()
 						}
 					}
 				} else {
-					self?.goToProfileSetupViewController(user: user)
+					self?.gotoProfileSetupViewController(user: user)
 				}
 			}
 		}
 	}
 
-	public func goToMainApp() {
-		parentCoordinator?.goToMainApp()
+	public func gotoMainApp() {
+		parentCoordinator?.gotoMainApp()
 	}
 
-	func goToProfileSetupViewController(user: RemoteUser) {
-		try? AppDelegate.careManager.resetAllContents()
-		AppDelegate.careManager.findOrCreate(user: user) { [weak self] result in
-			switch result {
-			case .failure(let error):
-				ALog.error("\(error.localizedDescription)")
-			case .success(let patient):
-				LoggingManager.identify(userId: patient.id)
-				AppDelegate.careManager.patient = patient
-				self?.goToMyProfileFirstViewController()
-			}
-		}
+	var patient: AlliePatient!
+
+	func gotoProfileSetupViewController(user: RemoteUser) {
+		try? careManager.resetAllContents()
+		patient = AlliePatient(user: user)
+		gotoProfileNameEntryViewController()
 	}
 
-	func goToMyProfileFirstViewController(from screen: NavigationSourceType = .signUp) {
-		let myProfileFirstViewController = MyProfileFirstViewController()
+	func gotoProfileNameEntryViewController(from screen: NavigationSourceType = .signUp) {
+		let myProfileFirstViewController = ProfileNameEntryViewController()
 		myProfileFirstViewController.comingFrom = screen
 		let sendDataAction: ((OCKBiologicalSex, String, [String]) -> Void)? = { [weak self] gender, family, given in
-			self?.goToMyProfileSecondViewController(gender: gender, family: family, given: given)
+			self?.gotoProfileDataEntryViewController(gender: gender, family: family, given: given)
 		}
 
 		myProfileFirstViewController.alertAction = { [weak self] tv in
@@ -286,24 +285,20 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		navigate(to: myProfileFirstViewController, with: .push)
 	}
 
-	internal func goToMyProfileSecondViewController(gender: OCKBiologicalSex, family: String, given: [String]) {
-		let myProfileSecondViewController = MyProfileSecondViewController()
-
+	func gotoProfileDataEntryViewController(gender: OCKBiologicalSex, family: String, given: [String]) {
+		let myProfileSecondViewController = ProfileDataEntryViewController()
 		myProfileSecondViewController.patientRequestAction = { [weak self] _, birthday, weight, height, effectiveDate in
-			var patient = AppDelegate.careManager.patient
 			var givenNames = given
-			patient?.name.givenName = givenNames.first
+			self?.patient?.name.givenName = givenNames.first
 			givenNames.removeFirst()
-			patient?.name.middleName = givenNames.joined(separator: " ")
-			patient?.name.familyName = family
-			patient?.sex = gender
-			patient?.effectiveDate = effectiveDate
-			patient?.birthday = birthday
-			patient?.weight = weight
-			patient?.height = height
-			AppDelegate.careManager.createOrUpdate(patient: patient!) { _ in
-				self?.goToHealthViewControllerFromProfile(patient: patient!)
-			}
+			self?.patient?.name.middleName = givenNames.joined(separator: " ")
+			self?.patient?.name.familyName = family
+			self?.patient?.sex = gender
+			self?.patient?.effectiveDate = effectiveDate
+			self?.patient?.birthday = birthday
+			self?.patient?.weight = weight
+			self?.patient?.height = height
+			self?.gotoHealthViewController(screenFlowType: .selectDevices)
 		}
 
 		myProfileSecondViewController.alertAction = { [weak self] _ in
@@ -313,24 +308,20 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		navigate(to: myProfileSecondViewController, with: .push)
 	}
 
-	internal func goToHealthViewControllerFromProfile(patient: OCKPatient) {
+	func gotoHealthViewController(screenFlowType: ScreenFlowType) {
 		let healthViewController = HealthViewController()
-		healthViewController.screenFlowType = .selectDevices
+		healthViewController.screenFlowType = screenFlowType
 		healthViewController.authorizationFlowType = authorizationFlowType
 		healthViewController.nextButtonAction = { [weak self] in
-			self?.goToMyDevices(patient: patient)
+			if screenFlowType == .selectDevices {
+				self?.gotoMyDevices()
+			} else {
+				self?.createPatient()
+			}
 		}
 
-		navigate(to: healthViewController, with: .pushFullScreen)
-	}
-
-	internal func goToHealthViewControllerFromDevices() {
-		let healthViewController = HealthViewController()
-		healthViewController.screenFlowType = .healthKit
-		healthViewController.authorizationFlowType = authorizationFlowType
-
 		healthViewController.notNowAction = { [weak self] in
-			self?.goToMainApp()
+			self?.createPatient()
 		}
 
 		healthViewController.activateAction = { [weak self] in
@@ -340,7 +331,26 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		navigate(to: healthViewController, with: .pushFullScreen)
 	}
 
-	internal func authorizeHKForUpload() {
+	func createPatient() {
+		patient.isSignUpCompleted = true
+		showHUD()
+		APIClient.client.postPatient(patient: patient) { [weak self] result in
+			self?.hideHUD()
+			switch result {
+			case .failure(let error):
+				let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
+					DispatchQueue.main.async {
+						self?.gotoMainApp()
+					}
+				}
+				self?.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
+			case .success:
+				self?.gotoMainApp()
+			}
+		}
+	}
+
+	func authorizeHKForUpload() {
 		HealthKitManager.shared.authorizeHealthKit { [weak self] authorized, error in
 			guard authorized else {
 				let baseMessage = "HealthKit Authorization Failed"
@@ -358,17 +368,17 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		}
 	}
 
-	internal func setChunkSize() {
+	func setChunkSize() {
 		let changeChunkSizeViewController = SelectChunkSizeViewController()
 		let continueAction: ((Int) -> Void)? = { [weak self] chunkSize in
 			UserDefaults.standard.healthKitUploadChunkSize = chunkSize
-			self?.goToHealthViewControllerFromActivate()
+			self?.gotoHealthViewController(screenFlowType: .activate)
 		}
 		changeChunkSizeViewController.continueAction = continueAction
 		navigate(to: changeChunkSizeViewController, with: .push)
 	}
 
-	internal func startInitialUpload() {
+	func startInitialUpload() {
 		let hkDataUploadViewController = HKDataUploadViewController()
 		hkDataUploadViewController.queryAction = { [weak self] in
 			HealthKitSyncManager.syncData(chunkSize: UserDefaults.standard.healthKitUploadChunkSize) { uploaded, total in
@@ -376,10 +386,10 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				hkDataUploadViewController.maxProgress = total
 			} completion: { success in
 				if success {
-					self?.goToHealthViewControllerFromActivate()
+					self?.gotoHealthViewController(screenFlowType: .activate)
 				} else {
 					let okAction = AlertHelper.AlertAction(withTitle: Str.ok) { [weak self] in
-						self?.goToHealthViewControllerFromActivate()
+						self?.gotoHealthViewController(screenFlowType: .activate)
 					}
 					AlertHelper.showAlert(title: Str.error, detailText: Str.importHealthDataFailed, actions: [okAction])
 				}
@@ -388,34 +398,23 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		navigate(to: hkDataUploadViewController, with: .push)
 	}
 
-	func goToHealthViewControllerFromActivate() {
-		let healthViewController = HealthViewController()
-		healthViewController.screenFlowType = .activate
-		healthViewController.authorizationFlowType = authorizationFlowType
-		healthViewController.nextButtonAction = { [weak self] in
-			self?.goToMainApp()
-		}
-
-		navigate(to: healthViewController, with: .pushFullScreen)
-	}
-
-	func goToMyDevices(patient: OCKPatient) {
-		let devicesViewController = MyDevicesViewController()
-
-		devicesViewController.profileRequestAction = { [weak self] in
-			self?.parentCoordinator?.uploadPatient(patient: patient)
-			self?.goToHealthViewControllerFromDevices()
+	func gotoMyDevices() {
+		let devicesViewController = DevicesSelectionViewController()
+		devicesViewController.nextButtonAction = { [weak self] in
+			self?.gotoHealthViewController(screenFlowType: .healthKit)
 		}
 		navigate(to: devicesViewController, with: .pushFullScreen)
 	}
 
-	func goToPrivacyPolicy() {
-		let privacyPolicyViewController = PrivacyPolicyViewController()
+	func gotoPrivacyPolicy() {
+		let privacyPolicyViewController = HTMLViewerController()
+		privacyPolicyViewController.title = Str.privacyPolicy
 		navigate(to: privacyPolicyViewController, with: .pushFullScreen)
 	}
 
-	func goToTermsOfService() {
-		let termsOfServiceViewController = TermsOfServiceViewController()
+	func gotoTermsOfService() {
+		let termsOfServiceViewController = HTMLViewerController()
+		termsOfServiceViewController.title = Str.termsOfService
 		navigate(to: termsOfServiceViewController, with: .pushFullScreen)
 	}
 
@@ -464,7 +463,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	private func checkIfUserExists(user: AuthDataResult?) {
 		let newUser = user?.additionalUserInfo?.isNewUser
 		if newUser == true {
-			goToProfileSetupViewController(user: (user?.user)!)
+			gotoProfileSetupViewController(user: (user?.user)!)
 		} else {
 			getPatientInfo()
 		}

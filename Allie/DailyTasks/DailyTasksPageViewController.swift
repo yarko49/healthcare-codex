@@ -71,7 +71,14 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			case .failure(let error):
 				ALog.error("Fetching tasks for carePlans", error: error)
 			case .success(let tasks):
-				for task in tasks {
+				let sorted = tasks.sorted { lhs, rhs in
+					guard let left = lhs as? AnyTaskExtensible, let right = rhs as? AnyTaskExtensible else {
+						return false
+					}
+					return left.priority < right.priority
+				}
+
+				for task in sorted {
 					guard let identifier = task.groupIdentifier, let taskType = GroupIdentifierType(rawValue: identifier) else {
 						continue
 					}
@@ -133,7 +140,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				ALog.error(error: error)
 				self?.isRefreshingCarePlan = false
 			case .success(let carePlans):
-				self?.careManager.insert(carePlansResponse: carePlans, for: nil, completion: { insertResult in
+				self?.careManager.insert(carePlansResponse: carePlans, completion: { insertResult in
 					self?.isRefreshingCarePlan = false
 					switch insertResult {
 					case .failure(let error):

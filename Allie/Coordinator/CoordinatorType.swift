@@ -1,10 +1,13 @@
+//
+//  CoordinatorType.swift
+//  Allie
+//
+
 import Foundation
 
 enum CoordinatorType: String, CaseIterable, Hashable {
-	case masterCoordinator
+	case mainCoordinator
 	case authCoordinator
-	case mainAppCoordinator
-	case homeCoordinator
+	case appCoordinator
 	case settingsCoordinator
-	case questionnaireCoordinator
 }

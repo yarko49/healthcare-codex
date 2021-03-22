@@ -503,3 +503,12 @@
 /* Yes */
 "YES" = "Yes";
 
+/* Gluocose Monitor */
+"SMART_GLUCOSE_MONITOR" = "Smart glucose monitor";
+
+/* Glucose push notifications */
+"GLUCOSE_PUSH_NOTIFICATION" = "Glucose push notifications";
+
+/* Don't have an account? */
+"DONT_HAVE_ACCOUNT" = "Don't have an Account?";
+

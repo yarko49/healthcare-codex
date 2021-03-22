@@ -23,19 +23,19 @@ extension UnitType {
 	var hkUnit: HKUnit {
 		switch self {
 		case .bpm:
-			return HKUnit(from: "count/min")
+			return HKUnit.count().unitDivided(by: HKUnit.minute())
 		case .count:
 			return .count()
 		case .countPerMin:
-			return HKUnit(from: "count/min")
+			return HKUnit.count().unitDivided(by: HKUnit.minute())
 		case .lb:
 			return .pound()
 		case .literPerMin:
-			return HKUnit(from: rawValue)
+			return HKUnit.liter().unitDivided(by: HKUnit.minute())
 		case .mmDL:
-			return HKUnit(from: rawValue)
+			return HKUnit.gramUnit(with: .milli).unitDivided(by: HKUnit.literUnit(with: .deci))
 		case .mlPerKg:
-			return HKUnit(from: rawValue)
+			return HKUnit.literUnit(with: .milli).unitDivided(by: HKUnit.gramUnit(with: .kilo).unitMultiplied(by: HKUnit.minute()))
 		case .mmHg:
 			return .millimeterOfMercury()
 		}

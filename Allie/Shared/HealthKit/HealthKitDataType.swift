@@ -38,7 +38,7 @@ enum HealthKitDataType: String, CaseIterable, CustomStringConvertible {
 		}
 	}
 
-	var code1: ModelsR4.CodeableConcept {
+	var code: ModelsR4.CodeableConcept {
 		switch self {
 		case .bodyMass:
 			return ModelsR4.CodeableConcept.bodyMass
@@ -52,23 +52,6 @@ enum HealthKitDataType: String, CaseIterable, CustomStringConvertible {
 			return ModelsR4.CodeableConcept.bloodPressure
 		case .bloodGlucose:
 			return ModelsR4.CodeableConcept.bloodGlucose
-		}
-	}
-
-	var code: MedicalCode {
-		switch self {
-		case .bodyMass:
-			return MedicalCode.bodyWeight
-		case .heartRate:
-			return MedicalCode.heartRate
-		case .restingHeartRate:
-			return MedicalCode.restingHeartRate
-		case .stepCount:
-			return MedicalCode.stepsCount
-		case .bloodPressure:
-			return MedicalCode.bloodPressure
-		case .bloodGlucose:
-			return MedicalCode.bloodGlucose
 		}
 	}
 
@@ -90,19 +73,6 @@ enum HealthKitDataType: String, CaseIterable, CustomStringConvertible {
 	}
 
 	var searchParameter: SearchParameter {
-		switch self {
-		case .bodyMass:
-			return SearchParameter(sort: "-date", count: 1, code: MedicalCode.bodyWeight.coding?.first?.code)
-		case .stepCount:
-			return SearchParameter(sort: "-date", count: 1, code: MedicalCode.stepsCount.coding?.first?.code)
-		case .bloodPressure:
-			return SearchParameter(sort: "-date", count: 1, code: MedicalCode.bloodPressure.coding?.first?.code)
-		case .restingHeartRate:
-			return SearchParameter(sort: "-date", count: 1, code: MedicalCode.restingHeartRate.coding?.first?.code)
-		case .heartRate:
-			return SearchParameter(sort: "-date", count: 1, code: MedicalCode.heartRate.coding?.first?.code)
-		case .bloodGlucose:
-			return SearchParameter(sort: "-date", count: 1, code: MedicalCode.bloodGlucose.coding?.first?.code)
-		}
+		SearchParameter(sort: "-date", count: 1, code: code.coding?.first?.code?.value?.string)
 	}
 }

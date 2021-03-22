@@ -1,3 +1,8 @@
+//
+//  Coordinable.swift
+//  Allie
+//
+
 import UIKit
 
 protocol Coordinable: AnyObject {
@@ -5,6 +10,7 @@ protocol Coordinable: AnyObject {
 	typealias ActionHandler = () -> Void
 
 	var navigationController: UINavigationController? { get }
+	var rootViewController: UIViewController? { get }
 	var childCoordinators: [CoordinatorType: Coordinable] { get set }
 
 	subscript(type: CoordinatorType) -> Coordinable? { get set }
@@ -14,6 +20,8 @@ protocol Coordinable: AnyObject {
 
 	func showHUD(animated: Bool)
 	func hideHUD(animated: Bool)
+
+	var careManager: CareManager { get }
 }
 
 extension Coordinable {
@@ -41,6 +49,10 @@ extension Coordinable {
 
 	func showHUD(animated: Bool) {}
 	func hideHUD(animated: Bool) {}
+
+	var careManager: CareManager {
+		AppDelegate.careManager
+	}
 }
 
 // MARK: Controller Navigation
@@ -51,12 +63,12 @@ extension Coordinable {
 		case .present:
 			navigationController?.present(viewController, animated: animated, completion: nil)
 		case .push:
-			navigationController?.pushViewController(viewController, animated: true)
+			navigationController?.pushViewController(viewController, animated: animated)
 		case .pushFullScreen:
 			navigationController?.modalPresentationStyle = .fullScreen
-			navigationController?.pushViewController(viewController, animated: true)
+			navigationController?.pushViewController(viewController, animated: animated)
 		case .resetStack:
-			navigationController?.viewControllers = [viewController]
+			navigationController?.setViewControllers([viewController], animated: animated)
 		}
 	}
 }

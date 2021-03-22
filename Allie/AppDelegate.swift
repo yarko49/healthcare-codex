@@ -20,8 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		AppDelegate.appDelegate.careManager
 	}
 
-	class var appCoordinator: MasterCoordinator? {
-		(primaryWindow.windowScene?.delegate as? SceneDelegate)?.appCoordinator
+	class var appCoordinator: MainCoordinator? {
+		(primaryWindow.windowScene?.delegate as? SceneDelegate)?.mainCoordinator
 	}
 
 	var careManager = CareManager()

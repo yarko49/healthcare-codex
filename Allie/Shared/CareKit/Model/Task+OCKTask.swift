@@ -8,10 +8,26 @@
 import CareKitStore
 import Foundation
 
+protocol AnyTaskExtensible: AnyUserInfoExtensible {
+	var priority: Int { get set }
+	var carePlanId: String? { get set }
+	var featuredContentDetailViewImageLabel: String? { get set }
+	var featuredContentDetailViewHTML: String? { get set }
+	var featuredContentDetailViewCSS: String? { get set }
+	var featuredContentDetailViewText: String? { get set }
+	var featuredContentDetailViewURL: URL? { get set }
+	var featuredContentImageURL: URL? { get set }
+	var category: String? { get set }
+	var subtitle: String? { get set }
+	var logText: String? { get set }
+}
+
+extension OCKTask: AnyTaskExtensible {}
+
 extension OCKTask {
 	init(task: Task) {
 		let schedule = task.ockSchedule
-		self.init(id: task.id, title: task.title, carePlanUUID: nil, schedule: schedule)
+		self.init(id: task.id, title: task.title, carePlanUUID: task.carePlanUUID, schedule: schedule)
 		self.instructions = task.instructions
 		self.impactsAdherence = task.impactsAdherence
 		self.groupIdentifier = task.groupIdentifier
@@ -31,61 +47,119 @@ extension OCKTask {
 	}
 }
 
-extension OCKTask {
+extension AnyTaskExtensible {
+	var priority: Int {
+		get {
+			getInt(forKey: "priority")
+		}
+		set {
+			set(integer: newValue, forKey: "priority")
+		}
+	}
+
+	var featuredContentDetailViewImageLabel: String? {
+		get {
+			userInfo?["detailViewImageLabel"]
+		}
+		set {
+			setUserInfo(string: newValue, forKey: "detailViewImageLabel")
+		}
+	}
+
+	var featuredContentDetailViewHTML: String? {
+		get {
+			userInfo?["detailViewHTML"]
+		}
+		set {
+			setUserInfo(string: newValue, forKey: "detailViewHTML")
+		}
+	}
+
+	var featuredContentDetailViewCSS: String? {
+		get {
+			userInfo?["detailViewCSS"]
+		}
+		set {
+			setUserInfo(string: newValue, forKey: "detailViewCSS")
+		}
+	}
+
+	var featuredContentDetailViewText: String? {
+		get {
+			userInfo?["detailViewText"]
+		}
+		set {
+			setUserInfo(string: newValue, forKey: "detailViewText")
+		}
+	}
+
+	var featuredContentDetailViewURL: URL? {
+		get {
+			guard let urlString = userInfo?["detailViewURL"] else {
+				return nil
+			}
+
+			return URL(string: urlString)
+		}
+		set {
+			setUserInfo(string: newValue?.absoluteString, forKey: "detailViewURL")
+		}
+	}
+
+	var featuredContentImageURL: URL? {
+		get {
+			guard let urlString = userInfo?["image"] else {
+				return nil
+			}
+			return URL(string: urlString)
+		}
+		set {
+			setUserInfo(string: newValue?.absoluteString, forKey: "image")
+		}
+	}
+
+	var category: String? {
+		get {
+			userInfo?["category"]
+		}
+		set {
+			setUserInfo(string: newValue, forKey: "category")
+		}
+	}
+
+	var subtitle: String? {
+		get {
+			userInfo?["subtitle"]
+		}
+		set {
+			setUserInfo(string: newValue, forKey: "subtitle")
+		}
+	}
+
+	var logText: String? {
+		get {
+			userInfo?["logText"]
+		}
+		set {
+			setUserInfo(string: newValue, forKey: "logText")
+		}
+	}
+}
+
+extension AnyTaskExtensible where Self: OCKAnyTask {
 	var carePlanId: String? {
 		get {
 			userInfo?["carePlanId"]
 		}
 		set {
-			if let planId = newValue {
-				var metaData = userInfo ?? [:]
-				metaData["carePlanId"] = planId
-				userInfo = metaData
-			} else {
-				userInfo?.removeValue(forKey: "carePlanId")
-			}
+			setUserInfo(string: newValue, forKey: "carePlanId")
 		}
-	}
-}
-
-// MARK: - Featured Content
-
-extension OCKTask {
-	var featuredContentDetailViewImageLabel: String? {
-		userInfo?["detailViewImageLabel"]
-	}
-
-	var featuredContentDetailViewHTML: String? {
-		userInfo?["detailViewHTML"]
-	}
-
-	var featuredContentDetailViewCSS: String? {
-		userInfo?["detailViewCSS"]
-	}
-
-	var featuredContentDetailViewText: String? {
-		userInfo?["detailViewText"]
-	}
-
-	var featuredContentDetailViewURL: URL? {
-		guard let urlString = userInfo?["detailViewURL"] else {
-			return nil
-		}
-
-		return URL(string: urlString)
-	}
-
-	var featuredContentImageURL: URL? {
-		guard let urlString = userInfo?["image"] else {
-			return nil
-		}
-		return URL(string: urlString)
 	}
 }
 
 extension Task {
 	init(ockTask: OCKTask) {
-		self.carePlanId = ockTask.uuid.uuidString
+		self.carePlanId = ockTask.carePlanId
 		self.id = ockTask.id
 		self.title = ockTask.title
 		self.instructions = ockTask.instructions
