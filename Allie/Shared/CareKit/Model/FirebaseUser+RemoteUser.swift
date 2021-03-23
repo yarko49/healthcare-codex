@@ -45,9 +45,7 @@ extension AlliePatient {
 			nameComponents = PersonNameComponents(name: name)
 		}
 		self.init(id: identifier, name: nameComponents)
-		self.email = user?.email
-		self.phoneNumber = user?.phoneNumber
-		self.deviceManufacturer = "Apple"
-		self.deviceSoftwareVersion = UIDevice.current.systemVersion
+		userInfo?.deviceManufacturer = "Apple"
+		userInfo?.deviceSoftwareVersion = UIDevice.current.systemVersion
 	}
 }

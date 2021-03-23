@@ -287,7 +287,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 
 	func gotoProfileDataEntryViewController(gender: OCKBiologicalSex, family: String, given: [String]) {
 		let myProfileSecondViewController = ProfileDataEntryViewController()
-		myProfileSecondViewController.patientRequestAction = { [weak self] _, birthday, weight, height, effectiveDate in
+		myProfileSecondViewController.patientRequestAction = { [weak self] _, birthday, _, _, effectiveDate in
 			var givenNames = given
 			self?.patient?.name.givenName = givenNames.first
 			givenNames.removeFirst()
@@ -296,8 +296,8 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			self?.patient?.sex = gender
 			self?.patient?.effectiveDate = effectiveDate
 			self?.patient?.birthday = birthday
-			self?.patient?.weight = weight
-			self?.patient?.height = height
+//			self?.patient?.weight = weight
+//			self?.patient?.height = height
 			self?.gotoHealthViewController(screenFlowType: .selectDevices)
 		}
 
@@ -332,7 +332,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	}
 
 	func createPatient() {
-		patient.isSignUpCompleted = true
+		patient.userInfo?.isSignUpCompleted = true
 		showHUD()
 		APIClient.client.postPatient(patient: patient) { [weak self] result in
 			self?.hideHUD()

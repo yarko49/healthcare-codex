@@ -168,7 +168,7 @@ class MainCoordinator: Coordinable {
 			case .failure(let error):
 				ALog.error("Error Fetching care Plan \(error.localizedDescription)")
 			case .success(let carePlan):
-				if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.FHIRId, !FHIRid.isEmpty {
+				if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.userInfo?.fhirId, !FHIRid.isEmpty {
 					AppDelegate.careManager.insert(carePlansResponse: carePlan, completion: nil)
 					completion(true)
 				} else {
@@ -185,7 +185,7 @@ class MainCoordinator: Coordinable {
 									ALog.error("error creating \(error.localizedDescription)")
 									completion(false)
 								case .success(let newCarePlanResponse):
-									if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.FHIRId, !FHIRid.isEmpty {
+									if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.userInfo?.fhirId, !FHIRid.isEmpty {
 										AppDelegate.careManager.insert(carePlansResponse: newCarePlanResponse, completion: nil)
 									}
 									completion(true)
@@ -215,7 +215,7 @@ class MainCoordinator: Coordinable {
 			case .failure(let error):
 				ALog.error("Error Fetching care Plan \(error.localizedDescription)")
 			case .success(let carePlan):
-				if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.FHIRId, !FHIRid.isEmpty {
+				if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.userInfo?.fhirId, !FHIRid.isEmpty {
 					AppDelegate.careManager.insert(carePlansResponse: carePlan, completion: nil)
 					completion(true)
 				} else {
@@ -232,7 +232,7 @@ class MainCoordinator: Coordinable {
 									ALog.error("error creating \(error.localizedDescription)")
 									completion(false)
 								case .success(let newCarePlanResponse):
-									if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.FHIRId, !FHIRid.isEmpty {
+									if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.userInfo?.fhirId, !FHIRid.isEmpty {
 										AppDelegate.careManager.insert(carePlansResponse: newCarePlanResponse, completion: nil)
 									}
 									completion(true)
