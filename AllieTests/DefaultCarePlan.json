@@ -17,6 +17,37 @@
       "tasks": null
     }
   },
+  "patients": {
+    "v4GJLsOR7HbVWD0SmZyLhrDs3vq1": {
+      "groupIdentifier": "",
+      "remoteId": "",
+      "id": "v4GJLsOR7HbVWD0SmZyLhrDs3vq1",
+      "asset": "",
+      "source": "",
+      "timezone": -25200,
+      "effectiveDate": "2021-03-23T07:00:00Z",
+      "name": {
+        "namePrefix": "",
+        "givenName": "Waqar",
+        "middleName": "",
+        "familyName": "Malik",
+        "nameSuffix": "",
+        "nickname": ""
+      },
+      "userInfo": {
+        "deviceManufacturer": "",
+        "deviceSoftwareVersion": "",
+        "FHIRId": "3522daf3-422b-487f-bc79-d52d7aadb9eb",
+        "measurementBloodPressureEnabled": false,
+        "measurementHeartRateEnabled": false,
+        "measurementRestingHeartRateEnabled": false,
+        "measurementStepsEnabled": false,
+        "measurementWeightEnabled": false,
+        "notificationsEnabled": false,
+        "signUpCompleted": false
+      }
+    }
+  },
   "tasks": {
     "defaultDiabetesCarePlan": {
       "featured-content-easy-and-healthy-recipes": {
@@ -30,7 +61,8 @@
           "category": "featured-content",
           "detailViewText": "Healthy Recipes\nSpinach & Kale",
           "detailViewImageLabel": "Some Ideas",
-          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg"
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg",
+          "priority": 5
         },
         "effectiveDate": null,
         "title": "Easy & Healthy Recipes",
@@ -64,7 +96,8 @@
           "detailViewCSS": "\n.headline { \n    font-size: 23px; \n    font-weight: 700; \n}n.subheadline { \n    font-size: 15px; \n    font-weight: 300; \n} \np { \n    padding: 0px; \n    margin: 0px; \n}",
           "detailViewHTML": "<p>Codex found that It&#39s tough balancing a busy schedule. During the busiest of times, healthy routines are often the first things we sacrifice to \nmake more room in the day for work or family. But sacrificing healthy \nhabits will end up hurting us in the long run - They give us strength and energy to go about our day. Preparing healthy meals doesn&#39tq \nrequire exotic ingredients and endless time in the kitchen.</p> \n<br> \n<p class=\"headline\">Avocado Tomato Toast</p> \n<p class=\"subheadline\">10 minutes</p>n<br> \n<p>Avocados are everywhere these days, and for good reason. They&#39re incredibly filling and a great replacement for other foods that /nare high in fat. Sprinkle on some granulated garlic and a touch of red pepper if you&#39re feeling adventurous.</p>",
           "detailViewImageLabel": "Some Ideas",
-          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg"
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg",
+          "priority": 5
         },
         "effectiveDate": null,
         "title": "Easy & Healthy Recipes",
@@ -97,7 +130,8 @@
           "category": "featured-content",
           "detailViewImageLabel": "Some Ideas",
           "detailViewURL": "https://www.researchandcare.org/",
-          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg"
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg",
+          "priority": 5
         },
         "effectiveDate": null,
         "title": "Easy & Healthy Recipes",
@@ -127,7 +161,8 @@
         "source": "",
         "timezone": 0,
         "userInfo": {
-          "category": "surveysquestionnaires"
+          "category": "surveysquestionnaires",
+          "priority": 1
         },
         "effectiveDate": null,
         "title": "Daily Food Diary",
@@ -232,7 +267,8 @@
         "source": "",
         "timezone": 0,
         "userInfo": {
-          "category": "surveysquestionnaires"
+          "category": "surveysquestionnaires",
+          "priority": 1
         },
         "effectiveDate": null,
         "title": "Food Diary",
@@ -401,7 +437,8 @@
           "linkLocationTitle0": "Stanford Address",
           "linkEmail0": "support@codexhealth.com",
           "linkEmailTitle0": "Email Support",
-          "category": "featured-content"
+          "category": "links",
+          "priority": 6
         },
         "effectiveDate": null,
         "title": "Links",
@@ -431,7 +468,8 @@
         "source": "",
         "timezone": 0,
         "userInfo": {
-          "category": "measurements"
+          "category": "measurements",
+          "priority": 2
         },
         "effectiveDate": null,
         "title": "Activity",
@@ -483,7 +521,8 @@
         "source": "",
         "timezone": 0,
         "userInfo": {
-          "category": "measurements"
+          "category": "measurements",
+          "priority": 2
         },
         "effectiveDate": null,
         "title": "Heart Rate",
@@ -518,7 +557,8 @@
         "source": "",
         "timezone": 0,
         "userInfo": {
-          "category": "measurements"
+          "category": "measurements",
+          "priority": 2
         },
         "effectiveDate": null,
         "title": "Resting Heart Rate",
@@ -555,7 +595,8 @@
         "userInfo": {
           "category": "symptoms",
           "subtitle": "Feeling Drowsy",
-          "logText": "Logged drowsy"
+          "logText": "Logged drowsy",
+          "priority": 3
         },
         "effectiveDate": null,
         "title": "Drowsy",
@@ -587,7 +628,8 @@
         "userInfo": {
           "category": "symptoms",
           "subtitle": "Feeling Fatigued",
-          "logText": "Logged fatigue"
+          "logText": "Logged fatigue",
+          "priority": 3
         },
         "effectiveDate": null,
         "title": "Fatigue",
@@ -619,7 +661,8 @@
         "userInfo": {
           "category": "symptoms",
           "subtitle": "Record",
-          "logText": "Logged"
+          "logText": "Logged",
+          "priority": 3
         },
         "effectiveDate": null,
         "title": "Hypoglycemia",
@@ -651,7 +694,8 @@
         "userInfo": {
           "category": "symptoms",
           "subtitle": "Record",
-          "logText": "Logged"
+          "logText": "Logged",
+          "priority": 3
         },
         "effectiveDate": null,
         "title": "Numbness/Tingling",
@@ -681,7 +725,8 @@
         "source": "",
         "timezone": 0,
         "userInfo": {
-          "category": "symptoms"
+          "category": "symptoms",
+          "priority": 3
         },
         "effectiveDate": null,
         "title": "Polydipsia",
@@ -711,7 +756,8 @@
         "source": "",
         "timezone": 0,
         "userInfo": {
-          "category": "symptoms"
+          "category": "symptoms",
+          "priority": 3
         },
         "effectiveDate": null,
         "title": "Polyuria/Nocturia",
@@ -744,7 +790,8 @@
           "category": "physical-therapy",
           "detailViewImageLabel": "Some Ideas",
           "detailViewURL": "https://www.researchandcare.org/",
-          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg"
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg",
+          "priority": 4
         },
         "effectiveDate": null,
         "title": "15 Minutes of Morning Exercise",
@@ -777,7 +824,8 @@
           "category": "physical-therapy",
           "detailViewText": "Healthy Recipes\nSpinach & Kale",
           "detailViewImageLabel": "Some Ideas",
-          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg"
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg",
+          "priority": 4
         },
         "effectiveDate": null,
         "title": "30 Minutes of Morning Exercise",
@@ -811,7 +859,8 @@
           "detailViewCSS": "\n.headline { \n    font-size: 23px; \n    font-weight: 700; \n}n.subheadline { \n    font-size: 15px; \n    font-weight: 300; \n} \np { \n    padding: 0px; \n    margin: 0px; \n}",
           "detailViewHTML": "<p>Codex found that It&#39s tough balancing a busy schedule. During the busiest of times, healthy routines are often the first things we sacrifice to \nmake more room in the day for work or family. But sacrificing healthy \nhabits will end up hurting us in the long run - They give us strength and energy to go about our day. Preparing healthy meals doesn&#39tq \nrequire exotic ingredients and endless time in the kitchen.</p> \n<br> \n<p class=\"headline\">Avocado Tomato Toast</p> \n<p class=\"subheadline\">10 minutes</p>n<br> \n<p>Avocados are everywhere these days, and for good reason. They&#39re incredibly filling and a great replacement for other foods that /nare high in fat. Sprinkle on some granulated garlic and a touch of red pepper if you&#39re feeling adventurous.</p>",
           "detailViewImageLabel": "Some Ideas",
-          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg"
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg",
+          "priority": 4
         },
         "effectiveDate": null,
         "title": "45 Minutes of Morning Exercise",
@@ -836,6 +885,6 @@
     }
   },
   "vectorClock": {
-    "backend": 1
+    "backend": 3
   }
 }

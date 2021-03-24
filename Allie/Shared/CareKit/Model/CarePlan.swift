@@ -22,7 +22,7 @@ public struct CarePlan: Codable, Identifiable {
 	public var asset: String?
 	public var tags: [String]?
 	public var source: String?
-	public var userInfo: [String: String]?
+	public var userInfo: [String: AnyPrimitiveValue]?
 	public var createdDate: Date?
 	public var updatedDate: Date?
 
@@ -59,7 +59,7 @@ public struct CarePlan: Codable, Identifiable {
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
-		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
+		self.userInfo = try container.decodeIfPresent([String: AnyPrimitiveValue].self, forKey: .userInfo)
 		self.createdDate = try container.decodeIfPresent(Date.self, forKey: .createdDate)
 		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
 		if id.isEmpty {

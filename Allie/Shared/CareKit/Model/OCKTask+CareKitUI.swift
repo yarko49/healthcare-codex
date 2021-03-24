@@ -47,7 +47,7 @@ extension OCKTask {
 			} else if key.hasPrefix(TaskLinkType.website.rawValue) {
 				taskLinktype = .website
 			}
-			guard let value = userInfo?[key] else {
+			guard let value = userInfo?[key], !value.isEmpty else {
 				return nil
 			}
 			let titleKey = taskLinktype.titleKey + key.ch_suffix(byRemoving: taskLinktype.rawValue)
