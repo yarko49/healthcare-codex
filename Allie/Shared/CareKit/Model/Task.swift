@@ -60,7 +60,10 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		self.createDate = try container.decodeIfPresent(Date.self, forKey: .createDate)
 		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
-		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
+		let userInfo = try container.decodeIfPresent([String: AnyPrimitiveValue].self, forKey: .userInfo)
+		self.userInfo = userInfo?.compactMapValues { (value) -> String? in
+			value.stringValue
+		}
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
 		self.notes = try container.decodeIfPresent([String: OCKNote].self, forKey: .notes)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)

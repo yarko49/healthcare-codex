@@ -167,7 +167,7 @@ public extension UIWindow {
 		}
 	}
 
-	static func keyWindow() -> UIWindow? {
+	static var keyWindow: UIWindow? {
 		UIApplication.shared.windows.filter { $0.isKeyWindow }.first
 	}
 }

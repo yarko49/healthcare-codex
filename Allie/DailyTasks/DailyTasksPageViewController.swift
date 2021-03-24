@@ -135,13 +135,12 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		}
 		isRefreshingCarePlan = true
 		CareManager.getCarePlan { [weak self] result in
+			self?.isRefreshingCarePlan = false
 			switch result {
 			case .failure(let error):
 				ALog.error(error: error)
-				self?.isRefreshingCarePlan = false
 			case .success(let carePlans):
 				self?.careManager.insert(carePlansResponse: carePlans, completion: { insertResult in
-					self?.isRefreshingCarePlan = false
 					switch insertResult {
 					case .failure(let error):
 						ALog.error(error: error)
