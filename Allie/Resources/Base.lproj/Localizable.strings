@@ -512,3 +512,6 @@
 /* Don't have an account? */
 "DONT_HAVE_ACCOUNT" = "Don't have an Account?";
 
+/* CarePlan */
+"CAREPLAN" = "CarePlan";
+

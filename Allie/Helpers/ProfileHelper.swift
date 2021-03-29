@@ -26,15 +26,15 @@ class ProfileHelper {
 	static func getGoal(for type: HealthKitQuantityType) -> Int {
 		switch type {
 		case .weight:
-			return AppDelegate.careManager.patient?.measurementWeightGoal ?? 0
+			return UserDefaults.standard.measurementWeightInPoundsGoal
 		case .bloodPressure:
-			return AppDelegate.careManager.patient?.measurementBloodPressureGoal ?? 0
+			return UserDefaults.standard.measurementBloodPressureGoal
 		case .activity:
-			return AppDelegate.careManager.patient?.measurementStepsGoal ?? 0
+			return UserDefaults.standard.measurementStepsGoal
 		case .heartRate:
-			return AppDelegate.careManager.patient?.measurementHeartRateGoal ?? 0
+			return UserDefaults.standard.measurementHeartRateGoal
 		case .restingHeartRate:
-			return AppDelegate.careManager.patient?.measurementRestingHeartRateGoal ?? 0
+			return UserDefaults.standard.measurementRestingHeartRateGoal
 		}
 	}
 }

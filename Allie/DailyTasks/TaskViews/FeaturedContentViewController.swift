@@ -52,12 +52,12 @@ class FeaturedContentViewController: UIViewController, OCKFeaturedContentViewDel
 	}
 
 	func didTapView(_ view: OCKFeaturedContentView) {
-		if let html = task?.featuredContentDetailViewHTML {
+		if let html = task?.featuredContentDetailViewHTML, !html.isEmpty {
 			let css = task?.featuredContentDetailViewCSS
 			let imageURL = task?.featuredContentImageURL
 			let title = task?.featuredContentDetailViewImageLabel ?? featuredContentView.label.text
 			showHTMLCSSContent(title: title, html: html, css: css, imageURL: imageURL)
-		} else if let text = task?.featuredContentDetailViewText {
+		} else if let text = task?.featuredContentDetailViewText, !text.isEmpty {
 			let imageURL = task?.featuredContentImageURL
 			let title = task?.featuredContentDetailViewImageLabel
 			showTextContent(title: title, content: text, imageURL: imageURL)

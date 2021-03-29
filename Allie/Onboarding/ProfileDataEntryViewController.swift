@@ -21,9 +21,9 @@ class ProfileDataEntryViewController: BaseViewController, UIGestureRecognizerDel
 	var dateOfBirth: Date?
 	var comingFrom: NavigationSourceType = .signUp
 	let feetData = [Array(3 ... 8), Array(0 ... 12)]
-	var feet: Int?
-	var inches: Int?
-	var totalHeight: Int?
+	var feet: Int? = 5
+	var inches: Int? = 6
+	var totalHeight: Int? = 66
 	var lbData = Array(25 ... 300)
 	var defaultIndexesFeetData = [2, 6]
 	var defaultIndexLbData = 125
@@ -116,9 +116,7 @@ class ProfileDataEntryViewController: BaseViewController, UIGestureRecognizerDel
 		picker.minimumDate = minDate
 		picker.maximumDate = maxDate
 		picker.setDate(birthDate ?? defaultDate, animated: false)
-		if #available(iOS 13.4, *) {
-			picker.preferredDatePickerStyle = .wheels
-		}
+		picker.preferredDatePickerStyle = .wheels
 		datePicker = picker
 	}
 
@@ -229,6 +227,7 @@ class ProfileDataEntryViewController: BaseViewController, UIGestureRecognizerDel
 	@objc private func datePickerDateChanged(_ sender: UIDatePicker) {
 		let calendarDate = DateFormatter.ddMMyyyy.string(from: sender.date)
 		dateTextView.textfield.attributedText = calendarDate.with(style: .regular20, andColor: .lightGray, andLetterSpacing: -0.41)
+		dateOfBirth = sender.date
 		dobDateString = DateFormatter.yyyyMMdd.string(from: sender.date)
 		dateTextView.state = .normal
 	}
@@ -254,7 +253,8 @@ class ProfileDataEntryViewController: BaseViewController, UIGestureRecognizerDel
 
 		setupObservation()
 		let startOfDay = Calendar.current.startOfDay(for: Date())
-		patientRequestAction?("Patient", dateOfBirth, profileWeight, profileHeight, startOfDay)
+		dateOfBirth = datePicker.date
+		patientRequestAction?("Patient", dateOfBirth, profileWeight, totalHeight ?? 0, startOfDay)
 	}
 }
 

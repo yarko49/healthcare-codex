@@ -37,7 +37,7 @@ class AccountDetailsViewController: BaseViewController {
 		let patient = AppDelegate.careManager.patient
 		let firstName = patient?.name.givenName ?? ""
 		let lastName = patient?.name.familyName ?? ""
-		guard let email = patient?.email else { return }
+		guard let email = patient?.profile.email else { return }
 
 		firstNameTextView.setupValues(labelTitle: Str.firstName, text: firstName, textIsPassword: false)
 		lastNameTextView.setupValues(labelTitle: Str.lastName, text: lastName, textIsPassword: false)
