@@ -4,6 +4,7 @@
 //
 
 import CareKitStore
+import Combine
 import HealthKit
 import LocalAuthentication
 import ModelsR4
@@ -11,6 +12,7 @@ import UIKit
 
 class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelegate {
 	let type: CoordinatorType = .appCoordinator
+	var cancellables: Set<AnyCancellable> = []
 
 	internal var navigationController: UINavigationController?
 	internal var childCoordinators: [CoordinatorType: Coordinable]
@@ -144,16 +146,11 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 		profileViewController = controller
 
 		controller.getData = { [weak self] in
-			AppDelegate.careManager.loadPatient { result in
-				switch result {
-				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
-				case .success(let patient):
-					self?.profileViewController?.weight = patient.weight
-					self?.profileViewController?.height = patient.height
-					self?.profileViewController?.createDetailsLabel()
-				}
-			}
+			let patient = AppDelegate.careManager.patient
+			self?.profileViewController?.age = patient?.age
+			self?.profileViewController?.weight = patient?.profile.weightInPounds
+			self?.profileViewController?.height = patient?.profile.heightInInches
+			self?.profileViewController?.createDetailsLabel()
 			self?.profileViewController?.patientTrendsTableView.reloadData()
 		}
 
@@ -263,8 +260,9 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 		myProfileSecondViewController.profileWeight = weight
 		myProfileSecondViewController.profileHeight = height
 
-		myProfileSecondViewController.patientRequestAction = { [weak self] _, birthdate, weight, height, date in
-			var patient = AppDelegate.careManager.patient
+		myProfileSecondViewController.patientRequestAction = { _, birthdate, weight, height, date in
+			var patient = self.careManager.patient
+			patient?.userInfo = [:]
 			var givenNames = given
 			patient?.name.givenName = givenNames.first
 			givenNames.removeFirst()
@@ -273,11 +271,19 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 			patient?.sex = gender
 			patient?.effectiveDate = date
 			patient?.birthday = birthdate
-			patient?.weight = weight
-			patient?.height = height
-			AppDelegate.careManager.createOrUpdate(patient: patient!) { [weak self] _ in
-				self?.parentCoordinator?.uploadPatient(patient: patient!)
-			}
+			patient?.profile.weightInPounds = weight
+			patient?.profile.heightInInches = height
+			AppDelegate.careManager.patient = patient
+			APIClient.client.postPatient(patient: patient!)
+				.sink { result in
+					ALog.info("\(result)")
+				} receiveValue: { [weak self] carePlanResponse in
+					if let patient = carePlanResponse.allPatients.first {
+						self?.careManager.patient = patient
+						ALog.info("\(String(describing: carePlanResponse.allPatients.first))")
+					}
+					self?.navigationController?.popToRootViewController(animated: true)
+				}.store(in: &self.cancellables)
 		}
 
 		myProfileSecondViewController.alertAction = { [weak self] _ in

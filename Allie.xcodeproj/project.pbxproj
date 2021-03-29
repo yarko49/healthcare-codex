@@ -190,6 +190,11 @@
 		84944E9A25E08D3C00FB1938 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 84944E9925E08D3C00FB1938 /* CareKit */; };
 		84944E9C25E08D3C00FB1938 /* CareKitStore in Frameworks */ = {isa = PBXBuildFile; productRef = 84944E9B25E08D3C00FB1938 /* CareKitStore */; };
 		84944E9E25E08D3C00FB1938 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 84944E9D25E08D3C00FB1938 /* CareKitUI */; };
+		849E158D261138CF00663010 /* AlliePatient+Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E158C261138CF00663010 /* AlliePatient+Keychain.swift */; };
+		849E158F26113ABB00663010 /* AlliePatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E158E26113ABB00663010 /* AlliePatientTests.swift */; };
+		849E15912611805C00663010 /* ProfileEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E15902611805C00663010 /* ProfileEntryViewController.swift */; };
+		849E1593261182C400663010 /* TextFieldEntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E1592261182C400663010 /* TextFieldEntryCell.swift */; };
+		849E15962611839C00663010 /* SkyFloatingLabelTextField in Frameworks */ = {isa = PBXBuildFile; productRef = 849E15952611839C00663010 /* SkyFloatingLabelTextField */; };
 		849F362125B9161300FC2D1B /* TitledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F362025B9161300FC2D1B /* TitledTextField.swift */; };
 		849F362C25B92DD100FC2D1B /* EmailSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F362B25B92DD100FC2D1B /* EmailSentViewController.swift */; };
 		849F378F25BA7F2200FC2D1B /* AuthorizationFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */; };
@@ -200,7 +205,6 @@
 		84B9178B25FDF00A00F2422C /* BundleUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9178A25FDF00A00F2422C /* BundleUploadOperation.swift */; };
 		84B9178D25FDF39100F2422C /* UploadEntriesOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9178C25FDF39100F2422C /* UploadEntriesOperations.swift */; };
 		84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */; };
-		84BDC71C25AB86B30046EFCF /* AnyPatientExtensible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC71B25AB86B30046EFCF /* AnyPatientExtensible.swift */; };
 		84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */; };
 		84C071F725E31FC20098B508 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C071F625E31FC20098B508 /* AnalyticsManager.swift */; };
 		84C105F925E75F2000B126ED /* UIViewController+DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C105F825E75F2000B126ED /* UIViewController+DetailView.swift */; };
@@ -212,6 +216,7 @@
 		84C5180225B7EC5C00D684E5 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5180125B7EC5C00D684E5 /* OnboardingViewController.swift */; };
 		84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5181225B7F93600D684E5 /* IllustrationView.swift */; };
 		84C5182A25B8014500D684E5 /* EmailAuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5182925B8014500D684E5 /* EmailAuthorizationViewController.swift */; };
+		84C783A4260AE07E007BB267 /* FullResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C783A3260AE07E007BB267 /* FullResponse.json */; };
 		84C83FD4259C48F200DAEF34 /* PatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBD259C48EF00DAEF34 /* PatientTests.swift */; };
 		84C83FD5259C48F200DAEF34 /* CarePlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */; };
 		84C83FD6259C48F200DAEF34 /* ScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */; };
@@ -447,6 +452,10 @@
 		8487486525B3FAB0008C15E2 /* GridTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridTaskViewController.swift; sourceTree = "<group>"; };
 		8487488A25B4B8F1008C15E2 /* ChecklistTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistTaskViewController.swift; sourceTree = "<group>"; };
 		8487489225B504B1008C15E2 /* CareManager+Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+Debug.swift"; sourceTree = "<group>"; };
+		849E158C261138CF00663010 /* AlliePatient+Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlliePatient+Keychain.swift"; sourceTree = "<group>"; };
+		849E158E26113ABB00663010 /* AlliePatientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlliePatientTests.swift; sourceTree = "<group>"; };
+		849E15902611805C00663010 /* ProfileEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEntryViewController.swift; sourceTree = "<group>"; };
+		849E1592261182C400663010 /* TextFieldEntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldEntryCell.swift; sourceTree = "<group>"; };
 		849F362025B9161300FC2D1B /* TitledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitledTextField.swift; sourceTree = "<group>"; };
 		849F362B25B92DD100FC2D1B /* EmailSentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSentViewController.swift; sourceTree = "<group>"; };
 		849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFlowType.swift; sourceTree = "<group>"; };
@@ -456,7 +465,6 @@
 		84B9178A25FDF00A00F2422C /* BundleUploadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleUploadOperation.swift; sourceTree = "<group>"; };
 		84B9178C25FDF39100F2422C /* UploadEntriesOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadEntriesOperations.swift; sourceTree = "<group>"; };
 		84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
-		84BDC71B25AB86B30046EFCF /* AnyPatientExtensible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPatientExtensible.swift; sourceTree = "<group>"; };
 		84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersonNameComponents+ResourceName.swift"; sourceTree = "<group>"; };
 		84C071F625E31FC20098B508 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		84C105F825E75F2000B126ED /* UIViewController+DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+DetailView.swift"; sourceTree = "<group>"; };
@@ -466,6 +474,7 @@
 		84C5180125B7EC5C00D684E5 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		84C5181225B7F93600D684E5 /* IllustrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustrationView.swift; sourceTree = "<group>"; };
 		84C5182925B8014500D684E5 /* EmailAuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthorizationViewController.swift; sourceTree = "<group>"; };
+		84C783A3260AE07E007BB267 /* FullResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FullResponse.json; sourceTree = "<group>"; };
 		84C83FBD259C48EF00DAEF34 /* PatientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientTests.swift; sourceTree = "<group>"; };
 		84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanTests.swift; sourceTree = "<group>"; };
 		84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTests.swift; sourceTree = "<group>"; };
@@ -503,6 +512,7 @@
 			files = (
 				84944E9A25E08D3C00FB1938 /* CareKit in Frameworks */,
 				8487493425B6A594008C15E2 /* JGProgressHUD in Frameworks */,
+				849E15962611839C00663010 /* SkyFloatingLabelTextField in Frameworks */,
 				84944E9825E08D3C00FB1938 /* CareKitFHIR in Frameworks */,
 				84944E9C25E08D3C00FB1938 /* CareKitStore in Frameworks */,
 				84944E9E25E08D3C00FB1938 /* CareKitUI in Frameworks */,
@@ -647,8 +657,10 @@
 				84C83FC4259C48F100DAEF34 /* ValueSpaceResponse.json */,
 				842398E3259C1144006FB3F4 /* Info.plist */,
 				846E785625D4F553004F8885 /* DefaultCarePlan.json */,
+				84C783A3260AE07E007BB267 /* FullResponse.json */,
 				845FBE7625FC71A700472257 /* ObservationsConfigTest.swift */,
 				84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */,
+				849E158E26113ABB00663010 /* AlliePatientTests.swift */,
 			);
 			path = AllieTests;
 			sourceTree = "<group>";
@@ -860,6 +872,8 @@
 				8447664A259C2A4E00C50C09 /* SplashViewController.swift */,
 				84476652259C2A4E00C50C09 /* SelectChunkSizeViewController.swift */,
 				84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */,
+				849E15902611805C00663010 /* ProfileEntryViewController.swift */,
+				849E1592261182C400663010 /* TextFieldEntryCell.swift */,
 				8447665B259C2A4E00C50C09 /* ProfileNameEntryViewController.swift */,
 				842DFC6025BBF45C00066A07 /* ProfileNameEntryViewController.xib */,
 				84476661259C2A4E00C50C09 /* ProfileDataEntryViewController.swift */,
@@ -967,7 +981,7 @@
 				84DC75A425ABBAD6003B541C /* CarePlan+OCKCarePlan.swift */,
 				844766EE259C2A4E00C50C09 /* AlliePatient.swift */,
 				844766F4259C2A4E00C50C09 /* AlliePatient+OCKPatient.swift */,
-				84BDC71B25AB86B30046EFCF /* AnyPatientExtensible.swift */,
+				849E158C261138CF00663010 /* AlliePatient+Keychain.swift */,
 				842F908D25AEB56D007421A6 /* FirebaseUser+RemoteUser.swift */,
 				84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */,
 				844766F0259C2A4E00C50C09 /* OutcomeValue.swift */,
@@ -1202,6 +1216,7 @@
 				84944E9925E08D3C00FB1938 /* CareKit */,
 				84944E9B25E08D3C00FB1938 /* CareKitStore */,
 				84944E9D25E08D3C00FB1938 /* CareKitUI */,
+				849E15952611839C00663010 /* SkyFloatingLabelTextField */,
 			);
 			productName = Alfred;
 			productReference = 842398C7259C1144006FB3F4 /* Allie.app */;
@@ -1290,6 +1305,7 @@
 				84FE81E925D8E45A00D156C1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				84491C3F25DB907000AB8C09 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */,
 				84944E9625E08D3B00FB1938 /* XCRemoteSwiftPackageReference "CareKit" */,
+				849E15942611839C00663010 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */,
 			);
 			productRefGroup = 842398C8259C1144006FB3F4 /* Products */;
 			projectDirPath = "";
@@ -1338,6 +1354,7 @@
 				84C83FD8259C48F200DAEF34 /* TestImage.png in Resources */,
 				84C517E325B7DAD400D684E5 /* DefaultDiabetesCarePlan.json in Resources */,
 				84C83FDA259C48F200DAEF34 /* Outcomes.json in Resources */,
+				84C783A4260AE07E007BB267 /* FullResponse.json in Resources */,
 				84C83FE7259C48F200DAEF34 /* TaskB2.json in Resources */,
 				846E785725D4F553004F8885 /* DefaultCarePlan.json in Resources */,
 				84C83FE6259C48F200DAEF34 /* SechduleA.json in Resources */,
@@ -1594,6 +1611,7 @@
 				846257A725E2230A004AEBCD /* HealthKitDataType.swift in Sources */,
 				844767EE259C2A4E00C50C09 /* APIClient.swift in Sources */,
 				844767CD259C2A4E00C50C09 /* AlliePatient+OCKPatient.swift in Sources */,
+				849E1593261182C400663010 /* TextFieldEntryCell.swift in Sources */,
 				844767E5259C2A4E00C50C09 /* Data+Validation.swift in Sources */,
 				844767A6259C2A4E00C50C09 /* Sequence+Sum.swift in Sources */,
 				84230BDF26070274008BB83E /* OnboardingViewModel.swift in Sources */,
@@ -1602,7 +1620,6 @@
 				842F908E25AEB56D007421A6 /* FirebaseUser+RemoteUser.swift in Sources */,
 				84230BDD26070031008BB83E /* OnboardingScreenType.swift in Sources */,
 				844767A8259C2A4E00C50C09 /* Keychain.swift in Sources */,
-				84BDC71C25AB86B30046EFCF /* AnyPatientExtensible.swift in Sources */,
 				84476774259C2A4E00C50C09 /* TroubleshootingViewController.swift in Sources */,
 				844767A7259C2A4E00C50C09 /* Double+Rounding.swift in Sources */,
 				84476775259C2A4E00C50C09 /* TodayInputViewController.swift in Sources */,
@@ -1640,6 +1657,7 @@
 				844767A2259C2A4E00C50C09 /* String+Validation.swift in Sources */,
 				8447678B259C2A4E00C50C09 /* SmartDeviceType.swift in Sources */,
 				8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */,
+				849E158D261138CF00663010 /* AlliePatient+Keychain.swift in Sources */,
 				8484111B25B2AE1800171B68 /* TasksAddOperation.swift in Sources */,
 				84476751259C2A4E00C50C09 /* SelectChunkSizeViewController.swift in Sources */,
 				84C1060125E763EC00B126ED /* SimpleTaskViewController.swift in Sources */,
@@ -1673,6 +1691,7 @@
 				84B9178D25FDF39100F2422C /* UploadEntriesOperations.swift in Sources */,
 				84230BD92606FD54008BB83E /* OnboardingPageViewController.swift in Sources */,
 				849F37A125BA8CF300FC2D1B /* ScreenFlowType.swift in Sources */,
+				849E15912611805C00663010 /* ProfileEntryViewController.swift in Sources */,
 				84E4660225A040F100A10F8B /* ViewIdentifiable.swift in Sources */,
 				844767A9259C2A4E00C50C09 /* KeychainPasswordItem.swift in Sources */,
 				846257AC25E22A00004AEBCD /* HKQuantitySample+Metadata.swift in Sources */,
@@ -1732,6 +1751,7 @@
 				84C83FDE259C48F200DAEF34 /* TasksTests.swift in Sources */,
 				84C83FD4259C48F200DAEF34 /* PatientTests.swift in Sources */,
 				845FBE7725FC71A700472257 /* ObservationsConfigTest.swift in Sources */,
+				849E158F26113ABB00663010 /* AlliePatientTests.swift in Sources */,
 				84C83FD6259C48F200DAEF34 /* ScheduleTests.swift in Sources */,
 				84C83FE9259C48F200DAEF34 /* URLProtocolMock.swift in Sources */,
 				84DC75AA25AC0F33003B541C /* ScheduleElementTests.swift in Sources */,
@@ -2028,7 +2048,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 39;
+				CURRENT_PROJECT_VERSION = 40;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2055,7 +2075,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 39;
+				CURRENT_PROJECT_VERSION = 40;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2280,6 +2300,14 @@
 				kind = branch;
 			};
 		};
+		849E15942611839C00663010 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Skyscanner/SkyFloatingLabelTextField.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		84B43E5E25B1227300318CEA /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:SDWebImage/SDWebImage.git";
@@ -2361,6 +2389,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 84944E9625E08D3B00FB1938 /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKitUI;
+		};
+		849E15952611839C00663010 /* SkyFloatingLabelTextField */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 849E15942611839C00663010 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */;
+			productName = SkyFloatingLabelTextField;
 		};
 		84B43E5F25B1227300318CEA /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;

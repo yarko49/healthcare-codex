@@ -27,6 +27,7 @@ class MainCoordinator: Coordinable {
 
 	lazy var remoteConfigManager = RemoteConfigManager()
 	lazy var context = LAContext()
+	var didRegisterOrgnization: Bool = false
 
 	public var rootViewController: UIViewController? {
 		navigationController
@@ -59,6 +60,17 @@ class MainCoordinator: Coordinable {
 			UserDefaults.standard.hasRunOnce = true
 			UserDefaults.standard.isCarePlanPopulated = false
 		}
+		remoteConfigManager.refresh()
+			.sink { _ in
+				ALog.info("Finished syncing remote config")
+			}.store(in: &cancellables)
+		remoteConfigManager.$healthCareOrganization
+			.sink { [unowned self] provider in
+				CareManager.register(provider: provider)
+					.sink { value in
+						self.didRegisterOrgnization = value
+					}.store(in: &self.cancellables)
+			}.store(in: &cancellables)
 		if Auth.auth().currentUser == nil {
 			goToAuth()
 		} else {
@@ -84,12 +96,12 @@ class MainCoordinator: Coordinable {
 		transitionOptions.direction = .fade
 		window.setRootViewController(rootViewController, options: transitionOptions)
 		window.rootViewController = rootViewController
-		if let user = Auth.auth().currentUser {
-			registerProvider(user: user) { result in
-				if result {
-					NotificationCenter.default.post(name: .patientDidSnychronize, object: nil)
-				}
-			}
+		if let user = Auth.auth().currentUser, didRegisterOrgnization == false {
+			AppDelegate.careManager.patient = Keychain.readPatient(forKey: user.uid)
+			CareManager.register(provider: remoteConfigManager.healthCareOrganization)
+				.sink { _ in
+					ALog.info("did register provider")
+				}.store(in: &cancellables)
 		}
 	}
 
@@ -119,7 +131,7 @@ class MainCoordinator: Coordinable {
 	}
 
 	internal func firebaseAuthentication(completion: @escaping (Bool) -> Void) {
-		Auth.auth().currentUser?.getIDTokenResult(completion: { [weak self] tokenResult, error in
+		Auth.auth().currentUser?.getIDTokenResult(completion: { tokenResult, error in
 			guard error == nil else {
 				ALog.error("Error signing out:", error: error)
 				completion(false)
@@ -130,73 +142,61 @@ class MainCoordinator: Coordinable {
 				return
 			}
 			Keychain.authToken = firebaseToken
-			self?.careManager.patient?.isSignUpCompleted = true
 			completion(true)
 		})
 	}
 
-	func uploadPatient(patient: OCKPatient) {
-		syncPatient(patient: patient) { result in
-			if result == true {
+	func uploadPatient(patient: AlliePatient) {
+		APIClient.client.postPatient(patient: patient)
+			.receive(on: DispatchQueue.main)
+			.sink { completion in
+				switch completion {
+				case .failure(let error):
+					ALog.error("\(error.localizedDescription)")
+					AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+				case .finished:
+					break
+				}
+			} receiveValue: { _ in
 				ALog.info("OK STATUS FOR PATIENT : 200")
-			} else {
-				AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-			}
-		}
-	}
-
-	func registerProvider(user: RemoteUser, completion: @escaping (Bool) -> Void) {
-		CareManager.register(provider: AppDelegate.careManager.provider)
-			.replaceError(with: false)
-			.sink { value in
-				ALog.info("Register Provider result = \(value)")
-				AppDelegate.careManager.findPatient(identifier: user.uid, completion: { findResult in
-					switch findResult {
-					case .failure(let error):
-						ALog.error("Unable to add Patient to store", error: error)
-					case .success(let patient):
-						AppDelegate.careManager.patient = patient
-					}
-					completion(true)
-				})
 			}.store(in: &cancellables)
 	}
 
-	func syncPatient(patient: OCKPatient, completion: @escaping (Bool) -> Void) {
-		CareManager.getCarePlan { carePlanResult in
-			switch carePlanResult {
-			case .failure(let error):
-				ALog.error("Error Fetching care Plan \(error.localizedDescription)")
-			case .success(let carePlan):
-				if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.userInfo?.fhirId, !FHIRid.isEmpty {
-					AppDelegate.careManager.insert(carePlansResponse: carePlan, completion: nil)
-					completion(true)
-				} else {
-					CareManager.postPatient(patient: patient) { postPatientResult in
-						switch postPatientResult {
-						case .failure(let error):
-							ALog.error("error creating \(error.localizedDescription)")
-							completion(false)
-						case .success(let vectorClock):
-							ALog.info("vectorClock: \(vectorClock)")
-							CareManager.getCarePlan { newCarePlanResult in
-								switch newCarePlanResult {
-								case .failure(let error):
-									ALog.error("error creating \(error.localizedDescription)")
-									completion(false)
-								case .success(let newCarePlanResponse):
-									if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.userInfo?.fhirId, !FHIRid.isEmpty {
-										AppDelegate.careManager.insert(carePlansResponse: newCarePlanResponse, completion: nil)
-									}
-									completion(true)
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+//	func syncPatient(patient: AlliePatient, completion: @escaping (Bool) -> Void) {
+//		CareManager.getCarePlan { carePlanResult in
+//			switch carePlanResult {
+//			case .failure(let error):
+//				ALog.error("Error Fetching care Plan \(error.localizedDescription)")
+//			case .success(let carePlan):
+//				if let serverPatient = carePlan.allPatients.first, serverPatient.profile.fhirId != nil {
+//					AppDelegate.careManager.insert(carePlansResponse: carePlan, completion: nil)
+//					completion(true)
+//				} else {
+//					CareManager.postPatient(patient: patient) { postPatientResult in
+//						switch postPatientResult {
+//						case .failure(let error):
+//							ALog.error("error creating \(error.localizedDescription)")
+//							completion(false)
+//						case .success(let vectorClock):
+//							ALog.info("vectorClock: \(vectorClock)")
+//							CareManager.getCarePlan { newCarePlanResult in
+//								switch newCarePlanResult {
+//								case .failure(let error):
+//									ALog.error("error creating \(error.localizedDescription)")
+//									completion(false)
+//								case .success(let newCarePlanResponse):
+//									if let serverPatient = carePlan.allPatients.first, serverPatient.profile.fhirId != nil {
+//										AppDelegate.careManager.insert(carePlansResponse: newCarePlanResponse, completion: nil)
+//									}
+//									completion(true)
+//								}
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
 
 	/* URLSession.shared.dataTaskPublisher(for: url)
 	 .flatMap { data, response in
@@ -208,42 +208,6 @@ class MainCoordinator: Coordinable {
 	 .sink(receiveCompletion: { ... },
 	       receiveValue: { ... })
 	  */
-
-	func syncPatient1(patient: OCKPatient, completion: @escaping (Bool) -> Void) {
-		CareManager.getCarePlan { carePlanResult in
-			switch carePlanResult {
-			case .failure(let error):
-				ALog.error("Error Fetching care Plan \(error.localizedDescription)")
-			case .success(let carePlan):
-				if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.userInfo?.fhirId, !FHIRid.isEmpty {
-					AppDelegate.careManager.insert(carePlansResponse: carePlan, completion: nil)
-					completion(true)
-				} else {
-					CareManager.postPatient(patient: patient) { postPatientResult in
-						switch postPatientResult {
-						case .failure(let error):
-							ALog.error("error creating \(error.localizedDescription)")
-							completion(false)
-						case .success(let vectorClock):
-							ALog.info("vectorClock: \(vectorClock)")
-							CareManager.getCarePlan { newCarePlanResult in
-								switch newCarePlanResult {
-								case .failure(let error):
-									ALog.error("error creating \(error.localizedDescription)")
-									completion(false)
-								case .success(let newCarePlanResponse):
-									if let serverPatient = carePlan.allPatients.first, let FHIRid = serverPatient.userInfo?.fhirId, !FHIRid.isEmpty {
-										AppDelegate.careManager.insert(carePlansResponse: newCarePlanResponse, completion: nil)
-									}
-									completion(true)
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
 
 	func syncHealthKitData() {
 		HealthKitSyncManager.syncDataBackground(initialUpload: false, chunkSize: UserDefaults.standard.healthKitUploadChunkSize) { uploaded, total in
@@ -258,9 +222,13 @@ class MainCoordinator: Coordinable {
 	func logout() {
 		let firebaseAuth = Auth.auth()
 		do {
+			if let uid = Auth.auth().currentUser?.uid {
+				Keychain.delete(valueForKey: uid)
+			}
 			try firebaseAuth.signOut()
 			UserDefaults.resetStandardUserDefaults()
 			try AppDelegate.careManager.resetAllContents()
+			Keychain.clearKeychain()
 			goToAuth()
 		} catch let signOutError as NSError {
 			ALog.error("Error signing out:", error: signOutError)

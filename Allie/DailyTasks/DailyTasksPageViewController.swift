@@ -18,33 +18,37 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		AppDelegate.careManager
 	}
 
+	var timerInterval: TimeInterval = 60 * 10
+
 	private let hud: JGProgressHUD = {
 		let view = JGProgressHUD(style: .dark)
 		view.vibrancyEnabled = true
-
+		view.textLabel.text = NSLocalizedString("LOADING_DOTS", comment: "Loading...")
+		view.detailTextLabel.text = NSLocalizedString("CAREPLAN", comment: "CarePlan")
 		return view
 	}()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = NSLocalizedString("TASKS", comment: "Tasks")
-		refreshCarePlan()
 
 		NotificationCenter.default.publisher(for: .patientDidSnychronize)
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] _ in
-				self?.refreshCarePlan()
+				self?.reload()
 			}.store(in: &cancellables)
 
-		Timer.publish(every: 10.0, tolerance: 2.0, on: .current, in: .common, options: nil)
+		Timer.publish(every: timerInterval, tolerance: 10.0, on: .current, in: .common, options: nil)
+			.autoconnect()
+			.receive(on: DispatchQueue.main)
 			.sink { _ in
 				ALog.info("Timer Fired")
 			} receiveValue: { [weak self] _ in
-				self?.refreshCarePlan()
+				self?.reload()
 			}
 			.store(in: &cancellables)
 
-		refreshCarePlan()
+		reload()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -129,30 +133,35 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	}
 
 	private var isRefreshingCarePlan = false
-	func refreshCarePlan() {
+	override func reload() {
 		guard isRefreshingCarePlan == false else {
 			return
 		}
 		isRefreshingCarePlan = true
-		CareManager.getCarePlan { [weak self] result in
-			self?.isRefreshingCarePlan = false
-			switch result {
-			case .failure(let error):
-				ALog.error(error: error)
-			case .success(let carePlans):
-				self?.careManager.insert(carePlansResponse: carePlans, completion: { insertResult in
-					switch insertResult {
+		hud.show(in: view)
+		APIClient.client.getCarePlan()
+			.sink { [weak self] _ in
+				self?.isRefreshingCarePlan = false
+				self?.hud.dismiss()
+			} receiveValue: { value in
+				if let patient = value.allPatients.first {
+					self.careManager.patient = patient
+				}
+				self.careManager.vectorClock = value.vectorClock
+				self.careManager.insert(carePlansResponse: value) { result in
+					switch result {
 					case .failure(let error):
 						ALog.error(error: error)
 					case .success:
 						ALog.info("added the care plan")
 						DispatchQueue.main.async {
-							self?.reload()
+							self.hud.dismiss()
+							super.reload()
 						}
 					}
-				})
-			}
-		}
+					self.isRefreshingCarePlan = false
+				}
+			}.store(in: &cancellables)
 	}
 }
 

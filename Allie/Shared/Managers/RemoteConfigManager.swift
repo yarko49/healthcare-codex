@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 1/5/21.
 //
 
+import Combine
 import FirebaseRemoteConfig
 import Foundation
 
@@ -34,19 +35,24 @@ class RemoteConfigManager: ObservableObject {
 	private let remoteConfig = RemoteConfig.remoteConfig()
 	@Published var feedbackEmail: String = AppConfig.supportEmail
 	@Published var remoteLogging = RemoteLogging()
+	@Published var healthCareOrganization: String = "CodexPilotHealthcareOrganization"
 
-	func refresh() {
-		let settings = RemoteConfigSettings()
-		settings.minimumFetchInterval = 0
-		remoteConfig.configSettings = settings
-		remoteConfig.fetchAndActivate { [weak self] activateStatus, error in
-			switch activateStatus {
-			case .error:
-				ALog.error("Could not fetch config", error: error)
-			case .successFetchedFromRemote, .successUsingPreFetchedData:
-				self?.updatecProperties()
-			@unknown default:
-				ALog.debug("Unknown Status")
+	func refresh() -> Future<Bool, Never> {
+		Future { [weak self] promise in
+			let settings = RemoteConfigSettings()
+			settings.minimumFetchInterval = 0
+			self?.remoteConfig.configSettings = settings
+			self?.remoteConfig.fetchAndActivate { [weak self] activateStatus, error in
+				switch activateStatus {
+				case .error:
+					ALog.error("Could not fetch config", error: error)
+					promise(.success(false))
+				case .successFetchedFromRemote, .successUsingPreFetchedData:
+					self?.updatecProperties()
+					promise(.success(true))
+				@unknown default:
+					ALog.debug("Unknown Status")
+				}
 			}
 		}
 	}
@@ -54,6 +60,10 @@ class RemoteConfigManager: ObservableObject {
 	private func updatecProperties() {
 		if let email = remoteConfig.configValue(forKey: CodingKeys.feedbackEmaail.rawValue).stringValue {
 			feedbackEmail = email
+		}
+
+		if let organization = remoteConfig.configValue(forKey: CodingKeys.healthCareOrganization.rawValue).stringValue {
+			healthCareOrganization = organization
 		}
 
 		if let logging = remoteConfig.configValue(forKey: CodingKeys.remoteLogging.rawValue).jsonValue as? [String: Any] {
@@ -70,5 +80,6 @@ class RemoteConfigManager: ObservableObject {
 	private enum CodingKeys: String, CodingKey {
 		case feedbackEmaail = "feedback_email"
 		case remoteLogging = "remote_logging"
+		case healthCareOrganization = "health_care_organization"
 	}
 }

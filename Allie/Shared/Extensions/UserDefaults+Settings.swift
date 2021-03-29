@@ -8,133 +8,226 @@
 import Foundation
 
 extension UserDefaults {
+	enum Keys: String {
+		case isCarePlanPopulated = "carePlanPopulated"
+		case hasRunOnce = "HAS_RUN_ONCE"
+		case hasCompletedOnboarding = "HAS_COMPLETED_ONBOARDING"
+		case isBiometricsEnabled = "IS_BIOMETRICS_ENABLED"
+		case haveAskedUserForBiometrics
+		case healthKitUploadChunkSize
+		case hasSmartScale
+		case hasSmartBloodPressureCuff
+		case hasSmartWatch
+		case hasSmartPedometer
+		case hasSmartBloodGlucoseMonitor
+		case vectorClock
+		case measurementStepsNotificationEnabled
+		case measurementBloodPressureNotificationEnabled
+		case measurementWeightNotificationEnabled
+		case measurementBloodGlucoseNotificationEnabled
+		case measurementBloodPressureGoal
+		case measurementHeartRateGoal
+		case measurementRestingHeartRateGoal
+		case measurementStepsGoal
+		case measurementWeightInPoundsGoal
+	}
+
 	static func registerDefautlts() {
-		let defaults: [String: Any] = [Self.isCarePlanPopulatedKey: false, Self.hasRunOnceKey: false, Self.hasCompletedOnboardingKey: false,
-		                               Self.isBiometricsEnabledKey: false, Self.healthKitUploadChunkSizeKey: 4500, Self.haveAskedUserForBiometricsKey: false]
+		let defaults: [String: Any] = [Self.Keys.isCarePlanPopulated.rawValue: false, Self.Keys.hasRunOnce.rawValue: false, Self.Keys.hasCompletedOnboarding.rawValue: false,
+		                               Self.Keys.isBiometricsEnabled.rawValue: false, Self.Keys.healthKitUploadChunkSize.rawValue: 4500, Self.Keys.haveAskedUserForBiometrics.rawValue: false]
 		UserDefaults.standard.register(defaults: defaults)
 	}
 
-	private static let isCarePlanPopulatedKey = "carePlanPopulated"
 	var isCarePlanPopulated: Bool {
 		get {
-			bool(forKey: Self.isCarePlanPopulatedKey)
+			bool(forKey: Self.Keys.isCarePlanPopulated.rawValue)
 		}
 		set {
-			set(newValue, forKey: Self.isCarePlanPopulatedKey)
+			set(newValue, forKey: Self.Keys.isCarePlanPopulated.rawValue)
 		}
 	}
 
-	private static let hasRunOnceKey = "HAS_RUN_ONCE"
 	var hasRunOnce: Bool {
 		get {
-			bool(forKey: Self.hasRunOnceKey)
+			bool(forKey: Self.Keys.hasRunOnce.rawValue)
 		}
 		set {
-			set(newValue, forKey: Self.hasRunOnceKey)
+			set(newValue, forKey: Self.Keys.hasRunOnce.rawValue)
 		}
 	}
 
-	private static let hasCompletedOnboardingKey = "HAS_COMPLETED_ONBOARDING"
 	var hasCompletedOnboarding: Bool {
 		get {
-			bool(forKey: Self.hasCompletedOnboardingKey)
+			bool(forKey: Self.Keys.hasCompletedOnboarding.rawValue)
 		}
 		set {
-			set(newValue, forKey: Self.hasCompletedOnboardingKey)
+			set(newValue, forKey: Self.Keys.hasCompletedOnboarding.rawValue)
 		}
 	}
 
-	private static let isBiometricsEnabledKey = "IS_BIOMETRICS_ENABLED"
 	var isBiometricsEnabled: Bool {
 		get {
-			bool(forKey: Self.isBiometricsEnabledKey)
+			bool(forKey: Self.Keys.isBiometricsEnabled.rawValue)
 		}
 		set {
-			set(newValue, forKey: Self.isBiometricsEnabledKey)
+			set(newValue, forKey: Self.Keys.isBiometricsEnabled.rawValue)
 		}
 	}
 
-	private static let haveAskedUserForBiometricsKey = "haveAskedUserForBiometrics"
 	var haveAskedUserForBiometrics: Bool {
 		get {
-			bool(forKey: Self.haveAskedUserForBiometricsKey)
+			bool(forKey: Self.Keys.haveAskedUserForBiometrics.rawValue)
 		}
 		set {
-			set(newValue, forKey: Self.haveAskedUserForBiometricsKey)
+			set(newValue, forKey: Self.Keys.haveAskedUserForBiometrics.rawValue)
 		}
 	}
 
-	private static let hasSmartScaleKey = "hasSmartScale"
 	var hasSmartScale: Bool {
 		get {
-			bool(forKey: Self.hasSmartScaleKey)
+			bool(forKey: Self.Keys.hasSmartScale.rawValue)
 		}
 		set {
-			set(newValue, forKey: Self.hasSmartScaleKey)
+			set(newValue, forKey: Self.Keys.hasSmartScale.rawValue)
 		}
 	}
 
-	private static let hasSmartBloodPressureCuffKey = "hasSmartBloodPressureCuff"
 	var hasSmartBloodPressureCuff: Bool {
 		get {
-			bool(forKey: Self.hasSmartBloodPressureCuffKey)
+			bool(forKey: Self.Keys.hasSmartBloodPressureCuff.rawValue)
 		}
 		set {
-			set(newValue, forKey: Self.hasSmartBloodPressureCuffKey)
+			set(newValue, forKey: Self.Keys.hasSmartBloodPressureCuff.rawValue)
 		}
 	}
 
-	private static let hasSmartWatchKey = "hasSmartWatch"
 	var hasSmartWatch: Bool {
 		get {
-			bool(forKey: Self.hasSmartWatchKey)
+			bool(forKey: Self.Keys.hasSmartWatch.rawValue)
 		}
 		set {
-			set(newValue, forKey: Self.hasSmartWatchKey)
+			set(newValue, forKey: Self.Keys.hasSmartWatch.rawValue)
 		}
 	}
 
-	private static let hasSmartPedometerKey = "hasSmartPedometer"
 	var hasSmartPedometer: Bool {
 		get {
-			bool(forKey: Self.hasSmartPedometerKey)
+			bool(forKey: Self.Keys.hasSmartPedometer.rawValue)
 		}
 		set {
-			set(newValue, forKey: Self.hasSmartPedometerKey)
+			set(newValue, forKey: Self.Keys.hasSmartPedometer.rawValue)
 		}
 	}
 
-	private static let hasSmartBloodGlucoseMonitorKey = "hasSmartBloodGlucoseMonitor"
 	var hasSmartBloodGlucoseMonitor: Bool {
 		get {
-			bool(forKey: Self.hasSmartBloodGlucoseMonitorKey)
+			bool(forKey: Self.Keys.hasSmartBloodGlucoseMonitor.rawValue)
 		}
 		set {
-			set(newValue, forKey: Self.hasSmartBloodGlucoseMonitorKey)
+			set(newValue, forKey: Self.Keys.hasSmartBloodGlucoseMonitor.rawValue)
 		}
 	}
 
 	func removeBiometrics() {
-		removeObject(forKey: Self.isBiometricsEnabledKey)
+		removeObject(forKey: Self.Keys.isBiometricsEnabled.rawValue)
 	}
 
-	private static let healthKitUploadChunkSizeKey = "HealthKitUploadChunkSize"
 	var healthKitUploadChunkSize: Int {
 		get {
-			integer(forKey: Self.healthKitUploadChunkSizeKey)
+			integer(forKey: Self.Keys.healthKitUploadChunkSize.rawValue)
 		}
 		set {
-			set(newValue, forKey: Self.healthKitUploadChunkSizeKey)
+			set(newValue, forKey: Self.Keys.healthKitUploadChunkSize.rawValue)
 		}
 	}
 
-	private static let vectorClockKey = "vectorClock"
 	var vectorClock: [String: Int] {
 		get {
-			object(forKey: Self.vectorClockKey) as? [String: Int] ?? [:]
+			object(forKey: Self.Keys.vectorClock.rawValue) as? [String: Int] ?? [:]
 		}
 		set {
-			set(newValue, forKey: Self.vectorClockKey)
+			set(newValue, forKey: Self.Keys.vectorClock.rawValue)
+		}
+	}
+
+	var isMeasurementStepsNotificationEnabled: Bool {
+		get {
+			bool(forKey: Self.Keys.measurementStepsNotificationEnabled.rawValue)
+		}
+		set {
+			set(newValue, forKey: Self.Keys.measurementStepsNotificationEnabled.rawValue)
+		}
+	}
+
+	var isMeasurementBloodPressureNotificationEnabled: Bool {
+		get {
+			bool(forKey: Self.Keys.measurementBloodPressureNotificationEnabled.rawValue)
+		}
+		set {
+			set(newValue, forKey: Self.Keys.measurementBloodPressureNotificationEnabled.rawValue)
+		}
+	}
+
+	var isMeasurementWeightNotificationEnabled: Bool {
+		get {
+			bool(forKey: Self.Keys.measurementWeightNotificationEnabled.rawValue)
+		}
+		set {
+			set(newValue, forKey: Self.Keys.measurementWeightNotificationEnabled.rawValue)
+		}
+	}
+
+	var isMeasurementBloodGlucoseNotificationEnabled: Bool {
+		get {
+			bool(forKey: Self.Keys.measurementBloodGlucoseNotificationEnabled.rawValue)
+		}
+		set {
+			set(newValue, forKey: Self.Keys.measurementBloodGlucoseNotificationEnabled.rawValue)
+		}
+	}
+
+	var measurementBloodPressureGoal: Int {
+		get {
+			integer(forKey: Self.Keys.measurementBloodPressureGoal.rawValue)
+		}
+		set {
+			setValue(newValue, forKey: Self.Keys.measurementBloodPressureGoal.rawValue)
+		}
+	}
+
+	var measurementHeartRateGoal: Int {
+		get {
+			integer(forKey: Self.Keys.measurementHeartRateGoal.rawValue)
+		}
+		set {
+			setValue(newValue, forKey: Self.Keys.measurementHeartRateGoal.rawValue)
+		}
+	}
+
+	var measurementRestingHeartRateGoal: Int {
+		get {
+			integer(forKey: Self.Keys.measurementRestingHeartRateGoal.rawValue)
+		}
+		set {
+			setValue(newValue, forKey: Self.Keys.measurementRestingHeartRateGoal.rawValue)
+		}
+	}
+
+	var measurementStepsGoal: Int {
+		get {
+			integer(forKey: Self.Keys.measurementStepsGoal.rawValue)
+		}
+		set {
+			setValue(newValue, forKey: Self.Keys.measurementStepsGoal.rawValue)
+		}
+	}
+
+	var measurementWeightInPoundsGoal: Int {
+		get {
+			integer(forKey: Self.Keys.measurementWeightInPoundsGoal.rawValue)
+		}
+		set {
+			setValue(newValue, forKey: Self.Keys.measurementWeightInPoundsGoal.rawValue)
 		}
 	}
 }

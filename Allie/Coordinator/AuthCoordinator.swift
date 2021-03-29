@@ -5,6 +5,7 @@
 
 import AuthenticationServices
 import CareKitStore
+import Combine
 import CryptoKit
 import FirebaseAuth
 import GoogleSignIn
@@ -14,6 +15,7 @@ import UIKit
 
 class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelegate {
 	let type: CoordinatorType = .authCoordinator
+	var cancellables: Set<AnyCancellable> = []
 
 	var navigationController: UINavigationController? = {
 		UINavigationController()
@@ -224,7 +226,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		navigate(to: resetMessageViewController, with: .push)
 	}
 
-	internal func getPatientInfo() {
+	internal func getPatient() {
 		guard let user = Auth.auth().currentUser else {
 			return
 		}
@@ -237,6 +239,8 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				self?.gotoProfileSetupViewController(user: user)
 			case .success(let carePlan):
 				if let patient = carePlan.allPatients.first {
+					self?.careManager.patient = patient
+					Keychain.save(patient: patient)
 					LoggingManager.identify(userId: patient.id)
 					let ockPatient = OCKPatient(patient: patient)
 					try? AppDelegate.careManager.resetAllContents()
@@ -259,11 +263,9 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		parentCoordinator?.gotoMainApp()
 	}
 
-	var patient: AlliePatient!
-
 	func gotoProfileSetupViewController(user: RemoteUser) {
 		try? careManager.resetAllContents()
-		patient = AlliePatient(user: user)
+		careManager.patient = AlliePatient(user: user)
 		gotoProfileNameEntryViewController()
 	}
 
@@ -287,17 +289,17 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 
 	func gotoProfileDataEntryViewController(gender: OCKBiologicalSex, family: String, given: [String]) {
 		let myProfileSecondViewController = ProfileDataEntryViewController()
-		myProfileSecondViewController.patientRequestAction = { [weak self] _, birthday, _, _, effectiveDate in
+		myProfileSecondViewController.patientRequestAction = { [weak self] _, birthday, weight, height, effectiveDate in
 			var givenNames = given
-			self?.patient?.name.givenName = givenNames.first
+			self?.careManager.patient?.name.givenName = givenNames.first
 			givenNames.removeFirst()
-			self?.patient?.name.middleName = givenNames.joined(separator: " ")
-			self?.patient?.name.familyName = family
-			self?.patient?.sex = gender
-			self?.patient?.effectiveDate = effectiveDate
-			self?.patient?.birthday = birthday
-//			self?.patient?.weight = weight
-//			self?.patient?.height = height
+			self?.careManager.patient?.name.middleName = givenNames.joined(separator: " ")
+			self?.careManager.patient?.name.familyName = family
+			self?.careManager.patient?.sex = gender
+			self?.careManager.patient?.effectiveDate = effectiveDate
+			self?.careManager.patient?.birthday = birthday
+			self?.careManager.patient?.profile.weightInPounds = weight
+			self?.careManager.patient?.profile.heightInInches = height
 			self?.gotoHealthViewController(screenFlowType: .selectDevices)
 		}
 
@@ -332,9 +334,9 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	}
 
 	func createPatient() {
-		patient.userInfo?.isSignUpCompleted = true
+		careManager.patient?.profile.isSignUpCompleted = true
 		showHUD()
-		APIClient.client.postPatient(patient: patient) { [weak self] result in
+		APIClient.client.postPatient(patient: careManager.patient!) { [weak self] result in
 			self?.hideHUD()
 			switch result {
 			case .failure(let error):
@@ -465,7 +467,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		if newUser == true {
 			gotoProfileSetupViewController(user: (user?.user)!)
 		} else {
-			getPatientInfo()
+			getPatient()
 		}
 	}
 }

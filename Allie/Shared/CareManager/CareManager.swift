@@ -45,10 +45,17 @@ class CareManager: ObservableObject {
 		return queue
 	}()
 
-	@Published var patient: OCKPatient?
 	private var cancellables: Set<AnyCancellable> = []
+
+	@Published var patient: AlliePatient? {
+		didSet {
+			if let value = patient {
+				Keychain.save(patient: value)
+			}
+		}
+	}
+
 	@Published var vectorClock: [String: Int] = [:]
-	@Published var provider: String = "CodexPilotHealthcareOrganization"
 
 	init() {
 		store.resetDelegate = self
@@ -60,8 +67,10 @@ class CareManager: ObservableObject {
 
 extension CareManager {
 	func insert(carePlansResponse: CarePlanResponse, completion: OCKResultClosure<Bool>?) {
-		var newPatient: OCKPatient? = patient
-		if let thePatient = carePlansResponse.allPatients.first, patient == nil {
+		try? resetAllContents()
+		var newPatient: OCKPatient?
+		if let thePatient = carePlansResponse.allPatients.first {
+			patient = thePatient
 			newPatient = OCKPatient(patient: thePatient)
 		}
 
@@ -69,7 +78,7 @@ extension CareManager {
 			OCKCarePlan(carePlan: carePlan)
 		}
 
-		let addCarePlansOperation = CarePlansAddOperation(store: store, newCarePlans: carePlans, for: patient) { result in
+		let addCarePlansOperation = CarePlansAddOperation(store: store, newCarePlans: carePlans, for: nil) { result in
 			switch result {
 			case .failure(let error):
 				ALog.error("\(error.localizedDescription)")
@@ -79,13 +88,12 @@ extension CareManager {
 		}
 
 		if let patient = newPatient {
-			let patientOperation = PatientsAddOperation(store: store, newPatients: [patient]) { [weak self] result in
+			let patientOperation = PatientsAddOperation(store: store, newPatients: [patient]) { result in
 				switch result {
 				case .failure(let error):
 					ALog.error(error: error)
 				case .success(let newPatients):
 					ALog.info("Patient Count = \(newPatients.count)")
-					self?.patient = newPatients.first
 				}
 			}
 			addCarePlansOperation.addDependency(patientOperation)
@@ -144,9 +152,8 @@ extension CareManager {
 		}
 	}
 
-	class func postPatient(patient: OCKPatient, completion: @escaping WebService.RequestCompletion<[String: Any]>) {
-		let alliePatient = AlliePatient(ockPatient: patient)
-		APIClient.client.postPatient(patient: alliePatient, completion: completion)
+	class func postPatient(patient: AlliePatient) -> Future<CarePlanResponse, Error> {
+		APIClient.client.postPatient(patient: patient)
 	}
 
 	class func register(provider: String) -> Future<Bool, Never> {
@@ -158,7 +165,7 @@ extension CareManager {
 
 extension CareManager {
 	func loadPatient(completion: OCKResultClosure<OCKPatient>?) {
-		store.fetchPatients { [weak self] result in
+		store.fetchPatients { result in
 			switch result {
 			case .failure(let error):
 				completion?(.failure(error))
@@ -170,7 +177,6 @@ extension CareManager {
 					return ldate < rdate
 				}
 				if let patient = sorted.last {
-					self?.patient = patient
 					completion?(.success(patient))
 				} else {
 					completion?(.failure(.fetchFailed(reason: "No patients in the store")))
@@ -224,12 +230,11 @@ extension CareManager {
 	}
 
 	func createOrUpdate(patient: OCKPatient, completion: OCKResultClosure<OCKPatient>?) {
-		store.createOrUpdatePatient(patient) { [weak self] result in
+		store.createOrUpdatePatient(patient) { result in
 			switch result {
 			case .failure(let error):
 				completion?(.failure(error))
 			case .success(let patient):
-				self?.patient = patient
 				completion?(.success(patient))
 			}
 		}

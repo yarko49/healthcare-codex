@@ -28,10 +28,6 @@ extension OCKPatient {
 			nameComponents = PersonNameComponents(name: name)
 		}
 		self.init(id: identifier, name: nameComponents)
-		self.email = user?.email
-		self.phoneNumber = user?.phoneNumber
-		self.deviceManufacturer = "Apple"
-		self.deviceSoftwareVersion = UIDevice.current.systemVersion
 	}
 }
 
@@ -45,7 +41,7 @@ extension AlliePatient {
 			nameComponents = PersonNameComponents(name: name)
 		}
 		self.init(id: identifier, name: nameComponents)
-		userInfo?.deviceManufacturer = "Apple"
-		userInfo?.deviceSoftwareVersion = UIDevice.current.systemVersion
+		profile.deviceManufacturer = "Apple"
+		profile.deviceSoftwareVersion = UIDevice.current.systemVersion
 	}
 }

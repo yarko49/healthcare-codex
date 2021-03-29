@@ -12,7 +12,21 @@ import ModelsR4
 extension OCKPatient {
 	var subject: ModelsR4.Reference? {
 		let subject = ModelsR4.Reference()
-		if let identifier = FHIRId {
+		if let identifier = remoteID {
+			subject.identifier = BaseFactory.identifier(system: BaseFactory.healthKitIdentifierSystemKey, value: identifier)
+		}
+
+		if let name = self.name.fullName {
+			subject.display = FHIRPrimitive<FHIRString>(stringLiteral: name)
+		}
+		return subject
+	}
+}
+
+extension AlliePatient {
+	var subject: ModelsR4.Reference? {
+		let subject = ModelsR4.Reference()
+		if let identifier = profile.fhirId?.uuidString {
 			subject.identifier = BaseFactory.identifier(system: BaseFactory.healthKitIdentifierSystemKey, value: identifier)
 		}
 

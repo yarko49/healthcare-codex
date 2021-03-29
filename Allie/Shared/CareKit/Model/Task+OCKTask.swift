@@ -59,7 +59,7 @@ extension AnyTaskExtensible {
 
 	var featuredContentDetailViewImageLabel: String? {
 		get {
-			userInfo?["detailViewImageLabel"]
+			userInfo(forKey: "detailViewImageLabel")
 		}
 		set {
 			setUserInfo(string: newValue, forKey: "detailViewImageLabel")
@@ -68,7 +68,7 @@ extension AnyTaskExtensible {
 
 	var featuredContentDetailViewHTML: String? {
 		get {
-			userInfo?["detailViewHTML"]
+			userInfo(forKey: "detailViewHTML")
 		}
 		set {
 			setUserInfo(string: newValue, forKey: "detailViewHTML")
@@ -77,7 +77,7 @@ extension AnyTaskExtensible {
 
 	var featuredContentDetailViewCSS: String? {
 		get {
-			userInfo?["detailViewCSS"]
+			userInfo(forKey: "detailViewCSS")
 		}
 		set {
 			setUserInfo(string: newValue, forKey: "detailViewCSS")
@@ -86,7 +86,7 @@ extension AnyTaskExtensible {
 
 	var featuredContentDetailViewText: String? {
 		get {
-			userInfo?["detailViewText"]
+			userInfo(forKey: "detailViewText")
 		}
 		set {
 			setUserInfo(string: newValue, forKey: "detailViewText")
@@ -95,7 +95,7 @@ extension AnyTaskExtensible {
 
 	var featuredContentDetailViewURL: URL? {
 		get {
-			guard let urlString = userInfo?["detailViewURL"] else {
+			guard let urlString = userInfo(forKey: "detailViewURL") else {
 				return nil
 			}
 
@@ -108,7 +108,7 @@ extension AnyTaskExtensible {
 
 	var featuredContentImageURL: URL? {
 		get {
-			guard let urlString = userInfo?["image"] else {
+			guard let urlString = userInfo(forKey: "image") else {
 				return nil
 			}
 			return URL(string: urlString)
@@ -120,7 +120,7 @@ extension AnyTaskExtensible {
 
 	var category: String? {
 		get {
-			userInfo?["category"]
+			userInfo(forKey: "category")
 		}
 		set {
 			setUserInfo(string: newValue, forKey: "category")
@@ -129,7 +129,7 @@ extension AnyTaskExtensible {
 
 	var subtitle: String? {
 		get {
-			userInfo?["subtitle"]
+			userInfo(forKey: "subtitle")
 		}
 		set {
 			setUserInfo(string: newValue, forKey: "subtitle")
@@ -138,7 +138,7 @@ extension AnyTaskExtensible {
 
 	var logText: String? {
 		get {
-			userInfo?["logText"]
+			userInfo(forKey: "logText")
 		}
 		set {
 			setUserInfo(string: newValue, forKey: "logText")
@@ -149,7 +149,7 @@ extension AnyTaskExtensible {
 extension AnyTaskExtensible where Self: OCKAnyTask {
 	var carePlanId: String? {
 		get {
-			userInfo?["carePlanId"]
+			userInfo(forKey: "carePlanId")
 		}
 		set {
 			setUserInfo(string: newValue, forKey: "carePlanId")

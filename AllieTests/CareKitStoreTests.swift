@@ -75,7 +75,7 @@ class CareKitStoreTests: XCTestCase {
 				XCTAssertEqual(patients.count, 1)
 				let patient = patients.first
 				XCTAssertNotNil(patient)
-				XCTAssertNotNil(patient?.FHIRId)
+				XCTAssertNotNil(patient?.profile.fhirId)
 				expect.fulfill()
 			}
 			URLProtocolMock.response = nil

@@ -6,31 +6,31 @@ class Keychain {
 
 	class subscript(key: String) -> String? {
 		get {
-			Keychain.read(valueWithKey: key)
+			Keychain.read(valueForKey: key)
 		}
 
 		set {
 			guard let value = newValue else {
 				return
 			}
-			Keychain.store(value: value, withKey: key)
+			Keychain.store(value: value, forKey: key)
 		}
 	}
 
 	class subscript(key: String) -> Data? {
 		get {
-			Keychain.read(dataWithKey: key)
+			Keychain.read(dataForKey: key)
 		}
 
 		set {
 			guard let value = newValue else {
 				return
 			}
-			Keychain.store(data: value, withKey: key)
+			Keychain.store(data: value, forKey: key)
 		}
 	}
 
-	static func store(value: String, withKey key: String) {
+	static func store(value: String, forKey key: String) {
 		do {
 			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key)
 			try passwordItem.savePassword(value)
@@ -39,16 +39,7 @@ class Keychain {
 		}
 	}
 
-	static func store(data: Data, withKey key: String) {
-		do {
-			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key)
-			try passwordItem.saveData(data)
-		} catch {
-			ALog.error("Error updating keychain -", error: error)
-		}
-	}
-
-	static func read(valueWithKey key: String) -> String? {
+	static func read(valueForKey key: String) -> String? {
 		do {
 			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key, accessGroup: Keychain.accessGroup)
 			return try passwordItem.readPassword()
@@ -58,7 +49,16 @@ class Keychain {
 		}
 	}
 
-	static func read(dataWithKey key: String) -> Data? {
+	static func store(data: Data, forKey key: String) {
+		do {
+			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key)
+			try passwordItem.saveData(data)
+		} catch {
+			ALog.error("Error updating keychain -", error: error)
+		}
+	}
+
+	static func read(dataForKey key: String) -> Data? {
 		do {
 			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key, accessGroup: Keychain.accessGroup)
 			return try passwordItem.readData()
@@ -68,7 +68,7 @@ class Keychain {
 		}
 	}
 
-	static func delete(valueWithKey key: String) {
+	static func delete(valueForKey key: String) {
 		do {
 			let passwordItem = KeychainPasswordItem(service: Keychain.serviceName, account: key, accessGroup: Keychain.accessGroup)
 			try passwordItem.deleteItem()

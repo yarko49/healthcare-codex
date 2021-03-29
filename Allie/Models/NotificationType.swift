@@ -29,33 +29,31 @@ enum NotificationType: String, CaseIterable, Hashable {
 
 	var isEnabled: Bool {
 		get {
-			let careManager = AppDelegate.careManager
 			switch self {
 			case .activity:
-				return careManager.patient?.isMeasurementStepsNotificationEnabled ?? false
+				return UserDefaults.standard.isMeasurementStepsNotificationEnabled
 			case .bloodPressure:
-				return careManager.patient?.isMeasurementBloodPressureNotificationEnabled ?? false
+				return UserDefaults.standard.isMeasurementBloodPressureNotificationEnabled
 			case .weightIn:
-				return careManager.patient?.isMeasurementWeightNotificationEnabled ?? false
+				return UserDefaults.standard.isMeasurementWeightNotificationEnabled
 			case .survey:
 				return false
 			case .glucose:
-				return careManager.patient?.isMeasurementBloodGlucoseNotificationEnabled ?? false
+				return UserDefaults.standard.isMeasurementBloodGlucoseNotificationEnabled
 			}
 		}
 		set {
-			let careManager = AppDelegate.careManager
 			switch self {
 			case .activity:
-				careManager.patient?.isMeasurementStepsNotificationEnabled = newValue
+				UserDefaults.standard.isMeasurementStepsNotificationEnabled = newValue
 			case .bloodPressure:
-				careManager.patient?.isMeasurementBloodPressureNotificationEnabled = newValue
+				UserDefaults.standard.isMeasurementBloodPressureNotificationEnabled = newValue
 			case .weightIn:
-				careManager.patient?.isMeasurementWeightNotificationEnabled = newValue
+				UserDefaults.standard.isMeasurementWeightNotificationEnabled = newValue
 			case .survey:
 				break
 			case .glucose:
-				careManager.patient?.isMeasurementBloodGlucoseNotificationEnabled = newValue
+				UserDefaults.standard.isMeasurementBloodGlucoseNotificationEnabled = newValue
 			}
 		}
 	}

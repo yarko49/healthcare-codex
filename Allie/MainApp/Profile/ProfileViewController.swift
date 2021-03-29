@@ -46,6 +46,10 @@ class ProfileViewController: BaseViewController {
 
 	// MARK: Vars
 
+	var patient: AlliePatient? {
+		AppDelegate.appDelegate.careManager.patient
+	}
+
 	var currentDateInterval: HealthStatsDateIntervalType = .daily {
 		didSet {
 			resetExpandState()
@@ -81,7 +85,6 @@ class ProfileViewController: BaseViewController {
 	var age: Int?
 	var weight: Int?
 	var height: Int?
-	var ageDiff: Int = 0
 	var feet: Int = 0
 	var inches: Int = 0
 	var lastName: String = ""
@@ -125,7 +128,7 @@ class ProfileViewController: BaseViewController {
 
 	override func setupView() {
 		title = Str.profile
-		let name = ProfileHelper.firstName ?? ""
+		let name = patient?.name.givenName ?? ""
 		resetExpandState()
 		topView.backgroundColor = UIColor.profile
 		separatorLineView.backgroundColor = UIColor.swipe
@@ -154,11 +157,6 @@ class ProfileViewController: BaseViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
 		getData?()
-		if let age = ProfileHelper.birthdate {
-			let date = Date()
-			let calendar = Calendar.current
-			ageDiff = calendar.component(.year, from: date) - (age ?? 0)
-		}
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -167,9 +165,8 @@ class ProfileViewController: BaseViewController {
 	}
 
 	func createDetailsLabel() {
-		(feet, inches) = ProfileHelper.computeHeight(value: height ?? 0)
-
-		let details = "\(ageDiff) \(Str.years) | \(feet)' \(inches)'' | \(weight ?? 0) \(Str.weightUnit)"
+		(feet, inches) = ((height ?? 0) / 12, (height ?? 0) % 12)
+		let details = "\(age ?? 0) \(Str.years) | \(feet)' \(inches)'' | \(weight ?? 0) \(Str.weightUnit)"
 		detailsLabel.attributedText = details.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: 0.36)
 	}
 

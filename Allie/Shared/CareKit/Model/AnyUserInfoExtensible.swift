@@ -10,6 +10,7 @@ import Foundation
 public protocol AnyUserInfoExtensible {
 	var userInfo: [String: String]? { get set }
 	mutating func setUserInfo(string: String?, forKey key: String)
+	func userInfo(forKey key: String, excludeEmptyString: Bool) -> String?
 	mutating func set(bool: Bool, forKey key: String)
 	func getBool(forKey key: String) -> Bool
 	mutating func set(integer: Int, forKey key: String)
@@ -25,6 +26,14 @@ public extension AnyUserInfoExtensible {
 		} else {
 			userInfo?.removeValue(forKey: key)
 		}
+	}
+
+	func userInfo(forKey key: String, excludeEmptyString: Bool = true) -> String? {
+		var value = userInfo?[key]
+		if let content = value, content.isEmpty, excludeEmptyString {
+			value = nil
+		}
+		return value
 	}
 
 	mutating func set(bool: Bool, forKey key: String) {

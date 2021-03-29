@@ -10,10 +10,7 @@ import Foundation
 
 extension AlliePatient {
 	var uuid: UUID? {
-		guard let id = userInfo?.fhirId else {
-			return nil
-		}
-		return UUID(uuidString: id)
+		profile.fhirId
 	}
 }
 
@@ -28,7 +25,7 @@ extension OCKPatient {
 		self.tags = patient.tags
 		self.remoteID = patient.remoteID
 		self.source = patient.source
-		self.userInfo = patient.userInfo?.userInfo
+		self.userInfo = patient.userInfo
 		self.asset = patient.asset
 		self.timezone = patient.timezone
 		if let uuid = patient.uuid {
@@ -70,7 +67,7 @@ extension AlliePatient {
 		self.tags = ockPatient.tags
 		self.remoteID = ockPatient.remoteID
 		self.source = ockPatient.source
-		self.userInfo = AlliePatient.UserInfo(values: ockPatient.userInfo ?? [:])
+		self.userInfo = ockPatient.userInfo
 		self.asset = ockPatient.asset
 		self.timezone = ockPatient.timezone
 	}

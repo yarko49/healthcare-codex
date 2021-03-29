@@ -46,6 +46,9 @@ extension Keychain {
 	}
 
 	class func clearKeychain() {
+		Keychain.authToken = nil
+		Keychain.emailForLink = nil
+		Keychain.userId = nil
 		Self.logout()
 	}
 }

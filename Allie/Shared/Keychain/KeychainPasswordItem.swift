@@ -103,11 +103,7 @@ struct KeychainPasswordItem {
 	func savePassword(_ password: String) throws {
 		// Encode the password into an Data object.
 		let data = password.data(using: String.Encoding.utf8)!
-		do {
-			try saveData(data)
-		} catch {
-			throw (error)
-		}
+		try saveData(data)
 	}
 
 	mutating func renameAccount(_ newAccountName: String) throws {

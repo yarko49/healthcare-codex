@@ -17,7 +17,7 @@ import Foundation
  */
 public typealias AlliePatients = [AlliePatient]
 
-public struct AlliePatient: Codable, Identifiable, OCKAnyPatient {
+public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 	public let id: String
 	public var name: PersonNameComponents
 	public var sex: OCKBiologicalSex?
@@ -32,27 +32,59 @@ public struct AlliePatient: Codable, Identifiable, OCKAnyPatient {
 	public var tags: [String]?
 	public var remoteID: String?
 	public var source: String?
-	public var userInfo: UserInfo?
+	public var userInfo: [String: String]?
 	public var asset: String?
 	public var timezone: TimeZone
 	public var notes: [OCKNote]?
+	public var profile = Profile()
 
-	public struct UserInfo: Codable {
+	public var age: Int? {
+		guard let birthday = birthday else {
+			return nil
+		}
+		return Calendar.current.dateComponents(Set([.year]), from: birthday, to: Date()).year
+	}
+
+	public struct Profile: Codable, Hashable {
+		public var email: String?
+		public var phoneNumber: String?
 		public var deviceManufacturer: String?
 		public var deviceSoftwareVersion: String?
-		public var fhirId: String?
-		public var isMeasurementBloodPressureEnabled: Bool
-		public var isMeasurementHeartRateEnabled: Bool
-		public var isMeasurementRestingHeartRateEnabled: Bool
-		public var isMeasurementStepsEnabled: Bool
-		public var isMeasurementWeightEnabled: Bool
-		public var areNotificationsEnabled: Bool
-		public var isSignUpCompleted: Bool
+		public var fhirId: UUID?
+		public var heightInInches: Int?
+		public var weightInPounds: Int?
+		public var isMeasurementBloodPressureEnabled: Bool = false
+		public var isMeasurementHeartRateEnabled: Bool = false
+		public var isMeasurementRestingHeartRateEnabled: Bool = false
+		public var isMeasurementStepsEnabled: Bool = false
+		public var isMeasurementWeightEnabled: Bool = false
+		public var areNotificationsEnabled: Bool = false
+		public var isSignUpCompleted: Bool = false
+
+		public var weightInKilograms: Double? {
+			guard let lbs = weightInPounds else {
+				return nil
+			}
+
+			return Double(lbs) * 0.4535924
+		}
+
+		public var heightInCentimeters: Double? {
+			guard let inches = heightInInches else {
+				return nil
+			}
+
+			return Double(inches) * 2.54
+		}
 
 		private enum CodingKeys: String, CodingKey {
+			case email
+			case phoneNumber
 			case deviceManufacturer
 			case deviceSoftwareVersion
 			case fhirId = "FHIRId"
+			case heightInInches = "heightInches"
+			case weightInPounds = "weightLbs"
 			case isMeasurementBloodPressureEnabled = "measurementBloodPressureEnabled"
 			case isMeasurementHeartRateEnabled = "measurementHeartRateEnabled"
 			case isMeasurementRestingHeartRateEnabled = "measurementRestingHeartRateEnabled"
@@ -60,57 +92,6 @@ public struct AlliePatient: Codable, Identifiable, OCKAnyPatient {
 			case isMeasurementWeightEnabled = "measurementWeightEnabled"
 			case areNotificationsEnabled = "notificationsEnabled"
 			case isSignUpCompleted = "signUpCompleted"
-		}
-
-		init(values: [String: String]) {
-			self.deviceManufacturer = values[CodingKeys.deviceManufacturer.rawValue]
-			self.deviceSoftwareVersion = values[CodingKeys.deviceSoftwareVersion.rawValue]
-			self.fhirId = values[CodingKeys.fhirId.rawValue]
-			self.isMeasurementBloodPressureEnabled = Bool(values[CodingKeys.isMeasurementBloodPressureEnabled.rawValue] ?? "") ?? false
-			self.isMeasurementHeartRateEnabled = Bool(values[CodingKeys.isMeasurementHeartRateEnabled.rawValue] ?? "") ?? false
-			self.isMeasurementRestingHeartRateEnabled = Bool(values[CodingKeys.isMeasurementRestingHeartRateEnabled.rawValue] ?? "") ?? false
-			self.isMeasurementStepsEnabled = Bool(values[CodingKeys.isMeasurementStepsEnabled.rawValue] ?? "") ?? false
-			self.isMeasurementWeightEnabled = Bool(values[CodingKeys.isMeasurementWeightEnabled.rawValue] ?? "") ?? false
-			self.areNotificationsEnabled = Bool(values[CodingKeys.areNotificationsEnabled.rawValue] ?? "") ?? false
-			self.isSignUpCompleted = Bool(values[CodingKeys.isSignUpCompleted.rawValue] ?? "") ?? false
-		}
-
-		public init(from decoder: Decoder) throws {
-			let container = try decoder.container(keyedBy: CodingKeys.self)
-			self.deviceManufacturer = try container.decodeIfPresent(String.self, forKey: .deviceManufacturer)
-			self.deviceSoftwareVersion = try container.decodeIfPresent(String.self, forKey: .deviceSoftwareVersion)
-			self.fhirId = try container.decodeIfPresent(String.self, forKey: .fhirId)
-			self.isMeasurementBloodPressureEnabled = try container.decodeIfPresent(Bool.self, forKey: .isMeasurementBloodPressureEnabled) ?? false
-			self.isMeasurementHeartRateEnabled = try container.decodeIfPresent(Bool.self, forKey: .isMeasurementHeartRateEnabled) ?? false
-			self.isMeasurementRestingHeartRateEnabled = try container.decodeIfPresent(Bool.self, forKey: .isMeasurementRestingHeartRateEnabled) ?? false
-			self.isMeasurementStepsEnabled = try container.decodeIfPresent(Bool.self, forKey: .isMeasurementStepsEnabled) ?? false
-			self.isMeasurementWeightEnabled = try container.decodeIfPresent(Bool.self, forKey: .isMeasurementWeightEnabled) ?? false
-			self.areNotificationsEnabled = try container.decodeIfPresent(Bool.self, forKey: .areNotificationsEnabled) ?? false
-			self.isSignUpCompleted = try container.decodeIfPresent(Bool.self, forKey: .isSignUpCompleted) ?? false
-		}
-
-		var userInfo: [String: String]? {
-			var info: [String: String] = [:]
-			if let value = deviceManufacturer {
-				info[CodingKeys.deviceManufacturer.rawValue] = value
-			}
-
-			if let value = deviceSoftwareVersion {
-				info[CodingKeys.deviceSoftwareVersion.rawValue] = value
-			}
-
-			if let value = fhirId {
-				info[CodingKeys.fhirId.rawValue] = value
-			}
-
-			info[CodingKeys.isMeasurementBloodPressureEnabled.rawValue] = String(isMeasurementBloodPressureEnabled)
-			info[CodingKeys.isMeasurementHeartRateEnabled.rawValue] = String(isMeasurementHeartRateEnabled)
-			info[CodingKeys.isMeasurementRestingHeartRateEnabled.rawValue] = String(isMeasurementRestingHeartRateEnabled)
-			info[CodingKeys.isMeasurementStepsEnabled.rawValue] = String(isMeasurementStepsEnabled)
-			info[CodingKeys.isMeasurementWeightEnabled.rawValue] = String(isMeasurementWeightEnabled)
-			info[CodingKeys.areNotificationsEnabled.rawValue] = String(areNotificationsEnabled)
-			info[CodingKeys.isSignUpCompleted.rawValue] = String(isSignUpCompleted)
-			return info.isEmpty ? nil : info
 		}
 	}
 
@@ -137,11 +118,31 @@ public struct AlliePatient: Codable, Identifiable, OCKAnyPatient {
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
 		self.remoteID = try container.decodeIfPresent(String.self, forKey: .remoteID)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
-		self.userInfo = try container.decodeIfPresent(UserInfo.self, forKey: .userInfo)
+		let userInfo = try container.decodeIfPresent([String: AnyPrimitiveValue].self, forKey: .userInfo)
+		self.userInfo = userInfo?.compactMapValues { value in
+			value.stringValue
+		}
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
+		self.profile = try container.decodeIfPresent(Profile.self, forKey: .profile) ?? Profile()
+		if profile.fhirId == nil, let id = self.userInfo?["FHIRId"] {
+			profile.fhirId = UUID(uuidString: id)
+		}
+		if profile.weightInPounds == nil, let value = self.userInfo?["weightLbs"] {
+			profile.weightInPounds = Int(value)
+		}
+		if profile.heightInInches == nil, let value = self.userInfo?["heightInches"] {
+			profile.heightInInches = Int(value)
+		}
+		if profile.deviceManufacturer == nil {
+			profile.deviceManufacturer = "Apple"
+		}
+		if profile.deviceSoftwareVersion == nil {
+			profile.deviceSoftwareVersion = "14.4.2"
+		}
+
 		if remoteID == nil {
-			self.remoteID = userInfo?.fhirId
+			self.remoteID = profile.fhirId?.uuidString
 		}
 	}
 
@@ -163,6 +164,7 @@ public struct AlliePatient: Codable, Identifiable, OCKAnyPatient {
 		try container.encodeIfPresent(userInfo, forKey: .userInfo)
 		try container.encodeIfPresent(asset, forKey: .asset)
 		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)
+		try container.encodeIfPresent(profile, forKey: .profile)
 	}
 
 	private enum CodingKeys: String, CodingKey {
@@ -179,6 +181,7 @@ public struct AlliePatient: Codable, Identifiable, OCKAnyPatient {
 		case remoteID
 		case source
 		case userInfo
+		case profile
 		case asset
 		case notes
 		case timezone
