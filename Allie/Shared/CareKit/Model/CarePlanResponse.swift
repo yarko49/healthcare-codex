@@ -28,3 +28,6 @@ public struct CarePlanResponse: Codable {
 		case vectorClock
 	}
 }
+
+// [testCarePlan1: [measurements-activity: [outcomeId1: OCKOutcome]]]
+typealias Outcomes = [String: [String: [String: OCKOutcome]]]
