@@ -28,6 +28,9 @@ extension OCKPatient {
 			nameComponents = PersonNameComponents(name: name)
 		}
 		self.init(id: identifier, name: nameComponents)
+        createdDate = Date()
+        updatedDate = Date()
+        timezone = .current
 	}
 }
 
@@ -43,5 +46,8 @@ extension AlliePatient {
 		self.init(id: identifier, name: nameComponents)
 		profile.deviceManufacturer = "Apple"
 		profile.deviceSoftwareVersion = UIDevice.current.systemVersion
+        createdDate = Date()
+        updatedDate = Date()
+        timezone = .current
 	}
 }

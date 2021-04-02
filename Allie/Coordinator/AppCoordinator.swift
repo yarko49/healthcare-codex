@@ -273,6 +273,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 			patient?.birthday = birthdate
 			patient?.profile.weightInPounds = weight
 			patient?.profile.heightInInches = height
+            patient?.updatedDate = Date()
 			AppDelegate.careManager.patient = patient
 			APIClient.client.postPatient(patient: patient!)
 				.sink { result in
