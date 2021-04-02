@@ -238,7 +238,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				ALog.error("Unable to fetch CarePlan: ", error: error)
 				self?.gotoProfileSetupViewController(user: user)
 			case .success(let carePlan):
-				if let patient = carePlan.allPatients.first {
+				if let patient = carePlan.patients?.first {
 					self?.careManager.patient = patient
 					Keychain.save(patient: patient)
 					LoggingManager.identify(userId: patient.id)
@@ -365,19 +365,10 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			}
 			ALog.info("HealthKit Successfully Authorized.")
 			DispatchQueue.main.async {
-				self?.setChunkSize()
+				UserDefaults.standard.healthKitUploadChunkSize = 4500
+				self?.gotoHealthViewController(screenFlowType: .activate)
 			}
 		}
-	}
-
-	func setChunkSize() {
-		let changeChunkSizeViewController = SelectChunkSizeViewController()
-		let continueAction: ((Int) -> Void)? = { [weak self] chunkSize in
-			UserDefaults.standard.healthKitUploadChunkSize = chunkSize
-			self?.gotoHealthViewController(screenFlowType: .activate)
-		}
-		changeChunkSizeViewController.continueAction = continueAction
-		navigate(to: changeChunkSizeViewController, with: .push)
 	}
 
 	func startInitialUpload() {

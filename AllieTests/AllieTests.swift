@@ -39,7 +39,7 @@ class AllieTests: XCTestCase {
 	}
 
 	func testCarePlanValueSpaceResponse() throws {
-		let carePlanResponse = AllieTests.loadTestData(fileName: "ValueSpaceResponse.json")
+		let carePlanResponse = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponse)
 		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
 		XCTAssert(!carePlanResponse!.isEmpty)
@@ -61,7 +61,7 @@ class AllieTests: XCTestCase {
 	}
 
 	func testDefaultDiabetesCarePlan() throws {
-		let carePlanResponse = AllieTests.loadTestData(fileName: "DefaultDiabetesCarePlan.json")
+		let carePlanResponse = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponse)
 		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
 		XCTAssert(!carePlanResponse!.isEmpty)
@@ -83,19 +83,23 @@ class AllieTests: XCTestCase {
 	}
 
 	func testDefaultCarePlan() throws {
-		let carePlanResponseData = AllieTests.loadTestData(fileName: "DefaultCarePlan.json")
+		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)
 		let decoder = CHJSONDecoder()
-		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: carePlanResponseData!)
-		let allTasks = carePlanResponse.allTasks
-		for task in allTasks {
-			let ockTask = task.ockTask as? OCKTask
-			print("effective \(task.effectiveDate), \(ockTask?.effectiveDate ?? Date())")
+		do {
+			let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: carePlanResponseData!)
+			let allTasks = carePlanResponse.tasks
+			for task in allTasks {
+				let ockTask = task.ockTask as? OCKTask
+				print("effective \(task.effectiveDate), \(ockTask?.effectiveDate ?? Date())")
+			}
+		} catch {
+			print("\(error)")
 		}
 	}
 
 	func testInsertCarePlanStore() throws {
-		let carePlanResponseData = AllieTests.loadTestData(fileName: "DefaultCarePlan.json")
+		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)
 		let decoder = CHJSONDecoder()
 		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: carePlanResponseData!)

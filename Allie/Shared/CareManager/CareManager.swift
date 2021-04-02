@@ -69,12 +69,12 @@ extension CareManager {
 	func insert(carePlansResponse: CarePlanResponse, completion: OCKResultClosure<Bool>?) {
 		try? resetAllContents()
 		var newPatient: OCKPatient?
-		if let thePatient = carePlansResponse.allPatients.first {
+		if let thePatient = carePlansResponse.patients?.first {
 			patient = thePatient
 			newPatient = OCKPatient(patient: thePatient)
 		}
 
-		let carePlans = carePlansResponse.allCarePlans.map { (carePlan) -> OCKCarePlan in
+		let carePlans = carePlansResponse.carePlans.map { (carePlan) -> OCKCarePlan in
 			OCKCarePlan(carePlan: carePlan)
 		}
 
@@ -102,7 +102,7 @@ extension CareManager {
 
 		storeOperationQueue.addOperation(addCarePlansOperation)
 
-		let allTasks = carePlansResponse.allTasks.map { (task) -> OCKAnyTask in
+		let allTasks = carePlansResponse.tasks.map { (task) -> OCKAnyTask in
 			task.ockTask
 		}
 

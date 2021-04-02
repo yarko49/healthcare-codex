@@ -6,8 +6,7 @@
 //
 
 import CareKitStore
-import Foundation
-
+import UIKit
 /*
  client ---push-patient-resource---> cloud-endpoint
                                           |
@@ -50,7 +49,7 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 		public var phoneNumber: String?
 		public var deviceManufacturer: String?
 		public var deviceSoftwareVersion: String?
-		public var fhirId: UUID?
+		public var fhirId: String?
 		public var heightInInches: Int?
 		public var weightInPounds: Int?
 		public var isMeasurementBloodPressureEnabled: Bool = false
@@ -117,32 +116,42 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
 		self.remoteID = try container.decodeIfPresent(String.self, forKey: .remoteID)
-		self.source = try container.decodeIfPresent(String.self, forKey: .source)
-		let userInfo = try container.decodeIfPresent([String: AnyPrimitiveValue].self, forKey: .userInfo)
-		self.userInfo = userInfo?.compactMapValues { value in
-			value.stringValue
+		if let value = remoteID, value.isEmpty {
+			self.remoteID = nil
 		}
+		self.source = try container.decodeIfPresent(String.self, forKey: .source)
+		if let value = source, value.isEmpty {
+			self.source = nil
+		}
+		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
+		if let value = asset, value.isEmpty {
+			self.asset = nil
+		}
 		self.timezone = try container.decodeTimeZone(forKey: .timezone)
 		self.profile = try container.decodeIfPresent(Profile.self, forKey: .profile) ?? Profile()
-		if profile.fhirId == nil, let id = self.userInfo?["FHIRId"] {
-			profile.fhirId = UUID(uuidString: id)
+		name.cleanup()
+		if let fhirId = profile.fhirId, fhirId.isEmpty {
+			profile.fhirId = nil
 		}
-		if profile.weightInPounds == nil, let value = self.userInfo?["weightLbs"] {
+		if profile.fhirId == nil, let id = userInfo?["FHIRId"] {
+			profile.fhirId = id
+		}
+		if profile.weightInPounds == nil, let value = userInfo?["weightLbs"] {
 			profile.weightInPounds = Int(value)
 		}
-		if profile.heightInInches == nil, let value = self.userInfo?["heightInches"] {
+		if profile.heightInInches == nil, let value = userInfo?["heightInches"] {
 			profile.heightInInches = Int(value)
 		}
 		if profile.deviceManufacturer == nil {
 			profile.deviceManufacturer = "Apple"
 		}
 		if profile.deviceSoftwareVersion == nil {
-			profile.deviceSoftwareVersion = "14.4.2"
+			profile.deviceSoftwareVersion = UIDevice.current.systemVersion
 		}
 
 		if remoteID == nil {
-			self.remoteID = profile.fhirId?.uuidString
+			self.remoteID = profile.fhirId
 		}
 	}
 
@@ -185,5 +194,32 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 		case asset
 		case notes
 		case timezone
+	}
+}
+
+extension PersonNameComponents {
+	mutating func cleanup() {
+		if let value = namePrefix, value.isEmpty {
+			namePrefix = nil
+		}
+		if let value = givenName, value.isEmpty {
+			givenName = nil
+		}
+
+		if let value = middleName, value.isEmpty {
+			middleName = nil
+		}
+
+		if let value = familyName, value.isEmpty {
+			familyName = nil
+		}
+
+		if let value = nameSuffix, value.isEmpty {
+			nameSuffix = nil
+		}
+
+		if let value = nickname, value.isEmpty {
+			nickname = nil
+		}
 	}
 }

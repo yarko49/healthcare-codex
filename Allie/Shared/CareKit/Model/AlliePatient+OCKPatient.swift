@@ -8,12 +8,6 @@
 import CareKitStore
 import Foundation
 
-extension AlliePatient {
-	var uuid: UUID? {
-		profile.fhirId
-	}
-}
-
 extension OCKPatient {
 	init(patient: AlliePatient) {
 		self.init(id: patient.id, name: patient.name)
@@ -28,9 +22,6 @@ extension OCKPatient {
 		self.userInfo = patient.userInfo
 		self.asset = patient.asset
 		self.timezone = patient.timezone
-		if let uuid = patient.uuid {
-			self.uuid = uuid
-		}
 	}
 
 	var alliePatient: AlliePatient {

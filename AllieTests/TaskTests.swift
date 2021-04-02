@@ -79,11 +79,11 @@ class TaskTests: XCTestCase {
 	}
 
 	func testAllTasks() throws {
-		let data = AllieTests.loadTestData(fileName: "DefaultDiabetesCarePlan.json")
+		let data = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(data)
 		let decoder = CHJSONDecoder()
 		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: data!)
-		let allTasks = carePlanResponse.allTasks
+		let allTasks = carePlanResponse.tasks
 		XCTAssertNotEqual(allTasks.count, 0)
 		let ockTasks = allTasks.map { (task) -> OCKTask in
 			OCKTask(task: task)

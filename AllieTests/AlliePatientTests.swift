@@ -18,7 +18,7 @@ class AlliePatientTests: XCTestCase {
 		name.givenName = "Waqar"
 		name.middleName = "A"
 		let id = "v4GJLsOR7HbVWD0SmZyLhrDs3vq1"
-		let uuid = UUID(uuidString: "3522daf3-422b-487f-bc79-d52d7aadb9eb")
+		let uuid = "3522daf3-422b-487f-bc79-d52d7aadb9eb"
 		patient = AlliePatient(id: id, name: name)
 		patient.birthday = Date(timeIntervalSince1970: 0)
 		patient.sex = .male
@@ -30,7 +30,7 @@ class AlliePatientTests: XCTestCase {
 		patient.createdDate = Calendar.current.startOfDay(for: Date())
 		patient.updatedDate = Calendar.current.startOfDay(for: Date())
 		patient.userInfo = [:]
-		patient.remoteID = uuid?.uuidString
+		patient.remoteID = uuid
 		patient.effectiveDate = Calendar.current.startOfDay(for: Date())
 		patient.profile.email = "wmalloc+codex@gmail.com"
 		patient.profile.phoneNumber = "14158945812"

@@ -58,7 +58,7 @@ class CareKitStoreTests: XCTestCase {
 	}
 
 	func testGetPatientFromServer() throws {
-		let carePlanResponse = AllieTests.loadTestData(fileName: "DefaultCarePlan.json")
+		let carePlanResponse = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponse)
 		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
 		XCTAssert(!carePlanResponse!.isEmpty)
@@ -70,12 +70,12 @@ class CareKitStoreTests: XCTestCase {
 			case .failure(let error):
 				XCTFail("Error Fetching DefaultDiabetes Care Plan = \(error.localizedDescription)")
 			case .success(let carePlanResponse):
-				let patients = carePlanResponse.allPatients
+				let patients = carePlanResponse.patients
 				XCTAssertNotNil(patients)
-				XCTAssertEqual(patients.count, 1)
-				let patient = patients.first
+				XCTAssertEqual(patients?.count, 1)
+				let patient = patients?.first
 				XCTAssertNotNil(patient)
-				XCTAssertNotNil(patient?.profile.fhirId)
+				XCTAssertNil(patient?.profile.fhirId)
 				expect.fulfill()
 			}
 			URLProtocolMock.response = nil
@@ -84,7 +84,7 @@ class CareKitStoreTests: XCTestCase {
 	}
 
 	func testInsertCarePlanFromServer() throws {
-		let carePlanResponseData = AllieTests.loadTestData(fileName: "DefaultCarePlan.json")
+		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)
 		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
 		XCTAssert(!carePlanResponseData!.isEmpty)
@@ -114,7 +114,7 @@ class CareKitStoreTests: XCTestCase {
 	}
 
 	func testInsertPatients() throws {
-		let carePlanResponseData = AllieTests.loadTestData(fileName: "DefaultCarePlan.json")
+		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)
 		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
 		XCTAssert(!carePlanResponseData!.isEmpty)
@@ -135,7 +135,7 @@ class CareKitStoreTests: XCTestCase {
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 
 		if let carePlan = carePlanRespons {
-			guard let patient = carePlan.allPatients.first else {
+			guard let patient = carePlan.patients?.first else {
 				XCTFail("No patients found in careplan")
 				return
 			}
@@ -152,7 +152,7 @@ class CareKitStoreTests: XCTestCase {
 			}
 			XCTAssertEqual(.completed, XCTWaiter().wait(for: [add], timeout: 10))
 
-			let insert = expectation(description: "DefaultCarePlan")
+			let insert = expectation(description: "DiabetiesCarePlan")
 			careManager.store.createOrUpdatePatient(ockPatient, callbackQueue: .main) { result in
 				switch result {
 				case .failure(let error):
