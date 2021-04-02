@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 3/12/21.
 //
 
+import CareKitFHIR
 import Foundation
 import HealthKit
 import ModelsR4
@@ -37,14 +38,7 @@ class BaseFactory {
 	public init() {}
 
 	func dateTime(date: Date, timeZoneString: String?) -> ModelsR4.DateTime? {
-		var timeZone: TimeZone?
-		if timeZoneString != nil {
-			timeZone = TimeZone(identifier: timeZoneString!)
-		}
-
-		dateFormatter.timeZone = timeZone ?? TimeZone(secondsFromGMT: 0)
-
-		return try? ModelsR4.DateTime(dateFormatter.string(from: date))
+		date.r4FHIRDateTime(timeZoneString: timeZoneString)
 	}
 
 	static func identifier(system: String, value: String) -> ModelsR4.Identifier {

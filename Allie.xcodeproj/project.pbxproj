@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		211EF1F90D84C434F08249A8 /* Pods_Allie_AllieUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 063D529CF099CA9AE237C8D1 /* Pods_Allie_AllieUITests.framework */; };
 		28FAEC9E2C89E3D38B69115A /* Pods_AllieTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE876C347FDD5F388EB10A5E /* Pods_AllieTests.framework */; };
+		84016C3A2616BED7006D5279 /* DiabetiesCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 84016C392616BED7006D5279 /* DiabetiesCarePlan.json */; };
 		8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */; };
 		841E9B8825F60112001192DD /* AnyPrimitiveValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841E9B8725F60112001192DD /* AnyPrimitiveValue.swift */; };
 		84230BD92606FD54008BB83E /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BD82606FD54008BB83E /* OnboardingPageViewController.swift */; };
@@ -61,7 +62,6 @@
 		84476749259C2A4E00C50C09 /* AppleHealthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476644259C2A4E00C50C09 /* AppleHealthView.swift */; };
 		8447674A259C2A4E00C50C09 /* PickerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476645259C2A4E00C50C09 /* PickerTextField.swift */; };
 		8447674C259C2A4E00C50C09 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447664A259C2A4E00C50C09 /* SplashViewController.swift */; };
-		84476751259C2A4E00C50C09 /* SelectChunkSizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476652259C2A4E00C50C09 /* SelectChunkSizeViewController.swift */; };
 		84476756259C2A4E00C50C09 /* ResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476659259C2A4E00C50C09 /* ResetViewController.swift */; };
 		84476757259C2A4E00C50C09 /* ProfileNameEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447665B259C2A4E00C50C09 /* ProfileNameEntryViewController.swift */; };
 		8447675B259C2A4E00C50C09 /* ProfileDataEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476661259C2A4E00C50C09 /* ProfileDataEntryViewController.swift */; };
@@ -158,7 +158,6 @@
 		8461B30425A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8461B30325A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift */; };
 		846257A725E2230A004AEBCD /* HealthKitDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846257A625E2230A004AEBCD /* HealthKitDataType.swift */; };
 		846257AC25E22A00004AEBCD /* HKQuantitySample+Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846257AB25E22A00004AEBCD /* HKQuantitySample+Metadata.swift */; };
-		846E785725D4F553004F8885 /* DefaultCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 846E785625D4F553004F8885 /* DefaultCarePlan.json */; };
 		84700A84259C331B0083E2AA /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 84700A83259C331B0083E2AA /* Charts */; };
 		8474271F25F7442E0049644B /* HealthKitLinkage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8474271E25F7442E0049644B /* HealthKitLinkage.swift */; };
 		848410EB25B292BE00171B68 /* CHOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848410EA25B292BE00171B68 /* CHOperation.swift */; };
@@ -201,7 +200,6 @@
 		849F37A125BA8CF300FC2D1B /* ScreenFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */; };
 		84A6316F2601B6B5000922F3 /* CareKitStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */; };
 		84B43E6025B1227300318CEA /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 84B43E5F25B1227300318CEA /* SDWebImage */; };
-		84B43E6525B1236E00318CEA /* DefaultDiabetesCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 84B43E6425B1236E00318CEA /* DefaultDiabetesCarePlan.json */; };
 		84B9178B25FDF00A00F2422C /* BundleUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9178A25FDF00A00F2422C /* BundleUploadOperation.swift */; };
 		84B9178D25FDF39100F2422C /* UploadEntriesOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9178C25FDF39100F2422C /* UploadEntriesOperations.swift */; };
 		84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */; };
@@ -211,18 +209,15 @@
 		84C1060125E763EC00B126ED /* SimpleTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1060025E763EC00B126ED /* SimpleTaskViewController.swift */; };
 		84C22BCB25A5821800D16CFF /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 84C22BCA25A5821800D16CFF /* Logging */; };
 		84C39A4E25B172640063D92C /* Task+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */; };
-		84C517E325B7DAD400D684E5 /* DefaultDiabetesCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 84B43E6425B1236E00318CEA /* DefaultDiabetesCarePlan.json */; };
 		84C517F525B7E55F00D684E5 /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C517F425B7E55F00D684E5 /* BottomButton.swift */; };
 		84C5180225B7EC5C00D684E5 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5180125B7EC5C00D684E5 /* OnboardingViewController.swift */; };
 		84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5181225B7F93600D684E5 /* IllustrationView.swift */; };
 		84C5182A25B8014500D684E5 /* EmailAuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5182925B8014500D684E5 /* EmailAuthorizationViewController.swift */; };
-		84C783A4260AE07E007BB267 /* FullResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C783A3260AE07E007BB267 /* FullResponse.json */; };
 		84C83FD4259C48F200DAEF34 /* PatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBD259C48EF00DAEF34 /* PatientTests.swift */; };
 		84C83FD5259C48F200DAEF34 /* CarePlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */; };
 		84C83FD6259C48F200DAEF34 /* ScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */; };
 		84C83FD8259C48F200DAEF34 /* TestImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 84C83FC1259C48F000DAEF34 /* TestImage.png */; };
 		84C83FDA259C48F200DAEF34 /* Outcomes.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C83FC3259C48F000DAEF34 /* Outcomes.json */; };
-		84C83FDB259C48F200DAEF34 /* ValueSpaceResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C83FC4259C48F100DAEF34 /* ValueSpaceResponse.json */; };
 		84C83FDD259C48F200DAEF34 /* TargetValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FC6259C48F100DAEF34 /* TargetValueTests.swift */; };
 		84C83FDE259C48F200DAEF34 /* TasksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FC7259C48F100DAEF34 /* TasksTests.swift */; };
 		84C83FE3259C48F200DAEF34 /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FCC259C48F100DAEF34 /* NoteTests.swift */; };
@@ -231,6 +226,7 @@
 		84C83FE7259C48F200DAEF34 /* TaskB2.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C83FD0259C48F200DAEF34 /* TaskB2.json */; };
 		84C83FE8259C48F200DAEF34 /* TaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FD1259C48F200DAEF34 /* TaskTests.swift */; };
 		84C83FE9259C48F200DAEF34 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FD2259C48F200DAEF34 /* URLProtocolMock.swift */; };
+		84C93C5F2616B7ED00C5E33E /* Date+FHIR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C93C5E2616B7ED00C5E33E /* Date+FHIR.swift */; };
 		84D2BFD1260460D30064DB08 /* AnyUserInfoExtensible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2BFD0260460D30064DB08 /* AnyUserInfoExtensible.swift */; };
 		84DC75A525ABBAD6003B541C /* CarePlan+OCKCarePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC75A425ABBAD6003B541C /* CarePlan+OCKCarePlan.swift */; };
 		84DC75AA25AC0F33003B541C /* ScheduleElementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */; };
@@ -271,6 +267,7 @@
 		3A6B9A7CDB129EA20C6EE888 /* Pods_Allie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Allie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F468A3038E236FC397B6BE5 /* Pods-AlfredTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlfredTests.debug.xcconfig"; path = "Target Support Files/Pods-AlfredTests/Pods-AlfredTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7F6441AE1BDC15A7051D6757 /* Pods-Alfred-AlfredUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alfred-AlfredUITests.release.xcconfig"; path = "Target Support Files/Pods-Alfred-AlfredUITests/Pods-Alfred-AlfredUITests.release.xcconfig"; sourceTree = "<group>"; };
+		84016C392616BED7006D5279 /* DiabetiesCarePlan.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DiabetiesCarePlan.json; sourceTree = "<group>"; };
 		8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextContentDetailViewController.swift; sourceTree = "<group>"; };
 		841E9B8725F60112001192DD /* AnyPrimitiveValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPrimitiveValue.swift; sourceTree = "<group>"; };
 		84230BD82606FD54008BB83E /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
@@ -333,7 +330,6 @@
 		84476644259C2A4E00C50C09 /* AppleHealthView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleHealthView.swift; sourceTree = "<group>"; };
 		84476645259C2A4E00C50C09 /* PickerTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerTextField.swift; sourceTree = "<group>"; };
 		8447664A259C2A4E00C50C09 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
-		84476652259C2A4E00C50C09 /* SelectChunkSizeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectChunkSizeViewController.swift; sourceTree = "<group>"; };
 		84476659259C2A4E00C50C09 /* ResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetViewController.swift; sourceTree = "<group>"; };
 		8447665B259C2A4E00C50C09 /* ProfileNameEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileNameEntryViewController.swift; sourceTree = "<group>"; };
 		84476661259C2A4E00C50C09 /* ProfileDataEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileDataEntryViewController.swift; sourceTree = "<group>"; };
@@ -429,7 +425,6 @@
 		8461B30325A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScheduleElement+OCKScheduleElement.swift"; sourceTree = "<group>"; };
 		846257A625E2230A004AEBCD /* HealthKitDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitDataType.swift; sourceTree = "<group>"; };
 		846257AB25E22A00004AEBCD /* HKQuantitySample+Metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKQuantitySample+Metadata.swift"; sourceTree = "<group>"; };
-		846E785625D4F553004F8885 /* DefaultCarePlan.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultCarePlan.json; sourceTree = "<group>"; };
 		8474271E25F7442E0049644B /* HealthKitLinkage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthKitLinkage.swift; sourceTree = "<group>"; };
 		848410EA25B292BE00171B68 /* CHOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHOperation.swift; sourceTree = "<group>"; };
 		8484110B25B2A13C00171B68 /* HealthKitAddTasksOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitAddTasksOperation.swift; sourceTree = "<group>"; };
@@ -461,7 +456,6 @@
 		849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFlowType.swift; sourceTree = "<group>"; };
 		849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenFlowType.swift; sourceTree = "<group>"; };
 		84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareKitStoreTests.swift; sourceTree = "<group>"; };
-		84B43E6425B1236E00318CEA /* DefaultDiabetesCarePlan.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultDiabetesCarePlan.json; sourceTree = "<group>"; };
 		84B9178A25FDF00A00F2422C /* BundleUploadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleUploadOperation.swift; sourceTree = "<group>"; };
 		84B9178C25FDF39100F2422C /* UploadEntriesOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadEntriesOperations.swift; sourceTree = "<group>"; };
 		84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
@@ -474,13 +468,11 @@
 		84C5180125B7EC5C00D684E5 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		84C5181225B7F93600D684E5 /* IllustrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustrationView.swift; sourceTree = "<group>"; };
 		84C5182925B8014500D684E5 /* EmailAuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthorizationViewController.swift; sourceTree = "<group>"; };
-		84C783A3260AE07E007BB267 /* FullResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FullResponse.json; sourceTree = "<group>"; };
 		84C83FBD259C48EF00DAEF34 /* PatientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientTests.swift; sourceTree = "<group>"; };
 		84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanTests.swift; sourceTree = "<group>"; };
 		84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTests.swift; sourceTree = "<group>"; };
 		84C83FC1259C48F000DAEF34 /* TestImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TestImage.png; sourceTree = "<group>"; };
 		84C83FC3259C48F000DAEF34 /* Outcomes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Outcomes.json; sourceTree = "<group>"; };
-		84C83FC4259C48F100DAEF34 /* ValueSpaceResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ValueSpaceResponse.json; sourceTree = "<group>"; };
 		84C83FC6259C48F100DAEF34 /* TargetValueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetValueTests.swift; sourceTree = "<group>"; };
 		84C83FC7259C48F100DAEF34 /* TasksTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksTests.swift; sourceTree = "<group>"; };
 		84C83FCC259C48F100DAEF34 /* NoteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTests.swift; sourceTree = "<group>"; };
@@ -490,6 +482,7 @@
 		84C83FD0259C48F200DAEF34 /* TaskB2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TaskB2.json; sourceTree = "<group>"; };
 		84C83FD1259C48F200DAEF34 /* TaskTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskTests.swift; sourceTree = "<group>"; };
 		84C83FD2259C48F200DAEF34 /* URLProtocolMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
+		84C93C5E2616B7ED00C5E33E /* Date+FHIR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+FHIR.swift"; sourceTree = "<group>"; };
 		84D2BFD0260460D30064DB08 /* AnyUserInfoExtensible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyUserInfoExtensible.swift; sourceTree = "<group>"; };
 		84DC75A425ABBAD6003B541C /* CarePlan+OCKCarePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarePlan+OCKCarePlan.swift"; sourceTree = "<group>"; };
 		84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleElementTests.swift; sourceTree = "<group>"; };
@@ -637,7 +630,6 @@
 		842398E0259C1144006FB3F4 /* AllieTests */ = {
 			isa = PBXGroup;
 			children = (
-				84B43E6425B1236E00318CEA /* DefaultDiabetesCarePlan.json */,
 				842398E1259C1144006FB3F4 /* AllieTests.swift */,
 				84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */,
 				84C83FCE259C48F200DAEF34 /* DateFormatterTests.swift */,
@@ -654,13 +646,11 @@
 				84C83FD1259C48F200DAEF34 /* TaskTests.swift */,
 				84C83FC1259C48F000DAEF34 /* TestImage.png */,
 				84C83FD2259C48F200DAEF34 /* URLProtocolMock.swift */,
-				84C83FC4259C48F100DAEF34 /* ValueSpaceResponse.json */,
 				842398E3259C1144006FB3F4 /* Info.plist */,
-				846E785625D4F553004F8885 /* DefaultCarePlan.json */,
-				84C783A3260AE07E007BB267 /* FullResponse.json */,
 				845FBE7625FC71A700472257 /* ObservationsConfigTest.swift */,
 				84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */,
 				849E158E26113ABB00663010 /* AlliePatientTests.swift */,
+				84016C392616BED7006D5279 /* DiabetiesCarePlan.json */,
 			);
 			path = AllieTests;
 			sourceTree = "<group>";
@@ -699,6 +689,7 @@
 				845FBE8E25FC7C9200472257 /* DeviceFactory.swift */,
 				845FBE9625FC87D700472257 /* ObservationFactory.swift */,
 				845FBEA925FC97B200472257 /* OCKPatient+Subject.swift */,
+				84C93C5E2616B7ED00C5E33E /* Date+FHIR.swift */,
 			);
 			path = HKToFHIR;
 			sourceTree = "<group>";
@@ -870,7 +861,6 @@
 				842DFC1225BBDA5900066A07 /* HealthViewController.swift */,
 				849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */,
 				8447664A259C2A4E00C50C09 /* SplashViewController.swift */,
-				84476652259C2A4E00C50C09 /* SelectChunkSizeViewController.swift */,
 				84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */,
 				849E15902611805C00663010 /* ProfileEntryViewController.swift */,
 				849E1592261182C400663010 /* TextFieldEntryCell.swift */,
@@ -1327,7 +1317,6 @@
 				844767AD259C2A4E00C50C09 /* Assets.xcassets in Resources */,
 				842DFC6425BBF46000066A07 /* ProfileDataEntryViewController.xib in Resources */,
 				842DFC9A25BBF49800066A07 /* TroubleshootingViewController.xib in Resources */,
-				84B43E6525B1236E00318CEA /* DefaultDiabetesCarePlan.json in Resources */,
 				845FBE6425FC68FB00472257 /* ObservationsConfig.json in Resources */,
 				842DFC8225BBF48400066A07 /* AccountDetailsViewController.xib in Resources */,
 				842DFC5E25BBF45C00066A07 /* ProfileNameEntryViewController.xib in Resources */,
@@ -1352,13 +1341,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				84C83FD8259C48F200DAEF34 /* TestImage.png in Resources */,
-				84C517E325B7DAD400D684E5 /* DefaultDiabetesCarePlan.json in Resources */,
 				84C83FDA259C48F200DAEF34 /* Outcomes.json in Resources */,
-				84C783A4260AE07E007BB267 /* FullResponse.json in Resources */,
 				84C83FE7259C48F200DAEF34 /* TaskB2.json in Resources */,
-				846E785725D4F553004F8885 /* DefaultCarePlan.json in Resources */,
 				84C83FE6259C48F200DAEF34 /* SechduleA.json in Resources */,
-				84C83FDB259C48F200DAEF34 /* ValueSpaceResponse.json in Resources */,
+				84016C3A2616BED7006D5279 /* DiabetiesCarePlan.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1659,7 +1645,6 @@
 				8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */,
 				849E158D261138CF00663010 /* AlliePatient+Keychain.swift in Sources */,
 				8484111B25B2AE1800171B68 /* TasksAddOperation.swift in Sources */,
-				84476751259C2A4E00C50C09 /* SelectChunkSizeViewController.swift in Sources */,
 				84C1060125E763EC00B126ED /* SimpleTaskViewController.swift in Sources */,
 				84476732259C2A4E00C50C09 /* RoundedButton.swift in Sources */,
 				8439C7AA25FB46AF008C5940 /* Device+HKObject.swift in Sources */,
@@ -1684,6 +1669,7 @@
 				84873BAA25CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift in Sources */,
 				8461B30425A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift in Sources */,
 				8447676A259C2A4E00C50C09 /* AccountDetailsViewController.swift in Sources */,
+				84C93C5F2616B7ED00C5E33E /* Date+FHIR.swift in Sources */,
 				8484112B25B2B66B00171B68 /* UnitType.swift in Sources */,
 				8487481525B3B2FD008C15E2 /* LoggingOSLog.swift in Sources */,
 				849F362C25B92DD100FC2D1B /* EmailSentViewController.swift in Sources */,
@@ -2048,7 +2034,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 40;
+				CURRENT_PROJECT_VERSION = 41;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2075,7 +2061,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 40;
+				CURRENT_PROJECT_VERSION = 41;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

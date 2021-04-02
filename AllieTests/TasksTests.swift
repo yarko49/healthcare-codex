@@ -13,7 +13,7 @@ class TasksTests: XCTestCase {
 	var carePlan: [String: Any]!
 
 	override func setUpWithError() throws {
-		carePlanResponse = AllieTests.loadTestData(fileName: "ValueSpaceResponse.json")
+		carePlanResponse = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponse)
 		carePlan = try JSONSerialization.jsonObject(with: carePlanResponse, options: .allowFragments) as? [String: Any]
 		XCTAssertNotNil(carePlan)
@@ -24,11 +24,11 @@ class TasksTests: XCTestCase {
 	}
 
 	func testTasks() throws {
-		let tasksDictionary = carePlan["tasks"] as? [String: Any]
+		let tasksDictionary = carePlan["tasks"] as? [[String: Any]]
 		XCTAssertNotNil(tasksDictionary)
 		let data = try JSONSerialization.data(withJSONObject: tasksDictionary!, options: .prettyPrinted)
 		let decoder = CHJSONDecoder()
-		let tasks = try decoder.decode([String: [String: Task]].self, from: data)
-		XCTAssertEqual(tasks.count, 2)
+		let tasks = try decoder.decode([Task].self, from: data)
+		XCTAssertEqual(tasks.count, 7)
 	}
 }

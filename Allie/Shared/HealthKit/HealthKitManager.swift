@@ -19,7 +19,7 @@ class HealthKitManager {
 	static let shared = HealthKitManager()
 	private let healthKitStore = HKHealthStore()
 	private var patientId: String? {
-		AppDelegate.careManager.patient?.profile.fhirId?.uuidString
+		AppDelegate.careManager.patient?.profile.fhirId
 	}
 
 	func authorizeHealthKit(completion: @escaping (Bool, Error?) -> Void) {

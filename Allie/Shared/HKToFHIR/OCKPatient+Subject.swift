@@ -26,7 +26,7 @@ extension OCKPatient {
 extension AlliePatient {
 	var subject: ModelsR4.Reference? {
 		let subject = ModelsR4.Reference()
-		if let identifier = profile.fhirId?.uuidString {
+		if let identifier = profile.fhirId {
 			subject.identifier = BaseFactory.identifier(system: BaseFactory.healthKitIdentifierSystemKey, value: identifier)
 		}
 

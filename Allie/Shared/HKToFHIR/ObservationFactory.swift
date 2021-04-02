@@ -143,8 +143,8 @@ class ObservationFactory: BaseFactory, ResourceFactoryProtocol {
 
 		if let start = dateTime(date: sample.startDate, timeZoneString: timeZoneString), let end = dateTime(date: sample.endDate, timeZoneString: timeZoneString) {
 			let period = ModelsR4.Period()
-			period.start = FHIRPrimitive<DateTime>(start)
-			period.end = FHIRPrimitive<DateTime>(end)
+			period.start = ModelsR4.FHIRPrimitive<DateTime>(start)
+			period.end = ModelsR4.FHIRPrimitive<DateTime>(end)
 
 			return period
 		}

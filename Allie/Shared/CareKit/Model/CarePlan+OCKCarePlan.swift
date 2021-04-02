@@ -20,9 +20,7 @@ extension CarePlan {
 		self.asset = ockCarePlan.asset
 		self.tags = ockCarePlan.tags
 		self.source = ockCarePlan.source
-		self.userInfo = ockCarePlan.userInfo?.compactMapValues { (string) -> AnyPrimitiveValue? in
-			AnyPrimitiveValue(string)
-		}
+		self.userInfo = ockCarePlan.userInfo
 		self.createdDate = ockCarePlan.createdDate
 		self.updatedDate = ockCarePlan.updatedDate
 		self.patientId = ockCarePlan.patientUUID?.uuidString
@@ -36,9 +34,7 @@ extension OCKCarePlan {
 		self.groupIdentifier = carePlan.groupIdentifier
 		self.tags = carePlan.tags
 		self.source = carePlan.source
-		self.userInfo = carePlan.userInfo?.compactMapValues { (value) -> String? in
-			value.stringValue
-		}
+		self.userInfo = carePlan.userInfo
 		self.remoteID = carePlan.remoteId
 		self.asset = carePlan.asset
 		self.effectiveDate = carePlan.effectiveDate

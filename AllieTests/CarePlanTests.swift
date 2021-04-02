@@ -164,7 +164,7 @@ class CarePlanTests: XCTestCase {
 			    }
 			"""
 		let carePlan = try carePlanDecode(string: careplanDictionary)
-		XCTAssertEqual(carePlan.id, "", "invalid Id")
+		XCTAssertEqual(carePlan.id, "defaultDiabetesCarePlan", "invalid Id")
 		XCTAssertEqual(carePlan.patientId, "", "invalid remote Id")
 		XCTAssertEqual(carePlan.title, "Diabetes Care Plan")
 		XCTAssertEqual(carePlan.remoteId, "defaultDiabetesCarePlan", "invalid remote Id")
@@ -240,7 +240,7 @@ class CarePlanTests: XCTestCase {
 	}
 
 	func testCarePlanEncodeDecode() throws {
-		let data = AllieTests.loadTestData(fileName: "DefaultDiabetesCarePlan.json")
+		let data = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(data)
 		let decoder = CHJSONDecoder()
 		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: data!)

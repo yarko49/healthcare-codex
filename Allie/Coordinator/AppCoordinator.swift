@@ -278,9 +278,9 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 				.sink { result in
 					ALog.info("\(result)")
 				} receiveValue: { [weak self] carePlanResponse in
-					if let patient = carePlanResponse.allPatients.first {
+					if let patient = carePlanResponse.patients?.first {
 						self?.careManager.patient = patient
-						ALog.info("\(String(describing: carePlanResponse.allPatients.first))")
+						ALog.info("\(String(describing: carePlanResponse.patients?.first))")
 					}
 					self?.navigationController?.popToRootViewController(animated: true)
 				}.store(in: &self.cancellables)
