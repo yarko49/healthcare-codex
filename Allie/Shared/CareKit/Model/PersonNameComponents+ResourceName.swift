@@ -9,14 +9,20 @@ import CareKitStore
 import Foundation
 
 extension PersonNameComponents {
-	init(name: String) {
+	init?(fullName: String?) {
+		guard let name = fullName else {
+			return nil
+		}
 		var components = name.components(separatedBy: " ")
+		guard !components.isEmpty else {
+			return nil
+		}
 		self.init()
-		self.familyName = components.last
-		components.removeLast()
-		self.givenName = components.first
+		givenName = components.first
 		components.removeFirst()
-		self.middleName = components.joined(separator: " ")
+		familyName = components.last
+		components.removeLast()
+		middleName = components.joined(separator: " ")
 	}
 
 	var fullName: String? {
@@ -28,6 +34,9 @@ extension PersonNameComponents {
 			names.append(value)
 		}
 		if let value = middleName {
+			names.append(value)
+		}
+		if let value = familyName {
 			names.append(value)
 		}
 		if let value = nameSuffix {

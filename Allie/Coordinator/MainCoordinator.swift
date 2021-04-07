@@ -59,18 +59,8 @@ class MainCoordinator: Coordinable {
 			}
 			UserDefaults.standard.hasRunOnce = true
 			UserDefaults.standard.isCarePlanPopulated = false
+			Keychain.clearKeychain()
 		}
-		remoteConfigManager.refresh()
-			.sink { _ in
-				ALog.info("Finished syncing remote config")
-			}.store(in: &cancellables)
-		remoteConfigManager.$healthCareOrganization
-			.sink { [unowned self] provider in
-				CareManager.register(provider: provider)
-					.sink { value in
-						self.didRegisterOrgnization = value
-					}.store(in: &self.cancellables)
-			}.store(in: &cancellables)
 		if Auth.auth().currentUser == nil {
 			goToAuth()
 		} else {
@@ -78,7 +68,7 @@ class MainCoordinator: Coordinable {
 		}
 	}
 
-	public func goToAuth(url: String = "") {
+	public func goToAuth(url: String? = nil) {
 		removeCoordinator(ofType: .appCoordinator)
 		Keychain.clearKeychain()
 		UserDefaults.resetStandardUserDefaults()
@@ -96,13 +86,6 @@ class MainCoordinator: Coordinable {
 		transitionOptions.direction = .fade
 		window.setRootViewController(rootViewController, options: transitionOptions)
 		window.rootViewController = rootViewController
-		if let user = Auth.auth().currentUser, didRegisterOrgnization == false {
-			AppDelegate.careManager.patient = Keychain.readPatient(forKey: user.uid)
-			CareManager.register(provider: remoteConfigManager.healthCareOrganization)
-				.sink { _ in
-					ALog.info("did register provider")
-				}.store(in: &cancellables)
-		}
 	}
 
 	internal func biometricsAuthentication() {
@@ -131,7 +114,7 @@ class MainCoordinator: Coordinable {
 	}
 
 	internal func firebaseAuthentication(completion: @escaping (Bool) -> Void) {
-		Auth.auth().currentUser?.getIDTokenResult(completion: { tokenResult, error in
+		Auth.auth().currentUser?.getIDTokenResult(completion: { [weak self] tokenResult, error in
 			guard error == nil else {
 				ALog.error("Error signing out:", error: error)
 				completion(false)
@@ -142,7 +125,9 @@ class MainCoordinator: Coordinable {
 				return
 			}
 			Keychain.authToken = firebaseToken
-			completion(true)
+			self?.refreshRemoteConfig { _ in
+				completion(true)
+			}
 		})
 	}
 
@@ -161,53 +146,6 @@ class MainCoordinator: Coordinable {
 				ALog.info("OK STATUS FOR PATIENT : 200")
 			}.store(in: &cancellables)
 	}
-
-//	func syncPatient(patient: AlliePatient, completion: @escaping (Bool) -> Void) {
-//		CareManager.getCarePlan { carePlanResult in
-//			switch carePlanResult {
-//			case .failure(let error):
-//				ALog.error("Error Fetching care Plan \(error.localizedDescription)")
-//			case .success(let carePlan):
-//				if let serverPatient = carePlan.allPatients.first, serverPatient.profile.fhirId != nil {
-//					AppDelegate.careManager.insert(carePlansResponse: carePlan, completion: nil)
-//					completion(true)
-//				} else {
-//					CareManager.postPatient(patient: patient) { postPatientResult in
-//						switch postPatientResult {
-//						case .failure(let error):
-//							ALog.error("error creating \(error.localizedDescription)")
-//							completion(false)
-//						case .success(let vectorClock):
-//							ALog.info("vectorClock: \(vectorClock)")
-//							CareManager.getCarePlan { newCarePlanResult in
-//								switch newCarePlanResult {
-//								case .failure(let error):
-//									ALog.error("error creating \(error.localizedDescription)")
-//									completion(false)
-//								case .success(let newCarePlanResponse):
-//									if let serverPatient = carePlan.allPatients.first, serverPatient.profile.fhirId != nil {
-//										AppDelegate.careManager.insert(carePlansResponse: newCarePlanResponse, completion: nil)
-//									}
-//									completion(true)
-//								}
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
-
-	/* URLSession.shared.dataTaskPublisher(for: url)
-	 .flatMap { data, response in
-	     URLSession.shared.dataTaskPublisher(for: anotherURL)
-	 }
-	 .flatMap { data, response in
-	     URLSession.shared.dataTaskPublisher(for: oneMoreURL)
-	 }
-	 .sink(receiveCompletion: { ... },
-	       receiveValue: { ... })
-	  */
 
 	func syncHealthKitData() {
 		HealthKitSyncManager.syncDataBackground(initialUpload: false, chunkSize: UserDefaults.standard.healthKitUploadChunkSize) { uploaded, total in
@@ -251,5 +189,17 @@ class MainCoordinator: Coordinable {
 				self?.gotoMainApp()
 			}
 		}
+	}
+
+	func refreshRemoteConfig(completion: Coordinable.BoolActionHandler?) {
+		remoteConfigManager.refresh()
+			.sink { refreshResult in
+				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
+				CareManager.register(provider: self.remoteConfigManager.healthCareOrganization)
+					.sink { registrationResult in
+						ALog.info("Did finish registering organization \(registrationResult)")
+						completion?(registrationResult)
+					}.store(in: &self.cancellables)
+			}.store(in: &cancellables)
 	}
 }

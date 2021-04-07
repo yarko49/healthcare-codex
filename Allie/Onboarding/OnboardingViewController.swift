@@ -21,11 +21,10 @@ struct IllustartionItem: Hashable {
 	}
 }
 
-class OnboardingViewController: BaseViewController, UIViewControllerTransitioningDelegate, OnboardingScreenTypable {
+class OnboardingViewController: BaseViewController, UIViewControllerTransitioningDelegate {
 	var appleAuthoizationAction: Coordinable.ActionHandler?
 	var emailAuthorizationAction: ((AuthorizationFlowType) -> Void)?
 	var authorizationFlowChangedAction: ((AuthorizationFlowType) -> Void)?
-	let screenType: OnboardingScreenType = .landing
 	var authorizationFlowType: AuthorizationFlowType = .signUp {
 		didSet {
 			updateLabels()

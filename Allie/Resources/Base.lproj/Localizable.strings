@@ -515,3 +515,21 @@
 /* CarePlan */
 "CAREPLAN" = "CarePlan";
 
+/* Full name */
+"FULL_NAME" = "Full name";
+
+/* Middle name(s) */
+"MIDDLE_NAMES" = "Middle names";
+
+/* Your first name */
+"YOUR_FIRST_NAME" = "Your first name";
+
+/* Your full name */
+"YOUR_FULL_NAME" = "Your full name";
+
+/* Your last name */
+"YOUR_LAST_NAME" = "Your last name";
+
+/* Your middle name(s) */
+"YOUR_MIDDLE_NAMES" = "Your middle names";
+

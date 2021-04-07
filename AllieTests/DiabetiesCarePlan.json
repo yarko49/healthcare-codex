@@ -29,7 +29,6 @@
       "updatedDate": null,
       "title": "Default Care Plan",
       "patientId": "",
-      "tasks": null,
       "versions": null
     }
   ],
@@ -556,29 +555,29 @@
     {
       "groupIdentifier": "",
       "remoteId": "",
-      "id": "zkgtnGtvnjYO1NB6IuC2XZbi45X2",
+      "id": "KHWVRcnB26XAP6eBJjHgD7LU6y32",
       "notes": null,
       "asset": "",
       "source": "",
       "tags": null,
       "timezone": -25200,
-      "createdDate": null,
+      "createdDate": "2021-04-07T05:23:22Z",
       "deletedDate": null,
-      "effectiveDate": "2021-04-01T07:00:00Z",
-      "updatedDate": null,
+      "effectiveDate": "2021-04-07T05:23:22Z",
+      "updatedDate": "2021-04-07T05:23:54Z",
       "birthday": null,
       "name": {
         "namePrefix": "",
         "givenName": "Waqar",
-        "middleName": "",
+        "middleName": "A",
         "familyName": "Malik",
         "nameSuffix": "",
         "nickname": ""
       },
       "profile": {
         "deviceManufacturer": "Apple",
-        "deviceSoftwareVersion": "14.4",
-        "FHIRId": "",
+        "deviceSoftwareVersion": "14.4.2",
+        "FHIRId": "b7b7328e-b2f8-4110-b412-ccd30fdeac32",
         "heightInches": 70,
         "measurementBloodPressureEnabled": false,
         "measurementHeartRateEnabled": false,
@@ -587,7 +586,7 @@
         "measurementWeightEnabled": false,
         "notificationsEnabled": false,
         "signUpCompleted": true,
-        "weightLbs": 211
+        "weightLbs": 220
       },
       "userInfo": null
     }

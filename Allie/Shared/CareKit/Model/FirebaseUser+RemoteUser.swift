@@ -24,13 +24,13 @@ extension OCKPatient {
 			return nil
 		}
 		var nameComponents = PersonNameComponents()
-		if let name = user?.displayName {
-			nameComponents = PersonNameComponents(name: name)
+		if let name = PersonNameComponents(fullName: user?.displayName) {
+			nameComponents = name
 		}
 		self.init(id: identifier, name: nameComponents)
-        createdDate = Date()
-        updatedDate = Date()
-        timezone = .current
+		createdDate = Date()
+		updatedDate = Date()
+		timezone = .current
 	}
 }
 
@@ -40,14 +40,17 @@ extension AlliePatient {
 			return nil
 		}
 		var nameComponents = PersonNameComponents()
-		if let name = user?.displayName {
-			nameComponents = PersonNameComponents(name: name)
+		if let name = PersonNameComponents(fullName: user?.displayName) {
+			nameComponents = name
 		}
 		self.init(id: identifier, name: nameComponents)
+		profile.email = user?.email
+		profile.phoneNumber = user?.phoneNumber
 		profile.deviceManufacturer = "Apple"
 		profile.deviceSoftwareVersion = UIDevice.current.systemVersion
-        createdDate = Date()
-        updatedDate = Date()
-        timezone = .current
+		createdDate = Date()
+		updatedDate = Date()
+		effectiveDate = Date()
+		timezone = .current
 	}
 }

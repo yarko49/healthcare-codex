@@ -32,19 +32,10 @@ class HealthViewController: BaseViewController {
 		                             illustrationView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: illustrationView.trailingAnchor, multiplier: 0.0)])
 
-		bottomView.translatesAutoresizingMaskIntoConstraints = false
-		view.addSubview(bottomView)
-		NSLayoutConstraint.activate([bottomView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0.0),
-		                             view.trailingAnchor.constraint(equalToSystemSpacingAfter: bottomView.trailingAnchor, multiplier: 0.0),
-		                             view.bottomAnchor.constraint(equalToSystemSpacingBelow: bottomView.bottomAnchor, multiplier: 0.0),
-		                             bottomView.heightAnchor.constraint(equalToConstant: 60.0)])
-
 		nextButton.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(nextButton)
-		NSLayoutConstraint.activate([nextButton.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: nextButton.trailingAnchor, multiplier: 0.0),
-		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: nextButton.bottomAnchor, multiplier: 0.0),
-		                             nextButton.heightAnchor.constraint(equalToConstant: 60)])
+		NSLayoutConstraint.activate([nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: nextButton.bottomAnchor, multiplier: 10.0)])
 		nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
 
 		buttonStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -84,15 +75,19 @@ class HealthViewController: BaseViewController {
 		return view
 	}()
 
-	let nextButton: UIButton = {
-		let button = UIButton(type: .system)
+	private let nextButton: UIButton = {
+		let button = UIButton(type: .custom)
+		button.backgroundColor = .grey
+		button.layer.cornerRadius = 5.0
+		button.layer.cornerCurve = .continuous
+		let title = Str.openMailApp.uppercased()
+		let attributes: [NSAttributedString.Key: Any] = [.kern: 5.0, .foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 17.0, weight: .semibold)]
+		let attributedText = NSAttributedString(string: title, attributes: attributes)
+		button.setAttributedTitle(attributedText, for: .normal)
+		button.translatesAutoresizingMaskIntoConstraints = false
+		button.heightAnchor.constraint(equalToConstant: 68.0).isActive = true
+		button.widthAnchor.constraint(equalToConstant: 300.0).isActive = true
 		return button
-	}()
-
-	let bottomView: UIView = {
-		let view = UIView(frame: .zero)
-		view.backgroundColor = .purple
-		return view
 	}()
 
 	let buttonStackView: UIStackView = {
@@ -131,17 +126,13 @@ class HealthViewController: BaseViewController {
 		illustrationView.subtitleLabel.text = screenFlowType.subtitle
 		illustrationView.imageView.image = screenFlowType.image
 		var buttonText = screenFlowType.buttonTitle
-		var buttonBackgroundColor: UIColor? = screenFlowType != .activate ? .next : .grey
 		if authorizationFlowType == .signIn, screenFlowType == .welcomeSuccess {
 			buttonText = ScreenFlowType.activate.buttonTitle
-			buttonBackgroundColor = .grey
 		}
+
 		nextButton.setAttributedTitle(buttonText.with(style: .regular17, andColor: .white, andLetterSpacing: 5), for: .normal)
-		nextButton.backgroundColor = buttonBackgroundColor
-		bottomView.backgroundColor = nextButton.backgroundColor
 		buttonStackView.isHidden = screenFlowType != .healthKit
 		nextButton.isHidden = screenFlowType == .healthKit
-		bottomView.isHidden = screenFlowType == .healthKit
 	}
 
 	@IBAction func notNowTapped(_ sender: Any) {

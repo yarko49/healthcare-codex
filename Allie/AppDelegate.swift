@@ -72,6 +72,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		ALog.info("Zendesk Initialized")
 	}
 
+	static func configureZendeskIdentity(name: String? = nil, email: String? = nil) {
+		let identity = Identity.createAnonymous(name: name, email: email)
+		Zendesk.instance?.setIdentity(identity)
+	}
+
 	static func configureChat(name: String, email: String, phoneNumber: String?) {
 		let chatAPIConfiguration = ChatAPIConfiguration()
 		chatAPIConfiguration.department = "Department name"

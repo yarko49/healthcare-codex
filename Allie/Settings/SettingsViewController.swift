@@ -1,3 +1,9 @@
+import AnswerBotSDK
+import ChatSDK
+import MessagingSDK
+import SafariServices
+import SDKConfigurations
+import SupportSDK
 import UIKit
 
 class SettingsViewController: BaseViewController {
@@ -102,3 +108,5 @@ extension SettingsViewController: SettingsFooterViewDelegate {
 		logoutAction?()
 	}
 }
+
+extension SettingsViewController: SFSafariViewControllerDelegate {}

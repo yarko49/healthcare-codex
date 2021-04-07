@@ -13,7 +13,7 @@ enum ScreenFlowType: String, Hashable, CaseIterable, CustomStringConvertible {
 	case welcomeFailure
 	case selectDevices
 	case healthKit
-	case activate
+	case activate // Not needed
 
 	var description: String {
 		rawValue

@@ -174,9 +174,9 @@ class SettingsCoordinator: NSObject, Coordinable {
 	internal func showSupport() {
 		do {
 			let messagingConfiguration = MessagingConfiguration()
+			let answerBotEngine = try AnswerBotEngine.engine()
 			let supportEngine = try SupportEngine.engine()
 			let chatEngine = try ChatEngine.engine()
-			let answerBotEngine = try AnswerBotEngine.engine()
 			let viewController = try Messaging.instance.buildUI(engines: [supportEngine, chatEngine, answerBotEngine], configs: [messagingConfiguration])
 			navigate(to: viewController, with: .push)
 		} catch {

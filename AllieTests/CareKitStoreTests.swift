@@ -19,6 +19,7 @@ class CareKitStoreTests: XCTestCase {
 		config.protocolClasses = [URLProtocolMock.self]
 		let session = URLSession(configuration: config)
 		client = APIClient(session: session)
+		try careManager.resetAllContents()
 	}
 
 	override func tearDownWithError() throws {
@@ -75,7 +76,7 @@ class CareKitStoreTests: XCTestCase {
 				XCTAssertEqual(patients?.count, 1)
 				let patient = patients?.first
 				XCTAssertNotNil(patient)
-				XCTAssertNil(patient?.profile.fhirId)
+				XCTAssertNotNil(patient?.profile.fhirId)
 				expect.fulfill()
 			}
 			URLProtocolMock.response = nil
@@ -151,18 +152,6 @@ class CareKitStoreTests: XCTestCase {
 				}
 			}
 			XCTAssertEqual(.completed, XCTWaiter().wait(for: [add], timeout: 10))
-
-			let insert = expectation(description: "DiabetiesCarePlan")
-			careManager.store.createOrUpdatePatient(ockPatient, callbackQueue: .main) { result in
-				switch result {
-				case .failure(let error):
-					XCTFail("Error inserting DefaultDiabetes Care Plan = \(error.localizedDescription)")
-				case .success(let newPatient):
-					ALog.info("\(newPatient.id), \(newPatient.uuid), \(newPatient.updatedDate)")
-					insert.fulfill()
-				}
-			}
-			XCTAssertEqual(.completed, XCTWaiter().wait(for: [insert], timeout: 10))
 		}
 	}
 }

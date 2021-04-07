@@ -8,7 +8,10 @@
 import Foundation
 
 extension Keychain {
-	static func save(patient: AlliePatient) {
+	static func save(patient: AlliePatient?) {
+		guard let patient = patient else {
+			return
+		}
 		let encoder = JSONEncoder()
 		encoder.dateEncodingStrategy = .iso8601
 		do {

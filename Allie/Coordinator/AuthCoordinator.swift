@@ -27,18 +27,19 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	var currentNonce: String?
 	var emailrequest: String?
 	var authorizationFlowType: AuthorizationFlowType = .signUp
+	var alliePatient: AlliePatient?
 
 	var rootViewController: UIViewController? {
 		navigationController
 	}
 
-	init(parentCoordinator parent: MainCoordinator?, deepLink: String = "") {
+	init(parentCoordinator parent: MainCoordinator?, deepLink: String?) {
 		self.parentCoordinator = parent
 		super.init()
 		GIDSignIn.sharedInstance().delegate = self
 
-		if deepLink != "" {
-			verifySendLink(link: deepLink)
+		if let link = deepLink {
+			verifySendLink(link: link)
 		} else {
 			start()
 		}
@@ -153,7 +154,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		healthViewController.screenFlowType = .welcome
 		healthViewController.authorizationFlowType = authorizationFlowType
 		var authDataResult: AuthDataResult?
-		let signInAction: (() -> Void)? = { [weak self, weak healthViewController] in
+		let signInAction = { [weak self, weak healthViewController] in
 			self?.showHUD()
 			if Auth.auth().isSignIn(withEmailLink: link) {
 				Auth.auth().signIn(withEmail: email, link: link) { [weak self] authResult, error in
@@ -228,6 +229,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 
 	internal func getPatient() {
 		guard let user = Auth.auth().currentUser else {
+			gotoOnboarding()
 			return
 		}
 		showHUD()
@@ -239,15 +241,16 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				self?.gotoProfileSetupViewController(user: user)
 			case .success(let carePlan):
 				if let patient = carePlan.patients?.first {
-					self?.careManager.patient = patient
-					Keychain.save(patient: patient)
+					self?.alliePatient = patient
 					LoggingManager.identify(userId: patient.id)
+					AppDelegate.configureZendeskIdentity(name: patient.name.fullName, email: patient.profile.email)
 					let ockPatient = OCKPatient(patient: patient)
 					try? AppDelegate.careManager.resetAllContents()
 					self?.careManager.createOrUpdate(patient: ockPatient) { patientResult in
 						switch patientResult {
 						case .failure(let error):
 							ALog.error("Unable to add patient to store", error: error)
+							self?.gotoProfileSetupViewController(user: user)
 						case .success:
 							self?.parentCoordinator?.gotoHealthKitAuthorization()
 						}
@@ -260,54 +263,45 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	}
 
 	public func gotoMainApp() {
-		parentCoordinator?.gotoMainApp()
+		parentCoordinator?.refreshRemoteConfig(completion: { [weak self] _ in
+			self?.careManager.patient = self?.alliePatient
+			self?.parentCoordinator?.gotoMainApp()
+		})
 	}
 
 	func gotoProfileSetupViewController(user: RemoteUser) {
 		try? careManager.resetAllContents()
-		careManager.patient = AlliePatient(user: user)
-		gotoProfileNameEntryViewController()
+		if alliePatient == nil {
+			alliePatient = AlliePatient(user: user)
+		}
+		gotoProfileEntryViewController()
 	}
 
-	func gotoProfileNameEntryViewController(from screen: NavigationSourceType = .signUp) {
-		let myProfileFirstViewController = ProfileNameEntryViewController()
-		myProfileFirstViewController.comingFrom = screen
-		let sendDataAction: ((OCKBiologicalSex, String, [String]) -> Void)? = { [weak self] gender, family, given in
-			self?.gotoProfileDataEntryViewController(gender: gender, family: family, given: given)
+	func gotoProfileEntryViewController(from screen: NavigationSourceType = .signUp) {
+		let viewController = ProfileEntryViewController()
+		viewController.fullName = alliePatient?.name.fullName
+		viewController.sex = alliePatient?.sex ?? .male
+		if let dob = alliePatient?.birthday {
+			viewController.dateOfBirth = dob
 		}
-
-		myProfileFirstViewController.alertAction = { [weak self] tv in
-			let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
-				tv?.focus()
+		if let weight = alliePatient?.profile.weightInPounds {
+			viewController.weightInPounds = weight
+		}
+		if let height = alliePatient?.profile.heightInInches {
+			viewController.heightInInches = height
+		}
+		viewController.doneAction = { [weak self] in
+			if let name = PersonNameComponents(fullName: viewController.fullName) {
+				self?.alliePatient?.name = name
 			}
-			self?.showAlert(title: Str.invalidText, detailText: Str.invalidTextMsg, actions: [okAction])
-		}
-
-		myProfileFirstViewController.sendDataAction = sendDataAction
-		navigate(to: myProfileFirstViewController, with: .push)
-	}
-
-	func gotoProfileDataEntryViewController(gender: OCKBiologicalSex, family: String, given: [String]) {
-		let myProfileSecondViewController = ProfileDataEntryViewController()
-		myProfileSecondViewController.patientRequestAction = { [weak self] _, birthday, weight, height, effectiveDate in
-			var givenNames = given
-			self?.careManager.patient?.name.givenName = givenNames.first
-			givenNames.removeFirst()
-			self?.careManager.patient?.name.middleName = givenNames.joined(separator: " ")
-			self?.careManager.patient?.name.familyName = family
-			self?.careManager.patient?.sex = gender
-			self?.careManager.patient?.effectiveDate = effectiveDate
-			self?.careManager.patient?.birthday = birthday
-			self?.careManager.patient?.profile.weightInPounds = weight
-			self?.careManager.patient?.profile.heightInInches = height
+			self?.alliePatient?.sex = viewController.sex
+			self?.alliePatient?.updatedDate = Date()
+			self?.alliePatient?.birthday = viewController.dateOfBirth
+			self?.alliePatient?.profile.weightInPounds = viewController.weightInPounds
+			self?.alliePatient?.profile.heightInInches = viewController.heightInInches
 			self?.gotoHealthViewController(screenFlowType: .selectDevices)
 		}
-
-		myProfileSecondViewController.alertAction = { [weak self] _ in
-			let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {}
-			self?.showAlert(title: Str.invalidInput, detailText: Str.emptyPickerField, actions: [okAction])
-		}
-		navigate(to: myProfileSecondViewController, with: .push)
+		navigate(to: viewController, with: .push)
 	}
 
 	func gotoHealthViewController(screenFlowType: ScreenFlowType) {
@@ -334,9 +328,9 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	}
 
 	func createPatient() {
-		careManager.patient?.profile.isSignUpCompleted = true
+		alliePatient?.profile.isSignUpCompleted = true
 		showHUD()
-		APIClient.client.postPatient(patient: careManager.patient!) { [weak self] result in
+		APIClient.client.postPatient(patient: alliePatient!) { [weak self] result in
 			self?.hideHUD()
 			switch result {
 			case .failure(let error):
@@ -346,7 +340,10 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 					}
 				}
 				self?.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
-			case .success:
+			case .success(let carePlan):
+				if let patient = carePlan.patients?.first {
+					self?.careManager.patient = patient
+				}
 				self?.gotoMainApp()
 			}
 		}
@@ -412,7 +409,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	}
 
 	func signInWithApple() {
-		let request = startSignInWithAppleFlow()
+		let request = createAuthorizationAppleIDRequest()
 		let authorizationController = ASAuthorizationController(authorizationRequests: [request])
 		authorizationController.delegate = self
 		authorizationController.presentationContextProvider = self
@@ -420,14 +417,13 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		ALog.info("Got in startSignInWithApple")
 	}
 
-	func startSignInWithAppleFlow() -> ASAuthorizationOpenIDRequest {
+	func createAuthorizationAppleIDRequest() -> ASAuthorizationOpenIDRequest {
 		let appleIDProvider = ASAuthorizationAppleIDProvider()
 		let request = appleIDProvider.createRequest()
 		request.requestedScopes = [.fullName, .email]
 		let nonce = AppleSecurityManager.randomNonceString()
 		request.nonce = AppleSecurityManager.sha256(nonce)
 		currentNonce = nonce
-		ALog.info("nonce: \(nonce)")
 		return request
 	}
 
@@ -500,10 +496,19 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 				ALog.error("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
 				return
 			}
-
 			let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
 			Auth.auth().signIn(with: credential) { [weak self] authResult, error in
 				self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
+					if let user = authResult?.user {
+						var alliePatient = AlliePatient(user: user)
+						if let name = appleIDCredential.fullName {
+							alliePatient?.name = name
+						}
+						if alliePatient?.profile.email == nil {
+							alliePatient?.profile.email = appleIDCredential.email
+						}
+						self?.alliePatient = alliePatient
+					}
 					self?.checkIfUserExists(user: authResult)
 				})
 			}
