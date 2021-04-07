@@ -17,6 +17,7 @@ enum APIRouter: URLRequestConvertible {
 	case postPatient(patient: AlliePatient)
 	case postObservation(observation: ModelsR4.Observation)
 	case postBundle(bundle: ModelsR4.Bundle)
+	case postOutcomes(carePlanId: String, activity: String, outcomes: [Outcome])
 
 	var method: Request.Method {
 		switch self {
@@ -26,6 +27,7 @@ enum APIRouter: URLRequestConvertible {
 		case .postPatient: return .post
 		case .postObservation: return .post
 		case .postBundle: return .post
+		case .postOutcomes: return .post
 		}
 	}
 
@@ -36,6 +38,7 @@ enum APIRouter: URLRequestConvertible {
 		case .getCarePlan, .postCarePlan, .postPatient: path += "/carePlan"
 		case .postObservation: path += "/fhir/Observation"
 		case .postBundle: path += "/fhir/Bundle"
+		case .postOutcomes: path += "/carePlan/outcomes"
 		}
 
 		return path
@@ -61,13 +64,16 @@ enum APIRouter: URLRequestConvertible {
 		case .postCarePlan(let carePlanResponse):
 			data = try? encoder.encode(carePlanResponse)
 		case .postPatient(let patient):
-			let carePlan = CarePlanResponse(carePlans: [], patients: [patient], tasks: [], vectorClock: [:])
+			let carePlan = CarePlanResponse(carePlans: [], patients: [patient], tasks: [], outcomes: nil, vectorClock: [:])
 			data = try? encoder.encode(carePlan)
 		case .postObservation(let observation):
 			data = try? encoder.encode(observation)
 
 		case .postBundle(let bundle):
 			data = try? encoder.encode(bundle)
+		case .postOutcomes(let carePlanId, let taskId, let outcomes):
+			let carePlan = CarePlanResponse(carePlans: [], patients: nil, tasks: [], outcomes: outcomes, vectorClock: [:])
+			data = try? encoder.encode(carePlan)
 		default:
 			data = nil
 		}
@@ -91,9 +97,10 @@ enum APIRouter: URLRequestConvertible {
 			break
 		case .postObservation:
 			headers[Request.Header.contentType] = Request.ContentType.fhirjson
-
 		case .postBundle:
 			headers[Request.Header.contentType] = Request.ContentType.fhirjson
+		case .postOutcomes:
+			break
 		}
 		return headers
 	}
@@ -104,6 +111,8 @@ enum APIRouter: URLRequestConvertible {
 			return nil
 
 		case .postBundle:
+			return nil
+		case .postOutcomes:
 			return nil
 		}
 	}

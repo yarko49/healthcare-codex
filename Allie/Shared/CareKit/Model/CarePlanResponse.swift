@@ -8,17 +8,20 @@
 import CareKitStore
 import Foundation
 
+public typealias Outcome = OCKOutcome
 public struct CarePlanResponse: Codable {
 	public var carePlans: [CarePlan]
 	public var patients: [AlliePatient]?
 	public var tasks: [Task]
+	public var outcomes: [Outcome]?
 	public var vectorClock: [String: Int]
 
-	public init(carePlans: [CarePlan] = [], patients: [AlliePatient]? = nil, tasks: [Task] = [], vectorClock: [String: Int] = [:]) {
+	public init(carePlans: [CarePlan] = [], patients: [AlliePatient]? = nil, tasks: [Task] = [], outcomes: [Outcome]? = nil, vectorClock: [String: Int] = [:]) {
 		self.carePlans = carePlans
 		self.tasks = tasks
 		self.vectorClock = vectorClock
 		self.patients = patients
+		self.outcomes = outcomes
 	}
 
 	private enum CodingKeys: String, CodingKey {
@@ -28,6 +31,3 @@ public struct CarePlanResponse: Codable {
 		case vectorClock
 	}
 }
-
-// [testCarePlan1: [measurements-activity: [outcomeId1: OCKOutcome]]]
-typealias Outcomes = [String: [String: [String: OCKOutcome]]]

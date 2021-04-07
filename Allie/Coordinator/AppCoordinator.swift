@@ -220,79 +220,47 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 			}
 		}
 
-		controller.editButtonAction = { [weak self] weight, height in
-			self?.goToMyProfileFirstViewController(source: .profile, weight: weight, height: height)
+		controller.editButtonAction = { [weak self] _, _ in
+			self?.gotoProfileEntryViewController()
 		}
 
 		navigate(to: controller, with: .push)
 	}
 
+	func gotoProfileEntryViewController(from screen: NavigationSourceType = .profile) {
+		let viewController = ProfileEntryViewController()
+		let alliePatient = AppDelegate.careManager.patient
+		viewController.fullName = alliePatient?.name.fullName
+		viewController.sex = alliePatient?.sex ?? .male
+		if let dob = alliePatient?.birthday {
+			viewController.dateOfBirth = dob
+		}
+		if let weight = alliePatient?.profile.weightInPounds {
+			viewController.weightInPounds = weight
+		}
+		if let height = alliePatient?.profile.heightInInches {
+			viewController.heightInInches = height
+		}
+		viewController.doneAction = { [weak self] in
+			var patient = AppDelegate.careManager.patient
+			if let name = PersonNameComponents(fullName: viewController.fullName) {
+				patient?.name = name
+			}
+			patient?.sex = viewController.sex
+			patient?.updatedDate = Date()
+			patient?.birthday = viewController.dateOfBirth
+			patient?.profile.weightInPounds = viewController.weightInPounds
+			patient?.profile.heightInInches = viewController.heightInInches
+			AppDelegate.careManager.patient = patient
+			Keychain.save(patient: patient)
+			self?.navigationController?.popViewController(animated: true)
+		}
+		navigate(to: viewController, with: .push)
+	}
+
 	internal func postGetData(search: SearchParameter, completion: @escaping (ModelsR4.Bundle?) -> Void) {}
 
 	internal func postObservationSearchAction(search: SearchParameter, viewController: ProfileViewController, start: Date, end: Date, hkType: HealthKitQuantityType) {}
-
-	internal func goToMyProfileFirstViewController(source: NavigationSourceType = .profile, weight: Int, height: Int) {
-		let myProfileFirstViewController = ProfileNameEntryViewController()
-		let patient = AppDelegate.careManager.patient
-		myProfileFirstViewController.comingFrom = source
-		myProfileFirstViewController.firstText = patient?.name.givenName ?? ""
-		myProfileFirstViewController.lastText = patient?.name.familyName ?? ""
-		myProfileFirstViewController.gender = patient?.sex
-
-		let sendDataAction: ((OCKBiologicalSex, String, [String]) -> Void)? = { [weak self] gender, family, given in
-			self?.goToMyProfileSecondViewController(gender: gender, family: family, given: given, source: source, weight: weight, height: height)
-		}
-
-		myProfileFirstViewController.alertAction = { [weak self] tv in
-			let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
-				tv?.focus()
-			}
-			self?.showAlert(title: Str.invalidText, detailText: Str.invalidTextMsg, actions: [okAction])
-		}
-
-		myProfileFirstViewController.sendDataAction = sendDataAction
-		navigate(to: myProfileFirstViewController, with: .push)
-	}
-
-	internal func goToMyProfileSecondViewController(gender: OCKBiologicalSex, family: String, given: [String], source: NavigationSourceType = .profile, weight: Int, height: Int) {
-		let myProfileSecondViewController = ProfileDataEntryViewController()
-		myProfileSecondViewController.comingFrom = source
-		myProfileSecondViewController.profileWeight = weight
-		myProfileSecondViewController.profileHeight = height
-
-		myProfileSecondViewController.patientRequestAction = { _, birthdate, weight, height, date in
-			var patient = self.careManager.patient
-			patient?.userInfo = [:]
-			var givenNames = given
-			patient?.name.givenName = givenNames.first
-			givenNames.removeFirst()
-			patient?.name.middleName = givenNames.joined(separator: " ")
-			patient?.name.familyName = family
-			patient?.sex = gender
-			patient?.effectiveDate = date
-			patient?.birthday = birthdate
-			patient?.profile.weightInPounds = weight
-			patient?.profile.heightInInches = height
-            patient?.updatedDate = Date()
-			AppDelegate.careManager.patient = patient
-			APIClient.client.postPatient(patient: patient!)
-				.sink { result in
-					ALog.info("\(result)")
-				} receiveValue: { [weak self] carePlanResponse in
-					if let patient = carePlanResponse.patients?.first {
-						self?.careManager.patient = patient
-						ALog.info("\(String(describing: carePlanResponse.patients?.first))")
-					}
-					self?.navigationController?.popToRootViewController(animated: true)
-				}.store(in: &self.cancellables)
-		}
-
-		myProfileSecondViewController.alertAction = { [weak self] _ in
-			let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {}
-			self?.showAlert(title: Str.invalidInput, detailText: Str.emptyPickerField, actions: [okAction])
-		}
-		navigate(to: myProfileSecondViewController, with: .push)
-	}
 
 	internal func logout() {
 		parentCoordinator?.logout()

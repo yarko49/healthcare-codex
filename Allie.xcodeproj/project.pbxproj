@@ -9,13 +9,11 @@
 /* Begin PBXBuildFile section */
 		211EF1F90D84C434F08249A8 /* Pods_Allie_AllieUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 063D529CF099CA9AE237C8D1 /* Pods_Allie_AllieUITests.framework */; };
 		28FAEC9E2C89E3D38B69115A /* Pods_AllieTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE876C347FDD5F388EB10A5E /* Pods_AllieTests.framework */; };
+		84009048261AA77000FB3968 /* ProfileEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84009047261AA77000FB3968 /* ProfileEntryViewController.swift */; };
+		8400904E261AA7B500FB3968 /* CodexTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8400904D261AA7B500FB3968 /* CodexTextField.swift */; };
 		84016C3A2616BED7006D5279 /* DiabetiesCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 84016C392616BED7006D5279 /* DiabetiesCarePlan.json */; };
 		8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */; };
 		841E9B8825F60112001192DD /* AnyPrimitiveValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841E9B8725F60112001192DD /* AnyPrimitiveValue.swift */; };
-		84230BD92606FD54008BB83E /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BD82606FD54008BB83E /* OnboardingPageViewController.swift */; };
-		84230BDB2606FD85008BB83E /* UIPageViewController+Allie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BDA2606FD85008BB83E /* UIPageViewController+Allie.swift */; };
-		84230BDD26070031008BB83E /* OnboardingScreenType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BDC26070031008BB83E /* OnboardingScreenType.swift */; };
-		84230BDF26070274008BB83E /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BDE26070274008BB83E /* OnboardingViewModel.swift */; };
 		84230BE12607243A008BB83E /* DevicesSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BE02607243A008BB83E /* DevicesSelectionViewController.swift */; };
 		84230BE72607FA79008BB83E /* NotificationSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BE62607FA79008BB83E /* NotificationSettingsController.swift */; };
 		84230BE9260801F7008BB83E /* HTMLViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BE8260801F7008BB83E /* HTMLViewerController.swift */; };
@@ -25,8 +23,6 @@
 		842398ED259C1145006FB3F4 /* AlfredUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398EC259C1145006FB3F4 /* AlfredUITests.swift */; };
 		842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842DFC1225BBDA5900066A07 /* HealthViewController.swift */; };
 		842DFC5825BBF45100066A07 /* ResetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC5A25BBF45100066A07 /* ResetViewController.xib */; };
-		842DFC5E25BBF45C00066A07 /* ProfileNameEntryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC6025BBF45C00066A07 /* ProfileNameEntryViewController.xib */; };
-		842DFC6425BBF46000066A07 /* ProfileDataEntryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC6625BBF46000066A07 /* ProfileDataEntryViewController.xib */; };
 		842DFC7025BBF47500066A07 /* ResetMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC7225BBF47500066A07 /* ResetMessageViewController.xib */; };
 		842DFC8225BBF48400066A07 /* AccountDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC8425BBF48400066A07 /* AccountDetailsViewController.xib */; };
 		842DFC8825BBF48800066A07 /* AccountResetPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC8A25BBF48800066A07 /* AccountResetPasswordViewController.xib */; };
@@ -39,7 +35,6 @@
 		842DFCDC25BBF52500066A07 /* PickerTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCDE25BBF52500066A07 /* PickerTextField.xib */; };
 		842DFCE225BBF52A00066A07 /* TextfieldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCE425BBF52A00066A07 /* TextfieldView.xib */; };
 		842DFCE825BBF52F00066A07 /* AppleHealthView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCEA25BBF52F00066A07 /* AppleHealthView.xib */; };
-		842DFD0E25BBF78100066A07 /* ZendeskSupportSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 842DFD0D25BBF78100066A07 /* ZendeskSupportSDK */; };
 		842F906F25AE8D8A007421A6 /* GroupIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F906E25AE8D8A007421A6 /* GroupIdentifierType.swift */; };
 		842F907425AE8D9F007421A6 /* TaskLinkType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F907325AE8D9F007421A6 /* TaskLinkType.swift */; };
 		842F907925AE8DFE007421A6 /* OCKTask+CareKitUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F907825AE8DFD007421A6 /* OCKTask+CareKitUI.swift */; };
@@ -63,8 +58,6 @@
 		8447674A259C2A4E00C50C09 /* PickerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476645259C2A4E00C50C09 /* PickerTextField.swift */; };
 		8447674C259C2A4E00C50C09 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447664A259C2A4E00C50C09 /* SplashViewController.swift */; };
 		84476756259C2A4E00C50C09 /* ResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476659259C2A4E00C50C09 /* ResetViewController.swift */; };
-		84476757259C2A4E00C50C09 /* ProfileNameEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447665B259C2A4E00C50C09 /* ProfileNameEntryViewController.swift */; };
-		8447675B259C2A4E00C50C09 /* ProfileDataEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476661259C2A4E00C50C09 /* ProfileDataEntryViewController.swift */; };
 		8447675E259C2A4E00C50C09 /* HKDataUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */; };
 		8447675F259C2A4E00C50C09 /* ResetMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476667259C2A4E00C50C09 /* ResetMessageViewController.swift */; };
 		84476768259C2A4E00C50C09 /* AccountResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476676259C2A4E00C50C09 /* AccountResetPasswordViewController.swift */; };
@@ -140,7 +133,6 @@
 		844767EF259C2A4E00C50C09 /* APIClient+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476721259C2A4E00C50C09 /* APIClient+Image.swift */; };
 		844767F0259C2A4E00C50C09 /* UINavigationBar+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476723259C2A4E00C50C09 /* UINavigationBar+Appearance.swift */; };
 		844767F1259C2A4E00C50C09 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476724259C2A4E00C50C09 /* AppConfig.swift */; };
-		84491C4125DB907200AB8C09 /* ZendeskAnswerBotSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84491C4025DB907200AB8C09 /* ZendeskAnswerBotSDK */; };
 		844F06DF25C113B500D26119 /* UserDefaults+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F06DE25C113B500D26119 /* UserDefaults+Settings.swift */; };
 		844F06EA25C122DA00D26119 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F06E925C122DA00D26119 /* Bundle+Version.swift */; };
 		845AAC71259C36E900FF8F3F /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 845AAC70259C36E900FF8F3F /* IQKeyboardManagerSwift */; };
@@ -169,8 +161,6 @@
 		8484112B25B2B66B00171B68 /* UnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8484112A25B2B66B00171B68 /* UnitType.swift */; };
 		848574A525C78C6A000D9BCF /* Keychain+AuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848574A425C78C6A000D9BCF /* Keychain+AuthToken.swift */; };
 		848574B625C78F92000D9BCF /* HealthCareProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848574B525C78F92000D9BCF /* HealthCareProvider.swift */; };
-		84867CC625A8D42A002EE695 /* AuthenticationOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867CC525A8D42A002EE695 /* AuthenticationOptionsViewController.swift */; };
-		84867D4225A95664002EE695 /* AuthenticationOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */; };
 		84867D4725A99016002EE695 /* IllustrationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */; };
 		84873BA225CA7765004195BB /* OCKStore+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84873BA125CA7765004195BB /* OCKStore+Update.swift */; };
 		84873BAA25CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84873BA925CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift */; };
@@ -182,7 +172,6 @@
 		8487488B25B4B8F1008C15E2 /* ChecklistTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487488A25B4B8F1008C15E2 /* ChecklistTaskViewController.swift */; };
 		8487489325B504B1008C15E2 /* CareManager+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487489225B504B1008C15E2 /* CareManager+Debug.swift */; };
 		8487493425B6A594008C15E2 /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 8487493325B6A594008C15E2 /* JGProgressHUD */; };
-		8487BBC825BE8249007A0D3A /* ZendeskChatSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8487BBC725BE8249007A0D3A /* ZendeskChatSDK */; };
 		84897F7B25E0DFDD00ABC715 /* OutcomeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F0259C2A4E00C50C09 /* OutcomeValue.swift */; };
 		84897F7F25E0E1E400ABC715 /* OutcomeValue+OCKOutcomeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766EB259C2A4E00C50C09 /* OutcomeValue+OCKOutcomeValue.swift */; };
 		84944E9825E08D3C00FB1938 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 84944E9725E08D3C00FB1938 /* CareKitFHIR */; };
@@ -191,14 +180,14 @@
 		84944E9E25E08D3C00FB1938 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 84944E9D25E08D3C00FB1938 /* CareKitUI */; };
 		849E158D261138CF00663010 /* AlliePatient+Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E158C261138CF00663010 /* AlliePatient+Keychain.swift */; };
 		849E158F26113ABB00663010 /* AlliePatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E158E26113ABB00663010 /* AlliePatientTests.swift */; };
-		849E15912611805C00663010 /* ProfileEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E15902611805C00663010 /* ProfileEntryViewController.swift */; };
-		849E1593261182C400663010 /* TextFieldEntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E1592261182C400663010 /* TextFieldEntryCell.swift */; };
-		849E15962611839C00663010 /* SkyFloatingLabelTextField in Frameworks */ = {isa = PBXBuildFile; productRef = 849E15952611839C00663010 /* SkyFloatingLabelTextField */; };
 		849F362125B9161300FC2D1B /* TitledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F362025B9161300FC2D1B /* TitledTextField.swift */; };
 		849F362C25B92DD100FC2D1B /* EmailSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F362B25B92DD100FC2D1B /* EmailSentViewController.swift */; };
 		849F378F25BA7F2200FC2D1B /* AuthorizationFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */; };
 		849F37A125BA8CF300FC2D1B /* ScreenFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */; };
 		84A6316F2601B6B5000922F3 /* CareKitStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */; };
+		84B331FE261D162B007EB839 /* ZendeskAnswerBotSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84B331FD261D162B007EB839 /* ZendeskAnswerBotSDK */; };
+		84B33204261D164B007EB839 /* ZendeskChatSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84B33203261D164B007EB839 /* ZendeskChatSDK */; };
+		84B3320A261D166F007EB839 /* ZendeskSupportSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84B33209261D166F007EB839 /* ZendeskSupportSDK */; };
 		84B43E6025B1227300318CEA /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 84B43E5F25B1227300318CEA /* SDWebImage */; };
 		84B9178B25FDF00A00F2422C /* BundleUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9178A25FDF00A00F2422C /* BundleUploadOperation.swift */; };
 		84B9178D25FDF39100F2422C /* UploadEntriesOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9178C25FDF39100F2422C /* UploadEntriesOperations.swift */; };
@@ -227,6 +216,10 @@
 		84C83FE8259C48F200DAEF34 /* TaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FD1259C48F200DAEF34 /* TaskTests.swift */; };
 		84C83FE9259C48F200DAEF34 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FD2259C48F200DAEF34 /* URLProtocolMock.swift */; };
 		84C93C5F2616B7ED00C5E33E /* Date+FHIR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C93C5E2616B7ED00C5E33E /* Date+FHIR.swift */; };
+		84CF2D9E261AC5D40080293F /* GenderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2D9D261AC5D40080293F /* GenderPickerView.swift */; };
+		84CF2DA0261AC60D0080293F /* BaseControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2D9F261AC60D0080293F /* BaseControlView.swift */; };
+		84CF2DA2261ACAA30080293F /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2DA1261ACAA30080293F /* ButtonView.swift */; };
+		84CF2DA4261AE60B0080293F /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2DA3261AE60B0080293F /* DatePickerView.swift */; };
 		84D2BFD1260460D30064DB08 /* AnyUserInfoExtensible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2BFD0260460D30064DB08 /* AnyUserInfoExtensible.swift */; };
 		84DC75A525ABBAD6003B541C /* CarePlan+OCKCarePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC75A425ABBAD6003B541C /* CarePlan+OCKCarePlan.swift */; };
 		84DC75AA25AC0F33003B541C /* ScheduleElementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */; };
@@ -267,13 +260,11 @@
 		3A6B9A7CDB129EA20C6EE888 /* Pods_Allie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Allie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F468A3038E236FC397B6BE5 /* Pods-AlfredTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlfredTests.debug.xcconfig"; path = "Target Support Files/Pods-AlfredTests/Pods-AlfredTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7F6441AE1BDC15A7051D6757 /* Pods-Alfred-AlfredUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alfred-AlfredUITests.release.xcconfig"; path = "Target Support Files/Pods-Alfred-AlfredUITests/Pods-Alfred-AlfredUITests.release.xcconfig"; sourceTree = "<group>"; };
+		84009047261AA77000FB3968 /* ProfileEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEntryViewController.swift; sourceTree = "<group>"; };
+		8400904D261AA7B500FB3968 /* CodexTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodexTextField.swift; sourceTree = "<group>"; };
 		84016C392616BED7006D5279 /* DiabetiesCarePlan.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DiabetiesCarePlan.json; sourceTree = "<group>"; };
 		8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextContentDetailViewController.swift; sourceTree = "<group>"; };
 		841E9B8725F60112001192DD /* AnyPrimitiveValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPrimitiveValue.swift; sourceTree = "<group>"; };
-		84230BD82606FD54008BB83E /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
-		84230BDA2606FD85008BB83E /* UIPageViewController+Allie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPageViewController+Allie.swift"; sourceTree = "<group>"; };
-		84230BDC26070031008BB83E /* OnboardingScreenType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreenType.swift; sourceTree = "<group>"; };
-		84230BDE26070274008BB83E /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		84230BE02607243A008BB83E /* DevicesSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesSelectionViewController.swift; sourceTree = "<group>"; };
 		84230BE62607FA79008BB83E /* NotificationSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsController.swift; sourceTree = "<group>"; };
 		84230BE8260801F7008BB83E /* HTMLViewerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLViewerController.swift; sourceTree = "<group>"; };
@@ -289,8 +280,6 @@
 		842398EE259C1145006FB3F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		842DFC1225BBDA5900066A07 /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
 		842DFC5925BBF45100066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ResetViewController.xib; sourceTree = "<group>"; };
-		842DFC5F25BBF45C00066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ProfileNameEntryViewController.xib; sourceTree = "<group>"; };
-		842DFC6525BBF46000066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ProfileDataEntryViewController.xib; sourceTree = "<group>"; };
 		842DFC7125BBF47500066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ResetMessageViewController.xib; sourceTree = "<group>"; };
 		842DFC8325BBF48400066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AccountDetailsViewController.xib; sourceTree = "<group>"; };
 		842DFC8925BBF48800066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AccountResetPasswordViewController.xib; sourceTree = "<group>"; };
@@ -331,8 +320,6 @@
 		84476645259C2A4E00C50C09 /* PickerTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerTextField.swift; sourceTree = "<group>"; };
 		8447664A259C2A4E00C50C09 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		84476659259C2A4E00C50C09 /* ResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetViewController.swift; sourceTree = "<group>"; };
-		8447665B259C2A4E00C50C09 /* ProfileNameEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileNameEntryViewController.swift; sourceTree = "<group>"; };
-		84476661259C2A4E00C50C09 /* ProfileDataEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileDataEntryViewController.swift; sourceTree = "<group>"; };
 		84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HKDataUploadViewController.swift; sourceTree = "<group>"; };
 		84476667259C2A4E00C50C09 /* ResetMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetMessageViewController.swift; sourceTree = "<group>"; };
 		84476676259C2A4E00C50C09 /* AccountResetPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountResetPasswordViewController.swift; sourceTree = "<group>"; };
@@ -435,8 +422,6 @@
 		8484112A25B2B66B00171B68 /* UnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitType.swift; sourceTree = "<group>"; };
 		848574A425C78C6A000D9BCF /* Keychain+AuthToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keychain+AuthToken.swift"; sourceTree = "<group>"; };
 		848574B525C78F92000D9BCF /* HealthCareProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCareProvider.swift; sourceTree = "<group>"; };
-		84867CC525A8D42A002EE695 /* AuthenticationOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationOptionsViewController.swift; sourceTree = "<group>"; };
-		84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationOptionsView.swift; sourceTree = "<group>"; };
 		84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustrationCollectionViewCell.swift; sourceTree = "<group>"; };
 		84873BA125CA7765004195BB /* OCKStore+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKStore+Update.swift"; sourceTree = "<group>"; };
 		84873BA925CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKHealthKitPassthroughStore+Update.swift"; sourceTree = "<group>"; };
@@ -449,8 +434,6 @@
 		8487489225B504B1008C15E2 /* CareManager+Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+Debug.swift"; sourceTree = "<group>"; };
 		849E158C261138CF00663010 /* AlliePatient+Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlliePatient+Keychain.swift"; sourceTree = "<group>"; };
 		849E158E26113ABB00663010 /* AlliePatientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlliePatientTests.swift; sourceTree = "<group>"; };
-		849E15902611805C00663010 /* ProfileEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEntryViewController.swift; sourceTree = "<group>"; };
-		849E1592261182C400663010 /* TextFieldEntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldEntryCell.swift; sourceTree = "<group>"; };
 		849F362025B9161300FC2D1B /* TitledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitledTextField.swift; sourceTree = "<group>"; };
 		849F362B25B92DD100FC2D1B /* EmailSentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSentViewController.swift; sourceTree = "<group>"; };
 		849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFlowType.swift; sourceTree = "<group>"; };
@@ -483,6 +466,10 @@
 		84C83FD1259C48F200DAEF34 /* TaskTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskTests.swift; sourceTree = "<group>"; };
 		84C83FD2259C48F200DAEF34 /* URLProtocolMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
 		84C93C5E2616B7ED00C5E33E /* Date+FHIR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+FHIR.swift"; sourceTree = "<group>"; };
+		84CF2D9D261AC5D40080293F /* GenderPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderPickerView.swift; sourceTree = "<group>"; };
+		84CF2D9F261AC60D0080293F /* BaseControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseControlView.swift; sourceTree = "<group>"; };
+		84CF2DA1261ACAA30080293F /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		84CF2DA3261AE60B0080293F /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		84D2BFD0260460D30064DB08 /* AnyUserInfoExtensible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyUserInfoExtensible.swift; sourceTree = "<group>"; };
 		84DC75A425ABBAD6003B541C /* CarePlan+OCKCarePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarePlan+OCKCarePlan.swift"; sourceTree = "<group>"; };
 		84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleElementTests.swift; sourceTree = "<group>"; };
@@ -505,23 +492,22 @@
 			files = (
 				84944E9A25E08D3C00FB1938 /* CareKit in Frameworks */,
 				8487493425B6A594008C15E2 /* JGProgressHUD in Frameworks */,
-				849E15962611839C00663010 /* SkyFloatingLabelTextField in Frameworks */,
 				84944E9825E08D3C00FB1938 /* CareKitFHIR in Frameworks */,
 				84944E9C25E08D3C00FB1938 /* CareKitStore in Frameworks */,
+				84B3320A261D166F007EB839 /* ZendeskSupportSDK in Frameworks */,
 				84944E9E25E08D3C00FB1938 /* CareKitUI in Frameworks */,
 				84B43E6025B1227300318CEA /* SDWebImage in Frameworks */,
-				842DFD0E25BBF78100066A07 /* ZendeskSupportSDK in Frameworks */,
 				845AAC71259C36E900FF8F3F /* IQKeyboardManagerSwift in Frameworks */,
 				84FE81EB25D8E45A00D156C1 /* FirebaseAnalytics in Frameworks */,
 				84FE81EF25D8E45A00D156C1 /* FirebaseMessaging in Frameworks */,
 				84700A84259C331B0083E2AA /* Charts in Frameworks */,
-				84491C4125DB907200AB8C09 /* ZendeskAnswerBotSDK in Frameworks */,
+				84B331FE261D162B007EB839 /* ZendeskAnswerBotSDK in Frameworks */,
 				845AAC77259C374500FF8F3F /* BonMot in Frameworks */,
 				84FE81F325D8E45A00D156C1 /* FirebaseDynamicLinks in Frameworks */,
+				84B33204261D164B007EB839 /* ZendeskChatSDK in Frameworks */,
 				84FE81F125D8E45A00D156C1 /* FirebaseAuth in Frameworks */,
 				84C22BCB25A5821800D16CFF /* Logging in Frameworks */,
 				84FE81ED25D8E45A00D156C1 /* FirebaseCrashlytics in Frameworks */,
-				8487BBC825BE8249007A0D3A /* ZendeskChatSDK in Frameworks */,
 				F2E095A67D8D601362DA792D /* Pods_Allie.framework in Frameworks */,
 				84FE81F525D8E45A00D156C1 /* FirebaseRemoteConfig in Frameworks */,
 			);
@@ -556,6 +542,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8400904C261AA78200FB3968 /* ProfileEntry */ = {
+			isa = PBXGroup;
+			children = (
+				84009047261AA77000FB3968 /* ProfileEntryViewController.swift */,
+				84CF2D9F261AC60D0080293F /* BaseControlView.swift */,
+				84CF2D9D261AC5D40080293F /* GenderPickerView.swift */,
+				8400904D261AA7B500FB3968 /* CodexTextField.swift */,
+				84CF2DA1261ACAA30080293F /* ButtonView.swift */,
+				84CF2DA3261AE60B0080293F /* DatePickerView.swift */,
+			);
+			path = ProfileEntry;
+			sourceTree = "<group>";
+		};
 		841E9A0225F096FE001192DD /* CareManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -566,18 +565,6 @@
 				844766E8259C2A4E00C50C09 /* RemoteSynchronizationManager.swift */,
 			);
 			path = CareManager;
-			sourceTree = "<group>";
-		};
-		84230BEA260806F0008BB83E /* NUX */ = {
-			isa = PBXGroup;
-			children = (
-				84867CC525A8D42A002EE695 /* AuthenticationOptionsViewController.swift */,
-				84867D4125A95664002EE695 /* AuthenticationOptionsView.swift */,
-				84230BDE26070274008BB83E /* OnboardingViewModel.swift */,
-				84230BDC26070031008BB83E /* OnboardingScreenType.swift */,
-				84230BD82606FD54008BB83E /* OnboardingPageViewController.swift */,
-			);
-			path = NUX;
 			sourceTree = "<group>";
 		};
 		842398BE259C1144006FB3F4 = {
@@ -613,7 +600,10 @@
 				84476710259C2A4E00C50C09 /* Shared */,
 				84476699259C2A4E00C50C09 /* Onboarding */,
 				844766E3259C2A4E00C50C09 /* DailyTasks */,
-				8447666A259C2A4E00C50C09 /* MainApp */,
+				8447666B259C2A4E00C50C09 /* Settings */,
+				84476685259C2A4E00C50C09 /* Troubleshooting */,
+				84476696259C2A4E00C50C09 /* Profile */,
+				84476688259C2A4E00C50C09 /* TodayInput */,
 				84476646259C2A4E00C50C09 /* Controllers */,
 				84476706259C2A4E00C50C09 /* Coordinator */,
 				844766B1259C2A4E00C50C09 /* Helpers */,
@@ -788,17 +778,6 @@
 			path = ResetMessage;
 			sourceTree = "<group>";
 		};
-		8447666A259C2A4E00C50C09 /* MainApp */ = {
-			isa = PBXGroup;
-			children = (
-				8447666B259C2A4E00C50C09 /* Settings */,
-				84476685259C2A4E00C50C09 /* Troubleshooting */,
-				84476688259C2A4E00C50C09 /* TodayInput */,
-				84476696259C2A4E00C50C09 /* Profile */,
-			);
-			path = MainApp;
-			sourceTree = "<group>";
-		};
 		8447666B259C2A4E00C50C09 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -852,7 +831,6 @@
 		84476699259C2A4E00C50C09 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				84230BEA260806F0008BB83E /* NUX */,
 				84C5180125B7EC5C00D684E5 /* OnboardingViewController.swift */,
 				84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */,
 				84C5181225B7F93600D684E5 /* IllustrationView.swift */,
@@ -862,12 +840,7 @@
 				849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */,
 				8447664A259C2A4E00C50C09 /* SplashViewController.swift */,
 				84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */,
-				849E15902611805C00663010 /* ProfileEntryViewController.swift */,
-				849E1592261182C400663010 /* TextFieldEntryCell.swift */,
-				8447665B259C2A4E00C50C09 /* ProfileNameEntryViewController.swift */,
-				842DFC6025BBF45C00066A07 /* ProfileNameEntryViewController.xib */,
-				84476661259C2A4E00C50C09 /* ProfileDataEntryViewController.swift */,
-				842DFC6625BBF46000066A07 /* ProfileDataEntryViewController.xib */,
+				8400904C261AA78200FB3968 /* ProfileEntry */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -1102,7 +1075,6 @@
 				844F06E925C122DA00D26119 /* Bundle+Version.swift */,
 				848574A425C78C6A000D9BCF /* Keychain+AuthToken.swift */,
 				8437270B25F8989C005B2C5C /* Notification+Names.swift */,
-				84230BDA2606FD85008BB83E /* UIPageViewController+Allie.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1193,20 +1165,19 @@
 				84C22BCA25A5821800D16CFF /* Logging */,
 				84B43E5F25B1227300318CEA /* SDWebImage */,
 				8487493325B6A594008C15E2 /* JGProgressHUD */,
-				842DFD0D25BBF78100066A07 /* ZendeskSupportSDK */,
-				8487BBC725BE8249007A0D3A /* ZendeskChatSDK */,
 				84FE81EA25D8E45A00D156C1 /* FirebaseAnalytics */,
 				84FE81EC25D8E45A00D156C1 /* FirebaseCrashlytics */,
 				84FE81EE25D8E45A00D156C1 /* FirebaseMessaging */,
 				84FE81F025D8E45A00D156C1 /* FirebaseAuth */,
 				84FE81F225D8E45A00D156C1 /* FirebaseDynamicLinks */,
 				84FE81F425D8E45A00D156C1 /* FirebaseRemoteConfig */,
-				84491C4025DB907200AB8C09 /* ZendeskAnswerBotSDK */,
 				84944E9725E08D3C00FB1938 /* CareKitFHIR */,
 				84944E9925E08D3C00FB1938 /* CareKit */,
 				84944E9B25E08D3C00FB1938 /* CareKitStore */,
 				84944E9D25E08D3C00FB1938 /* CareKitUI */,
-				849E15952611839C00663010 /* SkyFloatingLabelTextField */,
+				84B331FD261D162B007EB839 /* ZendeskAnswerBotSDK */,
+				84B33203261D164B007EB839 /* ZendeskChatSDK */,
+				84B33209261D166F007EB839 /* ZendeskSupportSDK */,
 			);
 			productName = Alfred;
 			productReference = 842398C7259C1144006FB3F4 /* Allie.app */;
@@ -1290,12 +1261,11 @@
 				84C22BC925A5821700D16CFF /* XCRemoteSwiftPackageReference "swift-log" */,
 				84B43E5E25B1227300318CEA /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				8487493225B6A594008C15E2 /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
-				842DFD0C25BBF78100066A07 /* XCRemoteSwiftPackageReference "support_sdk_ios" */,
-				8487BBC625BE8249007A0D3A /* XCRemoteSwiftPackageReference "chat_sdk_ios" */,
 				84FE81E925D8E45A00D156C1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				84491C3F25DB907000AB8C09 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */,
 				84944E9625E08D3B00FB1938 /* XCRemoteSwiftPackageReference "CareKit" */,
-				849E15942611839C00663010 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */,
+				84B331FC261D162A007EB839 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */,
+				84B33202261D164B007EB839 /* XCRemoteSwiftPackageReference "chat_sdk_ios" */,
+				84B33208261D166F007EB839 /* XCRemoteSwiftPackageReference "support_sdk_ios" */,
 			);
 			productRefGroup = 842398C8259C1144006FB3F4 /* Products */;
 			projectDirPath = "";
@@ -1315,11 +1285,9 @@
 			files = (
 				842DFC5825BBF45100066A07 /* ResetViewController.xib in Resources */,
 				844767AD259C2A4E00C50C09 /* Assets.xcassets in Resources */,
-				842DFC6425BBF46000066A07 /* ProfileDataEntryViewController.xib in Resources */,
 				842DFC9A25BBF49800066A07 /* TroubleshootingViewController.xib in Resources */,
 				845FBE6425FC68FB00472257 /* ObservationsConfig.json in Resources */,
 				842DFC8225BBF48400066A07 /* AccountDetailsViewController.xib in Resources */,
-				842DFC5E25BBF45C00066A07 /* ProfileNameEntryViewController.xib in Resources */,
 				842DFCE825BBF52F00066A07 /* AppleHealthView.xib in Resources */,
 				844767AF259C2A4E00C50C09 /* Localizable.strings in Resources */,
 				842DFCBB25BBF4F500066A07 /* StatCell.xib in Resources */,
@@ -1560,9 +1528,9 @@
 				84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */,
 				84476725259C2A4E00C50C09 /* StatCell.swift in Sources */,
 				84867D4725A99016002EE695 /* IllustrationCollectionViewCell.swift in Sources */,
-				84867D4225A95664002EE695 /* AuthenticationOptionsView.swift in Sources */,
 				84C5182A25B8014500D684E5 /* EmailAuthorizationViewController.swift in Sources */,
 				8447674C259C2A4E00C50C09 /* SplashViewController.swift in Sources */,
+				84CF2DA4261AE60B0080293F /* DatePickerView.swift in Sources */,
 				844767E1259C2A4E00C50C09 /* Coordinable.swift in Sources */,
 				848410EB25B292BE00171B68 /* CHOperation.swift in Sources */,
 				842398CB259C1144006FB3F4 /* AppDelegate.swift in Sources */,
@@ -1597,19 +1565,18 @@
 				846257A725E2230A004AEBCD /* HealthKitDataType.swift in Sources */,
 				844767EE259C2A4E00C50C09 /* APIClient.swift in Sources */,
 				844767CD259C2A4E00C50C09 /* AlliePatient+OCKPatient.swift in Sources */,
-				849E1593261182C400663010 /* TextFieldEntryCell.swift in Sources */,
 				844767E5259C2A4E00C50C09 /* Data+Validation.swift in Sources */,
 				844767A6259C2A4E00C50C09 /* Sequence+Sum.swift in Sources */,
-				84230BDF26070274008BB83E /* OnboardingViewModel.swift in Sources */,
 				844767CF259C2A4E00C50C09 /* Task.swift in Sources */,
 				8487489325B504B1008C15E2 /* CareManager+Debug.swift in Sources */,
+				84CF2DA0261AC60D0080293F /* BaseControlView.swift in Sources */,
 				842F908E25AEB56D007421A6 /* FirebaseUser+RemoteUser.swift in Sources */,
-				84230BDD26070031008BB83E /* OnboardingScreenType.swift in Sources */,
 				844767A8259C2A4E00C50C09 /* Keychain.swift in Sources */,
 				84476774259C2A4E00C50C09 /* TroubleshootingViewController.swift in Sources */,
 				844767A7259C2A4E00C50C09 /* Double+Rounding.swift in Sources */,
 				84476775259C2A4E00C50C09 /* TodayInputViewController.swift in Sources */,
 				8447679B259C2A4E00C50C09 /* UIView+LayoutConstraint.swift in Sources */,
+				8400904E261AA7B500FB3968 /* CodexTextField.swift in Sources */,
 				84DC75A525ABBAD6003B541C /* CarePlan+OCKCarePlan.swift in Sources */,
 				844F06EA25C122DA00D26119 /* Bundle+Version.swift in Sources */,
 				84476770259C2A4E00C50C09 /* SettingsViewController.swift in Sources */,
@@ -1619,7 +1586,6 @@
 				844767AB259C2A4E00C50C09 /* Str.swift in Sources */,
 				844767D5259C2A4E00C50C09 /* HealthKitManager.swift in Sources */,
 				842398CD259C1144006FB3F4 /* SceneDelegate.swift in Sources */,
-				84476757259C2A4E00C50C09 /* ProfileNameEntryViewController.swift in Sources */,
 				844767E9259C2A4E00C50C09 /* ServicePublisher.swift in Sources */,
 				84C071F725E31FC20098B508 /* AnalyticsManager.swift in Sources */,
 				844767C8259C2A4E00C50C09 /* CarePlanResponse.swift in Sources */,
@@ -1665,7 +1631,6 @@
 				844767F0259C2A4E00C50C09 /* UINavigationBar+Appearance.swift in Sources */,
 				8447674A259C2A4E00C50C09 /* PickerTextField.swift in Sources */,
 				844767DB259C2A4E00C50C09 /* AuthCoordinator.swift in Sources */,
-				84867CC625A8D42A002EE695 /* AuthenticationOptionsViewController.swift in Sources */,
 				84873BAA25CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift in Sources */,
 				8461B30425A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift in Sources */,
 				8447676A259C2A4E00C50C09 /* AccountDetailsViewController.swift in Sources */,
@@ -1674,10 +1639,9 @@
 				8487481525B3B2FD008C15E2 /* LoggingOSLog.swift in Sources */,
 				849F362C25B92DD100FC2D1B /* EmailSentViewController.swift in Sources */,
 				844767C3259C2A4E00C50C09 /* Enviornment+CareManager.swift in Sources */,
+				84CF2D9E261AC5D40080293F /* GenderPickerView.swift in Sources */,
 				84B9178D25FDF39100F2422C /* UploadEntriesOperations.swift in Sources */,
-				84230BD92606FD54008BB83E /* OnboardingPageViewController.swift in Sources */,
 				849F37A125BA8CF300FC2D1B /* ScreenFlowType.swift in Sources */,
-				849E15912611805C00663010 /* ProfileEntryViewController.swift in Sources */,
 				84E4660225A040F100A10F8B /* ViewIdentifiable.swift in Sources */,
 				844767A9259C2A4E00C50C09 /* KeychainPasswordItem.swift in Sources */,
 				846257AC25E22A00004AEBCD /* HKQuantitySample+Metadata.swift in Sources */,
@@ -1685,6 +1649,7 @@
 				842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */,
 				84C517F525B7E55F00D684E5 /* BottomButton.swift in Sources */,
 				84476796259C2A4E00C50C09 /* TextStyle.swift in Sources */,
+				84009048261AA77000FB3968 /* ProfileEntryViewController.swift in Sources */,
 				845FBE8025FC775E00472257 /* ConfigurationError.swift in Sources */,
 				84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */,
 				84230BE9260801F7008BB83E /* HTMLViewerController.swift in Sources */,
@@ -1701,11 +1666,11 @@
 				84476798259C2A4E00C50C09 /* AlertHelper.swift in Sources */,
 				8487486625B3FAB0008C15E2 /* GridTaskViewController.swift in Sources */,
 				844767CC259C2A4E00C50C09 /* Task+OCKTask.swift in Sources */,
+				84CF2DA2261ACAA30080293F /* ButtonView.swift in Sources */,
 				8447672B259C2A4E00C50C09 /* CustomYAxisRenderer.swift in Sources */,
 				84E4661025A0453C00A10F8B /* ViewNIBLoading.swift in Sources */,
 				844767E6259C2A4E00C50C09 /* URLComponents+Request.swift in Sources */,
 				844767DF259C2A4E00C50C09 /* AppCoordinator.swift in Sources */,
-				84230BDB2606FD85008BB83E /* UIPageViewController+Allie.swift in Sources */,
 				84230BE12607243A008BB83E /* DevicesSelectionViewController.swift in Sources */,
 				848574A525C78C6A000D9BCF /* Keychain+AuthToken.swift in Sources */,
 				8447679E259C2A4E00C50C09 /* DateFormatter+Formatters.swift in Sources */,
@@ -1717,7 +1682,6 @@
 				84C39A4E25B172640063D92C /* Task+OCKHealthKitTask.swift in Sources */,
 				8487483025B3E622008C15E2 /* FeaturedContentViewController.swift in Sources */,
 				844767C2259C2A4E00C50C09 /* RemoteSynchronizationManager.swift in Sources */,
-				8447675B259C2A4E00C50C09 /* ProfileDataEntryViewController.swift in Sources */,
 				84230BE72607FA79008BB83E /* NotificationSettingsController.swift in Sources */,
 				844767E2259C2A4E00C50C09 /* CHJSONDecoder.swift in Sources */,
 				845FBE8F25FC7C9200472257 /* DeviceFactory.swift in Sources */,
@@ -1777,22 +1741,6 @@
 				842DFC5925BBF45100066A07 /* Base */,
 			);
 			name = ResetViewController.xib;
-			sourceTree = "<group>";
-		};
-		842DFC6025BBF45C00066A07 /* ProfileNameEntryViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				842DFC5F25BBF45C00066A07 /* Base */,
-			);
-			name = ProfileNameEntryViewController.xib;
-			sourceTree = "<group>";
-		};
-		842DFC6625BBF46000066A07 /* ProfileDataEntryViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				842DFC6525BBF46000066A07 /* Base */,
-			);
-			name = ProfileDataEntryViewController.xib;
 			sourceTree = "<group>";
 		};
 		842DFC7225BBF47500066A07 /* ResetMessageViewController.xib */ = {
@@ -2033,8 +1981,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 41;
+				CURRENT_PROJECT_VERSION = 44;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2046,6 +1995,7 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				TVOS_DEPLOYMENT_TARGET = 14.0;
@@ -2060,8 +2010,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 41;
+				CURRENT_PROJECT_VERSION = 44;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2073,6 +2024,7 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				TVOS_DEPLOYMENT_TARGET = 14.0;
@@ -2222,22 +2174,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		842DFD0C25BBF78100066A07 /* XCRemoteSwiftPackageReference "support_sdk_ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/zendesk/support_sdk_ios.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.2.0;
-			};
-		};
-		84491C3F25DB907000AB8C09 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/zendesk/answer_bot_sdk_ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.1.2;
-			};
-		};
 		845AAC6F259C36E900FF8F3F /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -2270,14 +2206,6 @@
 				minimumVersion = 2.2.0;
 			};
 		};
-		8487BBC625BE8249007A0D3A /* XCRemoteSwiftPackageReference "chat_sdk_ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/zendesk/chat_sdk_ios.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.10.0;
-			};
-		};
 		84944E9625E08D3B00FB1938 /* XCRemoteSwiftPackageReference "CareKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/carekit-apple/CareKit.git";
@@ -2286,12 +2214,28 @@
 				kind = branch;
 			};
 		};
-		849E15942611839C00663010 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */ = {
+		84B331FC261D162A007EB839 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Skyscanner/SkyFloatingLabelTextField.git";
+			repositoryURL = "https://github.com/zendesk/answer_bot_sdk_ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
+				minimumVersion = 2.1.2;
+			};
+		};
+		84B33202261D164B007EB839 /* XCRemoteSwiftPackageReference "chat_sdk_ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/zendesk/chat_sdk_ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.0;
+			};
+		};
+		84B33208261D166F007EB839 /* XCRemoteSwiftPackageReference "support_sdk_ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/zendesk/support_sdk_ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.2.0;
 			};
 		};
 		84B43E5E25B1227300318CEA /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
@@ -2321,16 +2265,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		842DFD0D25BBF78100066A07 /* ZendeskSupportSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 842DFD0C25BBF78100066A07 /* XCRemoteSwiftPackageReference "support_sdk_ios" */;
-			productName = ZendeskSupportSDK;
-		};
-		84491C4025DB907200AB8C09 /* ZendeskAnswerBotSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 84491C3F25DB907000AB8C09 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */;
-			productName = ZendeskAnswerBotSDK;
-		};
 		845AAC70259C36E900FF8F3F /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 845AAC6F259C36E900FF8F3F /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
@@ -2350,11 +2284,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8487493225B6A594008C15E2 /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
 			productName = JGProgressHUD;
-		};
-		8487BBC725BE8249007A0D3A /* ZendeskChatSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8487BBC625BE8249007A0D3A /* XCRemoteSwiftPackageReference "chat_sdk_ios" */;
-			productName = ZendeskChatSDK;
 		};
 		84944E9725E08D3C00FB1938 /* CareKitFHIR */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -2376,10 +2305,20 @@
 			package = 84944E9625E08D3B00FB1938 /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKitUI;
 		};
-		849E15952611839C00663010 /* SkyFloatingLabelTextField */ = {
+		84B331FD261D162B007EB839 /* ZendeskAnswerBotSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 849E15942611839C00663010 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */;
-			productName = SkyFloatingLabelTextField;
+			package = 84B331FC261D162A007EB839 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */;
+			productName = ZendeskAnswerBotSDK;
+		};
+		84B33203261D164B007EB839 /* ZendeskChatSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84B33202261D164B007EB839 /* XCRemoteSwiftPackageReference "chat_sdk_ios" */;
+			productName = ZendeskChatSDK;
+		};
+		84B33209261D166F007EB839 /* ZendeskSupportSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84B33208261D166F007EB839 /* XCRemoteSwiftPackageReference "support_sdk_ios" */;
+			productName = ZendeskSupportSDK;
 		};
 		84B43E5F25B1227300318CEA /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;

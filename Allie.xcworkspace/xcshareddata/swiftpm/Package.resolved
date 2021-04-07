@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/firebase/abseil-cpp-SwiftPM.git",
         "state": {
           "branch": null,
-          "revision": "697fb93ee29def0198c456118b69bdfea9a02a5d",
-          "version": "0.20200225.2"
+          "revision": "05d8107f2971a37e6c77245b7c4c6b0a7e97bc99",
+          "version": "0.20200225.0"
         }
       },
       {
@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/firebase/boringssl-SwiftPM.git",
         "state": {
           "branch": null,
-          "revision": "6fbad5bf8bd80a36d342bf1693e4423870124d4c",
-          "version": "0.0.9"
+          "revision": "7bcafa2660bc58715c39637494550d1ed7cd7229",
+          "version": "0.0.7"
         }
       },
       {
@@ -51,7 +51,7 @@
         "repositoryURL": "https://github.com/carekit-apple/CareKit.git",
         "state": {
           "branch": "main",
-          "revision": "0c0cbe3abd2f0a1fd788a857f137d1726f0940f2",
+          "revision": "6e7efbe17c6a4112c54abb7bf9c6387a0d2b132f",
           "version": null
         }
       },
@@ -75,7 +75,7 @@
       },
       {
         "package": "ZendeskChatSDK",
-        "repositoryURL": "https://github.com/zendesk/chat_sdk_ios.git",
+        "repositoryURL": "https://github.com/zendesk/chat_sdk_ios",
         "state": {
           "branch": null,
           "revision": "c6035600fa8cddd6e73149329d1dc510821d9cfe",
@@ -114,8 +114,8 @@
         "repositoryURL": "https://github.com/firebase/firebase-ios-sdk.git",
         "state": {
           "branch": null,
-          "revision": "6f680dd0c8892a315f354bb861b03c5c38829e56",
-          "version": "7.9.1"
+          "revision": "f4cd4db180486996d3b3216d11e7adf634695daa",
+          "version": "7.7.0"
         }
       },
       {
@@ -123,8 +123,8 @@
         "repositoryURL": "https://github.com/google/GoogleAppMeasurement.git",
         "state": {
           "branch": null,
-          "revision": "4a30a474eb175ebf3d3ede045614fad99fa9b9bf",
-          "version": "7.9.0"
+          "revision": "38205d8e39f806f71b048f93427337c9511c9402",
+          "version": "7.5.1"
         }
       },
       {
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/google/GoogleDataTransport.git",
         "state": {
           "branch": null,
-          "revision": "34bd15a31149e42eadd6c75bd67aaea002e23bf4",
-          "version": "8.3.0"
+          "revision": "2e8a342494d20fcf209b61a45cddc1668b5ccc6d",
+          "version": "8.2.0"
         }
       },
       {
@@ -141,8 +141,8 @@
         "repositoryURL": "https://github.com/google/GoogleUtilities.git",
         "state": {
           "branch": null,
-          "revision": "1c47ea135322768023ecdcc9db79bf3df821209f",
-          "version": "7.3.0"
+          "revision": "2c7d33099a3c3da1139bb1e8eb94e46e0dacf075",
+          "version": "7.2.2"
         }
       },
       {
@@ -150,8 +150,8 @@
         "repositoryURL": "https://github.com/firebase/grpc-SwiftPM.git",
         "state": {
           "branch": null,
-          "revision": "23034739dda2f3355d081b54c1ab4e9667314b75",
-          "version": "1.28.3"
+          "revision": "91b62619e6c83bc5f1b99d9d60fe46b2862d3a5a",
+          "version": "1.28.2"
         }
       },
       {
@@ -186,8 +186,8 @@
         "repositoryURL": "https://github.com/firebase/leveldb.git",
         "state": {
           "branch": null,
-          "revision": "0706abcc6b0bd9cedfbb015ba840e4a780b5159b",
-          "version": "1.22.2"
+          "revision": "fa1f25f296a766e5a789c4dacd4798dea798b2c2",
+          "version": "1.22.1"
         }
       },
       {
@@ -245,15 +245,6 @@
         }
       },
       {
-        "package": "SkyFloatingLabelTextField",
-        "repositoryURL": "https://github.com/Skyscanner/SkyFloatingLabelTextField.git",
-        "state": {
-          "branch": null,
-          "revision": "a0750ebbc7311f3b3debf99c5e59338e854afa59",
-          "version": "4.0.0"
-        }
-      },
-      {
         "package": "ZendeskSupportProvidersSDK",
         "repositoryURL": "https://github.com/zendesk/support_providers_sdk_ios",
         "state": {
@@ -264,7 +255,7 @@
       },
       {
         "package": "ZendeskSupportSDK",
-        "repositoryURL": "https://github.com/zendesk/support_sdk_ios.git",
+        "repositoryURL": "https://github.com/zendesk/support_sdk_ios",
         "state": {
           "branch": null,
           "revision": "77012b126f416c354e905326543313eee8b08321",
@@ -276,8 +267,8 @@
         "repositoryURL": "https://github.com/apple/swift-log.git",
         "state": {
           "branch": null,
-          "revision": "5d66f7ba25daf4f94100e7022febf3c75e37a6c7",
-          "version": "1.4.2"
+          "revision": "12d3a8651d32295794a850307f77407f95b8c881",
+          "version": "1.4.1"
         }
       },
       {

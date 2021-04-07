@@ -8,6 +8,7 @@ import UIKit
 protocol Coordinable: AnyObject {
 	var type: CoordinatorType { get }
 	typealias ActionHandler = () -> Void
+	typealias BoolActionHandler = (Bool) -> Void
 
 	var navigationController: UINavigationController? { get }
 	var rootViewController: UIViewController? { get }

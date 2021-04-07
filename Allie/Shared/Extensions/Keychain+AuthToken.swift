@@ -46,6 +46,10 @@ extension Keychain {
 	}
 
 	class func clearKeychain() {
+		// Remove the patient
+		if let userID = Keychain.userId {
+			Keychain.delete(valueForKey: userID)
+		}
 		Keychain.authToken = nil
 		Keychain.emailForLink = nil
 		Keychain.userId = nil
