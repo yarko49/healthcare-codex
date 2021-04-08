@@ -6,6 +6,7 @@
 //
 
 import CareKitStore
+import Combine
 import Foundation
 
 extension OCKStore {

@@ -28,6 +28,7 @@ public extension OCKOutcomeValueUnderlyingType {
 }
 
 public struct OutcomeValue: Codable {
+	public var index: Int
 	public var units: String?
 	public var value: OCKOutcomeValueUnderlyingType
 	public var type: OCKOutcomeValueType
@@ -35,6 +36,7 @@ public struct OutcomeValue: Codable {
 	public var kind: String?
 
 	public init(_ value: OCKOutcomeValueUnderlyingType, units: String? = nil) {
+		self.index = 0
 		self.value = value
 		self.units = units
 		self.createdDate = Date()
@@ -50,6 +52,7 @@ public struct OutcomeValue: Codable {
 
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
+		self.index = try container.decodeIfPresent(Int.self, forKey: .index) ?? 0
 		self.units = try container.decodeIfPresent(String.self, forKey: .units)
 		let date = try container.decodeIfPresent(Date.self, forKey: .createdDate) ?? Date()
 		self.createdDate = Calendar.current.startOfDay(for: date)
@@ -74,6 +77,7 @@ public struct OutcomeValue: Codable {
 
 	public func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encode(index, forKey: .index)
 		try container.encodeIfPresent(units, forKey: .units)
 		try container.encode(type, forKey: .type)
 		try container.encodeIfPresent(createdDate, forKey: .createdDate)
@@ -93,6 +97,7 @@ public struct OutcomeValue: Codable {
 	}
 
 	private enum CodingKeys: String, CodingKey {
+		case index
 		case units
 		case value
 		case type

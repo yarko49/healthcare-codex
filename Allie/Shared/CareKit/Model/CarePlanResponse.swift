@@ -8,7 +8,6 @@
 import CareKitStore
 import Foundation
 
-public typealias Outcome = OCKOutcome
 public struct CarePlanResponse: Codable {
 	public var carePlans: [CarePlan]
 	public var patients: [AlliePatient]?
