@@ -68,9 +68,12 @@ class ProfileEntryViewController: BaseViewController {
 		}
 	}
 
-	var dateOfBirth = Date() {
-		didSet {
-			dateOfBirthView.datePicker.date = dateOfBirth
+	var dateOfBirth: Date {
+		get {
+			dateOfBirthView.datePicker.date
+		}
+		set {
+			dateOfBirthView.datePicker.date = newValue
 		}
 	}
 

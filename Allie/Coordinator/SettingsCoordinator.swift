@@ -125,15 +125,9 @@ class SettingsCoordinator: NSObject, Coordinable {
 	}
 
 	func profileRequest() {
-		careManager.loadPatient { [weak self] result in
-			switch result {
-			case .failure(let error):
-				ALog.error("\(error.localizedDescription)")
-			case .success(let patient):
-				let alliePatient = AlliePatient(ockPatient: patient)
-				APIClient.client.postPatient(patient: alliePatient) { result in
-					ALog.info("\(result)")
-				}
+		if let patient = careManager.patient {
+			APIClient.client.postPatient(patient: patient) { result in
+				ALog.info("\(result)")
 			}
 		}
 		navigationController?.popViewController(animated: true)

@@ -252,7 +252,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 			patient?.profile.weightInPounds = viewController.weightInPounds
 			patient?.profile.heightInInches = viewController.heightInInches
 			AppDelegate.careManager.patient = patient
-			Keychain.save(patient: patient)
+			self?.parentCoordinator?.uploadPatient(patient: patient!)
 			self?.navigationController?.popViewController(animated: true)
 		}
 		navigate(to: viewController, with: .push)

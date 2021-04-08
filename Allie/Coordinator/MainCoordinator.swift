@@ -93,6 +93,17 @@ class MainCoordinator: Coordinable {
 			goToAuth()
 			return
 		}
+		#if targetEnvironment(simulator)
+		firebaseAuthentication(completion: { [weak self] success in
+			DispatchQueue.main.async {
+				if success {
+					self?.gotoMainApp()
+				} else {
+					self?.goToAuth()
+				}
+			}
+		})
+		#else
 		let reason = Str.authWithBiometrics
 		context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, _ in
 			guard success else {
@@ -111,6 +122,7 @@ class MainCoordinator: Coordinable {
 				}
 			})
 		}
+		#endif
 	}
 
 	internal func firebaseAuthentication(completion: @escaping (Bool) -> Void) {
