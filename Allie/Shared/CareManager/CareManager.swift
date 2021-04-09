@@ -47,10 +47,17 @@ class CareManager: ObservableObject {
 
 	private var cancellables: Set<AnyCancellable> = []
 
-	@Published var patient: AlliePatient? {
-		didSet {
-			if let value = patient {
-				Keychain.save(patient: value)
+	var patient: AlliePatient? {
+		get {
+			guard let userId = Keychain.userId else {
+				return nil
+			}
+			return Keychain.readPatient(forKey: userId)
+		}
+		set {
+			Keychain.save(patient: newValue)
+			if let patient = newValue {
+				Keychain.userId = patient.id
 			}
 		}
 	}
@@ -60,6 +67,16 @@ class CareManager: ObservableObject {
 	init() {
 		store.resetDelegate = self
 		healthKitStore.resetDelegate = self
+		loadPatient { result in
+			switch result {
+			case .failure(let error):
+				ALog.error("\(error.localizedDescription)")
+			case .success(let ockPatient):
+				if let patient = Keychain.readPatient(forKey: ockPatient.id) {
+					Keychain.userId = patient.id
+				}
+			}
+		}
 	}
 }
 
