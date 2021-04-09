@@ -64,7 +64,7 @@ enum APIRouter: URLRequestConvertible {
 		case .postCarePlan(let carePlanResponse):
 			data = try? encoder.encode(carePlanResponse)
 		case .postPatient(let patient):
-			let carePlan = CarePlanResponse(carePlans: [], patients: [patient], tasks: [], outcomes: [], vectorClock: [:])
+			let carePlan = CarePlanResponse(patients: [patient])
 			data = try? encoder.encode(carePlan)
 		case .postObservation(let observation):
 			data = try? encoder.encode(observation)
@@ -72,7 +72,7 @@ enum APIRouter: URLRequestConvertible {
 		case .postBundle(let bundle):
 			data = try? encoder.encode(bundle)
 		case .postOutcomes(let outcomes):
-			let carePlan = CarePlanResponse(carePlans: [], patients: [], tasks: [], outcomes: outcomes, vectorClock: [:])
+			let carePlan = CarePlanResponse(outcomes: outcomes)
 			data = try? encoder.encode(carePlan)
 		default:
 			data = nil
