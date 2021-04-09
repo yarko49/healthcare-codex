@@ -91,19 +91,18 @@ extension CareManager {
 			newPatient = OCKPatient(patient: thePatient)
 		}
 
-		let carePlans = carePlansResponse.carePlans.map { (carePlan) -> OCKCarePlan in
-			OCKCarePlan(carePlan: carePlan)
-		}
-
-		let addCarePlansOperation = CarePlansAddOperation(store: store, newCarePlans: carePlans, for: nil) { result in
-			switch result {
-			case .failure(let error):
-				ALog.error("\(error.localizedDescription)")
-			case .success(let carePlans):
-				ALog.info("carePlans count = \(carePlans.count)")
-			}
-		}
-
+        if let carePlans = carePlansResponse.carePlans?.map({ (carePlan) -> OCKCarePlan in
+            OCKCarePlan(carePlan: carePlan)
+        }) {
+            let addCarePlansOperation = CarePlansAddOperation(store: store, newCarePlans: carePlans, for: nil) { result in
+                switch result {
+                case .failure(let error):
+                    ALog.error("\(error.localizedDescription)")
+                case .success(let carePlans):
+                    ALog.info("carePlans count = \(carePlans.count)")
+                }
+            }
+        }
 		if let patient = newPatient {
 			let patientOperation = PatientsAddOperation(store: store, newPatients: [patient]) { result in
 				switch result {
