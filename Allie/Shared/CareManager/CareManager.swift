@@ -86,23 +86,23 @@ extension CareManager {
 	func insert(carePlansResponse: CarePlanResponse, completion: OCKResultClosure<Bool>?) {
 		try? resetAllContents()
 		var newPatient: OCKPatient?
-		if let thePatient = carePlansResponse.patients?.first {
+		if let thePatient = carePlansResponse.patients.first {
 			patient = thePatient
 			newPatient = OCKPatient(patient: thePatient)
 		}
 
-        if let carePlans = carePlansResponse.carePlans?.map({ (carePlan) -> OCKCarePlan in
-            OCKCarePlan(carePlan: carePlan)
-        }) {
-            let addCarePlansOperation = CarePlansAddOperation(store: store, newCarePlans: carePlans, for: nil) { result in
-                switch result {
-                case .failure(let error):
-                    ALog.error("\(error.localizedDescription)")
-                case .success(let carePlans):
-                    ALog.info("carePlans count = \(carePlans.count)")
-                }
-            }
-        }
+		let carePlans = carePlansResponse.carePlans.map { (carePlan) -> OCKCarePlan in
+			OCKCarePlan(carePlan: carePlan)
+		}
+		let addCarePlansOperation = CarePlansAddOperation(store: store, newCarePlans: carePlans, for: nil) { result in
+			switch result {
+			case .failure(let error):
+				ALog.error("\(error.localizedDescription)")
+			case .success(let carePlans):
+				ALog.info("carePlans count = \(carePlans.count)")
+			}
+		}
+
 		if let patient = newPatient {
 			let patientOperation = PatientsAddOperation(store: store, newPatients: [patient]) { result in
 				switch result {
