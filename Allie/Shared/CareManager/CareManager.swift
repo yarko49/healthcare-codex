@@ -84,7 +84,6 @@ class CareManager: ObservableObject {
 
 extension CareManager {
 	func insert(carePlansResponse: CarePlanResponse, completion: OCKResultClosure<Bool>?) {
-		try? resetAllContents()
 		var newPatient: OCKPatient?
 		if let thePatient = carePlansResponse.patients.first {
 			patient = thePatient

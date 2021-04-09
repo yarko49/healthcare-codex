@@ -15,7 +15,7 @@ public struct CarePlanResponse: Codable {
 	public var outcomes: [Outcome]
 	public var vectorClock: [String: Int]
 
-	public init(carePlans: [CarePlan] = [], patients: [AlliePatient] = [], tasks: [Task] = [], outcomes: [Outcome] = [], vectorClock: [String: Int] = [:]) {
+	public init(carePlans: [CarePlan] = [], patients: [AlliePatient] = [], tasks: [Task] = [], outcomes: [Outcome] = [], vectorClock: [String: Int] = ["backend": 0]) {
 		self.carePlans = carePlans
 		self.tasks = tasks
 		self.vectorClock = vectorClock
