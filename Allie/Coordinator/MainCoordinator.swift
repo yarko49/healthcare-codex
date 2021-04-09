@@ -125,6 +125,21 @@ class MainCoordinator: Coordinable {
 		#endif
 	}
 
+	func registerServices() {
+		if careManager.patient == nil {
+			careManager.loadPatient { [weak self] result in
+				switch result {
+				case .failure(let error):
+					ALog.error("\(error.localizedDescription)")
+				case .success:
+					AppDelegate.registerServices(patient: self?.careManager.patient)
+				}
+			}
+		} else {
+			AppDelegate.registerServices(patient: careManager.patient)
+		}
+	}
+
 	internal func firebaseAuthentication(completion: @escaping (Bool) -> Void) {
 		Auth.auth().currentUser?.getIDTokenResult(completion: { [weak self] tokenResult, error in
 			guard error == nil else {

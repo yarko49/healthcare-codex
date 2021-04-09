@@ -19,10 +19,16 @@ extension PersonNameComponents {
 		}
 		self.init()
 		givenName = components.first
-		components.removeFirst()
+		if !components.isEmpty {
+			components.removeFirst()
+		}
 		familyName = components.last
-		components.removeLast()
-		middleName = components.joined(separator: " ")
+		if !components.isEmpty {
+			components.removeLast()
+		}
+		if !components.isEmpty {
+			middleName = components.joined(separator: " ")
+		}
 	}
 
 	var fullName: String? {

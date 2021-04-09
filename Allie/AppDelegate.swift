@@ -83,4 +83,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		chatAPIConfiguration.visitorInfo = VisitorInfo(name: name, email: email, phoneNumber: phoneNumber ?? "")
 		Chat.instance?.configuration = chatAPIConfiguration
 	}
+
+	static func registerServices(patient: AlliePatient?) {
+		guard let patient = patient else {
+			return
+		}
+		LoggingManager.identify(userId: patient.id)
+		AppDelegate.configureZendeskIdentity(name: patient.name.fullName, email: patient.profile.email)
+		Analytics.setUserID(patient.id)
+		Crashlytics.crashlytics().setUserID(patient.id)
+	}
 }

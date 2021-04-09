@@ -37,7 +37,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 		self.childCoordinators = [:]
 		super.init()
 		navigationController?.delegate = self
-
+		parentCoordinator?.registerServices()
 		start()
 	}
 

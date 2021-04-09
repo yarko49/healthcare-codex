@@ -242,8 +242,6 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			case .success(let carePlan):
 				if let patient = carePlan.patients?.first {
 					self?.alliePatient = patient
-					LoggingManager.identify(userId: patient.id)
-					AppDelegate.configureZendeskIdentity(name: patient.name.fullName, email: patient.profile.email)
 					let ockPatient = OCKPatient(patient: patient)
 					try? AppDelegate.careManager.resetAllContents()
 					self?.careManager.createOrUpdate(patient: ockPatient) { patientResult in
