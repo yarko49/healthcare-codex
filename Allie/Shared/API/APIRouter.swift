@@ -68,7 +68,6 @@ enum APIRouter: URLRequestConvertible {
 			data = try? encoder.encode(carePlan)
 		case .postObservation(let observation):
 			data = try? encoder.encode(observation)
-
 		case .postBundle(let bundle):
 			data = try? encoder.encode(bundle)
 		case .postOutcomes(let outcomes):
@@ -109,7 +108,6 @@ enum APIRouter: URLRequestConvertible {
 		switch self {
 		case .registerProvider, .getCarePlan, .postCarePlan, .postPatient, .postObservation:
 			return nil
-
 		case .postBundle:
 			return nil
 		case .postOutcomes:

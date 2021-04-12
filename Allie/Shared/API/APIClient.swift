@@ -18,6 +18,7 @@ protocol AllieAPI {
 	func postObservation(observation: ModelsR4.Observation, completion: @escaping WebService.DecodableCompletion<ModelsR4.Observation>) -> URLSession.ServicePublisher?
 	func postPatient(patient: AlliePatient) -> Future<CarePlanResponse, Error>
 	func postPatient(patient: AlliePatient, completion: @escaping WebService.RequestCompletion<CarePlanResponse>) -> URLSession.ServicePublisher?
+	func postOutcome(outcomes: [Outcome]) -> Future<CarePlanResponse, Error>
 }
 
 public final class APIClient: AllieAPI {
@@ -122,5 +123,19 @@ public final class APIClient: AllieAPI {
 	@discardableResult
 	func getRawReaults(route: APIRouter, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.ServicePublisher? {
 		webService.requestSerializable(route: route, completion: completion)
+	}
+
+	func postOutcome(outcomes: [Outcome]) -> Future<CarePlanResponse, Error> {
+		Future { [weak self] promise in
+			let route = APIRouter.postOutcomes(outcomes: outcomes)
+			_ = self?.webService.request(route: route) { (result: Result<CarePlanResponse, Error>) in
+				switch result {
+				case .failure(let error):
+					promise(.failure(error))
+				case .success(let response):
+					promise(.success(response))
+				}
+			}
+		}
 	}
 }
