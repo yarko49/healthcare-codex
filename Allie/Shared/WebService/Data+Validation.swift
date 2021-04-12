@@ -22,6 +22,8 @@ extension Data {
 
 		guard acceptableStatusCodes.contains(httpResponse.statusCode) else {
 			let errorCode = URLError.Code(rawValue: httpResponse.statusCode)
+			let errorString = try? String(data: self, encoding: .utf8)
+			ALog.error("\(errorString)")
 			throw URLError(errorCode)
 		}
 

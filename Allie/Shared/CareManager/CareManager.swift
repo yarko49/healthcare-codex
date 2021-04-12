@@ -38,12 +38,9 @@ class CareManager: ObservableObject {
 		return manager
 	}()
 
-	private var storeOperationQueue: OperationQueue = {
-		let queue = OperationQueue()
-		queue.qualityOfService = .utility
-		queue.maxConcurrentOperationCount = 1
-		return queue
-	}()
+	var storeOperationQueue: OperationQueue {
+		.main
+	}
 
 	private var cancellables: Set<AnyCancellable> = []
 
@@ -65,18 +62,18 @@ class CareManager: ObservableObject {
 	@Published var vectorClock: [String: Int] = [:]
 
 	init() {
-		store.resetDelegate = self
-		healthKitStore.resetDelegate = self
-		loadPatient { result in
-			switch result {
-			case .failure(let error):
-				ALog.error("\(error.localizedDescription)")
-			case .success(let ockPatient):
-				if let patient = Keychain.readPatient(forKey: ockPatient.id) {
-					Keychain.userId = patient.id
+		synchronizedStoreManager.notificationPublisher
+			.sink { [weak self] notification in
+				if let carePlanNotification = notification as? OCKCarePlanNotification {
+					self?.processCarePlan(notification: carePlanNotification)
+				} else if let patientNotification = notification as? OCKPatientNotification {
+					self?.processPatient(notification: patientNotification)
+				} else if let taskNotification = notification as? OCKTaskNotification {
+					self?.processTask(notification: taskNotification)
+				} else if let outcomeNotification = notification as? OCKOutcomeNotification {
+					self?.processOutcome(notification: outcomeNotification)
 				}
-			}
-		}
+			}.store(in: &cancellables)
 	}
 }
 
@@ -258,6 +255,57 @@ extension CareManager {
 	func addPatients(newPatients: [OCKPatient], completion: OCKResultClosure<[OCKPatient]>?) {
 		let addPatientOperation = PatientsAddOperation(store: store, newPatients: newPatients, completion: completion)
 		storeOperationQueue.addOperation(addPatientOperation)
+	}
+}
+
+extension CareManager {
+	func processCarePlan(notification: OCKCarePlanNotification) {
+		ALog.info("\(notification.carePlan.id) \(notification.category)")
+	}
+
+	func processPatient(notification: OCKPatientNotification) {
+		ALog.info("\(notification.patient.id) \(notification.category)")
+	}
+
+	func processTask(notification: OCKTaskNotification) {
+		ALog.info("\(notification.task.id) \(notification.category)")
+	}
+
+	func processOutcome(notification: OCKOutcomeNotification) {
+		guard let outcome = notification.outcome as? OCKOutcome else {
+			return
+		}
+
+		var taskQuery = OCKTaskQuery()
+		taskQuery.uuids.append(outcome.taskUUID)
+		store.fetchTasks(query: taskQuery, callbackQueue: .main) { [weak self] taskResult in
+			switch taskResult {
+			case .failure(let error):
+				ALog.error("\(error.localizedDescription)")
+			case .success(let tasks):
+				guard let task = tasks.first, let carePlanId = task.userInfo?["carePlanId"] else {
+					return
+				}
+
+				self?.upload(outcome: outcome, task: task, carePlanId: carePlanId)
+			}
+		}
+		ALog.info("\(notification.outcome)")
+	}
+
+	func upload(outcome: OCKOutcome, task: OCKTask, carePlanId: String) {
+		let allieOutcome = Outcome(outcome: outcome, carePlanID: carePlanId, taskID: task.id)
+		APIClient.client.postOutcome(outcomes: [allieOutcome])
+			.sink { completion in
+				switch completion {
+				case .failure(let error):
+					ALog.error("\(error.localizedDescription)")
+				case .finished:
+					ALog.info("Uploaded the outcome")
+				}
+			} receiveValue: { response in
+				ALog.info("\(response.outcomes)")
+			}.store(in: &cancellables)
 	}
 }
 

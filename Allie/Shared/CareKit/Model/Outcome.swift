@@ -8,7 +8,7 @@
 import CareKitStore
 import Foundation
 
-public struct Outcome: Codable, Identifiable, Equatable {
+public struct Outcome: Codable, Identifiable {
 	public let id: UUID
 	public let taskID: String
 	public let carePlanID: String
@@ -25,7 +25,7 @@ public struct Outcome: Codable, Identifiable, Equatable {
 	public var effectiveDate: Date
 	public var updatedDate: Date?
 	public let taskOccurrenceIndex: Int
-	public let values: [OCKOutcomeValue]
+	public let values: [OutcomeValue]
 
 	private enum CodingKeys: String, CodingKey {
 		case id
@@ -52,7 +52,9 @@ public struct Outcome: Codable, Identifiable, Equatable {
 		self.taskID = taskID
 		self.carePlanID = carePlanID
 		self.taskOccurrenceIndex = taskOccurrenceIndex
-		self.values = values
+		self.values = values.map { (ockOutcome) -> OutcomeValue in
+			OutcomeValue(ockOutcomeValue: ockOutcome)
+		}
 		self.createdDate = Date()
 		self.effectiveDate = Date()
 		self.timezone = .current
@@ -65,7 +67,7 @@ public struct Outcome: Codable, Identifiable, Equatable {
 		self.taskID = try container.decodeIfPresent(String.self, forKey: .taskID) ?? ""
 		self.carePlanID = try container.decodeIfPresent(String.self, forKey: .carePlanID) ?? ""
 		self.taskOccurrenceIndex = try container.decodeIfPresent(Int.self, forKey: .taskOccurrenceIndex) ?? 0
-		self.values = try container.decodeIfPresent([OCKOutcomeValue].self, forKey: .values) ?? []
+		self.values = try container.decodeIfPresent([OutcomeValue].self, forKey: .values) ?? []
 		self.createdDate = try container.decodeIfPresent(Date.self, forKey: .createdDate) ?? Date()
 		self.effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
 		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
@@ -77,5 +79,26 @@ public struct Outcome: Codable, Identifiable, Equatable {
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
+	}
+
+	public func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encode(id, forKey: .id)
+		try container.encode(taskID, forKey: .taskID)
+		try container.encode(carePlanID, forKey: .carePlanID)
+		try container.encodeIfPresent(groupIdentifier, forKey: .groupIdentifier)
+		try container.encodeIfPresent(remoteID, forKey: .remoteID)
+		try container.encodeIfPresent(notes, forKey: .notes)
+		try container.encodeIfPresent(asset, forKey: .asset)
+		try container.encodeIfPresent(source, forKey: .source)
+		try container.encodeIfPresent(tags, forKey: .tags)
+		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)
+		try container.encodeIfPresent(userInfo, forKey: .userInfo)
+		try container.encodeIfPresent(createdDate, forKey: .createdDate)
+		try container.encodeIfPresent(deletedDate, forKey: .deletedDate)
+		try container.encodeIfPresent(effectiveDate, forKey: .effectiveDate)
+		try container.encodeIfPresent(updatedDate, forKey: .updatedDate)
+		try container.encode(taskOccurrenceIndex, forKey: .taskOccurrenceIndex)
+		try container.encode(values, forKey: .values)
 	}
 }
