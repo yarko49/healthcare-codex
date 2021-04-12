@@ -240,7 +240,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				ALog.error("Unable to fetch CarePlan: ", error: error)
 				self?.gotoProfileSetupViewController(user: user)
 			case .success(let carePlan):
-				if let patient = carePlan.patients?.first {
+				if let patient = carePlan.patients.first {
 					self?.alliePatient = patient
 					let ockPatient = OCKPatient(patient: patient)
 					try? AppDelegate.careManager.resetAllContents()
@@ -339,7 +339,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				}
 				self?.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
 			case .success(let carePlan):
-				if let patient = carePlan.patients?.first {
+				if let patient = carePlan.patients.first {
 					self?.careManager.patient = patient
 				}
 				self?.gotoMainApp()

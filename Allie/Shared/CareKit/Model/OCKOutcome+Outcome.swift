@@ -10,7 +10,10 @@ import Foundation
 
 extension OCKOutcome: AnyUserInfoExtensible {
 	init(outcome: Outcome) {
-		self.init(taskUUID: outcome.id, taskOccurrenceIndex: outcome.taskOccurrenceIndex, values: outcome.values)
+		let ockOutcomeValues = outcome.values.map { (outcomeValue) -> OCKOutcomeValue in
+			OCKOutcomeValue(outcomeValue: outcomeValue)
+		}
+		self.init(taskUUID: outcome.id, taskOccurrenceIndex: outcome.taskOccurrenceIndex, values: ockOutcomeValues)
 		groupIdentifier = outcome.groupIdentifier
 		remoteID = outcome.remoteID
 		notes = outcome.notes

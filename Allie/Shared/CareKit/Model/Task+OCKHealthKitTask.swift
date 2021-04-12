@@ -31,4 +31,24 @@ extension OCKHealthKitTask {
 	}
 }
 
+extension OCKHealthKitTask {
+	func merged(newTask: OCKHealthKitTask) -> Self {
+		var merged = self
+		merged.healthKitLinkage = newTask.healthKitLinkage
+		merged.title = newTask.title
+		merged.instructions = newTask.instructions
+		merged.impactsAdherence = newTask.impactsAdherence
+		merged.schedule = newTask.schedule
+		merged.groupIdentifier = newTask.groupIdentifier
+		merged.tags = newTask.tags
+		merged.remoteID = newTask.remoteID
+		merged.source = newTask.source
+		merged.userInfo = newTask.userInfo
+		merged.asset = newTask.asset
+		merged.notes = newTask.notes
+		merged.timezone = newTask.timezone
+		return merged
+	}
+}
+
 extension OCKHealthKitTask: AnyTaskExtensible {}

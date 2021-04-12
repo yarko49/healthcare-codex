@@ -144,7 +144,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.isRefreshingCarePlan = false
 				self?.hud.dismiss()
 			} receiveValue: { value in
-				if let patient = value.patients?.first {
+				if let patient = value.patients.first {
 					self.careManager.patient = patient
 				}
 				self.careManager.vectorClock = value.vectorClock
