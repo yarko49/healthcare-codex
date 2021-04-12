@@ -42,4 +42,19 @@ extension OCKCarePlan {
 		self.createdDate = carePlan.createdDate
 		self.updatedDate = carePlan.updatedDate
 	}
+
+	func merged(newCarePlan: OCKCarePlan) -> Self {
+		var existing = self
+		existing.title = newCarePlan.title
+		existing.deletedDate = newCarePlan.deletedDate
+		existing.groupIdentifier = newCarePlan.groupIdentifier
+		existing.tags = newCarePlan.tags
+		existing.remoteID = newCarePlan.remoteID
+		existing.userInfo = newCarePlan.userInfo
+		existing.source = newCarePlan.source
+		existing.asset = newCarePlan.asset
+		existing.notes = newCarePlan.notes
+		existing.timezone = newCarePlan.timezone
+		return existing
+	}
 }

@@ -28,20 +28,20 @@ extension OCKPatient {
 		AlliePatient(ockPatient: self)
 	}
 
-	mutating func update(newPatient: OCKPatient) {
-		sex = newPatient.sex
-		birthday = newPatient.birthday
-		allergies = newPatient.allergies
-		effectiveDate = newPatient.effectiveDate
-		groupIdentifier = newPatient.groupIdentifier
-		tags = newPatient.tags
-		remoteID = newPatient.remoteID
-		source = newPatient.source
-		userInfo = newPatient.userInfo
-		asset = newPatient.asset
-		timezone = newPatient.timezone
-		deletedDate = newPatient.deletedDate
-		uuid = newPatient.uuid
+	func merged(newPatient: OCKPatient) -> Self {
+		var existing = self
+		existing.sex = newPatient.sex
+		existing.birthday = newPatient.birthday
+		existing.allergies = newPatient.allergies
+		existing.groupIdentifier = newPatient.groupIdentifier
+		existing.tags = newPatient.tags
+		existing.remoteID = newPatient.remoteID
+		existing.source = newPatient.source
+		existing.userInfo = newPatient.userInfo
+		existing.asset = newPatient.asset
+		existing.timezone = newPatient.timezone
+		existing.deletedDate = newPatient.deletedDate
+		return existing
 	}
 }
 

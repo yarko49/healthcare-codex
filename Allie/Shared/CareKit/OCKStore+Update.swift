@@ -15,8 +15,9 @@ extension OCKStore {
 			switch result {
 			case .failure:
 				self?.addPatient(patient, callbackQueue: callbackQueue, completion: completion)
-			case .success:
-				self?.updatePatient(patient, callbackQueue: callbackQueue, completion: completion)
+			case .success(let existing):
+				let merged = existing.merged(newPatient: patient)
+				self?.updatePatient(merged, callbackQueue: callbackQueue, completion: completion)
 			}
 		}
 	}
@@ -50,8 +51,9 @@ extension OCKStore {
 			switch result {
 			case .failure:
 				self?.addCarePlan(carePlan, callbackQueue: callbackQueue, completion: completion)
-			case .success:
-				self?.updateCarePlan(carePlan, callbackQueue: callbackQueue, completion: completion)
+			case .success(let existing):
+				let merged = existing.merged(newCarePlan: carePlan)
+				self?.updateCarePlan(merged, callbackQueue: callbackQueue, completion: completion)
 			}
 		}
 	}
@@ -85,8 +87,9 @@ extension OCKStore {
 			switch result {
 			case .failure:
 				self?.addTask(task, callbackQueue: callbackQueue, completion: completion)
-			case .success:
-				self?.updateTask(task, callbackQueue: callbackQueue, completion: completion)
+			case .success(let existing):
+				let merged = existing.merged(newTask: task)
+				self?.updateTask(merged, callbackQueue: callbackQueue, completion: completion)
 			}
 		}
 	}

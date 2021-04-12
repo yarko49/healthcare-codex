@@ -47,6 +47,26 @@ extension OCKTask {
 	}
 }
 
+extension OCKTask {
+	func merged(newTask: OCKTask) -> Self {
+		var existing = self
+		existing.title = newTask.title
+		existing.instructions = newTask.instructions
+		existing.impactsAdherence = newTask.impactsAdherence
+		existing.schedule = newTask.schedule
+		existing.groupIdentifier = newTask.groupIdentifier
+		existing.tags = newTask.tags
+		existing.deletedDate = newTask.deletedDate
+		existing.remoteID = newTask.remoteID
+		existing.source = newTask.source
+		existing.userInfo = newTask.userInfo
+		existing.asset = newTask.asset
+		existing.notes = newTask.notes
+		existing.timezone = newTask.timezone
+		return existing
+	}
+}
+
 extension AnyTaskExtensible {
 	var priority: Int {
 		get {

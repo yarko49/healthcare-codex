@@ -18,9 +18,7 @@ extension OCKOutcomeValue {
 
 extension OutcomeValue {
 	init(ockOutcomeValue: OCKOutcomeValue) {
-		self.init(ockOutcomeValue.value)
-		self.type = ockOutcomeValue.type
-		self.units = ockOutcomeValue.units
+		self.init(ockOutcomeValue.value, units: ockOutcomeValue.units)
 		self.kind = ockOutcomeValue.kind
 	}
 }
