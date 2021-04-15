@@ -10,7 +10,10 @@
       "tags": [
         "default"
       ],
-      "timezone": 0,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": ""
+      },
       "userInfo": {
         "category": "",
         "detailViewText": "",
@@ -41,7 +44,10 @@
       "asset": "",
       "source": "",
       "tags": null,
-      "timezone": 0,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": ""
+      },
       "userInfo": {
         "category": "education",
         "detailViewText": "Healthy Recipes\nSpinach & Kale",
@@ -89,7 +95,10 @@
       "asset": "",
       "source": "",
       "tags": null,
-      "timezone": 0,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": ""
+      },
       "userInfo": {
         "linkURL0": "https://med.stanford.edu/",
         "linkURLTitle0": "Stanford Medicine",
@@ -143,7 +152,10 @@
       "asset": "",
       "source": "",
       "tags": null,
-      "timezone": 0,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": ""
+      },
       "userInfo": {
         "category": "measurements",
         "detailViewText": "",
@@ -181,7 +193,10 @@
               "asset": "",
               "source": "",
               "tags": null,
-              "timezone": 0,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+              },
               "userInfo": {
                 "category": "",
                 "detailViewText": "",
@@ -220,6 +235,112 @@
       "versions": null
     },
     {
+      "groupIdentifier": "LABELED_VALUE",
+      "remoteId": "measurements-glucose-levels",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": ""
+      },
+      "userInfo": {
+        "category": "measurements",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": "1"
+      },
+      "createdDate": null,
+      "deletedDate": null,
+      "effectiveDate": null,
+      "updatedDate": null,
+      "title": "Glucose Levels",
+      "schedules": {
+        "scheduleA": {
+          "custom": false,
+          "daily": false,
+          "weekly": true,
+          "weekday": 0,
+          "hour": 0,
+          "minutes": 0,
+          "duration": 0,
+          "interval": 0,
+          "text": "",
+          "targetValues": null,
+          "start": null,
+          "end": null
+        }
+      },
+      "carePlanId": "defaultCarePlan",
+      "healthKitLinkage": {
+        "quantityIdentifier": "bloodGlucose",
+        "quantitytype": "discrete",
+        "unit": "mg/dl"
+      },
+      "instructions": "Monitor daily glucose levels",
+      "impactsAdherence": true,
+      "versions": null
+    },
+    {
+      "groupIdentifier": "LABELED_VALUE",
+      "remoteId": "measurements-heart-rate",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": ""
+      },
+      "userInfo": {
+        "category": "measurements",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": "2"
+      },
+      "createdDate": null,
+      "deletedDate": null,
+      "effectiveDate": null,
+      "updatedDate": null,
+      "title": "Heart Rate",
+      "schedules": {
+        "scheduleA": {
+          "custom": false,
+          "daily": true,
+          "weekly": false,
+          "weekday": 0,
+          "hour": 0,
+          "minutes": 0,
+          "duration": 0,
+          "interval": 0,
+          "text": "",
+          "targetValues": null,
+          "start": "2021-04-08T09:06:09.732Z",
+          "end": "2021-04-08T09:06:09.732Z"
+        }
+      },
+      "carePlanId": "defaultCarePlan",
+      "healthKitLinkage": null,
+      "instructions": "",
+      "impactsAdherence": false,
+      "versions": null
+    },
+    {
       "groupIdentifier": "LOG",
       "remoteId": "medications-metformin",
       "id": "",
@@ -227,7 +348,10 @@
       "asset": "",
       "source": "",
       "tags": null,
-      "timezone": 0,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": ""
+      },
       "userInfo": {
         "category": "medications",
         "detailViewText": "",
@@ -289,7 +413,10 @@
       "asset": "",
       "source": "",
       "tags": null,
-      "timezone": 0,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": ""
+      },
       "userInfo": {
         "category": "physical-therapy",
         "detailViewText": "",
@@ -337,7 +464,10 @@
       "asset": "",
       "source": "",
       "tags": null,
-      "timezone": 0,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": ""
+      },
       "userInfo": {
         "category": "surveys-and-questionnaires",
         "detailViewText": "",
@@ -375,7 +505,10 @@
               "asset": "",
               "source": "",
               "tags": null,
-              "timezone": 0,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+              },
               "userInfo": {
                 "category": "",
                 "detailViewText": "",
@@ -421,7 +554,10 @@
               "asset": "",
               "source": "",
               "tags": null,
-              "timezone": 0,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+              },
               "userInfo": {
                 "category": "",
                 "detailViewText": "",
@@ -467,7 +603,10 @@
               "asset": "",
               "source": "",
               "tags": null,
-              "timezone": 0,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+              },
               "userInfo": {
                 "category": "",
                 "detailViewText": "",
@@ -509,7 +648,10 @@
       "asset": "",
       "source": "",
       "tags": null,
-      "timezone": 0,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": ""
+      },
       "userInfo": {
         "category": "symptoms",
         "detailViewText": "",
@@ -555,30 +697,33 @@
     {
       "groupIdentifier": "",
       "remoteId": "",
-      "id": "KHWVRcnB26XAP6eBJjHgD7LU6y32",
+      "id": "TJZUuh7801dLn0yTir0Ppx8KEIP2",
       "notes": null,
       "asset": "",
       "source": "",
       "tags": null,
-      "timezone": -25200,
-      "createdDate": "2021-04-07T05:23:22Z",
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "createdDate": "2021-04-13T05:16:07Z",
       "deletedDate": null,
-      "effectiveDate": "2021-04-07T05:23:22Z",
-      "updatedDate": "2021-04-07T05:23:54Z",
-      "birthday": null,
+      "effectiveDate": "2021-04-13T05:16:07Z",
+      "updatedDate": "2021-04-13T05:16:35Z",
+      "birthday": "1970-01-02T00:00:00Z",
       "name": {
         "namePrefix": "",
         "givenName": "Waqar",
-        "middleName": "A",
+        "middleName": "",
         "familyName": "Malik",
         "nameSuffix": "",
         "nickname": ""
       },
       "profile": {
         "deviceManufacturer": "Apple",
-        "deviceSoftwareVersion": "14.4.2",
-        "FHIRId": "b7b7328e-b2f8-4110-b412-ccd30fdeac32",
-        "heightInches": 70,
+        "deviceSoftwareVersion": "14.4",
+        "FHIRId": "8266c283-aa20-4d31-b5cc-5aed52fef949",
+        "heightInches": 71,
         "measurementBloodPressureEnabled": false,
         "measurementHeartRateEnabled": false,
         "measurementRestingHeartRateEnabled": false,
@@ -586,7 +731,7 @@
         "measurementWeightEnabled": false,
         "notificationsEnabled": false,
         "signUpCompleted": true,
-        "weightLbs": 220
+        "weightLbs": 237
       },
       "userInfo": null
     }

@@ -29,6 +29,6 @@ class TasksTests: XCTestCase {
 		let data = try JSONSerialization.data(withJSONObject: tasksDictionary!, options: .prettyPrinted)
 		let decoder = CHJSONDecoder()
 		let tasks = try decoder.decode([Task].self, from: data)
-		XCTAssertEqual(tasks.count, 7)
+		XCTAssertEqual(tasks.count, 9)
 	}
 }

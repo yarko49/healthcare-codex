@@ -32,7 +32,7 @@ class TaskTests: XCTestCase {
 		XCTAssertNotNil(task.schedules)
 		XCTAssertEqual(task.schedules?.count, 1)
 		XCTAssertEqual(task.groupIdentifier, "GRID")
-		XCTAssertEqual(task.timezone, TimeZone(secondsFromGMT: 0))
+		XCTAssertEqual(task.timezone, TimeZone(identifier: "America/Los_Angeles"))
 		XCTAssertEqual(task.instructions, "3x daily instructions")
 		XCTAssertEqual(task.impactsAdherence, true)
 	}

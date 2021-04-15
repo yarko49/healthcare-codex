@@ -128,7 +128,7 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 		if let value = asset, value.isEmpty {
 			self.asset = nil
 		}
-		self.timezone = try container.decodeTimeZone(forKey: .timezone)
+		self.timezone = (try? container.decode(TimeZone.self, forKey: .timezone)) ?? .current
 		self.profile = try container.decodeIfPresent(Profile.self, forKey: .profile) ?? Profile()
 		name.cleanup()
 		if let fhirId = profile.fhirId, fhirId.isEmpty {
@@ -172,14 +172,14 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 		try container.encodeIfPresent(source, forKey: .source)
 		try container.encodeIfPresent(userInfo, forKey: .userInfo)
 		try container.encodeIfPresent(asset, forKey: .asset)
-		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)
+		try container.encode(timezone, forKey: .timezone)
 		try container.encodeIfPresent(profile, forKey: .profile)
 	}
 
 	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
-		case sex
+		case sex = "gender"
 		case birthday
 		case allergies
 		case effectiveDate

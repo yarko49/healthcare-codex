@@ -27,7 +27,7 @@ class CareKitStoreTests: XCTestCase {
 	}
 
 	func testLoadPatient() throws {
-		// try? careManager.resetAllContents()
+		try? careManager.resetAllContents()
 		let expect = expectation(description: "Load Patient")
 		careManager.loadPatient { result in
 			switch result {
@@ -73,8 +73,8 @@ class CareKitStoreTests: XCTestCase {
 			case .success(let carePlanResponse):
 				let patients = carePlanResponse.patients
 				XCTAssertNotNil(patients)
-				XCTAssertEqual(patients?.count, 1)
-				let patient = patients?.first
+				XCTAssertEqual(patients.count, 1)
+				let patient = patients.first
 				XCTAssertNotNil(patient)
 				XCTAssertNotNil(patient?.profile.fhirId)
 				expect.fulfill()
@@ -136,7 +136,7 @@ class CareKitStoreTests: XCTestCase {
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 
 		if let carePlan = carePlanRespons {
-			guard let patient = carePlan.patients?.first else {
+			guard let patient = carePlan.patients.first else {
 				XCTFail("No patients found in careplan")
 				return
 			}

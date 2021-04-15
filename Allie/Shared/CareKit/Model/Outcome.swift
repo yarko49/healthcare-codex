@@ -72,7 +72,7 @@ public struct Outcome: Codable, Identifiable {
 		self.effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
 		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
 		self.deletedDate = try container.decodeIfPresent(Date.self, forKey: .deletedDate)
-		self.timezone = try container.decodeTimeZone(forKey: .timezone)
+		self.timezone = (try? container.decode(TimeZone.self, forKey: .timezone)) ?? .current
 		self.notes = try container.decodeIfPresent([OCKNote].self, forKey: .notes)
 		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
@@ -92,7 +92,7 @@ public struct Outcome: Codable, Identifiable {
 		try container.encodeIfPresent(asset, forKey: .asset)
 		try container.encodeIfPresent(source, forKey: .source)
 		try container.encodeIfPresent(tags, forKey: .tags)
-		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)
+		try container.encode(timezone, forKey: .timezone)
 		try container.encodeIfPresent(userInfo, forKey: .userInfo)
 		try container.encodeIfPresent(createdDate, forKey: .createdDate)
 		try container.encodeIfPresent(deletedDate, forKey: .deletedDate)

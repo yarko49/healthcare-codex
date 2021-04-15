@@ -52,7 +52,7 @@ public struct CarePlan: Codable, Identifiable {
 		self.title = try container.decode(String.self, forKey: .title)
 		self.patientId = try container.decodeIfPresent(String.self, forKey: .patientId)
 		self.groupIdentifier = try container.decode(String.self, forKey: .groupIdentifier)
-		self.timezone = try container.decodeTimeZone(forKey: .timezone)
+		self.timezone = (try? container.decode(TimeZone.self, forKey: .timezone)) ?? .current
 		let date = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
 		self.effectiveDate = Calendar.current.startOfDay(for: date)
 		self.deletedDate = try container.decodeIfPresent(Date.self, forKey: .deletedDate)
@@ -74,7 +74,7 @@ public struct CarePlan: Codable, Identifiable {
 		try container.encodeIfPresent(patientId, forKey: .patientId)
 		try container.encode(remoteId, forKey: .remoteId)
 		try container.encode(groupIdentifier, forKey: .groupIdentifier)
-		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)
+		try container.encode(timezone, forKey: .timezone)
 		try container.encode(effectiveDate, forKey: .effectiveDate)
 		try container.encodeIfPresent(deletedDate, forKey: .deletedDate)
 		try container.encodeIfPresent(asset, forKey: .asset)
