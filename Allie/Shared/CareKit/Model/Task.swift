@@ -63,7 +63,7 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
 		self.notes = try container.decodeIfPresent([String: OCKNote].self, forKey: .notes)
-		self.timezone = try container.decodeTimeZone(forKey: .timezone)
+		self.timezone = (try? container.decode(TimeZone.self, forKey: .timezone)) ?? .current
 		if let linkage = try container.decodeIfPresent(HealthKitLinkage.self, forKey: .healthKitLinkage) {
 			self.healthKitLinkage = linkage.hkLinkage
 		}
@@ -88,7 +88,7 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		try container.encode(userInfo, forKey: .userInfo)
 		try container.encodeIfPresent(asset, forKey: .asset)
 		try container.encodeIfPresent(notes, forKey: .notes)
-		try container.encode(timezone.secondsFromGMT(), forKey: .timezone)
+		try container.encode(timezone, forKey: .timezone)
 		try container.encodeIfPresent(healthKitLinkage, forKey: .healthKitLinkage)
 	}
 
