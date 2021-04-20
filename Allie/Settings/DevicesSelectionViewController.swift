@@ -7,32 +7,33 @@
 
 import UIKit
 
-class DevicesSelectionViewController: BaseViewController, UITableViewDelegate {
+class DevicesSelectionViewController: SignupBaseViewController, UITableViewDelegate {
 	var nextButtonAction: Coordinable.ActionHandler?
 
 	var dataSource: UITableViewDiffableDataSource<Int, SmartDeviceType>!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		view.addSubview(titleLabel)
+		NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 2.0),
+		                             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 10.0)])
+		titleLabel.text = NSLocalizedString("DEVICES", comment: "Devices")
 		tableView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(tableView)
-		nextButton.translatesAutoresizingMaskIntoConstraints = false
-		buttonContainerView.translatesAutoresizingMaskIntoConstraints = false
-		buttonContainerView.addSubview(nextButton)
-		view.addSubview(buttonContainerView)
-		NSLayoutConstraint.activate([nextButton.leadingAnchor.constraint(equalToSystemSpacingAfter: buttonContainerView.leadingAnchor, multiplier: 0.0),
-		                             nextButton.topAnchor.constraint(equalToSystemSpacingBelow: buttonContainerView.topAnchor, multiplier: 0.0),
-		                             buttonContainerView.trailingAnchor.constraint(equalToSystemSpacingAfter: nextButton.trailingAnchor, multiplier: 0.0),
-		                             nextButton.heightAnchor.constraint(equalToConstant: 60.0)])
+		view.addSubview(bottomButton)
+		NSLayoutConstraint.activate([bottomButton.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: bottomButton.trailingAnchor, multiplier: 2.0),
+		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: bottomButton.bottomAnchor, multiplier: 2.0)])
+		bottomButton.setTitle(NSLocalizedString("NEXT", comment: "Next"), for: .normal)
+		bottomButton.addTarget(self, action: #selector(didSelectNext(_:)), for: .touchUpInside)
+		bottomButton.isEnabled = true
+		bottomButton.backgroundColor = .allieButtons
 
-		NSLayoutConstraint.activate([buttonContainerView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
-		                             view.bottomAnchor.constraint(equalToSystemSpacingBelow: buttonContainerView.bottomAnchor, multiplier: 0.0),
-		                             buttonContainerView.trailingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.trailingAnchor, multiplier: 0.0),
-		                             buttonContainerView.heightAnchor.constraint(equalToConstant: 94.0)])
-		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 0.0),
+		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 8.0),
 		                             tableView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: tableView.trailingAnchor, multiplier: 0.0),
-		                             buttonContainerView.topAnchor.constraint(equalToSystemSpacingBelow: tableView.bottomAnchor, multiplier: 0.0)])
+		                             bottomButton.topAnchor.constraint(equalToSystemSpacingBelow: tableView.bottomAnchor, multiplier: 2.0)])
 
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.reuseIdentifier)
 		dataSource = UITableViewDiffableDataSource<Int, SmartDeviceType>(tableView: tableView, cellProvider: { [weak self] tableView, indexPath, deviceType in
@@ -47,14 +48,14 @@ class DevicesSelectionViewController: BaseViewController, UITableViewDelegate {
 		})
 		tableView.dataSource = dataSource
 		tableView.delegate = self
+		tableView.rowHeight = 48.0
 		var snapshot = NSDiffableDataSourceSnapshot<Int, SmartDeviceType>()
 		snapshot.appendSections([0])
 		snapshot.appendItems(SmartDeviceType.allCases)
 		dataSource.apply(snapshot, animatingDifferences: false) {
 			ALog.info("Did finish applying snapshot")
 		}
-
-		nextButton.addTarget(self, action: #selector(didSelectNext(_:)), for: .touchUpInside)
+		tableView.isScrollEnabled = false
 	}
 
 	let tableView: UITableView = {
@@ -66,20 +67,6 @@ class DevicesSelectionViewController: BaseViewController, UITableViewDelegate {
 		view.separatorStyle = .singleLine
 		view.allowsSelection = false
 		return view
-	}()
-
-	let buttonContainerView: UIView = {
-		let view = UIView(frame: .zero)
-		view.backgroundColor = .next
-		return view
-	}()
-
-	let nextButton: BottomButton = {
-		let button = BottomButton(type: .system)
-		button.backgroundColor = UIColor.next
-		button.setAttributedTitle(Str.next.uppercased().with(style: .regular17, andColor: .white, andLetterSpacing: 5), for: .normal)
-		button.refreshCorners(value: 0)
-		return button
 	}()
 
 	@IBAction func didSelectNext(_ sender: UIButton) {

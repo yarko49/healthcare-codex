@@ -5,7 +5,7 @@
 import UIKit
 
 @IBDesignable class BottomButton: UIButton {
-	@IBInspectable var cornerRadius: CGFloat = 5 {
+	@IBInspectable var cornerRadius: CGFloat = 8 {
 		didSet {
 			refreshCorners(value: cornerRadius)
 		}
@@ -25,11 +25,14 @@ import UIKit
 		sharedInit()
 	}
 
-	func sharedInit() {}
+	func sharedInit() {
+		layer.cornerRadius = cornerRadius
+		layer.cornerCurve = .continuous
+	}
 
 	func setupButton() {
 		setupColors()
-		addTextSpacing(5.0)
+		setTitleColor(.white, for: .normal)
 	}
 
 	func refreshCorners(value: CGFloat) {
@@ -37,7 +40,7 @@ import UIKit
 	}
 
 	func setupColors() {
-		layer.backgroundColor = UIColor.grey.cgColor
+		layer.backgroundColor = UIColor.allieButtons.cgColor
 	}
 
 	func addTextSpacing(_ letterSpacing: CGFloat) {

@@ -8,7 +8,7 @@
 import CareKitStore
 import UIKit
 
-class ProfileEntryViewController: BaseViewController {
+class ProfileEntryViewController: SignupBaseViewController {
 	enum Constants {
 		static let heightInInches: Int = 66
 		static let weightInPounds: Int = 150
@@ -17,13 +17,19 @@ class ProfileEntryViewController: BaseViewController {
 	}
 
 	var doneAction: Coordinable.ActionHandler?
-	static let controlHeight: CGFloat = 50.0
+	static let controlHeight: CGFloat = 48.0
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.backgroundColor = .onboardingBackground
+		view.backgroundColor = .allieWhite
+		view.addSubview(titleLabel)
+		NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 2.0),
+		                             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 4.0)])
+		titleLabel.text = NSLocalizedString("PROFILE", comment: "Profile")
+
 		mainStackView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(mainStackView)
-		NSLayoutConstraint.activate([mainStackView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 5.0),
+		NSLayoutConstraint.activate([mainStackView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 2.0),
 		                             mainStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: mainStackView.trailingAnchor, multiplier: 2.0)])
 		mainStackView.addArrangedSubview(nameTextField)
@@ -32,14 +38,21 @@ class ProfileEntryViewController: BaseViewController {
 		mainStackView.addArrangedSubview(buttonStackView)
 		buttonStackView.addArrangedSubview(heightButton)
 		buttonStackView.addArrangedSubview(weightButton)
-		mainStackView.addArrangedSubview(nextButton)
 		pickerStackView.translatesAutoresizingMaskIntoConstraints = false
 		mainStackView.addArrangedSubview(pickerStackView)
 		pickerStackView.addArrangedSubview(heightPickerView)
 		pickerStackView.addArrangedSubview(weightPickerView)
 		heightButton.button.addTarget(self, action: #selector(showHeightPicker), for: .touchUpInside)
 		weightButton.button.addTarget(self, action: #selector(showWeightPicker), for: .touchUpInside)
-		nextButton.addTarget(self, action: #selector(done), for: .touchUpInside)
+
+		view.addSubview(bottomButton)
+		NSLayoutConstraint.activate([bottomButton.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: bottomButton.trailingAnchor, multiplier: 2.0),
+		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: bottomButton.bottomAnchor, multiplier: 2.0)])
+		bottomButton.addTarget(self, action: #selector(done), for: .touchUpInside)
+		bottomButton.setTitle(NSLocalizedString("NEXT", comment: "Next"), for: .normal)
+		bottomButton.isEnabled = true
+		bottomButton.backgroundColor = .allieButtons
 		configureValues()
 	}
 
@@ -132,17 +145,6 @@ class ProfileEntryViewController: BaseViewController {
 		return view
 	}()
 
-	private let buttonStackView: UIStackView = {
-		let view = UIStackView(frame: .zero)
-		view.axis = .horizontal
-		view.spacing = 10.0
-		view.distribution = .fillEqually
-		view.alignment = .center
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.heightAnchor.constraint(equalToConstant: controlHeight).isActive = true
-		return view
-	}()
-
 	let massFormatter: MassFormatter = {
 		let formatter = MassFormatter()
 		formatter.isForPersonMassUse = true
@@ -230,20 +232,6 @@ class ProfileEntryViewController: BaseViewController {
 		return view
 	}()
 
-	let nextButton: UIButton = {
-		let button = UIButton(type: .custom)
-		button.backgroundColor = .grey
-		button.layer.cornerRadius = 4.0
-		button.layer.cornerCurve = .continuous
-		let title = Str.done.uppercased()
-		let attributes: [NSAttributedString.Key: Any] = [.kern: 5.0, .foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 17.0, weight: .semibold)]
-		let attributedText = NSAttributedString(string: title, attributes: attributes)
-		button.setAttributedTitle(attributedText, for: .normal)
-		button.translatesAutoresizingMaskIntoConstraints = false
-		button.heightAnchor.constraint(equalToConstant: controlHeight).isActive = true
-		return button
-	}()
-
 	let heightData = [Array(3 ... 8), Array(0 ... 12)]
 	var weightDataInPounds = Array(25 ... 300)
 
@@ -323,6 +311,10 @@ extension ProfileEntryViewController: UITextFieldDelegate {
 	func textFieldDidBeginEditing(_ textField: UITextField) {
 		textField.becomeFirstResponder()
 		hideAllPicker()
+	}
+
+	func textFieldDidEndEditing(_ textField: UITextField) {
+		textField.resignFirstResponder()
 	}
 
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {

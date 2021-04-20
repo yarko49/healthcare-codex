@@ -11,7 +11,7 @@ class BaseControlView: UIView {
 	let titleLabel: UILabel = {
 		let label = UILabel(frame: .zero)
 		label.text = "Placeholder"
-		label.textColor = UIColor.darkText
+		label.textColor = .allieButtons
 		label.font = UIFont.systemFont(ofSize: 10.0, weight: .light)
 		return label
 	}()
@@ -19,7 +19,7 @@ class BaseControlView: UIView {
 	let contentView: UIView = {
 		let view = UIView(frame: .zero)
 		view.layer.borderWidth = 1.0
-		view.layer.borderColor = UIColor.lightGray.cgColor
+		view.layer.borderColor = UIColor.allieSeparator.cgColor
 		view.layer.cornerRadius = 4.0
 		view.layer.cornerCurve = .continuous
 		return view
@@ -27,7 +27,7 @@ class BaseControlView: UIView {
 
 	let labelContainer: UIView = {
 		let view = UIView(frame: .zero)
-		view.backgroundColor = .onboardingBackground
+		view.backgroundColor = .allieWhite
 		return view
 	}()
 

@@ -39,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+		applyAppearance()
 		UserDefaults.registerDefautlts()
 		FirebaseConfiguration.shared.setLoggerLevel(.min)
 		FirebaseApp.configure()
@@ -46,7 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
 		IQKeyboardManager.shared.enable = true
 		Self.configureZendesk()
-		UINavigationBar.applyAppearance()
 		return true
 	}
 
@@ -92,5 +92,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		AppDelegate.configureZendeskIdentity(name: patient.name.fullName, email: patient.profile.email)
 		Analytics.setUserID(patient.id)
 		Crashlytics.crashlytics().setUserID(patient.id)
+	}
+
+	func applyAppearance() {
+		UINavigationBar.applyAppearance()
+		UITabBar.applyAppearance()
+		UICollectionView.applyAppearance()
 	}
 }

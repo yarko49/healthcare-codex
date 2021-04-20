@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -7,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsFooterView" customModule="Alfred" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsFooterView" customModule="Allie" customModuleProvider="target">
             <connections>
                 <outlet property="appVersionLabel" destination="rQW-1T-VAw" id="1Y0-9f-NEi"/>
                 <outlet property="contentView" destination="72x-ee-suF" id="cBf-ql-7dT"/>
@@ -22,10 +23,10 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F1H-3Q-MoX">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cCU-v3-ePL" customClass="BottomButton" customModule="Alfred" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="50" width="414" height="60"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cCU-v3-ePL" customClass="BottomButton" customModule="Allie" customModuleProvider="target">
+                            <rect key="frame" x="20" y="46" width="374" height="48"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="60" id="1qt-OB-FLw"/>
+                                <constraint firstAttribute="height" constant="48" id="1qt-OB-FLw"/>
                             </constraints>
                             <state key="normal" title="Log out"/>
                             <connections>
@@ -33,7 +34,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 00.001.0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rQW-1T-VAw">
-                            <rect key="frame" x="0.0" y="10" width="414" height="20"/>
+                            <rect key="frame" x="0.0" y="6" width="414" height="20"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -41,12 +42,12 @@
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="cCU-v3-ePL" secondAttribute="bottom" id="1Ec-bw-w8H"/>
+                        <constraint firstAttribute="bottom" secondItem="cCU-v3-ePL" secondAttribute="bottom" constant="16" id="1Ec-bw-w8H"/>
                         <constraint firstItem="cCU-v3-ePL" firstAttribute="top" secondItem="rQW-1T-VAw" secondAttribute="bottom" constant="20" id="1cz-YK-LEV"/>
-                        <constraint firstItem="cCU-v3-ePL" firstAttribute="leading" secondItem="F1H-3Q-MoX" secondAttribute="leading" id="Iwk-FH-fHy"/>
+                        <constraint firstItem="cCU-v3-ePL" firstAttribute="leading" secondItem="F1H-3Q-MoX" secondAttribute="leading" constant="20" id="Iwk-FH-fHy"/>
                         <constraint firstAttribute="trailing" secondItem="rQW-1T-VAw" secondAttribute="trailing" id="JAx-vx-qBi"/>
                         <constraint firstItem="rQW-1T-VAw" firstAttribute="leading" secondItem="F1H-3Q-MoX" secondAttribute="leading" id="m02-Vc-57J"/>
-                        <constraint firstAttribute="trailing" secondItem="cCU-v3-ePL" secondAttribute="trailing" id="yN9-Fp-Gky"/>
+                        <constraint firstAttribute="trailing" secondItem="cCU-v3-ePL" secondAttribute="trailing" constant="20" id="yN9-Fp-Gky"/>
                     </constraints>
                 </view>
             </subviews>
@@ -62,6 +63,11 @@
             <point key="canvasLocation" x="140.57971014492756" y="104.46428571428571"/>
         </view>
     </objects>
+    <designables>
+        <designable name="cCU-v3-ePL">
+            <size key="intrinsicContentSize" width="52" height="30"/>
+        </designable>
+    </designables>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

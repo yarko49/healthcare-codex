@@ -8,7 +8,6 @@
 import UIKit
 
 class NotificationSettingsController: BaseViewController, UITableViewDelegate {
-	var dismissAction: Coordinable.ActionHandler?
 	var dataSource: UITableViewDiffableDataSource<Int, NotificationType>!
 
 	let tableView: UITableView = {
@@ -25,10 +24,6 @@ class NotificationSettingsController: BaseViewController, UITableViewDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = Str.myNotifications
-		let barButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .done, target: self, action: #selector(close(_:)))
-		barButtonItem.tintColor = .black
-		navigationItem.leftBarButtonItem = barButtonItem
-
 		tableView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(tableView)
 		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 0.0),
@@ -61,10 +56,6 @@ class NotificationSettingsController: BaseViewController, UITableViewDelegate {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		AnalyticsManager.send(event: .pageView, properties: [.name: "MyNotificationsView"])
-	}
-
-	@IBAction func close(_ sender: Any) {
-		dismissAction?()
 	}
 
 	@IBAction func didSelectSwitch(_ sender: UISwitch, forEvent event: UIEvent) {

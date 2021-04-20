@@ -12,6 +12,10 @@
 		84009048261AA77000FB3968 /* ProfileEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84009047261AA77000FB3968 /* ProfileEntryViewController.swift */; };
 		8400904E261AA7B500FB3968 /* CodexTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8400904D261AA7B500FB3968 /* CodexTextField.swift */; };
 		84016C3A2616BED7006D5279 /* DiabetiesCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 84016C392616BED7006D5279 /* DiabetiesCarePlan.json */; };
+		841640A92627D1C3000903AF /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 841640A82627D1C3000903AF /* Colors.xcassets */; };
+		841640C52627D714000903AF /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ChatViewController.swift */; };
+		841640CA2627D999000903AF /* UITabBar+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C92627D999000903AF /* UITabBar+Appearance.swift */; };
+		841640D82627F478000903AF /* UICollectionView+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640D72627F478000903AF /* UICollectionView+Appearance.swift */; };
 		8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */; };
 		841E9B8825F60112001192DD /* AnyPrimitiveValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841E9B8725F60112001192DD /* AnyPrimitiveValue.swift */; };
 		84230BE12607243A008BB83E /* DevicesSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BE02607243A008BB83E /* DevicesSelectionViewController.swift */; };
@@ -24,8 +28,6 @@
 		842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842DFC1225BBDA5900066A07 /* HealthViewController.swift */; };
 		842DFC5825BBF45100066A07 /* ResetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC5A25BBF45100066A07 /* ResetViewController.xib */; };
 		842DFC7025BBF47500066A07 /* ResetMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC7225BBF47500066A07 /* ResetMessageViewController.xib */; };
-		842DFC8225BBF48400066A07 /* AccountDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC8425BBF48400066A07 /* AccountDetailsViewController.xib */; };
-		842DFC8825BBF48800066A07 /* AccountResetPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC8A25BBF48800066A07 /* AccountResetPasswordViewController.xib */; };
 		842DFC9A25BBF49800066A07 /* TroubleshootingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC9C25BBF49800066A07 /* TroubleshootingViewController.xib */; };
 		842DFCA025BBF49F00066A07 /* TodayInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCA225BBF49F00066A07 /* TodayInputViewController.xib */; };
 		842DFCB525BBF4B500066A07 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCB725BBF4B500066A07 /* ProfileViewController.xib */; };
@@ -39,6 +41,7 @@
 		842F907425AE8D9F007421A6 /* TaskLinkType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F907325AE8D9F007421A6 /* TaskLinkType.swift */; };
 		842F907925AE8DFE007421A6 /* OCKTask+CareKitUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F907825AE8DFD007421A6 /* OCKTask+CareKitUI.swift */; };
 		842F908E25AEB56D007421A6 /* FirebaseUser+RemoteUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F908D25AEB56D007421A6 /* FirebaseUser+RemoteUser.swift */; };
+		8431136A262E87F300561329 /* SkyFloatingLabelTextField in Frameworks */ = {isa = PBXBuildFile; productRef = 84311369262E87F300561329 /* SkyFloatingLabelTextField */; };
 		84342FD025A8276C00B3EF5B /* DailyTasksPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84342FCF25A8276C00B3EF5B /* DailyTasksPageViewController.swift */; };
 		8437270C25F8989C005B2C5C /* Notification+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8437270B25F8989C005B2C5C /* Notification+Names.swift */; };
 		8439C79725FB3650008C5940 /* CodeableConcept+Supported.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439C79625FB3650008C5940 /* CodeableConcept+Supported.swift */; };
@@ -60,7 +63,6 @@
 		84476756259C2A4E00C50C09 /* ResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476659259C2A4E00C50C09 /* ResetViewController.swift */; };
 		8447675E259C2A4E00C50C09 /* HKDataUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */; };
 		8447675F259C2A4E00C50C09 /* ResetMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476667259C2A4E00C50C09 /* ResetMessageViewController.swift */; };
-		84476768259C2A4E00C50C09 /* AccountResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476676259C2A4E00C50C09 /* AccountResetPasswordViewController.swift */; };
 		8447676A259C2A4E00C50C09 /* AccountDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476678259C2A4E00C50C09 /* AccountDetailsViewController.swift */; };
 		84476770259C2A4E00C50C09 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476680259C2A4E00C50C09 /* SettingsViewController.swift */; };
 		84476774259C2A4E00C50C09 /* TroubleshootingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476687259C2A4E00C50C09 /* TroubleshootingViewController.swift */; };
@@ -133,8 +135,15 @@
 		844767EF259C2A4E00C50C09 /* APIClient+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476721259C2A4E00C50C09 /* APIClient+Image.swift */; };
 		844767F0259C2A4E00C50C09 /* UINavigationBar+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476723259C2A4E00C50C09 /* UINavigationBar+Appearance.swift */; };
 		844767F1259C2A4E00C50C09 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476724259C2A4E00C50C09 /* AppConfig.swift */; };
+		844EE8392629FC4B001B2D9E /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 844EE8382629FC4B001B2D9E /* KeychainAccess */; };
+		844EE87B262D02E0001B2D9E /* UIView+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844EE87A262D02E0001B2D9E /* UIView+Appearance.swift */; };
+		844EE890262D30A9001B2D9E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844EE88F262D30A9001B2D9E /* LoginViewController.swift */; };
+		844EE895262D30CD001B2D9E /* SignupBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844EE894262D30CD001B2D9E /* SignupBaseViewController.swift */; };
+		844EE89D262D3B05001B2D9E /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844EE89C262D3B05001B2D9E /* SeparatorView.swift */; };
+		844EE8A5262D4E63001B2D9E /* EmailSignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844EE8A4262D4E62001B2D9E /* EmailSignupViewController.swift */; };
 		844F06DF25C113B500D26119 /* UserDefaults+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F06DE25C113B500D26119 /* UserDefaults+Settings.swift */; };
 		844F06EA25C122DA00D26119 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F06E925C122DA00D26119 /* Bundle+Version.swift */; };
+		8452775C262E8DB9002241A1 /* EmailSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8452775B262E8DB9002241A1 /* EmailSentViewController.swift */; };
 		845AAC71259C36E900FF8F3F /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 845AAC70259C36E900FF8F3F /* IQKeyboardManagerSwift */; };
 		845AAC77259C374500FF8F3F /* BonMot in Frameworks */ = {isa = PBXBuildFile; productRef = 845AAC76259C374500FF8F3F /* BonMot */; };
 		845AACAE259C3CEF00FF8F3F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84476616259C2A0E00C50C09 /* GoogleService-Info.plist */; };
@@ -183,7 +192,6 @@
 		849E158D261138CF00663010 /* AlliePatient+Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E158C261138CF00663010 /* AlliePatient+Keychain.swift */; };
 		849E158F26113ABB00663010 /* AlliePatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E158E26113ABB00663010 /* AlliePatientTests.swift */; };
 		849F362125B9161300FC2D1B /* TitledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F362025B9161300FC2D1B /* TitledTextField.swift */; };
-		849F362C25B92DD100FC2D1B /* EmailSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F362B25B92DD100FC2D1B /* EmailSentViewController.swift */; };
 		849F378F25BA7F2200FC2D1B /* AuthorizationFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */; };
 		849F37A125BA8CF300FC2D1B /* ScreenFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */; };
 		84A6316F2601B6B5000922F3 /* CareKitStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */; };
@@ -201,9 +209,8 @@
 		84C22BCB25A5821800D16CFF /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 84C22BCA25A5821800D16CFF /* Logging */; };
 		84C39A4E25B172640063D92C /* Task+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */; };
 		84C517F525B7E55F00D684E5 /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C517F425B7E55F00D684E5 /* BottomButton.swift */; };
-		84C5180225B7EC5C00D684E5 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5180125B7EC5C00D684E5 /* OnboardingViewController.swift */; };
+		84C5180225B7EC5C00D684E5 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5180125B7EC5C00D684E5 /* SignupViewController.swift */; };
 		84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5181225B7F93600D684E5 /* IllustrationView.swift */; };
-		84C5182A25B8014500D684E5 /* EmailAuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5182925B8014500D684E5 /* EmailAuthorizationViewController.swift */; };
 		84C83FD4259C48F200DAEF34 /* PatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBD259C48EF00DAEF34 /* PatientTests.swift */; };
 		84C83FD5259C48F200DAEF34 /* CarePlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */; };
 		84C83FD6259C48F200DAEF34 /* ScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */; };
@@ -265,6 +272,10 @@
 		84009047261AA77000FB3968 /* ProfileEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEntryViewController.swift; sourceTree = "<group>"; };
 		8400904D261AA7B500FB3968 /* CodexTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodexTextField.swift; sourceTree = "<group>"; };
 		84016C392616BED7006D5279 /* DiabetiesCarePlan.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DiabetiesCarePlan.json; sourceTree = "<group>"; };
+		841640A82627D1C3000903AF /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		841640C42627D714000903AF /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		841640C92627D999000903AF /* UITabBar+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar+Appearance.swift"; sourceTree = "<group>"; };
+		841640D72627F478000903AF /* UICollectionView+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Appearance.swift"; sourceTree = "<group>"; };
 		8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextContentDetailViewController.swift; sourceTree = "<group>"; };
 		841E9B8725F60112001192DD /* AnyPrimitiveValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPrimitiveValue.swift; sourceTree = "<group>"; };
 		84230BE02607243A008BB83E /* DevicesSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesSelectionViewController.swift; sourceTree = "<group>"; };
@@ -283,8 +294,6 @@
 		842DFC1225BBDA5900066A07 /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
 		842DFC5925BBF45100066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ResetViewController.xib; sourceTree = "<group>"; };
 		842DFC7125BBF47500066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ResetMessageViewController.xib; sourceTree = "<group>"; };
-		842DFC8325BBF48400066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AccountDetailsViewController.xib; sourceTree = "<group>"; };
-		842DFC8925BBF48800066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AccountResetPasswordViewController.xib; sourceTree = "<group>"; };
 		842DFC9B25BBF49800066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TroubleshootingViewController.xib; sourceTree = "<group>"; };
 		842DFCA125BBF49F00066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TodayInputViewController.xib; sourceTree = "<group>"; };
 		842DFCB625BBF4B500066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ProfileViewController.xib; sourceTree = "<group>"; };
@@ -324,7 +333,6 @@
 		84476659259C2A4E00C50C09 /* ResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetViewController.swift; sourceTree = "<group>"; };
 		84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HKDataUploadViewController.swift; sourceTree = "<group>"; };
 		84476667259C2A4E00C50C09 /* ResetMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetMessageViewController.swift; sourceTree = "<group>"; };
-		84476676259C2A4E00C50C09 /* AccountResetPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountResetPasswordViewController.swift; sourceTree = "<group>"; };
 		84476678259C2A4E00C50C09 /* AccountDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailsViewController.swift; sourceTree = "<group>"; };
 		84476680259C2A4E00C50C09 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		84476687259C2A4E00C50C09 /* TroubleshootingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TroubleshootingViewController.swift; sourceTree = "<group>"; };
@@ -400,8 +408,14 @@
 		84476721259C2A4E00C50C09 /* APIClient+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIClient+Image.swift"; sourceTree = "<group>"; };
 		84476723259C2A4E00C50C09 /* UINavigationBar+Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Appearance.swift"; sourceTree = "<group>"; };
 		84476724259C2A4E00C50C09 /* AppConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		844EE87A262D02E0001B2D9E /* UIView+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Appearance.swift"; sourceTree = "<group>"; };
+		844EE88F262D30A9001B2D9E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		844EE894262D30CD001B2D9E /* SignupBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupBaseViewController.swift; sourceTree = "<group>"; };
+		844EE89C262D3B05001B2D9E /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
+		844EE8A4262D4E62001B2D9E /* EmailSignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignupViewController.swift; sourceTree = "<group>"; };
 		844F06DE25C113B500D26119 /* UserDefaults+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Settings.swift"; sourceTree = "<group>"; };
 		844F06E925C122DA00D26119 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
+		8452775B262E8DB9002241A1 /* EmailSentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSentViewController.swift; sourceTree = "<group>"; };
 		845FBE6325FC68FB00472257 /* ObservationsConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ObservationsConfig.json; sourceTree = "<group>"; };
 		845FBE6825FC6A8E00472257 /* ObservationsConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsConfig.swift; sourceTree = "<group>"; };
 		845FBE7625FC71A700472257 /* ObservationsConfigTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsConfigTest.swift; sourceTree = "<group>"; };
@@ -439,7 +453,6 @@
 		849E158C261138CF00663010 /* AlliePatient+Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlliePatient+Keychain.swift"; sourceTree = "<group>"; };
 		849E158E26113ABB00663010 /* AlliePatientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlliePatientTests.swift; sourceTree = "<group>"; };
 		849F362025B9161300FC2D1B /* TitledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitledTextField.swift; sourceTree = "<group>"; };
-		849F362B25B92DD100FC2D1B /* EmailSentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSentViewController.swift; sourceTree = "<group>"; };
 		849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFlowType.swift; sourceTree = "<group>"; };
 		849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenFlowType.swift; sourceTree = "<group>"; };
 		84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareKitStoreTests.swift; sourceTree = "<group>"; };
@@ -452,9 +465,8 @@
 		84C1060025E763EC00B126ED /* SimpleTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTaskViewController.swift; sourceTree = "<group>"; };
 		84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+OCKHealthKitTask.swift"; sourceTree = "<group>"; };
 		84C517F425B7E55F00D684E5 /* BottomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
-		84C5180125B7EC5C00D684E5 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		84C5180125B7EC5C00D684E5 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		84C5181225B7F93600D684E5 /* IllustrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustrationView.swift; sourceTree = "<group>"; };
-		84C5182925B8014500D684E5 /* EmailAuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthorizationViewController.swift; sourceTree = "<group>"; };
 		84C83FBD259C48EF00DAEF34 /* PatientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientTests.swift; sourceTree = "<group>"; };
 		84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanTests.swift; sourceTree = "<group>"; };
 		84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTests.swift; sourceTree = "<group>"; };
@@ -496,6 +508,8 @@
 			files = (
 				84944E9A25E08D3C00FB1938 /* CareKit in Frameworks */,
 				8487493425B6A594008C15E2 /* JGProgressHUD in Frameworks */,
+				844EE8392629FC4B001B2D9E /* KeychainAccess in Frameworks */,
+				8431136A262E87F300561329 /* SkyFloatingLabelTextField in Frameworks */,
 				84944E9825E08D3C00FB1938 /* CareKitFHIR in Frameworks */,
 				84944E9C25E08D3C00FB1938 /* CareKitStore in Frameworks */,
 				84B3320A261D166F007EB839 /* ZendeskSupportSDK in Frameworks */,
@@ -559,6 +573,14 @@
 			path = ProfileEntry;
 			sourceTree = "<group>";
 		};
+		841640C32627D6EB000903AF /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				841640C42627D714000903AF /* ChatViewController.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
 		841E9A0225F096FE001192DD /* CareManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -601,8 +623,10 @@
 		842398C9259C1144006FB3F4 /* Allie */ = {
 			isa = PBXGroup;
 			children = (
+				841640C32627D6EB000903AF /* Chat */,
 				84476710259C2A4E00C50C09 /* Shared */,
 				84476699259C2A4E00C50C09 /* Onboarding */,
+				8447661A259C2A4D00C50C09 /* UIElements */,
 				844766E3259C2A4E00C50C09 /* DailyTasks */,
 				8447666B259C2A4E00C50C09 /* Settings */,
 				84476685259C2A4E00C50C09 /* Troubleshooting */,
@@ -613,7 +637,6 @@
 				844766B1259C2A4E00C50C09 /* Helpers */,
 				8447669C259C2A4E00C50C09 /* Models */,
 				844766CE259C2A4E00C50C09 /* Resources */,
-				8447661A259C2A4D00C50C09 /* UIElements */,
 				842398CA259C1144006FB3F4 /* AppDelegate.swift */,
 				842398CC259C1144006FB3F4 /* SceneDelegate.swift */,
 				842398D8259C1144006FB3F4 /* Info.plist */,
@@ -785,24 +808,13 @@
 		8447666B259C2A4E00C50C09 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				84476680259C2A4E00C50C09 /* SettingsViewController.swift */,
+				844766A4259C2A4E00C50C09 /* SettingsType.swift */,
 				84230BE02607243A008BB83E /* DevicesSelectionViewController.swift */,
 				84230BE62607FA79008BB83E /* NotificationSettingsController.swift */,
-				844766A4259C2A4E00C50C09 /* SettingsType.swift */,
-				84476680259C2A4E00C50C09 /* SettingsViewController.swift */,
-				84476674259C2A4E00C50C09 /* AccountDetails */,
+				84476678259C2A4E00C50C09 /* AccountDetailsViewController.swift */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		84476674259C2A4E00C50C09 /* AccountDetails */ = {
-			isa = PBXGroup;
-			children = (
-				84476678259C2A4E00C50C09 /* AccountDetailsViewController.swift */,
-				842DFC8425BBF48400066A07 /* AccountDetailsViewController.xib */,
-				84476676259C2A4E00C50C09 /* AccountResetPasswordViewController.swift */,
-				842DFC8A25BBF48800066A07 /* AccountResetPasswordViewController.xib */,
-			);
-			path = AccountDetails;
 			sourceTree = "<group>";
 		};
 		84476685259C2A4E00C50C09 /* Troubleshooting */ = {
@@ -835,11 +847,14 @@
 		84476699259C2A4E00C50C09 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				84C5180125B7EC5C00D684E5 /* OnboardingViewController.swift */,
+				844EE894262D30CD001B2D9E /* SignupBaseViewController.swift */,
+				844EE89C262D3B05001B2D9E /* SeparatorView.swift */,
+				84C5180125B7EC5C00D684E5 /* SignupViewController.swift */,
+				844EE88F262D30A9001B2D9E /* LoginViewController.swift */,
+				844EE8A4262D4E62001B2D9E /* EmailSignupViewController.swift */,
 				84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */,
 				84C5181225B7F93600D684E5 /* IllustrationView.swift */,
-				84C5182925B8014500D684E5 /* EmailAuthorizationViewController.swift */,
-				849F362B25B92DD100FC2D1B /* EmailSentViewController.swift */,
+				8452775B262E8DB9002241A1 /* EmailSentViewController.swift */,
 				842DFC1225BBDA5900066A07 /* HealthViewController.swift */,
 				849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */,
 				8447664A259C2A4E00C50C09 /* SplashViewController.swift */,
@@ -885,7 +900,6 @@
 			isa = PBXGroup;
 			children = (
 				844766BA259C2A4E00C50C09 /* UIView+LayoutConstraint.swift */,
-				844766BB259C2A4E00C50C09 /* UIColor+Names.swift */,
 				844766BC259C2A4E00C50C09 /* UIWindow+Transition.swift */,
 				844766BE259C2A4E00C50C09 /* Collection+Average.swift */,
 				844766BF259C2A4E00C50C09 /* Date+Relative.swift */,
@@ -924,6 +938,7 @@
 				844766CF259C2A4E00C50C09 /* Assets.xcassets */,
 				844766D0259C2A4E00C50C09 /* LaunchScreen.storyboard */,
 				844766D2259C2A4E00C50C09 /* Localizable.strings */,
+				841640A82627D1C3000903AF /* Colors.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1065,7 +1080,6 @@
 		84476722259C2A4E00C50C09 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				84476723259C2A4E00C50C09 /* UINavigationBar+Appearance.swift */,
 				84E4660125A040F100A10F8B /* ViewIdentifiable.swift */,
 				84E4660F25A0453C00A10F8B /* ViewNIBLoading.swift */,
 			);
@@ -1081,6 +1095,11 @@
 				844F06E925C122DA00D26119 /* Bundle+Version.swift */,
 				848574A425C78C6A000D9BCF /* Keychain+AuthToken.swift */,
 				8437270B25F8989C005B2C5C /* Notification+Names.swift */,
+				844766BB259C2A4E00C50C09 /* UIColor+Names.swift */,
+				844EE87A262D02E0001B2D9E /* UIView+Appearance.swift */,
+				84476723259C2A4E00C50C09 /* UINavigationBar+Appearance.swift */,
+				841640C92627D999000903AF /* UITabBar+Appearance.swift */,
+				841640D72627F478000903AF /* UICollectionView+Appearance.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1184,6 +1203,8 @@
 				84B331FD261D162B007EB839 /* ZendeskAnswerBotSDK */,
 				84B33203261D164B007EB839 /* ZendeskChatSDK */,
 				84B33209261D166F007EB839 /* ZendeskSupportSDK */,
+				844EE8382629FC4B001B2D9E /* KeychainAccess */,
+				84311369262E87F300561329 /* SkyFloatingLabelTextField */,
 			);
 			productName = Alfred;
 			productReference = 842398C7259C1144006FB3F4 /* Allie.app */;
@@ -1272,6 +1293,8 @@
 				84B331FC261D162A007EB839 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */,
 				84B33202261D164B007EB839 /* XCRemoteSwiftPackageReference "chat_sdk_ios" */,
 				84B33208261D166F007EB839 /* XCRemoteSwiftPackageReference "support_sdk_ios" */,
+				844EE8372629FC4B001B2D9E /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				84311368262E87F300561329 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */,
 			);
 			productRefGroup = 842398C8259C1144006FB3F4 /* Products */;
 			projectDirPath = "";
@@ -1293,14 +1316,13 @@
 				844767AD259C2A4E00C50C09 /* Assets.xcassets in Resources */,
 				842DFC9A25BBF49800066A07 /* TroubleshootingViewController.xib in Resources */,
 				845FBE6425FC68FB00472257 /* ObservationsConfig.json in Resources */,
-				842DFC8225BBF48400066A07 /* AccountDetailsViewController.xib in Resources */,
 				842DFCE825BBF52F00066A07 /* AppleHealthView.xib in Resources */,
 				844767AF259C2A4E00C50C09 /* Localizable.strings in Resources */,
 				842DFCBB25BBF4F500066A07 /* StatCell.xib in Resources */,
 				844767AE259C2A4E00C50C09 /* LaunchScreen.storyboard in Resources */,
 				842DFC7025BBF47500066A07 /* ResetMessageViewController.xib in Resources */,
-				842DFC8825BBF48800066A07 /* AccountResetPasswordViewController.xib in Resources */,
 				845AACAE259C3CEF00FF8F3F /* GoogleService-Info.plist in Resources */,
+				841640A92627D1C3000903AF /* Colors.xcassets in Resources */,
 				842DFCB525BBF4B500066A07 /* ProfileViewController.xib in Resources */,
 				842DFCDC25BBF52500066A07 /* PickerTextField.xib in Resources */,
 				842DFCA025BBF49F00066A07 /* TodayInputViewController.xib in Resources */,
@@ -1534,7 +1556,6 @@
 				84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */,
 				84476725259C2A4E00C50C09 /* StatCell.swift in Sources */,
 				84867D4725A99016002EE695 /* IllustrationCollectionViewCell.swift in Sources */,
-				84C5182A25B8014500D684E5 /* EmailAuthorizationViewController.swift in Sources */,
 				8447674C259C2A4E00C50C09 /* SplashViewController.swift in Sources */,
 				84CF2DA4261AE60B0080293F /* DatePickerView.swift in Sources */,
 				844767E1259C2A4E00C50C09 /* Coordinable.swift in Sources */,
@@ -1553,8 +1574,8 @@
 				844767DC259C2A4E00C50C09 /* CoordinatorType.swift in Sources */,
 				8437270C25F8989C005B2C5C /* Notification+Names.swift in Sources */,
 				84D2BFD1260460D30064DB08 /* AnyUserInfoExtensible.swift in Sources */,
-				84476768259C2A4E00C50C09 /* AccountResetPasswordViewController.swift in Sources */,
 				844767C6259C2A4E00C50C09 /* KeyedDecodingContainer+TimeZone.swift in Sources */,
+				841640C52627D714000903AF /* ChatViewController.swift in Sources */,
 				845FBEAA25FC97B200472257 /* OCKPatient+Subject.swift in Sources */,
 				8447675E259C2A4E00C50C09 /* HKDataUploadViewController.swift in Sources */,
 				8439C79725FB3650008C5940 /* CodeableConcept+Supported.swift in Sources */,
@@ -1564,6 +1585,8 @@
 				84C105F925E75F2000B126ED /* UIViewController+DetailView.swift in Sources */,
 				844767D2259C2A4E00C50C09 /* HealthKitSyncManager.swift in Sources */,
 				84476784259C2A4E00C50C09 /* StatModel.swift in Sources */,
+				844EE8A5262D4E63001B2D9E /* EmailSignupViewController.swift in Sources */,
+				8452775C262E8DB9002241A1 /* EmailSentViewController.swift in Sources */,
 				848574B625C78F92000D9BCF /* HealthCareProvider.swift in Sources */,
 				84873BA225CA7765004195BB /* OCKStore+Update.swift in Sources */,
 				844767A3259C2A4E00C50C09 /* UILabel+Height.swift in Sources */,
@@ -1591,11 +1614,12 @@
 				844767D1259C2A4E00C50C09 /* LoggingManager.swift in Sources */,
 				844767AB259C2A4E00C50C09 /* Str.swift in Sources */,
 				844767D5259C2A4E00C50C09 /* HealthKitManager.swift in Sources */,
+				844EE895262D30CD001B2D9E /* SignupBaseViewController.swift in Sources */,
 				842398CD259C1144006FB3F4 /* SceneDelegate.swift in Sources */,
 				844767E9259C2A4E00C50C09 /* ServicePublisher.swift in Sources */,
 				84C071F725E31FC20098B508 /* AnalyticsManager.swift in Sources */,
 				844767C8259C2A4E00C50C09 /* CarePlanResponse.swift in Sources */,
-				84C5180225B7EC5C00D684E5 /* OnboardingViewController.swift in Sources */,
+				84C5180225B7EC5C00D684E5 /* SignupViewController.swift in Sources */,
 				844767ED259C2A4E00C50C09 /* APIRouter.swift in Sources */,
 				8447672A259C2A4E00C50C09 /* BalloonMarker.swift in Sources */,
 				8487481E25B3B3D5008C15E2 /* LogginCrashlytics.swift in Sources */,
@@ -1604,6 +1628,7 @@
 				84476790259C2A4E00C50C09 /* NavigationSourceType.swift in Sources */,
 				845FBE8525FC777C00472257 /* ConversionError.swift in Sources */,
 				844767F1259C2A4E00C50C09 /* AppConfig.swift in Sources */,
+				841640CA2627D999000903AF /* UITabBar+Appearance.swift in Sources */,
 				844767EA259C2A4E00C50C09 /* WebService.swift in Sources */,
 				844767E7259C2A4E00C50C09 /* Dictionary+Encoding.swift in Sources */,
 				84476792259C2A4E00C50C09 /* NotificationType.swift in Sources */,
@@ -1625,6 +1650,7 @@
 				844767E4259C2A4E00C50C09 /* URL+Request.swift in Sources */,
 				8447677F259C2A4E00C50C09 /* ProfileViewController.swift in Sources */,
 				844767CA259C2A4E00C50C09 /* CarePlan.swift in Sources */,
+				841640D82627F478000903AF /* UICollectionView+Appearance.swift in Sources */,
 				844767EB259C2A4E00C50C09 /* Request.swift in Sources */,
 				844767AC259C2A4E00C50C09 /* Languages.swift in Sources */,
 				8447679A259C2A4E00C50C09 /* ProfileHelper.swift in Sources */,
@@ -1643,7 +1669,6 @@
 				84C93C5F2616B7ED00C5E33E /* Date+FHIR.swift in Sources */,
 				8484112B25B2B66B00171B68 /* UnitType.swift in Sources */,
 				8487481525B3B2FD008C15E2 /* LoggingOSLog.swift in Sources */,
-				849F362C25B92DD100FC2D1B /* EmailSentViewController.swift in Sources */,
 				844767C3259C2A4E00C50C09 /* Enviornment+CareManager.swift in Sources */,
 				84CF2D9E261AC5D40080293F /* GenderPickerView.swift in Sources */,
 				84B9178D25FDF39100F2422C /* UploadEntriesOperations.swift in Sources */,
@@ -1661,6 +1686,7 @@
 				8476B0F1261D8691009516ED /* OCKOutcome+Outcome.swift in Sources */,
 				84230BE9260801F7008BB83E /* HTMLViewerController.swift in Sources */,
 				8484110C25B2A13C00171B68 /* HealthKitAddTasksOperation.swift in Sources */,
+				844EE890262D30A9001B2D9E /* LoginViewController.swift in Sources */,
 				844767A0259C2A4E00C50C09 /* Date+Relative.swift in Sources */,
 				8476B0EC261D84A4009516ED /* Outcome.swift in Sources */,
 				8487488B25B4B8F1008C15E2 /* ChecklistTaskViewController.swift in Sources */,
@@ -1673,6 +1699,7 @@
 				8474271F25F7442E0049644B /* HealthKitLinkage.swift in Sources */,
 				84476798259C2A4E00C50C09 /* AlertHelper.swift in Sources */,
 				8487486625B3FAB0008C15E2 /* GridTaskViewController.swift in Sources */,
+				844EE89D262D3B05001B2D9E /* SeparatorView.swift in Sources */,
 				844767CC259C2A4E00C50C09 /* Task+OCKTask.swift in Sources */,
 				84CF2DA2261ACAA30080293F /* ButtonView.swift in Sources */,
 				8447672B259C2A4E00C50C09 /* CustomYAxisRenderer.swift in Sources */,
@@ -1686,6 +1713,7 @@
 				84B9178B25FDF00A00F2422C /* BundleUploadOperation.swift in Sources */,
 				84476739259C2A4E00C50C09 /* SettingsFooterView.swift in Sources */,
 				8447675F259C2A4E00C50C09 /* ResetMessageViewController.swift in Sources */,
+				844EE87B262D02E0001B2D9E /* UIView+Appearance.swift in Sources */,
 				844767D3259C2A4E00C50C09 /* HealthKitQuantityType.swift in Sources */,
 				84C39A4E25B172640063D92C /* Task+OCKHealthKitTask.swift in Sources */,
 				8487483025B3E622008C15E2 /* FeaturedContentViewController.swift in Sources */,
@@ -1757,22 +1785,6 @@
 				842DFC7125BBF47500066A07 /* Base */,
 			);
 			name = ResetMessageViewController.xib;
-			sourceTree = "<group>";
-		};
-		842DFC8425BBF48400066A07 /* AccountDetailsViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				842DFC8325BBF48400066A07 /* Base */,
-			);
-			name = AccountDetailsViewController.xib;
-			sourceTree = "<group>";
-		};
-		842DFC8A25BBF48800066A07 /* AccountResetPasswordViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				842DFC8925BBF48800066A07 /* Base */,
-			);
-			name = AccountResetPasswordViewController.xib;
 			sourceTree = "<group>";
 		};
 		842DFC9C25BBF49800066A07 /* TroubleshootingViewController.xib */ = {
@@ -1991,7 +2003,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 50;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2020,7 +2032,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 50;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2182,6 +2194,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		84311368262E87F300561329 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Skyscanner/SkyFloatingLabelTextField.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+		844EE8372629FC4B001B2D9E /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.2;
+			};
+		};
 		845AAC6F259C36E900FF8F3F /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -2273,6 +2301,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		84311369262E87F300561329 /* SkyFloatingLabelTextField */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84311368262E87F300561329 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */;
+			productName = SkyFloatingLabelTextField;
+		};
+		844EE8382629FC4B001B2D9E /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 844EE8372629FC4B001B2D9E /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
 		845AAC70259C36E900FF8F3F /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 845AAC6F259C36E900FF8F3F /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;

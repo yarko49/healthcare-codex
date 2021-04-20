@@ -179,7 +179,7 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 	private enum CodingKeys: String, CodingKey {
 		case id
 		case name
-		case sex = "gender"
+		case sex
 		case birthday
 		case allergies
 		case effectiveDate

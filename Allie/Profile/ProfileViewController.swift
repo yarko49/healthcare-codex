@@ -41,8 +41,6 @@ class ProfileViewController: BaseViewController {
 	@IBOutlet var topView: UIView!
 	@IBOutlet var nameLabel: UILabel!
 	@IBOutlet var detailsLabel: UILabel!
-	@IBOutlet var editButton: UIButton!
-	@IBOutlet var prevButton: UIButton!
 
 	// MARK: Vars
 
@@ -134,8 +132,6 @@ class ProfileViewController: BaseViewController {
 		separatorLineView.backgroundColor = UIColor.swipe
 		nameLabel.attributedText = name.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 
-		editButton.setTitle(Str.edit, for: .normal)
-		editButton.setTitleColor(UIColor.cursorOrange, for: .normal)
 		patientTrendsTableView.register(UINib(nibName: StatCell.nibName, bundle: nil), forCellReuseIdentifier: StatCell.reuseIdentifier)
 		patientTrendsTableView.register(UINib(nibName: TodayStatCell.nibName, bundle: nil), forCellReuseIdentifier: TodayStatCell.reuseIdentifier)
 		patientTrendsTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
@@ -154,9 +150,48 @@ class ProfileViewController: BaseViewController {
 		}
 	}
 
+	override func viewDidLoad() {
+		super.viewDidLoad()
+
+		getRangeData = { interval, start, end, completion in
+			var chartData: [HealthKitQuantityType: [StatModel]] = [:]
+			var goals: [HealthKitQuantityType: Int] = [:]
+			let chartGroup = DispatchGroup()
+			HealthKitQuantityType.allCases.forEach { quantityType in
+				chartGroup.enter()
+				let innergroup = DispatchGroup()
+				var values: [StatModel] = []
+				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
+					innergroup.enter()
+					HealthKitManager.shared.queryData(identifier: identifier, startDate: start, endDate: end, intervalType: interval) { dataPoints in
+						let stat = StatModel(type: quantityType, dataPoints: dataPoints)
+						values.append(stat)
+						innergroup.leave()
+					}
+				}
+
+				innergroup.notify(queue: .main) {
+					chartData[quantityType] = values
+					goals[quantityType] = ProfileHelper.getGoal(for: quantityType)
+					chartGroup.leave()
+				}
+			}
+
+			chartGroup.notify(queue: .main) {
+				completion?(chartData, goals)
+			}
+		}
+
+		updateTodayData()
+	}
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
-		getData?()
+		age = patient?.age
+		weight = patient?.profile.weightInPounds
+		height = patient?.profile.heightInInches
+		createDetailsLabel()
+		patientTrendsTableView.reloadData()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -258,8 +293,43 @@ class ProfileViewController: BaseViewController {
 		}
 	}
 
-	@IBAction func editButtonTapped(_ sender: Any) {
-		editButtonAction?(weight ?? 0, height ?? 0)
+	func updateTodayData() {
+		var todayData: [HealthKitQuantityType: [Any]] = [:]
+		let topGroup = DispatchGroup()
+		HealthKitQuantityType.allCases.forEach { quantityType in
+			if quantityType != .activity {
+				topGroup.enter()
+				let innergroup = DispatchGroup()
+				var values: [Any] = []
+				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
+					innergroup.enter()
+
+					HealthKitManager.shared.queryMostRecentEntry(identifier: identifier) { sample in
+						if let quantitySample = sample as? HKQuantitySample {
+							values.append(quantitySample)
+						}
+						innergroup.leave()
+					}
+				}
+
+				innergroup.notify(queue: .main) {
+					todayData[quantityType] = values
+					topGroup.leave()
+				}
+			} else {
+				topGroup.enter()
+				HealthKitManager.shared.queryTodaySteps { (statistics) -> Void in
+					if let statistics = statistics {
+						todayData[quantityType] = [statistics]
+					}
+					topGroup.leave()
+				}
+			}
+		}
+
+		topGroup.notify(queue: .main) { [weak self] in
+			self?.todayHKData = todayData
+		}
 	}
 }
 

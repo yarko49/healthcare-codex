@@ -8,12 +8,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileViewController" customModule="Alfred" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileViewController" customModule="Allie" customModuleProvider="target">
             <connections>
                 <outlet property="dateIntervalSegmentedControl" destination="1dg-Gq-rLy" id="iYd-R9-WN2"/>
                 <outlet property="dateLabel" destination="V8c-c5-V8u" id="DVz-6o-AGH"/>
                 <outlet property="detailsLabel" destination="uwP-1v-8sO" id="gdA-5W-dNa"/>
-                <outlet property="editButton" destination="B5s-GF-faz" id="8ZO-Wa-VN5"/>
                 <outlet property="nameLabel" destination="Weo-Cf-rHP" id="M3A-e1-h5R"/>
                 <outlet property="nextDateButton" destination="OvH-Vr-yXU" id="OiG-P2-UaA"/>
                 <outlet property="patientTrendsTableView" destination="Ylz-Gs-IZC" id="b51-2x-X53"/>
@@ -50,13 +49,6 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B5s-GF-faz">
-                                    <rect key="frame" x="345" y="30" width="46" height="30"/>
-                                    <state key="normal" title="Button"/>
-                                    <connections>
-                                        <action selector="editButtonTapped:" destination="-1" eventType="touchUpInside" id="9CA-fB-qio"/>
-                                    </connections>
-                                </button>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
@@ -65,10 +57,8 @@
                                 <constraint firstItem="uwP-1v-8sO" firstAttribute="top" secondItem="Weo-Cf-rHP" secondAttribute="bottom" constant="15" id="XWE-ZT-cKa"/>
                                 <constraint firstAttribute="trailing" secondItem="Weo-Cf-rHP" secondAttribute="trailing" constant="14" id="aCG-6M-A0F"/>
                                 <constraint firstAttribute="bottom" secondItem="uwP-1v-8sO" secondAttribute="bottom" constant="21" id="fLK-bq-qe3"/>
-                                <constraint firstAttribute="trailing" secondItem="B5s-GF-faz" secondAttribute="trailing" constant="23" id="qV1-qA-T1z"/>
                                 <constraint firstItem="Weo-Cf-rHP" firstAttribute="top" secondItem="I9d-ig-t3i" secondAttribute="top" constant="30" id="stF-rC-dGt"/>
                                 <constraint firstItem="uwP-1v-8sO" firstAttribute="leading" secondItem="I9d-ig-t3i" secondAttribute="leading" constant="24" id="uNP-Ru-Q8Z"/>
-                                <constraint firstItem="B5s-GF-faz" firstAttribute="centerY" secondItem="uwP-1v-8sO" secondAttribute="centerY" id="zgK-kg-DFh"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L3j-SJ-hFv">

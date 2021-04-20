@@ -40,9 +40,6 @@ class SettingsViewController: BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = Str.settings
-		let leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .done, target: self, action: #selector(close(_:)))
-		leftBarButtonItem.tintColor = .black
-		navigationItem.leftBarButtonItem = leftBarButtonItem
 
 		settingsFooterView.translatesAutoresizingMaskIntoConstraints = false
 		settingsFooterView.delegate = self
@@ -63,9 +60,10 @@ class SettingsViewController: BaseViewController {
 		tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: UITableViewHeaderFooterView.reuseIdentifier)
 		dataSource = UITableViewDiffableDataSource<Int, SettingsType>(tableView: tableView, cellProvider: { (tableView, indexPath, type) -> UITableViewCell? in
 			let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.reuseIdentifier, for: indexPath)
-			cell.layoutMargins = UIEdgeInsets.zero
+			cell.tintColor = .allieButtons
+			cell.layoutMargins = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
 			cell.accessoryType = .disclosureIndicator
-			cell.textLabel?.attributedText = type.title.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: -0.41)
+			cell.textLabel?.attributedText = type.title.with(style: .regular17, andColor: .allieButtons, andLetterSpacing: -0.41)
 			return cell
 		})
 
@@ -99,7 +97,102 @@ extension SettingsViewController: UITableViewDelegate {
 		guard let item = dataSource.itemIdentifier(for: indexPath) else {
 			return
 		}
-		itemSelectionAction?(item)
+
+		switch item {
+		case .accountDetails:
+			showAccountDetails()
+		case .myDevices:
+			showMyDevices()
+		case .notifications:
+			showNotifications()
+		case .systemAuthorization:
+			showSystemAuthorization()
+		case .feedback:
+			showFeedback()
+		case .privacyPolicy:
+			showPrivacyPolicy()
+		case .termsOfService:
+			showTermsOfService()
+		case .support:
+			showSupport()
+		case .troubleShoot:
+			showHelpCenter()
+		}
+	}
+
+	func showAccountDetails() {
+		let accountDetailsViewController = AccountDetailsViewController()
+		navigationController?.show(accountDetailsViewController, sender: self)
+	}
+
+	func showMyDevices() {
+		let devicesViewController = DevicesSelectionViewController()
+		devicesViewController.title = NSLocalizedString("MY_DEVICES", comment: "My Devices")
+		navigationController?.show(devicesViewController, sender: self)
+	}
+
+	func showNotifications() {
+		let myNotificationsViewController = NotificationSettingsController()
+		navigationController?.show(myNotificationsViewController, sender: self)
+	}
+
+	func showSystemAuthorization() {
+		if let url = URL(string: UIApplication.openSettingsURLString) {
+			UIApplication.shared.open(url, options: [:], completionHandler: nil)
+		}
+	}
+
+	func showFeedback() {
+		let config = RequestUiConfiguration()
+		config.subject = "iOS Ticket"
+		config.tags = ["ios", "mobile"]
+		let requestListController = RequestUi.buildRequestList(with: [config])
+		navigationController?.show(requestListController, sender: self)
+	}
+
+	func showHelpCenter() {
+		guard let url = URL(string: "https://codexhealth.zendesk.com/hc/en-us") else {
+			return
+		}
+		let safarViewController = SFSafariViewController(url: url)
+		safarViewController.delegate = self
+		navigationController?.showDetailViewController(safarViewController, sender: self)
+	}
+
+	func showSupport() {
+		do {
+			let messagingConfiguration = MessagingConfiguration()
+			let answerBotEngine = try AnswerBotEngine.engine()
+			let supportEngine = try SupportEngine.engine()
+			let chatEngine = try ChatEngine.engine()
+			let viewController = try Messaging.instance.buildUI(engines: [supportEngine, chatEngine, answerBotEngine], configs: [messagingConfiguration])
+			navigationController?.show(viewController, sender: self)
+		} catch {
+			ALog.error("Unable to show support", error: error)
+		}
+	}
+
+	func showMailSetupAlert() {
+		let title = NSLocalizedString("NO_EMAIL_SETUP.title", comment: "Email Setup")
+		let message = NSLocalizedString("NO_EMAIL_SETUP.message", comment: "Please setup default email!")
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let cancelTitle = NSLocalizedString("CANCEL", comment: "Cancel")
+		let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel) { _ in
+		}
+		alertController.addAction(cancelAction)
+		navigationController?.show(alertController, sender: self)
+	}
+
+	func showPrivacyPolicy() {
+		let privacyPolicyViewController = HTMLViewerController()
+		privacyPolicyViewController.title = Str.privacyPolicy
+		navigationController?.show(privacyPolicyViewController, sender: self)
+	}
+
+	func showTermsOfService() {
+		let termsOfServiceViewController = HTMLViewerController()
+		termsOfServiceViewController.title = Str.termsOfService
+		navigationController?.show(termsOfServiceViewController, sender: self)
 	}
 }
 

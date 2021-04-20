@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import KeychainAccess
 
 extension Keychain {
 	enum KeychainKey: String {
@@ -54,5 +55,30 @@ extension Keychain {
 		Keychain.emailForLink = nil
 		Keychain.userId = nil
 		Self.logout()
+	}
+}
+
+extension KeychainAccess.Keychain {
+	enum ItemKeyType: String {
+		case authToken
+		case email
+		case identifier
+	}
+
+	var userIdentifier: String? {
+		get {
+			try? get(ItemKeyType.identifier.rawValue)
+		}
+		set {
+			guard let identifier = newValue else {
+				try? remove(ItemKeyType.identifier.rawValue)
+				return
+			}
+			try? set(identifier, key: ItemKeyType.identifier.rawValue)
+		}
+	}
+
+	var patientID: String? {
+		"Patient/\(userIdentifier ?? "")"
 	}
 }

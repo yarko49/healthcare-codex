@@ -33,7 +33,7 @@
 
 "SIGN_UP_WITH_APPLE" = "Sign up with Apple";
 
-"SIGN_UP_WITH_YOUR_EMAIL" = "Sign up with your email";
+"SIGN_UP_WITH_YOUR_EMAIL" = "Sign up with email";
 
 "FORGOT_PASSWORD" = "Forgot password?";
 
@@ -67,15 +67,16 @@
 
 "SEND_LINK" = "Send Link";
 
-"EMAIL_SENT" = "Email Sent";
+/* Email Sent! */
+"EMAIL_SENT" = "Email Sent!";
 
-"CHECK_MAIL" = "Check your email";
+"CHECK_MAIL" = "Check your email and verify";
 
 "SENT_EMAIL_AT_SIGN_IN" = "We just sent an email to you at %@. Click the link, and you’ll be automatically signed in.";
 
 "SENT_EMAIL_AT_SIGN_UP" = "We just sent an email to you at %@. Click the link, and you’ll be automatically signed up.";
 
-"OPEN_MAIL_APP" = "Open mail app";
+"OPEN_MAIL_APP" = "Open Mail App";
 
 "WELCOME" = "Welcome";
 
@@ -86,17 +87,11 @@
 "CONTINUE_PROFILE" = "Continue to create your profile";
 
 /* Onboarding */
-"SLIDE_1_TITLE" = "Allie";
+"SLIDE_1_TITLE" = "Allie\nyour personal health coach";
 
-"SLIDE_1_DESC" = "Your Personal Health Assistant";
+"SLIDE_2_TITLE" = "Track your health\ndaily and over time";
 
-"SLIDE_2_TITLE" = "Daily Data for a Healthier You";
-
-"SLIDE_2_DESC" = "Track your weight, steps, BP and heart rate daily";
-
-"SLIDE_3_TITLE" = "A Better Health Partnership";
-
-"SLIDE_3_DESC" = "Facilitates collaboration with your doctor";
+"SLIDE_3_TITLE" = "Partner with your doctor for\nbetter outcomes";
 
 /* Already have an Account? */
 "ALREADY_HAVE_ACCOUNT" = "Already have an Account?";
@@ -315,7 +310,7 @@
 
 "LOG_OUT" = "Log out";
 
-/* Account Details */
+/* ill */
 "ACCOUNT_DETAILS" = "Account Details";
 
 "DEVICES" = "Devices";
@@ -532,4 +527,34 @@
 
 /* Your middle name(s) */
 "YOUR_MIDDLE_NAMES" = "Your middle names";
+
+/* Chat */
+"CHAT" = "Chat";
+
+/* My Devices */
+"MY_DEVICES" = "My Devices";
+
+/* Unable to update profile */
+"UNABLE_TO_UPDATE" = "Unable to update profile";
+
+/* Update */
+"UPDATE" = "Update";
+
+/* Please, Login */
+"PLEASE_LOGIN" = "Please, Login";
+
+/* Uploading... */
+"UPLOADING_DOTS" = "Uploading...";
+
+/* Already a memeber? */
+"ALREADY_MEMBER" = "Already a member?";
+
+/* Login */
+"LOGIN" = "Login";
+
+/* Activate Apple Health */
+"ACTIVATE_APPLE_HEALTH" = "Activate\nApple Health";
+
+/* This will allow Allie to compare different measurements to give you the right type of assistance. */
+"ACTIVATION_MESSAGE" = "This will allow Allie to compare different measurements to give you the right type of assistance.";
 
