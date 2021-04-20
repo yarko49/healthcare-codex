@@ -30,6 +30,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		view.backgroundColor = .allieWhite
 		NotificationCenter.default.publisher(for: .patientDidSnychronize)
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] _ in
