@@ -36,7 +36,6 @@ class SettingsFooterView: UIView {
 	}
 
 	private func localize() {
-		logOutButton.setAttributedTitle(Str.logout.uppercased().with(style: .semibold17, andColor: .white), for: .normal)
 		if let version = Bundle.main.ch_appVersion {
 			appVersionLabel.attributedText = Str.version(version).with(style: .regular17, andColor: UIColor.lightGrey, andLetterSpacing: -0.41)
 		}

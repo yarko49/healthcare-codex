@@ -182,6 +182,15 @@
         }
       },
       {
+        "package": "KeychainAccess",
+        "repositoryURL": "https://github.com/kishikawakatsumi/KeychainAccess.git",
+        "state": {
+          "branch": null,
+          "revision": "84e546727d66f1adc5439debad16270d0fdd04e7",
+          "version": "4.2.2"
+        }
+      },
+      {
         "package": "leveldb",
         "repositoryURL": "https://github.com/firebase/leveldb.git",
         "state": {
@@ -242,6 +251,15 @@
           "branch": null,
           "revision": "9ffc546b8f68c3251ca09cfa95bbd20084b6321e",
           "version": "5.11.0"
+        }
+      },
+      {
+        "package": "SkyFloatingLabelTextField",
+        "repositoryURL": "https://github.com/Skyscanner/SkyFloatingLabelTextField.git",
+        "state": {
+          "branch": null,
+          "revision": "a0750ebbc7311f3b3debf99c5e59338e854afa59",
+          "version": "4.0.0"
         }
       },
       {

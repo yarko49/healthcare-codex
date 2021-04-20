@@ -22,5 +22,9 @@
 	<array>
 		<string>group.com.codexhealth.Allie</string>
 	</array>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)com.codexhealth.Allie</string>
+	</array>
 </dict>
 </plist>

@@ -8,6 +8,7 @@ import Combine
 import Firebase
 import FirebaseAuth
 import JGProgressHUD
+import KeychainAccess
 import LocalAuthentication
 import UIKit
 
@@ -25,6 +26,7 @@ class MainCoordinator: Coordinable {
 		return view
 	}()
 
+	lazy var keychain = KeychainAccess.Keychain(server: AppConfig.apiBaseHost, protocolType: .https, accessGroup: AppConfig.keychainAccessGroup, authenticationType: .default)
 	lazy var remoteConfigManager = RemoteConfigManager()
 	lazy var context = LAContext()
 	var didRegisterOrgnization: Bool = false
@@ -48,7 +50,7 @@ class MainCoordinator: Coordinable {
 		self.window.makeKeyAndVisible()
 	}
 
-	public func start() {
+	func start() {
 		if !UserDefaults.standard.hasRunOnce {
 			UserDefaults.resetStandardUserDefaults()
 			let firebaseAuth = Auth.auth()
@@ -68,7 +70,7 @@ class MainCoordinator: Coordinable {
 		}
 	}
 
-	public func goToAuth(url: String? = nil) {
+	func goToAuth(url: String? = nil) {
 		removeCoordinator(ofType: .appCoordinator)
 		Keychain.clearKeychain()
 		UserDefaults.resetStandardUserDefaults()
@@ -85,10 +87,9 @@ class MainCoordinator: Coordinable {
 		var transitionOptions = UIWindow.TransitionOptions()
 		transitionOptions.direction = .fade
 		window.setRootViewController(rootViewController, options: transitionOptions)
-		window.rootViewController = rootViewController
 	}
 
-	internal func biometricsAuthentication() {
+	func biometricsAuthentication() {
 		guard UserDefaults.standard.isBiometricsEnabled else {
 			goToAuth()
 			return
@@ -140,7 +141,7 @@ class MainCoordinator: Coordinable {
 		}
 	}
 
-	internal func firebaseAuthentication(completion: @escaping (Bool) -> Void) {
+	func firebaseAuthentication(completion: @escaping (Bool) -> Void) {
 		Auth.auth().currentUser?.getIDTokenResult(completion: { [weak self] tokenResult, error in
 			guard error == nil else {
 				ALog.error("Error signing out:", error: error)

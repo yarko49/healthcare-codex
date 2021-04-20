@@ -46,7 +46,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	}
 
 	func start() {
-		gotoOnboarding()
+		gotoSignup()
 	}
 
 	func showHUD(animated: Bool = true) {
@@ -57,47 +57,61 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		parentCoordinator?.hideHUD(animated: animated)
 	}
 
-	func gotoOnboarding(authorizationFlowType type: AuthorizationFlowType = .signUp) {
+	func gotoSignup(authorizationFlowType type: AuthorizationFlowType = .signUp) {
 		authorizationFlowType = type
-		let onboardingViewController = OnboardingViewController()
-		onboardingViewController.authorizationFlowType = type
-		onboardingViewController.appleAuthoizationAction = { [weak self] in
+		let signupViewController = SignupViewController()
+		signupViewController.authorizationFlowType = type
+		signupViewController.appleAuthoizationAction = { [weak self] in
 			self?.signInWithApple()
 		}
 
-		onboardingViewController.emailAuthorizationAction = { [weak self] authorizationFlowType in
+		signupViewController.emailAuthorizationAction = { [weak self] authorizationFlowType in
 			self?.authorizationFlowType = authorizationFlowType
-			self?.gotoEmailAuthorization()
+			self?.gotoEmailSignup()
 		}
 
-		onboardingViewController.authorizationFlowChangedAction = { [weak self] authorizationFlowType in
-			self?.gotoOnboarding(authorizationFlowType: authorizationFlowType)
+		signupViewController.authorizationFlowChangedAction = { [weak self] authorizationFlowType in
+			switch authorizationFlowType {
+			case .signIn:
+				self?.gotoLogin(authorizationFlowType: authorizationFlowType)
+			case .signUp:
+				self?.gotoSignup(authorizationFlowType: authorizationFlowType)
+			}
 		}
-		navigate(to: onboardingViewController, with: .resetStack)
+		navigate(to: signupViewController, with: .resetStack)
 	}
 
-	func gotoEmailAuthorization() {
-		let emailAuthViewController = EmailAuthorizationViewController()
-		emailAuthViewController.authorizationFlowType = authorizationFlowType
-		emailAuthViewController.alertAction = { [weak self] title, detail, textField in
-			let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
-				_ = textField.becomeFirstResponder()
-			}
-			self?.showAlert(title: title, detailText: detail, actions: [okAction], fillProportionally: false)
+	func gotoLogin(authorizationFlowType type: AuthorizationFlowType = .signIn) {
+		authorizationFlowType = type
+		let loginViewController = LoginViewController()
+		loginViewController.authorizationFlowType = type
+		loginViewController.appleAuthoizationAction = { [weak self] in
+			self?.signInWithApple()
 		}
 
-		emailAuthViewController.gotoTermsOfService = { [weak self] in
-			self?.gotoTermsOfService()
-		}
-		emailAuthViewController.gotoPrivacyPolicy = { [weak self] in
-			self?.gotoPrivacyPolicy()
-		}
-
-		emailAuthViewController.authorizeWithEmail = { [weak self] email, _ in
+		loginViewController.authorizeWithEmail = { [weak self] email, authorizationFlowType in
+			self?.authorizationFlowType = authorizationFlowType
 			self?.sendEmailLink(email: email)
 		}
 
-		navigate(to: emailAuthViewController, with: .push)
+		loginViewController.authorizationFlowChangedAction = { [weak self] authorizationFlowType in
+			switch authorizationFlowType {
+			case .signIn:
+				self?.gotoLogin(authorizationFlowType: authorizationFlowType)
+			case .signUp:
+				self?.gotoSignup(authorizationFlowType: authorizationFlowType)
+			}
+		}
+		navigate(to: loginViewController, with: .resetStack)
+	}
+
+	func gotoEmailSignup() {
+		let emailSignupViewController = EmailSignupViewController()
+		emailSignupViewController.authorizeWithEmail = { [weak self] email, authorizationFlowType in
+			self?.authorizationFlowType = authorizationFlowType
+			self?.sendEmailLink(email: email)
+		}
+		navigate(to: emailSignupViewController, with: .resetStack)
 	}
 
 	func sendEmailLink(email: String) {
@@ -119,11 +133,9 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		}
 	}
 
-	internal func emailSentSuccess(email: String) {
+	func emailSentSuccess(email: String) {
 		let emailSentViewController = EmailSentViewController()
-		emailSentViewController.email = email
 		emailSentViewController.authorizationFlowType = authorizationFlowType
-
 		emailSentViewController.openMailApp = {
 			guard let mailURL = URL(string: "message://") else { return }
 			UIApplication.shared.open(mailURL, options: [:]) { success in
@@ -132,70 +144,39 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				}
 			}
 		}
-		emailSentViewController.goToTermsOfService = { [weak self] in
-			self?.gotoTermsOfService()
-		}
-		emailSentViewController.goToPrivacyPolicy = { [weak self] in
-			self?.gotoPrivacyPolicy()
-		}
-		navigate(to: emailSentViewController, with: .push)
+		navigate(to: emailSentViewController, with: .resetStack)
 	}
 
-	internal func verifySendLink(link: String) {
+	func verifySendLink(link: String) {
 		if let email = Keychain.emailForLink {
-			gotoWelcomeView(email: email, link: link)
-		} else {
-			start()
-		}
-	}
-
-	internal func gotoWelcomeView(email: String, link: String) {
-		let healthViewController = HealthViewController()
-		healthViewController.screenFlowType = .welcome
-		healthViewController.authorizationFlowType = authorizationFlowType
-		var authDataResult: AuthDataResult?
-		let signInAction = { [weak self, weak healthViewController] in
-			self?.showHUD()
+			showHUD()
 			if Auth.auth().isSignIn(withEmailLink: link) {
 				Auth.auth().signIn(withEmail: email, link: link) { [weak self] authResult, error in
 					if error == nil {
-						self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
+						self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { _ in
 							DispatchQueue.main.async {
-								authDataResult = authResult
-								if let viewController = healthViewController, viewController.authorizationFlowType == .signIn {
-									self?.parentCoordinator?.gotoHealthKitAuthorization()
+								if let authorizationFlowType = self?.authorizationFlowType, authorizationFlowType == .signIn {
+									if HealthKitManager.shared.healthKitAuthorized == false {
+										self?.gotoHealthViewController(screenFlowType: .healthKit)
+									} else {
+										self?.gotoMainApp()
+									}
 								} else {
-									healthViewController?.screenFlowType = .welcomeSuccess
+									self?.checkIfUserExists(email: email, user: authResult)
 								}
 							}
 						})
 					} else {
 						DispatchQueue.main.async {
-							self?.hideHUD()
-							healthViewController?.screenFlowType = .welcomeFailure
 							AlertHelper.showAlert(title: error?.localizedDescription, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 						}
 					}
 				}
-			} else {
-				self?.hideHUD()
-				healthViewController?.screenFlowType = .welcomeFailure
-				AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
 			}
+		} else {
+			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+			start()
 		}
-
-		healthViewController.nextButtonAction = { [weak self, weak healthViewController] in
-			if let viewController = healthViewController, viewController.screenFlowType == .welcomeSuccess, viewController.authorizationFlowType == .signIn {
-				self?.parentCoordinator?.gotoHealthKitAuthorization()
-			} else if authDataResult != nil {
-				self?.checkIfUserExists(user: authDataResult)
-			} else {
-				self?.start()
-			}
-		}
-
-		healthViewController.signInAction = signInAction
-		navigate(to: healthViewController, with: .pushFullScreen)
 	}
 
 	internal func gotoReset() {
@@ -227,9 +208,9 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		navigate(to: resetMessageViewController, with: .push)
 	}
 
-	internal func getPatient() {
+	internal func getPatient(email: String?, user: RemoteUser) {
 		guard let user = Auth.auth().currentUser else {
-			gotoOnboarding()
+			gotoSignup()
 			return
 		}
 		showHUD()
@@ -238,7 +219,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			switch carePlanResult {
 			case .failure(let error):
 				ALog.error("Unable to fetch CarePlan: ", error: error)
-				self?.gotoProfileSetupViewController(user: user)
+				self?.gotoProfileSetupViewController(email: email, user: user)
 			case .success(let carePlan):
 				if let patient = carePlan.patients.first {
 					self?.alliePatient = patient
@@ -248,13 +229,13 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 						switch patientResult {
 						case .failure(let error):
 							ALog.error("Unable to add patient to store", error: error)
-							self?.gotoProfileSetupViewController(user: user)
+							self?.gotoProfileSetupViewController(email: email, user: user)
 						case .success:
 							self?.parentCoordinator?.gotoHealthKitAuthorization()
 						}
 					}
 				} else {
-					self?.gotoProfileSetupViewController(user: user)
+					self?.gotoProfileSetupViewController(email: email, user: user)
 				}
 			}
 		}
@@ -267,10 +248,13 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		})
 	}
 
-	func gotoProfileSetupViewController(user: RemoteUser) {
+	func gotoProfileSetupViewController(email: String?, user: RemoteUser) {
 		try? careManager.resetAllContents()
 		if alliePatient == nil {
 			alliePatient = AlliePatient(user: user)
+		}
+		if let email = email {
+			alliePatient?.profile.email = email
 		}
 		gotoProfileEntryViewController()
 	}
@@ -297,23 +281,15 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			self?.alliePatient?.birthday = viewController.dateOfBirth
 			self?.alliePatient?.profile.weightInPounds = viewController.weightInPounds
 			self?.alliePatient?.profile.heightInInches = viewController.heightInInches
-			self?.gotoHealthViewController(screenFlowType: .selectDevices)
+			self?.gotoMyDevices()
 		}
-		navigate(to: viewController, with: .push)
+		navigate(to: viewController, with: .resetStack)
 	}
 
 	func gotoHealthViewController(screenFlowType: ScreenFlowType) {
 		let healthViewController = HealthViewController()
 		healthViewController.screenFlowType = screenFlowType
 		healthViewController.authorizationFlowType = authorizationFlowType
-		healthViewController.nextButtonAction = { [weak self] in
-			if screenFlowType == .selectDevices {
-				self?.gotoMyDevices()
-			} else {
-				self?.createPatient()
-			}
-		}
-
 		healthViewController.notNowAction = { [weak self] in
 			self?.createPatient()
 		}
@@ -322,7 +298,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			self?.authorizeHKForUpload()
 		}
 
-		navigate(to: healthViewController, with: .pushFullScreen)
+		navigate(to: healthViewController, with: .resetStack)
 	}
 
 	func createPatient() {
@@ -361,7 +337,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			ALog.info("HealthKit Successfully Authorized.")
 			DispatchQueue.main.async {
 				UserDefaults.standard.healthKitUploadChunkSize = 4500
-				self?.gotoHealthViewController(screenFlowType: .activate)
+				self?.gotoMainApp()
 			}
 		}
 	}
@@ -391,7 +367,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		devicesViewController.nextButtonAction = { [weak self] in
 			self?.gotoHealthViewController(screenFlowType: .healthKit)
 		}
-		navigate(to: devicesViewController, with: .pushFullScreen)
+		navigate(to: devicesViewController, with: .resetStack)
 	}
 
 	func gotoPrivacyPolicy() {
@@ -447,12 +423,12 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		}
 	}
 
-	private func checkIfUserExists(user: AuthDataResult?) {
+	private func checkIfUserExists(email: String?, user: AuthDataResult?) {
 		let newUser = user?.additionalUserInfo?.isNewUser
 		if newUser == true {
-			gotoProfileSetupViewController(user: (user?.user)!)
+			gotoProfileSetupViewController(email: email, user: (user?.user)!)
 		} else {
-			getPatient()
+			getPatient(email: email, user: (user?.user)!)
 		}
 	}
 }
@@ -471,7 +447,22 @@ extension AuthCoordinator: GIDSignInDelegate {
 		let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
 		Auth.auth().signIn(with: credential) { [weak self] authResult, error in
 			self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
-				self?.checkIfUserExists(user: authResult)
+				if let authUser = authResult?.user {
+					var alliePatient = AlliePatient(user: authUser)
+					var name = PersonNameComponents()
+					if let givenName = user.profile.givenName {
+						name.givenName = givenName
+					}
+					if let familyName = user.profile.familyName {
+						name.familyName = familyName
+					}
+					if alliePatient?.profile.email == nil {
+						alliePatient?.profile.email = user.profile.email
+					}
+					self?.alliePatient = alliePatient
+				}
+
+				self?.checkIfUserExists(email: user.profile.email, user: authResult)
 			})
 		}
 	}
@@ -507,7 +498,7 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 						}
 						self?.alliePatient = alliePatient
 					}
-					self?.checkIfUserExists(user: authResult)
+					self?.checkIfUserExists(email: appleIDCredential.email, user: authResult)
 				})
 			}
 		}

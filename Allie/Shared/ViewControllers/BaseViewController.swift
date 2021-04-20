@@ -1,3 +1,5 @@
+import Combine
+import JGProgressHUD
 import UIKit
 
 protocol ViewControllerInitializable {
@@ -9,6 +11,14 @@ protocol ViewControllerInitializable {
 }
 
 class BaseViewController: UIViewController, ViewControllerInitializable {
+	var cancellables: Set<AnyCancellable> = []
+
+	let hud: JGProgressHUD = {
+		let view = JGProgressHUD(style: .dark)
+		view.vibrancyEnabled = true
+		return view
+	}()
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .white

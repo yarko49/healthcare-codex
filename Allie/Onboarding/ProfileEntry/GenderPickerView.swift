@@ -17,17 +17,25 @@ class GenderPickerView: UIStackView {
 
 	let maleButton: UIButton = {
 		let button = UIButton(type: .system)
-		button.layer.cornerRadius = 4.0
+		button.translatesAutoresizingMaskIntoConstraints = false
+		button.layer.cornerRadius = 8.0
 		button.layer.cornerCurve = .continuous
 		button.setTitle(NSLocalizedString("MALE", comment: "Male"), for: .normal)
+		button.setImage(UIImage(named: "icon-gender-male"), for: .normal)
+		button.layer.borderColor = UIColor.allieSeparator.cgColor
+		button.layer.borderWidth = 1.0
 		return button
 	}()
 
 	let femaleButton: UIButton = {
 		let button = UIButton(type: .system)
-		button.layer.cornerRadius = 4.0
+		button.translatesAutoresizingMaskIntoConstraints = false
+		button.layer.cornerRadius = 8.0
 		button.layer.cornerCurve = .continuous
 		button.setTitle(NSLocalizedString("FEMALE", comment: "Female"), for: .normal)
+		button.setImage(UIImage(named: "icon-gender-female"), for: .normal)
+		button.layer.borderColor = UIColor.allieSeparator.cgColor
+		button.layer.borderWidth = 1.0
 		return button
 	}()
 
@@ -44,7 +52,7 @@ class GenderPickerView: UIStackView {
 	private func configureView() {
 		axis = .horizontal
 		distribution = .fillEqually
-		alignment = .center
+		alignment = .fill
 		spacing = 10.0
 		addArrangedSubview(maleButton)
 		addArrangedSubview(femaleButton)
@@ -64,15 +72,19 @@ class GenderPickerView: UIStackView {
 
 	private func configureButtons() {
 		if sex == .male {
-			maleButton.backgroundColor = .activityBackground
-			maleButton.setTitleColor(.white, for: .normal)
-			femaleButton.setTitleColor(.activityBackground, for: .normal)
+			maleButton.backgroundColor = .allieOrange
+			maleButton.tintColor = .white
+			maleButton.layer.borderColor = UIColor.allieOrange.cgColor
 			femaleButton.backgroundColor = .white
+			femaleButton.tintColor = .allieLighterGray
+			femaleButton.layer.borderColor = UIColor.allieSeparator.cgColor
 		} else if sex == .female {
 			maleButton.backgroundColor = .white
-			maleButton.setTitleColor(.activityBackground, for: .normal)
-			femaleButton.setTitleColor(.white, for: .normal)
-			femaleButton.backgroundColor = .activityBackground
+			maleButton.tintColor = .allieLighterGray
+			maleButton.layer.borderColor = UIColor.allieSeparator.cgColor
+			femaleButton.backgroundColor = .allieOrange
+			femaleButton.tintColor = .white
+			femaleButton.layer.borderColor = UIColor.allieOrange.cgColor
 		}
 	}
 }

@@ -57,11 +57,8 @@ internal enum Str {
 
 	// Onboarding
 	internal static let slide1Title = Languages.tr("SLIDE_1_TITLE")
-	internal static let slide1Desc = Languages.tr("SLIDE_1_DESC")
 	internal static let slide2Title = Languages.tr("SLIDE_2_TITLE")
-	internal static let slide2Desc = Languages.tr("SLIDE_2_DESC")
 	internal static let slide3Title = Languages.tr("SLIDE_3_TITLE")
-	internal static let slide3Desc = Languages.tr("SLIDE_3_DESC")
 	internal static let alreadyHaveAccount = Languages.tr("ALREADY_HAVE_ACCOUNT")
 	internal static let acceptingTSPP = Languages.tr("BY_REGISTERING_I_ACCEPT_THE_TERMS_OF_SERVICES_AND_PRIVACY_POLICY")
 	internal static let signupmsg = Languages.tr("SIGN_UP_FOR_ALFRED_WITH_YOUR_EMAIL")

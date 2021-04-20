@@ -29,18 +29,7 @@ class IllustrationView: UIStackView {
 	let titleLabel: UILabel = {
 		let label = UILabel(frame: .zero)
 		label.font = UIFont.systemFont(ofSize: 20.0, weight: .bold)
-		label.textColor = UIColor.darkText
-		label.textAlignment = .center
-		label.numberOfLines = 2
-		label.translatesAutoresizingMaskIntoConstraints = false
-		label.widthAnchor.constraint(equalToConstant: 280.0).isActive = true
-		return label
-	}()
-
-	let subtitleLabel: UILabel = {
-		let label = UILabel(frame: .zero)
-		label.font = UIFont.preferredFont(forTextStyle: .body)
-		label.textColor = .lightGrey
+		label.textColor = .allieButtons
 		label.textAlignment = .center
 		label.numberOfLines = 2
 		label.translatesAutoresizingMaskIntoConstraints = false
@@ -52,9 +41,8 @@ class IllustrationView: UIStackView {
 		axis = .vertical
 		alignment = .center
 		distribution = .fill
-		spacing = 8.0
+		spacing = 30.0
 		addArrangedSubview(imageView)
 		addArrangedSubview(titleLabel)
-		addArrangedSubview(subtitleLabel)
 	}
 }

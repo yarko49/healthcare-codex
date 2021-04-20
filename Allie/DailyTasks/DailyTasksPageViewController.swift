@@ -30,8 +30,6 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		title = NSLocalizedString("TASKS", comment: "Tasks")
-
 		NotificationCenter.default.publisher(for: .patientDidSnychronize)
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] _ in
@@ -47,8 +45,6 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.reload()
 			}
 			.store(in: &cancellables)
-
-		reload()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -90,6 +86,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 					switch taskType {
 					case .simple:
 						let viewController = SimpleTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						viewController.view.tintColor = .allieLighterGray
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .link:
@@ -97,18 +94,22 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 							continue
 						}
 						let view = LinkView(title: Text(task.title ?? NSLocalizedString("LINKS", comment: "Links")), links: linkItems)
+							.accentColor(Color(.allieLighterGray))
 						listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
 
 					case .checklist:
 						let viewController = ChecklistTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						viewController.view.tintColor = .allieLighterGray
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .grid:
 						let viewController = GridTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						viewController.view.tintColor = .allieLighterGray
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .log:
 						let viewController = ButtonLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						viewController.view.tintColor = .allieButtons
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .numericProgress:
@@ -117,15 +118,18 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 					case .labeledValue:
 						let view = LabeledValueTaskView(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+							.accentColor(Color(.allieButtons))
 						listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
 
 					case .instruction:
 						let viewController = OCKInstructionsTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						viewController.view.tintColor = .allieLighterGray
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .featuredContent:
-						let viewControler = FeaturedContentViewController(task: task)
-						listViewController.appendViewController(viewControler, animated: self.insertViewsAnimated)
+						let viewController = FeaturedContentViewController(task: task)
+						viewController.view.tintColor = .allieLighterGray
+						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 					}
 				}
 			}
@@ -140,9 +144,16 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		isRefreshingCarePlan = true
 		hud.show(in: view)
 		APIClient.client.getCarePlan()
-			.sink { [weak self] _ in
+			.sink { [weak self] completion in
 				self?.isRefreshingCarePlan = false
 				self?.hud.dismiss()
+				switch completion {
+				case .failure(let error):
+					let okAction = AlertHelper.AlertAction(withTitle: Str.ok)
+					AlertHelper.showAlert(title: "Error", detailText: error.localizedDescription, actions: [okAction])
+				case .finished:
+					break
+				}
 			} receiveValue: { value in
 				if let patient = value.patients.first {
 					self.careManager.patient = patient

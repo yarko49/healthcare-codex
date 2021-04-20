@@ -11,12 +11,12 @@ import UIKit
 class SettingsCoordinator: NSObject, Coordinable {
 	let type: CoordinatorType = .settingsCoordinator
 
-	internal var navigationController: UINavigationController? = {
+	var navigationController: UINavigationController? = {
 		UINavigationController(nibName: nil, bundle: nil)
 	}()
 
-	internal var childCoordinators: [CoordinatorType: Coordinable]
-	internal weak var parentCoordinator: AppCoordinator?
+	var childCoordinators: [CoordinatorType: Coordinable]
+	weak var parentCoordinator: AppCoordinator?
 
 	var rootViewController: UIViewController? {
 		navigationController
@@ -29,7 +29,7 @@ class SettingsCoordinator: NSObject, Coordinable {
 		navigationController?.delegate = self
 	}
 
-	internal func start() {
+	func start() {
 		goToSettings()
 		if let nav = rootViewController {
 			nav.presentationController?.delegate = self
@@ -45,7 +45,7 @@ class SettingsCoordinator: NSObject, Coordinable {
 		parentCoordinator?.hideHUD(animated: animated)
 	}
 
-	internal func goToSettings() {
+	func goToSettings() {
 		let settingsViewController = SettingsViewController()
 
 		settingsViewController.itemSelectionAction = { [weak self] item in
@@ -84,35 +84,7 @@ class SettingsCoordinator: NSObject, Coordinable {
 
 	internal func goToAccountDetails() {
 		let accountDetailsViewController = AccountDetailsViewController()
-
-		accountDetailsViewController.resetPasswordAction = { [weak self] in
-			self?.goToPasswordReset()
-		}
-
 		navigate(to: accountDetailsViewController, with: .pushFullScreen)
-	}
-
-	func goToPasswordReset() {
-		let accountResetPasswordViewController = AccountResetPasswordViewController()
-
-		accountResetPasswordViewController.sendEmailAction = { [weak self, weak accountResetPasswordViewController] email in
-			self?.resetPassword(accountResetPasswordViewController: accountResetPasswordViewController, email: email)
-		}
-
-		navigate(to: accountResetPasswordViewController, with: .pushFullScreen)
-	}
-
-	func resetPassword(accountResetPasswordViewController: AccountResetPasswordViewController?, email: String?) {
-		showHUD()
-		Auth.auth().sendPasswordReset(withEmail: email ?? "") { [weak self] error in
-			self?.hideHUD()
-			if error != nil {
-				ALog.error(error: error)
-				AlertHelper.showAlert(title: Str.error, detailText: Str.invalidEmail, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-			} else {
-				accountResetPasswordViewController?.showCompletionMessage()
-			}
-		}
 	}
 
 	func goToMyDevices() {
@@ -135,20 +107,17 @@ class SettingsCoordinator: NSObject, Coordinable {
 
 	func goToNotifications() {
 		let myNotificationsViewController = NotificationSettingsController()
-		myNotificationsViewController.dismissAction = { [weak self] in
-			self?.profileRequest()
-		}
 		navigate(to: myNotificationsViewController, with: .pushFullScreen)
 	}
 
-	internal func goToSystemAuthorization() {
+	func goToSystemAuthorization() {
 		// TODO: I think we can only go up to Settings
 		if let url = URL(string: UIApplication.openSettingsURLString) {
 			UIApplication.shared.open(url, options: [:], completionHandler: nil)
 		}
 	}
 
-	internal func showFeedback() {
+	func showFeedback() {
 		let config = RequestUiConfiguration()
 		config.subject = "iOS Ticket"
 		config.tags = ["ios", "mobile"]
@@ -156,7 +125,7 @@ class SettingsCoordinator: NSObject, Coordinable {
 		navigate(to: requestListController, with: .push)
 	}
 
-	internal func showHelpCenter() {
+	func showHelpCenter() {
 		guard let url = URL(string: "https://codexhealth.zendesk.com/hc/en-us") else {
 			return
 		}
@@ -165,7 +134,7 @@ class SettingsCoordinator: NSObject, Coordinable {
 		navigate(to: safarViewController, with: .present)
 	}
 
-	internal func showSupport() {
+	func showSupport() {
 		do {
 			let messagingConfiguration = MessagingConfiguration()
 			let answerBotEngine = try AnswerBotEngine.engine()
@@ -178,7 +147,7 @@ class SettingsCoordinator: NSObject, Coordinable {
 		}
 	}
 
-	internal func showMailSetupAlert() {
+	func showMailSetupAlert() {
 		let title = NSLocalizedString("NO_EMAIL_SETUP.title", comment: "Email Setup")
 		let message = NSLocalizedString("NO_EMAIL_SETUP.message", comment: "Please setup default email!")
 		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -189,23 +158,23 @@ class SettingsCoordinator: NSObject, Coordinable {
 		navigate(to: alertController, with: .present)
 	}
 
-	internal func gotoPrivacyPolicy() {
+	func gotoPrivacyPolicy() {
 		let privacyPolicyViewController = HTMLViewerController()
 		privacyPolicyViewController.title = Str.privacyPolicy
 		navigate(to: privacyPolicyViewController, with: .pushFullScreen)
 	}
 
-	internal func gotoTermsOfService() {
+	func gotoTermsOfService() {
 		let termsOfServiceViewController = HTMLViewerController()
 		termsOfServiceViewController.title = Str.privacyPolicy
 		navigate(to: termsOfServiceViewController, with: .pushFullScreen)
 	}
 
-	private func logout() {
+	func logout() {
 		parentCoordinator?.logout()
 	}
 
-	internal func stop() {
+	func stop() {
 		rootViewController?.dismiss(animated: true, completion: { [weak self] in
 			guard let strongSelf = self else { return }
 			strongSelf.parentCoordinator?.removeCoordinator(ofType: .settingsCoordinator)

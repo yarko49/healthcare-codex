@@ -46,6 +46,28 @@ class HealthKitManager {
 		}
 	}
 
+	var healthKitAuthorized: Bool {
+		guard let bodyMass = HealthKitDataType.bodyMass.quantityType[0],
+		      let heartRate = HealthKitDataType.heartRate.quantityType[0],
+		      let restingHeartRate = HealthKitDataType.restingHeartRate.quantityType[0],
+		      let bloodPressureDiastolic = HealthKitDataType.bloodPressure.quantityType[0],
+		      let bloodPressureSystolic = HealthKitDataType.bloodPressure.quantityType[1],
+		      let stepCount = HealthKitDataType.stepCount.quantityType[0],
+		      let bloodGloucose = HealthKitDataType.bloodGlucose.quantityType[0]
+		else {
+			return false
+		}
+		let quantityTypes = [heartRate, restingHeartRate, bloodPressureSystolic, bloodPressureDiastolic, stepCount, bloodGloucose]
+		var result: HKAuthorizationStatus = healthKitStore.authorizationStatus(for: bodyMass)
+		for item in quantityTypes {
+			if result == .sharingDenied || result == .notDetermined {
+				break
+			}
+			result = healthKitStore.authorizationStatus(for: item)
+		}
+		return result == .sharingAuthorized
+	}
+
 	// Post Data from Health Kit to BE
 	func queryHealthData(initialUpload: Bool, for quantity: HealthKitDataType, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [HKSample]) -> Void) {
 		guard let sampleType = quantity.quantityType[0] else {

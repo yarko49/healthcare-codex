@@ -1,6 +1,6 @@
 import Foundation
 
-final class AppConfig: ObservableObject {
+enum AppConfig {
 	static var environmentName: String {
 		path("Environment", "Environment Name")!
 	}
@@ -9,44 +9,56 @@ final class AppConfig: ObservableObject {
 		path("CFBundleIdentifier")!
 	}
 
+	static var apiBaseHost: String {
+		path("Environment", "API_Base_Host")!
+	}
+
+	static var apiVersion: String {
+		path("Environment", "API_Version")!
+	}
+
 	static var apiBaseUrl: String {
-		path("Environment", "API Base URL")!
+		apiBaseHost + apiVersion
 	}
 
 	static var apiKey: String {
-		path("Environment", "API Key")!
+		path("Environment", "API_Key")!
 	}
 
 	static var tenantID: String {
-		path("Environment", "Tenant ID")!
+		path("Environment", "Tenant_ID")!
 	}
 
 	static var firebaseDeeplinkURL: String {
-		path("Environment", "Firebase Deeplink URL")!
+		path("Environment", "Firebase_Deeplink_URL")!
 	}
 
 	static var supportEmail: String {
-		path("Environment", "Support Email")!
+		path("Environment", "Support_Email")!
 	}
 
 	static var zendeskAppId: String {
-		path("Environment", "Zendesk App Id")!
+		path("Environment", "Zendesk_App_Id")!
 	}
 
 	static var zendeskClientId: String {
-		path("Environment", "Zendesk Client Id")!
+		path("Environment", "Zendesk_Client_Id")!
 	}
 
 	static var zendeskURL: String {
-		path("Environment", "Zendesk URL")!
+		path("Environment", "Zendesk_URL")!
 	}
 
 	static var zendeskChatAccountKey: String {
-		path("Environment", "Zendesk Chat Account Key")!
+		path("Environment", "Zendesk_Chat_Account_Key")!
 	}
 
 	static var zendeskChatAppId: String {
-		path("Environment", "Zendesk Chat App Id")!
+		path("Environment", "Zendesk_Chat_App_Id")!
+	}
+
+	static var keychainAccessGroup: String {
+		"29P9H8TMND.com.codexhealth.Allie"
 	}
 
 	static func path(_ keys: String...) -> String? {

@@ -11,17 +11,17 @@ import ModelsR4
 import UIKit
 
 class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelegate {
+	var navigationController: UINavigationController?
 	let type: CoordinatorType = .appCoordinator
 	var cancellables: Set<AnyCancellable> = []
-
-	internal var navigationController: UINavigationController?
-	internal var childCoordinators: [CoordinatorType: Coordinable]
-	internal weak var parentCoordinator: MainCoordinator?
+	var childCoordinators: [CoordinatorType: Coordinable]
+	weak var parentCoordinator: MainCoordinator?
+	var tabBarController: UITabBarController?
 
 	var laContext = LAContext()
 
 	var rootViewController: UIViewController? {
-		navigationController
+		tabBarController
 	}
 
 	var observation: ModelsR4.Observation?
@@ -32,16 +32,15 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 	weak var profileViewController: ProfileViewController?
 
 	init(with parent: MainCoordinator?) {
-		self.navigationController = UINavigationController()
+		self.tabBarController = Self.tabBarController
 		self.parentCoordinator = parent
 		self.childCoordinators = [:]
 		super.init()
-		navigationController?.delegate = self
 		parentCoordinator?.registerServices()
 		start()
 	}
 
-	internal func start() {
+	func start() {
 		if UserDefaults.standard.haveAskedUserForBiometrics == false {
 			enrollWithBiometrics()
 		} else {
@@ -58,7 +57,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 		parentCoordinator?.hideHUD(animated: animated)
 	}
 
-	internal func evaluateBiometrics() {
+	func evaluateBiometrics() {
 		var theError: NSError?
 		let context = laContext
 		laContext.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &theError)
@@ -86,18 +85,18 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 		}
 	}
 
-	internal func showDailyTasksView() {
-		let tasksViewController = DailyTasksPageViewController(storeManager: AppDelegate.careManager.synchronizedStoreManager)
-		navigate(to: tasksViewController, with: .push)
+	func showDailyTasksView() {
+//		let tasksViewController = DailyTasksPageViewController(storeManager: AppDelegate.careManager.synchronizedStoreManager)
+//		navigate(to: tasksViewController, with: .push)
 	}
 
-	internal func gotoSettings() {
+	func gotoSettings() {
 		let settingsCoord = SettingsCoordinator(with: self)
 		addChild(coordinator: settingsCoord)
 		settingsCoord.start()
 	}
 
-	internal func goToTroubleshooting(previewTitle: String?, title: String?, text: String?) {
+	func goToTroubleshooting(previewTitle: String?, title: String?, text: String?) {
 		let troubleshootingViewController = TroubleshootingViewController()
 
 		troubleshootingViewController.titleText = title ?? ""
@@ -107,7 +106,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 		navigate(to: troubleshootingViewController, with: .push)
 	}
 
-	internal func goToInput(with type: HKQuantityTypeIdentifier) {
+	func goToInput(with type: HKQuantityTypeIdentifier) {
 		let todayInputViewController = TodayInputViewController()
 		todayInputViewController.quantityTypeIdentifier = type
 		let inputAction: ((Int, Int, Date, HKQuantityTypeIdentifier) -> Void)? = { [weak self] value1, value2, effectiveDateTime, inputType in
@@ -141,7 +140,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 		navigate(to: todayInputViewController, with: .push)
 	}
 
-	internal func goToProfile() {
+	func goToProfile() {
 		let controller = ProfileViewController()
 		profileViewController = controller
 
@@ -258,11 +257,11 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 		navigate(to: viewController, with: .push)
 	}
 
-	internal func postGetData(search: SearchParameter, completion: @escaping (ModelsR4.Bundle?) -> Void) {}
+	func postGetData(search: SearchParameter, completion: @escaping (ModelsR4.Bundle?) -> Void) {}
 
-	internal func postObservationSearchAction(search: SearchParameter, viewController: ProfileViewController, start: Date, end: Date, hkType: HealthKitQuantityType) {}
+	func postObservationSearchAction(search: SearchParameter, viewController: ProfileViewController, start: Date, end: Date, hkType: HealthKitQuantityType) {}
 
-	internal func logout() {
+	func logout() {
 		parentCoordinator?.logout()
 	}
 
@@ -309,6 +308,57 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 				}
 			}
 		}
+	}
+
+	class var todayViewController: UINavigationController {
+		let controller = DailyTasksPageViewController(storeManager: AppDelegate.careManager.synchronizedStoreManager)
+		let title = NSLocalizedString("TODAY", comment: "Today")
+		controller.title = title
+		controller.tabBarItem.image = UIImage(named: "icon-tabbar-today")
+		controller.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
+		controller.tabBarItem.title = nil
+		let navigationController = UINavigationController(rootViewController: controller)
+		return navigationController
+	}
+
+	class var profileViewController: UINavigationController {
+		let controller = ProfileViewController()
+		let title = NSLocalizedString("PROFILE", comment: "Profile")
+		controller.title = title
+		controller.tabBarItem.image = UIImage(named: "icon-tabbar-profile")
+		controller.tabBarItem.title = nil
+		controller.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
+		let navigationController = UINavigationController(rootViewController: controller)
+		return navigationController
+	}
+
+	class var chatViewController: UINavigationController {
+		let layout = UICollectionViewFlowLayout()
+		let controller = ChatViewController(collectionViewLayout: layout)
+		let title = NSLocalizedString("CHAT", comment: "Chat")
+		controller.title = title
+		controller.tabBarItem.image = UIImage(named: "icon-tabbar-chat")
+		controller.tabBarItem.title = nil
+		controller.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
+		let navigationController = UINavigationController(rootViewController: controller)
+		return navigationController
+	}
+
+	class var settingsViewController: UINavigationController {
+		let controller = SettingsViewController()
+		let title = NSLocalizedString("SETTINGS", comment: "Settings")
+		controller.title = title
+		controller.tabBarItem.image = UIImage(named: "icon-tabbar-settings")
+		controller.tabBarItem.title = nil
+		controller.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
+		let navigationController = UINavigationController(rootViewController: controller)
+		return navigationController
+	}
+
+	class var tabBarController: UITabBarController {
+		let controller = UITabBarController()
+		controller.viewControllers = [todayViewController, profileViewController, chatViewController, settingsViewController]
+		return controller
 	}
 }
 
