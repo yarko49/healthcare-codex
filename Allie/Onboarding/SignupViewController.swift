@@ -142,6 +142,8 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 		button.layer.borderWidth = 1.0
 		let title = authorizationFlowType.emailButtonTitle
 		button.setTitle(title, for: .normal)
+		button.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: .regular)
+		button.setTitleColor(.allieButtons, for: .normal)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
 		return button

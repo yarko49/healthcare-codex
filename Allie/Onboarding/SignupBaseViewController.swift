@@ -71,6 +71,8 @@ class SignupBaseViewController: BaseViewController {
 		button.layer.cornerCurve = .continuous
 		let title = authorizationFlowType.googleButtonTitle
 		button.setTitle(title, for: .normal)
+		button.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: .regular)
+		button.setTitleColor(.allieButtons, for: .normal)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
 		button.layer.borderColor = UIColor.allieSeparator.cgColor
