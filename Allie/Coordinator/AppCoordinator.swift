@@ -44,7 +44,6 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 		} else {
 			if UserDefaults.standard.isBiometricsEnabled == false {}
 		}
-		showDailyTasksView()
 	}
 
 	func showHUD(animated: Bool = true) {
@@ -81,21 +80,6 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 			let biometricType = self.laContext.biometryType == .faceID ? Str.faceID : Str.touchID
 			AlertHelper.showAlert(title: Str.automaticSignIn, detailText: Str.enroll(biometricType), actions: [okAction, noAction])
 		}
-	}
-
-	func showDailyTasksView() {
-//		let tasksViewController = DailyTasksPageViewController(storeManager: AppDelegate.careManager.synchronizedStoreManager)
-//		navigate(to: tasksViewController, with: .push)
-	}
-
-	func goToTroubleshooting(previewTitle: String?, title: String?, text: String?) {
-		let troubleshootingViewController = TroubleshootingViewController()
-
-		troubleshootingViewController.titleText = title ?? ""
-		troubleshootingViewController.previewTitle = previewTitle ?? ""
-		troubleshootingViewController.text = text ?? ""
-
-		navigate(to: troubleshootingViewController, with: .push)
 	}
 
 	func goToInput(with type: HKQuantityTypeIdentifier) {

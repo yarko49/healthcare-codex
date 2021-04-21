@@ -16,6 +16,12 @@ class ProfileEntryViewController: SignupBaseViewController {
 		static let poundsToKilograms: Double = 0.4535924
 	}
 
+	var patient: AlliePatient? {
+		didSet {
+			configureValues()
+		}
+	}
+
 	var doneAction: Coordinable.ActionHandler?
 	static let controlHeight: CGFloat = 48.0
 	override func viewDidLoad() {
@@ -168,6 +174,13 @@ class ProfileEntryViewController: SignupBaseViewController {
 
 	func configureValues() {
 		nameTextField.textField.delegate = self
+		nameTextField.textField.text = patient?.name.fullName
+		heightInInches = patient?.profile.heightInInches ?? Constants.heightInInches
+		weightInPounds = patient?.profile.weightInPounds ?? Constants.weightInPounds
+		sex = patient?.sex ?? .male
+		if let dob = patient?.birthday {
+			dateOfBirth = dob
+		}
 		fixLabelsInPlace(with: heightPickerView)
 		fixLabelsInPlace(with: weightPickerView)
 		let weightIndex = weightDataInPounds.first { value in

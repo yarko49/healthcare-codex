@@ -111,8 +111,21 @@ extension SettingsViewController: UITableViewDelegate {
 	}
 
 	func showAccountDetails() {
-		let accountDetailsViewController = AccountDetailsViewController()
-		navigationController?.show(accountDetailsViewController, sender: self)
+		let profileEntryViewController = ProfileEntryViewController()
+		profileEntryViewController.patient = AppDelegate.careManager.patient
+        profileEntryViewController.doneAction = {
+            var alliePatient = AppDelegate.careManager.patient
+            if let name = PersonNameComponents(fullName: profileEntryViewController.fullName) {
+                alliePatient?.name = name
+            }
+            alliePatient?.sex = profileEntryViewController.sex
+            alliePatient?.updatedDate = Date()
+            alliePatient?.birthday = profileEntryViewController.dateOfBirth
+            alliePatient?.profile.weightInPounds = profileEntryViewController.weightInPounds
+            alliePatient?.profile.heightInInches = profileEntryViewController.heightInInches
+            // upload Patient
+        }
+		navigationController?.show(profileEntryViewController, sender: self)
 	}
 
 	func showMyDevices() {
