@@ -232,8 +232,8 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 
 	func gotoProfileEntryViewController(from screen: NavigationSourceType = .signUp) {
 		let viewController = ProfileEntryViewController()
-        viewController.patient = alliePatient
-        viewController.doneAction = { [weak self] in
+		viewController.patient = alliePatient
+		viewController.doneAction = { [weak self] in
 			if let name = PersonNameComponents(fullName: viewController.fullName) {
 				self?.alliePatient?.name = name
 			}
