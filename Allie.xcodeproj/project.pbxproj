@@ -28,7 +28,6 @@
 		842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842DFC1225BBDA5900066A07 /* HealthViewController.swift */; };
 		842DFC5825BBF45100066A07 /* ResetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC5A25BBF45100066A07 /* ResetViewController.xib */; };
 		842DFC7025BBF47500066A07 /* ResetMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC7225BBF47500066A07 /* ResetMessageViewController.xib */; };
-		842DFC9A25BBF49800066A07 /* TroubleshootingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC9C25BBF49800066A07 /* TroubleshootingViewController.xib */; };
 		842DFCA025BBF49F00066A07 /* TodayInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCA225BBF49F00066A07 /* TodayInputViewController.xib */; };
 		842DFCB525BBF4B500066A07 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCB725BBF4B500066A07 /* ProfileViewController.xib */; };
 		842DFCBB25BBF4F500066A07 /* StatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCBD25BBF4F500066A07 /* StatCell.xib */; };
@@ -63,9 +62,7 @@
 		84476756259C2A4E00C50C09 /* ResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476659259C2A4E00C50C09 /* ResetViewController.swift */; };
 		8447675E259C2A4E00C50C09 /* HKDataUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */; };
 		8447675F259C2A4E00C50C09 /* ResetMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476667259C2A4E00C50C09 /* ResetMessageViewController.swift */; };
-		8447676A259C2A4E00C50C09 /* AccountDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476678259C2A4E00C50C09 /* AccountDetailsViewController.swift */; };
 		84476770259C2A4E00C50C09 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476680259C2A4E00C50C09 /* SettingsViewController.swift */; };
-		84476774259C2A4E00C50C09 /* TroubleshootingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476687259C2A4E00C50C09 /* TroubleshootingViewController.swift */; };
 		84476775259C2A4E00C50C09 /* TodayInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476689259C2A4E00C50C09 /* TodayInputViewController.swift */; };
 		8447677F259C2A4E00C50C09 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476698259C2A4E00C50C09 /* ProfileViewController.swift */; };
 		84476784259C2A4E00C50C09 /* StatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447669F259C2A4E00C50C09 /* StatModel.swift */; };
@@ -293,7 +290,6 @@
 		842DFC1225BBDA5900066A07 /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
 		842DFC5925BBF45100066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ResetViewController.xib; sourceTree = "<group>"; };
 		842DFC7125BBF47500066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ResetMessageViewController.xib; sourceTree = "<group>"; };
-		842DFC9B25BBF49800066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TroubleshootingViewController.xib; sourceTree = "<group>"; };
 		842DFCA125BBF49F00066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TodayInputViewController.xib; sourceTree = "<group>"; };
 		842DFCB625BBF4B500066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ProfileViewController.xib; sourceTree = "<group>"; };
 		842DFCBC25BBF4F500066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StatCell.xib; sourceTree = "<group>"; };
@@ -332,9 +328,7 @@
 		84476659259C2A4E00C50C09 /* ResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetViewController.swift; sourceTree = "<group>"; };
 		84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HKDataUploadViewController.swift; sourceTree = "<group>"; };
 		84476667259C2A4E00C50C09 /* ResetMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetMessageViewController.swift; sourceTree = "<group>"; };
-		84476678259C2A4E00C50C09 /* AccountDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailsViewController.swift; sourceTree = "<group>"; };
 		84476680259C2A4E00C50C09 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		84476687259C2A4E00C50C09 /* TroubleshootingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TroubleshootingViewController.swift; sourceTree = "<group>"; };
 		84476689259C2A4E00C50C09 /* TodayInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayInputViewController.swift; sourceTree = "<group>"; };
 		84476698259C2A4E00C50C09 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		8447669F259C2A4E00C50C09 /* StatModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatModel.swift; sourceTree = "<group>"; };
@@ -627,7 +621,6 @@
 				8447661A259C2A4D00C50C09 /* UIElements */,
 				844766E3259C2A4E00C50C09 /* DailyTasks */,
 				8447666B259C2A4E00C50C09 /* Settings */,
-				84476685259C2A4E00C50C09 /* Troubleshooting */,
 				84476696259C2A4E00C50C09 /* Profile */,
 				84476688259C2A4E00C50C09 /* TodayInput */,
 				84476646259C2A4E00C50C09 /* Controllers */,
@@ -810,18 +803,8 @@
 				844766A4259C2A4E00C50C09 /* SettingsType.swift */,
 				84230BE02607243A008BB83E /* DevicesSelectionViewController.swift */,
 				84230BE62607FA79008BB83E /* NotificationSettingsController.swift */,
-				84476678259C2A4E00C50C09 /* AccountDetailsViewController.swift */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		84476685259C2A4E00C50C09 /* Troubleshooting */ = {
-			isa = PBXGroup;
-			children = (
-				84476687259C2A4E00C50C09 /* TroubleshootingViewController.swift */,
-				842DFC9C25BBF49800066A07 /* TroubleshootingViewController.xib */,
-			);
-			path = Troubleshooting;
 			sourceTree = "<group>";
 		};
 		84476688259C2A4E00C50C09 /* TodayInput */ = {
@@ -836,6 +819,7 @@
 		84476696259C2A4E00C50C09 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				8400904C261AA78200FB3968 /* ProfileEntry */,
 				84476698259C2A4E00C50C09 /* ProfileViewController.swift */,
 				842DFCB725BBF4B500066A07 /* ProfileViewController.xib */,
 			);
@@ -857,7 +841,6 @@
 				849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */,
 				8447664A259C2A4E00C50C09 /* SplashViewController.swift */,
 				84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */,
-				8400904C261AA78200FB3968 /* ProfileEntry */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -1311,7 +1294,6 @@
 			files = (
 				842DFC5825BBF45100066A07 /* ResetViewController.xib in Resources */,
 				844767AD259C2A4E00C50C09 /* Assets.xcassets in Resources */,
-				842DFC9A25BBF49800066A07 /* TroubleshootingViewController.xib in Resources */,
 				845FBE6425FC68FB00472257 /* ObservationsConfig.json in Resources */,
 				842DFCE825BBF52F00066A07 /* AppleHealthView.xib in Resources */,
 				844767AF259C2A4E00C50C09 /* Localizable.strings in Resources */,
@@ -1597,7 +1579,6 @@
 				84CF2DA0261AC60D0080293F /* BaseControlView.swift in Sources */,
 				842F908E25AEB56D007421A6 /* FirebaseUser+RemoteUser.swift in Sources */,
 				844767A8259C2A4E00C50C09 /* Keychain.swift in Sources */,
-				84476774259C2A4E00C50C09 /* TroubleshootingViewController.swift in Sources */,
 				844767A7259C2A4E00C50C09 /* Double+Rounding.swift in Sources */,
 				84476775259C2A4E00C50C09 /* TodayInputViewController.swift in Sources */,
 				8447679B259C2A4E00C50C09 /* UIView+LayoutConstraint.swift in Sources */,
@@ -1661,7 +1642,6 @@
 				844767DB259C2A4E00C50C09 /* AuthCoordinator.swift in Sources */,
 				84873BAA25CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift in Sources */,
 				8461B30425A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift in Sources */,
-				8447676A259C2A4E00C50C09 /* AccountDetailsViewController.swift in Sources */,
 				84C93C5F2616B7ED00C5E33E /* Date+FHIR.swift in Sources */,
 				8484112B25B2B66B00171B68 /* UnitType.swift in Sources */,
 				8487481525B3B2FD008C15E2 /* LoggingOSLog.swift in Sources */,
@@ -1781,14 +1761,6 @@
 				842DFC7125BBF47500066A07 /* Base */,
 			);
 			name = ResetMessageViewController.xib;
-			sourceTree = "<group>";
-		};
-		842DFC9C25BBF49800066A07 /* TroubleshootingViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				842DFC9B25BBF49800066A07 /* Base */,
-			);
-			name = TroubleshootingViewController.xib;
 			sourceTree = "<group>";
 		};
 		842DFCA225BBF49F00066A07 /* TodayInputViewController.xib */ = {
@@ -1999,7 +1971,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 53;
+				CURRENT_PROJECT_VERSION = 54;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2028,7 +2000,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 53;
+				CURRENT_PROJECT_VERSION = 54;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
