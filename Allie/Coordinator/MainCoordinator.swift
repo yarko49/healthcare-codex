@@ -89,6 +89,27 @@ class MainCoordinator: Coordinable {
 		window.setRootViewController(rootViewController, options: transitionOptions)
 	}
 
+	func createPatientIfNeeded() {
+		if let patient = careManager.patient, patient.profile.fhirId == nil {
+			APIClient.client.postPatient(patient: patient)
+				.receive(on: DispatchQueue.main)
+				.sink { [weak self] completion in
+					switch completion {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+						AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+					case .finished:
+						break
+					}
+					self?.gotoMainApp()
+				} receiveValue: { _ in
+					ALog.info("OK STATUS FOR PATIENT : 200")
+				}.store(in: &cancellables)
+		} else {
+			gotoMainApp()
+		}
+	}
+
 	func biometricsAuthentication() {
 		guard UserDefaults.standard.isBiometricsEnabled else {
 			goToAuth()
@@ -98,7 +119,7 @@ class MainCoordinator: Coordinable {
 		firebaseAuthentication(completion: { [weak self] success in
 			DispatchQueue.main.async {
 				if success {
-					self?.gotoMainApp()
+					self?.createPatientIfNeeded()
 				} else {
 					self?.goToAuth()
 				}
@@ -116,7 +137,7 @@ class MainCoordinator: Coordinable {
 			self?.firebaseAuthentication(completion: { success in
 				DispatchQueue.main.async {
 					if success {
-						self?.gotoMainApp()
+						self?.createPatientIfNeeded()
 					} else {
 						self?.goToAuth()
 					}

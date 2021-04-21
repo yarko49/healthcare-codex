@@ -111,7 +111,6 @@ class SettingsCoordinator: NSObject, Coordinable {
 	}
 
 	func goToSystemAuthorization() {
-		// TODO: I think we can only go up to Settings
 		if let url = URL(string: UIApplication.openSettingsURLString) {
 			UIApplication.shared.open(url, options: [:], completionHandler: nil)
 		}

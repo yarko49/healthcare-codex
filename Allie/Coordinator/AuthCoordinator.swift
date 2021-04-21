@@ -179,36 +179,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		}
 	}
 
-	internal func gotoReset() {
-		let resetViewController = ResetViewController()
-		resetViewController.nextAction = { [weak self] email in
-			self?.resetPassword(email: email)
-		}
-		navigate(to: resetViewController, with: .push)
-	}
-
-	internal func resetPassword(email: String?) {
-		showHUD()
-		Auth.auth().sendPasswordReset(withEmail: email ?? "") { [weak self] error in
-			self?.hideHUD()
-			if error != nil {
-				AlertHelper.showAlert(title: Str.error, detailText: Str.invalidEmail, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-			} else {
-				self?.goToResetMessage()
-			}
-		}
-	}
-
-	internal func goToResetMessage() {
-		let resetMessageViewController = ResetMessageViewController()
-		resetMessageViewController.backToSignInAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: false)
-			self?.navigationController?.popViewController(animated: true)
-		}
-		navigate(to: resetMessageViewController, with: .push)
-	}
-
-	internal func getPatient(email: String?, user: RemoteUser) {
+	func getPatient(email: String?, user: RemoteUser) {
 		guard let user = Auth.auth().currentUser else {
 			gotoSignup()
 			return
@@ -266,12 +237,8 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		if let dob = alliePatient?.birthday {
 			viewController.dateOfBirth = dob
 		}
-		if let weight = alliePatient?.profile.weightInPounds {
-			viewController.weightInPounds = weight
-		}
-		if let height = alliePatient?.profile.heightInInches {
-			viewController.heightInInches = height
-		}
+		viewController.weightInPounds = alliePatient?.profile.weightInPounds ?? ProfileEntryViewController.Constants.weightInPounds
+		viewController.heightInInches = alliePatient?.profile.heightInInches ?? ProfileEntryViewController.Constants.heightInInches
 		viewController.doneAction = { [weak self] in
 			if let name = PersonNameComponents(fullName: viewController.fullName) {
 				self?.alliePatient?.name = name
@@ -314,8 +281,8 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 					}
 				}
 				self?.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
-			case .success(let carePlan):
-				if let patient = carePlan.patients.first {
+			case .success(let carePlanResponse):
+				if let patient = carePlanResponse.patients.first {
 					self?.careManager.patient = patient
 				}
 				self?.gotoMainApp()
@@ -337,7 +304,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			ALog.info("HealthKit Successfully Authorized.")
 			DispatchQueue.main.async {
 				UserDefaults.standard.healthKitUploadChunkSize = 4500
-				self?.gotoMainApp()
+				self?.createPatient()
 			}
 		}
 	}
@@ -368,18 +335,6 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			self?.gotoHealthViewController(screenFlowType: .healthKit)
 		}
 		navigate(to: devicesViewController, with: .resetStack)
-	}
-
-	func gotoPrivacyPolicy() {
-		let privacyPolicyViewController = HTMLViewerController()
-		privacyPolicyViewController.title = Str.privacyPolicy
-		navigate(to: privacyPolicyViewController, with: .pushFullScreen)
-	}
-
-	func gotoTermsOfService() {
-		let termsOfServiceViewController = HTMLViewerController()
-		termsOfServiceViewController.title = Str.termsOfService
-		navigate(to: termsOfServiceViewController, with: .pushFullScreen)
 	}
 
 	func signInWithApple() {
