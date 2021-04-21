@@ -156,10 +156,10 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 						self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { _ in
 							DispatchQueue.main.async {
 								if let authorizationFlowType = self?.authorizationFlowType, authorizationFlowType == .signIn {
-									if HealthKitManager.shared.healthKitAuthorized == false {
-										self?.gotoHealthViewController(screenFlowType: .healthKit)
-									} else {
-										self?.gotoMainApp()
+									HealthKitManager.shared.authorizeHealthKit { success, _ in
+										if success {
+											self?.gotoMainApp()
+										}
 									}
 								} else {
 									self?.checkIfUserExists(email: email, user: authResult)

@@ -117,7 +117,6 @@
 		844767DB259C2A4E00C50C09 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476708259C2A4E00C50C09 /* AuthCoordinator.swift */; };
 		844767DC259C2A4E00C50C09 /* CoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476709259C2A4E00C50C09 /* CoordinatorType.swift */; };
 		844767DD259C2A4E00C50C09 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447670A259C2A4E00C50C09 /* MainCoordinator.swift */; };
-		844767DE259C2A4E00C50C09 /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447670C259C2A4E00C50C09 /* SettingsCoordinator.swift */; };
 		844767DF259C2A4E00C50C09 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447670D259C2A4E00C50C09 /* AppCoordinator.swift */; };
 		844767E1259C2A4E00C50C09 /* Coordinable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447670F259C2A4E00C50C09 /* Coordinable.swift */; };
 		844767E2259C2A4E00C50C09 /* CHJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476711259C2A4E00C50C09 /* CHJSONDecoder.swift */; };
@@ -390,7 +389,6 @@
 		84476708259C2A4E00C50C09 /* AuthCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		84476709259C2A4E00C50C09 /* CoordinatorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinatorType.swift; sourceTree = "<group>"; };
 		8447670A259C2A4E00C50C09 /* MainCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
-		8447670C259C2A4E00C50C09 /* SettingsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		8447670D259C2A4E00C50C09 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		8447670F259C2A4E00C50C09 /* Coordinable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinable.swift; sourceTree = "<group>"; };
 		84476711259C2A4E00C50C09 /* CHJSONDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHJSONDecoder.swift; sourceTree = "<group>"; };
@@ -1016,7 +1014,6 @@
 				84476708259C2A4E00C50C09 /* AuthCoordinator.swift */,
 				8447670D259C2A4E00C50C09 /* AppCoordinator.swift */,
 				849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */,
-				8447670C259C2A4E00C50C09 /* SettingsCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -1568,7 +1565,6 @@
 				84476749259C2A4E00C50C09 /* AppleHealthView.swift in Sources */,
 				842F906F25AE8D8A007421A6 /* GroupIdentifierType.swift in Sources */,
 				844767C7259C2A4E00C50C09 /* AlliePatient.swift in Sources */,
-				844767DE259C2A4E00C50C09 /* SettingsCoordinator.swift in Sources */,
 				844767CE259C2A4E00C50C09 /* ScheduleElement.swift in Sources */,
 				84476795259C2A4E00C50C09 /* SearchParameter.swift in Sources */,
 				844767DC259C2A4E00C50C09 /* CoordinatorType.swift in Sources */,
@@ -2003,7 +1999,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 52;
+				CURRENT_PROJECT_VERSION = 53;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2032,7 +2028,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 52;
+				CURRENT_PROJECT_VERSION = 53;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -7,12 +7,6 @@ import SupportSDK
 import UIKit
 
 class SettingsViewController: BaseViewController {
-	var didFinishAction: (() -> Void)?
-	var logoutAction: (() -> Void)?
-	var itemSelectionAction: ((SettingsType) -> Void)?
-
-	// MARK: - Properties
-
 	let rowHeight: CGFloat = 60
 	let footerHeight: CGFloat = 110
 
@@ -80,10 +74,6 @@ class SettingsViewController: BaseViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		AnalyticsManager.send(event: .pageView, properties: [.name: "SettingsView"])
-	}
-
-	@IBAction func close(_ sender: Any) {
-		didFinishAction?()
 	}
 }
 
@@ -198,7 +188,7 @@ extension SettingsViewController: UITableViewDelegate {
 
 extension SettingsViewController: SettingsFooterViewDelegate {
 	func settingsFooterViewDidTapLogout(_ view: SettingsFooterView) {
-		logoutAction?()
+		NotificationCenter.default.post(name: .applicationDidLogout, object: nil)
 	}
 }
 

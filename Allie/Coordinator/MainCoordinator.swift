@@ -48,6 +48,11 @@ class MainCoordinator: Coordinable {
 		self.window = window
 		self.window.rootViewController = rootViewController
 		self.window.makeKeyAndVisible()
+
+		NotificationCenter.default.publisher(for: .applicationDidLogout)
+			.sink { [weak self] _ in
+				self?.logout()
+			}.store(in: &cancellables)
 	}
 
 	func start() {
