@@ -27,8 +27,6 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 	var observation: ModelsR4.Observation?
 	var bundle: ModelsR4.Bundle?
 	var observationSearch: String?
-	var chartData: [Int] = []
-	var dateData: [String] = []
 	weak var profileViewController: ProfileViewController?
 
 	init(with parent: MainCoordinator?) {
@@ -90,12 +88,6 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 //		navigate(to: tasksViewController, with: .push)
 	}
 
-	func gotoSettings() {
-		let settingsCoord = SettingsCoordinator(with: self)
-		addChild(coordinator: settingsCoord)
-		settingsCoord.start()
-	}
-
 	func goToTroubleshooting(previewTitle: String?, title: String?, text: String?) {
 		let troubleshootingViewController = TroubleshootingViewController()
 
@@ -140,92 +132,6 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 		navigate(to: todayInputViewController, with: .push)
 	}
 
-	func goToProfile() {
-		let controller = ProfileViewController()
-		profileViewController = controller
-
-		controller.getData = { [weak self] in
-			let patient = AppDelegate.careManager.patient
-			self?.profileViewController?.age = patient?.age
-			self?.profileViewController?.weight = patient?.profile.weightInPounds
-			self?.profileViewController?.height = patient?.profile.heightInInches
-			self?.profileViewController?.createDetailsLabel()
-			self?.profileViewController?.patientTrendsTableView.reloadData()
-		}
-
-		var todayData: [HealthKitQuantityType: [Any]] = [:]
-		let topGroup = DispatchGroup()
-		HealthKitQuantityType.allCases.forEach { quantityType in
-			if quantityType != .activity {
-				topGroup.enter()
-				let innergroup = DispatchGroup()
-				var values: [Any] = []
-				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
-					innergroup.enter()
-
-					HealthKitManager.shared.queryMostRecentEntry(identifier: identifier) { sample in
-						if let quantitySample = sample as? HKQuantitySample {
-							values.append(quantitySample)
-						}
-						innergroup.leave()
-					}
-				}
-
-				innergroup.notify(queue: .main) {
-					todayData[quantityType] = values
-					topGroup.leave()
-				}
-			} else {
-				topGroup.enter()
-				HealthKitManager.shared.queryTodaySteps { (statistics) -> Void in
-					if let statistics = statistics {
-						todayData[quantityType] = [statistics]
-					}
-					topGroup.leave()
-				}
-			}
-		}
-
-		topGroup.notify(queue: .main) { [weak profileViewController] in
-			profileViewController?.todayHKData = todayData
-		}
-
-		controller.getRangeData = { interval, start, end, completion in
-			var chartData: [HealthKitQuantityType: [StatModel]] = [:]
-			var goals: [HealthKitQuantityType: Int] = [:]
-			let chartGroup = DispatchGroup()
-			HealthKitQuantityType.allCases.forEach { quantityType in
-				chartGroup.enter()
-				let innergroup = DispatchGroup()
-				var values: [StatModel] = []
-				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
-					innergroup.enter()
-					HealthKitManager.shared.queryData(identifier: identifier, startDate: start, endDate: end, intervalType: interval) { dataPoints in
-						let stat = StatModel(type: quantityType, dataPoints: dataPoints)
-						values.append(stat)
-						innergroup.leave()
-					}
-				}
-
-				innergroup.notify(queue: .main) {
-					chartData[quantityType] = values
-					goals[quantityType] = ProfileHelper.getGoal(for: quantityType)
-					chartGroup.leave()
-				}
-			}
-
-			chartGroup.notify(queue: .main) {
-				completion?(chartData, goals)
-			}
-		}
-
-		controller.editButtonAction = { [weak self] _, _ in
-			self?.gotoProfileEntryViewController()
-		}
-
-		navigate(to: controller, with: .push)
-	}
-
 	func gotoProfileEntryViewController(from screen: NavigationSourceType = .profile) {
 		let viewController = ProfileEntryViewController()
 		let alliePatient = AppDelegate.careManager.patient
@@ -268,14 +174,6 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 	deinit {
 		navigationController?.viewControllers = []
 		rootViewController?.dismiss(animated: true, completion: nil)
-	}
-
-	@objc internal func didTapSettings() {
-		gotoSettings()
-	}
-
-	@objc internal func didTapProfileButton() {
-		goToProfile()
 	}
 
 	@objc internal func backAction() {
@@ -359,25 +257,5 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 		let controller = UITabBarController()
 		controller.viewControllers = [todayViewController, profileViewController, chatViewController, settingsViewController]
 		return controller
-	}
-}
-
-extension AppCoordinator: UINavigationControllerDelegate {
-	func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-		if viewController is DailyTasksPageViewController {
-			let profileButton = UIBarButtonItem(image: UIImage(named: "iconProfile")?.withRenderingMode(.alwaysTemplate), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapProfileButton))
-			profileButton.tintColor = UIColor.black
-			viewController.navigationItem.setRightBarButton(profileButton, animated: true)
-		} else if viewController is ProfileViewController || viewController is TroubleshootingViewController || viewController is TodayInputViewController {
-			if viewController is ProfileViewController, viewController.navigationItem.rightBarButtonItem == nil {
-				let settingsBtn = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapSettings))
-				settingsBtn.tintColor = .black
-				viewController.navigationItem.setRightBarButton(settingsBtn, animated: true)
-			} else if viewController is TodayInputViewController, viewController.navigationItem.rightBarButtonItem == nil {
-				let addBtn = UIBarButtonItem(title: Str.add, style: UIBarButtonItem.Style.plain, target: self, action: #selector(addAction))
-				addBtn.tintColor = UIColor.cursorOrange
-				viewController.navigationItem.setRightBarButton(addBtn, animated: true)
-			}
-		}
 	}
 }
