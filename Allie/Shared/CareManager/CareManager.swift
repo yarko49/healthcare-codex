@@ -17,6 +17,7 @@ class CareManager: ObservableObject {
 	typealias BoolCompletion = (Bool) -> Void
 
 	enum Constants {
+		static let outcomeUploadIimeInteval: TimeInterval = 10.0
 		static let careStore = "CareStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
 		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk(protection: .completeUnlessOpen)
@@ -42,7 +43,9 @@ class CareManager: ObservableObject {
 		.main
 	}
 
-	private var cancellables: Set<AnyCancellable> = []
+	var cancellables: Set<AnyCancellable> = []
+	var timerCancellable: AnyCancellable?
+	var isSynchronizingOutcomes: Bool = false
 
 	var patient: AlliePatient? {
 		get {
@@ -59,7 +62,14 @@ class CareManager: ObservableObject {
 		}
 	}
 
-	@Published var vectorClock: [String: Int] = [:]
+	var vectorClock: [String: Int] {
+		get {
+			UserDefaults.standard.vectorClock
+		}
+		set {
+			UserDefaults.standard.vectorClock = newValue
+		}
+	}
 
 	init() {
 		synchronizedStoreManager.notificationPublisher
@@ -75,19 +85,56 @@ class CareManager: ObservableObject {
 				}
 			}.store(in: &cancellables)
 	}
+
+	func isServerVectorClockAhead(serverClock: [String: Int]) -> Bool {
+		let key = "backend"
+		guard let localClockValue = vectorClock[key] else {
+			return true
+		}
+
+		guard let serverClockValue = serverClock[key] else {
+			return false
+		}
+
+		return serverClockValue > localClockValue
+	}
 }
 
 // MARK: - CarePlanResponse
 
 extension CareManager {
-	func insert(carePlansResponse: CarePlanResponse, completion: OCKResultClosure<Bool>?) {
+	func createOrUpdate(carePlanResponse: CarePlanResponse, forceReset: Bool = false, completion: ((Bool) -> Void)?) {
+		if isServerVectorClockAhead(serverClock: carePlanResponse.vectorClock) || forceReset {
+			try? resetAllContents()
+		}
+		let queue = DispatchQueue.global(qos: .userInitiated)
+		queue.async { [weak self] in
+			if let patient = carePlanResponse.patients.first {
+				let thePatient = self?.syncCreateOrUpdate(patient: patient, queue: queue)
+				ALog.info("patient id \(String(describing: thePatient?.id)), patient uuid = \(String(describing: thePatient?.uuid?.uuidString))")
+				self?.patient = thePatient
+			}
+
+			var theCarePlan: OCKCarePlan?
+			if let carePlan = carePlanResponse.carePlans.first {
+				theCarePlan = self?.syncCreateOrUpdate(carePlan: carePlan, patient: self?.patient, queue: queue)
+				ALog.info("CarePlan id \(String(describing: theCarePlan?.id)), carePlan uuid \(String(describing: theCarePlan?.uuid))")
+			}
+
+			let tasks = self?.syncCreateOrUpdate(tasks: carePlanResponse.tasks, carePlan: theCarePlan, queue: queue)
+			completion?(!(tasks ?? []).isEmpty)
+		}
+	}
+
+	@available(*, deprecated, message: "Use createOrUpdate:forceReset:completion")
+	func asyncCreateOrUpdate(carePlansResponse: CarePlanResponse, completion: OCKResultClosure<Bool>?) {
 		var newPatient: OCKPatient?
 		if let thePatient = carePlansResponse.patients.first {
 			patient = thePatient
 			newPatient = OCKPatient(patient: thePatient)
 		}
 
-		let carePlans = carePlansResponse.carePlans.map { (carePlan) -> OCKCarePlan in
+		let carePlans = carePlansResponse.carePlans.map { carePlan -> OCKCarePlan in
 			OCKCarePlan(carePlan: carePlan)
 		}
 		let addCarePlansOperation = CarePlansAddOperation(store: store, newCarePlans: carePlans, for: nil) { result in
@@ -114,15 +161,15 @@ extension CareManager {
 
 		storeOperationQueue.addOperation(addCarePlansOperation)
 
-		let allTasks = carePlansResponse.tasks.map { (task) -> OCKAnyTask in
+		let allTasks = carePlansResponse.tasks.map { task -> OCKAnyTask in
 			task.ockTask
 		}
 
-		let healthKitTasks = allTasks.compactMap { (task) -> OCKHealthKitTask? in
+		let healthKitTasks = allTasks.compactMap { task -> OCKHealthKitTask? in
 			task as? OCKHealthKitTask
 		}
 
-		let careTasks = allTasks.compactMap { (task) -> OCKTask? in
+		let careTasks = allTasks.compactMap { task -> OCKTask? in
 			task as? OCKTask
 		}
 
@@ -176,6 +223,41 @@ extension CareManager {
 // MARK: - Patients
 
 extension CareManager {
+	func syncCreateOrUpdate(patient: AlliePatient, queue: DispatchQueue) -> AlliePatient {
+		var updatePatient = patient
+		let ockPatient = OCKPatient(patient: patient)
+		let dispatchGroup = DispatchGroup()
+		dispatchGroup.enter()
+		store.fetchPatient(withID: updatePatient.id, callbackQueue: queue) { [weak self] fetchResult in
+			switch fetchResult {
+			case .failure:
+				self?.store.addPatient(ockPatient, callbackQueue: queue) { addResult in
+					switch addResult {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+					case .success(let newPatient):
+						updatePatient.uuid = newPatient.uuid
+					}
+					dispatchGroup.leave()
+				}
+			case .success(let existingPatient):
+				let updated = existingPatient.merged(newPatient: ockPatient)
+				self?.store.updatePatient(updated, callbackQueue: queue) { updateResult in
+					switch updateResult {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+					case .success(let newPatient):
+						updatePatient.uuid = newPatient.uuid
+					}
+					dispatchGroup.leave()
+				}
+			}
+		}
+
+		dispatchGroup.wait()
+		return updatePatient
+	}
+
 	func loadPatient(completion: OCKResultClosure<OCKPatient>?) {
 		store.fetchPatients { result in
 			switch result {
@@ -242,7 +324,7 @@ extension CareManager {
 	}
 
 	func createOrUpdate(patient: OCKPatient, completion: OCKResultClosure<OCKPatient>?) {
-		store.createOrUpdatePatient(patient) { result in
+		store.createOrUpdate(patient: patient) { result in
 			switch result {
 			case .failure(let error):
 				completion?(.failure(error))
@@ -255,6 +337,98 @@ extension CareManager {
 	func addPatients(newPatients: [OCKPatient], completion: OCKResultClosure<[OCKPatient]>?) {
 		let addPatientOperation = PatientsAddOperation(store: store, newPatients: newPatients, completion: completion)
 		storeOperationQueue.addOperation(addPatientOperation)
+	}
+}
+
+extension CareManager {
+	func syncCreateOrUpdate(carePlan: CarePlan, patient: AlliePatient?, queue: DispatchQueue) -> OCKCarePlan {
+		var ockCarePlan = OCKCarePlan(carePlan: carePlan)
+		ockCarePlan.patientUUID = patient?.uuid
+		let dispatchGroup = DispatchGroup()
+		dispatchGroup.enter()
+		store.fetchCarePlan(withID: ockCarePlan.id, callbackQueue: queue) { [weak self] fetchResult in
+			switch fetchResult {
+			case .failure:
+				self?.store.addCarePlan(ockCarePlan, callbackQueue: queue, completion: { addResult in
+					switch addResult {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+					case .success(let newCarePlan):
+						ockCarePlan = newCarePlan
+					}
+					dispatchGroup.leave()
+				})
+			case .success(let existingCarePlan):
+				let merged = existingCarePlan.merged(newCarePlan: ockCarePlan)
+				self?.store.updateCarePlan(merged, callbackQueue: queue, completion: { updateResult in
+					switch updateResult {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+					case .success(let newCarePlan):
+						ockCarePlan = newCarePlan
+					}
+					dispatchGroup.leave()
+				})
+			}
+		}
+
+		dispatchGroup.wait()
+		return ockCarePlan
+	}
+
+	func syncCreateOrUpdate(carePlans: [CarePlan], patient: AlliePatient?, queue: DispatchQueue) -> [OCKCarePlan] {
+		let mapped = carePlans.map { carePlan -> OCKCarePlan in
+			var ockCarePlan = OCKCarePlan(carePlan: carePlan)
+			ockCarePlan.patientUUID = patient?.uuid
+			return ockCarePlan
+		}
+
+		var storeCarePlans: [OCKCarePlan] = []
+		let dispatchGroup = DispatchGroup()
+		for carePlan in mapped {
+			dispatchGroup.enter()
+			store.createOrUpdate(carePlan: carePlan, callbackQueue: queue) { result in
+				switch result {
+				case .failure(let error):
+					ALog.error("\(error.localizedDescription)")
+				case .success(let newCarePlan):
+					storeCarePlans.append(newCarePlan)
+				}
+				dispatchGroup.leave()
+			}
+		}
+		dispatchGroup.wait()
+		return storeCarePlans
+	}
+}
+
+extension CareManager {
+	func syncCreateOrUpdate(tasks: [Task], carePlan: OCKCarePlan?, queue: DispatchQueue) -> [OCKTask] {
+		let mapped = tasks.map { task -> OCKTask in
+			var ockTask = OCKTask(task: task)
+			ockTask.carePlanUUID = carePlan?.uuid
+			if ockTask.carePlanId == nil {
+				ockTask.carePlanId = carePlan?.id
+			}
+			return ockTask
+		}
+
+		var storeTasks: [OCKTask] = []
+		let dispatchGroup = DispatchGroup()
+		for task in mapped {
+			dispatchGroup.enter()
+			store.createOrUpdate(task: task, callbackQueue: queue) { result in
+				switch result {
+				case .failure(let error):
+					ALog.error("\(error.localizedDescription)")
+				case .success(let newTask):
+					storeTasks.append(newTask)
+				}
+				dispatchGroup.leave()
+			}
+		}
+		dispatchGroup.wait()
+		return storeTasks
 	}
 }
 
@@ -306,6 +480,26 @@ extension CareManager {
 			} receiveValue: { response in
 				ALog.info("\(response.outcomes)")
 			}.store(in: &cancellables)
+	}
+}
+
+extension CareManager {
+	func save(outcomes: [Outcome]) -> Future<[OCKOutcome], Error> {
+		Future { promise in
+			DispatchQueue.global(qos: .background).async {
+				let ockOutomes = outcomes.compactMap { outcome -> OCKOutcome? in
+					OCKOutcome(outcome: outcome)
+				}
+				self.store.addOutcomes(ockOutomes, callbackQueue: .main) { result in
+					switch result {
+					case .success(let outcomes):
+						promise(.success(outcomes))
+					case .failure(let error):
+						promise(.failure(error))
+					}
+				}
+			}
+		}
 	}
 }
 

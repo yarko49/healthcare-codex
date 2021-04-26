@@ -48,6 +48,7 @@ extension OCKPatient {
 extension AlliePatient {
 	init(ockPatient: OCKPatient) {
 		self.init(id: ockPatient.id, name: ockPatient.name)
+		self.uuid = ockPatient.uuid
 		self.sex = ockPatient.sex
 		self.birthday = ockPatient.birthday
 		self.allergies = ockPatient.allergies

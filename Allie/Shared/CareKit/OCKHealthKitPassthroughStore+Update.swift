@@ -9,7 +9,7 @@ import CareKitStore
 import Foundation
 
 extension OCKHealthKitPassthroughStore {
-	func createOrUpdateTask(_ task: OCKHealthKitTask, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKHealthKitTask, OCKStoreError>) -> Void)? = nil) {
+	func createOrUpdate(healthKitTask task: OCKHealthKitTask, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKHealthKitTask, OCKStoreError>) -> Void)? = nil) {
 		fetchTask(withID: task.id, callbackQueue: callbackQueue) { [weak self] result in
 			switch result {
 			case .failure:
@@ -21,15 +21,19 @@ extension OCKHealthKitPassthroughStore {
 		}
 	}
 
-	func createOrUpdateTasks(_ tasks: [OCKHealthKitTask], callbackQueue: DispatchQueue = .main, completion: ((Result<[OCKHealthKitTask], OCKStoreError>) -> Void)? = nil) {
-		let queue = DispatchQueue.global(qos: .background)
+	func createOrUpdate(healthKitTasks tasks: [OCKHealthKitTask], callbackQueue: DispatchQueue = .main, completion: ((Result<[OCKHealthKitTask], OCKStoreError>) -> Void)? = nil) {
+		guard !tasks.isEmpty else {
+			completion?(.failure(.updateFailed(reason: "Missing input HealthKit tasks")))
+			return
+		}
+		let queue = DispatchQueue.global(qos: .userInitiated)
 		var errors: [String: Error] = [:]
 		var updatedTasks: [OCKHealthKitTask] = []
 		queue.async { [weak self] in
 			let group = DispatchGroup()
 			for task in tasks {
 				group.enter()
-				self?.createOrUpdateTask(task, callbackQueue: queue, completion: { result in
+				self?.createOrUpdate(healthKitTask: task, callbackQueue: queue, completion: { result in
 					switch result {
 					case .failure(let error):
 						errors[task.id] = error

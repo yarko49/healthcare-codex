@@ -60,7 +60,7 @@ public final class WebService {
 	func request<T: Decodable>(request: Request, decoder: JSONDecoder = CHJSONDecoder(), completion: @escaping WebService.DecodableCompletion<T>) -> URLSession.ServicePublisher? {
 		let publisher = session.servicePublisher(for: request)
 		publisher.retry(configuration.retryCountForRequest)
-			.mapError { [weak self] (failure) -> Error in
+			.mapError { [weak self] failure -> Error in
 				if let processor = self?.errorProcessor {
 					processor(request.urlRequest, failure)
 				}
@@ -94,7 +94,7 @@ public final class WebService {
 	func requestSerializable(request: Request, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.ServicePublisher? {
 		let publisher = session.servicePublisher(for: request)
 		publisher.retry(configuration.retryCountForRequest)
-			.mapError { [weak self] (failure) -> Error in
+			.mapError { [weak self] failure -> Error in
 				if let processor = self?.errorProcessor {
 					processor(request.urlRequest, failure)
 				}
@@ -108,7 +108,7 @@ public final class WebService {
 				let data = try result.data.ws_validate(result.response).ws_validate()
 				return data
 			}
-			.tryMap { (data) -> [String: Any] in
+			.tryMap { data -> [String: Any] in
 				guard let jsonObject = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
 					throw URLError(.cannotDecodeContentData)
 				}
@@ -133,7 +133,7 @@ public final class WebService {
 	func requestSimple(request: Request, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher? {
 		let publisher = session.servicePublisher(for: request)
 		publisher.retry(configuration.retryCountForRequest)
-			.mapError { [weak self] (failure) -> Error in
+			.mapError { [weak self] failure -> Error in
 				if let processor = self?.errorProcessor {
 					processor(request.urlRequest, failure)
 				}

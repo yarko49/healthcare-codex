@@ -239,7 +239,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 
 	class var tabBarController: UITabBarController {
 		let controller = UITabBarController()
-		controller.viewControllers = [todayViewController, profileViewController, chatViewController, settingsViewController]
+		controller.viewControllers = [todayViewController, profileViewController, settingsViewController]
 		return controller
 	}
 }

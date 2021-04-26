@@ -18,7 +18,7 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 	public var title: String?
 	public var instructions: String?
 	public var impactsAdherence: Bool = true
-	public var schedules: [String: ScheduleElement]?
+	public var scheduleElements: [ScheduleElement]?
 	public var groupIdentifier: String?
 	public var tags: [String]?
 	public var effectiveDate: Date
@@ -28,7 +28,7 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 	public var source: String?
 	public var userInfo: [String: String]?
 	public var asset: String?
-	public var notes: [String: OCKNote]?
+	public var notes: [OCKNote]?
 	public var timezone: TimeZone
 	public var healthKitLinkage: OCKHealthKitLinkage?
 
@@ -52,7 +52,11 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		self.title = try container.decodeIfPresent(String.self, forKey: .title)
 		self.instructions = try container.decodeIfPresent(String.self, forKey: .instructions)
 		self.impactsAdherence = try container.decode(Bool.self, forKey: .impactsAdherence)
-		self.schedules = try container.decodeIfPresent([String: ScheduleElement].self, forKey: .schedules)
+		if let elements = try? container.decodeIfPresent([String: ScheduleElement].self, forKey: .scheduleElements) {
+			self.scheduleElements = Array(elements.values)
+		} else if let elements = try? container.decodeIfPresent([ScheduleElement].self, forKey: .scheduleElements) {
+			self.scheduleElements = elements
+		}
 		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
 		let date = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
@@ -62,7 +66,11 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
-		self.notes = try container.decodeIfPresent([String: OCKNote].self, forKey: .notes)
+		if let notes = try? container.decodeIfPresent([String: OCKNote].self, forKey: .notes) {
+			self.notes = Array(notes.values)
+		} else if let notes = try? container.decodeIfPresent([OCKNote].self, forKey: .notes) {
+			self.notes = notes
+		}
 		self.timezone = (try? container.decode(TimeZone.self, forKey: .timezone)) ?? .current
 		if let linkage = try container.decodeIfPresent(HealthKitLinkage.self, forKey: .healthKitLinkage) {
 			self.healthKitLinkage = linkage.hkLinkage
@@ -77,7 +85,7 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		try container.encodeIfPresent(title, forKey: .title)
 		try container.encodeIfPresent(instructions, forKey: .instructions)
 		try container.encode(impactsAdherence, forKey: .impactsAdherence)
-		try container.encodeIfPresent(schedules, forKey: .schedules)
+		try container.encodeIfPresent(scheduleElements, forKey: .scheduleElements)
 		try container.encodeIfPresent(groupIdentifier, forKey: .groupIdentifier)
 		try container.encodeIfPresent(tags, forKey: .tags)
 		try container.encode(effectiveDate, forKey: .effectiveDate)
@@ -99,7 +107,7 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		case title
 		case instructions
 		case impactsAdherence
-		case schedules
+		case scheduleElements = "schedules"
 		case groupIdentifier
 		case tags
 		case effectiveDate

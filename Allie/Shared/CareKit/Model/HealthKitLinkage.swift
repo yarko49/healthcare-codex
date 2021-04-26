@@ -25,4 +25,14 @@ extension HealthKitLinkage {
 	var hkLinkage: OCKHealthKitLinkage {
 		OCKHealthKitLinkage(quantityIdentifier: identifier.hkQuantityIdentifier, quantityType: type, unit: unit.hkUnit)
 	}
+
+	var hkQuantityType: HKQuantityType? {
+		HKQuantityType.quantityType(forIdentifier: identifier.hkQuantityIdentifier)
+	}
+}
+
+extension OCKHealthKitLinkage {
+	var hkQuantityType: HKQuantityType? {
+		HKQuantityType.quantityType(forIdentifier: quantityIdentifier)
+	}
 }

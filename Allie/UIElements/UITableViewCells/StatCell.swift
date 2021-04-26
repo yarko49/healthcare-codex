@@ -80,7 +80,7 @@ class StatCell: UITableViewCell {
 				for month in 1 ... 12 {
 					let filteredDates = (statData.dataPoints.filter { Calendar.current.date($0.date, matchesComponents: DateComponents(month: month)) }).filter { $0.value != nil }
 					let datesCount = filteredDates.isEmpty ? 1 : filteredDates.count
-					let average = filteredDates.map { ($0.value?.doubleValue(for: quantityType.hkUnit) ?? 0.0) }.reduce(0.0, +) / Double(datesCount)
+					let average = filteredDates.map { $0.value?.doubleValue(for: quantityType.hkUnit) ?? 0.0 }.reduce(0.0, +) / Double(datesCount)
 					if average != 0.0 {
 						intValues.append(Int(average))
 						if let first = filteredDates.first?.date {
@@ -119,7 +119,7 @@ class StatCell: UITableViewCell {
 			lowValueLabel.attributedText = lowNumberString.with(style: .regular16, andColor: .black)
 			lineChartView.setup(with: dataToPlot, quantityType: quantityType, intervalType: intervalType, goal: goal)
 		case .bloodPressure where data.count == 2:
-			let sortedData = data.sorted { (data1, data2) -> Bool in
+			let sortedData = data.sorted { data1, data2 -> Bool in
 				let valueSum1 = data1.dataPoints.map { Int($0.value?.doubleValue(for: .millimeterOfMercury()) ?? 0) }.sum()
 				let valueSum2 = data2.dataPoints.map { Int($0.value?.doubleValue(for: .millimeterOfMercury()) ?? 0) }.sum()
 				return valueSum1 > valueSum2

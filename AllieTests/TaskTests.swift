@@ -29,8 +29,8 @@ class TaskTests: XCTestCase {
 		XCTAssertEqual(task.id, "TaskB2")
 		XCTAssertEqual(task.remoteId, "XXXX-SOME-UUID-ZZZZ")
 		XCTAssertEqual(task.title, "custom-3x-daily-finite-grid")
-		XCTAssertNotNil(task.schedules)
-		XCTAssertEqual(task.schedules?.count, 1)
+		XCTAssertNotNil(task.scheduleElements)
+		XCTAssertEqual(task.scheduleElements?.count, 1)
 		XCTAssertEqual(task.groupIdentifier, "GRID")
 		XCTAssertEqual(task.timezone, TimeZone(identifier: "America/Los_Angeles"))
 		XCTAssertEqual(task.instructions, "3x daily instructions")
@@ -85,7 +85,7 @@ class TaskTests: XCTestCase {
 		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: data!)
 		let allTasks = carePlanResponse.tasks
 		XCTAssertNotEqual(allTasks.count, 0)
-		let ockTasks = allTasks.map { (task) -> OCKTask in
+		let ockTasks = allTasks.map { task -> OCKTask in
 			OCKTask(task: task)
 		}
 

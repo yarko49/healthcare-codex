@@ -78,7 +78,7 @@ class HealthKitSyncManager {
 						importGroup.leave()
 					}
 				} else {
-					HealthKitManager.shared.queryHealthData(initialUpload: initialUpload, for: quantity, from: searchDate) { success, entries in
+					HealthKitManager.shared.queryHealthData(initialUpload: initialUpload, dataType: quantity, from: searchDate) { success, entries in
 						results.append(success)
 						samples += entries
 						importGroup.leave()

@@ -18,6 +18,7 @@ public typealias AlliePatients = [AlliePatient]
 
 public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 	public let id: String
+	public var uuid: UUID?
 	public var name: PersonNameComponents
 	public var sex: OCKBiologicalSex?
 	public var birthday: Date?
@@ -105,6 +106,7 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
 		self.id = try container.decode(String.self, forKey: .id)
+		self.uuid = try container.decodeIfPresent(UUID.self, forKey: .uuid)
 		self.name = try container.decode(PersonNameComponents.self, forKey: .name)
 		self.sex = try container.decodeIfPresent(OCKBiologicalSex.self, forKey: .sex)
 		self.birthday = try container.decodeIfPresent(Date.self, forKey: .birthday)
@@ -158,6 +160,7 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 	public func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(id, forKey: .id)
+		try container.encodeIfPresent(uuid, forKey: .uuid)
 		try container.encode(name, forKey: .name)
 		try container.encodeIfPresent(sex, forKey: .sex)
 		try container.encodeIfPresent(birthday, forKey: .birthday)
@@ -178,6 +181,7 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 
 	private enum CodingKeys: String, CodingKey {
 		case id
+		case uuid
 		case name
 		case sex
 		case birthday

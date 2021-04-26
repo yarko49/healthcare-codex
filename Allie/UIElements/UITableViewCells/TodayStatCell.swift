@@ -44,7 +44,7 @@ class TodayStatCell: UITableViewCell {
 			statusLabel.attributedText = status.1.with(style: .regular13, andColor: .lightGrey)
 			statusIndicatorView.backgroundColor = status.0
 		case .bloodPressure where samples.count == 2:
-			let pressureData = samples.sorted { (sample1, sample2) -> Bool in
+			let pressureData = samples.sorted { sample1, sample2 -> Bool in
 				let sample1Double = sample1.quantity.doubleValue(for: .millimeterOfMercury())
 				let sample2Double = sample2.quantity.doubleValue(for: .millimeterOfMercury())
 				return sample1Double > sample2Double

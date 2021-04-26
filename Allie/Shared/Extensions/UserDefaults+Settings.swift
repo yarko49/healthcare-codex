@@ -30,6 +30,7 @@ extension UserDefaults {
 		case measurementRestingHeartRateGoal
 		case measurementStepsGoal
 		case measurementWeightInPoundsGoal
+		case lastObervationUploadDate
 	}
 
 	static func registerDefautlts() {
@@ -228,6 +229,15 @@ extension UserDefaults {
 		}
 		set {
 			setValue(newValue, forKey: Self.Keys.measurementWeightInPoundsGoal.rawValue)
+		}
+	}
+
+	var lastObervationUploadDate: Date {
+		get {
+			object(forKey: "lastObervationUploadDate") as? Date ?? .distantPast
+		}
+		set {
+			setValue(newValue, forKey: "lastObervationUploadDate")
 		}
 	}
 }
