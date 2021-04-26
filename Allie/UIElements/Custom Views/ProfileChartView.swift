@@ -83,7 +83,7 @@ class ProfileChartView: LineChartView {
 		var chartIntervalType: ChartIntervalType = .week
 
 		healthData.enumerated().forEach { offset, model in
-			let entries = model.dataPoints.enumerated().compactMap { (_, dataPoint) -> ChartDataEntry? in
+			let entries = model.dataPoints.enumerated().compactMap { _, dataPoint -> ChartDataEntry? in
 				if let doubleValue = dataPoint.value?.doubleValue(for: quantityType.hkUnit) {
 					var xValue: Double {
 						switch intervalType {

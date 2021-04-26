@@ -37,11 +37,7 @@ extension OCKTask {
 		self.source = task.source
 		self.userInfo = task.userInfo
 		self.asset = task.asset
-		if let notes = task.notes?.values {
-			self.notes = Array(notes)
-		} else {
-			self.notes = nil
-		}
+		self.notes = task.notes
 		self.timezone = task.timezone
 		self.carePlanId = task.carePlanId
 	}
@@ -185,16 +181,12 @@ extension Task {
 		self.instructions = ockTask.instructions
 		self.impactsAdherence = ockTask.impactsAdherence
 		let schduleElements = ockTask.schedule.elements
-		var schedule: [String: ScheduleElement] = [:]
-		var suffix: UInt8 = 65
+		var schedule: [ScheduleElement] = []
 		for ockElement in schduleElements {
 			let element = ScheduleElement(ockScheduleElement: ockElement)
-			let character = Character(UnicodeScalar(suffix))
-			let key = "schedule" + String(character)
-			schedule[key] = element
-			suffix += 1
+			schedule.append(element)
 		}
-		self.schedules = schedule
+		self.scheduleElements = schedule
 		self.carePlanId = ockTask.carePlanId
 		self.groupIdentifier = ockTask.groupIdentifier
 		self.tags = ockTask.tags
@@ -210,7 +202,7 @@ extension Task {
 
 extension Task {
 	var sortedScheduleElements: [ScheduleElement]? {
-		schedules?.values.sorted(by: { (lhs, rhs) -> Bool in
+		scheduleElements?.sorted(by: { lhs, rhs -> Bool in
 			if lhs.hour < rhs.hour {
 				return true
 			} else if lhs.hour == rhs.hour {
@@ -222,7 +214,7 @@ extension Task {
 	}
 
 	var ockScheduleElements: [OCKScheduleElement] {
-		let elements = sortedScheduleElements?.map { (element) -> OCKScheduleElement in
+		let elements = sortedScheduleElements?.map { element -> OCKScheduleElement in
 			element.ockSchduleElement
 		} ?? []
 

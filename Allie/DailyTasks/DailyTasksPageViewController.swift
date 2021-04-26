@@ -157,20 +157,15 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 					break
 				}
 			} receiveValue: { value in
-				if let patient = value.patients.first {
-					self.careManager.patient = patient
-				}
-				self.careManager.vectorClock = value.vectorClock
-				self.careManager.insert(carePlansResponse: value) { result in
-					switch result {
-					case .failure(let error):
-						ALog.error(error: error)
-					case .success:
+				self.careManager.createOrUpdate(carePlanResponse: value, forceReset: false) { success in
+					if success {
 						ALog.info("added the care plan")
 						DispatchQueue.main.async {
 							self.hud.dismiss()
 							super.reload()
 						}
+					} else {
+						ALog.info("Unable to update the careplan data")
 					}
 					self.isRefreshingCarePlan = false
 				}

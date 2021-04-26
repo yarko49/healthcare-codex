@@ -42,7 +42,7 @@ enum LoggingManager {
 	}
 
 	static func createLogger(level: Logger.Level, remoteLevel: Logger.Level, label: String) -> Logger {
-		LoggingSystem.bootstrap { (label) -> LogHandler in
+		LoggingSystem.bootstrap { label -> LogHandler in
 			var osLog = LoggingOSLog(label: label, category: ProcessInfo.processInfo.processName)
 			osLog.logLevel = level
 			var crashlyticsLogger = LoggingCrashlytics(label: label)

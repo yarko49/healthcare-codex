@@ -10,7 +10,7 @@ import Combine
 import Foundation
 
 extension OCKStore {
-	func createOrUpdatePatient(_ patient: OCKPatient, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKPatient, OCKStoreError>) -> Void)? = nil) {
+	func createOrUpdate(patient: OCKPatient, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKPatient, OCKStoreError>) -> Void)? = nil) {
 		fetchPatient(withID: patient.id) { [weak self] result in
 			switch result {
 			case .failure:
@@ -22,15 +22,19 @@ extension OCKStore {
 		}
 	}
 
-	func createOrUpdatePatients(_ patients: [OCKPatient], callbackQueue: DispatchQueue = .main, completion: ((Result<[OCKPatient], OCKStoreError>) -> Void)? = nil) {
-		let queue = DispatchQueue.global(qos: .background)
+	func createOrUpdate(patients: [OCKPatient], callbackQueue: DispatchQueue = .main, completion: ((Result<[OCKPatient], OCKStoreError>) -> Void)? = nil) {
+		guard !patients.isEmpty else {
+			completion?(.failure(.updateFailed(reason: "Missing input patients")))
+			return
+		}
+		let queue = DispatchQueue.global(qos: .userInitiated)
 		var errors: [String: Error] = [:]
 		var updatedPatients: [OCKPatient] = []
 		queue.async { [weak self] in
 			let group = DispatchGroup()
 			for patient in patients {
 				group.enter()
-				self?.createOrUpdatePatient(patient, callbackQueue: queue) { result in
+				self?.createOrUpdate(patient: patient, callbackQueue: queue) { result in
 					switch result {
 					case .failure(let error):
 						errors[patient.id] = error
@@ -46,7 +50,7 @@ extension OCKStore {
 		}
 	}
 
-	func createOrUpdateCarePlan(_ carePlan: OCKCarePlan, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKCarePlan, OCKStoreError>) -> Void)? = nil) {
+	func createOrUpdate(carePlan: OCKCarePlan, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKCarePlan, OCKStoreError>) -> Void)? = nil) {
 		fetchCarePlan(withID: carePlan.id, callbackQueue: callbackQueue) { [weak self] result in
 			switch result {
 			case .failure:
@@ -58,15 +62,19 @@ extension OCKStore {
 		}
 	}
 
-	func createOrUpdateCarePlans(_ carePlans: [OCKCarePlan], callbackQueue: DispatchQueue = .main, completion: ((Result<[OCKCarePlan], OCKStoreError>) -> Void)? = nil) {
-		let queue = DispatchQueue.global(qos: .background)
+	func createOrUpdate(carePlans: [OCKCarePlan], callbackQueue: DispatchQueue = .main, completion: ((Result<[OCKCarePlan], OCKStoreError>) -> Void)? = nil) {
+		guard !carePlans.isEmpty else {
+			completion?(.failure(.updateFailed(reason: "Missing input care plans")))
+			return
+		}
+		let queue = DispatchQueue.global(qos: .userInitiated)
 		var errors: [String: Error] = [:]
 		var updatedCarePlans: [OCKCarePlan] = []
 		queue.async { [weak self] in
 			let group = DispatchGroup()
 			for carePlan in carePlans {
 				group.enter()
-				self?.createOrUpdateCarePlan(carePlan, callbackQueue: queue, completion: { result in
+				self?.createOrUpdate(carePlan: carePlan, callbackQueue: queue, completion: { result in
 					switch result {
 					case .failure(let error):
 						errors[carePlan.id] = error
@@ -82,7 +90,7 @@ extension OCKStore {
 		}
 	}
 
-	func createOrUpdateTask(_ task: OCKTask, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKTask, OCKStoreError>) -> Void)? = nil) {
+	func createOrUpdate(task: OCKTask, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKTask, OCKStoreError>) -> Void)? = nil) {
 		fetchTask(withID: task.id, callbackQueue: callbackQueue) { [weak self] result in
 			switch result {
 			case .failure:
@@ -94,15 +102,20 @@ extension OCKStore {
 		}
 	}
 
-	func createOrUpdateTasks(_ tasks: [OCKTask], callbackQueue: DispatchQueue = .main, completion: ((Result<[OCKTask], OCKStoreError>) -> Void)? = nil) {
-		let queue = DispatchQueue.global(qos: .background)
+	func createOrUpdate(tasks: [OCKTask], callbackQueue: DispatchQueue = .main, completion: ((Result<[OCKTask], OCKStoreError>) -> Void)? = nil) {
+		guard !tasks.isEmpty else {
+			completion?(.failure(.updateFailed(reason: "Missing input tasks")))
+			return
+		}
+
+		let queue = DispatchQueue.global(qos: .userInitiated)
 		var errors: [String: Error] = [:]
 		var updatedTasks: [OCKTask] = []
 		queue.async { [weak self] in
 			let group = DispatchGroup()
 			for task in tasks {
 				group.enter()
-				self?.createOrUpdateTask(task, callbackQueue: queue, completion: { result in
+				self?.createOrUpdate(task: task, callbackQueue: queue, completion: { result in
 					switch result {
 					case .failure(let error):
 						ALog.error("\(error.localizedDescription)")
@@ -115,6 +128,58 @@ extension OCKStore {
 			}
 			group.notify(queue: callbackQueue) {
 				completion?(.success(updatedTasks))
+			}
+		}
+	}
+
+	func createOrUpdate(outcome: OCKOutcome, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKOutcome, OCKStoreError>) -> Void)? = nil) {
+		var query = OCKOutcomeQuery()
+		query.uuids.append(outcome.uuid)
+		fetchOutcomes(query: query, callbackQueue: callbackQueue) { [weak self] result in
+			switch result {
+			case .failure:
+				self?.addOutcome(outcome, callbackQueue: callbackQueue, completion: completion)
+			case .success(let existingOutcomes):
+				if let first = existingOutcomes.first {
+					let merged = first.merged(newOutcome: outcome)
+					self?.updateOutcome(merged, callbackQueue: callbackQueue, completion: completion)
+				} else {
+					self?.addOutcome(outcome, callbackQueue: callbackQueue, completion: completion)
+				}
+			}
+		}
+	}
+
+	func createOrUpdate(outcomes: [OCKOutcome], callbackQueue: DispatchQueue = .main, completion: ((Result<[OCKOutcome], OCKStoreError>) -> Void)? = nil) {
+		guard !outcomes.isEmpty else {
+			completion?(.failure(.updateFailed(reason: "Missing input outcomes")))
+			return
+		}
+
+		let queue = DispatchQueue.global(qos: .userInitiated)
+		var errors: [String: Error] = [:]
+		var updatedOutcomes: [OCKOutcome] = []
+		queue.async { [weak self] in
+			let group = DispatchGroup()
+			for outcome in outcomes {
+				group.enter()
+				self?.createOrUpdate(outcome: outcome, callbackQueue: queue, completion: { result in
+					switch result {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+						errors[outcome.id] = error
+					case .success(let updated):
+						updatedOutcomes.append(updated)
+					}
+					group.leave()
+				})
+			}
+			group.notify(queue: callbackQueue) {
+				if updatedOutcomes.isEmpty {
+					completion?(.failure(.updateFailed(reason: "Unable to add to store")))
+				} else {
+					completion?(.success(updatedOutcomes))
+				}
 			}
 		}
 	}

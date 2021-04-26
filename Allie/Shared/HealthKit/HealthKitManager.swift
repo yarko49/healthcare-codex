@@ -47,11 +47,14 @@ class HealthKitManager {
 	}
 
 	// Post Data from Health Kit to BE
-	func queryHealthData(initialUpload: Bool, for quantity: HealthKitDataType, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [HKSample]) -> Void) {
-		guard let sampleType = quantity.quantityType[0] else {
+	func queryHealthData(initialUpload: Bool, dataType: HealthKitDataType, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [HKSample]) -> Void) {
+		guard let sampleType = dataType.quantityType[0] else {
 			return
 		}
+		queryHealthData(initialUpload: initialUpload, sampleType: sampleType, from: startDate, to: endDate, completion: completion)
+	}
 
+	func queryHealthData(initialUpload: Bool, sampleType: HKQuantityType, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [HKSample]) -> Void) {
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
 		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: !initialUpload)
 		let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, _ in

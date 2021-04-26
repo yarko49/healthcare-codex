@@ -34,15 +34,15 @@ class TasksAddOperation: AsynchronousOperation, TasksResultProvider {
 			return
 		}
 		var mappedTasks = newTasks
-		let carePlans = dependencies.compactMap { (operation) -> [OCKCarePlan]? in
+		let carePlans = dependencies.compactMap { operation -> [OCKCarePlan]? in
 			(operation as? CarePlansResultProvider)?.carePlans
-		}.first?.reduce([:]) { (result, plan) -> [String: OCKCarePlan] in
+		}.first?.reduce([:]) { result, plan -> [String: OCKCarePlan] in
 			var newResult = result
 			newResult[plan.id] = plan
 			return newResult
 		}
 		if let plans = carePlans {
-			mappedTasks = newTasks.map { (task) -> OCKTask in
+			mappedTasks = newTasks.map { task -> OCKTask in
 				guard let carePlanId = task.carePlanId else {
 					return task
 				}
@@ -52,7 +52,7 @@ class TasksAddOperation: AsynchronousOperation, TasksResultProvider {
 			}
 		}
 
-		store.createOrUpdateTasks(mappedTasks, callbackQueue: callbackQueue) { [weak self] result in
+		store.createOrUpdate(tasks: mappedTasks, callbackQueue: callbackQueue) { [weak self] result in
 			defer {
 				self?.complete()
 			}

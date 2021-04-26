@@ -55,6 +55,10 @@ class MainCoordinator: Coordinable {
 			}.store(in: &cancellables)
 	}
 
+	deinit {
+		careManager.stopHealthKitSynchronization()
+	}
+
 	func start() {
 		if !UserDefaults.standard.hasRunOnce {
 			UserDefaults.resetStandardUserDefaults()
@@ -92,6 +96,7 @@ class MainCoordinator: Coordinable {
 		var transitionOptions = UIWindow.TransitionOptions()
 		transitionOptions.direction = .fade
 		window.setRootViewController(rootViewController, options: transitionOptions)
+		careManager.startHealthKitSynchronization()
 	}
 
 	func createPatientIfNeeded() {

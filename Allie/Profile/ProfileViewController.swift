@@ -318,7 +318,7 @@ class ProfileViewController: BaseViewController {
 				}
 			} else {
 				topGroup.enter()
-				HealthKitManager.shared.queryTodaySteps { (statistics) -> Void in
+				HealthKitManager.shared.queryTodaySteps { statistics -> Void in
 					if let statistics = statistics {
 						todayData[quantityType] = [statistics]
 					}

@@ -20,7 +20,7 @@ public final class CHJSONDecoder: JSONDecoder {
 
 		super.init()
 
-		self.dateDecodingStrategy = .custom { [self] (decoder) -> Date in
+		self.dateDecodingStrategy = .custom { [self] decoder -> Date in
 			let container = try decoder.singleValueContainer()
 			let dateString = try container.decode(String.self)
 			if let date = self.iso8601DateFormatter.date(from: dateString) ?? self.noTimezoneDateFormatter.date(from: dateString) {

@@ -21,7 +21,7 @@ class DateFormatterTests: XCTestCase {
 		// This is an example of a functional test case.
 		// Use XCTAssert and related functions to verify your tests produce the correct results.
 		let dateStrings: [String] = ["2020-11-11T01:31:00.343Z", "2999-11-11T01:31:00Z"]
-		let dates = dateStrings.compactMap { (dateString) -> Date? in
+		let dates = dateStrings.compactMap { dateString -> Date? in
 			DateFormatter.wholeDateRequest.date(from: dateString) ?? DateFormatter.wholeDateNoTimeZoneRequest.date(from: dateString)
 		}
 		XCTAssertEqual(dates.count, 2)

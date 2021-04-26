@@ -33,7 +33,7 @@ class HealthKitAddTasksOperation: AsynchronousOperation, HealthKitTasksResultPro
 			complete()
 			return
 		}
-		store.createOrUpdateTasks(newTasks, callbackQueue: .main) { [weak self] result in
+		store.createOrUpdate(healthKitTasks: newTasks, callbackQueue: .main) { [weak self] result in
 			defer {
 				self?.complete()
 			}

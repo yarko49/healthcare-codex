@@ -38,18 +38,18 @@ class CarePlansAddOperation: AsynchronousOperation, CarePlansResultProvider {
 		}
 		var mappedCarePlans = newCarePlans
 		if let existingPatient = exisingPatient {
-			mappedCarePlans = newCarePlans.map { (carePlan) -> OCKCarePlan in
+			mappedCarePlans = newCarePlans.map { carePlan -> OCKCarePlan in
 				var plan = carePlan
 				plan.patientUUID = existingPatient.uuid
 				return plan
 			}
 		} else {
-			let patientsFromDependency = dependencies.compactMap { (operation) -> [OCKPatient]? in
+			let patientsFromDependency = dependencies.compactMap { operation -> [OCKPatient]? in
 				(operation as? PatientsResultProvider)?.patients
 			}.first?.first
 
 			if let patient = patientsFromDependency {
-				mappedCarePlans = newCarePlans.map { (carePlan) -> OCKCarePlan in
+				mappedCarePlans = newCarePlans.map { carePlan -> OCKCarePlan in
 					var plan = carePlan
 					plan.patientUUID = patient.uuid
 					return plan
@@ -57,7 +57,7 @@ class CarePlansAddOperation: AsynchronousOperation, CarePlansResultProvider {
 			}
 		}
 
-		store.createOrUpdateCarePlans(mappedCarePlans, callbackQueue: callbackQueue) { [weak self] result in
+		store.createOrUpdate(carePlans: mappedCarePlans, callbackQueue: callbackQueue) { [weak self] result in
 			defer {
 				self?.complete()
 			}
@@ -66,6 +66,7 @@ class CarePlansAddOperation: AsynchronousOperation, CarePlansResultProvider {
 			case .failure(let error):
 				self?.error = error
 			case .success(let addedResults):
+				ALog.info("CarePlan added \(addedResults.count)")
 				self?.carePlans = addedResults
 			}
 		}
