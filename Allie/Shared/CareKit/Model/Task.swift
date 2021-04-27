@@ -18,7 +18,7 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 	public var title: String?
 	public var instructions: String?
 	public var impactsAdherence: Bool = true
-	public var scheduleElements: [ScheduleElement]?
+	public var scheduleElements: [ScheduleElement]
 	public var groupIdentifier: String?
 	public var tags: [String]?
 	public var effectiveDate: Date
@@ -31,13 +31,16 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 	public var notes: [OCKNote]?
 	public var timezone: TimeZone
 	public var healthKitLinkage: OCKHealthKitLinkage?
+	public var schedule: OCKSchedule
 
-	public init(id: String, title: String?, carePlanUUID: String?) {
+	public init(id: String, title: String?, carePlanUUID: String?, schedule: OCKSchedule) {
 		self.id = id
 		self.title = title
 		self.carePlanId = carePlanUUID
 		self.timezone = TimeZone.current
 		self.effectiveDate = Date()
+		self.schedule = schedule
+		self.scheduleElements = []
 	}
 
 	public init(from decoder: Decoder) throws {
@@ -56,6 +59,8 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 			self.scheduleElements = Array(elements.values)
 		} else if let elements = try? container.decodeIfPresent([ScheduleElement].self, forKey: .scheduleElements) {
 			self.scheduleElements = elements
+		} else {
+			self.scheduleElements = []
 		}
 		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
@@ -72,8 +77,15 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 			self.notes = notes
 		}
 		self.timezone = (try? container.decode(TimeZone.self, forKey: .timezone)) ?? .current
+		self.schedule = OCKSchedule(composing: scheduleElements.map { element -> OCKScheduleElement in
+			OCKScheduleElement(scheduleElement: element)
+		})
+		ALog.info("Start Date = \(schedule.startDate())")
 		if let linkage = try container.decodeIfPresent(HealthKitLinkage.self, forKey: .healthKitLinkage) {
 			self.healthKitLinkage = linkage.hkLinkage
+			setUserInfo(string: linkage.identifier.rawValue, forKey: HealthKitLinkageKeys.identifierKey)
+			setUserInfo(string: linkage.type.rawValue, forKey: HealthKitLinkageKeys.quantityTypeKey)
+			setUserInfo(string: linkage.unit.rawValue, forKey: HealthKitLinkageKeys.unitKey)
 		}
 	}
 

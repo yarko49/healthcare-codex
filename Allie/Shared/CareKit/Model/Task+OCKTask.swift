@@ -8,6 +8,12 @@
 import CareKitStore
 import Foundation
 
+enum HealthKitLinkageKeys {
+	static let identifierKey = "healthKitLinkageIdentifier"
+	static let quantityTypeKey = "healthKitLinkageQuantityType"
+	static let unitKey = "healthKitLinkageUnit"
+}
+
 protocol AnyTaskExtensible: AnyUserInfoExtensible {
 	var priority: Int { get set }
 	var carePlanId: String? { get set }
@@ -20,13 +26,16 @@ protocol AnyTaskExtensible: AnyUserInfoExtensible {
 	var category: String? { get set }
 	var subtitle: String? { get set }
 	var logText: String? { get set }
+	var hkLinkage: HealthKitLinkage? { get }
 }
+
+extension OCKAnyTask {}
 
 extension OCKTask: AnyTaskExtensible {}
 
 extension OCKTask {
 	init(task: Task) {
-		let schedule = task.ockSchedule
+		let schedule = task.schedule
 		self.init(id: task.id, title: task.title, carePlanUUID: task.carePlanUUID, schedule: schedule)
 		self.instructions = task.instructions
 		self.impactsAdherence = task.impactsAdherence
@@ -44,21 +53,21 @@ extension OCKTask {
 }
 
 extension OCKTask {
-	func merged(newTask: OCKTask) -> Self {
+	func merged(new: OCKTask) -> Self {
 		var existing = self
-		existing.title = newTask.title
-		existing.instructions = newTask.instructions
-		existing.impactsAdherence = newTask.impactsAdherence
-		existing.schedule = newTask.schedule
-		existing.groupIdentifier = newTask.groupIdentifier
-		existing.tags = newTask.tags
-		existing.deletedDate = newTask.deletedDate
-		existing.remoteID = newTask.remoteID
-		existing.source = newTask.source
-		existing.userInfo = newTask.userInfo
-		existing.asset = newTask.asset
-		existing.notes = newTask.notes
-		existing.timezone = newTask.timezone
+		existing.title = new.title
+		existing.instructions = new.instructions
+		existing.impactsAdherence = new.impactsAdherence
+		existing.schedule = new.schedule
+		existing.groupIdentifier = new.groupIdentifier
+		existing.tags = new.tags
+		existing.deletedDate = new.deletedDate
+		existing.remoteID = new.remoteID
+		existing.source = new.source
+		existing.userInfo = new.userInfo
+		existing.asset = new.asset
+		existing.notes = new.notes
+		existing.timezone = new.timezone
 		return existing
 	}
 }
@@ -160,6 +169,13 @@ extension AnyTaskExtensible {
 			setUserInfo(string: newValue, forKey: "logText")
 		}
 	}
+
+	var hkLinkage: HealthKitLinkage? {
+		guard let identifier = userInfo(forKey: HealthKitLinkageKeys.identifierKey), let quantityType = userInfo(forKey: HealthKitLinkageKeys.quantityTypeKey), let unit = userInfo(forKey: HealthKitLinkageKeys.unitKey) else {
+			return nil
+		}
+		return HealthKitLinkage(identifier: identifier, type: quantityType, unit: unit)
+	}
 }
 
 extension AnyTaskExtensible where Self: OCKAnyTask {
@@ -197,34 +213,11 @@ extension Task {
 		self.source = ockTask.source
 		self.userInfo = ockTask.userInfo
 		self.timezone = ockTask.timezone
+		self.schedule = ockTask.schedule
 	}
 }
 
 extension Task {
-	var sortedScheduleElements: [ScheduleElement]? {
-		scheduleElements?.sorted(by: { lhs, rhs -> Bool in
-			if lhs.hour < rhs.hour {
-				return true
-			} else if lhs.hour == rhs.hour {
-				return lhs.minutes <= rhs.minutes // if the hours are same then minutes decide
-			} else {
-				return false // if hour is greator
-			}
-		})
-	}
-
-	var ockScheduleElements: [OCKScheduleElement] {
-		let elements = sortedScheduleElements?.map { element -> OCKScheduleElement in
-			element.ockSchduleElement
-		} ?? []
-
-		return elements
-	}
-
-	var ockSchedule: OCKSchedule {
-		OCKSchedule(composing: ockScheduleElements)
-	}
-
 	var ockTask: OCKAnyTask {
 		healthKitLinkage != nil ? OCKHealthKitTask(task: self) : OCKTask(task: self)
 	}

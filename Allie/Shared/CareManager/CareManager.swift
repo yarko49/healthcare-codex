@@ -17,7 +17,7 @@ class CareManager: ObservableObject {
 	typealias BoolCompletion = (Bool) -> Void
 
 	enum Constants {
-		static let outcomeUploadIimeInteval: TimeInterval = 10.0
+		static let outcomeUploadIimeInteval: TimeInterval = 10.0 * 60
 		static let careStore = "CareStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
 		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk(protection: .completeUnlessOpen)

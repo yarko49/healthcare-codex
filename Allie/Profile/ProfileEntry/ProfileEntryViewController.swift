@@ -27,15 +27,20 @@ class ProfileEntryViewController: SignupBaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .allieWhite
-		view.addSubview(titleLabel)
-		NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 2.0),
-		                             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 4.0)])
-		titleLabel.text = NSLocalizedString("PROFILE", comment: "Profile")
+		if shouldAddTitle {
+			view.addSubview(titleLabel)
+			NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
+			                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 2.0),
+			                             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 4.0)])
+			titleLabel.text = NSLocalizedString("PROFILE", comment: "Profile")
+		} else {
+			title = NSLocalizedString("PROFILE", comment: "Profile")
+		}
 
 		mainStackView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(mainStackView)
-		NSLayoutConstraint.activate([mainStackView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 2.0),
+		let topAnchor = shouldAddTitle ? titleLabel.bottomAnchor : view.safeAreaLayoutGuide.topAnchor
+		NSLayoutConstraint.activate([mainStackView.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 2.0),
 		                             mainStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: mainStackView.trailingAnchor, multiplier: 2.0)])
 		mainStackView.addArrangedSubview(nameTextField)
@@ -56,11 +61,13 @@ class ProfileEntryViewController: SignupBaseViewController {
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: bottomButton.trailingAnchor, multiplier: 2.0),
 		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: bottomButton.bottomAnchor, multiplier: 2.0)])
 		bottomButton.addTarget(self, action: #selector(done), for: .touchUpInside)
-		bottomButton.setTitle(NSLocalizedString("NEXT", comment: "Next"), for: .normal)
+		bottomButton.setTitle(doneButtonTitle, for: .normal)
 		bottomButton.isEnabled = true
 		bottomButton.backgroundColor = .allieButtons
 		configureValues()
 	}
+
+	var doneButtonTitle: String? = NSLocalizedString("NEXT", comment: "Next")
 
 	var fullName: String? {
 		get {
