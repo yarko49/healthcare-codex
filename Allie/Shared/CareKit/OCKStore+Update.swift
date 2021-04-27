@@ -96,7 +96,7 @@ extension OCKStore {
 			case .failure:
 				self?.addTask(task, callbackQueue: callbackQueue, completion: completion)
 			case .success(let existing):
-				let merged = existing.merged(newTask: task)
+				let merged = existing.merged(new: task)
 				self?.updateTask(merged, callbackQueue: callbackQueue, completion: completion)
 			}
 		}

@@ -22,6 +22,16 @@ public struct HealthKitLinkage: Codable {
 }
 
 extension HealthKitLinkage {
+	init?(identifier: String, type: String, unit: String) {
+		guard let quantityIdentifier = QuantityIdentifier(rawValue: identifier), let quantityType = OCKHealthKitLinkage.QuantityType(rawValue: type), let unitType = UnitType(rawValue: unit) else {
+			return nil
+		}
+
+		self.init(identifier: quantityIdentifier, type: quantityType, unit: unitType)
+	}
+}
+
+extension HealthKitLinkage {
 	var hkLinkage: OCKHealthKitLinkage {
 		OCKHealthKitLinkage(quantityIdentifier: identifier.hkQuantityIdentifier, quantityType: type, unit: unit.hkUnit)
 	}

@@ -25,6 +25,8 @@ class SignupBaseViewController: BaseViewController {
 		}
 	}
 
+	var shouldAddTitle: Bool = true
+
 	private(set) lazy var titleLabel: UILabel = {
 		let label = UILabel(frame: .zero)
 		label.translatesAutoresizingMaskIntoConstraints = false
@@ -48,15 +50,14 @@ class SignupBaseViewController: BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		GIDSignIn.sharedInstance()?.presentingViewController = self
-		appleSignInButton.addTarget(self, action: #selector(authenticateApple(_:)), for: .touchUpInside)
+		appleIdButton.addTarget(self, action: #selector(authenticateApple(_:)), for: .touchUpInside)
 		googleSignInButton.addTarget(self, action: #selector(authenticateGoogle(_:)), for: .touchUpInside)
 	}
 
-	private(set) lazy var appleSignInButton: ASAuthorizationAppleIDButton = {
+	private(set) lazy var appleIdButton: ASAuthorizationAppleIDButton = {
 		let button = ASAuthorizationAppleIDButton(type: self.authorizationFlowType.appleAuthButtonType, style: .whiteOutline)
 		button.cornerRadius = 8.0
 		button.layer.cornerCurve = .continuous
-		button.backgroundColor = .allieWhite
 		button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
 		return button
 	}()

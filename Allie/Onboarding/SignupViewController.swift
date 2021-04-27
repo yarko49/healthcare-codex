@@ -31,7 +31,7 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 		pageControl.numberOfPages = IllustartionItem.defaultItems.count
 		pageControl.currentPage = 0
 		buttonStackView.addArrangedSubview(pageControl)
-		buttonStackView.addArrangedSubview(appleSignInButton)
+		buttonStackView.addArrangedSubview(appleIdButton)
 		buttonStackView.addArrangedSubview(googleSignInButton)
 		buttonStackView.addArrangedSubview(emailSignInButton)
 		buttonStackView.addArrangedSubview(separatorView)

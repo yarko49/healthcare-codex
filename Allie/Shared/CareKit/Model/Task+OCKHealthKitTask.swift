@@ -12,7 +12,7 @@ import HealthKit
 
 extension OCKHealthKitTask {
 	init(task: Task) {
-		let schedule = task.ockSchedule
+		let schedule = task.schedule
 		self.init(id: task.id, title: task.title, carePlanUUID: task.carePlanUUID, schedule: schedule, healthKitLinkage: task.healthKitLinkage!)
 		self.instructions = task.instructions
 		self.impactsAdherence = task.impactsAdherence

@@ -34,31 +34,46 @@ extension CareManager {
 		}
 
 		let group = DispatchGroup()
-
-		var tasks: [OCKHealthKitTask] = []
+		var carePlan: OCKCarePlan?
 		group.enter()
-		healthKitStore.fetchTasks(query: OCKTaskQuery()) { tasksResult in
+		store.fetchAnyCarePlans(query: OCKCarePlanQuery(for: Date()), callbackQueue: .main) { carePlanResult in
+			switch carePlanResult {
+			case .failure(let error):
+				ALog.error("\(error.localizedDescription)")
+			case .success(let carePlans):
+				carePlan = carePlans.first as? OCKCarePlan
+			}
+			group.leave()
+		}
+
+		var tasks: [OCKTask] = []
+		group.enter()
+		store.fetchAnyTasks(query: OCKTaskQuery(for: Date()), callbackQueue: .main) { tasksResult in
 			switch tasksResult {
 			case .failure(let error):
 				ALog.error("\(error.localizedDescription)")
 			case .success(let newTasks):
-				tasks = newTasks
+				tasks = newTasks.compactMap { anyTask in
+					anyTask as? OCKTask
+				}.filter { task in
+					task.hkLinkage != nil
+				}
 			}
 			group.leave()
 		}
 
 		group.notify(queue: .main) { [weak self] in
-			guard !tasks.isEmpty else {
+			guard let carePlan = carePlan, !tasks.isEmpty else {
 				self?.isSynchronizingOutcomes = false
 				return
 			}
-			self?.synchronizeHealthKitOutcomes(tasks: tasks, completion: { _ in
+			self?.synchronizeHealthKitOutcomes(carePlan: carePlan, tasks: tasks, completion: { _ in
 				self?.isSynchronizingOutcomes = false
 			})
 		}
 	}
 
-	func synchronizeHealthKitOutcomes(tasks: [OCKHealthKitTask], completion: @escaping ((Bool) -> Void)) {
+	func synchronizeHealthKitOutcomes(carePlan: OCKCarePlan, tasks: [OCKTask], completion: @escaping ((Bool) -> Void)) {
 		let now = Date()
 		let lastUpdatedDate = UserDefaults.standard.lastObervationUploadDate
 		guard lastUpdatedDate < now else {
@@ -69,11 +84,14 @@ extension CareManager {
 		var allSamples: [HKQuantityTypeIdentifier: [HKSample]] = [:]
 		let group = DispatchGroup()
 		for task in tasks {
-			if let quantityType = HKObjectType.quantityType(forIdentifier: task.healthKitLinkage.quantityIdentifier) {
+			guard let linkage = task.hkLinkage?.hkLinkage else {
+				continue
+			}
+			if let quantityType = HKObjectType.quantityType(forIdentifier: linkage.quantityIdentifier) {
 				group.enter()
 				HealthKitManager.shared.queryHealthData(initialUpload: false, sampleType: quantityType, from: lastUpdatedDate, to: now) { sucess, samples in
 					if sucess {
-						allSamples[task.healthKitLinkage.quantityIdentifier] = samples
+						allSamples[linkage.quantityIdentifier] = samples
 					}
 					group.leave()
 				}
@@ -85,16 +103,19 @@ extension CareManager {
 				completion(false)
 				return
 			}
-			self?.uploadSamples(samples: allSamples, tasks: tasks, completion: completion)
+			self?.uploadSamples(samples: allSamples, tasks: tasks, carePlanId: carePlan.id, completion: completion)
 		}
 	}
 
-	func uploadSamples(samples: [HKQuantityTypeIdentifier: [HKSample]], tasks: [OCKHealthKitTask], completion: @escaping ((Bool) -> Void)) {
+	func uploadSamples(samples: [HKQuantityTypeIdentifier: [HKSample]], tasks: [OCKTask], carePlanId: String, completion: @escaping ((Bool) -> Void)) {
 		var outcomes: [Outcome] = []
 		for task in tasks {
-			if let taskSamples = samples[task.healthKitLinkage.quantityIdentifier] {
+			guard let linkage = task.hkLinkage?.hkLinkage else {
+				continue
+			}
+			if let taskSamples = samples[linkage.quantityIdentifier] {
 				let taskOucomes = taskSamples.compactMap { sample in
-					Outcome(sample: sample, task: task)
+					Outcome(sample: sample, task: task, carePlanId: carePlanId)
 				}
 				outcomes.append(contentsOf: taskOucomes)
 			}

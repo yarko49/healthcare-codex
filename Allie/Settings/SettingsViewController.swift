@@ -112,6 +112,8 @@ extension SettingsViewController: UITableViewDelegate {
 
 	func showAccountDetails() {
 		let profileEntryViewController = ProfileEntryViewController()
+		profileEntryViewController.shouldAddTitle = false
+		profileEntryViewController.doneButtonTitle = NSLocalizedString("SAVE", comment: "Save")
 		profileEntryViewController.patient = AppDelegate.careManager.patient
 		profileEntryViewController.doneAction = {
 			var alliePatient = AppDelegate.careManager.patient
@@ -123,7 +125,21 @@ extension SettingsViewController: UITableViewDelegate {
 			alliePatient?.birthday = profileEntryViewController.dateOfBirth
 			alliePatient?.profile.weightInPounds = profileEntryViewController.weightInPounds
 			alliePatient?.profile.heightInInches = profileEntryViewController.heightInInches
-			// upload Patient
+			self.navigationController?.popViewController(animated: true)
+			if let patient = alliePatient {
+				self.hud.show(in: self.view)
+				APIClient.client.postPatient(patient: patient) { carePlanResponse in
+					self.hud.dismiss()
+					switch carePlanResponse {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+					case .success(let response):
+						if let patient = response.patients.first {
+							AppDelegate.careManager.patient = patient
+						}
+					}
+				}
+			}
 		}
 		navigationController?.show(profileEntryViewController, sender: self)
 	}
