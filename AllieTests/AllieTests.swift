@@ -105,14 +105,12 @@ class AllieTests: XCTestCase {
 		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: carePlanResponseData!)
 		let storeManager = CareManager()
 		let expect = expectation(description: "InsertCarePlans")
-		storeManager.insert(carePlansResponse: carePlanResponse) { result in
-			switch result {
-			case .failure(let error):
-				XCTFail("Error Fetching DefaultDiabetes Care Plan = \(error.localizedDescription)")
-			case .success(let cardList):
-				print(cardList)
-				XCTAssertTrue(true)
+		storeManager.createOrUpdate(carePlanResponse: carePlanResponse, forceReset: false) { success in
+			XCTAssertTrue(success)
+			if success {
 				expect.fulfill()
+			} else {
+				XCTFail("Error Fetching DefaultDiabetes Care Plan")
 			}
 		}
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))

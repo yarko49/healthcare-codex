@@ -37,4 +37,47 @@ class TargetValueTests: XCTestCase {
 			throw URLError(.cannotDecodeRawData)
 		}
 	}
+
+	func testTargetValueExtended() throws {
+		let dataString =
+			"""
+			{
+			    "groupIdentifier": "",
+			    "remoteId": "",
+			    "id": "",
+			    "notes": null,
+			    "asset": "",
+			    "source": "",
+			    "tags": null,
+			    "userInfo": {
+			        "category": "",
+			        "detailViewText": "",
+			        "detailViewCSS": "",
+			        "detailViewHTML": "",
+			        "detailViewImageLabel": "",
+			        "detailViewURL": "",
+			        "image": "",
+			        "subtitle": "",
+			        "logText": "",
+			        "priority": ""
+			    },
+			    "createdDate": null,
+			    "deletedDate": null,
+			    "effectiveDate": null,
+			    "updatedDate": null,
+			    "index": 0,
+			    "kind": "",
+			    "units": "count",
+			    "value": 200,
+			    "type": "integer"
+			}
+			"""
+		let decoder = CHJSONDecoder()
+		if let data = dataString.data(using: .utf8) {
+			let targetValue = try decoder.decode(OutcomeValue.self, from: data)
+			XCTAssertEqual(targetValue.type, OCKOutcomeValueType.integer, "invalid remote Id")
+		} else {
+			throw URLError(.cannotDecodeRawData)
+		}
+	}
 }
