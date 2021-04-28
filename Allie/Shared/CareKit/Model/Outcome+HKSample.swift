@@ -10,10 +10,8 @@ import Foundation
 import HealthKit
 
 extension Outcome {
-	init?(sample: HKSample, task: OCKTask, carePlanId: String) {
-		guard let linkage = task.hkLinkage?.hkLinkage else {
-			return nil
-		}
+	init?(sample: HKSample, task: OCKHealthKitTask, carePlanId: String) {
+		let linkage = task.healthKitLinkage
 		var values: [OutcomeValue] = []
 		if let cumulative = sample as? HKCumulativeQuantitySample {
 			if var value = OutcomeValue(quantity: cumulative.sumQuantity, linkage: linkage) {

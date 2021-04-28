@@ -46,17 +46,15 @@ extension CareManager {
 			group.leave()
 		}
 
-		var tasks: [OCKTask] = []
+		var tasks: [OCKHealthKitTask] = []
 		group.enter()
-		store.fetchAnyTasks(query: OCKTaskQuery(for: Date()), callbackQueue: .main) { tasksResult in
+		healthKitStore.fetchAnyTasks(query: OCKTaskQuery(for: Date()), callbackQueue: .main) { tasksResult in
 			switch tasksResult {
 			case .failure(let error):
 				ALog.error("\(error.localizedDescription)")
 			case .success(let newTasks):
 				tasks = newTasks.compactMap { anyTask in
-					anyTask as? OCKTask
-				}.filter { task in
-					task.hkLinkage != nil
+					anyTask as? OCKHealthKitTask
 				}
 			}
 			group.leave()
@@ -73,7 +71,7 @@ extension CareManager {
 		}
 	}
 
-	func synchronizeHealthKitOutcomes(carePlan: OCKCarePlan, tasks: [OCKTask], completion: @escaping ((Bool) -> Void)) {
+	func synchronizeHealthKitOutcomes(carePlan: OCKCarePlan, tasks: [OCKHealthKitTask], completion: @escaping ((Bool) -> Void)) {
 		let now = Date()
 		let lastUpdatedDate = UserDefaults.standard.lastObervationUploadDate
 		guard lastUpdatedDate < now else {
@@ -84,9 +82,7 @@ extension CareManager {
 		var allSamples: [HKQuantityTypeIdentifier: [HKSample]] = [:]
 		let group = DispatchGroup()
 		for task in tasks {
-			guard let linkage = task.hkLinkage?.hkLinkage else {
-				continue
-			}
+			let linkage = task.healthKitLinkage
 			if let quantityType = HKObjectType.quantityType(forIdentifier: linkage.quantityIdentifier) {
 				group.enter()
 				HealthKitManager.shared.queryHealthData(initialUpload: false, sampleType: quantityType, from: lastUpdatedDate, to: now) { sucess, samples in
@@ -107,12 +103,10 @@ extension CareManager {
 		}
 	}
 
-	func uploadSamples(samples: [HKQuantityTypeIdentifier: [HKSample]], tasks: [OCKTask], carePlanId: String, completion: @escaping ((Bool) -> Void)) {
+	func uploadSamples(samples: [HKQuantityTypeIdentifier: [HKSample]], tasks: [OCKHealthKitTask], carePlanId: String, completion: @escaping ((Bool) -> Void)) {
 		var outcomes: [Outcome] = []
 		for task in tasks {
-			guard let linkage = task.hkLinkage?.hkLinkage else {
-				continue
-			}
+			let linkage = task.healthKitLinkage
 			if let taskSamples = samples[linkage.quantityIdentifier] {
 				let taskOucomes = taskSamples.compactMap { sample in
 					Outcome(sample: sample, task: task, carePlanId: carePlanId)

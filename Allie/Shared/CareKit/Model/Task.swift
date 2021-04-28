@@ -83,9 +83,6 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		ALog.info("Start Date = \(schedule.startDate())")
 		if let linkage = try container.decodeIfPresent(HealthKitLinkage.self, forKey: .healthKitLinkage) {
 			self.healthKitLinkage = linkage.hkLinkage
-			setUserInfo(string: linkage.identifier.rawValue, forKey: HealthKitLinkageKeys.identifierKey)
-			setUserInfo(string: linkage.type.rawValue, forKey: HealthKitLinkageKeys.quantityTypeKey)
-			setUserInfo(string: linkage.unit.rawValue, forKey: HealthKitLinkageKeys.unitKey)
 		}
 	}
 

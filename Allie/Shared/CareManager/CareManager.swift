@@ -122,7 +122,7 @@ extension CareManager {
 			}
 
 			let tasks = self?.syncCreateOrUpdate(tasks: carePlanResponse.tasks, carePlan: theCarePlan, queue: queue)
-			completion?(!(tasks ?? []).isEmpty)
+			completion?(!(tasks?.0 ?? []).isEmpty)
 		}
 	}
 
@@ -403,32 +403,55 @@ extension CareManager {
 }
 
 extension CareManager {
-	func syncCreateOrUpdate(tasks: [Task], carePlan: OCKCarePlan?, queue: DispatchQueue) -> [OCKTask] {
-		let mapped = tasks.map { task -> OCKTask in
-			var ockTask = OCKTask(task: task)
-			ockTask.carePlanUUID = carePlan?.uuid
-			if ockTask.carePlanId == nil {
-				ockTask.carePlanId = carePlan?.id
+	func syncCreateOrUpdate(tasks: [Task], carePlan: OCKCarePlan?, queue: DispatchQueue) -> ([OCKTask], [OCKHealthKitTask]) {
+		let mapped = tasks.map { task -> OCKAnyTask in
+			if task.healthKitLinkage != nil {
+				var healKitTask = OCKHealthKitTask(task: task)
+				healKitTask.carePlanUUID = carePlan?.uuid
+				if healKitTask.carePlanId == nil {
+					healKitTask.carePlanId = carePlan?.id
+				}
+				return healKitTask
+			} else {
+				var ockTask = OCKTask(task: task)
+				ockTask.carePlanUUID = carePlan?.uuid
+				if ockTask.carePlanId == nil {
+					ockTask.carePlanId = carePlan?.id
+				}
+				return ockTask
 			}
-			return ockTask
 		}
 
+		var healthKitTasks: [OCKHealthKitTask] = []
 		var storeTasks: [OCKTask] = []
 		let dispatchGroup = DispatchGroup()
 		for task in mapped {
-			dispatchGroup.enter()
-			store.createOrUpdate(task: task, callbackQueue: queue) { result in
-				switch result {
-				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
-				case .success(let newTask):
-					storeTasks.append(newTask)
+			if let healthKitTask = task as? OCKHealthKitTask {
+				dispatchGroup.enter()
+				healthKitStore.createOrUpdate(healthKitTask: healthKitTask, callbackQueue: queue) { result in
+					switch result {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+					case .success(let newTask):
+						healthKitTasks.append(newTask)
+					}
+					dispatchGroup.leave()
 				}
-				dispatchGroup.leave()
+			} else if let ockTask = task as? OCKTask {
+				dispatchGroup.enter()
+				store.createOrUpdate(task: ockTask, callbackQueue: queue) { result in
+					switch result {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+					case .success(let newTask):
+						storeTasks.append(newTask)
+					}
+					dispatchGroup.leave()
+				}
 			}
 		}
 		dispatchGroup.wait()
-		return storeTasks
+		return (storeTasks, healthKitTasks)
 	}
 }
 

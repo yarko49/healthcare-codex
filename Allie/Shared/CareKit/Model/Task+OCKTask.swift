@@ -8,12 +8,6 @@
 import CareKitStore
 import Foundation
 
-enum HealthKitLinkageKeys {
-	static let identifierKey = "healthKitLinkageIdentifier"
-	static let quantityTypeKey = "healthKitLinkageQuantityType"
-	static let unitKey = "healthKitLinkageUnit"
-}
-
 protocol AnyTaskExtensible: AnyUserInfoExtensible {
 	var priority: Int { get set }
 	var carePlanId: String? { get set }
@@ -26,7 +20,6 @@ protocol AnyTaskExtensible: AnyUserInfoExtensible {
 	var category: String? { get set }
 	var subtitle: String? { get set }
 	var logText: String? { get set }
-	var hkLinkage: HealthKitLinkage? { get }
 }
 
 extension OCKAnyTask {}
@@ -168,13 +161,6 @@ extension AnyTaskExtensible {
 		set {
 			setUserInfo(string: newValue, forKey: "logText")
 		}
-	}
-
-	var hkLinkage: HealthKitLinkage? {
-		guard let identifier = userInfo(forKey: HealthKitLinkageKeys.identifierKey), let quantityType = userInfo(forKey: HealthKitLinkageKeys.quantityTypeKey), let unit = userInfo(forKey: HealthKitLinkageKeys.unitKey) else {
-			return nil
-		}
-		return HealthKitLinkage(identifier: identifier, type: quantityType, unit: unit)
 	}
 }
 
