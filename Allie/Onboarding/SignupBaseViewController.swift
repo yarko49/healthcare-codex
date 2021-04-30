@@ -9,6 +9,11 @@ import AuthenticationServices
 import GoogleSignIn
 import UIKit
 
+enum ControllerViewMode {
+	case onboarding
+	case settings
+}
+
 class SignupBaseViewController: BaseViewController {
 	var buttonHeight: CGFloat {
 		view.frame.height < 700 ? 42.0 : 48.0
@@ -25,7 +30,7 @@ class SignupBaseViewController: BaseViewController {
 		}
 	}
 
-	var shouldAddTitle: Bool = true
+	var controllerViewMode: ControllerViewMode = .onboarding
 
 	private(set) lazy var titleLabel: UILabel = {
 		let label = UILabel(frame: .zero)
@@ -50,6 +55,16 @@ class SignupBaseViewController: BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		GIDSignIn.sharedInstance()?.presentingViewController = self
+		if controllerViewMode == .onboarding {
+			view.addSubview(titleLabel)
+			NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
+			                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 2.0),
+			                             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 4.0)])
+			titleLabel.text = NSLocalizedString("PROFILE", comment: "Profile")
+		} else {
+			title = NSLocalizedString("PROFILE", comment: "Profile")
+		}
+
 		appleIdButton.addTarget(self, action: #selector(authenticateApple(_:)), for: .touchUpInside)
 		googleSignInButton.addTarget(self, action: #selector(authenticateGoogle(_:)), for: .touchUpInside)
 	}

@@ -112,7 +112,7 @@ extension SettingsViewController: UITableViewDelegate {
 
 	func showAccountDetails() {
 		let profileEntryViewController = ProfileEntryViewController()
-		profileEntryViewController.shouldAddTitle = false
+		profileEntryViewController.controllerViewMode = .settings
 		profileEntryViewController.doneButtonTitle = NSLocalizedString("SAVE", comment: "Save")
 		profileEntryViewController.patient = AppDelegate.careManager.patient
 		profileEntryViewController.doneAction = {
@@ -133,6 +133,8 @@ extension SettingsViewController: UITableViewDelegate {
 					switch carePlanResponse {
 					case .failure(let error):
 						ALog.error("\(error.localizedDescription)")
+						let okAction = AlertHelper.AlertAction(withTitle: Str.ok)
+						AlertHelper.showAlert(title: Str.error, detailText: error.localizedDescription, actions: [okAction])
 					case .success(let response):
 						if let patient = response.patients.first {
 							AppDelegate.careManager.patient = patient
@@ -146,13 +148,14 @@ extension SettingsViewController: UITableViewDelegate {
 
 	func showMyDevices() {
 		let devicesViewController = DevicesSelectionViewController()
+		devicesViewController.controllerViewMode = .settings
 		devicesViewController.title = NSLocalizedString("MY_DEVICES", comment: "My Devices")
 		navigationController?.show(devicesViewController, sender: self)
 	}
 
 	func showNotifications() {
-		let myNotificationsViewController = NotificationSettingsController()
-		navigationController?.show(myNotificationsViewController, sender: self)
+		let notificationSettingsController = NotificationSettingsController()
+		navigationController?.show(notificationSettingsController, sender: self)
 	}
 
 	func showSystemAuthorization() {

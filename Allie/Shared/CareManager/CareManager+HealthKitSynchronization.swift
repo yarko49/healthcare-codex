@@ -33,52 +33,29 @@ extension CareManager {
 			return
 		}
 
-		let group = DispatchGroup()
-		var carePlan: OCKCarePlan?
-		group.enter()
-		store.fetchAnyCarePlans(query: OCKCarePlanQuery(for: Date()), callbackQueue: .main) { carePlanResult in
-			switch carePlanResult {
-			case .failure(let error):
-				ALog.error("\(error.localizedDescription)")
-			case .success(let carePlans):
-				carePlan = carePlans.first as? OCKCarePlan
-			}
-			group.leave()
-		}
-
-		var tasks: [OCKHealthKitTask] = []
-		group.enter()
-		healthKitStore.fetchAnyTasks(query: OCKTaskQuery(for: Date()), callbackQueue: .main) { tasksResult in
+		healthKitStore.fetchAnyTasks(query: OCKTaskQuery(for: Date()), callbackQueue: .main) { [weak self] tasksResult in
 			switch tasksResult {
 			case .failure(let error):
 				ALog.error("\(error.localizedDescription)")
+				self?.isSynchronizingOutcomes = false
 			case .success(let newTasks):
-				tasks = newTasks.compactMap { anyTask in
+				let tasks = newTasks.compactMap { anyTask in
 					anyTask as? OCKHealthKitTask
 				}
+				guard !tasks.isEmpty else {
+					self?.isSynchronizingOutcomes = false
+					return
+				}
+				self?.synchronizeHealthKitOutcomes(tasks: tasks, completion: { _ in
+					self?.isSynchronizingOutcomes = false
+				})
 			}
-			group.leave()
-		}
-
-		group.notify(queue: .main) { [weak self] in
-			guard let carePlan = carePlan, !tasks.isEmpty else {
-				self?.isSynchronizingOutcomes = false
-				return
-			}
-			self?.synchronizeHealthKitOutcomes(carePlan: carePlan, tasks: tasks, completion: { _ in
-				self?.isSynchronizingOutcomes = false
-			})
 		}
 	}
 
-	func synchronizeHealthKitOutcomes(carePlan: OCKCarePlan, tasks: [OCKHealthKitTask], completion: @escaping ((Bool) -> Void)) {
+	func synchronizeHealthKitOutcomes(tasks: [OCKHealthKitTask], completion: @escaping ((Bool) -> Void)) {
 		let now = Date()
 		let lastUpdatedDate = UserDefaults.standard.lastObervationUploadDate
-		guard lastUpdatedDate < now else {
-			completion(true)
-			return
-		}
-
 		var allSamples: [HKQuantityTypeIdentifier: [HKSample]] = [:]
 		let group = DispatchGroup()
 		for task in tasks {
@@ -99,13 +76,16 @@ extension CareManager {
 				completion(false)
 				return
 			}
-			self?.uploadSamples(samples: allSamples, tasks: tasks, carePlanId: carePlan.id, completion: completion)
+			self?.uploadSamples(samples: allSamples, tasks: tasks, completion: completion)
 		}
 	}
 
-	func uploadSamples(samples: [HKQuantityTypeIdentifier: [HKSample]], tasks: [OCKHealthKitTask], carePlanId: String, completion: @escaping ((Bool) -> Void)) {
+	func uploadSamples(samples: [HKQuantityTypeIdentifier: [HKSample]], tasks: [OCKHealthKitTask], completion: @escaping ((Bool) -> Void)) {
 		var outcomes: [Outcome] = []
 		for task in tasks {
+			guard let carePlanId = task.carePlanId else {
+				continue
+			}
 			let linkage = task.healthKitLinkage
 			if let taskSamples = samples[linkage.quantityIdentifier] {
 				let taskOucomes = taskSamples.compactMap { sample in
@@ -137,7 +117,7 @@ extension CareManager {
 							switch completionResult {
 							case .failure(let error):
 								ALog.error("\(error.localizedDescription)")
-							case .finished:
+                            case .finished:
 								break
 							}
 							completion(true)
