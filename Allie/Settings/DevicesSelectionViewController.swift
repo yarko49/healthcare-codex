@@ -14,11 +14,6 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.addSubview(titleLabel)
-		NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 2.0),
-		                             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 10.0)])
-		titleLabel.text = NSLocalizedString("DEVICES", comment: "Devices")
 		tableView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(tableView)
 		view.addSubview(bottomButton)
@@ -29,8 +24,11 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 		bottomButton.addTarget(self, action: #selector(didSelectNext(_:)), for: .touchUpInside)
 		bottomButton.isEnabled = true
 		bottomButton.backgroundColor = .allieButtons
+		bottomButton.isHidden = controllerViewMode == .settings
 
-		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 8.0),
+		let viewTopAnchor = controllerViewMode == .onboarding ? titleLabel.bottomAnchor : view.safeAreaLayoutGuide.topAnchor
+		let viewTopOffset: CGFloat = controllerViewMode == .onboarding ? 8.0 : 0.0
+		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalToSystemSpacingBelow: viewTopAnchor, multiplier: viewTopOffset),
 		                             tableView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: tableView.trailingAnchor, multiplier: 0.0),
 		                             bottomButton.topAnchor.constraint(equalToSystemSpacingBelow: tableView.bottomAnchor, multiplier: 2.0)])

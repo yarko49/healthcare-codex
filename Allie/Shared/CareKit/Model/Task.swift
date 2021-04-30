@@ -80,7 +80,6 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		self.schedule = OCKSchedule(composing: scheduleElements.map { element -> OCKScheduleElement in
 			OCKScheduleElement(scheduleElement: element)
 		})
-		ALog.info("Start Date = \(schedule.startDate())")
 		if let linkage = try container.decodeIfPresent(HealthKitLinkage.self, forKey: .healthKitLinkage) {
 			self.healthKitLinkage = linkage.hkLinkage
 		}
