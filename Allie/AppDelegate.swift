@@ -64,6 +64,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Use this method to release any resources that were specific to the discarded scenes, as they will not return.
 	}
 
+	func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
+		completionHandler()
+	}
+
 	static func configureZendesk() {
 		Zendesk.initialize(appId: AppConfig.zendeskAppId, clientId: AppConfig.zendeskClientId, zendeskUrl: AppConfig.zendeskURL)
 		Support.initialize(withZendesk: Zendesk.instance)

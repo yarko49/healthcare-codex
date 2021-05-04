@@ -220,7 +220,7 @@ class TaskTests: XCTestCase {
 		              "index": 0,
 		              "kind": "",
 		              "units": "count",
-		              "value": "200",
+		              "value": 200,
 		              "type": "integer"
 		            }
 		          ],

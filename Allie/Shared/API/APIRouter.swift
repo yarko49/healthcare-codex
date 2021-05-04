@@ -56,7 +56,7 @@ enum APIRouter: URLRequestConvertible {
 	var body: Data? {
 		var data: Data?
 		let encoder = JSONEncoder()
-		encoder.dateEncodingStrategy = .iso8601
+		encoder.dateEncodingStrategy = .formatted(DateFormatter.rfc3339)
 
 		switch self {
 		case .registerProvider(let provider):

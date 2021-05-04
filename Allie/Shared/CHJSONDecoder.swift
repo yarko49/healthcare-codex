@@ -26,7 +26,7 @@ public final class CHJSONDecoder: JSONDecoder {
 			if let date = self.iso8601DateFormatter.date(from: dateString) ?? self.noTimezoneDateFormatter.date(from: dateString) {
 				return date
 			} else {
-				throw DecodingError.dataCorruptedError(in: container, debugDescription: "Date value is invalid.")
+				throw DecodingError.dataCorruptedError(in: container, debugDescription: "Date value is invalid. \(dateString)")
 			}
 		}
 	}

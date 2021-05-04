@@ -203,6 +203,7 @@
 		84B33204261D164B007EB839 /* ZendeskChatSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84B33203261D164B007EB839 /* ZendeskChatSDK */; };
 		84B3320A261D166F007EB839 /* ZendeskSupportSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84B33209261D166F007EB839 /* ZendeskSupportSDK */; };
 		84B43E6025B1227300318CEA /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 84B43E5F25B1227300318CEA /* SDWebImage */; };
+		84B6422F263F3901009810AA /* DataUploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B6422E263F3901009810AA /* DataUploadManager.swift */; };
 		84B9178B25FDF00A00F2422C /* BundleUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9178A25FDF00A00F2422C /* BundleUploadOperation.swift */; };
 		84B9178D25FDF39100F2422C /* UploadEntriesOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9178C25FDF39100F2422C /* UploadEntriesOperations.swift */; };
 		84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */; };
@@ -222,7 +223,6 @@
 		84C83FD5259C48F200DAEF34 /* CarePlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */; };
 		84C83FD6259C48F200DAEF34 /* ScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */; };
 		84C83FD8259C48F200DAEF34 /* TestImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 84C83FC1259C48F000DAEF34 /* TestImage.png */; };
-		84C83FDA259C48F200DAEF34 /* Outcomes.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C83FC3259C48F000DAEF34 /* Outcomes.json */; };
 		84C83FDD259C48F200DAEF34 /* TargetValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FC6259C48F100DAEF34 /* TargetValueTests.swift */; };
 		84C83FDE259C48F200DAEF34 /* TasksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FC7259C48F100DAEF34 /* TasksTests.swift */; };
 		84C83FE3259C48F200DAEF34 /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FCC259C48F100DAEF34 /* NoteTests.swift */; };
@@ -236,6 +236,9 @@
 		84CF2DA0261AC60D0080293F /* BaseControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2D9F261AC60D0080293F /* BaseControlView.swift */; };
 		84CF2DA2261ACAA30080293F /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2DA1261ACAA30080293F /* ButtonView.swift */; };
 		84CF2DA4261AE60B0080293F /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2DA3261AE60B0080293F /* DatePickerView.swift */; };
+		84D121C3264100BC00990196 /* Outcomes1.json in Resources */ = {isa = PBXBuildFile; fileRef = 84D121C1264100BC00990196 /* Outcomes1.json */; };
+		84D121C4264100BC00990196 /* Outcomes2.json in Resources */ = {isa = PBXBuildFile; fileRef = 84D121C2264100BC00990196 /* Outcomes2.json */; };
+		84D121C6264101EB00990196 /* OutcomesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D121C5264101EB00990196 /* OutcomesTests.swift */; };
 		84D2BFD1260460D30064DB08 /* AnyUserInfoExtensible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2BFD0260460D30064DB08 /* AnyUserInfoExtensible.swift */; };
 		84DC75A525ABBAD6003B541C /* CarePlan+OCKCarePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC75A425ABBAD6003B541C /* CarePlan+OCKCarePlan.swift */; };
 		84DC75AA25AC0F33003B541C /* ScheduleElementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */; };
@@ -467,6 +470,7 @@
 		849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFlowType.swift; sourceTree = "<group>"; };
 		849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenFlowType.swift; sourceTree = "<group>"; };
 		84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareKitStoreTests.swift; sourceTree = "<group>"; };
+		84B6422E263F3901009810AA /* DataUploadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUploadManager.swift; sourceTree = "<group>"; };
 		84B9178A25FDF00A00F2422C /* BundleUploadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleUploadOperation.swift; sourceTree = "<group>"; };
 		84B9178C25FDF39100F2422C /* UploadEntriesOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadEntriesOperations.swift; sourceTree = "<group>"; };
 		84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
@@ -485,7 +489,6 @@
 		84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanTests.swift; sourceTree = "<group>"; };
 		84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTests.swift; sourceTree = "<group>"; };
 		84C83FC1259C48F000DAEF34 /* TestImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TestImage.png; sourceTree = "<group>"; };
-		84C83FC3259C48F000DAEF34 /* Outcomes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Outcomes.json; sourceTree = "<group>"; };
 		84C83FC6259C48F100DAEF34 /* TargetValueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetValueTests.swift; sourceTree = "<group>"; };
 		84C83FC7259C48F100DAEF34 /* TasksTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksTests.swift; sourceTree = "<group>"; };
 		84C83FCC259C48F100DAEF34 /* NoteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTests.swift; sourceTree = "<group>"; };
@@ -500,6 +503,9 @@
 		84CF2D9F261AC60D0080293F /* BaseControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseControlView.swift; sourceTree = "<group>"; };
 		84CF2DA1261ACAA30080293F /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		84CF2DA3261AE60B0080293F /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
+		84D121C1264100BC00990196 /* Outcomes1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Outcomes1.json; sourceTree = "<group>"; };
+		84D121C2264100BC00990196 /* Outcomes2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Outcomes2.json; sourceTree = "<group>"; };
+		84D121C5264101EB00990196 /* OutcomesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutcomesTests.swift; sourceTree = "<group>"; };
 		84D2BFD0260460D30064DB08 /* AnyUserInfoExtensible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyUserInfoExtensible.swift; sourceTree = "<group>"; };
 		84DC75A425ABBAD6003B541C /* CarePlan+OCKCarePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarePlan+OCKCarePlan.swift"; sourceTree = "<group>"; };
 		84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleElementTests.swift; sourceTree = "<group>"; };
@@ -666,7 +672,9 @@
 				84C83FCE259C48F200DAEF34 /* DateFormatterTests.swift */,
 				84C83FCD259C48F100DAEF34 /* Info.plist */,
 				84C83FCC259C48F100DAEF34 /* NoteTests.swift */,
-				84C83FC3259C48F000DAEF34 /* Outcomes.json */,
+				84D121C1264100BC00990196 /* Outcomes1.json */,
+				84D121C2264100BC00990196 /* Outcomes2.json */,
+				84D121C5264101EB00990196 /* OutcomesTests.swift */,
 				84C83FBD259C48EF00DAEF34 /* PatientTests.swift */,
 				84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */,
 				84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */,
@@ -1084,6 +1092,7 @@
 				8447671F259C2A4E00C50C09 /* APIRouter.swift */,
 				84476720259C2A4E00C50C09 /* APIClient.swift */,
 				84476721259C2A4E00C50C09 /* APIClient+Image.swift */,
+				84B6422E263F3901009810AA /* DataUploadManager.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -1356,8 +1365,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84D121C4264100BC00990196 /* Outcomes2.json in Resources */,
+				84D121C3264100BC00990196 /* Outcomes1.json in Resources */,
 				84C83FD8259C48F200DAEF34 /* TestImage.png in Resources */,
-				84C83FDA259C48F200DAEF34 /* Outcomes.json in Resources */,
 				84C83FE7259C48F200DAEF34 /* TaskB2.json in Resources */,
 				84C83FE6259C48F200DAEF34 /* SechduleA.json in Resources */,
 				84016C3A2616BED7006D5279 /* DiabetiesCarePlan.json in Resources */,
@@ -1573,6 +1583,7 @@
 				84C65B1B263BC3F1003CA8BF /* InsulinLogTaskView.swift in Sources */,
 				8447679C259C2A4E00C50C09 /* UIColor+Names.swift in Sources */,
 				844767DD259C2A4E00C50C09 /* MainCoordinator.swift in Sources */,
+				84B6422F263F3901009810AA /* DataUploadManager.swift in Sources */,
 				845FBE6925FC6A8E00472257 /* ObservationsConfig.swift in Sources */,
 				84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */,
 				84476725259C2A4E00C50C09 /* StatCell.swift in Sources */,
@@ -1757,6 +1768,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84D121C6264101EB00990196 /* OutcomesTests.swift in Sources */,
 				84C83FE3259C48F200DAEF34 /* NoteTests.swift in Sources */,
 				84A6316F2601B6B5000922F3 /* CareKitStoreTests.swift in Sources */,
 				842398E2259C1144006FB3F4 /* AllieTests.swift in Sources */,
@@ -2023,7 +2035,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 58;
+				CURRENT_PROJECT_VERSION = 60;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2052,7 +2064,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 58;
+				CURRENT_PROJECT_VERSION = 60;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

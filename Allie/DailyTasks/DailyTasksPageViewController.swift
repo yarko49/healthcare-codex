@@ -47,6 +47,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			}
 			.store(in: &cancellables)
 		reload()
+
+		let sessionIdentifier = APIClient.sessionIdentifier
 	}
 
 	override func viewDidAppear(_ animated: Bool) {

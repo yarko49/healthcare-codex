@@ -34,6 +34,17 @@ public final class APIClient: AllieAPI {
 
 	let webService: WebService
 
+	static var sessionIdentifier: String {
+		let bundleIdentifier = Bundle.main.bundleIdentifier!
+		return bundleIdentifier + ".networking"
+	}
+
+	static var backgroundSessionConfiguration: URLSessionConfiguration {
+		let config = URLSessionConfiguration.background(withIdentifier: sessionIdentifier)
+		config.sessionSendsLaunchEvents = true
+		return config
+	}
+
 	public init(session: URLSession = .shared) {
 		session.configuration.httpMaximumConnectionsPerHost = 50
 		session.configuration.timeoutIntervalForRequest = 120

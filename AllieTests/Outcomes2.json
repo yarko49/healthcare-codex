@@ -1,0 +1,692 @@
+{
+    "outcomes": [
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-27T20:40:40.270Z",
+        "updatedDate": "2021-04-27T20:40:40.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 0,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 50
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-26T20:40:40.270Z",
+        "updatedDate": "2021-04-26T20:40:40.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 0,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 200
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-28T20:40:40.270Z",
+        "updatedDate": "2021-04-28T20:40:40.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 0,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 300
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-28T20:40:40.270Z",
+        "updatedDate": "2021-04-28T20:40:40.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 0,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-28T20:41:41.270Z",
+        "updatedDate": "2021-04-28T20:41:41.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 1,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-28T20:42:42.270Z",
+        "updatedDate": "2021-04-28T20:42:42.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 2,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-28T20:43:43.270Z",
+        "updatedDate": "2021-04-28T20:43:43.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 3,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-27T20:40:40.270Z",
+        "updatedDate": "2021-04-27T20:40:40.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 0,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-27T20:41:41.270Z",
+        "updatedDate": "2021-04-27T20:41:41.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 1,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-27T20:42:42.270Z",
+        "updatedDate": "2021-04-27T20:42:42.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 2,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-27T20:43:43.270Z",
+        "updatedDate": "2021-04-27T20:43:43.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 3,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-26T20:40:40.270Z",
+        "updatedDate": "2021-04-26T20:40:40.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 0,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-26T20:41:41.270Z",
+        "updatedDate": "2021-04-26T20:41:41.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 1,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-26T20:42:42.270Z",
+        "updatedDate": "2021-04-26T20:42:42.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 2,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-26T20:43:43.270Z",
+        "updatedDate": "2021-04-26T20:43:43.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 3,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-25T20:40:40.270Z",
+        "updatedDate": "2021-04-25T20:40:40.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 0,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-25T20:41:41.270Z",
+        "updatedDate": "2021-04-25T20:41:41.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 1,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-25T20:42:42.270Z",
+        "updatedDate": "2021-04-25T20:42:42.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 2,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-25T20:43:43.270Z",
+        "updatedDate": "2021-04-25T20:43:43.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 3,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-24T20:40:40.270Z",
+        "updatedDate": "2021-04-24T20:40:40.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 0,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-24T20:41:41.270Z",
+        "updatedDate": "2021-04-24T20:41:41.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 1,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-24T20:42:42.270Z",
+        "updatedDate": "2021-04-24T20:42:42.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 2,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-24T20:43:43.270Z",
+        "updatedDate": "2021-04-24T20:43:43.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 3,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-23T20:40:40.270Z",
+        "updatedDate": "2021-04-23T20:40:40.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 0,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-23T20:41:41.270Z",
+        "updatedDate": "2021-04-23T20:41:41.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 1,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-23T20:42:42.270Z",
+        "updatedDate": "2021-04-23T20:42:42.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 2,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-23T20:43:43.270Z",
+        "updatedDate": "2021-04-23T20:43:43.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 3,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-22T20:40:40.270Z",
+        "updatedDate": "2021-04-22T20:40:40.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 0,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-22T20:41:41.270Z",
+        "updatedDate": "2021-04-22T20:41:41.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 1,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-22T20:42:42.270Z",
+        "updatedDate": "2021-04-22T20:42:42.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 2,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-22T20:43:43.270Z",
+        "updatedDate": "2021-04-22T20:43:43.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 3,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-21T20:40:40.270Z",
+        "updatedDate": "2021-04-21T20:40:40.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 0,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-21T20:41:41.270Z",
+        "updatedDate": "2021-04-21T20:41:41.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 1,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-21T20:42:42.270Z",
+        "updatedDate": "2021-04-21T20:42:42.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 2,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-21T20:43:43.270Z",
+        "updatedDate": "2021-04-21T20:43:43.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 3,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-20T20:40:40.270Z",
+        "updatedDate": "2021-04-20T20:40:40.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 0,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-20T20:41:41.270Z",
+        "updatedDate": "2021-04-20T20:41:41.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 1,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-20T20:42:42.270Z",
+        "updatedDate": "2021-04-20T20:42:42.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 2,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-20T20:43:43.270Z",
+        "updatedDate": "2021-04-20T20:43:43.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 3,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-19T20:40:40.270Z",
+        "updatedDate": "2021-04-19T20:40:40.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 0,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-19T20:41:41.270Z",
+        "updatedDate": "2021-04-19T20:41:41.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 1,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-19T20:42:42.270Z",
+        "updatedDate": "2021-04-19T20:42:42.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 2,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 120
+          }
+        ]
+      },
+      {
+        "careplanId": "defaultCarePlan",
+        "createdDate": "2021-04-19T20:43:43.270Z",
+        "updatedDate": "2021-04-19T20:43:43.270Z",
+        "taskId": "measurements-glucose-levels",
+        "taskOccurenceIndex": 3,
+        "values": [
+          {
+            "index": 0,
+            "kind": "bloodGlucose",
+            "type": "integer",
+            "units": "mg/dl",
+            "value": 125
+          }
+        ]
+      }
+    ]
+  }
