@@ -15,6 +15,11 @@ extension OutcomeValue {
 			return nil
 		}
 		let doubleValue = quantity.doubleValue(for: linkage.unit)
-		self.init(doubleValue, units: linkage.unit.unitString)
+		switch linkage.quantityIdentifier {
+		case .bloodGlucose, .heartRate, .restingHeartRate, .bloodPressureSystolic, .bloodPressureDiastolic, .stepCount:
+			self.init(Int(doubleValue), units: linkage.unit.unitString)
+		default:
+			self.init(doubleValue, units: linkage.unit.unitString)
+		}
 	}
 }

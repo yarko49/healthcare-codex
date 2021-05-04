@@ -13,7 +13,7 @@ import FirebaseAuth
 import Foundation
 import ModelsR4
 
-class CareManager: ObservableObject {
+class CareManager: NSObject, ObservableObject {
 	typealias BoolCompletion = (Bool) -> Void
 
 	enum Constants {
@@ -44,8 +44,8 @@ class CareManager: ObservableObject {
 	}
 
 	var cancellables: Set<AnyCancellable> = []
-	var timerCancellable: AnyCancellable?
 	var isSynchronizingOutcomes: Bool = false
+	var outcomeUploaders: Set<DataUploadManager<CarePlanResponse>> = []
 
 	var patient: AlliePatient? {
 		get {
@@ -71,7 +71,8 @@ class CareManager: ObservableObject {
 		}
 	}
 
-	init() {
+	override init() {
+		super.init()
 		synchronizedStoreManager.notificationPublisher
 			.sink { [weak self] notification in
 				if let carePlanNotification = notification as? OCKCarePlanNotification {
@@ -104,9 +105,9 @@ class CareManager: ObservableObject {
 
 extension CareManager {
 	func createOrUpdate(carePlanResponse: CarePlanResponse, forceReset: Bool = false, completion: ((Bool) -> Void)?) {
-		if isServerVectorClockAhead(serverClock: carePlanResponse.vectorClock) || forceReset {
-			try? resetAllContents()
-		}
+//		if isServerVectorClockAhead(serverClock: carePlanResponse.vectorClock) || forceReset {
+//			try? resetAllContents()
+//		}
 		let queue = DispatchQueue.global(qos: .userInitiated)
 		queue.async { [weak self] in
 			if let patient = carePlanResponse.patients.first {

@@ -56,6 +56,7 @@ public struct Outcome: Codable {
 		case endDate
 		case device
 		case sourceRevision
+		case sampleSource
 	}
 
 	public var id: String { taskUUID.uuidString + "_\(taskOccurrenceIndex)" }

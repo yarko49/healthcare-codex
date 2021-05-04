@@ -18,13 +18,13 @@ extension DateFormatter {
 		return formatter
 	}
 
-	static var iso8601: DateFormatter {
+	static var rfc3339: DateFormatter {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS+'Z'"
 		return formatter
 	}
 
-	static var rfc3339: ISO8601DateFormatter {
+	static var iso8601: ISO8601DateFormatter {
 		let formatter = ISO8601DateFormatter()
 		formatter.timeZone = TimeZone(secondsFromGMT: 0)
 		formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
