@@ -9,6 +9,8 @@ import CareKitStore
 import Combine
 import Foundation
 
+// MARK: - Patients
+
 extension OCKStore {
 	func createOrUpdate(patient: OCKPatient, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKPatient, OCKStoreError>) -> Void)? = nil) {
 		fetchPatient(withID: patient.id) { [weak self] result in
@@ -49,7 +51,11 @@ extension OCKStore {
 			}
 		}
 	}
+}
 
+// MARK: - CarePlans
+
+extension OCKStore {
 	func createOrUpdate(carePlan: OCKCarePlan, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKCarePlan, OCKStoreError>) -> Void)? = nil) {
 		fetchCarePlan(withID: carePlan.id, callbackQueue: callbackQueue) { [weak self] result in
 			switch result {
@@ -89,7 +95,11 @@ extension OCKStore {
 			}
 		}
 	}
+}
 
+// MARK: - Tasks
+
+extension OCKStore {
 	func createOrUpdate(task: OCKTask, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKTask, OCKStoreError>) -> Void)? = nil) {
 		fetchTask(withID: task.id, callbackQueue: callbackQueue) { [weak self] result in
 			switch result {
@@ -131,7 +141,11 @@ extension OCKStore {
 			}
 		}
 	}
+}
 
+// MARK: - Outcomes
+
+extension OCKStore {
 	func createOrUpdate(outcome: OCKOutcome, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKOutcome, OCKStoreError>) -> Void)? = nil) {
 		var query = OCKOutcomeQuery()
 		query.uuids.append(outcome.uuid)

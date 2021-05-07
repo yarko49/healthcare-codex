@@ -48,7 +48,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			.store(in: &cancellables)
 		reload()
 
-		let sessionIdentifier = APIClient.sessionIdentifier
+		careManager.getOutcomes()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -111,7 +111,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						viewController.view.tintColor = .allieLighterGray
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
-					case .log:
+					case .log, .logInsulin:
 						let viewController = ButtonLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
 						viewController.view.tintColor = .allieButtons
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
@@ -147,12 +147,13 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		}
 		isRefreshingCarePlan = true
 		hud.show(in: view)
-		APIClient.client.getCarePlan()
+		APIClient.shared.getCarePlan(option: .outcomes)
 			.sink { [weak self] completion in
 				self?.isRefreshingCarePlan = false
 				self?.hud.dismiss()
 				switch completion {
 				case .failure(let error):
+					ALog.error("Unable to fetch care plan", error: error)
 					let okAction = AlertHelper.AlertAction(withTitle: Str.ok)
 					AlertHelper.showAlert(title: "Error", detailText: error.localizedDescription, actions: [okAction])
 				case .finished:
@@ -163,11 +164,10 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 					if success {
 						ALog.info("added the care plan")
 						DispatchQueue.main.async {
-							self.hud.dismiss()
 							super.reload()
 						}
 					} else {
-						ALog.info("Unable to update the careplan data")
+						ALog.error("Unable to update the careplan data")
 					}
 					self.isRefreshingCarePlan = false
 				}

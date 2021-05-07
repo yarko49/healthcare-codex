@@ -13,26 +13,17 @@ extension Outcome {
 	init?(sample: HKSample, task: OCKHealthKitTask, carePlanId: String) {
 		let linkage = task.healthKitLinkage
 		var values: [OutcomeValue] = []
-		var userValueIndex: [String: String] = [:]
 		if let cumulative = sample as? HKCumulativeQuantitySample {
 			if var value = OutcomeValue(quantity: cumulative.sumQuantity, linkage: linkage) {
 				value.kind = cumulative.quantityType.identifier
 				values.append(value)
 			}
 		} else if let discreet = sample as? HKDiscreteQuantitySample {
-			let quantities = [discreet.averageQuantity, discreet.minimumQuantity, discreet.maximumQuantity, discreet.mostRecentQuantity]
-			userValueIndex["averageQuantity"] = "0"
-			userValueIndex["minimumQuantity"] = "1"
-			userValueIndex["maximumQuantity"] = "2"
-			userValueIndex["mostRecentQuantity"] = "3"
-			var index: Int = 0
-			for quantity in quantities {
-				if var value = OutcomeValue(quantity: quantity, linkage: linkage) {
-					value.kind = discreet.quantityType.identifier
-					value.index = index
-					index += 1
-					values.append(value)
-				}
+			let quantity = discreet.mostRecentQuantity
+			if var value = OutcomeValue(quantity: quantity, linkage: linkage) {
+				value.kind = discreet.quantityType.identifier
+				value.index = 0
+				values.append(value)
 			}
 		} else if let corrolation = sample as? HKCorrelation {
 			let samples: [HKQuantitySample] = corrolation.objects.compactMap { sample in
@@ -73,13 +64,10 @@ extension Outcome {
 			} else if let boolValue = anyValue as? Bool {
 				return String(boolValue)
 			} else if let date = anyValue as? Date {
-				return DateFormatter.iso8601.string(from: date)
+				return Formatter.iso8601WithFractionalSeconds.string(from: date)
 			} else {
 				return nil
 			}
 		}
-		userInfo?.merge(userValueIndex, uniquingKeysWith: { _, rhs in
-			rhs
-		})
 	}
 }

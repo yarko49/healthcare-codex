@@ -128,7 +128,7 @@ extension SettingsViewController: UITableViewDelegate {
 			self.navigationController?.popViewController(animated: true)
 			if let patient = alliePatient {
 				self.hud.show(in: self.view)
-				APIClient.client.postPatient(patient: patient) { carePlanResponse in
+				APIClient.shared.post(patient: patient) { carePlanResponse in
 					self.hud.dismiss()
 					switch carePlanResponse {
 					case .failure(let error):

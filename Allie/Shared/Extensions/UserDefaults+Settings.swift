@@ -14,6 +14,7 @@ extension UserDefaults {
 		case hasCompletedOnboarding = "HAS_COMPLETED_ONBOARDING"
 		case isBiometricsEnabled = "IS_BIOMETRICS_ENABLED"
 		case haveAskedUserForBiometrics
+		case healthKitDataLastUploadDate
 		case healthKitUploadChunkSize
 		case hasSmartScale
 		case hasSmartBloodPressureCuff
@@ -133,6 +134,15 @@ extension UserDefaults {
 		removeObject(forKey: Self.Keys.isBiometricsEnabled.rawValue)
 	}
 
+	var healthKitDataLastUploadDate: Date {
+		get {
+			object(forKey: Self.Keys.healthKitDataLastUploadDate.rawValue) as? Date ?? .distantPast
+		}
+		set {
+			setValue(newValue, forKey: Self.Keys.healthKitDataLastUploadDate.rawValue)
+		}
+	}
+
 	var healthKitUploadChunkSize: Int {
 		get {
 			integer(forKey: Self.Keys.healthKitUploadChunkSize.rawValue)
@@ -234,10 +244,10 @@ extension UserDefaults {
 
 	var lastObervationUploadDate: Date {
 		get {
-			object(forKey: "lastObervationUploadDate") as? Date ?? .distantPast
+			object(forKey: Self.Keys.lastObervationUploadDate.rawValue) as? Date ?? .distantPast
 		}
 		set {
-			setValue(newValue, forKey: "lastObervationUploadDate")
+			setValue(newValue, forKey: Self.Keys.lastObervationUploadDate.rawValue)
 		}
 	}
 }

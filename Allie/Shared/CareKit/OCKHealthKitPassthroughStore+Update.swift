@@ -8,6 +8,8 @@
 import CareKitStore
 import Foundation
 
+// MARK: - HealthKitTasks
+
 extension OCKHealthKitPassthroughStore {
 	func createOrUpdate(healthKitTask task: OCKHealthKitTask, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKHealthKitTask, OCKStoreError>) -> Void)? = nil) {
 		fetchTask(withID: task.id, callbackQueue: callbackQueue) { [weak self] result in

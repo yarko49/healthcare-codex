@@ -26,10 +26,10 @@
         "logText": "",
         "priority": ""
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": "2021-02-10T17:24:40.691Z",
-      "updatedDate": null,
+      "createdDate": "2021-04-30T05:24:50.987046Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-04-30T05:24:50.987046Z",
+      "updatedDate": "2021-04-30T05:24:50.987046Z",
       "title": "Default Care Plan",
       "patientId": "",
       "versions": null
@@ -60,13 +60,13 @@
         "logText": "",
         "priority": "5"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-04-28T08:10:34.538664Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-04-28T08:10:34.538664Z",
+      "updatedDate": "2021-04-30T05:24:51.078957Z",
       "title": "Easy & Healthy Recipes",
-      "schedules": {
-        "scheduleA": {
+      "schedules": [
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -80,10 +80,199 @@
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": null,
       "instructions": "Instructions not to be displayed by Featured Content",
+      "impactsAdherence": false,
+      "versions": null
+    },
+    {
+      "groupIdentifier": "LOG",
+      "remoteId": "jUxkPmYjsfVo9DRCmApC",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": ""
+      },
+      "userInfo": {
+        "category": "medications",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": "0"
+      },
+      "createdDate": "2021-04-29T23:25:42.290973Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-04-29T23:25:42.290973Z",
+      "updatedDate": "2021-04-30T05:24:51.078957Z",
+      "title": "Mushrooms",
+      "schedules": [
+        {
+          "custom": true,
+          "daily": false,
+          "weekly": false,
+          "weekday": 1,
+          "hour": 0,
+          "minutes": 0,
+          "duration": 0,
+          "interval": 604800,
+          "text": "",
+          "targetValues": [
+            {
+              "groupIdentifier": "",
+              "remoteId": "",
+              "id": "",
+              "notes": null,
+              "asset": "",
+              "source": "",
+              "tags": null,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+              },
+              "createdDate": null,
+              "deletedDate": null,
+              "effectiveDate": null,
+              "updatedDate": null,
+              "index": 0,
+              "kind": "",
+              "units": "count",
+              "value": 0,
+              "type": "integer",
+              "userInfo": null
+            }
+          ],
+          "start": "2021-04-29T15:28:13.53Z",
+          "end": "2021-04-29T15:28:13.53Z"
+        },
+        {
+          "custom": true,
+          "daily": false,
+          "weekly": false,
+          "weekday": 3,
+          "hour": 0,
+          "minutes": 0,
+          "duration": 0,
+          "interval": 604800,
+          "text": "",
+          "targetValues": [
+            {
+              "groupIdentifier": "",
+              "remoteId": "",
+              "id": "",
+              "notes": null,
+              "asset": "",
+              "source": "",
+              "tags": null,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+              },
+              "createdDate": null,
+              "deletedDate": null,
+              "effectiveDate": null,
+              "updatedDate": null,
+              "index": 0,
+              "kind": "",
+              "units": "count",
+              "value": 0,
+              "type": "integer",
+              "userInfo": null
+            }
+          ],
+          "start": "2021-04-29T15:28:13.53Z",
+          "end": "2021-04-29T15:28:13.53Z"
+        },
+        {
+          "custom": true,
+          "daily": false,
+          "weekly": false,
+          "weekday": 4,
+          "hour": 0,
+          "minutes": 0,
+          "duration": 0,
+          "interval": 604800,
+          "text": "",
+          "targetValues": [
+            {
+              "groupIdentifier": "",
+              "remoteId": "",
+              "id": "",
+              "notes": null,
+              "asset": "",
+              "source": "",
+              "tags": null,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+              },
+              "createdDate": null,
+              "deletedDate": null,
+              "effectiveDate": null,
+              "updatedDate": null,
+              "index": 0,
+              "kind": "",
+              "units": "count",
+              "value": 0,
+              "type": "integer",
+              "userInfo": null
+            }
+          ],
+          "start": "2021-04-29T15:28:13.53Z",
+          "end": "2021-04-29T15:28:13.53Z"
+        },
+        {
+          "custom": true,
+          "daily": false,
+          "weekly": false,
+          "weekday": 6,
+          "hour": 0,
+          "minutes": 0,
+          "duration": 0,
+          "interval": 604800,
+          "text": "",
+          "targetValues": [
+            {
+              "groupIdentifier": "",
+              "remoteId": "",
+              "id": "",
+              "notes": null,
+              "asset": "",
+              "source": "",
+              "tags": null,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+              },
+              "createdDate": null,
+              "deletedDate": null,
+              "effectiveDate": null,
+              "updatedDate": null,
+              "index": 0,
+              "kind": "",
+              "units": "count",
+              "value": 0,
+              "type": "integer",
+              "userInfo": null
+            }
+          ],
+          "start": "2021-04-29T15:28:13.53Z",
+          "end": "2021-04-29T15:28:13.53Z"
+        }
+      ],
+      "carePlanId": "defaultCarePlan",
+      "healthKitLinkage": null,
+      "instructions": "Don't eat those mashrooms",
       "impactsAdherence": false,
       "versions": null
     },
@@ -117,13 +306,13 @@
         "logText": "",
         "priority": "6"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-04-28T08:10:34.538664Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-04-28T08:10:34.538664Z",
+      "updatedDate": "2021-04-30T05:24:51.078957Z",
       "title": "Links",
-      "schedules": {
-        "daily": {
+      "schedules": [
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -137,7 +326,7 @@
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": null,
       "instructions": "Helpful links",
@@ -168,22 +357,22 @@
         "logText": "",
         "priority": "2"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-04-28T08:30:24.822514Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-04-28T08:30:24.822514Z",
+      "updatedDate": "2021-04-30T05:24:51.078957Z",
       "title": "Activity",
-      "schedules": {
-        "scheduleA": {
-          "custom": false,
-          "daily": true,
+      "schedules": [
+        {
+          "custom": true,
+          "daily": false,
           "weekly": false,
-          "weekday": 0,
-          "hour": 8,
+          "weekday": 2,
+          "hour": 0,
           "minutes": 0,
           "duration": 0,
-          "interval": 0,
-          "text": "Anytime",
+          "interval": 1209600,
+          "text": "",
           "targetValues": [
             {
               "groupIdentifier": "",
@@ -197,17 +386,45 @@
                 "abbreviation": "",
                 "identifier": ""
               },
+              "createdDate": null,
+              "deletedDate": null,
+              "effectiveDate": null,
+              "updatedDate": null,
+              "index": 0,
+              "kind": "",
+              "units": "count",
+              "value": 10000,
+              "type": "integer",
               "userInfo": {
-                "category": "",
-                "detailViewText": "",
-                "detailViewCSS": "",
-                "detailViewHTML": "",
-                "detailViewImageLabel": "",
-                "detailViewURL": "",
-                "image": "",
-                "subtitle": "",
-                "logText": "",
-                "priority": ""
+                "LinkEmailTitle5": ""
+              }
+            }
+          ],
+          "start": "2021-04-28T07:51:26.834Z",
+          "end": "2021-04-28T07:51:26.834Z"
+        },
+        {
+          "custom": true,
+          "daily": false,
+          "weekly": false,
+          "weekday": 6,
+          "hour": 0,
+          "minutes": 0,
+          "duration": 0,
+          "interval": 1209600,
+          "text": "",
+          "targetValues": [
+            {
+              "groupIdentifier": "",
+              "remoteId": "",
+              "id": "",
+              "notes": null,
+              "asset": "",
+              "source": "",
+              "tags": null,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
               },
               "createdDate": null,
               "deletedDate": null,
@@ -217,13 +434,16 @@
               "kind": "",
               "units": "count",
               "value": 10000,
-              "type": "integer"
+              "type": "integer",
+              "userInfo": {
+                "LinkEmailTitle5": ""
+              }
             }
           ],
-          "start": null,
-          "end": null
+          "start": "2021-04-28T07:51:26.834Z",
+          "end": "2021-04-28T07:51:26.834Z"
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": {
         "quantityIdentifier": "steps",
@@ -258,13 +478,13 @@
         "logText": "",
         "priority": "1"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-04-28T08:10:34.538664Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-04-28T08:10:34.538664Z",
+      "updatedDate": "2021-04-30T05:24:51.078957Z",
       "title": "Glucose Levels",
-      "schedules": {
-        "scheduleA": {
+      "schedules": [
+        {
           "custom": false,
           "daily": false,
           "weekly": true,
@@ -274,11 +494,37 @@
           "duration": 0,
           "interval": 0,
           "text": "",
-          "targetValues": null,
+          "targetValues": [
+            {
+              "groupIdentifier": "",
+              "remoteId": "",
+              "id": "",
+              "notes": null,
+              "asset": "",
+              "source": "",
+              "tags": null,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+              },
+              "createdDate": null,
+              "deletedDate": null,
+              "effectiveDate": null,
+              "updatedDate": null,
+              "index": 0,
+              "kind": "bloodGlucose",
+              "units": "mg/dL",
+              "value": 140,
+              "type": "integer",
+              "userInfo": {
+                "LinkEmailTitle5": ""
+              }
+            }
+          ],
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": {
         "quantityIdentifier": "bloodGlucose",
@@ -290,58 +536,7 @@
       "versions": null
     },
     {
-      "groupIdentifier": "LABELED_VALUE",
-      "remoteId": "measurements-heart-rate",
-      "id": "",
-      "notes": null,
-      "asset": "",
-      "source": "",
-      "tags": null,
-      "timezone": {
-        "abbreviation": "",
-        "identifier": ""
-      },
-      "userInfo": {
-        "category": "measurements",
-        "detailViewText": "",
-        "detailViewCSS": "",
-        "detailViewHTML": "",
-        "detailViewImageLabel": "",
-        "detailViewURL": "",
-        "image": "",
-        "subtitle": "",
-        "logText": "",
-        "priority": "2"
-      },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
-      "title": "Heart Rate",
-      "schedules": {
-        "scheduleA": {
-          "custom": false,
-          "daily": true,
-          "weekly": false,
-          "weekday": 0,
-          "hour": 0,
-          "minutes": 0,
-          "duration": 0,
-          "interval": 0,
-          "text": "",
-          "targetValues": null,
-          "start": "2021-04-08T09:06:09.732Z",
-          "end": "2021-04-08T09:06:09.732Z"
-        }
-      },
-      "carePlanId": "defaultCarePlan",
-      "healthKitLinkage": null,
-      "instructions": "",
-      "impactsAdherence": false,
-      "versions": null
-    },
-    {
-      "groupIdentifier": "LOG",
+      "groupIdentifier": "SIMPLE",
       "remoteId": "medications-metformin",
       "id": "",
       "notes": null,
@@ -364,13 +559,13 @@
         "logText": "",
         "priority": "0"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-04-28T08:10:34.538664Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-04-28T08:10:34.538664Z",
+      "updatedDate": "2021-04-30T05:24:51.078957Z",
       "title": "Metformin",
-      "schedules": {
-        "scheduleA": {
+      "schedules": [
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -384,7 +579,7 @@
           "start": null,
           "end": null
         },
-        "scheduleB": {
+        {
           "custom": false,
           "daily": false,
           "weekly": true,
@@ -398,7 +593,7 @@
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": null,
       "instructions": "Monitoring daily Metformin dosage",
@@ -429,13 +624,13 @@
         "logText": "",
         "priority": "4"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-04-28T08:10:34.538664Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-04-28T08:10:34.538664Z",
+      "updatedDate": "2021-04-30T05:24:51.078957Z",
       "title": "15 Minutes of Morning Exercise",
-      "schedules": {
-        "scheduleA": {
+      "schedules": [
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -449,7 +644,7 @@
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": null,
       "instructions": "",
@@ -480,13 +675,13 @@
         "logText": "",
         "priority": "1"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-04-28T08:10:34.538664Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-04-28T08:10:34.538664Z",
+      "updatedDate": "2021-04-30T05:24:51.078957Z",
       "title": "Daily Food Diary",
-      "schedules": {
-        "breakfast": {
+      "schedules": [
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -509,18 +704,6 @@
                 "abbreviation": "",
                 "identifier": ""
               },
-              "userInfo": {
-                "category": "",
-                "detailViewText": "",
-                "detailViewCSS": "",
-                "detailViewHTML": "",
-                "detailViewImageLabel": "",
-                "detailViewURL": "",
-                "image": "",
-                "subtitle": "",
-                "logText": "",
-                "priority": ""
-              },
               "createdDate": null,
               "deletedDate": null,
               "effectiveDate": null,
@@ -529,62 +712,16 @@
               "kind": "",
               "units": "",
               "value": true,
-              "type": "boolean"
-            }
-          ],
-          "start": null,
-          "end": null
-        },
-        "dinner": {
-          "custom": false,
-          "daily": true,
-          "weekly": false,
-          "weekday": 0,
-          "hour": 18,
-          "minutes": 0,
-          "duration": 0,
-          "interval": 0,
-          "text": "Dinner",
-          "targetValues": [
-            {
-              "groupIdentifier": "",
-              "remoteId": "",
-              "id": "",
-              "notes": null,
-              "asset": "",
-              "source": "",
-              "tags": null,
-              "timezone": {
-                "abbreviation": "",
-                "identifier": ""
-              },
+              "type": "boolean",
               "userInfo": {
-                "category": "",
-                "detailViewText": "",
-                "detailViewCSS": "",
-                "detailViewHTML": "",
-                "detailViewImageLabel": "",
-                "detailViewURL": "",
-                "image": "",
-                "subtitle": "",
-                "logText": "",
-                "priority": ""
-              },
-              "createdDate": null,
-              "deletedDate": null,
-              "effectiveDate": null,
-              "updatedDate": null,
-              "index": 0,
-              "kind": "",
-              "units": "",
-              "value": true,
-              "type": "boolean"
+                "LinkEmailTitle5": ""
+              }
             }
           ],
           "start": null,
           "end": null
         },
-        "lunch": {
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -607,17 +744,45 @@
                 "abbreviation": "",
                 "identifier": ""
               },
+              "createdDate": null,
+              "deletedDate": null,
+              "effectiveDate": null,
+              "updatedDate": null,
+              "index": 0,
+              "kind": "",
+              "units": "",
+              "value": true,
+              "type": "boolean",
               "userInfo": {
-                "category": "",
-                "detailViewText": "",
-                "detailViewCSS": "",
-                "detailViewHTML": "",
-                "detailViewImageLabel": "",
-                "detailViewURL": "",
-                "image": "",
-                "subtitle": "",
-                "logText": "",
-                "priority": ""
+                "LinkEmailTitle5": ""
+              }
+            }
+          ],
+          "start": null,
+          "end": null
+        },
+        {
+          "custom": false,
+          "daily": true,
+          "weekly": false,
+          "weekday": 0,
+          "hour": 18,
+          "minutes": 0,
+          "duration": 0,
+          "interval": 0,
+          "text": "Dinner",
+          "targetValues": [
+            {
+              "groupIdentifier": "",
+              "remoteId": "",
+              "id": "",
+              "notes": null,
+              "asset": "",
+              "source": "",
+              "tags": null,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
               },
               "createdDate": null,
               "deletedDate": null,
@@ -627,13 +792,16 @@
               "kind": "",
               "units": "",
               "value": true,
-              "type": "boolean"
+              "type": "boolean",
+              "userInfo": {
+                "LinkEmailTitle5": ""
+              }
             }
           ],
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": null,
       "instructions": "Record your daily meals",
@@ -664,13 +832,13 @@
         "logText": "Logged",
         "priority": "3"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-04-28T08:10:34.538664Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-04-28T08:10:34.538664Z",
+      "updatedDate": "2021-04-30T05:24:51.078957Z",
       "title": "Hypoglycemia",
-      "schedules": {
-        "scheduleA": {
+      "schedules": [
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -684,7 +852,7 @@
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": null,
       "instructions": "Report symptoms of Hypoglycemia",
@@ -692,12 +860,11 @@
       "versions": null
     }
   ],
-  "outcomes": null,
-  "patients": [
+  "outcomes": [
     {
       "groupIdentifier": "",
-      "remoteId": "",
-      "id": "TJZUuh7801dLn0yTir0Ppx8KEIP2",
+      "remoteId": "NBxydUhjokKgl4y5cHUZ",
+      "id": "",
       "notes": null,
       "asset": "",
       "source": "",
@@ -706,24 +873,402 @@
         "abbreviation": "",
         "identifier": "America/Los_Angeles"
       },
-      "createdDate": "2021-04-13T05:16:07Z",
+      "userInfo": {
+        "category": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-04-30T05:47:10Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-04-30T05:47:10Z",
+      "updatedDate": "2021-04-30T05:47:11Z",
+      "taskId": "jUxkPmYjsfVo9DRCmApC",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-04-30T05:47:11.79339Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-04-30T05:47:11Z",
+          "updatedDate": "2021-04-30T05:47:11.79339Z",
+          "index": 0,
+          "kind": "",
+          "units": "",
+          "value": true,
+          "type": "boolean"
+        },
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-04-30T05:47:11.79339Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-04-30T05:47:11Z",
+          "updatedDate": "2021-04-30T05:47:11.79339Z",
+          "index": 0,
+          "kind": "",
+          "units": "",
+          "value": true,
+          "type": "boolean"
+        },
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-04-30T05:47:11.79339Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-04-30T05:47:11Z",
+          "updatedDate": "2021-04-30T05:47:11.79339Z",
+          "index": 0,
+          "kind": "",
+          "units": "",
+          "value": true,
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "Xdr4CpK4V09LbeO3NiBW",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-04-30T05:47:10Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-04-30T05:47:10Z",
+      "updatedDate": "2021-04-30T05:47:11Z",
+      "taskId": "jUxkPmYjsfVo9DRCmApC",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-04-30T05:47:11.215289Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-04-30T05:47:11Z",
+          "updatedDate": "2021-04-30T05:47:11.215289Z",
+          "index": 0,
+          "kind": "",
+          "units": "",
+          "value": true,
+          "type": "boolean"
+        },
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-04-30T05:47:11.215289Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-04-30T05:47:11Z",
+          "updatedDate": "2021-04-30T05:47:11.215289Z",
+          "index": 0,
+          "kind": "",
+          "units": "",
+          "value": true,
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "ZdaknLlHKz2TxPhZbzsk",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-04-30T05:25:15Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-04-30T05:25:15Z",
+      "updatedDate": "2021-04-30T05:25:15Z",
+      "taskId": "jUxkPmYjsfVo9DRCmApC",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-04-30T05:25:15.443616Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-04-30T05:25:15Z",
+          "updatedDate": "2021-04-30T05:25:15.443616Z",
+          "index": 0,
+          "kind": "",
+          "units": "",
+          "value": true,
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "diTCPpvV6p7UsIlLGNeF",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-04-30T05:47:10Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-04-30T05:47:10Z",
+      "updatedDate": "2021-04-30T05:47:10Z",
+      "taskId": "jUxkPmYjsfVo9DRCmApC",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-04-30T05:47:10.663843Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-04-30T05:47:10Z",
+          "updatedDate": "2021-04-30T05:47:10.663843Z",
+          "index": 0,
+          "kind": "",
+          "units": "",
+          "value": true,
+          "type": "boolean"
+        }
+      ]
+    }
+  ],
+  "patients": [
+    {
+      "groupIdentifier": "",
+      "remoteId": "f7471017-a03d-4213-abd3-5b15e4b68f79",
+      "id": "aSmLIdCsc0T7xdFsRKdoFklAYfS2",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "createdDate": "2021-04-30T19:24:14Z",
       "deletedDate": null,
-      "effectiveDate": "2021-04-13T05:16:07Z",
-      "updatedDate": "2021-04-13T05:16:35Z",
-      "birthday": "1970-01-02T00:00:00Z",
+      "effectiveDate": "2021-04-30T19:24:14Z",
+      "updatedDate": "2021-04-30T05:50:22Z",
+      "allergies": null,
+      "birthday": "1970-01-22T16:00:00Z",
       "name": {
         "namePrefix": "",
         "givenName": "Waqar",
-        "middleName": "",
+        "middleName": "A",
         "familyName": "Malik",
         "nameSuffix": "",
         "nickname": ""
       },
       "profile": {
         "deviceManufacturer": "Apple",
-        "deviceSoftwareVersion": "14.4",
-        "FHIRId": "8266c283-aa20-4d31-b5cc-5aed52fef949",
-        "heightInches": 71,
+        "deviceSoftwareVersion": "14.5",
+        "email": "wmalloc+codex@gmail.com",
+        "FHIRId": "f7471017-a03d-4213-abd3-5b15e4b68f79",
+        "heightInches": 83,
         "measurementBloodPressureEnabled": false,
         "measurementHeartRateEnabled": false,
         "measurementRestingHeartRateEnabled": false,
@@ -731,12 +1276,15 @@
         "measurementWeightEnabled": false,
         "notificationsEnabled": false,
         "signUpCompleted": true,
-        "weightLbs": 237
+        "patientId": "aSmLIdCsc0T7xdFsRKdoFklAYfS2",
+        "userId": "aSmLIdCsc0T7xdFsRKdoFklAYfS2",
+        "weightLbs": 230
       },
+      "sex": "male",
       "userInfo": null
     }
   ],
   "vectorClock": {
-    "backend": 3
+    "backend": 20
   }
 }

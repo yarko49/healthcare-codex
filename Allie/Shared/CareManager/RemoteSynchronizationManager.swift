@@ -17,7 +17,7 @@ public final class RemoteSynchronizationManager: OCKRemoteSynchronizable {
 	}
 
 	public func pullRevisions(since knowledgeVector: OCKRevisionRecord.KnowledgeVector, mergeRevision: @escaping (OCKRevisionRecord) -> Void, completion: @escaping (Error?) -> Void) {
-		APIClient.client.getCarePlan { result in
+		APIClient.shared.getCarePlan { result in
 			switch result {
 			case .failure(let error):
 				completion(error)

@@ -96,7 +96,7 @@ class MainCoordinator: Coordinable {
 
 	func createPatientIfNeeded() {
 		if let patient = careManager.patient, patient.profile.fhirId == nil {
-			APIClient.client.postPatient(patient: patient)
+			APIClient.shared.post(patient: patient)
 				.receive(on: DispatchQueue.main)
 				.sink { [weak self] completion in
 					switch completion {
@@ -186,7 +186,7 @@ class MainCoordinator: Coordinable {
 	}
 
 	func uploadPatient(patient: AlliePatient) {
-		APIClient.client.postPatient(patient: patient)
+		APIClient.shared.post(patient: patient)
 			.receive(on: DispatchQueue.main)
 			.sink { completion in
 				switch completion {
@@ -202,11 +202,11 @@ class MainCoordinator: Coordinable {
 	}
 
 	func syncHealthKitData() {
-		HealthKitSyncManager.syncDataBackground(initialUpload: false, chunkSize: UserDefaults.standard.healthKitUploadChunkSize) { uploaded, total in
-			ALog.info("HealthKit data upload progress = \(uploaded), total: \(total)")
-		} completion: { success in
-			if success == false {
-				// show alert
+		let lastUploadDate = UserDefaults.standard.healthKitDataLastUploadDate
+		let endDate = Date()
+		HealthKitManager.shared.syncData(startDate: lastUploadDate, endDate: endDate) { success in
+			if success {
+				UserDefaults.standard.healthKitDataLastUploadDate = endDate
 			}
 		}
 	}

@@ -1,3 +1,4 @@
+import FirebaseCore
 import Foundation
 
 enum AppConfig {
@@ -22,11 +23,7 @@ enum AppConfig {
 	}
 
 	static var apiKey: String {
-		path("Environment", "API_Key")!
-	}
-
-	static var tenantID: String {
-		path("Environment", "Tenant_ID")!
+		(FirebaseApp.app()?.options.apiKey)!
 	}
 
 	static var firebaseDeeplinkURL: String {

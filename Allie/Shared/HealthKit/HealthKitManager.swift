@@ -47,16 +47,16 @@ class HealthKitManager {
 	}
 
 	// Post Data from Health Kit to BE
-	func queryHealthData(initialUpload: Bool, dataType: HealthKitDataType, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [HKSample]) -> Void) {
+	func queryHealthData(dataType: HealthKitDataType, startDate: Date, endDate: Date, completion: @escaping (Bool, [HKSample]) -> Void) {
 		guard let sampleType = dataType.quantityType[0] else {
 			return
 		}
-		queryHealthData(initialUpload: initialUpload, sampleType: sampleType, from: startDate, to: endDate, completion: completion)
+		queryHealthData(sampleType: sampleType, startDate: startDate, endDate: endDate, completion: completion)
 	}
 
-	func queryHealthData(initialUpload: Bool, sampleType: HKQuantityType, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [HKSample]) -> Void) {
+	func queryHealthData(sampleType: HKQuantityType, startDate: Date, endDate: Date, completion: @escaping (Bool, [HKSample]) -> Void) {
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
-		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: !initialUpload)
+		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
 		let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, _ in
 			let samples = results ?? []
 			completion(!samples.isEmpty, samples)
@@ -64,12 +64,12 @@ class HealthKitManager {
 		healthKitStore.execute(query)
 	}
 
-	func queryBloodPressure(initialUpload: Bool, from startDate: Date = Date.distantPast, to endDate: Date = Date(), completion: @escaping (Bool, [HKSample]) -> Void) {
+	func queryBloodPressure(startDate: Date, endDate: Date, completion: @escaping (Bool, [HKSample]) -> Void) {
 		guard let bloodPressure = HKQuantityType.correlationType(forIdentifier: .bloodPressure) else {
 			return
 		}
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
-		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: !initialUpload)
+		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
 		let query = HKSampleQuery(sampleType: bloodPressure, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, _ in
 			let samples = results ?? []
 			completion(!samples.isEmpty, samples)
@@ -148,5 +148,82 @@ class HealthKitManager {
 			completion(data)
 		}
 		healthKitStore.execute(query)
+	}
+
+	func syncData(startDate: Date, endDate: Date, completion: @escaping (Bool) -> Void) {
+		searchHKData(startDate: startDate, endDate: endDate, callbackQueue: .main, completion: { [weak self] importSuccess, allEntries in
+			if importSuccess, !allEntries.isEmpty {
+				self?.uploadHKData(entries: allEntries, completion: completion)
+			} else {
+				completion(importSuccess)
+			}
+		})
+	}
+
+	func syncDataBackground(startDate: Date, endDate: Date, completion: @escaping (Bool) -> Void) {
+		searchHKData(startDate: startDate, endDate: endDate, callbackQueue: .main, completion: { [weak self] importSuccess, allEntries in
+			if importSuccess, !allEntries.isEmpty {
+				self?.uploadHKData(entries: allEntries, completion: completion)
+			} else {
+				completion(importSuccess)
+			}
+		})
+	}
+
+	func searchHKData(startDate: Date, endDate: Date, callbackQueue: DispatchQueue, completion: @escaping (Bool, [ModelsR4.BundleEntry]) -> Void) {
+		var samples: [HKSample] = []
+		let importGroup = DispatchGroup()
+		var results: [Bool] = []
+		for quantity in HealthKitDataType.allCases {
+			importGroup.enter()
+			if quantity == .bloodPressure {
+				queryBloodPressure(startDate: startDate, endDate: endDate, completion: { success, entries in
+					results.append(success)
+					samples += entries
+					importGroup.leave()
+				})
+			} else {
+				queryHealthData(dataType: quantity, startDate: startDate, endDate: endDate, completion: { success, entries in
+					results.append(success)
+					samples += entries
+					importGroup.leave()
+				})
+			}
+		}
+
+		var entries: [ModelsR4.BundleEntry] = []
+		if !samples.isEmpty {
+			do {
+				let observationFactory = try ObservationFactory()
+				entries = try samples.compactMap { sample in
+					let observation = try observationFactory.observation(from: sample)
+					let subject = AppDelegate.careManager.patient?.subject
+					observation.subject = subject
+					let route = APIRouter.postObservation(observation: observation)
+					let observationPath = route.path
+					let request = ModelsR4.BundleEntryRequest(method: FHIRPrimitive<HTTPVerb>(HTTPVerb.POST), url: FHIRPrimitive<FHIRURI>(stringLiteral: observationPath))
+					let fullURL = FHIRPrimitive<FHIRURI>(stringLiteral: APIRouter.baseURLPath + observationPath)
+					return ModelsR4.BundleEntry(extension: nil, fullUrl: fullURL, id: nil, link: nil, modifierExtension: nil, request: request, resource: .observation(observation), response: nil, search: nil)
+				}
+			} catch {
+				ALog.error("\(error.localizedDescription)")
+			}
+		}
+		importGroup.notify(queue: callbackQueue) {
+			completion(results.allSatisfy { $0 }, entries)
+		}
+	}
+
+	func uploadHKData(entries: [ModelsR4.BundleEntry], completion: @escaping (Bool) -> Void) {
+		let bundle = ModelsR4.Bundle(entry: entries, type: FHIRPrimitive<BundleType>(.transaction))
+		APIClient.shared.post(bundle: bundle) { result in
+			switch result {
+			case .failure(let error):
+				ALog.error("Post Bundle", error: error)
+				completion(false)
+			case .success:
+				completion(true)
+			}
+		}
 	}
 }

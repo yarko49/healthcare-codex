@@ -185,7 +185,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			return
 		}
 		showHUD()
-		APIClient.client.getCarePlan { [weak self] carePlanResult in
+		APIClient.shared.getCarePlan { [weak self] carePlanResult in
 			self?.hideHUD()
 			switch carePlanResult {
 			case .failure(let error):
@@ -265,7 +265,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	func createPatient() {
 		alliePatient?.profile.isSignUpCompleted = true
 		showHUD()
-		APIClient.client.postPatient(patient: alliePatient!) { [weak self] result in
+		APIClient.shared.post(patient: alliePatient!) { [weak self] result in
 			self?.hideHUD()
 			switch result {
 			case .failure(let error):
@@ -301,26 +301,6 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				self?.createPatient()
 			}
 		}
-	}
-
-	func startInitialUpload() {
-		let hkDataUploadViewController = HKDataUploadViewController()
-		hkDataUploadViewController.queryAction = { [weak self] in
-			HealthKitSyncManager.syncData(chunkSize: UserDefaults.standard.healthKitUploadChunkSize) { uploaded, total in
-				hkDataUploadViewController.progress = uploaded
-				hkDataUploadViewController.maxProgress = total
-			} completion: { success in
-				if success {
-					self?.gotoHealthViewController(screenFlowType: .activate)
-				} else {
-					let okAction = AlertHelper.AlertAction(withTitle: Str.ok) { [weak self] in
-						self?.gotoHealthViewController(screenFlowType: .activate)
-					}
-					AlertHelper.showAlert(title: Str.error, detailText: Str.importHealthDataFailed, actions: [okAction])
-				}
-			}
-		}
-		navigate(to: hkDataUploadViewController, with: .push)
 	}
 
 	func gotoMyDevices() {

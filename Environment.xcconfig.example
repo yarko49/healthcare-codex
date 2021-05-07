@@ -4,20 +4,15 @@
 #include "Pods/Target Support Files/Pods-Allie/Pods-Allie.debug.xcconfig"
 #include "Pods/Target Support Files/Pods-Allie/Pods-Allie.release.xcconfig"
 
-// Environment info (DEVELOP || STAGE || MASTER)
+// Environment info (QA || DEVELOP || STAGE || MASTER)
 ENVIRONMENT_NAME = DEVELOP
 
 API_BASE_HOST =
 API_VERSION =
-API_KEY =
 
 // App info
-APP_DISPLAY_NAME =
 APP_BUNDLE_ID =
 REVERSED_CLIENT_ID = 
-
-// Tenant ID
-TENANT_ID =
 
 // Firebase DeepLink URL
 FIREBASE_DEEPLINK_URL =
