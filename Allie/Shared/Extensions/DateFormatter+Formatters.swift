@@ -5,6 +5,15 @@
 
 import Foundation
 
+extension Formatter {
+	static var iso8601WithFractionalSeconds: ISO8601DateFormatter {
+		let formatter = ISO8601DateFormatter()
+		formatter.formatOptions.insert(.withInternetDateTime)
+		formatter.formatOptions.insert(.withFractionalSeconds)
+		return formatter
+	}
+}
+
 extension DateFormatter {
 	static var yyyyMMddTHHmmssDashed: DateFormatter {
 		let formatter = DateFormatter()
@@ -18,23 +27,11 @@ extension DateFormatter {
 		return formatter
 	}
 
-	static var rfc3339: DateFormatter {
-		let formatter = DateFormatter()
-		formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS+'Z'"
-		return formatter
-	}
-
-	static var iso8601: ISO8601DateFormatter {
-		let formatter = ISO8601DateFormatter()
-		formatter.timeZone = TimeZone(secondsFromGMT: 0)
-		formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-		return formatter
-	}
-
 	static var wholeDateRequest: DateFormatter {
 		let formatter = DateFormatter()
 		formatter.locale = Locale(identifier: "en_US_POSIX")
 		formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+		formatter.timeZone = .current
 		return formatter
 	}
 

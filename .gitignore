@@ -70,6 +70,7 @@ xcuserdata/
 
 # Environment
 Environment.xcconfig
+EnvironmentQA.xcconfig
 
 
 # Firebase

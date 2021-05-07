@@ -167,7 +167,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 	@objc internal func addAction() {
 		if let observation = observation {
 			showHUD()
-			APIClient.client.postObservation(observation: observation) { [weak self] result in
+			APIClient.shared.post(observation: observation) { [weak self] result in
 				self?.hideHUD()
 				switch result {
 				case .failure(let error):
@@ -179,7 +179,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 			}
 		} else if let bundle = bundle {
 			showHUD()
-			APIClient.client.postBundle(bundle: bundle) { [weak self] result in
+			APIClient.shared.post(bundle: bundle) { [weak self] result in
 				self?.hideHUD()
 				switch result {
 				case .failure(let error):

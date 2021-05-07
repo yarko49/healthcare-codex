@@ -242,4 +242,14 @@ class TaskTests: XCTestCase {
 		let ockTask = OCKTask(task: task)
 		XCTAssertNotNil(ockTask)
 	}
+
+	func testActivityTask() throws {
+		let testData = AllieTests.loadTestData(fileName: "ActivityTask.json")
+		XCTAssertNotNil(testData)
+		let task = try CHJSONDecoder().decode(Task.self, from: testData!)
+		XCTAssertNotNil(task)
+		let ockTask = task.ockTask
+		XCTAssertNotNil(ockTask)
+		ALog.info("\(ockTask)")
+	}
 }

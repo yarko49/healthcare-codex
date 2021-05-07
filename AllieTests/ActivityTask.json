@@ -1,0 +1,121 @@
+{
+    "asset": "",
+    "carePlanId": "defaultCarePlan",
+    "createdDate": "2021-04-29T16:19:22.076462Z",
+    "deletedDate": "2021-04-29T19:42:06.882Z",
+    "effectiveDate": "2021-04-29T16:19:22.076462Z",
+    "groupIdentifier": "NUMERIC_PROGRESS",
+    "healthKitLinkage": {
+        "quantityIdentifier": "steps",
+        "quantitytype": "cumulative",
+        "unit": "count"
+    },
+    "id": "",
+    "impactsAdherence": true,
+    "instructions": "Your total steps today",
+    "notes": null,
+    "remoteId": "measurements-activity",
+    "schedules": [
+        {
+            "custom": true,
+            "daily": false,
+            "duration": 0,
+            "end": "2021-04-29T07:51:26.834Z",
+            "hour": 0,
+            "interval": 1209600,
+            "minutes": 0,
+            "start": "2021-04-20T07:51:26.834Z",
+            "targetValues": [
+                {
+                    "asset": "",
+                    "createdDate": null,
+                    "deletedDate": null,
+                    "effectiveDate": null,
+                    "groupIdentifier": "",
+                    "id": "",
+                    "index": 0,
+                    "kind": "",
+                    "notes": null,
+                    "remoteId": "",
+                    "source": "",
+                    "tags": null,
+                    "timezone": {
+                        "abbreviation": "",
+                        "identifier": ""
+                    },
+                    "type": "integer",
+                    "units": "count",
+                    "updatedDate": null,
+                    "userInfo": {
+                        "LinkEmailTitle5": ""
+                    },
+                    "value": 10000
+                }
+            ],
+            "text": "",
+            "weekday": 2,
+            "weekly": false
+        },
+        {
+            "custom": true,
+            "daily": false,
+            "duration": 0,
+            "end": "2021-04-29T07:51:26.834Z",
+            "hour": 0,
+            "interval": 1209600,
+            "minutes": 0,
+            "start": "2021-04-20T07:51:26.834Z",
+            "targetValues": [
+                {
+                    "asset": "",
+                    "createdDate": null,
+                    "deletedDate": null,
+                    "effectiveDate": null,
+                    "groupIdentifier": "",
+                    "id": "",
+                    "index": 0,
+                    "kind": "",
+                    "notes": null,
+                    "remoteId": "",
+                    "source": "",
+                    "tags": null,
+                    "timezone": {
+                        "abbreviation": "",
+                        "identifier": ""
+                    },
+                    "type": "integer",
+                    "units": "count",
+                    "updatedDate": null,
+                    "userInfo": {
+                        "LinkEmailTitle5": ""
+                    },
+                    "value": 10000
+                }
+            ],
+            "text": "",
+            "weekday": 6,
+            "weekly": false
+        }
+    ],
+    "source": "",
+    "tags": null,
+    "timezone": {
+        "abbreviation": "",
+        "identifier": ""
+    },
+    "title": "Activity",
+    "updatedDate": "2021-04-29T19:52:18.044405Z",
+    "userInfo": {
+        "category": "measurements",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewText": "",
+        "detailViewURL": "",
+        "image": "",
+        "logText": "",
+        "priority": "2",
+        "subtitle": ""
+    },
+    "versions": null
+}

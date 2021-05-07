@@ -39,12 +39,12 @@ extension OCKOutcome: AnyUserInfoExtensible {
 			setUserInfo(string: sourceRevisionString, forKey: "sourceRevision")
 		}
 		if let date = outcome.startDate {
-			let dateString = DateFormatter.rfc3339.string(from: date)
+			let dateString = DateFormatter.wholeDateRequest.string(from: date)
 			setUserInfo(string: dateString, forKey: "startDate")
 		}
 
 		if let date = outcome.endDate {
-			let dateString = DateFormatter.rfc3339.string(from: date)
+			let dateString = DateFormatter.wholeDateRequest.string(from: date)
 			setUserInfo(string: dateString, forKey: "endDate")
 		}
 	}
@@ -77,11 +77,11 @@ extension Outcome {
 		}
 
 		if let dateString = outcome.userInfo?["startDate"] {
-			self.startDate = DateFormatter.rfc3339.date(from: dateString)
+			self.startDate = DateFormatter.wholeDateRequest.date(from: dateString)
 		}
 
 		if let dateString = outcome.userInfo?["endDate"] {
-			self.endDate = DateFormatter.rfc3339.date(from: dateString)
+			self.endDate = DateFormatter.wholeDateRequest.date(from: dateString)
 		}
 	}
 }

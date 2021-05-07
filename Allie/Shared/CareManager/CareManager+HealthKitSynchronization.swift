@@ -46,7 +46,7 @@ extension CareManager {
 			let linkage = task.healthKitLinkage
 			if let quantityType = HKObjectType.quantityType(forIdentifier: linkage.quantityIdentifier) {
 				group.enter()
-				HealthKitManager.shared.queryHealthData(initialUpload: false, sampleType: quantityType, from: startDate, to: endDate) { sucess, samples in
+				HealthKitManager.shared.queryHealthData(sampleType: quantityType, startDate: startDate, endDate: endDate) { sucess, samples in
 					if sucess {
 						allSamples[linkage.quantityIdentifier] = samples
 					}
@@ -87,7 +87,7 @@ extension CareManager {
 	}
 
 	func upload(outcomes: [Outcome], completion: @escaping ((Bool) -> Void)) {
-		APIClient.client.postOutcome(outcomes: outcomes)
+		APIClient.shared.post(outcomes: outcomes)
 			.sink { completionResult in
 				switch completionResult {
 				case .failure(let error):
