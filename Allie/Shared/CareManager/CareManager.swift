@@ -20,7 +20,7 @@ class CareManager: NSObject, ObservableObject {
 		static let outcomeUploadIimeInteval: TimeInterval = 10.0 * 60
 		static let careStore = "CareStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
-		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk(protection: .completeUnlessOpen)
+		static let coreDataStoreType: OCKCoreDataStoreType = .inMemory // .onDisk(protection: .completeUnlessOpen)
 	}
 
 	private(set) lazy var remoteSynchronizationManager: RemoteSynchronizationManager = {

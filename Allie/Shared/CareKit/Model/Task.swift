@@ -22,7 +22,8 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 	public var groupIdentifier: String?
 	public var tags: [String]?
 	public var effectiveDate: Date
-	public var createDate: Date?
+	public var deletedDate: Date?
+	public var createdDate: Date?
 	public var updatedDate: Date?
 	public var remoteId: String?
 	public var source: String?
@@ -64,10 +65,12 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		}
 		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
-		let date = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
+		var date = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
 		self.effectiveDate = Calendar.current.startOfDay(for: date)
-		self.createDate = try container.decodeIfPresent(Date.self, forKey: .createDate)
+		date = try container.decodeIfPresent(Date.self, forKey: .createdDate) ?? Date()
+		self.createdDate = Calendar.current.startOfDay(for: date)
 		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
+		self.deletedDate = try container.decodeIfPresent(Date.self, forKey: .deletedDate)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
@@ -80,8 +83,8 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		self.schedule = OCKSchedule(composing: scheduleElements.map { element -> OCKScheduleElement in
 			OCKScheduleElement(scheduleElement: element)
 		})
-		if let linkage = try container.decodeIfPresent(HealthKitLinkage.self, forKey: .healthKitLinkage) {
-			self.healthKitLinkage = linkage.hkLinkage
+		if let linkage = try container.decodeIfPresent([String: String].self, forKey: .healthKitLinkage) {
+			self.healthKitLinkage = OCKHealthKitLinkage(linkage: linkage)
 		}
 	}
 
@@ -97,7 +100,7 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		try container.encodeIfPresent(groupIdentifier, forKey: .groupIdentifier)
 		try container.encodeIfPresent(tags, forKey: .tags)
 		try container.encode(effectiveDate, forKey: .effectiveDate)
-		try container.encodeIfPresent(createDate, forKey: .createDate)
+		try container.encodeIfPresent(createdDate, forKey: .createdDate)
 		try container.encodeIfPresent(updatedDate, forKey: .updatedDate)
 		try container.encodeIfPresent(remoteId, forKey: .remoteId)
 		try container.encodeIfPresent(source, forKey: .source)
@@ -119,8 +122,9 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		case groupIdentifier
 		case tags
 		case effectiveDate
-		case createDate
+		case createdDate
 		case updatedDate
+		case deletedDate
 		case remoteId
 		case source
 		case userInfo

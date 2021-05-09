@@ -14,7 +14,7 @@ extension CareManager {
 			return
 		}
 
-		healthKitStore.fetchAnyTasks(query: OCKTaskQuery(for: Date()), callbackQueue: .main) { [weak self] tasksResult in
+		healthKitStore.fetchAnyTasks(query: OCKTaskQuery(), callbackQueue: .main) { [weak self] tasksResult in
 			switch tasksResult {
 			case .failure(let error):
 				ALog.error("\(error.localizedDescription)")

@@ -9,7 +9,7 @@ extension Formatter {
 	static var iso8601WithFractionalSeconds: ISO8601DateFormatter {
 		let formatter = ISO8601DateFormatter()
 		formatter.formatOptions.insert(.withInternetDateTime)
-		formatter.formatOptions.insert(.withFractionalSeconds)
+		formatter.timeZone = TimeZone(secondsFromGMT: 0)
 		return formatter
 	}
 }
@@ -24,6 +24,7 @@ extension DateFormatter {
 	static var wholeDate: DateFormatter {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+		formatter.timeZone = TimeZone(secondsFromGMT: 0)
 		return formatter
 	}
 
@@ -31,7 +32,7 @@ extension DateFormatter {
 		let formatter = DateFormatter()
 		formatter.locale = Locale(identifier: "en_US_POSIX")
 		formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-		formatter.timeZone = .current
+		formatter.timeZone = TimeZone(secondsFromGMT: 0)
 		return formatter
 	}
 

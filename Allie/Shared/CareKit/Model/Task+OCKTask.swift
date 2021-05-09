@@ -35,6 +35,12 @@ extension OCKTask {
 		self.groupIdentifier = task.groupIdentifier
 		self.tags = task.tags
 		self.effectiveDate = task.effectiveDate
+		if let date = task.createdDate {
+			self.createdDate = date
+		}
+		if let date = task.updatedDate {
+			self.updatedDate = date
+		}
 		self.remoteID = task.remoteId
 		self.source = task.source
 		self.userInfo = task.userInfo
@@ -193,8 +199,9 @@ extension Task {
 		self.groupIdentifier = ockTask.groupIdentifier
 		self.tags = ockTask.tags
 		self.effectiveDate = ockTask.effectiveDate
-		self.createDate = ockTask.createdDate
+		self.createdDate = ockTask.createdDate
 		self.updatedDate = ockTask.updatedDate
+		self.deletedDate = ockTask.deletedDate
 		self.remoteId = ockTask.remoteID
 		self.source = ockTask.source
 		self.userInfo = ockTask.userInfo

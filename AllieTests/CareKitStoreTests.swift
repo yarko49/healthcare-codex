@@ -27,7 +27,6 @@ class CareKitStoreTests: XCTestCase {
 	}
 
 	func testLoadPatient() throws {
-		try? careManager.resetAllContents()
 		let expect = expectation(description: "Load Patient")
 		careManager.loadPatient { result in
 			switch result {
@@ -61,7 +60,7 @@ class CareKitStoreTests: XCTestCase {
 	func testGetPatientFromServer() throws {
 		let carePlanResponse = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponse)
-		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
+		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
 		XCTAssert(!carePlanResponse!.isEmpty)
 		URLProtocolMock.testData[url!] = carePlanResponse
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
@@ -87,7 +86,7 @@ class CareKitStoreTests: XCTestCase {
 	func testInsertCarePlanFromServer() throws {
 		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)
-		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
+		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
 		XCTAssert(!carePlanResponseData!.isEmpty)
 		URLProtocolMock.testData[url!] = carePlanResponseData
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
@@ -114,7 +113,7 @@ class CareKitStoreTests: XCTestCase {
 	func testInsertPatients() throws {
 		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)
-		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
+		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
 		XCTAssert(!carePlanResponseData!.isEmpty)
 		URLProtocolMock.testData[url!] = carePlanResponseData
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
