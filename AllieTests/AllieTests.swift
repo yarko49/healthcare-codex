@@ -41,7 +41,7 @@ class AllieTests: XCTestCase {
 	func testCarePlanValueSpaceResponse() throws {
 		let carePlanResponse = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponse)
-		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
+		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
 		XCTAssert(!carePlanResponse!.isEmpty)
 		URLProtocolMock.testData[url!] = carePlanResponse
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
@@ -63,7 +63,7 @@ class AllieTests: XCTestCase {
 	func testDefaultDiabetesCarePlan() throws {
 		let carePlanResponse = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponse)
-		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
+		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
 		XCTAssert(!carePlanResponse!.isEmpty)
 		URLProtocolMock.testData[url!] = carePlanResponse
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
