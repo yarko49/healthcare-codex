@@ -111,9 +111,15 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						viewController.view.tintColor = .allieLighterGray
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
-					case .log, .logInsulin:
+					case .log:
 						let viewController = ButtonLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
 						viewController.view.tintColor = .allieButtons
+						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
+
+					case .logInsulin:
+						let viewController = InsulinLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						viewController.view.tintColor = .allieButtons
+						viewController.controller.fetchAndObserveEvents(forTaskIDs: [task.id], eventQuery: eventQuery)
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .numericProgress:

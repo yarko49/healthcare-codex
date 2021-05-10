@@ -558,3 +558,12 @@
 /* This will allow Allie to compare different measurements to give you the right type of assistance. */
 "ACTIVATION_MESSAGE" = "This will allow Allie to compare different measurements to give you the right type of assistance.";
 
+/* Fast Acting */
+"FAST_ACTING" = "Fast Acting";
+
+/* Long Acting */
+"LONG_ACTING" = "Long Acting";
+
+/* Units */
+"UNITS" = "Units";
+
