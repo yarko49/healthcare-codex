@@ -41,6 +41,9 @@ extension OCKTask {
 		if let date = task.updatedDate {
 			self.updatedDate = date
 		}
+//		if let date = task.deletedDate {
+//			self.deletedDate = date
+//		}
 		self.remoteID = task.remoteId
 		self.source = task.source
 		self.userInfo = task.userInfo
@@ -60,13 +63,25 @@ extension OCKTask {
 		existing.schedule = new.schedule
 		existing.groupIdentifier = new.groupIdentifier
 		existing.tags = new.tags
-		existing.deletedDate = new.deletedDate
+		existing.effectiveDate = new.effectiveDate
+		if let date = new.createdDate {
+			existing.createdDate = date
+		}
+		if let date = new.updatedDate {
+			existing.updatedDate = date
+		}
+		if let date = new.deletedDate {
+			existing.deletedDate = date
+		}
 		existing.remoteID = new.remoteID
 		existing.source = new.source
 		existing.userInfo = new.userInfo
 		existing.asset = new.asset
 		existing.notes = new.notes
 		existing.timezone = new.timezone
+		if let carePlanId = new.carePlanId {
+			existing.carePlanId = carePlanId
+		}
 		return existing
 	}
 }
