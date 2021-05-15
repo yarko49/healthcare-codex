@@ -84,28 +84,28 @@ class TodayInputViewController: BaseViewController {
 	override func setupView() {
 		super.setupView()
 
-		setupDatePickerAndView(picker: datePicker, viewTF: datePTF, title: Str.date)
-		setupDatePickerAndView(picker: timePicker, viewTF: timePTF, title: Str.time)
+		setupDatePickerAndView(picker: datePicker, viewTF: datePTF, title: String.date)
+		setupDatePickerAndView(picker: timePicker, viewTF: timePTF, title: String.time)
 		datePicker.addTarget(self, action: #selector(datePickerDateChanged(_:)), for: .valueChanged)
 		timePicker.addTarget(self, action: #selector(timePickerDateChanged(_:)), for: .valueChanged)
-		datePTF.textfield.text = Str.defaultDate
-		timePTF.textfield.text = Str.defaultTime
+		datePTF.textfield.text = String.defaultDate
+		timePTF.textfield.text = String.defaultTime
 		datePTF.textfield.textColor = .black
 		timePTF.textfield.textColor = .black
 
 		switch quantityTypeIdentifier {
 		case .bloodPressureSystolic:
-			title = Str.bloodPressure
-			setupPickerAndView(picker: bloodPressurePicker, viewTF: bloodPressurePTF, title: Str.bloodPressure)
-			bloodPressurePTF.tfText = Str.sysDia(pressureData[0][bloodPressurePicker.selectedRow(inComponent: 0)], pressureData[1][bloodPressurePicker.selectedRow(inComponent: 1)])
+			title = String.bloodPressure
+			setupPickerAndView(picker: bloodPressurePicker, viewTF: bloodPressurePTF, title: String.bloodPressure)
+			bloodPressurePTF.tfText = String.sysDia(pressureData[0][bloodPressurePicker.selectedRow(inComponent: 0)], pressureData[1][bloodPressurePicker.selectedRow(inComponent: 1)])
 			bloodPressurePTF.textfield.textColor = .black
 		case .bodyMass:
-			title = Str.weight
-			setupPickerAndView(picker: weightPicker, viewTF: weightPTF, title: Str.weight)
-			setupPickerAndView(picker: goalWeightPicker, viewTF: goalWeightPTF, title: Str.goalWeight)
-			weightPTF.tfText = Str.lbsDec(lbsData[0][weightPicker.selectedRow(inComponent: 0)], lbsData[1][weightPicker.selectedRow(inComponent: 1)])
+			title = String.weight
+			setupPickerAndView(picker: weightPicker, viewTF: weightPTF, title: String.weight)
+			setupPickerAndView(picker: goalWeightPicker, viewTF: goalWeightPTF, title: String.goalWeight)
+			weightPTF.tfText = String.lbsDec(lbsData[0][weightPicker.selectedRow(inComponent: 0)], lbsData[1][weightPicker.selectedRow(inComponent: 1)])
 			weightPTF.textfield.textColor = .black
-			goalWeightPTF.tfText = Str.lbs(lbsData[0][goalWeightPicker.selectedRow(inComponent: 0)])
+			goalWeightPTF.tfText = String.lbs(lbsData[0][goalWeightPicker.selectedRow(inComponent: 0)])
 			goalWeightPTF.textfield.textColor = .black
 		default:
 			break
@@ -151,21 +151,21 @@ class TodayInputViewController: BaseViewController {
 			let label = UILabel(frame: CGRect(x: componentWidth * 0.625, y: yPos, width: componentWidth * 0.4, height: fontSize))
 			label.font = font
 			label.textAlignment = .left
-			label.text = Str.sys
+			label.text = String.sys
 			label.textColor = .black
 			picker.addSubview(label)
 
 			let label2 = UILabel(frame: CGRect(x: componentWidth * 1.65, y: yPos, width: componentWidth * 0.4, height: fontSize))
 			label2.font = font
 			label2.textAlignment = .left
-			label2.text = Str.dia
+			label2.text = String.dia
 			label2.textColor = .black
 			picker.addSubview(label2)
 		case .bodyMass:
 			let label = UILabel(frame: CGRect(x: componentWidth * 0.6, y: yPos, width: componentWidth * 0.4, height: fontSize))
 			label.font = font
 			label.textAlignment = .left
-			label.text = Str.lb
+			label.text = String.lb
 			label.textColor = .black
 			picker.addSubview(label)
 		default:
@@ -246,19 +246,19 @@ extension TodayInputViewController: UIPickerViewDelegate, UIPickerViewDataSource
 		if pickerView == weightPicker {
 			var text = ""
 			if component == 0 {
-				text = Str.lbsDec(lbsData[0][row], lbsData[1][pickerView.selectedRow(inComponent: 1)])
+				text = String.lbsDec(lbsData[0][row], lbsData[1][pickerView.selectedRow(inComponent: 1)])
 			} else {
-				text = Str.lbsDec(lbsData[0][pickerView.selectedRow(inComponent: 0)], lbsData[1][row])
+				text = String.lbsDec(lbsData[0][pickerView.selectedRow(inComponent: 0)], lbsData[1][row])
 			}
 			weightPTF.tfText = text
 		} else if pickerView == goalWeightPicker {
-			goalWeightPTF.tfText = Str.lbs(lbsData[0][row])
+			goalWeightPTF.tfText = String.lbs(lbsData[0][row])
 		} else if pickerView == bloodPressurePicker {
 			var text = ""
 			if component == 0 {
-				text = Str.sysDia(pressureData[0][row], pressureData[1][pickerView.selectedRow(inComponent: 1)])
+				text = String.sysDia(pressureData[0][row], pressureData[1][pickerView.selectedRow(inComponent: 1)])
 			} else {
-				text = Str.sysDia(pressureData[0][pickerView.selectedRow(inComponent: 0)], pressureData[1][row])
+				text = String.sysDia(pressureData[0][pickerView.selectedRow(inComponent: 0)], pressureData[1][row])
 			}
 			bloodPressurePTF.tfText = text
 		}

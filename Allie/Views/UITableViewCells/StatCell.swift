@@ -55,9 +55,9 @@ class StatCell: UITableViewCell {
 		var avgString: String {
 			switch intervalType {
 			case .daily: return ""
-			case .weekly: return quantityType != .activity ? Str.weeklyAvg : Str.dailyAverage
-			case .monthly: return quantityType != .activity ? Str.monthlyAvg : Str.dailyAverage
-			case .yearly: return quantityType != .activity ? Str.yearlyAvg : Str.dailyAverage
+			case .weekly: return quantityType != .activity ? String.weeklyAvg : String.dailyAverage
+			case .monthly: return quantityType != .activity ? String.monthlyAvg : String.dailyAverage
+			case .yearly: return quantityType != .activity ? String.yearlyAvg : String.dailyAverage
 			}
 		}
 
@@ -67,8 +67,8 @@ class StatCell: UITableViewCell {
 		}
 		[highValueLabel, highLabel, lowValueLabel, lowLabel].forEach { $0?.isHidden = false }
 		avgLabel.attributedText = avgString.with(style: .regular15, andColor: .lightGrey)
-		highLabel.attributedText = Str.high.with(style: .regular15, andColor: .lightGrey)
-		lowLabel.attributedText = Str.low.with(style: .regular15, andColor: .lightGrey)
+		highLabel.attributedText = String.high.with(style: .regular15, andColor: .lightGrey)
+		lowLabel.attributedText = String.low.with(style: .regular15, andColor: .lightGrey)
 		highLowWNoDataWidthConstraint?.isActive = false
 		highLowWithDataWidthConstraint?.isActive = true
 		switch quantityType {
@@ -184,7 +184,7 @@ class StatCell: UITableViewCell {
 			avgValueLabel.attributedText = value
 
 		} else {
-			avgValueLabel.attributedText = Str.noEntriesFoundRange.with(style: .regular16, andColor: .black)
+			avgValueLabel.attributedText = String.noEntriesFoundRange.with(style: .regular16, andColor: .black)
 		}
 		avgLabel.text = ""
 		highLabel.text = ""

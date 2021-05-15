@@ -12,14 +12,15 @@ struct IllustartionItem: Hashable {
 	var title: String
 
 	static var defaultItems: [IllustartionItem] {
-		[IllustartionItem(image: UIImage(named: "illustration1"), title: Str.slide1Title),
-		 IllustartionItem(image: UIImage(named: "illustration2"), title: Str.slide2Title),
-		 IllustartionItem(image: UIImage(named: "illustration3"), title: Str.slide3Title)]
+		[IllustartionItem(image: UIImage(named: "illustration1"), title: String.slide1Title),
+		 IllustartionItem(image: UIImage(named: "illustration2"), title: String.slide2Title),
+		 IllustartionItem(image: UIImage(named: "illustration3"), title: String.slide3Title)]
 	}
 }
 
 class SignupViewController: SignupBaseViewController, UIViewControllerTransitioningDelegate {
 	override func viewDidLoad() {
+		controllerViewMode = .settings
 		super.viewDidLoad()
 		updateLabels()
 		view.backgroundColor = .allieWhite
@@ -40,6 +41,7 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 		configureCollectionView()
 		loginFlowButton.addTarget(self, action: #selector(loginFlowButtonTapped(_:)), for: .touchUpInside)
 		emailSignInButton.addTarget(self, action: #selector(authenticateEmail(_:)), for: .touchUpInside)
+		title = nil
 	}
 
 	override func viewDidAppear(_ animated: Bool) {

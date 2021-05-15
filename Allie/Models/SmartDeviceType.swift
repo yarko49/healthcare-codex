@@ -14,13 +14,13 @@ enum SmartDeviceType: String, CaseIterable, Hashable {
 	var title: String {
 		switch self {
 		case .scale:
-			return Str.smartScale
+			return String.smartScale
 		case .bloodPressureCuff:
-			return Str.smartBloodPressureCuff
+			return String.smartBloodPressureCuff
 		case .watch:
-			return Str.smartWatch
+			return String.smartWatch
 		case .pedometer:
-			return Str.smartPedometer
+			return String.smartPedometer
 		case .bloodGlucoseMonitor:
 			return NSLocalizedString("SMART_GLUCOSE_MONITOR", comment: "Gluocose Monitor")
 		}

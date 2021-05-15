@@ -270,7 +270,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 			let label = UILabel(frame: CGRect(x: componentWidth * 0.6, y: yPos, width: componentWidth * 0.4, height: fontSize))
 			label.font = font
 			label.textAlignment = .left
-			label.text = Str.lb
+			label.text = String.lb
 			label.textColor = .black
 			picker.addSubview(label)
 		}

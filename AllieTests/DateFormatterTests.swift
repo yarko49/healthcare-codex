@@ -36,4 +36,12 @@ class DateFormatterTests: XCTestCase {
 		}
 		XCTAssertEqual(dates.count, 1)
 	}
+
+	func testDaysSubtracting() throws {
+		let today = Date()
+		let startOfday = Calendar.current.startOfDay(for: today)
+		let weekAgo = Calendar.current.date(byAdding: .day, value: -7, to: startOfday)
+		ALog.info("\(startOfday)")
+		ALog.info("\(String(describing: weekAgo))")
+	}
 }

@@ -74,7 +74,7 @@ class TodayStatCell: UITableViewCell {
 		value.append(NSAttributedString(string: " "))
 		value.append(quantityType.unit.with(style: .regular20, andColor: .black))
 		valueLabel.attributedText = value
-		dateLabel.attributedText = Str.today.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+		dateLabel.attributedText = String.today.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
 		let status = quantityType.status(for: [quantityValue])
 		statusLabel.attributedText = status.1.with(style: .regular13, andColor: .lightGrey)
 		statusIndicatorView.backgroundColor = status.0
@@ -86,9 +86,9 @@ class TodayStatCell: UITableViewCell {
 			value.append(NSAttributedString(string: " "))
 			value.append(quantityType.unit.with(style: .regular20, andColor: .black))
 			valueLabel.attributedText = value
-			dateLabel.attributedText = Str.today.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+			dateLabel.attributedText = String.today.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
 		} else {
-			valueLabel.attributedText = Str.noEntriesFoundToday.with(style: .regular16, andColor: .black)
+			valueLabel.attributedText = String.noEntriesFoundToday.with(style: .regular16, andColor: .black)
 			dateLabel.text = ""
 		}
 		statusLabel.text = ""

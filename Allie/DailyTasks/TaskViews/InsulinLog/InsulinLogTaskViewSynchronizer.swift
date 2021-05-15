@@ -11,6 +11,7 @@ import Foundation
 
 class InsulinLogTaskViewSynchronizer: OCKTaskViewSynchronizerProtocol {
 	typealias View = InsulinLogTaskView
+	var healthKitTask: OCKHealthKitTask?
 
 	// Instantiate the custom view.
 	func makeView() -> InsulinLogTaskView {
@@ -18,10 +19,10 @@ class InsulinLogTaskViewSynchronizer: OCKTaskViewSynchronizerProtocol {
 	}
 
 	func updateView(_ view: InsulinLogTaskView, context: OCKSynchronizationContext<OCKTaskEvents>) {
-		let event = context.viewModel.first?.first
-		view.headerView.titleLabel.text = event?.task.title ?? "Insulin"
-		view.headerView.detailLabel.text = event?.task.schedule.startDate().description ?? "Anytime today"
-		//        view.titleLabel?.text = event?.task.title
-		//        view.isSelected = event?.outcome != nil
+		let events = context.viewModel
+		let task = events.first?.first?.task ?? healthKitTask
+		view.headerView.titleLabel.text = task?.title ?? "Insulin"
+		view.headerView.detailLabel.text = "Anytime"
+		view.instructionsLabel.text = task?.instructions ?? "Monitor daily insulin levels"
 	}
 }

@@ -77,8 +77,8 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 			UserDefaults.standard.isBiometricsEnabled = false
 		}
 		DispatchQueue.main.async {
-			let biometricType = self.laContext.biometryType == .faceID ? Str.faceID : Str.touchID
-			AlertHelper.showAlert(title: Str.automaticSignIn, detailText: Str.enroll(biometricType), actions: [okAction, noAction])
+			let biometricType = self.laContext.biometryType == .faceID ? String.faceID : String.touchID
+			AlertHelper.showAlert(title: String.automaticSignIn, detailText: String.enroll(biometricType), actions: [okAction, noAction])
 		}
 	}
 

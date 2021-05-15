@@ -23,7 +23,7 @@ class NotificationSettingsController: BaseViewController, UITableViewDelegate {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		title = Str.myNotifications
+		title = String.myNotifications
 		tableView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(tableView)
 		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 0.0),

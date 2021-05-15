@@ -123,7 +123,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		Auth.auth().sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings) { [weak self] error in
 			if let error = error {
 				ALog.error("Send signin Link", error: error)
-				AlertHelper.showAlert(title: Str.error, detailText: Str.failedSendLink, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+				AlertHelper.showAlert(title: String.error, detailText: String.failedSendLink, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 				return
 			}
 
@@ -168,13 +168,13 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 						})
 					} else {
 						DispatchQueue.main.async {
-							AlertHelper.showAlert(title: error?.localizedDescription, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+							AlertHelper.showAlert(title: error?.localizedDescription, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 						}
 					}
 				}
 			}
 		} else {
-			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+			AlertHelper.showAlert(title: String.error, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 			start()
 		}
 	}
@@ -269,7 +269,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			self?.hideHUD()
 			switch result {
 			case .failure(let error):
-				let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
+				let okAction = AlertHelper.AlertAction(withTitle: String.ok) {
 					DispatchQueue.main.async {
 						self?.gotoMainApp()
 					}
@@ -297,7 +297,6 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			}
 			ALog.info("HealthKit Successfully Authorized.")
 			DispatchQueue.main.async {
-				UserDefaults.standard.healthKitUploadChunkSize = 4500
 				self?.createPatient()
 			}
 		}
@@ -334,13 +333,13 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		if let error = error {
 			ALog.error(error: error)
 			hideHUD()
-			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+			AlertHelper.showAlert(title: String.error, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 		} else if let authDataResult = authDataResult {
 			authDataResult.user.getIDTokenResult { [weak self] tokenResult, error in
 				self?.hideHUD()
 				if let error = error {
 					ALog.info("\(error.localizedDescription)")
-					AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+					AlertHelper.showAlert(title: String.error, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 					completion(false)
 				} else if let authToken = tokenResult?.token {
 					self?.emailrequest = Auth.auth().currentUser?.email

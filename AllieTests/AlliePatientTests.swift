@@ -30,7 +30,7 @@ class AlliePatientTests: XCTestCase {
 		patient.createdDate = Calendar.current.startOfDay(for: Date())
 		patient.updatedDate = Calendar.current.startOfDay(for: Date())
 		patient.userInfo = [:]
-		patient.remoteID = uuid
+		patient.remoteId = uuid
 		patient.effectiveDate = Calendar.current.startOfDay(for: Date())
 		patient.profile.email = "wmalloc+codex@gmail.com"
 		patient.profile.phoneNumber = "14158945812"

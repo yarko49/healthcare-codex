@@ -17,6 +17,7 @@ protocol AnyTaskExtensible: AnyUserInfoExtensible {
 	var featuredContentDetailViewText: String? { get set }
 	var featuredContentDetailViewURL: URL? { get set }
 	var featuredContentImageURL: URL? { get set }
+	var featuredContentDetailViewAsset: String? { get set }
 	var category: String? { get set }
 	var subtitle: String? { get set }
 	var logText: String? { get set }
@@ -38,9 +39,9 @@ extension OCKTask {
 		if let date = task.createdDate {
 			self.createdDate = date
 		}
-		if let date = task.updatedDate {
-			self.updatedDate = date
-		}
+//		if let date = task.updatedDate {
+//			self.updatedDate = date
+//		}
 //		if let date = task.deletedDate {
 //			self.deletedDate = date
 //		}
@@ -64,15 +65,15 @@ extension OCKTask {
 		existing.groupIdentifier = new.groupIdentifier
 		existing.tags = new.tags
 		existing.effectiveDate = new.effectiveDate
-		if let date = new.createdDate {
-			existing.createdDate = date
-		}
-		if let date = new.updatedDate {
-			existing.updatedDate = date
-		}
-		if let date = new.deletedDate {
-			existing.deletedDate = date
-		}
+//		if let date = new.createdDate {
+//			existing.createdDate = date
+//		}
+//		if let date = new.updatedDate {
+//			existing.updatedDate = date
+//		}
+//		if let date = new.deletedDate {
+//			existing.deletedDate = date
+//		}
 		existing.remoteID = new.remoteID
 		existing.source = new.source
 		existing.userInfo = new.userInfo
@@ -154,6 +155,15 @@ extension AnyTaskExtensible {
 		}
 		set {
 			setUserInfo(string: newValue?.absoluteString, forKey: "image")
+		}
+	}
+
+	var featuredContentDetailViewAsset: String? {
+		get {
+			userInfo(forKey: "detailViewAsset")
+		}
+		set {
+			setUserInfo(string: newValue, forKey: "detailViewAsset")
 		}
 	}
 

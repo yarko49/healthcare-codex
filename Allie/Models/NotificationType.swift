@@ -15,13 +15,13 @@ enum NotificationType: String, CaseIterable, Hashable {
 	var title: String {
 		switch self {
 		case .activity:
-			return Str.activityPushNotifications
+			return String.activityPushNotifications
 		case .bloodPressure:
-			return Str.bloodPressurePushNotifications
+			return String.bloodPressurePushNotifications
 		case .weightIn:
-			return Str.weightInPushNotifications
+			return String.weightInPushNotifications
 		case .survey:
-			return Str.surveyPushNotifications
+			return String.surveyPushNotifications
 		case .glucose:
 			return NSLocalizedString("GLUCOSE_PUSH_NOTIFICATION", comment: "Glucose push notifications")
 		}

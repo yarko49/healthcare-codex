@@ -102,7 +102,7 @@ class MainCoordinator: Coordinable {
 					switch completion {
 					case .failure(let error):
 						ALog.error("\(error.localizedDescription)")
-						AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+						AlertHelper.showAlert(title: String.error, detailText: String.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 					case .finished:
 						break
 					}
@@ -131,7 +131,7 @@ class MainCoordinator: Coordinable {
 			}
 		})
 		#else
-		let reason = Str.authWithBiometrics
+		let reason = String.authWithBiometrics
 		context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, _ in
 			guard success else {
 				DispatchQueue.main.async {
@@ -192,7 +192,7 @@ class MainCoordinator: Coordinable {
 				switch completion {
 				case .failure(let error):
 					ALog.error("\(error.localizedDescription)")
-					AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+					AlertHelper.showAlert(title: String.error, detailText: String.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 				case .finished:
 					break
 				}

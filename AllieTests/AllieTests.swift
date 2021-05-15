@@ -38,6 +38,18 @@ class AllieTests: XCTestCase {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 	}
 
+	func testDecodeCarePlan() throws {
+		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
+		XCTAssertNotNil(carePlanResponseData)
+		let decoder = CHJSONDecoder()
+		do {
+			let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: carePlanResponseData!)
+			XCTAssertNotEqual(carePlanResponse.carePlans.count, 0)
+		} catch {
+			ALog.error("\(error)")
+		}
+	}
+
 	func testCarePlanValueSpaceResponse() throws {
 		let carePlanResponse = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponse)

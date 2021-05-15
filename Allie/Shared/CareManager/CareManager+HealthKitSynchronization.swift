@@ -14,32 +14,48 @@ extension CareManager {
 			return
 		}
 
-		healthKitStore.fetchAnyTasks(query: OCKTaskQuery(), callbackQueue: .main) { [weak self] tasksResult in
+		isSynchronizingOutcomes = true
+		uploadQueue.async { [weak self] in
+			guard let strongSelf = self else {
+				self?.isSynchronizingOutcomes = false
+				return
+			}
+			strongSelf.fetchAllHealthKitTasks(callbackQueue: strongSelf.uploadQueue) { [weak self] success in
+				self?.isSynchronizingOutcomes = false
+				if !success {
+					ALog.error("Upload failed")
+				}
+			}
+		}
+	}
+
+	func fetchAllHealthKitTasks(callbackQueue: DispatchQueue, completion: @escaping ((Bool) -> Void)) {
+		healthKitStore.fetchAnyTasks(query: OCKTaskQuery(), callbackQueue: callbackQueue) { [weak self] tasksResult in
 			switch tasksResult {
 			case .failure(let error):
 				ALog.error("\(error.localizedDescription)")
-				self?.isSynchronizingOutcomes = false
+				completion(false)
 			case .success(let newTasks):
 				let tasks = newTasks.compactMap { anyTask in
 					anyTask as? OCKHealthKitTask
 				}
 				guard !tasks.isEmpty else {
-					self?.isSynchronizingOutcomes = false
+					completion(true)
 					return
 				}
 				let lastUpdatedDate = UserDefaults.standard.lastObervationUploadDate
 				let endDate = Date()
-				self?.synchronizeHealthKitOutcomes(tasks: tasks, startDate: lastUpdatedDate, endDate: endDate, completion: { result in
-					self?.isSynchronizingOutcomes = false
+				self?.synchronizeHealthKitOutcomes(tasks: tasks, startDate: lastUpdatedDate, endDate: endDate, callbackQueue: callbackQueue, completion: { result in
 					if result {
 						UserDefaults.standard.lastObervationUploadDate = endDate
 					}
+					completion(result)
 				})
 			}
 		}
 	}
 
-	func synchronizeHealthKitOutcomes(tasks: [OCKHealthKitTask], startDate: Date, endDate: Date, completion: @escaping ((Bool) -> Void)) {
+	func synchronizeHealthKitOutcomes(tasks: [OCKHealthKitTask], startDate: Date, endDate: Date, callbackQueue: DispatchQueue, completion: @escaping ((Bool) -> Void)) {
 		var allSamples: [HKQuantityTypeIdentifier: [HKSample]] = [:]
 		let group = DispatchGroup()
 		for task in tasks {
@@ -55,16 +71,16 @@ extension CareManager {
 			}
 		}
 
-		group.notify(queue: .main) { [weak self] in
+		group.notify(queue: callbackQueue) { [weak self] in
 			guard !allSamples.isEmpty else {
 				completion(false)
 				return
 			}
-			self?.uploadSamples(samples: allSamples, tasks: tasks, completion: completion)
+			self?.uploadSamples(samples: allSamples, tasks: tasks, callbackQueue: callbackQueue, completion: completion)
 		}
 	}
 
-	func uploadSamples(samples: [HKQuantityTypeIdentifier: [HKSample]], tasks: [OCKHealthKitTask], completion: @escaping ((Bool) -> Void)) {
+	func uploadSamples(samples: [HKQuantityTypeIdentifier: [HKSample]], tasks: [OCKHealthKitTask], callbackQueue: DispatchQueue, completion: @escaping ((Bool) -> Void)) {
 		var outcomes: [Outcome] = []
 		for task in tasks {
 			guard let carePlanId = task.carePlanId else {
@@ -83,22 +99,34 @@ extension CareManager {
 			completion(false)
 			return
 		}
-		upload(outcomes: outcomes, completion: completion)
+		upload(outcomes: outcomes, callbackQueue: callbackQueue, completion: completion)
 	}
 
-	func upload(outcomes: [Outcome], completion: @escaping ((Bool) -> Void)) {
-		APIClient.shared.post(outcomes: outcomes)
-			.sink { completionResult in
-				switch completionResult {
-				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
-					completion(false)
-				case .finished:
-					break
-				}
-			} receiveValue: { [weak self] carePlanResponse in
-				self?.processOutcomes(carePlanResponse: carePlanResponse, completion: completion)
-			}.store(in: &cancellables)
+	func upload(outcomes: [Outcome], callbackQueue: DispatchQueue, completion: @escaping ((Bool) -> Void)) {
+		let chunkedOutcomes = outcomes.chunked(into: Constants.maximumUploadOutcomesPerCall)
+		let group = DispatchGroup()
+		var responseOutcomes: [Outcome] = []
+		for chunkOutcome in chunkedOutcomes {
+			group.enter()
+			APIClient.shared.post(outcomes: chunkOutcome)
+				.sink { completionResult in
+					switch completionResult {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+						completion(false)
+						group.leave()
+					case .finished:
+						break
+					}
+				} receiveValue: { carePlanResponse in
+					responseOutcomes.append(contentsOf: carePlanResponse.outcomes)
+					group.leave()
+				}.store(in: &cancellables)
+		}
+
+		group.notify(queue: callbackQueue) { [weak self] in
+			self?.process(outcomes: responseOutcomes, completion: completion)
+		}
 	}
 
 	func backgroundUpload(outcomes: [Outcome], completion: @escaping ((Bool) -> Void)) {
@@ -108,7 +136,7 @@ extension CareManager {
 				ALog.error("\(error.localizedDescription)")
 				completion(false)
 			case .success(let carePlanResponse):
-				self?.processOutcomes(carePlanResponse: carePlanResponse, completion: completion)
+				self?.process(outcomes: carePlanResponse.outcomes, completion: completion)
 			}
 		}
 		outcomeUploaders.insert(manager)
@@ -119,10 +147,10 @@ extension CareManager {
 		}
 	}
 
-	func processOutcomes(carePlanResponse: CarePlanResponse, completion: ((Bool) -> Void)?) {
-		if !carePlanResponse.outcomes.isEmpty {
-			ALog.info("\(carePlanResponse.outcomes.count) outcomes saved to server")
-			save(outcomes: carePlanResponse.outcomes)
+	func process(outcomes: [Outcome], completion: ((Bool) -> Void)?) {
+		if !outcomes.isEmpty {
+			ALog.info("\(outcomes.count) outcomes saved to server")
+			save(outcomes: outcomes)
 				.sink { completionResult in
 					switch completionResult {
 					case .failure(let error):

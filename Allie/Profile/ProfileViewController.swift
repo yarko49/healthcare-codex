@@ -125,7 +125,7 @@ class ProfileViewController: BaseViewController {
 	// MARK: SetupViewController
 
 	override func setupView() {
-		title = Str.profile
+		title = String.profile
 		let name = patient?.name.givenName ?? ""
 		resetExpandState()
 		topView.backgroundColor = UIColor.profile
@@ -201,15 +201,15 @@ class ProfileViewController: BaseViewController {
 
 	func createDetailsLabel() {
 		(feet, inches) = ((height ?? 0) / 12, (height ?? 0) % 12)
-		let details = "\(age ?? 0) \(Str.years) | \(feet)' \(inches)'' | \(weight ?? 0) \(Str.weightUnit)"
+		let details = "\(age ?? 0) \(String.years) | \(feet)' \(inches)'' | \(weight ?? 0) \(String.weightUnit)"
 		detailsLabel.attributedText = details.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: 0.36)
 	}
 
 	override func localize() {
-		dateIntervalSegmentedControl.setTitle(Str.today, forSegmentAt: 0)
-		dateIntervalSegmentedControl.setTitle(Str.wk, forSegmentAt: 1)
-		dateIntervalSegmentedControl.setTitle(Str.mo, forSegmentAt: 2)
-		dateIntervalSegmentedControl.setTitle(Str.yr, forSegmentAt: 3)
+		dateIntervalSegmentedControl.setTitle(String.today, forSegmentAt: 0)
+		dateIntervalSegmentedControl.setTitle(String.wk, forSegmentAt: 1)
+		dateIntervalSegmentedControl.setTitle(String.mo, forSegmentAt: 2)
+		dateIntervalSegmentedControl.setTitle(String.yr, forSegmentAt: 3)
 	}
 
 	private func setupInitialDateInterval() {
@@ -221,7 +221,7 @@ class ProfileViewController: BaseViewController {
 	private func updateDateLabel() {
 		switch currentDateInterval {
 		case .daily:
-			dateLabel.attributedText = Str.today.with(style: .semibold20, andColor: UIColor.pcp)
+			dateLabel.attributedText = String.today.with(style: .semibold20, andColor: UIColor.pcp)
 		case .weekly, .monthly:
 			guard let startDate = startDate, let endDate = endDate else { return }
 			dateLabel.attributedText = "\(DateFormatter.MMMdd.string(from: startDate))-\(DateFormatter.MMMdd.string(from: endDate))".with(style: .semibold20, andColor: UIColor.pcp)

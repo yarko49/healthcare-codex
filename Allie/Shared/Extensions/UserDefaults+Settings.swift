@@ -15,7 +15,6 @@ extension UserDefaults {
 		case isBiometricsEnabled = "IS_BIOMETRICS_ENABLED"
 		case haveAskedUserForBiometrics
 		case healthKitDataLastUploadDate
-		case healthKitUploadChunkSize
 		case hasSmartScale
 		case hasSmartBloodPressureCuff
 		case hasSmartWatch
@@ -36,7 +35,7 @@ extension UserDefaults {
 
 	static func registerDefautlts() {
 		let defaults: [String: Any] = [Self.Keys.isCarePlanPopulated.rawValue: false, Self.Keys.hasRunOnce.rawValue: false, Self.Keys.hasCompletedOnboarding.rawValue: false,
-		                               Self.Keys.isBiometricsEnabled.rawValue: false, Self.Keys.healthKitUploadChunkSize.rawValue: 4500, Self.Keys.haveAskedUserForBiometrics.rawValue: false]
+		                               Self.Keys.isBiometricsEnabled.rawValue: false, Self.Keys.haveAskedUserForBiometrics.rawValue: false]
 		UserDefaults.standard.register(defaults: defaults)
 	}
 
@@ -136,19 +135,11 @@ extension UserDefaults {
 
 	var healthKitDataLastUploadDate: Date {
 		get {
-			object(forKey: Self.Keys.healthKitDataLastUploadDate.rawValue) as? Date ?? .distantPast
+			let date = Date()
+			return object(forKey: Self.Keys.healthKitDataLastUploadDate.rawValue) as? Date ?? Calendar.current.date(byAdding: .day, value: -14, to: date) ?? date
 		}
 		set {
 			setValue(newValue, forKey: Self.Keys.healthKitDataLastUploadDate.rawValue)
-		}
-	}
-
-	var healthKitUploadChunkSize: Int {
-		get {
-			integer(forKey: Self.Keys.healthKitUploadChunkSize.rawValue)
-		}
-		set {
-			set(newValue, forKey: Self.Keys.healthKitUploadChunkSize.rawValue)
 		}
 	}
 
@@ -244,7 +235,8 @@ extension UserDefaults {
 
 	var lastObervationUploadDate: Date {
 		get {
-			object(forKey: Self.Keys.lastObervationUploadDate.rawValue) as? Date ?? .distantPast
+			let date = Date()
+			return object(forKey: Self.Keys.lastObervationUploadDate.rawValue) as? Date ?? Calendar.current.date(byAdding: .day, value: -14, to: date) ?? date
 		}
 		set {
 			setValue(newValue, forKey: Self.Keys.lastObervationUploadDate.rawValue)
