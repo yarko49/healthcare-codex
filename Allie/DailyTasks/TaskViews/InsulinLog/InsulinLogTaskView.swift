@@ -5,7 +5,9 @@
 //  Created by Waqar Malik on 5/9/21.
 //
 
+import CareKitStore
 import CareKitUI
+import HealthKit
 import UIKit
 
 private class LogButton: OCKLabeledButton {
@@ -53,11 +55,11 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 		return view
 	}()
 
-	let notesTextField: UITextField = {
-		let textField = UITextField(frame: .zero)
-		textField.placeholder = "Some note could be added here"
-		textField.font = UIFont.preferredFont(forTextStyle: .footnote)
-		return textField
+	let instructionsLabel: OCKLabel = {
+		let label = OCKLabel(textStyle: .footnote, weight: .medium)
+		label.numberOfLines = 0
+		label.lineBreakMode = .byWordWrapping
+		return label
 	}()
 
 	let entryViews: LabelValuesView = {
@@ -70,13 +72,17 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 		let title1 = NSLocalizedString("FAST_ACTING", comment: "Fast Acting")
 		let title2 = NSLocalizedString("LONG_ACTING", comment: "Long Acting")
 		let view = UISegmentedControl(items: [title1, title2])
+		let textAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.allieWhite]
+		view.setTitleTextAttributes(textAttributes, for: .selected)
+		view.selectedSegmentTintColor = .allieButtons
+		view.selectedSegmentIndex = 0
 		return view
 	}()
 
 	let logButton: OCKLabeledButton = {
 		let button = OCKLabeledButton()
 		button.handlesSelection = false
-		button.label.text = loc("Log")
+		button.label.text = NSLocalizedString("LOG", comment: "Log")
 		return button
 	}()
 
@@ -88,8 +94,8 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 	}
 
 	let logItemsStackView: OCKStackView = {
-		var stackView = OCKStackView(style: .separated)
-		stackView.showsOuterSeparators = false
+		var stackView = OCKStackView()
+		stackView.axis = .vertical
 		return stackView
 	}()
 
@@ -105,8 +111,7 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 		addSubview(contentView)
 		contentView.addSubview(headerStackView)
 		[headerButton, entryViews, segmentedControl, contentStackView].forEach { headerStackView.addArrangedSubview($0) }
-		[notesTextField, entryViews, segmentedControl, logButton, logItemsStackView].forEach { contentStackView.addArrangedSubview($0) }
-		logItemsStackView.isHidden = true
+		[instructionsLabel, entryViews, segmentedControl, logButton, logItemsStackView].forEach { contentStackView.addArrangedSubview($0) }
 	}
 
 	func constrainSubviews() {
@@ -122,19 +127,28 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 
 	private func setupGestures() {
 		headerButton.addTarget(self, action: #selector(didTapView), for: .touchUpInside)
+		logButton.addTarget(self, action: #selector(didTapLogButton(_:)), for: .touchUpInside)
 	}
 
-	@objc
-	private func didTapView() {
+	@objc func didTapView() {
 		delegate?.didSelectTaskView(self, eventIndexPath: .init(row: 0, section: 0))
 	}
 
-	@objc
-	private func itemTapped(_ sender: UIControl) {
+	@objc func itemTapped(_ sender: UIControl) {
 		guard let index = logItemsStackView.arrangedSubviews.firstIndex(of: sender) else {
 			fatalError("Target was not set up properly.")
 		}
 		delegate?.taskView(self, didSelectOutcomeValueAt: index, eventIndexPath: .init(row: 0, section: 0), sender: sender)
+	}
+
+	@objc func didTapLogButton(_ sender: UIControl) {
+		guard let units = entryViews.units else {
+			return
+		}
+		let title = makeTitle(units: units)
+		let itemCount = items.count
+		appendItem(withTitle: title, detail: nil, animated: true)
+		delegate?.taskView(self, didCreateOutcomeValueAt: itemCount, eventIndexPath: .init(row: 0, section: 0), sender: sender)
 	}
 
 	var items: [OCKLogItemButton] {
@@ -147,9 +161,33 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 		button.addTarget(self, action: #selector(itemTapped(_:)), for: .touchUpInside)
 		button.titleLabel.text = title
 		button.detailLabel.text = detail
+		button.imageView.image = UIImage(systemName: "gear")
 		button.accessibilityLabel = (detail ?? "") + " " + (title ?? "")
 		button.accessibilityHint = loc("DOUBLE_TAP_TO_REMOVE_EVENT")
 		return button
+	}
+
+	private func makeTitle(units: String) -> String {
+		let selectedIndex = segmentedControl.selectedSegmentIndex
+		var string = segmentedControl.titleForSegment(at: selectedIndex) ?? ""
+		string += " " + units + " Units"
+		string += " " + InsulinLogTaskView.timeFormatter.string(from: entryViews.entryDate)
+		return string
+	}
+
+	private func makeOutcome() -> OCKOutcome {
+		let value = Double(entryViews.units ?? "") ?? 0
+		var outcomeValue0 = OCKOutcomeValue(value)
+		outcomeValue0.kind = "insulin"
+		let selectedIndex = segmentedControl.selectedSegmentIndex
+		var outcomeValue1 = OCKOutcomeValue(selectedIndex == 0)
+		outcomeValue1.kind = "Fast Acting"
+		var outcomeValue2 = OCKOutcomeValue(selectedIndex == 0)
+		outcomeValue2.kind = "Long Acting"
+		let time = entryViews.entryDate
+		var outcome = OCKOutcome(taskUUID: UUID(), taskOccurrenceIndex: 0, values: [outcomeValue0, outcomeValue1, outcomeValue2])
+		outcome.createdDate = time
+		return outcome
 	}
 
 	override func styleDidChange() {
@@ -196,5 +234,54 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 
 	func clearItems(animated: Bool) {
 		logItemsStackView.clear(animated: animated)
+	}
+}
+
+extension InsulinLogTaskView {
+	static let timeFormatter: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.timeStyle = .short
+		return formatter
+	}()
+
+	/// Update the stack by updating each item, or adding a new one if necessary based on the number of `outcomeValues`.
+	func updateItems(withOutcomeValues outcomeValues: [OCKOutcomeValue], animated: Bool) {
+		if outcomeValues.isEmpty {
+			clearItems(animated: animated)
+		} else {
+			for (index, outcomeValue) in outcomeValues.enumerated() {
+				let date = outcomeValue.createdDate
+				let dateString = InsulinLogTaskView.timeFormatter.string(from: date).description
+
+				_ = index < items.count ?
+					updateItem(at: index, withTitle: outcomeValue.stringValue, detail: dateString) :
+					appendItem(withTitle: outcomeValue.stringValue, detail: dateString, animated: animated)
+			}
+		}
+		trimItems(given: outcomeValues, animated: animated)
+	}
+
+	// Remove any items that aren't needed
+	private func trimItems(given outcomeValues: [OCKOutcomeValue], animated: Bool) {
+		guard items.count > outcomeValues.count else { return }
+		let countToRemove = items.count - outcomeValues.count
+		for _ in 0 ..< countToRemove {
+			removeItem(at: items.count - 1, animated: animated)
+		}
+	}
+
+	func updateWith(event: OCKAnyEvent?, animated: Bool) {
+		// headerView.updateWith(event: event, animated: animated)
+		guard let event = event else {
+			clearView(animated: animated)
+			return
+		}
+		instructionsLabel.text = event.task.instructions
+		updateItems(withOutcomeValues: event.outcome?.values ?? [], animated: animated)
+	}
+
+	func clearView(animated: Bool) {
+		instructionsLabel.text = nil
+		clearItems(animated: animated)
 	}
 }

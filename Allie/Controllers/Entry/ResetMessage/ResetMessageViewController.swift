@@ -18,12 +18,12 @@ class ResetMessageViewController: BaseViewController {
 
 	override func setupView() {
 		super.setupView()
-		title = Str.signup
-		title = Str.resetPassword
+		title = String.signup
+		title = String.resetPassword
 		resetMesasageLabel.numberOfLines = 0
-		resetMesasageLabel.attributedText = Str.longResetMessage.with(style: .regular17, andColor: .lightGray, andLetterSpacing: -0.408)
+		resetMesasageLabel.attributedText = String.longResetMessage.with(style: .regular17, andColor: .lightGray, andLetterSpacing: -0.408)
 		let back = UILabel()
-		back.attributedText = Str.backToSignIn.with(style: .semibold17, andColor: .black, andLetterSpacing: -0.408)
+		back.attributedText = String.backToSignIn.with(style: .semibold17, andColor: .black, andLetterSpacing: -0.408)
 		backButton.setAttributedTitle(back.attributedText, for: .normal)
 	}
 

@@ -33,7 +33,7 @@ class SettingsViewController: BaseViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		title = Str.settings
+		title = String.settings
 
 		settingsFooterView.translatesAutoresizingMaskIntoConstraints = false
 		settingsFooterView.delegate = self
@@ -133,8 +133,8 @@ extension SettingsViewController: UITableViewDelegate {
 					switch carePlanResponse {
 					case .failure(let error):
 						ALog.error("\(error.localizedDescription)")
-						let okAction = AlertHelper.AlertAction(withTitle: Str.ok)
-						AlertHelper.showAlert(title: Str.error, detailText: error.localizedDescription, actions: [okAction])
+						let okAction = AlertHelper.AlertAction(withTitle: String.ok)
+						AlertHelper.showAlert(title: String.error, detailText: error.localizedDescription, actions: [okAction])
 					case .success(let response):
 						if let patient = response.patients.first {
 							AppDelegate.careManager.patient = patient
@@ -207,13 +207,13 @@ extension SettingsViewController: UITableViewDelegate {
 
 	func showPrivacyPolicy() {
 		let privacyPolicyViewController = HTMLViewerController()
-		privacyPolicyViewController.title = Str.privacyPolicy
+		privacyPolicyViewController.title = String.privacyPolicy
 		navigationController?.show(privacyPolicyViewController, sender: self)
 	}
 
 	func showTermsOfService() {
 		let termsOfServiceViewController = HTMLViewerController()
-		termsOfServiceViewController.title = Str.termsOfService
+		termsOfServiceViewController.title = String.termsOfService
 		navigationController?.show(termsOfServiceViewController, sender: self)
 	}
 }

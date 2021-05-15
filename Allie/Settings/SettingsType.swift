@@ -19,23 +19,23 @@ enum SettingsType: CustomStringConvertible, CaseIterable {
 	var title: String {
 		switch self {
 		case .accountDetails:
-			return Str.accountDetails
+			return String.accountDetails
 		case .myDevices:
-			return Str.myDevices
+			return String.myDevices
 		case .notifications:
-			return Str.notifications
+			return String.notifications
 		case .systemAuthorization:
-			return Str.systemAuthorization
+			return String.systemAuthorization
 		case .feedback:
-			return Str.feedback
+			return String.feedback
 		case .troubleShoot:
-			return Str.troubleShoot
+			return String.troubleShoot
 		case .support:
-			return Str.support
+			return String.support
 		case .privacyPolicy:
-			return Str.privacyPolicy
+			return String.privacyPolicy
 		case .termsOfService:
-			return Str.termsOfService
+			return String.termsOfService
 		}
 	}
 

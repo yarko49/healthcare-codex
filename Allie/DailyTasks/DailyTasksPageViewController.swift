@@ -153,19 +153,22 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		}
 		isRefreshingCarePlan = true
 		hud.show(in: view)
-		APIClient.shared.getCarePlan(option: .outcomes)
+		APIClient.shared.getCarePlan(option: .carePlan)
 			.sink { [weak self] completion in
 				self?.isRefreshingCarePlan = false
 				self?.hud.dismiss()
 				switch completion {
 				case .failure(let error):
 					ALog.error("Unable to fetch care plan", error: error)
-					let okAction = AlertHelper.AlertAction(withTitle: Str.ok)
+					let okAction = AlertHelper.AlertAction(withTitle: String.ok)
 					AlertHelper.showAlert(title: "Error", detailText: error.localizedDescription, actions: [okAction])
 				case .finished:
 					break
 				}
 			} receiveValue: { value in
+				if let tasks = value.faultyTasks, !tasks.isEmpty {
+					self.showError(tasks: tasks)
+				}
 				self.careManager.createOrUpdate(carePlanResponse: value, forceReset: false) { success in
 					if success {
 						ALog.info("added the care plan")
@@ -178,6 +181,13 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 					self.isRefreshingCarePlan = false
 				}
 			}.store(in: &cancellables)
+	}
+
+	func showError(tasks: [BasicTask]) {
+		let viewController = TaskErrorDisplayViewController(style: .plain)
+		viewController.items = tasks
+		let navigationController = UINavigationController(rootViewController: viewController)
+		tabBarController?.present(navigationController, animated: true, completion: nil)
 	}
 }
 

@@ -21,6 +21,7 @@ class CareManager: NSObject, ObservableObject {
 		static let careStore = "CareStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
 		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk(protection: .completeUnlessOpen)
+		static let maximumUploadOutcomesPerCall: Int = 450
 	}
 
 	private(set) lazy var remoteSynchronizationManager: RemoteSynchronizationManager = {
@@ -42,6 +43,11 @@ class CareManager: NSObject, ObservableObject {
 	var cancellables: Set<AnyCancellable> = []
 	var isSynchronizingOutcomes: Bool = false
 	var outcomeUploaders: Set<DataUploadManager<CarePlanResponse>> = []
+	var uploadQueue: DispatchQueue = {
+		let bundleIdentifier = Bundle.main.bundleIdentifier!
+		let queue = DispatchQueue(label: bundleIdentifier + ".UploadQueue", qos: .background, attributes: [], autoreleaseFrequency: .inherit, target: nil)
+		return queue
+	}()
 
 	var patient: AlliePatient? {
 		get {

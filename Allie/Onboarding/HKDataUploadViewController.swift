@@ -40,7 +40,7 @@ class HKDataUploadViewController: BaseViewController {
 		let label = UILabel(frame: .zero)
 		label.numberOfLines = 3
 		label.textAlignment = .center
-		label.attributedText = Str.importingHealthData.with(style: .regular28, andColor: .black, andLetterSpacing: 0.36)
+		label.attributedText = String.importingHealthData.with(style: .regular28, andColor: .black, andLetterSpacing: 0.36)
 		return label
 	}()
 
@@ -48,7 +48,7 @@ class HKDataUploadViewController: BaseViewController {
 		let label = UILabel(frame: .zero)
 		label.numberOfLines = 1
 		label.textAlignment = .center
-		label.attributedText = Str.justASec.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.32)
+		label.attributedText = String.justASec.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.32)
 		return label
 	}()
 

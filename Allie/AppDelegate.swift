@@ -43,9 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		UserDefaults.registerDefautlts()
 		FirebaseConfiguration.shared.setLoggerLevel(.min)
 		FirebaseApp.configure()
-		Crashlytics.crashlytics()
 		GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
 		IQKeyboardManager.shared.enable = true
+		Crashlytics.crashlytics()
 		Self.configureZendesk()
 		return true
 	}

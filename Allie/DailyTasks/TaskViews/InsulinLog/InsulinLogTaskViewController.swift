@@ -10,13 +10,12 @@ import CareKitStore
 import UIKit
 
 class InsulinLogTaskViewController: OCKTaskViewController<InsulinLogTaskController, InsulinLogTaskViewSynchronizer> {
-	var task: OCKHealthKitTask?
-
 	override public init(controller: InsulinLogTaskController, viewSynchronizer: InsulinLogTaskViewSynchronizer) {
 		super.init(controller: controller, viewSynchronizer: viewSynchronizer)
 	}
 
 	override public init(viewSynchronizer: InsulinLogTaskViewSynchronizer, task: OCKAnyTask, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
+		viewSynchronizer.healthKitTask = task as? OCKHealthKitTask
 		super.init(viewSynchronizer: viewSynchronizer, task: task, eventQuery: eventQuery, storeManager: storeManager)
 	}
 
@@ -25,8 +24,9 @@ class InsulinLogTaskViewController: OCKTaskViewController<InsulinLogTaskControll
 	}
 
 	public init(task: OCKAnyTask, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
-		super.init(viewSynchronizer: .init(), task: task, eventQuery: eventQuery, storeManager: storeManager)
-		self.task = task as? OCKHealthKitTask
+		let synchronizer = InsulinLogTaskViewSynchronizer()
+		synchronizer.healthKitTask = task as? OCKHealthKitTask
+		super.init(viewSynchronizer: synchronizer, task: task, eventQuery: eventQuery, storeManager: storeManager)
 	}
 
 	public init(taskID: String, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {

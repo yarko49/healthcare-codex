@@ -7,13 +7,16 @@
       "notes": null,
       "asset": "",
       "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan",
-      "tags": ["default"],
+      "tags": [
+        "default"
+      ],
       "timezone": {
         "abbreviation": "",
         "identifier": ""
       },
       "userInfo": {
         "category": "",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -24,10 +27,10 @@
         "logText": "",
         "priority": ""
       },
-      "createdDate": "2021-05-09T04:27:08Z",
+      "createdDate": "2021-05-14T04:00:11Z",
       "deletedDate": "9999-01-01T00:00:00Z",
-      "effectiveDate": "2021-05-09T04:27:08Z",
-      "updatedDate": "2021-05-09T04:27:08Z",
+      "effectiveDate": "2021-05-14T04:00:11Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Default Care Plan",
       "patientId": "",
       "versions": null
@@ -48,6 +51,7 @@
       },
       "userInfo": {
         "category": "education",
+        "detailViewAsset": "",
         "detailViewText": "Healthy Recipes\nSpinach & Kale",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -58,10 +62,10 @@
         "logText": "",
         "priority": "5"
       },
-      "createdDate": "2021-05-09T04:27:08Z",
+      "createdDate": "2021-05-10T10:50:54Z",
       "deletedDate": "9999-01-01T00:00:00Z",
-      "effectiveDate": "2021-05-09T04:27:08Z",
-      "updatedDate": "2021-05-09T04:27:08Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Easy & Healthy Recipes",
       "schedules": [
         {
@@ -105,6 +109,7 @@
         "linkEmail0": "support@codexhealth.com",
         "linkEmailTitle0": "Email Support",
         "category": "links",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -115,10 +120,10 @@
         "logText": "",
         "priority": "6"
       },
-      "createdDate": "2021-05-09T04:27:08Z",
+      "createdDate": "2021-05-10T10:50:54Z",
       "deletedDate": "9999-01-01T00:00:00Z",
-      "effectiveDate": "2021-05-09T04:27:08Z",
-      "updatedDate": "2021-05-09T04:27:08Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Links",
       "schedules": [
         {
@@ -156,6 +161,7 @@
       },
       "userInfo": {
         "category": "measurements",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -166,10 +172,10 @@
         "logText": "",
         "priority": "2"
       },
-      "createdDate": "2021-05-09T04:27:08Z",
+      "createdDate": "2021-05-10T10:50:54Z",
       "deletedDate": "9999-01-01T00:00:00Z",
-      "effectiveDate": "2021-05-09T04:27:08Z",
-      "updatedDate": "2021-05-09T04:27:08Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Activity",
       "schedules": [
         {
@@ -235,6 +241,7 @@
       },
       "userInfo": {
         "category": "measurements",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -245,10 +252,10 @@
         "logText": "",
         "priority": "1"
       },
-      "createdDate": "2021-05-09T04:27:08Z",
+      "createdDate": "2021-05-10T10:50:54Z",
       "deletedDate": "9999-01-01T00:00:00Z",
-      "effectiveDate": "2021-05-09T04:27:08Z",
-      "updatedDate": "2021-05-09T04:27:08Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Glucose Levels",
       "schedules": [
         {
@@ -314,6 +321,7 @@
       },
       "userInfo": {
         "category": "measurements",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -324,10 +332,10 @@
         "logText": "",
         "priority": "1"
       },
-      "createdDate": "2021-05-09T04:27:08Z",
+      "createdDate": "2021-05-10T10:50:54Z",
       "deletedDate": "9999-01-01T00:00:00Z",
-      "effectiveDate": "2021-05-09T04:27:08Z",
-      "updatedDate": "2021-05-09T04:27:08Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Insulin Levels",
       "schedules": [
         {
@@ -416,6 +424,7 @@
       },
       "userInfo": {
         "category": "medications",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -426,10 +435,10 @@
         "logText": "",
         "priority": "0"
       },
-      "createdDate": "2021-05-09T04:27:08Z",
+      "createdDate": "2021-05-10T10:50:54Z",
       "deletedDate": "9999-01-01T00:00:00Z",
-      "effectiveDate": "2021-05-09T04:27:08Z",
-      "updatedDate": "2021-05-09T04:27:08Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Metformin",
       "schedules": [
         {
@@ -481,6 +490,7 @@
       },
       "userInfo": {
         "category": "physical-therapy",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -491,10 +501,10 @@
         "logText": "",
         "priority": "4"
       },
-      "createdDate": "2021-05-09T04:27:08Z",
+      "createdDate": "2021-05-10T10:50:54Z",
       "deletedDate": "9999-01-01T00:00:00Z",
-      "effectiveDate": "2021-05-09T04:27:08Z",
-      "updatedDate": "2021-05-09T04:27:08Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "15 Minutes of Morning Exercise",
       "schedules": [
         {
@@ -532,6 +542,7 @@
       },
       "userInfo": {
         "category": "surveys-and-questionnaires",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -542,10 +553,10 @@
         "logText": "",
         "priority": "1"
       },
-      "createdDate": "2021-05-09T04:27:08Z",
+      "createdDate": "2021-05-10T10:50:54Z",
       "deletedDate": "9999-01-01T00:00:00Z",
-      "effectiveDate": "2021-05-09T04:27:08Z",
-      "updatedDate": "2021-05-09T04:27:08Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Daily Food Diary",
       "schedules": [
         {
@@ -683,6 +694,7 @@
       },
       "userInfo": {
         "category": "symptoms",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -693,10 +705,10 @@
         "logText": "Logged",
         "priority": "3"
       },
-      "createdDate": "2021-05-09T04:27:08Z",
+      "createdDate": "2021-05-10T10:50:54Z",
       "deletedDate": "9999-01-01T00:00:00Z",
-      "effectiveDate": "2021-05-09T04:27:08Z",
-      "updatedDate": "2021-05-09T04:27:08Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Hypoglycemia",
       "schedules": [
         {
@@ -719,14 +731,90 @@
       "instructions": "Report symptoms of Hypoglycemia",
       "impactsAdherence": false,
       "versions": null
+    },
+    {
+      "groupIdentifier": "LOG",
+      "remoteId": "yULAvxCDijVbz5gGGbR0",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/Task/yULAvxCDijVbz5gGGbR0",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": ""
+      },
+      "userInfo": {
+        "category": "medications",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": "0"
+      },
+      "createdDate": "2021-05-13T17:24:50Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-13T17:24:50Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
+      "title": "Alpha Beta",
+      "schedules": [
+        {
+          "custom": false,
+          "daily": true,
+          "weekly": false,
+          "weekday": 0,
+          "hour": 0,
+          "minutes": 0,
+          "duration": 0,
+          "interval": 604800,
+          "text": "",
+          "targetValues": [
+            {
+              "groupIdentifier": "",
+              "remoteId": "",
+              "id": "",
+              "notes": null,
+              "asset": "",
+              "source": "",
+              "tags": null,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+              },
+              "createdDate": null,
+              "deletedDate": null,
+              "effectiveDate": null,
+              "updatedDate": null,
+              "index": 0,
+              "kind": "",
+              "units": "count",
+              "value": 100,
+              "type": "integer",
+              "userInfo": null
+            }
+          ],
+          "start": "2021-05-13T17:24:03.921Z",
+          "end": "2021-05-13T17:24:03.921Z"
+        }
+      ],
+      "carePlanId": "",
+      "healthKitLinkage": null,
+      "instructions": "Take with water",
+      "impactsAdherence": false,
+      "versions": null
     }
   ],
   "outcomes": [],
   "patients": [
     {
       "groupIdentifier": "",
-      "remoteId": "xLLDQwtyReVlzhahR6ETeKzMgvr1",
-      "id": "xLLDQwtyReVlzhahR6ETeKzMgvr1",
+      "remoteId": "B2D3oFjNgteAlKhNww4QcTakl8C3",
+      "id": "B2D3oFjNgteAlKhNww4QcTakl8C3",
       "notes": null,
       "asset": "",
       "source": "",
@@ -735,16 +823,16 @@
         "abbreviation": "",
         "identifier": "America/Los_Angeles"
       },
-      "createdDate": "2021-05-09T04:26:33.08Z",
+      "createdDate": "2021-05-14T03:59:35Z",
       "deletedDate": null,
-      "effectiveDate": "2021-05-09T04:26:33.08Z",
-      "updatedDate": "2021-05-09T04:26:59.798Z",
+      "effectiveDate": "2021-05-14T03:59:35Z",
+      "updatedDate": "2021-05-14T03:59:56Z",
       "allergies": null,
-      "birthday": "1970-01-02T00:00:00Z",
+      "birthday": "1970-02-03T00:00:00Z",
       "name": {
         "namePrefix": "",
         "givenName": "Waqar",
-        "middleName": "A",
+        "middleName": "",
         "familyName": "Malik",
         "nameSuffix": "",
         "nickname": ""
@@ -752,9 +840,9 @@
       "profile": {
         "deviceManufacturer": "Apple",
         "deviceSoftwareVersion": "14.5",
-        "email": "wmalloc+codex@gmail.com",
-        "FHIRId": "a4bd53a6-a2fd-4a30-9619-a621096f2d33",
-        "heightInches": 82,
+        "email": "wmalloc+codex1@gmail.com",
+        "FHIRId": "9d2e81b0-4448-4110-8996-b072520b722d",
+        "heightInches": 66,
         "measurementBloodPressureEnabled": false,
         "measurementHeartRateEnabled": false,
         "measurementRestingHeartRateEnabled": false,
@@ -762,9 +850,9 @@
         "measurementWeightEnabled": false,
         "notificationsEnabled": false,
         "signUpCompleted": true,
-        "patientId": "xLLDQwtyReVlzhahR6ETeKzMgvr1",
-        "userId": "xLLDQwtyReVlzhahR6ETeKzMgvr1",
-        "weightLbs": 245
+        "patientId": "B2D3oFjNgteAlKhNww4QcTakl8C3",
+        "userId": "B2D3oFjNgteAlKhNww4QcTakl8C3",
+        "weightLbs": 150
       },
       "sex": "male",
       "userInfo": null

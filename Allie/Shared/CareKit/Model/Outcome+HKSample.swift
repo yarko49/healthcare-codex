@@ -48,6 +48,9 @@ extension Outcome {
 
 		self.init(taskUUID: task.uuid, taskID: task.id, carePlanID: carePlanId, taskOccurrenceIndex: 0, values: values)
 		self.uuid = sample.uuid
+		createdDate = sample.startDate
+		updatedDate = sample.startDate
+		effectiveDate = sample.startDate
 		startDate = sample.startDate
 		endDate = sample.endDate
 		if let hkDevice = sample.device {

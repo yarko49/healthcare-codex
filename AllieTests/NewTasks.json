@@ -1,0 +1,773 @@
+{
+    "tasks": [
+        {
+            "asset": "aer2.jpg",
+            "carePlanId": "defaultCarePlan",
+            "createdDate": "2021-05-14T14:12:09Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-05-14T14:12:09Z",
+            "groupIdentifier": "FEATURED_CONTENT",
+            "healthKitLinkage": null,
+            "id": "",
+            "impactsAdherence": false,
+            "instructions": "",
+            "notes": null,
+            "remoteId": "cd1btUqE2GLEiI4D5ftS",
+            "schedules": null,
+            "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/cd1btUqE2GLEiI4D5ftS",
+            "tags": null,
+            "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+            },
+            "title": "Test education 2",
+            "updatedDate": "2021-05-14T15:43:28Z",
+            "userInfo": {
+                "category": "education",
+                "detailViewAsset": "testPdf.pdf",
+                "detailViewCSS": "",
+                "detailViewHTML": "",
+                "detailViewImageLabel": "",
+                "detailViewText": "",
+                "detailViewURL": "",
+                "image": "",
+                "logText": "",
+                "priority": "0",
+                "subtitle": ""
+            },
+            "versions": null
+        },
+        {
+            "asset": "",
+            "carePlanId": "defaultCarePlan",
+            "createdDate": "2021-05-10T10:50:54Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-05-10T10:50:54Z",
+            "groupIdentifier": "FEATURED_CONTENT",
+            "healthKitLinkage": null,
+            "id": "",
+            "impactsAdherence": false,
+            "instructions": "Instructions not to be displayed by Featured Content",
+            "notes": null,
+            "remoteId": "education-easy-and-healthy-recipes",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": true,
+                    "duration": 0,
+                    "end": null,
+                    "hour": 0,
+                    "interval": 0,
+                    "minutes": 0,
+                    "start": null,
+                    "targetValues": null,
+                    "text": "all day",
+                    "weekday": 0,
+                    "weekly": false
+                }
+            ],
+            "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/education-easy-and-healthy-recipes",
+            "tags": null,
+            "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+            },
+            "title": "Easy & Healthy Recipes",
+            "updatedDate": "2021-05-14T15:43:28Z",
+            "userInfo": {
+                "category": "education",
+                "detailViewAsset": "",
+                "detailViewCSS": "",
+                "detailViewHTML": "",
+                "detailViewImageLabel": "Some Ideas",
+                "detailViewText": "Healthy Recipes\nSpinach & Kale",
+                "detailViewURL": "",
+                "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg",
+                "logText": "",
+                "priority": "5",
+                "subtitle": ""
+            },
+            "versions": null
+        },
+        {
+            "asset": "",
+            "carePlanId": "defaultCarePlan",
+            "createdDate": "2021-05-10T10:50:54Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-05-10T10:50:54Z",
+            "groupIdentifier": "LINK",
+            "healthKitLinkage": null,
+            "id": "",
+            "impactsAdherence": false,
+            "instructions": "Helpful links",
+            "notes": null,
+            "remoteId": "links-stanford-medicine",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": true,
+                    "duration": 0,
+                    "end": null,
+                    "hour": 0,
+                    "interval": 0,
+                    "minutes": 0,
+                    "start": null,
+                    "targetValues": null,
+                    "text": "",
+                    "weekday": 0,
+                    "weekly": false
+                }
+            ],
+            "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/links-stanford-medicine",
+            "tags": null,
+            "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+            },
+            "title": "Links",
+            "updatedDate": "2021-05-14T15:43:28Z",
+            "userInfo": {
+                "category": "links",
+                "detailViewAsset": "",
+                "detailViewCSS": "",
+                "detailViewHTML": "",
+                "detailViewImageLabel": "",
+                "detailViewText": "",
+                "detailViewURL": "",
+                "image": "",
+                "linkEmail0": "support@codexhealth.com",
+                "linkEmailTitle0": "Email Support",
+                "linkLocation0": "37.4275,122.1697",
+                "linkLocationTitle0": "Stanford Address",
+                "linkURL0": "https://med.stanford.edu/",
+                "linkURLTitle0": "Stanford Medicine",
+                "logText": "",
+                "priority": "6",
+                "subtitle": ""
+            },
+            "versions": null
+        },
+        {
+            "asset": "",
+            "carePlanId": "defaultCarePlan",
+            "createdDate": "2021-05-10T10:50:54Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-05-10T10:50:54Z",
+            "groupIdentifier": "NUMERIC_PROGRESS",
+            "healthKitLinkage": {
+                "quantityIdentifier": "stepCount",
+                "quantitytype": "cumulative",
+                "unit": "count"
+            },
+            "id": "",
+            "impactsAdherence": true,
+            "instructions": "Your total steps today",
+            "notes": null,
+            "remoteId": "measurements-activity",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": true,
+                    "duration": 0,
+                    "end": null,
+                    "hour": 8,
+                    "interval": 0,
+                    "minutes": 0,
+                    "start": null,
+                    "targetValues": [
+                        {
+                            "asset": "",
+                            "createdDate": null,
+                            "deletedDate": null,
+                            "effectiveDate": null,
+                            "groupIdentifier": "",
+                            "id": "",
+                            "index": 0,
+                            "kind": "",
+                            "notes": null,
+                            "remoteId": "",
+                            "source": "",
+                            "tags": null,
+                            "timezone": {
+                                "abbreviation": "",
+                                "identifier": ""
+                            },
+                            "type": "integer",
+                            "units": "count",
+                            "updatedDate": null,
+                            "userInfo": null,
+                            "value": 2000
+                        }
+                    ],
+                    "text": "Anytime",
+                    "weekday": 0,
+                    "weekly": false
+                }
+            ],
+            "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/measurements-activity",
+            "tags": null,
+            "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+            },
+            "title": "Activity",
+            "updatedDate": "2021-05-14T15:43:28Z",
+            "userInfo": {
+                "category": "measurements",
+                "detailViewAsset": "",
+                "detailViewCSS": "",
+                "detailViewHTML": "",
+                "detailViewImageLabel": "",
+                "detailViewText": "",
+                "detailViewURL": "",
+                "image": "",
+                "logText": "",
+                "priority": "2",
+                "subtitle": ""
+            },
+            "versions": null
+        },
+        {
+            "asset": "",
+            "carePlanId": "defaultCarePlan",
+            "createdDate": "2021-05-10T10:50:54Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-05-10T10:50:54Z",
+            "groupIdentifier": "LABELED_VALUE",
+            "healthKitLinkage": {
+                "quantityIdentifier": "bloodGlucose",
+                "quantitytype": "discrete",
+                "unit": "mg/dl"
+            },
+            "id": "",
+            "impactsAdherence": true,
+            "instructions": "Monitor daily glucose levels",
+            "notes": null,
+            "remoteId": "measurements-glucose-levels",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": false,
+                    "duration": 0,
+                    "end": null,
+                    "hour": 0,
+                    "interval": 0,
+                    "minutes": 0,
+                    "start": null,
+                    "targetValues": [
+                        {
+                            "asset": "",
+                            "createdDate": null,
+                            "deletedDate": null,
+                            "effectiveDate": null,
+                            "groupIdentifier": "",
+                            "id": "",
+                            "index": 0,
+                            "kind": "bloodGlucose",
+                            "notes": null,
+                            "remoteId": "",
+                            "source": "",
+                            "tags": null,
+                            "timezone": {
+                                "abbreviation": "",
+                                "identifier": ""
+                            },
+                            "type": "integer",
+                            "units": "mg/dL",
+                            "updatedDate": null,
+                            "userInfo": null,
+                            "value": 140
+                        }
+                    ],
+                    "text": "",
+                    "weekday": 0,
+                    "weekly": true
+                }
+            ],
+            "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/measurements-glucose-levels",
+            "tags": null,
+            "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+            },
+            "title": "Glucose Levels",
+            "updatedDate": "2021-05-14T15:43:28Z",
+            "userInfo": {
+                "category": "measurements",
+                "detailViewAsset": "",
+                "detailViewCSS": "",
+                "detailViewHTML": "",
+                "detailViewImageLabel": "",
+                "detailViewText": "",
+                "detailViewURL": "",
+                "image": "",
+                "logText": "",
+                "priority": "1",
+                "subtitle": ""
+            },
+            "versions": null
+        },
+        {
+            "asset": "",
+            "carePlanId": "defaultCarePlan",
+            "createdDate": "2021-05-10T10:50:54Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-05-10T10:50:54Z",
+            "groupIdentifier": "LOG_INSULIN",
+            "healthKitLinkage": {
+                "quantityIdentifier": "insulinDelivery",
+                "quantitytype": "discrete",
+                "unit": "mIU/ml"
+            },
+            "id": "",
+            "impactsAdherence": true,
+            "instructions": "Monitor daily insulin levels",
+            "notes": null,
+            "remoteId": "measurements-insulin-levels",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": true,
+                    "duration": 0,
+                    "end": null,
+                    "hour": 0,
+                    "interval": 0,
+                    "minutes": 0,
+                    "start": null,
+                    "targetValues": [
+                        {
+                            "asset": "",
+                            "createdDate": null,
+                            "deletedDate": null,
+                            "effectiveDate": null,
+                            "groupIdentifier": "",
+                            "id": "",
+                            "index": 0,
+                            "kind": "fast-acting",
+                            "notes": null,
+                            "remoteId": "",
+                            "source": "",
+                            "tags": null,
+                            "timezone": {
+                                "abbreviation": "",
+                                "identifier": ""
+                            },
+                            "type": "integer",
+                            "units": "mIU/ml",
+                            "updatedDate": null,
+                            "userInfo": null,
+                            "value": 5
+                        },
+                        {
+                            "asset": "",
+                            "createdDate": null,
+                            "deletedDate": null,
+                            "effectiveDate": null,
+                            "groupIdentifier": "",
+                            "id": "",
+                            "index": 0,
+                            "kind": "long-acting",
+                            "notes": null,
+                            "remoteId": "",
+                            "source": "",
+                            "tags": null,
+                            "timezone": {
+                                "abbreviation": "",
+                                "identifier": ""
+                            },
+                            "type": "integer",
+                            "units": "mIU/ml",
+                            "updatedDate": null,
+                            "userInfo": null,
+                            "value": 5
+                        }
+                    ],
+                    "text": "",
+                    "weekday": 0,
+                    "weekly": false
+                }
+            ],
+            "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/measurements-insulin-levels",
+            "tags": null,
+            "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+            },
+            "title": "Insulin Levels",
+            "updatedDate": "2021-05-14T15:43:28Z",
+            "userInfo": {
+                "category": "measurements",
+                "detailViewAsset": "",
+                "detailViewCSS": "",
+                "detailViewHTML": "",
+                "detailViewImageLabel": "",
+                "detailViewText": "",
+                "detailViewURL": "",
+                "image": "",
+                "logText": "",
+                "priority": "1",
+                "subtitle": ""
+            },
+            "versions": null
+        },
+        {
+            "asset": "",
+            "carePlanId": "defaultCarePlan",
+            "createdDate": "2021-05-10T10:50:54Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-05-10T10:50:54Z",
+            "groupIdentifier": "SIMPLE",
+            "healthKitLinkage": null,
+            "id": "",
+            "impactsAdherence": false,
+            "instructions": "Monitoring daily Metformin dosage",
+            "notes": null,
+            "remoteId": "medications-metformin",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": true,
+                    "duration": 0,
+                    "end": null,
+                    "hour": 0,
+                    "interval": 0,
+                    "minutes": 0,
+                    "start": null,
+                    "targetValues": null,
+                    "text": "",
+                    "weekday": 0,
+                    "weekly": false
+                },
+                {
+                    "custom": false,
+                    "daily": false,
+                    "duration": 0,
+                    "end": null,
+                    "hour": 0,
+                    "interval": 0,
+                    "minutes": 0,
+                    "start": null,
+                    "targetValues": null,
+                    "text": "",
+                    "weekday": 0,
+                    "weekly": true
+                }
+            ],
+            "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/medications-metformin",
+            "tags": null,
+            "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+            },
+            "title": "Metformin",
+            "updatedDate": "2021-05-14T15:43:28Z",
+            "userInfo": {
+                "category": "medications",
+                "detailViewAsset": "",
+                "detailViewCSS": "",
+                "detailViewHTML": "",
+                "detailViewImageLabel": "",
+                "detailViewText": "",
+                "detailViewURL": "",
+                "image": "",
+                "logText": "",
+                "priority": "0",
+                "subtitle": ""
+            },
+            "versions": null
+        },
+        {
+            "asset": "",
+            "carePlanId": "defaultCarePlan",
+            "createdDate": "2021-05-10T10:50:54Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-05-10T10:50:54Z",
+            "groupIdentifier": "SIMPLE",
+            "healthKitLinkage": null,
+            "id": "",
+            "impactsAdherence": true,
+            "instructions": "",
+            "notes": null,
+            "remoteId": "physical-therapy-15-minutes-of-morning-exercise",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": true,
+                    "duration": 21600,
+                    "end": null,
+                    "hour": 8,
+                    "interval": 0,
+                    "minutes": 0,
+                    "start": null,
+                    "targetValues": null,
+                    "text": "",
+                    "weekday": 0,
+                    "weekly": false
+                }
+            ],
+            "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/physical-therapy-15-minutes-of-morning-exercise",
+            "tags": null,
+            "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+            },
+            "title": "15 Minutes of Morning Exercise",
+            "updatedDate": "2021-05-14T15:43:28Z",
+            "userInfo": {
+                "category": "physical-therapy",
+                "detailViewAsset": "",
+                "detailViewCSS": "",
+                "detailViewHTML": "",
+                "detailViewImageLabel": "Some Ideas",
+                "detailViewText": "",
+                "detailViewURL": "https://www.researchandcare.org/",
+                "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg",
+                "logText": "",
+                "priority": "4",
+                "subtitle": ""
+            },
+            "versions": null
+        },
+        {
+            "asset": "",
+            "carePlanId": "defaultCarePlan",
+            "createdDate": "2021-05-10T10:50:54Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-05-10T10:50:54Z",
+            "groupIdentifier": "CHECKLIST",
+            "healthKitLinkage": null,
+            "id": "",
+            "impactsAdherence": true,
+            "instructions": "Record your daily meals",
+            "notes": null,
+            "remoteId": "surveys-and-questionnaires-food-dairy-checklist",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": true,
+                    "duration": 0,
+                    "end": null,
+                    "hour": 8,
+                    "interval": 0,
+                    "minutes": 0,
+                    "start": null,
+                    "targetValues": [
+                        {
+                            "asset": "",
+                            "createdDate": null,
+                            "deletedDate": null,
+                            "effectiveDate": null,
+                            "groupIdentifier": "",
+                            "id": "",
+                            "index": 0,
+                            "kind": "",
+                            "notes": null,
+                            "remoteId": "",
+                            "source": "",
+                            "tags": null,
+                            "timezone": {
+                                "abbreviation": "",
+                                "identifier": ""
+                            },
+                            "type": "boolean",
+                            "units": "",
+                            "updatedDate": null,
+                            "userInfo": null,
+                            "value": true
+                        }
+                    ],
+                    "text": "Breakfast",
+                    "weekday": 0,
+                    "weekly": false
+                },
+                {
+                    "custom": false,
+                    "daily": true,
+                    "duration": 0,
+                    "end": null,
+                    "hour": 12,
+                    "interval": 0,
+                    "minutes": 0,
+                    "start": null,
+                    "targetValues": [
+                        {
+                            "asset": "",
+                            "createdDate": null,
+                            "deletedDate": null,
+                            "effectiveDate": null,
+                            "groupIdentifier": "",
+                            "id": "",
+                            "index": 0,
+                            "kind": "",
+                            "notes": null,
+                            "remoteId": "",
+                            "source": "",
+                            "tags": null,
+                            "timezone": {
+                                "abbreviation": "",
+                                "identifier": ""
+                            },
+                            "type": "boolean",
+                            "units": "",
+                            "updatedDate": null,
+                            "userInfo": null,
+                            "value": true
+                        }
+                    ],
+                    "text": "Lunch",
+                    "weekday": 0,
+                    "weekly": false
+                },
+                {
+                    "custom": false,
+                    "daily": true,
+                    "duration": 0,
+                    "end": null,
+                    "hour": 18,
+                    "interval": 0,
+                    "minutes": 0,
+                    "start": null,
+                    "targetValues": [
+                        {
+                            "asset": "",
+                            "createdDate": null,
+                            "deletedDate": null,
+                            "effectiveDate": null,
+                            "groupIdentifier": "",
+                            "id": "",
+                            "index": 0,
+                            "kind": "",
+                            "notes": null,
+                            "remoteId": "",
+                            "source": "",
+                            "tags": null,
+                            "timezone": {
+                                "abbreviation": "",
+                                "identifier": ""
+                            },
+                            "type": "boolean",
+                            "units": "",
+                            "updatedDate": null,
+                            "userInfo": null,
+                            "value": true
+                        }
+                    ],
+                    "text": "Dinner",
+                    "weekday": 0,
+                    "weekly": false
+                }
+            ],
+            "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/surveys-and-questionnaires-food-dairy-checklist",
+            "tags": null,
+            "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+            },
+            "title": "Daily Food Diary",
+            "updatedDate": "2021-05-14T15:43:28Z",
+            "userInfo": {
+                "category": "surveys-and-questionnaires",
+                "detailViewAsset": "",
+                "detailViewCSS": "",
+                "detailViewHTML": "",
+                "detailViewImageLabel": "",
+                "detailViewText": "",
+                "detailViewURL": "",
+                "image": "",
+                "logText": "",
+                "priority": "1",
+                "subtitle": ""
+            },
+            "versions": null
+        },
+        {
+            "asset": "",
+            "carePlanId": "defaultCarePlan",
+            "createdDate": "2021-05-10T10:50:54Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-05-10T10:50:54Z",
+            "groupIdentifier": "LOG",
+            "healthKitLinkage": null,
+            "id": "",
+            "impactsAdherence": false,
+            "instructions": "Report symptoms of Hypoglycemia",
+            "notes": null,
+            "remoteId": "symptoms-hypoglycemia",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": true,
+                    "duration": 0,
+                    "end": null,
+                    "hour": 8,
+                    "interval": 0,
+                    "minutes": 0,
+                    "start": null,
+                    "targetValues": null,
+                    "text": "Anytime today",
+                    "weekday": 0,
+                    "weekly": false
+                }
+            ],
+            "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/symptoms-hypoglycemia",
+            "tags": null,
+            "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+            },
+            "title": "Hypoglycemia",
+            "updatedDate": "2021-05-14T15:43:28Z",
+            "userInfo": {
+                "category": "symptoms",
+                "detailViewAsset": "",
+                "detailViewCSS": "",
+                "detailViewHTML": "",
+                "detailViewImageLabel": "",
+                "detailViewText": "",
+                "detailViewURL": "",
+                "image": "",
+                "logText": "Logged",
+                "priority": "3",
+                "subtitle": "Record"
+            },
+            "versions": null
+        },
+        {
+            "asset": "aer2.jpg",
+            "carePlanId": "defaultCarePlan",
+            "createdDate": "2021-05-14T13:22:21Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-05-14T13:22:21Z",
+            "groupIdentifier": "FEATURED_CONTENT",
+            "healthKitLinkage": null,
+            "id": "",
+            "impactsAdherence": false,
+            "instructions": "",
+            "notes": null,
+            "remoteId": "xi8CNlSxiwbFAYjcvASA",
+            "schedules": null,
+            "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/xi8CNlSxiwbFAYjcvASA",
+            "tags": null,
+            "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+            },
+            "title": "Test education 1",
+            "updatedDate": "2021-05-14T15:43:28Z",
+            "userInfo": {
+                "category": "education",
+                "detailViewAsset": "",
+                "detailViewCSS": "",
+                "detailViewHTML": "",
+                "detailViewImageLabel": "",
+                "detailViewText": "",
+                "detailViewURL": "https://www.google.com",
+                "image": "",
+                "logText": "",
+                "priority": "0",
+                "subtitle": ""
+            },
+            "versions": null
+        }
+    ]
+}

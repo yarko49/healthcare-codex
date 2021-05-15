@@ -44,4 +44,18 @@ class TasksTests: XCTestCase {
 		let sampleType = HKSampleType.quantityType(forIdentifier: identifier)
 		XCTAssertNotNil(sampleType)
 	}
+
+	func testNewTasksDecode() throws {
+		let tasksData = AllieTests.loadTestData(fileName: "NewTasks.json")
+		XCTAssertNotNil(tasksData)
+		let decoder = CHJSONDecoder()
+		do {
+			let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: tasksData!)
+			XCTAssertNotNil(carePlanResponse.faultyTasks, "Missing faulty tasks")
+			ALog.info("\(carePlanResponse.tasks.count)")
+			ALog.info("\(String(describing: carePlanResponse.faultyTasks))")
+		} catch {
+			XCTFail("Unable to decode the data")
+		}
+	}
 }

@@ -11,6 +11,13 @@ import HealthKit
 
 public typealias Tasks = [Task]
 
+public struct BasicTask: Codable {
+	public var id: String?
+	public var title: String?
+	public var carePlanId: String?
+	public var remoteId: String?
+}
+
 public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 	public var carePlanId: String?
 	public var id: String
@@ -61,8 +68,10 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		} else if let elements = try? container.decodeIfPresent([ScheduleElement].self, forKey: .scheduleElements) {
 			self.scheduleElements = elements
 		} else {
-			self.scheduleElements = []
+			let context = DecodingError.Context(codingPath: [CodingKeys.scheduleElements], debugDescription: "Missing Schedule id = \(id), remoteId = \(String(describing: remoteId)), title = \(String(describing: title))")
+			throw DecodingError.valueNotFound([ScheduleElement].self, context)
 		}
+
 		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
 		var date = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
