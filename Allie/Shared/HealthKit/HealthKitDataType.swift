@@ -16,6 +16,7 @@ enum HealthKitDataType: String, CaseIterable, CustomStringConvertible {
 	case stepCount
 	case bloodPressure
 	case bloodGlucose
+	case insulinDelivery
 
 	var description: String {
 		rawValue
@@ -35,6 +36,8 @@ enum HealthKitDataType: String, CaseIterable, CustomStringConvertible {
 			return HKUnit.millimeterOfMercury()
 		case .bloodGlucose:
 			return HKUnit.gram().unitDivided(by: HKUnit.liter())
+		case .insulinDelivery:
+			return HKUnit(from: "mIU/ml")
 		}
 	}
 
@@ -52,6 +55,8 @@ enum HealthKitDataType: String, CaseIterable, CustomStringConvertible {
 			return ModelsR4.CodeableConcept.bloodPressure
 		case .bloodGlucose:
 			return ModelsR4.CodeableConcept.bloodGlucose
+		case .insulinDelivery:
+			return ModelsR4.CodeableConcept.insulinDelivery
 		}
 	}
 
@@ -69,6 +74,8 @@ enum HealthKitDataType: String, CaseIterable, CustomStringConvertible {
 			return [HKObjectType.quantityType(forIdentifier: .bloodPressureDiastolic), HKObjectType.quantityType(forIdentifier: .bloodPressureSystolic)]
 		case .bloodGlucose:
 			return [HKObjectType.quantityType(forIdentifier: .bloodGlucose)]
+		case .insulinDelivery:
+			return [HKObjectType.quantityType(forIdentifier: .insulinDelivery)]
 		}
 	}
 
