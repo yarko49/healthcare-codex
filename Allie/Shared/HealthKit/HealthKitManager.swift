@@ -33,14 +33,15 @@ class HealthKitManager {
 		      let bloodPressureDiastolic = HealthKitDataType.bloodPressure.quantityType[0],
 		      let bloodPressureSystolic = HealthKitDataType.bloodPressure.quantityType[1],
 		      let stepCount = HealthKitDataType.stepCount.quantityType[0],
-		      let bloodGloucose = HealthKitDataType.bloodGlucose.quantityType[0]
+		      let bloodGloucose = HealthKitDataType.bloodGlucose.quantityType[0],
+		      let insulinDelivery = HealthKitDataType.insulinDelivery.quantityType[0]
 		else {
 			completion(false, HealthkitError.dataTypeNotAvailable)
 			return
 		}
 
-		let healthKitTypesToWrite: Set<HKSampleType> = []
-		let healthKitTypesToRead: Set<HKQuantityType> = [bodyMass, heartRate, restingHeartRate, bloodPressureDiastolic, bloodPressureSystolic, stepCount, bloodGloucose]
+		let healthKitTypesToWrite: Set<HKSampleType> = [insulinDelivery]
+		let healthKitTypesToRead: Set<HKQuantityType> = [bodyMass, heartRate, restingHeartRate, bloodPressureDiastolic, bloodPressureSystolic, stepCount, bloodGloucose, insulinDelivery]
 		healthKitStore.requestAuthorization(toShare: healthKitTypesToWrite, read: healthKitTypesToRead) { success, error in
 			completion(success, error)
 		}
