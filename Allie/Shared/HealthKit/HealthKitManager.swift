@@ -22,6 +22,7 @@ class HealthKitManager {
 		AppDelegate.careManager.patient?.profile.fhirId
 	}
 
+	typealias SampleCompletion = (Result<[HKSample], Error>) -> Void
 	func authorizeHealthKit(completion: @escaping (Bool, Error?) -> Void) {
 		guard HKHealthStore.isHealthDataAvailable() else {
 			completion(false, HealthkitError.notAvailableOnDevice)
@@ -48,37 +49,57 @@ class HealthKitManager {
 	}
 
 	// Post Data from Health Kit to BE
-	func queryHealthData(dataType: HealthKitDataType, startDate: Date, endDate: Date, completion: @escaping (Bool, [HKSample]) -> Void) {
-		guard let sampleType = dataType.quantityType[0] else {
-			return
+	func queryHealthData(dataType: HealthKitDataType, startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping (Bool, [HKSample]) -> Void) {
+		if dataType == .bloodPressure {
+			queryBloodPressure(startDate: startDate, endDate: endDate, options: options, completion: completion)
+		} else {
+			guard let sampleType = dataType.quantityType[0] else {
+				completion(false, [])
+				return
+			}
+			queryHealthData(quantityType: sampleType, startDate: startDate, endDate: endDate, options: options, completion: completion)
 		}
-		queryHealthData(sampleType: sampleType, startDate: startDate, endDate: endDate, completion: completion)
 	}
 
-	func queryHealthData(sampleType: HKQuantityType, startDate: Date, endDate: Date, completion: @escaping (Bool, [HKSample]) -> Void) {
-		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
+	func queryHealthData(quantityType: HKQuantityType, startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping (Bool, [HKSample]) -> Void) {
+		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
 		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
-		let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, _ in
+		let query = HKSampleQuery(sampleType: quantityType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, error in
 			let samples = results ?? []
-			completion(!samples.isEmpty, samples)
+			completion(error == nil, samples)
 		}
 		healthKitStore.execute(query)
 	}
 
-	func queryBloodPressure(startDate: Date, endDate: Date, completion: @escaping (Bool, [HKSample]) -> Void) {
+	func queryStatisticsStepCount(startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping (Bool, [HKStatistics]) -> Void) {
+		let type = HKSampleType.quantityType(forIdentifier: .stepCount)
+		let beginingOfDay = Calendar.current.startOfDay(for: startDate)
+		var interval = DateComponents()
+		interval.day = 1
+		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
+		let query = HKStatisticsCollectionQuery(quantityType: type!, quantitySamplePredicate: predicate, options: [.cumulativeSum, .separateBySource], anchorDate: beginingOfDay, intervalComponents: interval)
+		query.initialResultsHandler = { _, results, error in
+			let statistics = results?.statistics() ?? []
+			completion(error == nil, statistics)
+		}
+
+		healthKitStore.execute(query)
+	}
+
+	func queryBloodPressure(startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping (Bool, [HKSample]) -> Void) {
 		guard let bloodPressure = HKQuantityType.correlationType(forIdentifier: .bloodPressure) else {
 			return
 		}
-		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
+		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
 		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
-		let query = HKSampleQuery(sampleType: bloodPressure, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, _ in
+		let query = HKSampleQuery(sampleType: bloodPressure, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, error in
 			let samples = results ?? []
-			completion(!samples.isEmpty, samples)
+			completion(error == nil, samples)
 		}
 		healthKitStore.execute(query)
 	}
 
-	func queryMostRecentEntry(identifier: HKQuantityTypeIdentifier, completion: @escaping (HKSample?) -> Void) {
+	func queryMostRecentEntry(identifier: HKQuantityTypeIdentifier, options: HKQueryOptions, completion: @escaping (HKSample?) -> Void) {
 		guard let type = HKSampleType.quantityType(forIdentifier: identifier) else {
 			completion(nil)
 			return
@@ -95,7 +116,7 @@ class HealthKitManager {
 		healthKitStore.execute(query)
 	}
 
-	func queryTodaySteps(completion: @escaping (HKStatistics?) -> Void) {
+	func queryTodaySteps(options: HKQueryOptions, completion: @escaping (HKStatistics?) -> Void) {
 		guard let stepsQuantityType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
 			completion(nil)
 			return
@@ -103,7 +124,7 @@ class HealthKitManager {
 
 		let now = Date()
 		let startOfDay = Calendar.current.startOfDay(for: now)
-		let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
+		let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: options)
 
 		let query = HKStatisticsQuery(quantityType: stepsQuantityType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
 			completion(result)
@@ -151,8 +172,8 @@ class HealthKitManager {
 		healthKitStore.execute(query)
 	}
 
-	func syncData(startDate: Date, endDate: Date, completion: @escaping (Bool) -> Void) {
-		searchHKData(startDate: startDate, endDate: endDate, callbackQueue: .main, completion: { [weak self] importSuccess, allEntries in
+	func syncData(startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping (Bool) -> Void) {
+		searchHKData(startDate: startDate, endDate: endDate, callbackQueue: .main, options: options, completion: { [weak self] importSuccess, allEntries in
 			if importSuccess, !allEntries.isEmpty {
 				self?.uploadHKData(entries: allEntries, completion: completion)
 			} else {
@@ -161,8 +182,8 @@ class HealthKitManager {
 		})
 	}
 
-	func syncDataBackground(startDate: Date, endDate: Date, completion: @escaping (Bool) -> Void) {
-		searchHKData(startDate: startDate, endDate: endDate, callbackQueue: .main, completion: { [weak self] importSuccess, allEntries in
+	func syncDataBackground(startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping (Bool) -> Void) {
+		searchHKData(startDate: startDate, endDate: endDate, callbackQueue: .main, options: options, completion: { [weak self] importSuccess, allEntries in
 			if importSuccess, !allEntries.isEmpty {
 				self?.uploadHKData(entries: allEntries, completion: completion)
 			} else {
@@ -171,20 +192,20 @@ class HealthKitManager {
 		})
 	}
 
-	func searchHKData(startDate: Date, endDate: Date, callbackQueue: DispatchQueue, completion: @escaping (Bool, [ModelsR4.BundleEntry]) -> Void) {
+	func searchHKData(startDate: Date, endDate: Date, callbackQueue: DispatchQueue, options: HKQueryOptions, completion: @escaping (Bool, [ModelsR4.BundleEntry]) -> Void) {
 		var samples: [HKSample] = []
 		let importGroup = DispatchGroup()
 		var results: [Bool] = []
 		for quantity in HealthKitDataType.allCases {
 			importGroup.enter()
 			if quantity == .bloodPressure {
-				queryBloodPressure(startDate: startDate, endDate: endDate, completion: { success, entries in
+				queryBloodPressure(startDate: startDate, endDate: endDate, options: options, completion: { success, entries in
 					results.append(success)
 					samples += entries
 					importGroup.leave()
 				})
 			} else {
-				queryHealthData(dataType: quantity, startDate: startDate, endDate: endDate, completion: { success, entries in
+				queryHealthData(dataType: quantity, startDate: startDate, endDate: endDate, options: options, completion: { success, entries in
 					results.append(success)
 					samples += entries
 					importGroup.leave()

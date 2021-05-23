@@ -14,7 +14,6 @@ extension UserDefaults {
 		case hasCompletedOnboarding = "HAS_COMPLETED_ONBOARDING"
 		case isBiometricsEnabled = "IS_BIOMETRICS_ENABLED"
 		case haveAskedUserForBiometrics
-		case healthKitDataLastUploadDate
 		case hasSmartScale
 		case hasSmartBloodPressureCuff
 		case hasSmartWatch
@@ -31,6 +30,7 @@ extension UserDefaults {
 		case measurementStepsGoal
 		case measurementWeightInPoundsGoal
 		case lastObervationUploadDate
+		case lastOutcomesUploadDates
 	}
 
 	static func registerDefautlts() {
@@ -133,16 +133,6 @@ extension UserDefaults {
 		removeObject(forKey: Self.Keys.isBiometricsEnabled.rawValue)
 	}
 
-	var healthKitDataLastUploadDate: Date {
-		get {
-			let date = Date()
-			return object(forKey: Self.Keys.healthKitDataLastUploadDate.rawValue) as? Date ?? Calendar.current.date(byAdding: .day, value: -14, to: date) ?? date
-		}
-		set {
-			setValue(newValue, forKey: Self.Keys.healthKitDataLastUploadDate.rawValue)
-		}
-	}
-
 	var vectorClock: [String: Int] {
 		get {
 			object(forKey: Self.Keys.vectorClock.rawValue) as? [String: Int] ?? [:]
@@ -240,6 +230,34 @@ extension UserDefaults {
 		}
 		set {
 			setValue(newValue, forKey: Self.Keys.lastObervationUploadDate.rawValue)
+		}
+	}
+
+	func resetOutcomeUploadDates() {
+		removeObject(forKey: Self.Keys.lastOutcomesUploadDates.rawValue)
+	}
+
+	func resetUserDefaults() {
+		let dictionary = dictionaryRepresentation()
+		for (key, _) in dictionary {
+			removeObject(forKey: key)
+		}
+	}
+
+	subscript(lastOutcomesUploadDate key: String) -> Date {
+		get {
+			let now = Date()
+			let dates = dictionary(forKey: Self.Keys.lastOutcomesUploadDates.rawValue) as? [String: Date] ?? [:]
+			guard let date = dates[key] else {
+				let date = Calendar.current.date(byAdding: .day, value: -14, to: now) ?? now
+				return date
+			}
+			return date
+		}
+		set {
+			var dates = dictionary(forKey: Self.Keys.lastOutcomesUploadDates.rawValue) as? [String: Date] ?? [:]
+			dates[key] = newValue
+			setValue(dates, forKey: Self.Keys.lastOutcomesUploadDates.rawValue)
 		}
 	}
 }

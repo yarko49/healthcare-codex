@@ -10,14 +10,14 @@ import CareKitFHIR
 import CareKitStore
 import Combine
 import FirebaseAuth
-import Foundation
 import ModelsR4
+import UIKit
 
 class CareManager: NSObject, ObservableObject {
 	typealias BoolCompletion = (Bool) -> Void
 
 	enum Constants {
-		static let outcomeUploadIimeInteval: TimeInterval = 10.0 * 60
+		static let outcomeUploadIimeInteval: TimeInterval = 5.0
 		static let careStore = "CareStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
 		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk(protection: .completeUnlessOpen)
@@ -41,11 +41,17 @@ class CareManager: NSObject, ObservableObject {
 	}()
 
 	var cancellables: Set<AnyCancellable> = []
-	var isSynchronizingOutcomes: Bool = false
-	var outcomeUploaders: Set<DataUploadManager<CarePlanResponse>> = []
 	var uploadQueue: DispatchQueue = {
 		let bundleIdentifier = Bundle.main.bundleIdentifier!
 		let queue = DispatchQueue(label: bundleIdentifier + ".UploadQueue", qos: .background, attributes: [], autoreleaseFrequency: .inherit, target: nil)
+		return queue
+	}()
+
+	let outcomesUploadoperationQueue: OperationQueue = {
+		let queue = OperationQueue()
+		queue.name = Bundle(for: CareManager.self).bundleIdentifier! + "OperationQueue"
+		queue.qualityOfService = .userInitiated
+		queue.maxConcurrentOperationCount = 1
 		return queue
 	}()
 
@@ -87,6 +93,36 @@ class CareManager: NSObject, ObservableObject {
 					self?.processOutcome(notification: outcomeNotification)
 				}
 			}.store(in: &cancellables)
+		registerForNotifications()
+	}
+
+	func registerForNotifications() {
+		NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)
+			.sink { [weak self] _ in
+				self?.startUploadOutcomesTimer()
+				ALog.info("Did Start the Outcomes Timer")
+			}.store(in: &cancellables)
+
+		NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)
+			.sink { [weak self] _ in
+				self?.cancelUploadOutcomesTimer()
+				ALog.info("Did Cancel the Outcomes Timer")
+			}.store(in: &cancellables)
+	}
+
+	private var uploadOutcomesTimer: AnyCancellable?
+	func startUploadOutcomesTimer() {
+		cancelUploadOutcomesTimer()
+		uploadOutcomesTimer = Timer.publish(every: Constants.outcomeUploadIimeInteval, on: .main, in: .common)
+			.autoconnect()
+			.sink(receiveValue: { [weak self] _ in
+				ALog.info("Upload timer fired")
+				self?.synchronizeHealthKitOutcomes()
+			})
+	}
+
+	func cancelUploadOutcomesTimer() {
+		uploadOutcomesTimer?.cancel()
 	}
 
 	func isServerVectorClockAhead(serverClock: [String: Int]) -> Bool {
@@ -101,12 +137,20 @@ class CareManager: NSObject, ObservableObject {
 
 		return serverClockValue > localClockValue
 	}
+
+	func reset() {
+		outcomesUploadoperationQueue.cancelAllOperations()
+		cancellables.forEach { cancellable in
+			cancellable.cancel()
+		}
+		try? resetAllContents()
+	}
 }
 
 // MARK: - CarePlanResponse
 
 extension CareManager {
-	func createOrUpdate(carePlanResponse: CarePlanResponse, forceReset: Bool = false, completion: ((Bool) -> Void)?) {
+	func createOrUpdate(carePlanResponse: CarePlanResponse, forceReset: Bool = false, completion: BoolCompletion?) {
 		let queue = DispatchQueue.global(qos: .userInitiated)
 		var result: Bool = true
 		queue.async { [weak self] in
@@ -131,6 +175,7 @@ extension CareManager {
 				result = outcomes != nil
 				ALog.info("Number out outcomes saved \(String(describing: outcomes?.count))")
 			}
+			self?.synchronizeHealthKitOutcomes()
 			completion?(result)
 		}
 	}

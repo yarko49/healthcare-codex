@@ -304,7 +304,7 @@ class ProfileViewController: BaseViewController {
 				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
 					innergroup.enter()
 
-					HealthKitManager.shared.queryMostRecentEntry(identifier: identifier) { sample in
+					HealthKitManager.shared.queryMostRecentEntry(identifier: identifier, options: []) { sample in
 						if let quantitySample = sample as? HKQuantitySample {
 							values.append(quantitySample)
 						}
@@ -318,7 +318,7 @@ class ProfileViewController: BaseViewController {
 				}
 			} else {
 				topGroup.enter()
-				HealthKitManager.shared.queryTodaySteps { statistics -> Void in
+				HealthKitManager.shared.queryTodaySteps(options: []) { statistics -> Void in
 					if let statistics = statistics {
 						todayData[quantityType] = [statistics]
 					}

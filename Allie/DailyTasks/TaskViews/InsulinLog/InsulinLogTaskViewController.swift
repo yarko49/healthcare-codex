@@ -15,7 +15,6 @@ class InsulinLogTaskViewController: OCKTaskViewController<InsulinLogTaskControll
 	}
 
 	override public init(viewSynchronizer: InsulinLogTaskViewSynchronizer, task: OCKAnyTask, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
-		viewSynchronizer.healthKitTask = task as? OCKHealthKitTask
 		super.init(viewSynchronizer: viewSynchronizer, task: task, eventQuery: eventQuery, storeManager: storeManager)
 	}
 
@@ -25,7 +24,6 @@ class InsulinLogTaskViewController: OCKTaskViewController<InsulinLogTaskControll
 
 	public init(task: OCKAnyTask, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
 		let synchronizer = InsulinLogTaskViewSynchronizer()
-		synchronizer.healthKitTask = task as? OCKHealthKitTask
 		super.init(viewSynchronizer: synchronizer, task: task, eventQuery: eventQuery, storeManager: storeManager)
 	}
 

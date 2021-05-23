@@ -14,9 +14,9 @@ public struct CarePlanResponse: Codable {
 	public var tasks: [Task]
 	public var faultyTasks: [BasicTask]?
 	public var outcomes: [Outcome]
-	public var vectorClock: [String: Int]
+	public var vectorClock: UInt64
 
-	public init(carePlans: [CarePlan] = [], patients: [AlliePatient] = [], tasks: [Task] = [], outcomes: [Outcome] = [], vectorClock: [String: Int] = ["backend": 0]) {
+	public init(carePlans: [CarePlan] = [], patients: [AlliePatient] = [], tasks: [Task] = [], outcomes: [Outcome] = [], vectorClock: UInt64 = 0) {
 		self.carePlans = carePlans
 		self.tasks = tasks
 		self.vectorClock = vectorClock
@@ -42,6 +42,6 @@ public struct CarePlanResponse: Codable {
 			self.faultyTasks = decodedTasks.1
 		}
 		self.outcomes = try container.decodeIfPresent([Outcome].self, forKey: .outcomes) ?? []
-		self.vectorClock = try container.decodeIfPresent([String: Int].self, forKey: .vectorClock) ?? ["backend": 0]
+		self.vectorClock = try container.decodeIfPresent(UInt64.self, forKey: .vectorClock) ?? 0
 	}
 }

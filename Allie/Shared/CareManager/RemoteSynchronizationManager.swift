@@ -23,12 +23,7 @@ public final class RemoteSynchronizationManager: OCKRemoteSynchronizable {
 				completion(error)
 			case .success(let carePlanResponses):
 				let vectorClock = carePlanResponses.vectorClock
-				guard let backendRevision = vectorClock["backend"] else {
-					let revision = OCKRevisionRecord(entities: [], knowledgeVector: .init())
-					mergeRevision(revision)
-					return
-				}
-				ALog.info("\(knowledgeVector), backend revision \(backendRevision)")
+				ALog.info("\(knowledgeVector), backend revision \(vectorClock)")
 				completion(nil)
 			}
 		}

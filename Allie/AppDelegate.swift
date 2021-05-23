@@ -64,8 +64,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Use this method to release any resources that were specific to the discarded scenes, as they will not return.
 	}
 
+	var backgroundCompletionHandlers: [String: () -> Void] = [:]
+
 	func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
-		completionHandler()
+		backgroundCompletionHandlers[identifier] = completionHandler
+	}
+
+	func finishBackgroundUpload(forBackgroundURLSession identifier: String) {
+		guard let handler = backgroundCompletionHandlers.removeValue(forKey: identifier) else {
+			return
+		}
+		handler()
 	}
 
 	static func configureZendesk() {

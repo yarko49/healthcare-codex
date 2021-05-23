@@ -18,6 +18,10 @@
 		841640CA2627D999000903AF /* UITabBar+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C92627D999000903AF /* UITabBar+Appearance.swift */; };
 		841640D82627F478000903AF /* UICollectionView+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640D72627F478000903AF /* UICollectionView+Appearance.swift */; };
 		8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */; };
+		841A772C2652348C000913A9 /* CHOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A77202652348C000913A9 /* CHOperation.swift */; };
+		841A772D2652348C000913A9 /* CHOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A77202652348C000913A9 /* CHOperation.swift */; };
+		841A77322652348C000913A9 /* OutcomesUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A77232652348C000913A9 /* OutcomesUploadOperation.swift */; };
+		841A77332652348C000913A9 /* OutcomesUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A77232652348C000913A9 /* OutcomesUploadOperation.swift */; };
 		841E9B8825F60112001192DD /* AnyPrimitiveValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841E9B8725F60112001192DD /* AnyPrimitiveValue.swift */; };
 		8420C948264EE524005C21DD /* NewTasks.json in Resources */ = {isa = PBXBuildFile; fileRef = 8420C947264EE524005C21DD /* NewTasks.json */; };
 		84230BE12607243A008BB83E /* DevicesSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BE02607243A008BB83E /* DevicesSelectionViewController.swift */; };
@@ -213,7 +217,6 @@
 		84B331FE261D162B007EB839 /* ZendeskAnswerBotSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84B331FD261D162B007EB839 /* ZendeskAnswerBotSDK */; };
 		84B33204261D164B007EB839 /* ZendeskChatSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84B33203261D164B007EB839 /* ZendeskChatSDK */; };
 		84B3320A261D166F007EB839 /* ZendeskSupportSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84B33209261D166F007EB839 /* ZendeskSupportSDK */; };
-		84B6422F263F3901009810AA /* DataUploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B6422E263F3901009810AA /* DataUploadManager.swift */; };
 		84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */; };
 		84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */; };
 		84C071F725E31FC20098B508 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C071F625E31FC20098B508 /* AnalyticsManager.swift */; };
@@ -247,7 +250,6 @@
 		84D12225264112DE00990196 /* TaskLinkType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F907325AE8D9F007421A6 /* TaskLinkType.swift */; };
 		84D12227264112DE00990196 /* UIColor+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766BB259C2A4E00C50C09 /* UIColor+Names.swift */; };
 		84D12228264112DE00990196 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447670A259C2A4E00C50C09 /* MainCoordinator.swift */; };
-		84D12229264112DE00990196 /* DataUploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B6422E263F3901009810AA /* DataUploadManager.swift */; };
 		84D1222A264112DE00990196 /* ObservationsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845FBE6825FC6A8E00472257 /* ObservationsConfig.swift */; };
 		84D1222B264112DE00990196 /* IllustrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5181225B7F93600D684E5 /* IllustrationView.swift */; };
 		84D1222C264112DE00990196 /* StatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447661C259C2A4E00C50C09 /* StatCell.swift */; };
@@ -469,11 +471,23 @@
 		84E8789326490D1D0000CCBB /* SelfSizingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E8788726490D1D0000CCBB /* SelfSizingCollectionView.swift */; };
 		84E8789426490D1D0000CCBB /* LabelValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E8788826490D1D0000CCBB /* LabelValueView.swift */; };
 		84E8789526490D1D0000CCBB /* LabelValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E8788826490D1D0000CCBB /* LabelValueView.swift */; };
+		84EDA18D26577DF30049323C /* InsulinLogItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDA18B26577DF30049323C /* InsulinLogItemButton.swift */; };
+		84EDA18E26577DF30049323C /* InsulinLogItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDA18B26577DF30049323C /* InsulinLogItemButton.swift */; };
+		84EDA18F26577DF30049323C /* HKDiscreteQuantitySample+Insulin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDA18C26577DF30049323C /* HKDiscreteQuantitySample+Insulin.swift */; };
+		84EDA19026577DF30049323C /* HKDiscreteQuantitySample+Insulin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDA18C26577DF30049323C /* HKDiscreteQuantitySample+Insulin.swift */; };
+		84EDA19226577F3B0049323C /* HKInsulinDeliveryReason+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDA19126577F3B0049323C /* HKInsulinDeliveryReason+Display.swift */; };
+		84EDA19326577F3B0049323C /* HKInsulinDeliveryReason+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDA19126577F3B0049323C /* HKInsulinDeliveryReason+Display.swift */; };
+		84EDA195265786120049323C /* Outcome+HKStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDA194265786120049323C /* Outcome+HKStatistics.swift */; };
+		84EDA196265786120049323C /* Outcome+HKStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDA194265786120049323C /* Outcome+HKStatistics.swift */; };
 		84F47F6526412CAB009CC791 /* JSONDecoder+iso8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F47F6426412CAB009CC791 /* JSONDecoder+iso8601.swift */; };
 		84F47F6626412E04009CC791 /* JSONDecoder+iso8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F47F6426412CAB009CC791 /* JSONDecoder+iso8601.swift */; };
 		84F47F6826412F15009CC791 /* JSONEncoder+iso8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F47F6726412F15009CC791 /* JSONEncoder+iso8601.swift */; };
 		84F47F6926412F18009CC791 /* JSONEncoder+iso8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F47F6726412F15009CC791 /* JSONEncoder+iso8601.swift */; };
 		84F47F6B26426136009CC791 /* ActivityTask.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F47F6A26426136009CC791 /* ActivityTask.json */; };
+		84FE913F2650E55B00D681DF /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE913E2650E55B00D681DF /* GradientView.swift */; };
+		84FE91402650E55B00D681DF /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE913E2650E55B00D681DF /* GradientView.swift */; };
+		84FE91422650EFFE00D681DF /* OCKHeaderView+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */; };
+		84FE91432650EFFE00D681DF /* OCKHeaderView+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */; };
 		EFE9274FBB0B8715F2405B31 /* Pods_Allie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EF5DC01308845BA65E42596 /* Pods_Allie.framework */; };
 		F2E095A67D8D601362DA792D /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
@@ -512,6 +526,8 @@
 		841640C92627D999000903AF /* UITabBar+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar+Appearance.swift"; sourceTree = "<group>"; };
 		841640D72627F478000903AF /* UICollectionView+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Appearance.swift"; sourceTree = "<group>"; };
 		8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextContentDetailViewController.swift; sourceTree = "<group>"; };
+		841A77202652348C000913A9 /* CHOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHOperation.swift; sourceTree = "<group>"; };
+		841A77232652348C000913A9 /* OutcomesUploadOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutcomesUploadOperation.swift; sourceTree = "<group>"; };
 		841E9B8725F60112001192DD /* AnyPrimitiveValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPrimitiveValue.swift; sourceTree = "<group>"; };
 		8420C947264EE524005C21DD /* NewTasks.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NewTasks.json; sourceTree = "<group>"; };
 		84230BE02607243A008BB83E /* DevicesSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesSelectionViewController.swift; sourceTree = "<group>"; };
@@ -686,14 +702,12 @@
 		8487485925B3F946008C15E2 /* ButtonLogTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLogTaskViewController.swift; sourceTree = "<group>"; };
 		8487486525B3FAB0008C15E2 /* GridTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridTaskViewController.swift; sourceTree = "<group>"; };
 		8487488A25B4B8F1008C15E2 /* ChecklistTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistTaskViewController.swift; sourceTree = "<group>"; };
-		8487489225B504B1008C15E2 /* CareManager+Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+Debug.swift"; sourceTree = "<group>"; };
 		849E158C261138CF00663010 /* AlliePatient+Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlliePatient+Keychain.swift"; sourceTree = "<group>"; };
 		849E158E26113ABB00663010 /* AlliePatientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlliePatientTests.swift; sourceTree = "<group>"; };
 		849F362025B9161300FC2D1B /* TitledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitledTextField.swift; sourceTree = "<group>"; };
 		849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFlowType.swift; sourceTree = "<group>"; };
 		849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenFlowType.swift; sourceTree = "<group>"; };
 		84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareKitStoreTests.swift; sourceTree = "<group>"; };
-		84B6422E263F3901009810AA /* DataUploadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUploadManager.swift; sourceTree = "<group>"; };
 		84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
 		84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersonNameComponents+ResourceName.swift"; sourceTree = "<group>"; };
 		84C071F625E31FC20098B508 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
@@ -739,9 +753,15 @@
 		84E8788626490D1D0000CCBB /* InsulinLogTaskViewSynchronizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsulinLogTaskViewSynchronizer.swift; sourceTree = "<group>"; };
 		84E8788726490D1D0000CCBB /* SelfSizingCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelfSizingCollectionView.swift; sourceTree = "<group>"; };
 		84E8788826490D1D0000CCBB /* LabelValueView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelValueView.swift; sourceTree = "<group>"; };
+		84EDA18B26577DF30049323C /* InsulinLogItemButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsulinLogItemButton.swift; sourceTree = "<group>"; };
+		84EDA18C26577DF30049323C /* HKDiscreteQuantitySample+Insulin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HKDiscreteQuantitySample+Insulin.swift"; sourceTree = "<group>"; };
+		84EDA19126577F3B0049323C /* HKInsulinDeliveryReason+Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKInsulinDeliveryReason+Display.swift"; sourceTree = "<group>"; };
+		84EDA194265786120049323C /* Outcome+HKStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Outcome+HKStatistics.swift"; sourceTree = "<group>"; };
 		84F47F6426412CAB009CC791 /* JSONDecoder+iso8601.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+iso8601.swift"; sourceTree = "<group>"; };
 		84F47F6726412F15009CC791 /* JSONEncoder+iso8601.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONEncoder+iso8601.swift"; sourceTree = "<group>"; };
 		84F47F6A26426136009CC791 /* ActivityTask.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ActivityTask.json; sourceTree = "<group>"; };
+		84FE913E2650E55B00D681DF /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKHeaderView+Update.swift"; sourceTree = "<group>"; };
 		9D6D64B813C12B9AB931F68E /* Pods-AllieTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AllieTests.debug.xcconfig"; path = "Target Support Files/Pods-AllieTests/Pods-AllieTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A322DAC7A0D3CD89D5A8F1D8 /* Pods-Allie QA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Allie QA.debug.xcconfig"; path = "Target Support Files/Pods-Allie QA/Pods-Allie QA.debug.xcconfig"; sourceTree = "<group>"; };
 		A8935EA772CD5059F1108545 /* Pods-Allie QA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Allie QA.release.xcconfig"; path = "Target Support Files/Pods-Allie QA/Pods-Allie QA.release.xcconfig"; sourceTree = "<group>"; };
@@ -866,11 +886,19 @@
 			path = Chat;
 			sourceTree = "<group>";
 		};
+		841A771B2652348C000913A9 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				841A77202652348C000913A9 /* CHOperation.swift */,
+				841A77232652348C000913A9 /* OutcomesUploadOperation.swift */,
+			);
+			path = Operations;
+			sourceTree = "<group>";
+		};
 		841E9A0225F096FE001192DD /* CareManager */ = {
 			isa = PBXGroup;
 			children = (
 				844766E4259C2A4E00C50C09 /* CareManager.swift */,
-				8487489225B504B1008C15E2 /* CareManager+Debug.swift */,
 				84749FBA26313B4200D7D7A8 /* CareManager+HealthKitSynchronization.swift */,
 				844766E6259C2A4E00C50C09 /* Environment+SynchronizedStoreManager.swift */,
 				844766E9259C2A4E00C50C09 /* Enviornment+CareManager.swift */,
@@ -1251,6 +1279,7 @@
 				8476B0EB261D84A4009516ED /* Outcome.swift */,
 				8476B0F0261D8691009516ED /* Outcome+OCKOutcome.swift */,
 				845F18A226328255005A601A /* Outcome+HKSample.swift */,
+				84EDA194265786120049323C /* Outcome+HKStatistics.swift */,
 				844766F0259C2A4E00C50C09 /* OutcomeValue.swift */,
 				844766EB259C2A4E00C50C09 /* OutcomeValue+OCKOutcomeValue.swift */,
 				845F18A426328403005A601A /* OutcomeValue+HKQuantity.swift */,
@@ -1308,6 +1337,7 @@
 		84476710259C2A4E00C50C09 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				841A771B2652348C000913A9 /* Operations */,
 				84476711259C2A4E00C50C09 /* CHJSONDecoder.swift */,
 				84F47F6426412CAB009CC791 /* JSONDecoder+iso8601.swift */,
 				84F47F6726412F15009CC791 /* JSONEncoder+iso8601.swift */,
@@ -1358,7 +1388,6 @@
 				8447671F259C2A4E00C50C09 /* APIRouter.swift */,
 				84476720259C2A4E00C50C09 /* APIClient.swift */,
 				84476721259C2A4E00C50C09 /* APIClient+Image.swift */,
-				84B6422E263F3901009810AA /* DataUploadManager.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -1368,6 +1397,7 @@
 			children = (
 				84E4660125A040F100A10F8B /* ViewIdentifiable.swift */,
 				84E4660F25A0453C00A10F8B /* ViewNIBLoading.swift */,
+				84FE913E2650E55B00D681DF /* GradientView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1434,6 +1464,7 @@
 				84C105F825E75F2000B126ED /* UIViewController+DetailView.swift */,
 				84D3F68C264A4BB700241BBB /* ScheduleUtility.swift */,
 				84D3F68F264A4C2800241BBB /* OCKTaskEvents+Extension.swift */,
+				84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */,
 			);
 			path = TaskViews;
 			sourceTree = "<group>";
@@ -1447,6 +1478,9 @@
 				84E8788626490D1D0000CCBB /* InsulinLogTaskViewSynchronizer.swift */,
 				84E8788826490D1D0000CCBB /* LabelValueView.swift */,
 				84E8788726490D1D0000CCBB /* SelfSizingCollectionView.swift */,
+				84EDA18B26577DF30049323C /* InsulinLogItemButton.swift */,
+				84EDA18C26577DF30049323C /* HKDiscreteQuantitySample+Insulin.swift */,
+				84EDA19126577F3B0049323C /* HKInsulinDeliveryReason+Display.swift */,
 			);
 			path = InsulinLog;
 			sourceTree = "<group>";
@@ -2089,7 +2123,6 @@
 				842F907425AE8D9F007421A6 /* TaskLinkType.swift in Sources */,
 				8447679C259C2A4E00C50C09 /* UIColor+Names.swift in Sources */,
 				844767DD259C2A4E00C50C09 /* MainCoordinator.swift in Sources */,
-				84B6422F263F3901009810AA /* DataUploadManager.swift in Sources */,
 				845FBE6925FC6A8E00472257 /* ObservationsConfig.swift in Sources */,
 				84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */,
 				84476725259C2A4E00C50C09 /* StatCell.swift in Sources */,
@@ -2097,6 +2130,7 @@
 				8447674C259C2A4E00C50C09 /* SplashViewController.swift in Sources */,
 				84CF2DA4261AE60B0080293F /* DatePickerView.swift in Sources */,
 				845F189F26324AB1005A601A /* CHSourceRevision.swift in Sources */,
+				84FE913F2650E55B00D681DF /* GradientView.swift in Sources */,
 				844767E1259C2A4E00C50C09 /* Coordinable.swift in Sources */,
 				842398CB259C1144006FB3F4 /* AppDelegate.swift in Sources */,
 				844767E8259C2A4E00C50C09 /* WebService+Image.swift in Sources */,
@@ -2105,6 +2139,7 @@
 				84E0624825C7C2E7008142C6 /* SettingsType.swift in Sources */,
 				84342FD025A8276C00B3EF5B /* DailyTasksPageViewController.swift in Sources */,
 				84476749259C2A4E00C50C09 /* AppleHealthView.swift in Sources */,
+				84FE91422650EFFE00D681DF /* OCKHeaderView+Update.swift in Sources */,
 				842F906F25AE8D8A007421A6 /* GroupIdentifierType.swift in Sources */,
 				846B5EBA2648B287003046EF /* NSLayoutConstraint+Extensions.swift in Sources */,
 				844767C7259C2A4E00C50C09 /* AlliePatient.swift in Sources */,
@@ -2131,6 +2166,7 @@
 				848574B625C78F92000D9BCF /* HealthCareProvider.swift in Sources */,
 				84D3F690264A4C2800241BBB /* OCKTaskEvents+Extension.swift in Sources */,
 				84873BA225CA7765004195BB /* OCKStore+Update.swift in Sources */,
+				84EDA18F26577DF30049323C /* HKDiscreteQuantitySample+Insulin.swift in Sources */,
 				844767A3259C2A4E00C50C09 /* UILabel+Height.swift in Sources */,
 				84F47F6826412F15009CC791 /* JSONEncoder+iso8601.swift in Sources */,
 				8487485A25B3F946008C15E2 /* ButtonLogTaskViewController.swift in Sources */,
@@ -2142,6 +2178,7 @@
 				844767CF259C2A4E00C50C09 /* Task.swift in Sources */,
 				84CF2DA0261AC60D0080293F /* BaseControlView.swift in Sources */,
 				842F908E25AEB56D007421A6 /* FirebaseUser+RemoteUser.swift in Sources */,
+				84EDA19226577F3B0049323C /* HKInsulinDeliveryReason+Display.swift in Sources */,
 				844767A8259C2A4E00C50C09 /* Keychain.swift in Sources */,
 				844767A7259C2A4E00C50C09 /* Double+Rounding.swift in Sources */,
 				84476775259C2A4E00C50C09 /* TodayInputViewController.swift in Sources */,
@@ -2178,6 +2215,7 @@
 				84476756259C2A4E00C50C09 /* ResetViewController.swift in Sources */,
 				844767C0259C2A4E00C50C09 /* Environment+SynchronizedStoreManager.swift in Sources */,
 				84E8789226490D1D0000CCBB /* SelfSizingCollectionView.swift in Sources */,
+				84EDA195265786120049323C /* Outcome+HKStatistics.swift in Sources */,
 				844767EC259C2A4E00C50C09 /* BaseViewController.swift in Sources */,
 				844767A2259C2A4E00C50C09 /* String+Validation.swift in Sources */,
 				8447678B259C2A4E00C50C09 /* SmartDeviceType.swift in Sources */,
@@ -2225,6 +2263,7 @@
 				84009048261AA77000FB3968 /* ProfileEntryViewController.swift in Sources */,
 				845FBE8025FC775E00472257 /* ConfigurationError.swift in Sources */,
 				84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */,
+				841A772C2652348C000913A9 /* CHOperation.swift in Sources */,
 				8476B0F1261D8691009516ED /* Outcome+OCKOutcome.swift in Sources */,
 				84230BE9260801F7008BB83E /* HTMLViewerController.swift in Sources */,
 				844EE890262D30A9001B2D9E /* LoginViewController.swift in Sources */,
@@ -2234,6 +2273,7 @@
 				8487488B25B4B8F1008C15E2 /* ChecklistTaskViewController.swift in Sources */,
 				844767AA259C2A4E00C50C09 /* LanguageManager.swift in Sources */,
 				844767A1259C2A4E00C50C09 /* Array+Chunked.swift in Sources */,
+				84EDA18D26577DF30049323C /* InsulinLogItemButton.swift in Sources */,
 				844767EF259C2A4E00C50C09 /* APIClient+Image.swift in Sources */,
 				849F378F25BA7F2200FC2D1B /* AuthorizationFlowType.swift in Sources */,
 				84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */,
@@ -2246,6 +2286,7 @@
 				845F8BA22647618300999091 /* String+Capitalizing.swift in Sources */,
 				84CF2DA2261ACAA30080293F /* ButtonView.swift in Sources */,
 				8447672B259C2A4E00C50C09 /* CustomYAxisRenderer.swift in Sources */,
+				841A77322652348C000913A9 /* OutcomesUploadOperation.swift in Sources */,
 				84E4661025A0453C00A10F8B /* ViewNIBLoading.swift in Sources */,
 				84E8788A26490D1D0000CCBB /* InsulinLogTaskController.swift in Sources */,
 				844767E6259C2A4E00C50C09 /* URLComponents+Request.swift in Sources */,
@@ -2309,7 +2350,6 @@
 				84D12225264112DE00990196 /* TaskLinkType.swift in Sources */,
 				84D12227264112DE00990196 /* UIColor+Names.swift in Sources */,
 				84D12228264112DE00990196 /* MainCoordinator.swift in Sources */,
-				84D12229264112DE00990196 /* DataUploadManager.swift in Sources */,
 				84D1222A264112DE00990196 /* ObservationsConfig.swift in Sources */,
 				84D1222B264112DE00990196 /* IllustrationView.swift in Sources */,
 				84D1222C264112DE00990196 /* StatCell.swift in Sources */,
@@ -2317,6 +2357,7 @@
 				84D1222E264112DE00990196 /* SplashViewController.swift in Sources */,
 				84D1222F264112DE00990196 /* DatePickerView.swift in Sources */,
 				84D12230264112DE00990196 /* CHSourceRevision.swift in Sources */,
+				84FE91402650E55B00D681DF /* GradientView.swift in Sources */,
 				84D12231264112DE00990196 /* Coordinable.swift in Sources */,
 				84D12233264112DE00990196 /* AppDelegate.swift in Sources */,
 				84D12234264112DE00990196 /* WebService+Image.swift in Sources */,
@@ -2325,6 +2366,7 @@
 				84D12237264112DE00990196 /* SettingsType.swift in Sources */,
 				84D12238264112DE00990196 /* DailyTasksPageViewController.swift in Sources */,
 				84D12239264112DE00990196 /* AppleHealthView.swift in Sources */,
+				84FE91432650EFFE00D681DF /* OCKHeaderView+Update.swift in Sources */,
 				84D1223A264112DE00990196 /* GroupIdentifierType.swift in Sources */,
 				846B5EBB2648B287003046EF /* NSLayoutConstraint+Extensions.swift in Sources */,
 				84D1223B264112DE00990196 /* AlliePatient.swift in Sources */,
@@ -2351,6 +2393,7 @@
 				84D1224F264112DE00990196 /* HealthCareProvider.swift in Sources */,
 				84D3F691264A4C2800241BBB /* OCKTaskEvents+Extension.swift in Sources */,
 				84D12250264112DE00990196 /* OCKStore+Update.swift in Sources */,
+				84EDA19026577DF30049323C /* HKDiscreteQuantitySample+Insulin.swift in Sources */,
 				84D12251264112DE00990196 /* UILabel+Height.swift in Sources */,
 				84F47F6926412F18009CC791 /* JSONEncoder+iso8601.swift in Sources */,
 				84D12252264112DE00990196 /* ButtonLogTaskViewController.swift in Sources */,
@@ -2362,6 +2405,7 @@
 				84D12258264112DE00990196 /* Task.swift in Sources */,
 				84D1225A264112DE00990196 /* BaseControlView.swift in Sources */,
 				84D1225B264112DE00990196 /* FirebaseUser+RemoteUser.swift in Sources */,
+				84EDA19326577F3B0049323C /* HKInsulinDeliveryReason+Display.swift in Sources */,
 				84D1225C264112DE00990196 /* Keychain.swift in Sources */,
 				84D1225D264112DE00990196 /* Double+Rounding.swift in Sources */,
 				84D1225E264112DE00990196 /* TodayInputViewController.swift in Sources */,
@@ -2398,6 +2442,7 @@
 				84D1227D264112DE00990196 /* ResetViewController.swift in Sources */,
 				84D1227E264112DE00990196 /* Environment+SynchronizedStoreManager.swift in Sources */,
 				84E8789326490D1D0000CCBB /* SelfSizingCollectionView.swift in Sources */,
+				84EDA196265786120049323C /* Outcome+HKStatistics.swift in Sources */,
 				84D1227F264112DE00990196 /* BaseViewController.swift in Sources */,
 				84D12280264112DE00990196 /* String+Validation.swift in Sources */,
 				84D12281264112DE00990196 /* SmartDeviceType.swift in Sources */,
@@ -2445,6 +2490,7 @@
 				84D122AD264112DE00990196 /* ProfileEntryViewController.swift in Sources */,
 				84D122AE264112DE00990196 /* ConfigurationError.swift in Sources */,
 				84D122AF264112DE00990196 /* PersonNameComponents+ResourceName.swift in Sources */,
+				841A772D2652348C000913A9 /* CHOperation.swift in Sources */,
 				84D122B0264112DE00990196 /* Outcome+OCKOutcome.swift in Sources */,
 				84D122B1264112DE00990196 /* HTMLViewerController.swift in Sources */,
 				84D122B3264112DE00990196 /* LoginViewController.swift in Sources */,
@@ -2454,6 +2500,7 @@
 				84D122B7264112DE00990196 /* ChecklistTaskViewController.swift in Sources */,
 				84D122B8264112DE00990196 /* LanguageManager.swift in Sources */,
 				84D122BA264112DE00990196 /* Array+Chunked.swift in Sources */,
+				84EDA18E26577DF30049323C /* InsulinLogItemButton.swift in Sources */,
 				84D122BB264112DE00990196 /* APIClient+Image.swift in Sources */,
 				84D122BC264112DE00990196 /* AuthorizationFlowType.swift in Sources */,
 				84D122BD264112DE00990196 /* RemoteConfigManager.swift in Sources */,
@@ -2466,6 +2513,7 @@
 				845F8BA32647618300999091 /* String+Capitalizing.swift in Sources */,
 				84D122C4264112DE00990196 /* ButtonView.swift in Sources */,
 				84D122C5264112DE00990196 /* CustomYAxisRenderer.swift in Sources */,
+				841A77332652348C000913A9 /* OutcomesUploadOperation.swift in Sources */,
 				84D122C6264112DE00990196 /* ViewNIBLoading.swift in Sources */,
 				84E8788B26490D1D0000CCBB /* InsulinLogTaskController.swift in Sources */,
 				84D122C7264112DE00990196 /* URLComponents+Request.swift in Sources */,
@@ -2731,7 +2779,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 73;
+				CURRENT_PROJECT_VERSION = 83;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2760,7 +2808,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 73;
+				CURRENT_PROJECT_VERSION = 83;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2889,7 +2937,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 73;
+				CURRENT_PROJECT_VERSION = 83;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie-QA-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2918,7 +2966,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 73;
+				CURRENT_PROJECT_VERSION = 83;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie-QA-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -202,11 +202,11 @@ class MainCoordinator: Coordinable {
 	}
 
 	func syncHealthKitData() {
-		let lastUploadDate = UserDefaults.standard.healthKitDataLastUploadDate
+		let lastUploadDate = UserDefaults.standard.lastObervationUploadDate
 		let endDate = Date()
-		HealthKitManager.shared.syncData(startDate: lastUploadDate, endDate: endDate) { success in
+		HealthKitManager.shared.syncData(startDate: lastUploadDate, endDate: endDate, options: []) { success in
 			if success {
-				UserDefaults.standard.healthKitDataLastUploadDate = endDate
+				UserDefaults.standard.lastObervationUploadDate = endDate
 			}
 		}
 	}
@@ -218,8 +218,8 @@ class MainCoordinator: Coordinable {
 				Keychain.delete(valueForKey: uid)
 			}
 			try firebaseAuth.signOut()
-			UserDefaults.resetStandardUserDefaults()
-			try AppDelegate.careManager.resetAllContents()
+			UserDefaults.standard.resetUserDefaults()
+			AppDelegate.careManager.reset()
 			Keychain.clearKeychain()
 			goToAuth()
 		} catch let signOutError as NSError {

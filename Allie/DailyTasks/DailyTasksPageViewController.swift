@@ -47,8 +47,6 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			}
 			.store(in: &cancellables)
 		reload()
-
-        careManager.getOutcomes()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
