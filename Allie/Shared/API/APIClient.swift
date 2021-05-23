@@ -36,6 +36,11 @@ public final class APIClient: AllieAPI {
 
 	let webService: WebService
 
+	private(set) lazy var backgroundSession: URLSession = {
+		let session = URLSession(configuration: APIClient.backgroundSessionConfiguration)
+		return session
+	}()
+
 	static var sessionIdentifier: String {
 		let bundleIdentifier = Bundle.main.bundleIdentifier!
 		return bundleIdentifier + ".networking"
@@ -43,7 +48,9 @@ public final class APIClient: AllieAPI {
 
 	static var backgroundSessionConfiguration: URLSessionConfiguration {
 		let config = URLSessionConfiguration.background(withIdentifier: sessionIdentifier)
+		config.isDiscretionary = true
 		config.sessionSendsLaunchEvents = true
+		config.httpMaximumConnectionsPerHost = 1
 		return config
 	}
 

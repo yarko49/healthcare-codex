@@ -16,6 +16,10 @@ extension Outcome {
 		if let cumulative = sample as? HKCumulativeQuantitySample {
 			if var value = OutcomeValue(quantity: cumulative.sumQuantity, linkage: linkage) {
 				value.kind = cumulative.quantityType.identifier
+				if let insulinReason = cumulative.metadata?[HKMetadataKeyInsulinDeliveryReason] as? Int {
+					value.kind = insulinReason == HKInsulinDeliveryReason.bolus.rawValue ? HKInsulinDeliveryReason.bolus.kind : HKInsulinDeliveryReason.basal.kind
+				}
+				value.createdDate = cumulative.startDate
 				values.append(value)
 			}
 		} else if let discreet = sample as? HKDiscreteQuantitySample {
@@ -23,6 +27,10 @@ extension Outcome {
 			if var value = OutcomeValue(quantity: quantity, linkage: linkage) {
 				value.kind = discreet.quantityType.identifier
 				value.index = 0
+				if let insulinReason = sample.metadata?[HKMetadataKeyInsulinDeliveryReason] as? Int {
+					value.kind = insulinReason == HKInsulinDeliveryReason.bolus.rawValue ? HKInsulinDeliveryReason.bolus.kind : HKInsulinDeliveryReason.basal.kind
+				}
+				value.createdDate = discreet.startDate
 				values.append(value)
 			}
 		} else if let corrolation = sample as? HKCorrelation {
@@ -35,6 +43,7 @@ extension Outcome {
 				if var value = OutcomeValue(quantity: quantity, linkage: linkage) {
 					value.kind = sample.quantityType.identifier
 					value.index = index
+					value.createdDate = sample.startDate
 					index += 1
 					values.append(value)
 				}

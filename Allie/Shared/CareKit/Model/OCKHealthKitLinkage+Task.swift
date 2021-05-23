@@ -11,7 +11,7 @@ import HealthKit
 
 extension OCKHealthKitLinkage {
 	init?(linkage: [String: String]) {
-		guard var identifier = linkage["quantityIdentifier"], let type = linkage["quantitytype"], let unitString = linkage["unit"] else {
+		guard var identifier = linkage["quantityIdentifier"], let type = linkage["quantitytype"], var unitString = linkage["unit"] else {
 			return nil
 		}
 		if identifier == "steps" {
@@ -26,6 +26,9 @@ extension OCKHealthKitLinkage {
 			identifier = "HKQuantityTypeIdentifier" + identifier.capitalizingFirstLetter()
 		}
 		let quantityIdentifier = HKQuantityTypeIdentifier(rawValue: identifier)
+		if quantityIdentifier == .insulinDelivery, unitString != "IU" {
+			unitString = "IU"
+		}
 		let unit = HKUnit(from: unitString)
 		self.init(quantityIdentifier: quantityIdentifier, quantityType: quantityType, unit: unit)
 	}

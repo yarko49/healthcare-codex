@@ -16,37 +16,33 @@ class LabelValuesView: OCKStackView {
 
 	var units: String? {
 		get {
-			unitLabelValueView.labelValueEntryView.textField.text
+			unitLabelValueView.textField.text
 		}
 		set {
-			unitLabelValueView.labelValueEntryView.textField.text = newValue
+			unitLabelValueView.textField.text = newValue
 		}
 	}
 
 	var entryDate: Date {
 		get {
-			timeLabelValueView.timeValueEntryView.timePicker.date
+			timeLabelValueView.timePicker.date
 		}
 		set {
-			timeLabelValueView.timeValueEntryView.timePicker.date = newValue
+			timeLabelValueView.timePicker.date = newValue
 		}
 	}
 
-	let unitLabelValueView: LabelValueView = {
-		let view = LabelValueView(style: .separated)
-		view.axis = .vertical
-		view.showsOuterSeparators = false
-		view.labelValueEntryView.titleLabel.text = NSLocalizedString("UNITS", comment: "Units")
-		view.labelValueEntryView.textField.placeholder = "5.6"
-		view.labelValueEntryView.textField.keyboardType = .decimalPad
+	let unitLabelValueView: LabelValueEntryView = {
+		let view = LabelValueEntryView(style: .plain)
+		view.titleLabel.text = NSLocalizedString("UNITS", comment: "Units")
+		view.textField.placeholder = "5.6"
+		view.textField.keyboardType = .decimalPad
 		return view
 	}()
 
-	let timeLabelValueView: TimeLabelValueView = {
-		let view = TimeLabelValueView(style: .separated)
-		view.axis = .vertical
-		view.showsOuterSeparators = false
-		view.timeValueEntryView.titleLabel.text = NSLocalizedString("TIME", comment: "Time")
+	let timeLabelValueView: TimeValueEntryView = {
+		let view = TimeValueEntryView(frame: .zero)
+		view.titleLabel.text = NSLocalizedString("TIME", comment: "Time")
 		return view
 	}()
 
@@ -64,48 +60,6 @@ class LabelValuesView: OCKStackView {
 		[unitLabelValueView, timeLabelValueView].forEach { view in
 			addArrangedSubview(view)
 		}
-	}
-}
-
-class LabelValueView: OCKStackView {
-	override init(style: OCKStackView.Style = .plain) {
-		super.init(style: style)
-		setup()
-	}
-
-	let labelValueEntryView: LabelValueEntryView = {
-		let view = LabelValueEntryView()
-		return view
-	}()
-
-	func setup() {
-		addSubviews()
-	}
-
-	func addSubviews() {
-		labelValueEntryView.translatesAutoresizingMaskIntoConstraints = false
-		addArrangedSubview(labelValueEntryView)
-	}
-}
-
-class TimeLabelValueView: OCKStackView {
-	override init(style: OCKStackView.Style = .plain) {
-		super.init(style: style)
-		setup()
-	}
-
-	let timeValueEntryView: TimeValueEntryView = {
-		let view = TimeValueEntryView()
-		return view
-	}()
-
-	func setup() {
-		addSubviews()
-	}
-
-	func addSubviews() {
-		timeValueEntryView.translatesAutoresizingMaskIntoConstraints = false
-		addArrangedSubview(timeValueEntryView)
 	}
 }
 
@@ -143,10 +97,15 @@ class LabelValueEntryView: OCKStackView {
 	}
 }
 
-class TimeValueEntryView: OCKStackView {
-	override init(style: OCKStackView.Style = .plain) {
-		super.init(style: style)
+class TimeValueEntryView: UIStackView {
+	override init(frame: CGRect) {
+		super.init(frame: frame)
 		setup()
+	}
+
+	@available(*, unavailable)
+	required init(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
 	}
 
 	let titleLabel: UILabel = {
@@ -158,13 +117,13 @@ class TimeValueEntryView: OCKStackView {
 	let timePicker: UIDatePicker = {
 		let timePicker = UIDatePicker()
 		timePicker.datePickerMode = .time
-		timePicker.preferredDatePickerStyle = .compact
+		timePicker.preferredDatePickerStyle = .automatic
 		return timePicker
 	}()
 
 	func setup() {
 		axis = .horizontal
-		distribution = .fillProportionally
+		distribution = .fill
 		alignment = .center
 		spacing = 8.0
 		addSubviews()
