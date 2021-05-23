@@ -16,7 +16,7 @@ class MainCoordinator: Coordinable {
 	let type: CoordinatorType = .mainCoordinator
 	var cancellables: Set<AnyCancellable> = []
 
-	private var window: UIWindow
+	private(set) var window: UIWindow
 	var childCoordinators: [CoordinatorType: Coordinable]
 	var navigationController: UINavigationController?
 
@@ -27,7 +27,6 @@ class MainCoordinator: Coordinable {
 	}()
 
 	lazy var keychain = KeychainAccess.Keychain(server: AppConfig.apiBaseHost, protocolType: .https, accessGroup: AppConfig.keychainAccessGroup, authenticationType: .default)
-	lazy var remoteConfigManager = RemoteConfigManager()
 	lazy var context = LAContext()
 	var didRegisterOrgnization: Bool = false
 
@@ -46,6 +45,9 @@ class MainCoordinator: Coordinable {
 	init(in window: UIWindow) {
 		self.childCoordinators = [:]
 		self.window = window
+		let navController = UINavigationController(rootViewController: SplashViewController())
+		navController.setNavigationBarHidden(true, animated: false)
+		self.navigationController = navController
 		self.window.rootViewController = rootViewController
 		self.window.makeKeyAndVisible()
 
@@ -246,10 +248,11 @@ class MainCoordinator: Coordinable {
 	}
 
 	func refreshRemoteConfig(completion: Coordinable.BoolActionHandler?) {
+		let remoteConfigManager = AppDelegate.appDelegate.remoteConfigManager
 		remoteConfigManager.refresh()
 			.sink { refreshResult in
 				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
-				CareManager.register(provider: self.remoteConfigManager.healthCareOrganization)
+				CareManager.register(provider: remoteConfigManager.healthCareOrganization)
 					.sink { registrationResult in
 						ALog.info("Did finish registering organization \(registrationResult)")
 						completion?(registrationResult)

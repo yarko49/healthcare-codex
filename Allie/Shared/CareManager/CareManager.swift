@@ -17,7 +17,6 @@ class CareManager: NSObject, ObservableObject {
 	typealias BoolCompletion = (Bool) -> Void
 
 	enum Constants {
-		static let outcomeUploadIimeInteval: TimeInterval = 5.0
 		static let careStore = "CareStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
 		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk(protection: .completeUnlessOpen)
@@ -47,13 +46,25 @@ class CareManager: NSObject, ObservableObject {
 		return queue
 	}()
 
-	let outcomesUploadoperationQueue: OperationQueue = {
-		let queue = OperationQueue()
-		queue.name = Bundle(for: CareManager.self).bundleIdentifier! + "OperationQueue"
-		queue.qualityOfService = .userInitiated
-		queue.maxConcurrentOperationCount = 1
-		return queue
-	}()
+	private var uploadOperationQueues: [String: OperationQueue] = [:]
+	subscript(uploadOperationQueue identifier: String) -> OperationQueue {
+		get {
+			guard let queue = uploadOperationQueues[identifier] else {
+				let queue = OperationQueue()
+				queue.name = Bundle(for: CareManager.self).bundleIdentifier! + identifier
+				queue.qualityOfService = .userInitiated
+				queue.maxConcurrentOperationCount = 1
+				uploadOperationQueues[identifier] = queue
+				return queue
+			}
+			return queue
+		}
+		set {
+			let existingQueue = uploadOperationQueues[identifier]
+			existingQueue?.cancelAllOperations()
+			uploadOperationQueues[identifier] = newValue
+		}
+	}
 
 	var patient: AlliePatient? {
 		get {
@@ -94,12 +105,21 @@ class CareManager: NSObject, ObservableObject {
 				}
 			}.store(in: &cancellables)
 		registerForNotifications()
+
+		let configManager = AppDelegate.remoteConfigManager
+		configManager.$outcomesUploadTimeInterval
+			.sink { [weak self] timeInterval in
+				if timeInterval > 0 {
+					self?.cancelUploadOutcomesTimer()
+					self?.startUploadOutcomesTimer(timeInterval: timeInterval)
+				}
+			}.store(in: &cancellables)
 	}
 
 	func registerForNotifications() {
 		NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)
 			.sink { [weak self] _ in
-				self?.startUploadOutcomesTimer()
+				self?.startUploadOutcomesTimer(timeInterval: AppDelegate.remoteConfigManager.outcomesUploadTimeInterval)
 				ALog.info("Did Start the Outcomes Timer")
 			}.store(in: &cancellables)
 
@@ -111,9 +131,11 @@ class CareManager: NSObject, ObservableObject {
 	}
 
 	private var uploadOutcomesTimer: AnyCancellable?
-	func startUploadOutcomesTimer() {
-		cancelUploadOutcomesTimer()
-		uploadOutcomesTimer = Timer.publish(every: Constants.outcomeUploadIimeInteval, on: .main, in: .common)
+	func startUploadOutcomesTimer(timeInterval: TimeInterval) {
+		guard patient != nil, uploadOutcomesTimer == nil else {
+			return
+		}
+		uploadOutcomesTimer = Timer.publish(every: timeInterval, on: .main, in: .common)
 			.autoconnect()
 			.sink(receiveValue: { [weak self] _ in
 				ALog.info("Upload timer fired")
@@ -139,9 +161,11 @@ class CareManager: NSObject, ObservableObject {
 	}
 
 	func reset() {
-		outcomesUploadoperationQueue.cancelAllOperations()
 		cancellables.forEach { cancellable in
 			cancellable.cancel()
+		}
+		uploadOperationQueues.forEach { queue in
+			queue.value.cancelAllOperations()
 		}
 		try? resetAllContents()
 	}
@@ -197,7 +221,7 @@ extension CareManager {
 	}
 
 	class func register(provider: String) -> Future<Bool, Never> {
-		APIClient.shared.regiterProvider(identifier: provider)
+		APIClient.shared.registerProvider(identifier: provider)
 	}
 }
 

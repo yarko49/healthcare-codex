@@ -5,6 +5,11 @@
 
 import UIKit
 
+typealias AllieResultCompletion<ResultType> = (Result<ResultType, Error>) -> Void
+enum AllieError: Error {
+	case compound([Error])
+}
+
 protocol Coordinable: AnyObject {
 	var type: CoordinatorType { get }
 	typealias ActionHandler = () -> Void

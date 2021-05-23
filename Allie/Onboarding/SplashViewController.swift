@@ -2,7 +2,7 @@ import UIKit
 
 class SplashViewController: BaseViewController {
 	let imageView: UIImageView = {
-		let view = UIImageView(image: UIImage(named: "illustration1"))
+		let view = UIImageView(image: UIImage(named: "logo"))
 		view.contentMode = .center
 		return view
 	}()

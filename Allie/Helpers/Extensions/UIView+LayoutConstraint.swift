@@ -24,6 +24,14 @@ extension UIView {
 		layer.masksToBounds = false
 	}
 
+	func clearShadow() {
+		layer.shadowColor = UIColor.clear.cgColor
+		layer.shadowOffset = CGSize(width: 0, height: 0.0)
+		layer.shadowRadius = 0.0
+		layer.shadowOpacity = 0.0
+		layer.masksToBounds = false
+	}
+
 	func fixHeaderInView(_ container: UIView!) {
 		translatesAutoresizingMaskIntoConstraints = false
 		frame = container.frame

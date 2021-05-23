@@ -75,16 +75,20 @@ class GenderPickerView: UIStackView {
 			maleButton.backgroundColor = .allieOrange
 			maleButton.tintColor = .white
 			maleButton.layer.borderColor = UIColor.allieOrange.cgColor
+			maleButton.setShadow()
 			femaleButton.backgroundColor = .white
 			femaleButton.tintColor = .allieLighterGray
 			femaleButton.layer.borderColor = UIColor.allieSeparator.cgColor
+			femaleButton.clearShadow()
 		} else if sex == .female {
 			maleButton.backgroundColor = .white
 			maleButton.tintColor = .allieLighterGray
 			maleButton.layer.borderColor = UIColor.allieSeparator.cgColor
+			maleButton.clearShadow()
 			femaleButton.backgroundColor = .allieOrange
 			femaleButton.tintColor = .white
 			femaleButton.layer.borderColor = UIColor.allieOrange.cgColor
+			femaleButton.setShadow()
 		}
 	}
 }

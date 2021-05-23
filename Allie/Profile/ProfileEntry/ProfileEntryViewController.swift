@@ -6,6 +6,7 @@
 //
 
 import CareKitStore
+import SkyFloatingLabelTextField
 import UIKit
 
 class ProfileEntryViewController: SignupBaseViewController {
@@ -36,10 +37,10 @@ class ProfileEntryViewController: SignupBaseViewController {
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: mainStackView.trailingAnchor, multiplier: 2.0)])
 		mainStackView.addArrangedSubview(nameTextField)
 		mainStackView.addArrangedSubview(dateOfBirthView)
-		mainStackView.addArrangedSubview(gendePickerView)
 		mainStackView.addArrangedSubview(buttonStackView)
 		buttonStackView.addArrangedSubview(heightButton)
 		buttonStackView.addArrangedSubview(weightButton)
+		mainStackView.addArrangedSubview(gendePickerView)
 		pickerStackView.translatesAutoresizingMaskIntoConstraints = false
 		mainStackView.addArrangedSubview(pickerStackView)
 		pickerStackView.addArrangedSubview(heightPickerView)
@@ -62,10 +63,10 @@ class ProfileEntryViewController: SignupBaseViewController {
 
 	var fullName: String? {
 		get {
-			nameTextField.textField.text
+			nameTextField.text
 		}
 		set {
-			nameTextField.textField.text = newValue
+			nameTextField.text = newValue
 		}
 	}
 
@@ -103,9 +104,18 @@ class ProfileEntryViewController: SignupBaseViewController {
 		}
 	}
 
-	let nameTextField: CodexTextField = {
-		let textField = CodexTextField(frame: .zero)
-		textField.titleLabel.text = NSLocalizedString("YOUR_FULL_NAME", comment: "Your full name")
+	let nameTextField: SkyFloatingLabelTextField = {
+		let textField = SkyFloatingLabelTextField(frame: .zero)
+		textField.lineHeight = 1.0
+		textField.selectedLineHeight = 1.0
+		textField.lineColor = .allieSeparator
+		textField.selectedLineColor = .allieSeparator
+		textField.placeholder = NSLocalizedString("YOUR_FULL_NAME", comment: "Your full name")
+		textField.selectedTitleColor = .allieSeparator
+		textField.selectedTitle = NSLocalizedString("YOUR_FULL_NAME", comment: "Your full name")
+		textField.autocorrectionType = .no
+		textField.keyboardType = .default
+		textField.autocapitalizationType = .none
 		textField.translatesAutoresizingMaskIntoConstraints = false
 		textField.heightAnchor.constraint(equalToConstant: controlHeight).isActive = true
 		return textField
@@ -113,7 +123,6 @@ class ProfileEntryViewController: SignupBaseViewController {
 
 	let dateOfBirthView: DatePickerView = {
 		let view = DatePickerView(frame: .zero)
-		view.titleLabel.text = NSLocalizedString("DATE_OF_BIRTH", comment: "Date of birth")
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.heightAnchor.constraint(equalToConstant: controlHeight).isActive = true
 		return view
@@ -128,14 +137,14 @@ class ProfileEntryViewController: SignupBaseViewController {
 
 	let heightButton: ButtonView = {
 		let button = ButtonView(frame: .zero)
-		button.titleLabel.text = NSLocalizedString("HEIGHT", comment: "Height")
+		button.textField.placeholder = NSLocalizedString("HEIGHT", comment: "Height")
 		button.translatesAutoresizingMaskIntoConstraints = false
 		return button
 	}()
 
 	let weightButton: ButtonView = {
 		let button = ButtonView(frame: .zero)
-		button.titleLabel.text = NSLocalizedString("WEIGHT", comment: "Weight")
+		button.textField.placeholder = NSLocalizedString("WEIGHT", comment: "Weight")
 		button.translatesAutoresizingMaskIntoConstraints = false
 		return button
 	}()
@@ -171,8 +180,8 @@ class ProfileEntryViewController: SignupBaseViewController {
 	}()
 
 	func configureValues() {
-		nameTextField.textField.delegate = self
-		nameTextField.textField.text = patient?.name.fullName
+		nameTextField.delegate = self
+		nameTextField.text = patient?.name.fullName
 		heightInInches = patient?.profile.heightInInches ?? Constants.heightInInches
 		weightInPounds = patient?.profile.weightInPounds ?? Constants.weightInPounds
 		sex = patient?.sex ?? .male
@@ -181,16 +190,9 @@ class ProfileEntryViewController: SignupBaseViewController {
 		}
 		fixLabelsInPlace(with: heightPickerView)
 		fixLabelsInPlace(with: weightPickerView)
-		let weightIndex = weightDataInPounds.first { value in
-			value == weightInPounds
-		}
-		let feetIndex = heightData[0].first { value in
-			value == heightInInches / 12
-		}
-		let inchesIndex = heightData[1].first { value in
-			value == heightInInches % 12
-		}
-
+		let weightIndex = weightDataInPounds.firstIndex(of: weightInPounds)
+		let feetIndex = heightData[0].firstIndex(of: heightInInches / 12)
+		let inchesIndex = heightData[1].firstIndex(of: heightInInches % 12)
 		heightPickerView.selectRow(feetIndex ?? 2, inComponent: 0, animated: false)
 		heightPickerView.selectRow(inchesIndex ?? 6, inComponent: 1, animated: false)
 		weightPickerView.selectRow(weightIndex ?? 125, inComponent: 0, animated: false)
@@ -214,13 +216,13 @@ class ProfileEntryViewController: SignupBaseViewController {
 	}()
 
 	@IBAction func showHeightPicker() {
-		nameTextField.textField.resignFirstResponder()
+		nameTextField.resignFirstResponder()
 		weightPickerView.isHidden = true
 		heightPickerView.isHidden = false
 	}
 
 	@IBAction func showWeightPicker() {
-		nameTextField.textField.resignFirstResponder()
+		nameTextField.resignFirstResponder()
 		heightPickerView.isHidden = true
 		weightPickerView.isHidden = false
 	}

@@ -30,7 +30,6 @@ extension UserDefaults {
 		case measurementStepsGoal
 		case measurementWeightInPoundsGoal
 		case lastObervationUploadDate
-		case lastOutcomesUploadDates
 	}
 
 	static func registerDefautlts() {
@@ -233,10 +232,6 @@ extension UserDefaults {
 		}
 	}
 
-	func resetOutcomeUploadDates() {
-		removeObject(forKey: Self.Keys.lastOutcomesUploadDates.rawValue)
-	}
-
 	func resetUserDefaults() {
 		let dictionary = dictionaryRepresentation()
 		for (key, _) in dictionary {
@@ -247,17 +242,10 @@ extension UserDefaults {
 	subscript(lastOutcomesUploadDate key: String) -> Date {
 		get {
 			let now = Date()
-			let dates = dictionary(forKey: Self.Keys.lastOutcomesUploadDates.rawValue) as? [String: Date] ?? [:]
-			guard let date = dates[key] else {
-				let date = Calendar.current.date(byAdding: .day, value: -14, to: now) ?? now
-				return date
-			}
-			return date
+			return value(forKey: key + "LastOutcomesUpload") as? Date ?? Calendar.current.date(byAdding: .day, value: -14, to: now) ?? now
 		}
 		set {
-			var dates = dictionary(forKey: Self.Keys.lastOutcomesUploadDates.rawValue) as? [String: Date] ?? [:]
-			dates[key] = newValue
-			setValue(dates, forKey: Self.Keys.lastOutcomesUploadDates.rawValue)
+			setValue(newValue, forKey: key + "LastOutcomesUpload")
 		}
 	}
 }

@@ -304,9 +304,14 @@ class ProfileViewController: BaseViewController {
 				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
 					innergroup.enter()
 
-					HealthKitManager.shared.queryMostRecentEntry(identifier: identifier, options: []) { sample in
-						if let quantitySample = sample as? HKQuantitySample {
-							values.append(quantitySample)
+					HealthKitManager.shared.queryMostRecentEntry(identifier: identifier, options: []) { result in
+						switch result {
+						case .success(let sample):
+							if let quantitySample = sample as? HKQuantitySample {
+								values.append(quantitySample)
+							}
+						case .failure(let error):
+							ALog.error("\(error.localizedDescription)")
 						}
 						innergroup.leave()
 					}
@@ -318,8 +323,11 @@ class ProfileViewController: BaseViewController {
 				}
 			} else {
 				topGroup.enter()
-				HealthKitManager.shared.queryTodaySteps(options: []) { statistics -> Void in
-					if let statistics = statistics {
+				HealthKitManager.shared.queryTodaySteps(options: []) { result in
+					switch result {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+					case .success(let statistics):
 						todayData[quantityType] = [statistics]
 					}
 					topGroup.leave()
