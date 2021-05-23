@@ -35,9 +35,9 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 
 	init(parentCoordinator parent: MainCoordinator?, deepLink: String?) {
 		self.parentCoordinator = parent
+		parentCoordinator?.window.rootViewController = SplashViewController()
 		super.init()
 		GIDSignIn.sharedInstance().delegate = self
-
 		if let link = deepLink {
 			verifySendLink(link: link)
 		} else {
@@ -102,7 +102,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				self?.gotoSignup(authorizationFlowType: authorizationFlowType)
 			}
 		}
-		navigate(to: loginViewController, with: .resetStack)
+		navigate(to: loginViewController, with: .push)
 	}
 
 	func gotoEmailSignup() {
@@ -111,7 +111,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			self?.authorizationFlowType = authorizationFlowType
 			self?.sendEmailLink(email: email)
 		}
-		navigate(to: emailSignupViewController, with: .resetStack)
+		navigate(to: emailSignupViewController, with: .push)
 	}
 
 	func sendEmailLink(email: String) {
@@ -144,7 +144,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				}
 			}
 		}
-		navigate(to: emailSentViewController, with: .resetStack)
+		navigate(to: emailSentViewController, with: .push)
 	}
 
 	func verifySendLink(link: String) {
@@ -156,9 +156,9 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 						self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { _ in
 							DispatchQueue.main.async {
 								if let authorizationFlowType = self?.authorizationFlowType, authorizationFlowType == .signIn {
-									HealthKitManager.shared.authorizeHealthKit { success, _ in
-										if success {
-											self?.gotoMainApp()
+									HealthKitManager.shared.authorizeHealthKit { _, _ in
+										DispatchQueue.main.async {
+											self?.parentCoordinator?.gotoMainApp()
 										}
 									}
 								} else {
@@ -212,10 +212,12 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		}
 	}
 
-	public func gotoMainApp() {
+	func registerProviderAndGotoMainApp() {
 		parentCoordinator?.refreshRemoteConfig(completion: { [weak self] _ in
-			self?.careManager.patient = self?.alliePatient
-			self?.parentCoordinator?.gotoMainApp()
+			DispatchQueue.main.async {
+				self?.careManager.patient = self?.alliePatient
+				self?.parentCoordinator?.gotoMainApp()
+			}
 		})
 	}
 
@@ -244,7 +246,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			self?.alliePatient?.profile.heightInInches = viewController.heightInInches
 			self?.gotoMyDevices()
 		}
-		navigate(to: viewController, with: .resetStack)
+		navigate(to: viewController, with: .push)
 	}
 
 	func gotoHealthViewController(screenFlowType: ScreenFlowType) {
@@ -259,7 +261,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			self?.authorizeHKForUpload()
 		}
 
-		navigate(to: healthViewController, with: .resetStack)
+		navigate(to: healthViewController, with: .push)
 	}
 
 	func createPatient() {
@@ -271,7 +273,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			case .failure(let error):
 				let okAction = AlertHelper.AlertAction(withTitle: String.ok) {
 					DispatchQueue.main.async {
-						self?.gotoMainApp()
+						self?.registerProviderAndGotoMainApp()
 					}
 				}
 				self?.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
@@ -279,7 +281,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				if let patient = carePlanResponse.patients.first {
 					self?.careManager.patient = patient
 				}
-				self?.gotoMainApp()
+				self?.registerProviderAndGotoMainApp()
 			}
 		}
 	}

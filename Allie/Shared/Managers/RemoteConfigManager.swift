@@ -36,6 +36,7 @@ class RemoteConfigManager: ObservableObject {
 	@Published var feedbackEmail: String = AppConfig.supportEmail
 	@Published var remoteLogging = RemoteLogging()
 	@Published var healthCareOrganization: String = "CodexPilotHealthcareOrganization"
+	@Published var outcomesUploadTimeInterval: TimeInterval = 5.0
 
 	func refresh() -> Future<Bool, Never> {
 		Future { [weak self] promise in
@@ -48,7 +49,7 @@ class RemoteConfigManager: ObservableObject {
 					ALog.error("Could not fetch config", error: error)
 					promise(.success(false))
 				case .successFetchedFromRemote, .successUsingPreFetchedData:
-					self?.updatecProperties()
+					self?.updateProperties()
 					promise(.success(true))
 				@unknown default:
 					ALog.debug("Unknown Status")
@@ -57,7 +58,7 @@ class RemoteConfigManager: ObservableObject {
 		}
 	}
 
-	private func updatecProperties() {
+	private func updateProperties() {
 		if let email = remoteConfig.configValue(forKey: CodingKeys.feedbackEmaail.rawValue).stringValue {
 			feedbackEmail = email
 		}
@@ -75,11 +76,15 @@ class RemoteConfigManager: ObservableObject {
 				remoteLogging = logging
 			}
 		}
+
+		let outcomesUploadInterval = remoteConfig.configValue(forKey: CodingKeys.outcomesUploadTimeInterval.rawValue).numberValue.doubleValue
+		outcomesUploadTimeInterval = TimeInterval(max(outcomesUploadInterval, 5.0))
 	}
 
 	private enum CodingKeys: String, CodingKey {
 		case feedbackEmaail = "feedback_email"
 		case remoteLogging = "remote_logging"
 		case healthCareOrganization = "health_care_organization"
+		case outcomesUploadTimeInterval = "outcomes_upload_time_interval"
 	}
 }

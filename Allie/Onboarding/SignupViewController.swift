@@ -12,7 +12,7 @@ struct IllustartionItem: Hashable {
 	var title: String
 
 	static var defaultItems: [IllustartionItem] {
-		[IllustartionItem(image: UIImage(named: "illustration1"), title: String.slide1Title),
+		[IllustartionItem(image: UIImage(named: "logo"), title: String.slide1Title),
 		 IllustartionItem(image: UIImage(named: "illustration2"), title: String.slide2Title),
 		 IllustartionItem(image: UIImage(named: "illustration3"), title: String.slide3Title)]
 	}
@@ -25,8 +25,8 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 		updateLabels()
 		view.backgroundColor = .allieWhite
 		view.addSubview(buttonStackView)
-		NSLayoutConstraint.activate([buttonStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: buttonStackView.trailingAnchor, multiplier: 2.0),
+		NSLayoutConstraint.activate([buttonStackView.widthAnchor.constraint(greaterThanOrEqualToConstant: buttonWidth),
+		                             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: buttonStackView.bottomAnchor, multiplier: 2.0)])
 
 		pageControl.numberOfPages = IllustartionItem.defaultItems.count
@@ -140,14 +140,15 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 		let button = UIButton.emailSignInButton
 		button.layer.cornerRadius = 8.0
 		button.layer.cornerCurve = .continuous
-		button.layer.borderColor = UIColor.allieSeparator.cgColor
-		button.layer.borderWidth = 1.0
+		button.layer.borderColor = UIColor.black.cgColor
+		button.layer.borderWidth = 0.8
 		let title = authorizationFlowType.emailButtonTitle
 		button.setTitle(title, for: .normal)
 		button.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: .regular)
-		button.setTitleColor(.allieButtons, for: .normal)
+		button.setTitleColor(.black, for: .normal)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+		button.setShadow()
 		return button
 	}()
 

@@ -19,14 +19,6 @@ class CHOperation: Operation {
 
 	private let stateQueue = DispatchQueue(label: Bundle.main.bundleIdentifier! + ".op.state", attributes: .concurrent)
 	private var _state: State = .isReady
-
-	private(set) lazy var operationQueue: OperationQueue = {
-		let queue = OperationQueue()
-		queue.name = Bundle(for: CHOperation.self).bundleIdentifier! + "Operations"
-		queue.qualityOfService = .userInitiated
-		return queue
-	}()
-
 	var cancellables: Set<AnyCancellable> = []
 	@objc private dynamic var state: State {
 		get {

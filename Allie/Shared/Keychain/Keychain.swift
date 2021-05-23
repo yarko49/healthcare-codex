@@ -2,7 +2,7 @@ import Foundation
 
 class Keychain {
 	static let serviceName = AppConfig.appBundleID
-	static let accessGroup: String? = nil
+	static let accessGroup: String? = AppConfig.keychainAccessGroup
 
 	class subscript(key: String) -> String? {
 		get {

@@ -27,14 +27,18 @@ extension CareManager {
 	}
 
 	func fetchAllHealthKitTasks(callbackQueue: DispatchQueue, completion: @escaping BoolCompletion) {
-		healthKitStore.fetchAnyTasks(query: OCKTaskQuery(), callbackQueue: callbackQueue) { [weak self] tasksResult in
+		var query = OCKTaskQuery()
+		query.sortDescriptors = [.effectiveDate(ascending: false)]
+		healthKitStore.fetchAnyTasks(query: query, callbackQueue: callbackQueue) { [weak self] tasksResult in
 			switch tasksResult {
 			case .failure(let error):
 				ALog.error("\(error.localizedDescription)")
 				completion(false)
 			case .success(let newTasks):
-				let tasks = newTasks.compactMap { anyTask in
-					anyTask as? OCKHealthKitTask
+				let tasks: [OCKHealthKitTask] = newTasks.compactMap { anyTask in
+					let hkTask = anyTask as? OCKHealthKitTask
+					// ALog.info("nextUUID = \(hkTask?.nextVersionUUIDs.count), effectiveDate = \(anyTask.effectiveDate), createdDate = \(hkTask?.createdDate), updatedDate = \(hkTask?.createdDate)")
+					return hkTask
 				}
 				guard !tasks.isEmpty else {
 					completion(true)
@@ -42,12 +46,15 @@ extension CareManager {
 				}
 				let group = DispatchGroup()
 				let uniqueTasks: [String: OCKHealthKitTask] = tasks.reduce([:]) { partial, task in
-					guard partial[task.id] == nil else {
-						return partial
+					if let existing = partial[task.id], !existing.nextVersionUUIDs.isEmpty, task.nextVersionUUIDs.isEmpty {
+						var newResult = partial
+						newResult[task.id] = task
+						return newResult
+					} else {
+						var newResult = partial
+						newResult[task.id] = task
+						return newResult
 					}
-					var newResult = partial
-					newResult[task.id] = task
-					return newResult
 				}
 
 				for (_, task) in uniqueTasks {
@@ -64,7 +71,7 @@ extension CareManager {
 						}
 						group.leave()
 					}
-					self?.outcomesUploadoperationQueue.addOperation(operation)
+					self?[uploadOperationQueue: task.healthKitLinkage.quantityIdentifier.rawValue].addOperation(operation)
 				}
 				group.notify(queue: callbackQueue) {
 					completion(true)
@@ -82,9 +89,14 @@ extension CareManager {
 			let startDate = UserDefaults.standard[lastOutcomesUploadDate: linkage.quantityIdentifier.rawValue]
 			if let quantityType = HKObjectType.quantityType(forIdentifier: linkage.quantityIdentifier) {
 				group.enter()
-				HealthKitManager.shared.queryHealthData(quantityType: quantityType, startDate: startDate, endDate: endDate, options: []) { sucess, samples in
-					if sucess, !samples.isEmpty {
-						allSamples[linkage.quantityIdentifier] = samples
+				HealthKitManager.shared.queryHealthData(quantityType: quantityType, startDate: startDate, endDate: endDate, options: []) { result in
+					switch result {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+					case .success(let samples):
+						var existing = allSamples[linkage.quantityIdentifier] ?? []
+						existing.append(contentsOf: samples)
+						allSamples[linkage.quantityIdentifier] = existing
 					}
 					group.leave()
 				}
@@ -166,22 +178,24 @@ extension CareManager {
 	}
 
 	func process(outcomes: [Outcome], completion: BoolCompletion?) {
-		if !outcomes.isEmpty {
-			ALog.info("\(outcomes.count) outcomes saved to server")
-			save(outcomes: outcomes)
-				.sink { completionResult in
-					switch completionResult {
-					case .failure(let error):
-						ALog.error("\(error.localizedDescription)")
-					case .finished:
-						break
-					}
-					completion?(true)
-				} receiveValue: { value in
-					ALog.info("\(value.count) outcomes saved to store")
-				}.store(in: &cancellables)
-		} else {
-			completion?(false)
+		guard !outcomes.isEmpty else {
+			completion?(true)
+			return
 		}
+		ALog.info("\(outcomes.count) outcomes saved to server")
+		save(outcomes: outcomes)
+			.sink { completionResult in
+				switch completionResult {
+				case .failure(let error):
+					ALog.error("\(error.localizedDescription)")
+					completion?(false)
+				case .finished:
+					break
+				}
+				completion?(true)
+			} receiveValue: { values in
+				completion?(true)
+				ALog.info("\(values.count) outcomes saved to store")
+			}.store(in: &cancellables)
 	}
 }

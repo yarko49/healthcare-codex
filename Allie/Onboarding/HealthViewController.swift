@@ -23,15 +23,11 @@ class HealthViewController: SignupBaseViewController {
 		navigationController?.setNavigationBarHidden(false, animated: false)
 		view.backgroundColor = .allieWhite
 
-		view.addSubview(titleLabel)
-		NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 2.0),
-		                             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 10.0)])
 		titleLabel.text = NSLocalizedString("ACTIVATE_APPLE_HEALTH", comment: "Activate\nApple Health")
 		titleLabel.numberOfLines = 2
 		view.addSubview(buttonStackView)
-		NSLayoutConstraint.activate([buttonStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: buttonStackView.trailingAnchor, multiplier: 2.0),
+		NSLayoutConstraint.activate([buttonStackView.widthAnchor.constraint(equalToConstant: buttonWidth),
+		                             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 		                             buttonStackView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 5.0)])
 
 		let imageView = UIImageView(image: UIImage(named: "illustration8"))
@@ -41,8 +37,8 @@ class HealthViewController: SignupBaseViewController {
 
 		view.addSubview(messageLabel)
 		NSLayoutConstraint.activate([messageLabel.topAnchor.constraint(equalToSystemSpacingBelow: buttonStackView.bottomAnchor, multiplier: 2.0),
-		                             messageLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 4.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: messageLabel.trailingAnchor, multiplier: 4.0)])
+		                             messageLabel.widthAnchor.constraint(equalToConstant: buttonWidth),
+		                             messageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
 
 		activationButtonsStackView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(activationButtonsStackView)

@@ -12,12 +12,6 @@ class HKDataUploadViewController: BaseViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		titleLabel.translatesAutoresizingMaskIntoConstraints = false
-		view.addSubview(titleLabel)
-		NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 12.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 2.0)])
-
 		waitLabel.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(waitLabel)
 		NSLayoutConstraint.activate([waitLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 4.0),

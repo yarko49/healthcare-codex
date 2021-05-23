@@ -10,7 +10,7 @@ import Foundation
 import ModelsR4
 
 protocol AllieAPI {
-	func regiterProvider(identifier: String) -> Future<Bool, Never>
+	func registerProvider(identifier: String) -> Future<Bool, Never>
 	func getCarePlan(option: CarePlanResponseType, completion: @escaping WebService.DecodableCompletion<CarePlanResponse>) -> URLSession.ServicePublisher?
 	func getCarePlan(option: CarePlanResponseType) -> Future<CarePlanResponse, Error>
 	func postCarePlan(carePlanResponse: CarePlanResponse, completion: @escaping WebService.DecodableCompletion<[String: Int]>) -> URLSession.ServicePublisher?
@@ -72,7 +72,7 @@ public final class APIClient: AllieAPI {
 
 //	func postBundle(bundle: ModelsR4.Bundle) async -> ModelsR4.Bundle {}
 
-	func regiterProvider(identifier: String) -> Future<Bool, Never> {
+	func registerProvider(identifier: String) -> Future<Bool, Never> {
 		Future { [weak self] promise in
 			_ = self?.webService.requestSimple(route: APIRouter.registerProvider(HealthCareProvider(id: identifier)), completion: { result in
 				switch result {

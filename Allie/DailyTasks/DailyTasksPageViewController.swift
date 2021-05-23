@@ -46,6 +46,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.reload()
 			}
 			.store(in: &cancellables)
+		careManager.startUploadOutcomesTimer(timeInterval: AppDelegate.appDelegate.remoteConfigManager.outcomesUploadTimeInterval)
 		reload()
 	}
 

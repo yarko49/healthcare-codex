@@ -19,6 +19,10 @@ class SignupBaseViewController: BaseViewController {
 		view.frame.height < 700 ? 42.0 : 48.0
 	}
 
+	var buttonWidth: CGFloat {
+		view.frame.width > 390 ? 375.0 : 300.0
+	}
+
 	var authorizeWithEmail: ((_ email: String, _ authorizationFlowType: AuthorizationFlowType) -> Void)?
 	var appleAuthoizationAction: Coordinable.ActionHandler?
 	var emailAuthorizationAction: ((AuthorizationFlowType) -> Void)?
@@ -74,6 +78,7 @@ class SignupBaseViewController: BaseViewController {
 		button.cornerRadius = 8.0
 		button.layer.cornerCurve = .continuous
 		button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+		button.setShadow()
 		return button
 	}()
 
@@ -88,11 +93,12 @@ class SignupBaseViewController: BaseViewController {
 		let title = authorizationFlowType.googleButtonTitle
 		button.setTitle(title, for: .normal)
 		button.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: .regular)
-		button.setTitleColor(.allieButtons, for: .normal)
+		button.setTitleColor(.black, for: .normal)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
-		button.layer.borderColor = UIColor.allieSeparator.cgColor
-		button.layer.borderWidth = 1.0
+		button.layer.borderColor = UIColor.black.cgColor
+		button.layer.borderWidth = 0.8
+		button.setShadow()
 		return button
 	}()
 
@@ -104,6 +110,7 @@ class SignupBaseViewController: BaseViewController {
 		button.setupButton()
 		button.isEnabled = false
 		button.backgroundColor = UIColor.allieButtons.withAlphaComponent(0.5)
+		button.setShadow()
 		return button
 	}()
 

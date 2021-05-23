@@ -5,21 +5,25 @@
 //  Created by Waqar Malik on 4/4/21.
 //
 
+import SkyFloatingLabelTextField
 import UIKit
 
-class DatePickerView: BaseControlView {
-	let imageView: UIImageView = {
-		let view = UIImageView(frame: .zero)
-		view.contentMode = .center
-		view.image = UIImage(systemName: "calendar")
-		return view
-	}()
-
-	let detailTextLabel: UILabel = {
-		let label = UILabel(frame: .zero)
-		label.textColor = .lightGray
-		label.text = NSLocalizedString("DATE_OF_BIRTH", comment: "Date of birth")
-		return label
+class DatePickerView: UIView {
+	let textField: SkyFloatingLabelTextField = {
+		let textField = SkyFloatingLabelTextField(frame: .zero)
+		textField.lineHeight = 1.0
+		textField.selectedLineHeight = 1.0
+		textField.lineColor = .allieSeparator
+		textField.selectedLineColor = .allieSeparator
+		textField.placeholder = NSLocalizedString("DATE_OF_BIRTH", comment: "Date of birth")
+		textField.selectedTitleColor = .allieSeparator
+		textField.selectedTitle = NSLocalizedString("DATE_OF_BIRTH", comment: "Date of birth")
+		textField.autocorrectionType = .no
+		textField.keyboardType = .default
+		textField.autocapitalizationType = .none
+		textField.translatesAutoresizingMaskIntoConstraints = false
+		textField.isUserInteractionEnabled = false
+		return textField
 	}()
 
 	var datePicker: UIDatePicker = {
@@ -36,33 +40,28 @@ class DatePickerView: BaseControlView {
 		dateComponents.year = 70
 		picker.maximumDate = calendar.date(byAdding: dateComponents, to: epoch)
 		picker.setDate(epoch, animated: false)
-		picker.preferredDatePickerStyle = .compact
+		picker.preferredDatePickerStyle = .automatic
 		return picker
 	}()
 
-	let stackView: UIStackView = {
-		let view = UIStackView(frame: .zero)
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.axis = .horizontal
-		view.spacing = 8.0
-		view.distribution = .fill
-		view.alignment = .center
-		return view
-	}()
+	override init(frame: CGRect) {
+		super.init(frame: frame)
+		configureView()
+	}
 
-	override func configureView() {
-		super.configureView()
-		addSubview(stackView)
+	@available(*, unavailable)
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+
+	func configureView() {
+		addSubview(textField)
+		NSLayoutConstraint.activate([textField.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 0.0),
+		                             textField.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 0.0),
+		                             trailingAnchor.constraint(equalToSystemSpacingAfter: textField.trailingAnchor, multiplier: 0.0),
+		                             bottomAnchor.constraint(equalToSystemSpacingBelow: textField.bottomAnchor, multiplier: 0.0)])
 		addSubview(datePicker)
-		NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 0.5),
-		                             stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 1.0),
-		                             bottomAnchor.constraint(equalToSystemSpacingBelow: stackView.bottomAnchor, multiplier: 0.0)])
-		NSLayoutConstraint.activate([trailingAnchor.constraint(equalToSystemSpacingAfter: datePicker.trailingAnchor, multiplier: 1.0),
-		                             datePicker.centerYAnchor.constraint(equalTo: stackView.centerYAnchor)])
-		stackView.addArrangedSubview(imageView)
-		stackView.addArrangedSubview(detailTextLabel)
-		titleLabel.isHidden = true
-		labelContainer.isHidden = true
-		contentView.backgroundColor = datePicker.backgroundColor
+		NSLayoutConstraint.activate([bottomAnchor.constraint(equalToSystemSpacingBelow: datePicker.bottomAnchor, multiplier: 0.2),
+		                             trailingAnchor.constraint(equalToSystemSpacingAfter: datePicker.trailingAnchor, multiplier: 0.0)])
 	}
 }
