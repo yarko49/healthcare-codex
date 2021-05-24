@@ -30,10 +30,6 @@ public final class APIClient: AllieAPI {
 		AppConfig.apiKey
 	}
 
-	public var authToken: String? {
-		Keychain.authToken
-	}
-
 	let webService: WebService
 
 	private(set) lazy var backgroundSession: URLSession = {

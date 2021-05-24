@@ -26,8 +26,6 @@ protocol Coordinable: AnyObject {
 
 	func showHUD(animated: Bool)
 	func hideHUD(animated: Bool)
-
-	var careManager: CareManager { get }
 }
 
 extension Coordinable {
@@ -55,10 +53,6 @@ extension Coordinable {
 
 	func showHUD(animated: Bool) {}
 	func hideHUD(animated: Bool) {}
-
-	var careManager: CareManager {
-		AppDelegate.careManager
-	}
 }
 
 // MARK: Controller Navigation

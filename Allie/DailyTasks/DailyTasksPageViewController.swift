@@ -14,10 +14,6 @@ import SwiftUI
 import UIKit
 
 class DailyTasksPageViewController: OCKDailyTasksPageViewController {
-	var careManager: CareManager {
-		AppDelegate.careManager
-	}
-
 	var timerInterval: TimeInterval = 60 * 10
 
 	private let hud: JGProgressHUD = {
@@ -30,6 +26,9 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		navigationItem.leftBarButtonItem = nil
+		navigationItem.titleView = todayButton
+		todayButton.addTarget(self, action: #selector(gotoToday(_:)), for: .touchDown)
 		view.backgroundColor = .allieWhite
 		NotificationCenter.default.publisher(for: .patientDidSnychronize)
 			.receive(on: DispatchQueue.main)
@@ -46,7 +45,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.reload()
 			}
 			.store(in: &cancellables)
-		careManager.startUploadOutcomesTimer(timeInterval: AppDelegate.appDelegate.remoteConfigManager.outcomesUploadTimeInterval)
+		CareManager.shared.startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
 		reload()
 	}
 
@@ -60,6 +59,14 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			cancellable.cancel()
 		}
 	}
+
+	let todayButton: UIButton = {
+		let button = UIButton(type: .custom)
+		button.setTitle(NSLocalizedString("TODAY", comment: "Today"), for: .normal)
+		button.titleLabel?.font = UIFont.systemFont(ofSize: 17.0, weight: .semibold)
+		button.setTitleColor(.allieBlack, for: .normal)
+		return button
+	}()
 
 	var cancellables: Set<AnyCancellable> = []
 	var insertViewsAnimated: Bool = false
@@ -168,7 +175,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				if let tasks = value.faultyTasks, !tasks.isEmpty {
 					self.showError(tasks: tasks)
 				}
-				self.careManager.createOrUpdate(carePlanResponse: value, forceReset: false) { success in
+				CareManager.shared.createOrUpdate(carePlanResponse: value, forceReset: false) { success in
 					if success {
 						ALog.info("added the care plan")
 						DispatchQueue.main.async {
@@ -187,6 +194,10 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		viewController.items = tasks
 		let navigationController = UINavigationController(rootViewController: viewController)
 		tabBarController?.present(navigationController, animated: true, completion: nil)
+	}
+
+	@IBAction func gotoToday(_ sender: Any) {
+		selectDate(Date(), animated: true)
 	}
 }
 

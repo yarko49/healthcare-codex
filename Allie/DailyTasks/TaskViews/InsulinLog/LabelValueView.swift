@@ -8,7 +8,7 @@
 import CareKitUI
 import UIKit
 
-class LabelValuesView: OCKStackView {
+class LabelValueView: OCKStackView {
 	override init(style: OCKStackView.Style = .plain) {
 		super.init(style: style)
 		setup()
@@ -32,8 +32,8 @@ class LabelValuesView: OCKStackView {
 		}
 	}
 
-	let unitLabelValueView: LabelValueEntryView = {
-		let view = LabelValueEntryView(style: .plain)
+	let unitLabelValueView: SeperatorLabelValueEntryView = {
+		let view = SeperatorLabelValueEntryView(style: .plain)
 		view.titleLabel.text = NSLocalizedString("UNITS", comment: "Units")
 		view.textField.placeholder = "5.6"
 		view.textField.keyboardType = .decimalPad
@@ -58,6 +58,51 @@ class LabelValuesView: OCKStackView {
 			view.translatesAutoresizingMaskIntoConstraints = false
 		}
 		[unitLabelValueView, timeLabelValueView].forEach { view in
+			addArrangedSubview(view)
+		}
+	}
+}
+
+class SeperatorLabelValueEntryView: OCKStackView {
+	override init(style: OCKStackView.Style = .plain) {
+		super.init(style: style)
+		setup()
+	}
+
+	var titleLabel: UILabel {
+		labelValueView.titleLabel
+	}
+
+	var textField: UITextField {
+		labelValueView.textField
+	}
+
+	let labelValueView: LabelValueEntryView = {
+		let view = LabelValueEntryView()
+		view.axis = .horizontal
+		return view
+	}()
+
+	let separtorView: UIView = {
+		let view = UIView(frame: .zero)
+		view.backgroundColor = .allieSeparator
+		view.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
+		return view
+	}()
+
+	func setup() {
+		axis = .vertical
+		spacing = 8.0
+		distribution = .fill
+		alignment = .fill
+		addSubviews()
+	}
+
+	func addSubviews() {
+		[labelValueView, separtorView].forEach { view in
+			view.translatesAutoresizingMaskIntoConstraints = false
+		}
+		[labelValueView, separtorView].forEach { view in
 			addArrangedSubview(view)
 		}
 	}
@@ -97,7 +142,7 @@ class LabelValueEntryView: OCKStackView {
 	}
 }
 
-class TimeValueEntryView: UIStackView {
+class TimeValueEntryView: UIView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setup()
@@ -121,16 +166,28 @@ class TimeValueEntryView: UIStackView {
 		return timePicker
 	}()
 
+	let separtorView: UIView = {
+		let view = UIView(frame: .zero)
+		view.backgroundColor = .allieSeparator
+		view.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
+		return view
+	}()
+
 	func setup() {
-		axis = .horizontal
-		distribution = .fill
-		alignment = .center
-		spacing = 8.0
 		addSubviews()
 	}
 
 	func addSubviews() {
-		[titleLabel, timePicker].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
-		[titleLabel, timePicker].forEach { addArrangedSubview($0) }
+		[titleLabel, timePicker, separtorView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+		[titleLabel, timePicker, separtorView].forEach { addSubview($0) }
+		NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 0.0),
+		                             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 0.0),
+		                             separtorView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 1.0),
+		                             titleLabel.widthAnchor.constraint(equalToConstant: 60.0)])
+		NSLayoutConstraint.activate([trailingAnchor.constraint(equalToSystemSpacingAfter: timePicker.trailingAnchor, multiplier: 0.0),
+		                             timePicker.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -8.0)])
+		NSLayoutConstraint.activate([separtorView.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 0.0),
+		                             trailingAnchor.constraint(equalToSystemSpacingAfter: separtorView.trailingAnchor, multiplier: 0.0),
+		                             bottomAnchor.constraint(equalToSystemSpacingBelow: separtorView.bottomAnchor, multiplier: 0.0)])
 	}
 }

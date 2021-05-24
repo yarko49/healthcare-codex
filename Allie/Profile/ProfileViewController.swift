@@ -45,7 +45,7 @@ class ProfileViewController: BaseViewController {
 	// MARK: Vars
 
 	var patient: AlliePatient? {
-		AppDelegate.appDelegate.careManager.patient
+		CareManager.shared.patient
 	}
 
 	var currentDateInterval: HealthStatsDateIntervalType = .daily {

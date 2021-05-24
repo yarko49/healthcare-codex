@@ -10,10 +10,13 @@ import CareKitFHIR
 import CareKitStore
 import Combine
 import FirebaseAuth
+import KeychainAccess
 import ModelsR4
 import UIKit
 
 class CareManager: NSObject, ObservableObject {
+	static let shared = CareManager(patient: nil)
+
 	typealias BoolCompletion = (Bool) -> Void
 
 	enum Constants {
@@ -68,16 +71,11 @@ class CareManager: NSObject, ObservableObject {
 
 	var patient: AlliePatient? {
 		get {
-			guard let userId = Keychain.userId else {
-				return nil
-			}
-			return Keychain.readPatient(forKey: userId)
+			Keychain.patient
 		}
 		set {
-			Keychain.save(patient: newValue)
-			if let patient = newValue {
-				Keychain.userId = patient.id
-			}
+			Keychain.patient = newValue
+			startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
 		}
 	}
 
@@ -90,8 +88,30 @@ class CareManager: NSObject, ObservableObject {
 		}
 	}
 
-	override init() {
+	@available(*, unavailable)
+	override required init() {
+		fatalError("init() has not been implemented")
+	}
+
+	// Hack so we cannot instantiate more than one
+	private init(patient: AlliePatient?) {
 		super.init()
+		registerForNotifications()
+		registerForConfighanges()
+	}
+
+	func registerForConfighanges() {
+		let configManager = RemoteConfigManager.shared
+		configManager.$outcomesUploadTimeInterval
+			.sink { [weak self] timeInterval in
+				if timeInterval > 0 {
+					self?.cancelUploadOutcomesTimer()
+					self?.startUploadOutcomesTimer(timeInterval: timeInterval)
+				}
+			}.store(in: &cancellables)
+	}
+
+	func registerForNotifications() {
 		synchronizedStoreManager.notificationPublisher
 			.sink { [weak self] notification in
 				if let carePlanNotification = notification as? OCKCarePlanNotification {
@@ -104,22 +124,10 @@ class CareManager: NSObject, ObservableObject {
 					self?.processOutcome(notification: outcomeNotification)
 				}
 			}.store(in: &cancellables)
-		registerForNotifications()
 
-		let configManager = AppDelegate.remoteConfigManager
-		configManager.$outcomesUploadTimeInterval
-			.sink { [weak self] timeInterval in
-				if timeInterval > 0 {
-					self?.cancelUploadOutcomesTimer()
-					self?.startUploadOutcomesTimer(timeInterval: timeInterval)
-				}
-			}.store(in: &cancellables)
-	}
-
-	func registerForNotifications() {
 		NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)
 			.sink { [weak self] _ in
-				self?.startUploadOutcomesTimer(timeInterval: AppDelegate.remoteConfigManager.outcomesUploadTimeInterval)
+				self?.startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
 				ALog.info("Did Start the Outcomes Timer")
 			}.store(in: &cancellables)
 
@@ -132,13 +140,14 @@ class CareManager: NSObject, ObservableObject {
 
 	private var uploadOutcomesTimer: AnyCancellable?
 	func startUploadOutcomesTimer(timeInterval: TimeInterval) {
-		guard patient != nil, uploadOutcomesTimer == nil else {
+		guard patient != nil else {
 			return
 		}
+		cancelUploadOutcomesTimer()
 		uploadOutcomesTimer = Timer.publish(every: timeInterval, on: .main, in: .common)
 			.autoconnect()
 			.sink(receiveValue: { [weak self] _ in
-				ALog.info("Upload timer fired")
+				ALog.trace("Upload timer fired")
 				self?.synchronizeHealthKitOutcomes()
 			})
 	}

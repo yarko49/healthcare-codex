@@ -32,6 +32,9 @@ extension UIViewController {
 	}
 
 	func showURLContent(url: URL) {
+		guard url.absoluteString.hasPrefix("http") else {
+			return
+		}
 		let safariViewController = SFSafariViewController(url: url)
 		navigationController?.present(safariViewController, animated: true, completion: nil)
 	}

@@ -26,7 +26,6 @@ class MainCoordinator: Coordinable {
 		return view
 	}()
 
-	lazy var keychain = KeychainAccess.Keychain(server: AppConfig.apiBaseHost, protocolType: .https, accessGroup: AppConfig.keychainAccessGroup, authenticationType: .default)
 	lazy var context = LAContext()
 	var didRegisterOrgnization: Bool = false
 
@@ -97,7 +96,7 @@ class MainCoordinator: Coordinable {
 	}
 
 	func createPatientIfNeeded() {
-		if let patient = careManager.patient, patient.profile.fhirId == nil {
+		if let patient = CareManager.shared.patient, patient.profile.fhirId == nil {
 			APIClient.shared.post(patient: patient)
 				.receive(on: DispatchQueue.main)
 				.sink { [weak self] completion in
@@ -155,17 +154,17 @@ class MainCoordinator: Coordinable {
 	}
 
 	func registerServices() {
-		if careManager.patient == nil {
-			careManager.loadPatient { [weak self] result in
+		if CareManager.shared.patient == nil {
+			CareManager.shared.loadPatient { result in
 				switch result {
 				case .failure(let error):
 					ALog.error("\(error.localizedDescription)")
 				case .success:
-					AppDelegate.registerServices(patient: self?.careManager.patient)
+					AppDelegate.registerServices(patient: CareManager.shared.patient)
 				}
 			}
 		} else {
-			AppDelegate.registerServices(patient: careManager.patient)
+			AppDelegate.registerServices(patient: CareManager.shared.patient)
 		}
 	}
 
@@ -176,11 +175,13 @@ class MainCoordinator: Coordinable {
 				completion(false)
 				return
 			}
-			guard let firebaseToken = tokenResult?.token else {
+			guard tokenResult?.token != nil else {
 				completion(false)
 				return
 			}
-			Keychain.authToken = firebaseToken
+			if let token = AuthenticaionToken(result: tokenResult) {
+				Keychain.authenticationToken = token
+			}
 			self?.refreshRemoteConfig { _ in
 				completion(true)
 			}
@@ -216,12 +217,9 @@ class MainCoordinator: Coordinable {
 	func logout() {
 		let firebaseAuth = Auth.auth()
 		do {
-			if let uid = Auth.auth().currentUser?.uid {
-				Keychain.delete(valueForKey: uid)
-			}
 			try firebaseAuth.signOut()
 			UserDefaults.standard.resetUserDefaults()
-			AppDelegate.careManager.reset()
+			CareManager.shared.reset()
 			Keychain.clearKeychain()
 			goToAuth()
 		} catch let signOutError as NSError {
@@ -248,11 +246,10 @@ class MainCoordinator: Coordinable {
 	}
 
 	func refreshRemoteConfig(completion: Coordinable.BoolActionHandler?) {
-		let remoteConfigManager = AppDelegate.appDelegate.remoteConfigManager
-		remoteConfigManager.refresh()
+		RemoteConfigManager.shared.refresh()
 			.sink { refreshResult in
 				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
-				CareManager.register(provider: remoteConfigManager.healthCareOrganization)
+				CareManager.register(provider: RemoteConfigManager.shared.healthCareOrganization)
 					.sink { registrationResult in
 						ALog.info("Did finish registering organization \(registrationResult)")
 						completion?(registrationResult)

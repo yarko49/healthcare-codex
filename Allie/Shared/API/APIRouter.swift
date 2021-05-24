@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import KeychainAccess
 import ModelsR4
 
 public enum CarePlanResponseType: Hashable {
@@ -18,6 +19,9 @@ public enum CarePlanResponseType: Hashable {
 
 enum APIRouter: URLRequestConvertible {
 	static let baseURLPath = AppConfig.apiBaseUrl
+	static var authToken: String? {
+		Keychain.authenticationToken?.token
+	}
 
 	case registerProvider(HealthCareProvider)
 	case getCarePlan(option: CarePlanResponseType)
@@ -102,7 +106,7 @@ enum APIRouter: URLRequestConvertible {
 	var headers: [String: String] {
 		var headers = [Request.Header.contentType: Request.ContentType.json,
 		               Request.Header.xAPIKey: AppConfig.apiKey]
-		if let authToken = Keychain.authToken {
+		if let authToken = Self.authToken {
 			headers[Request.Header.userAuthorization] = "Bearer " + authToken
 		}
 		switch self {
