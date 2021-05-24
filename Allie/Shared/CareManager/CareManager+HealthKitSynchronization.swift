@@ -67,7 +67,7 @@ extension CareManager {
 						case .failure(let error):
 							ALog.error("Uploading outcomes \(error.localizedDescription)")
 						case .success(let outcomes):
-							ALog.info("Uploaded \(outcomes.count) outcomes")
+							ALog.debug("Uploaded \(outcomes.count) outcomes")
 						}
 						group.leave()
 					}

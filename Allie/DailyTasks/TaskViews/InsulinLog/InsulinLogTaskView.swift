@@ -68,17 +68,14 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 		return button
 	}()
 
-	let gradientView: GradientView = {
-		let view = GradientView(frame: .zero)
-		view.colors = [UIColor(white: 0.0, alpha: 0.1), UIColor(white: 0.0, alpha: 0.0)]
-		view.startPoint = CGPoint(x: 0.0, y: 0.0)
-		view.endPoint = CGPoint(x: 0.0, y: 1.0)
+	let shadowView: ShadowView = {
+		let view = ShadowView(frame: .zero)
 		view.heightAnchor.constraint(equalToConstant: 10.0).isActive = true
 		return view
 	}()
 
-	let entryViews: LabelValuesView = {
-		let view = LabelValuesView()
+	let entryViews: LabelValueView = {
+		let view = LabelValueView()
 		view.axis = .horizontal
 		return view
 	}()
@@ -124,13 +121,13 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 		addSubview(contentView)
 		contentView.addSubview(headerStackView)
 		[headerButton, entryViews, segmentedControl, contentStackView].forEach { headerStackView.addArrangedSubview($0) }
-		[gradientView, entryViews, segmentedControl, doneButton].forEach { entryStackView.addArrangedSubview($0) }
+		[shadowView, entryViews, segmentedControl, doneButton].forEach { entryStackView.addArrangedSubview($0) }
 		[instructionsLabel, logButton, logItemsStackView].forEach { contentStackView.addArrangedSubview($0) }
 	}
 
 	func constrainSubviews() {
 		[contentView, headerStackView, headerView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
-		[entryStackView, gradientView, entryViews, segmentedControl, doneButton].forEach { view in
+		[entryStackView, shadowView, entryViews, segmentedControl, doneButton].forEach { view in
 			view.translatesAutoresizingMaskIntoConstraints = false
 		}
 		NSLayoutConstraint.activate(
@@ -168,31 +165,32 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 	}
 
 	@objc func didTapDoneButton(_ sender: UIControl) {
-		guard let units = entryViews.units, !units.isEmpty, let value = Double(units) else {
-			return
-		}
-		let sample = HKDiscreteQuantitySample(insulinUnits: value, startDate: entryViews.entryDate, reason: reason)
-		HKHealthStore().save(sample) { [weak self] _, error in
-			if let error = error {
-				ALog.error("Unable to save insulin values", error: error)
-			} else {
-				DispatchQueue.main.async {
-					guard let strongSelf = self else {
-						return
-					}
-					let detail = strongSelf.makeTitle(units: units)
-					let itemCount = strongSelf.items.count
-					let title = InsulinLogTaskView.timeFormatter.string(from: strongSelf.entryViews.entryDate)
-					strongSelf.appendItem(withTitle: title, detail: detail, animated: true)
-					strongSelf.delegate?.taskView(strongSelf, didCreateOutcomeValueAt: itemCount, eventIndexPath: .init(row: 0, section: 0), sender: sender)
-					guard let index = strongSelf.contentStackView.arrangedSubviews.firstIndex(of: strongSelf.entryStackView) else {
-						return
-					}
-					strongSelf.contentStackView.removeArrangedSubview(strongSelf.entryStackView, animated: true)
-					strongSelf.contentStackView.insertArrangedSubview(strongSelf.logButton, at: index, animated: true)
-				}
-			}
-		}
+		delegate?.taskView(self, didCreateOutcomeValueAt: 0, eventIndexPath: .init(row: 0, section: 0), sender: sender)
+//		guard let units = entryViews.units, !units.isEmpty, let value = Double(units) else {
+//			return
+//		}
+//		let sample = HKDiscreteQuantitySample(insulinUnits: value, startDate: entryViews.entryDate, reason: reason)
+//		HKHealthStore().save(sample) { [weak self] _, error in
+//			if let error = error {
+//				ALog.error("Unable to save insulin values", error: error)
+//			} else {
+//				DispatchQueue.main.async {
+//					guard let strongSelf = self else {
+//						return
+//					}
+//					let detail = strongSelf.makeTitle(units: units)
+//					let itemCount = strongSelf.items.count
+//					let title = InsulinLogTaskView.timeFormatter.string(from: strongSelf.entryViews.entryDate)
+//					strongSelf.appendItem(withTitle: title, detail: detail, animated: true)
+//					strongSelf.delegate?.taskView(strongSelf, didCreateOutcomeValueAt: itemCount, eventIndexPath: .init(row: 0, section: 0), sender: sender)
+//					guard let index = strongSelf.contentStackView.arrangedSubviews.firstIndex(of: strongSelf.entryStackView) else {
+//						return
+//					}
+//					strongSelf.contentStackView.removeArrangedSubview(strongSelf.entryStackView, animated: true)
+//					strongSelf.contentStackView.insertArrangedSubview(strongSelf.logButton, at: index, animated: true)
+//				}
+//			}
+//		}
 	}
 
 	var reason: HKInsulinDeliveryReason {
@@ -320,8 +318,7 @@ extension InsulinLogTaskView {
 			return
 		}
 		instructionsLabel.text = event.task.instructions
-
-		// updateItems(withOutcomeValues: event.outcome?.values ?? [], animated: animated)
+		updateItems(withOutcomeValues: event.outcome?.values ?? [], animated: animated)
 	}
 
 	func clearView(animated: Bool) {

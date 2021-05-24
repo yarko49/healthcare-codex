@@ -9,18 +9,18 @@ class ProfileHelper {
 	}
 
 	static var firstName: String? {
-		AppDelegate.careManager.patient?.name.givenName
+		CareManager.shared.patient?.name.givenName
 	}
 
 	static var birthdate: Int? {
-		guard let date = AppDelegate.careManager.patient?.birthday else {
+		guard let date = CareManager.shared.patient?.birthday else {
 			return nil
 		}
 		return Calendar.current.component(.year, from: date)
 	}
 
 	static var gender: OCKBiologicalSex {
-		AppDelegate.careManager.patient?.sex ?? .female
+		CareManager.shared.patient?.sex ?? .female
 	}
 
 	static func getGoal(for type: HealthKitQuantityType) -> Int {

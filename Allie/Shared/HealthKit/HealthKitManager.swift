@@ -20,7 +20,7 @@ class HealthKitManager {
 	static let shared = HealthKitManager()
 	private let healthKitStore = HKHealthStore()
 	private var patientId: String? {
-		AppDelegate.careManager.patient?.profile.fhirId
+		CareManager.shared.patient?.profile.fhirId
 	}
 
 	typealias SampleCompletion = (Result<[HKSample], Error>) -> Void
@@ -239,7 +239,7 @@ class HealthKitManager {
 				let observationFactory = try ObservationFactory()
 				entries = try samples.compactMap { sample in
 					let observation = try observationFactory.observation(from: sample)
-					let subject = AppDelegate.careManager.patient?.subject
+					let subject = CareManager.shared.patient?.subject
 					observation.subject = subject
 					let route = APIRouter.postObservation(observation: observation)
 					let observationPath = route.path

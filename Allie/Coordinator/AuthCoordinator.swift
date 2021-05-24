@@ -10,6 +10,7 @@ import CryptoKit
 import FirebaseAuth
 import GoogleSignIn
 import HealthKit
+import KeychainAccess
 import LocalAuthentication
 import UIKit
 
@@ -25,7 +26,6 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	weak var parentCoordinator: MainCoordinator?
 
 	var currentNonce: String?
-	var emailrequest: String?
 	var authorizationFlowType: AuthorizationFlowType = .signUp
 	var alliePatient: AlliePatient?
 
@@ -127,8 +127,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				return
 			}
 
-			Keychain.emailForLink = email
-			self?.emailrequest = email
+			Keychain.userEmail = email
 			self?.emailSentSuccess(email: email)
 		}
 	}
@@ -148,7 +147,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	}
 
 	func verifySendLink(link: String) {
-		if let email = Keychain.emailForLink {
+		if let email = Keychain.userEmail {
 			showHUD()
 			if Auth.auth().isSignIn(withEmailLink: link) {
 				Auth.auth().signIn(withEmail: email, link: link) { [weak self] authResult, error in
@@ -195,8 +194,8 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				if let patient = carePlan.patients.first {
 					self?.alliePatient = patient
 					let ockPatient = OCKPatient(patient: patient)
-					try? AppDelegate.careManager.resetAllContents()
-					self?.careManager.createOrUpdate(patient: ockPatient) { patientResult in
+					try? CareManager.shared.resetAllContents()
+					CareManager.shared.createOrUpdate(patient: ockPatient) { patientResult in
 						switch patientResult {
 						case .failure(let error):
 							ALog.error("Unable to add patient to store", error: error)
@@ -215,14 +214,14 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	func registerProviderAndGotoMainApp() {
 		parentCoordinator?.refreshRemoteConfig(completion: { [weak self] _ in
 			DispatchQueue.main.async {
-				self?.careManager.patient = self?.alliePatient
+				CareManager.shared.patient = self?.alliePatient
 				self?.parentCoordinator?.gotoMainApp()
 			}
 		})
 	}
 
 	func gotoProfileSetupViewController(email: String?, user: RemoteUser) {
-		try? careManager.resetAllContents()
+		try? CareManager.shared.resetAllContents()
 		if alliePatient == nil {
 			alliePatient = AlliePatient(user: user)
 		}
@@ -279,7 +278,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				self?.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
 			case .success(let carePlanResponse):
 				if let patient = carePlanResponse.patients.first {
-					self?.careManager.patient = patient
+					CareManager.shared.patient = patient
 				}
 				self?.registerProviderAndGotoMainApp()
 			}
@@ -343,10 +342,10 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 					ALog.info("\(error.localizedDescription)")
 					AlertHelper.showAlert(title: String.error, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 					completion(false)
-				} else if let authToken = tokenResult?.token {
-					self?.emailrequest = Auth.auth().currentUser?.email
-					Keychain.authToken = authToken
-					ALog.info("firebaseToken: \(authToken)")
+				} else if tokenResult?.token != nil {
+					Keychain.userEmail = Auth.auth().currentUser?.email
+					Keychain.authenticationToken = AuthenticaionToken(result: tokenResult)
+					ALog.info("firebaseToken: \(tokenResult?.token ?? "")")
 					completion(true)
 				}
 			}

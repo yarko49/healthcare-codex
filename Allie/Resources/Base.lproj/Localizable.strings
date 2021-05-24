@@ -567,3 +567,6 @@
 /* Units */
 "UNITS" = "Units";
 
+/* Authenticate to login */
+"KEYCHAIN_PROMPT" = "Authenticate to login";
+

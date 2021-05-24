@@ -114,9 +114,9 @@ extension SettingsViewController: UITableViewDelegate {
 		let profileEntryViewController = ProfileEntryViewController()
 		profileEntryViewController.controllerViewMode = .settings
 		profileEntryViewController.doneButtonTitle = NSLocalizedString("SAVE", comment: "Save")
-		profileEntryViewController.patient = AppDelegate.careManager.patient
+		profileEntryViewController.patient = CareManager.shared.patient
 		profileEntryViewController.doneAction = {
-			var alliePatient = AppDelegate.careManager.patient
+			var alliePatient = CareManager.shared.patient
 			if let name = PersonNameComponents(fullName: profileEntryViewController.fullName) {
 				alliePatient?.name = name
 			}
@@ -137,7 +137,7 @@ extension SettingsViewController: UITableViewDelegate {
 						AlertHelper.showAlert(title: String.error, detailText: error.localizedDescription, actions: [okAction])
 					case .success(let response):
 						if let patient = response.patients.first {
-							AppDelegate.careManager.patient = patient
+							CareManager.shared.patient = patient
 						}
 					}
 				}

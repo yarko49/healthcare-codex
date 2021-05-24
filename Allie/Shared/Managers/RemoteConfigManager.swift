@@ -32,6 +32,7 @@ struct RemoteLogging: Codable, Hashable {
 }
 
 class RemoteConfigManager: ObservableObject {
+	static let shared = RemoteConfigManager()
 	private let remoteConfig = RemoteConfig.remoteConfig()
 	@Published var feedbackEmail: String = AppConfig.supportEmail
 	@Published var remoteLogging = RemoteLogging()

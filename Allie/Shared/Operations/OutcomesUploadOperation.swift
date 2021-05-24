@@ -62,7 +62,7 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 				strongSelf.complete()
 				return
 			case .success(let samples):
-				ALog.info("\(samples.count) found for identifier \(linkage.quantityIdentifier.rawValue), startDate \(startDate) endDate \(endDate)")
+				ALog.trace("\(samples.count) found for identifier \(linkage.quantityIdentifier.rawValue), startDate \(startDate) endDate \(endDate)")
 				strongSelf.upload(samples: samples, carePlanId: carePlanId) { uploadResult in
 					switch uploadResult {
 					case .failure(let error):

@@ -91,7 +91,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 				switch inputType {
 				case .bloodPressureSystolic:
 					let observation = try factory.observation(from: [Double(value1), Double(value2)], identifier: HKCorrelationTypeIdentifier.bloodPressure.rawValue, date: effectiveDateTime)
-					observation.subject = AppDelegate.careManager.patient?.subject
+					observation.subject = CareManager.shared.patient?.subject
 					self?.observation = observation
 					self?.bundle = nil
 				case .bodyMass:
@@ -118,7 +118,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 
 	func gotoProfileEntryViewController(from screen: NavigationSourceType = .profile) {
 		let viewController = ProfileEntryViewController()
-		let alliePatient = AppDelegate.careManager.patient
+		let alliePatient = CareManager.shared.patient
 		viewController.fullName = alliePatient?.name.fullName
 		viewController.sex = alliePatient?.sex ?? .male
 		if let dob = alliePatient?.birthday {
@@ -131,7 +131,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 			viewController.heightInInches = height
 		}
 		viewController.doneAction = { [weak self] in
-			var patient = AppDelegate.careManager.patient
+			var patient = CareManager.shared.patient
 			if let name = PersonNameComponents(fullName: viewController.fullName) {
 				patient?.name = name
 			}
@@ -140,7 +140,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 			patient?.birthday = viewController.dateOfBirth
 			patient?.profile.weightInPounds = viewController.weightInPounds
 			patient?.profile.heightInInches = viewController.heightInInches
-			AppDelegate.careManager.patient = patient
+			CareManager.shared.patient = patient
 			self?.parentCoordinator?.uploadPatient(patient: patient!)
 			self?.navigationController?.popViewController(animated: true)
 		}
@@ -193,7 +193,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 	}
 
 	class var todayViewController: UINavigationController {
-		let controller = DailyTasksPageViewController(storeManager: AppDelegate.careManager.synchronizedStoreManager)
+		let controller = DailyTasksPageViewController(storeManager: CareManager.shared.synchronizedStoreManager)
 		let title = NSLocalizedString("TODAY", comment: "Today")
 		controller.title = title
 		controller.tabBarItem.image = UIImage(named: "icon-tabbar-today")

@@ -16,25 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		UIApplication.shared.delegate as? AppDelegate
 	}
 
-	class var careManager: CareManager {
-		Self.appDelegate.careManager
-	}
-
 	class var appCoordinator: MainCoordinator? {
 		(primaryWindow.windowScene?.delegate as? SceneDelegate)?.mainCoordinator
 	}
 
-	private(set) lazy var careManager = CareManager()
-
 	class var primaryWindow: UIWindow! {
 		Self.appDelegate.primaryWindow
 	}
-
-	class var remoteConfigManager: RemoteConfigManager {
-		Self.appDelegate.remoteConfigManager
-	}
-
-	private(set) lazy var remoteConfigManager = RemoteConfigManager()
 
 	var primaryWindow: UIWindow! {
 		UIApplication.shared.windows.first
