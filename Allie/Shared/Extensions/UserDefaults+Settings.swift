@@ -9,7 +9,6 @@ import Foundation
 
 extension UserDefaults {
 	enum Keys: String {
-		case isCarePlanPopulated = "carePlanPopulated"
 		case hasRunOnce = "HAS_RUN_ONCE"
 		case hasCompletedOnboarding = "HAS_COMPLETED_ONBOARDING"
 		case isBiometricsEnabled = "IS_BIOMETRICS_ENABLED"
@@ -33,18 +32,9 @@ extension UserDefaults {
 	}
 
 	static func registerDefautlts() {
-		let defaults: [String: Any] = [Self.Keys.isCarePlanPopulated.rawValue: false, Self.Keys.hasRunOnce.rawValue: false, Self.Keys.hasCompletedOnboarding.rawValue: false,
+		let defaults: [String: Any] = [Self.Keys.hasRunOnce.rawValue: false, Self.Keys.hasCompletedOnboarding.rawValue: false,
 		                               Self.Keys.isBiometricsEnabled.rawValue: false, Self.Keys.haveAskedUserForBiometrics.rawValue: false]
 		UserDefaults.standard.register(defaults: defaults)
-	}
-
-	var isCarePlanPopulated: Bool {
-		get {
-			bool(forKey: Self.Keys.isCarePlanPopulated.rawValue)
-		}
-		set {
-			set(newValue, forKey: Self.Keys.isCarePlanPopulated.rawValue)
-		}
 	}
 
 	var hasRunOnce: Bool {

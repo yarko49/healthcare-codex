@@ -11,32 +11,24 @@ import FirebaseAuth
 import GoogleSignIn
 import HealthKit
 import KeychainAccess
-import LocalAuthentication
 import UIKit
 
-class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelegate {
-	let type: CoordinatorType = .authCoordinator
-	var cancellables: Set<AnyCancellable> = []
-
-	var navigationController: UINavigationController? = {
-		UINavigationController()
-	}()
-
-	var childCoordinators: [CoordinatorType: Coordinable] = [:]
-	weak var parentCoordinator: MainCoordinator?
+class AuthCoordinator: BaseCoordinator {
+	weak var parent: MainCoordinator?
 
 	var currentNonce: String?
 	var authorizationFlowType: AuthorizationFlowType = .signUp
 	var alliePatient: AlliePatient?
 
-	var rootViewController: UIViewController? {
+	override var rootViewController: UIViewController? {
 		navigationController
 	}
 
-	init(parentCoordinator parent: MainCoordinator?, deepLink: String?) {
-		self.parentCoordinator = parent
-		parentCoordinator?.window.rootViewController = SplashViewController()
-		super.init()
+	init(parent: MainCoordinator?, deepLink: String?) {
+		super.init(type: .authentication)
+		navigationController = UINavigationController()
+		self.parent = parent
+		parent?.window.rootViewController = SplashViewController()
 		GIDSignIn.sharedInstance().delegate = self
 		if let link = deepLink {
 			verifySendLink(link: link)
@@ -45,16 +37,16 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		}
 	}
 
-	func start() {
+	override func start() {
 		gotoSignup()
 	}
 
 	func showHUD(animated: Bool = true) {
-		parentCoordinator?.showHUD(animated: animated)
+		parent?.showHUD(animated: animated)
 	}
 
 	func hideHUD(animated: Bool = true) {
-		parentCoordinator?.hideHUD(animated: animated)
+		parent?.hideHUD(animated: animated)
 	}
 
 	func gotoSignup(authorizationFlowType type: AuthorizationFlowType = .signUp) {
@@ -157,7 +149,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 								if let authorizationFlowType = self?.authorizationFlowType, authorizationFlowType == .signIn {
 									HealthKitManager.shared.authorizeHealthKit { _, _ in
 										DispatchQueue.main.async {
-											self?.parentCoordinator?.gotoMainApp()
+											self?.parent?.gotoMainApp()
 										}
 									}
 								} else {
@@ -201,7 +193,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 							ALog.error("Unable to add patient to store", error: error)
 							self?.gotoProfileSetupViewController(email: email, user: user)
 						case .success:
-							self?.parentCoordinator?.gotoHealthKitAuthorization()
+							self?.parent?.gotoHealthKitAuthorization()
 						}
 					}
 				} else {
@@ -212,10 +204,10 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	}
 
 	func registerProviderAndGotoMainApp() {
-		parentCoordinator?.refreshRemoteConfig(completion: { [weak self] _ in
+		parent?.refreshRemoteConfig(completion: { [weak self] _ in
 			DispatchQueue.main.async {
 				CareManager.shared.patient = self?.alliePatient
-				self?.parentCoordinator?.gotoMainApp()
+				self?.parent?.gotoMainApp()
 			}
 		})
 	}

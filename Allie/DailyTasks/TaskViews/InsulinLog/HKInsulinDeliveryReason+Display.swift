@@ -8,6 +8,16 @@
 import HealthKit
 
 extension HKInsulinDeliveryReason {
+	init?(kind: String) {
+		if kind == "bolus" {
+			self = .bolus
+		} else if kind == "basal" {
+			self = .basal
+		} else {
+			return nil
+		}
+	}
+
 	var title: String {
 		switch self {
 		case .bolus:

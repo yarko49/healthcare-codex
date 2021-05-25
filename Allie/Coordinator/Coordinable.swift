@@ -6,6 +6,7 @@
 import UIKit
 
 typealias AllieResultCompletion<ResultType> = (Result<ResultType, Error>) -> Void
+
 enum AllieError: Error {
 	case compound([Error])
 }
@@ -17,12 +18,13 @@ protocol Coordinable: AnyObject {
 
 	var navigationController: UINavigationController? { get }
 	var rootViewController: UIViewController? { get }
-	var childCoordinators: [CoordinatorType: Coordinable] { get set }
 
-	subscript(type: CoordinatorType) -> Coordinable? { get set }
-	func start()
+	var childCoordinators: [CoordinatorType: Coordinable] { get set }
 	func addChild(coordinator: Coordinable)
 	func removeChild(coordinator: Coordinable) -> Coordinable?
+	subscript(type: CoordinatorType) -> Coordinable? { get set }
+
+	func start()
 
 	func showHUD(animated: Bool)
 	func hideHUD(animated: Bool)
