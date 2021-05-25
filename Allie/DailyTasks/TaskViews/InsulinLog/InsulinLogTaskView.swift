@@ -166,31 +166,6 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 
 	@objc func didTapDoneButton(_ sender: UIControl) {
 		delegate?.taskView(self, didCreateOutcomeValueAt: 0, eventIndexPath: .init(row: 0, section: 0), sender: sender)
-//		guard let units = entryViews.units, !units.isEmpty, let value = Double(units) else {
-//			return
-//		}
-//		let sample = HKDiscreteQuantitySample(insulinUnits: value, startDate: entryViews.entryDate, reason: reason)
-//		HKHealthStore().save(sample) { [weak self] _, error in
-//			if let error = error {
-//				ALog.error("Unable to save insulin values", error: error)
-//			} else {
-//				DispatchQueue.main.async {
-//					guard let strongSelf = self else {
-//						return
-//					}
-//					let detail = strongSelf.makeTitle(units: units)
-//					let itemCount = strongSelf.items.count
-//					let title = InsulinLogTaskView.timeFormatter.string(from: strongSelf.entryViews.entryDate)
-//					strongSelf.appendItem(withTitle: title, detail: detail, animated: true)
-//					strongSelf.delegate?.taskView(strongSelf, didCreateOutcomeValueAt: itemCount, eventIndexPath: .init(row: 0, section: 0), sender: sender)
-//					guard let index = strongSelf.contentStackView.arrangedSubviews.firstIndex(of: strongSelf.entryStackView) else {
-//						return
-//					}
-//					strongSelf.contentStackView.removeArrangedSubview(strongSelf.entryStackView, animated: true)
-//					strongSelf.contentStackView.insertArrangedSubview(strongSelf.logButton, at: index, animated: true)
-//				}
-//			}
-//		}
 	}
 
 	var reason: HKInsulinDeliveryReason {
@@ -217,17 +192,6 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 		var string = segmentedControl.titleForSegment(at: selectedIndex) ?? ""
 		string += " " + units + " Units"
 		return string
-	}
-
-	private func makeOutcome() -> OCKOutcome {
-		let value = Double(entryViews.units ?? "") ?? 0
-		let time = entryViews.entryDate
-		var outcomeValue = OCKOutcomeValue(value, units: "IU")
-		outcomeValue.kind = segmentedControl.selectedSegmentIndex == 0 ? HKInsulinDeliveryReason.bolus.kind : HKInsulinDeliveryReason.basal.kind
-		outcomeValue.createdDate = time
-		var outcome = OCKOutcome(taskUUID: UUID(), taskOccurrenceIndex: 0, values: [outcomeValue])
-		outcome.createdDate = time
-		return outcome
 	}
 
 	override func styleDidChange() {
@@ -292,11 +256,13 @@ extension InsulinLogTaskView {
 		} else {
 			for (index, outcomeValue) in outcomeValues.enumerated() {
 				let date = outcomeValue.createdDate
-				let dateString = InsulinLogTaskView.timeFormatter.string(from: date).description
-
+				let dateString = InsulinLogTaskView.timeFormatter.string(from: date)
+				let kind = HKInsulinDeliveryReason(kind: outcomeValue.kind ?? "")
+				let value = outcomeValue.doubleValue ?? 0.0
+				let title = "\(kind?.title ?? "") \(value) " + NSLocalizedString("UNITS", comment: "Units")
 				_ = index < items.count ?
-					updateItem(at: index, withTitle: outcomeValue.stringValue, detail: dateString) :
-					appendItem(withTitle: outcomeValue.stringValue, detail: dateString, animated: animated)
+					updateItem(at: index, withTitle: dateString, detail: title) :
+					appendItem(withTitle: dateString, detail: title, animated: animated)
 			}
 		}
 		trimItems(given: outcomeValues, animated: animated)

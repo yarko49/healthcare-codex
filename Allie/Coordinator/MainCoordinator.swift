@@ -12,13 +12,8 @@ import KeychainAccess
 import LocalAuthentication
 import UIKit
 
-class MainCoordinator: Coordinable {
-	let type: CoordinatorType = .mainCoordinator
-	var cancellables: Set<AnyCancellable> = []
-
+class MainCoordinator: BaseCoordinator {
 	private(set) var window: UIWindow
-	var childCoordinators: [CoordinatorType: Coordinable]
-	var navigationController: UINavigationController?
 
 	let hud: JGProgressHUD = {
 		let view = JGProgressHUD(style: .dark)
@@ -26,10 +21,7 @@ class MainCoordinator: Coordinable {
 		return view
 	}()
 
-	lazy var context = LAContext()
-	var didRegisterOrgnization: Bool = false
-
-	public var rootViewController: UIViewController? {
+	override public var rootViewController: UIViewController? {
 		navigationController
 	}
 
@@ -41,9 +33,9 @@ class MainCoordinator: Coordinable {
 		hud.dismiss(animated: animated)
 	}
 
-	init(in window: UIWindow) {
-		self.childCoordinators = [:]
+	init(window: UIWindow) {
 		self.window = window
+		super.init(type: .main)
 		let navController = UINavigationController(rootViewController: SplashViewController())
 		navController.setNavigationBarHidden(true, animated: false)
 		self.navigationController = navController
@@ -56,7 +48,8 @@ class MainCoordinator: Coordinable {
 			}.store(in: &cancellables)
 	}
 
-	func start() {
+	override func start() {
+		super.start()
 		if !UserDefaults.standard.hasRunOnce {
 			UserDefaults.resetStandardUserDefaults()
 			let firebaseAuth = Auth.auth()
@@ -66,7 +59,6 @@ class MainCoordinator: Coordinable {
 				ALog.error("Error signing out:", error: signOutError)
 			}
 			UserDefaults.standard.hasRunOnce = true
-			UserDefaults.standard.isCarePlanPopulated = false
 			Keychain.clearKeychain()
 		}
 		if Auth.auth().currentUser == nil {
@@ -77,17 +69,17 @@ class MainCoordinator: Coordinable {
 	}
 
 	func goToAuth(url: String? = nil) {
-		removeCoordinator(ofType: .appCoordinator)
+		removeCoordinator(ofType: .application)
 		Keychain.clearKeychain()
 		UserDefaults.resetStandardUserDefaults()
-		let authCoordinator = AuthCoordinator(parentCoordinator: self, deepLink: url)
+		let authCoordinator = AuthCoordinator(parent: self, deepLink: url)
 		addChild(coordinator: authCoordinator)
 		window.rootViewController = authCoordinator.rootViewController
 	}
 
 	public func gotoMainApp() {
-		removeCoordinator(ofType: .authCoordinator)
-		let appCoordinator = AppCoordinator(with: self)
+		removeCoordinator(ofType: .application)
+		let appCoordinator = AppCoordinator(parent: self)
 		addChild(coordinator: appCoordinator)
 		let rootViewController = appCoordinator.rootViewController
 		var transitionOptions = UIWindow.TransitionOptions()
@@ -133,7 +125,7 @@ class MainCoordinator: Coordinable {
 		})
 		#else
 		let reason = String.authWithBiometrics
-		context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, _ in
+		authenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, _ in
 			guard success else {
 				DispatchQueue.main.async {
 					self?.goToAuth()

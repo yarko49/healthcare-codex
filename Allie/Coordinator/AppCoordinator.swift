@@ -10,35 +10,29 @@ import LocalAuthentication
 import ModelsR4
 import UIKit
 
-class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelegate {
-	var navigationController: UINavigationController?
-	let type: CoordinatorType = .appCoordinator
-	var cancellables: Set<AnyCancellable> = []
-	var childCoordinators: [CoordinatorType: Coordinable]
-	weak var parentCoordinator: MainCoordinator?
-	var tabBarController: UITabBarController?
+class AppCoordinator: BaseCoordinator {
+	weak var parent: MainCoordinator?
+	lazy var tabBarController: UITabBarController? = {
+		Self.tabBarController
+	}()
 
-	var laContext = LAContext()
-
-	var rootViewController: UIViewController? {
+	override var rootViewController: UIViewController? {
 		tabBarController
 	}
 
 	var observation: ModelsR4.Observation?
 	var bundle: ModelsR4.Bundle?
 	var observationSearch: String?
-	weak var profileViewController: ProfileViewController?
 
-	init(with parent: MainCoordinator?) {
-		self.tabBarController = Self.tabBarController
-		self.parentCoordinator = parent
-		self.childCoordinators = [:]
-		super.init()
-		parentCoordinator?.registerServices()
+	init(parent: MainCoordinator?) {
+		super.init(type: .application)
+		self.parent = parent
+		parent?.registerServices()
 		start()
 	}
 
-	func start() {
+	override func start() {
+		super.start()
 		if UserDefaults.standard.haveAskedUserForBiometrics == false {
 			enrollWithBiometrics()
 		} else {
@@ -47,22 +41,21 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 	}
 
 	func showHUD(animated: Bool = true) {
-		parentCoordinator?.showHUD(animated: animated)
+		parent?.showHUD(animated: animated)
 	}
 
 	func hideHUD(animated: Bool = true) {
-		parentCoordinator?.hideHUD(animated: animated)
+		parent?.hideHUD(animated: animated)
 	}
 
 	func evaluateBiometrics() {
 		var theError: NSError?
-		let context = laContext
-		laContext.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &theError)
-		if laContext.biometryType == .none {
+		authenticationContext.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &theError)
+		if authenticationContext.biometryType == .none {
 			ALog.error("Error", error: theError)
 			return
 		}
-		ALog.info("\(String(describing: context.biometryType.rawValue))")
+		ALog.info("\(String(describing: authenticationContext.biometryType.rawValue))")
 	}
 
 	func enrollWithBiometrics() {
@@ -77,43 +70,9 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 			UserDefaults.standard.isBiometricsEnabled = false
 		}
 		DispatchQueue.main.async {
-			let biometricType = self.laContext.biometryType == .faceID ? String.faceID : String.touchID
+			let biometricType = self.authenticationContext.biometryType == .faceID ? String.faceID : String.touchID
 			AlertHelper.showAlert(title: String.automaticSignIn, detailText: String.enroll(biometricType), actions: [okAction, noAction])
 		}
-	}
-
-	func goToInput(with type: HKQuantityTypeIdentifier) {
-		let todayInputViewController = TodayInputViewController()
-		todayInputViewController.quantityTypeIdentifier = type
-		let inputAction: ((Int, Int, Date, HKQuantityTypeIdentifier) -> Void)? = { [weak self] value1, value2, effectiveDateTime, inputType in
-			do {
-				let factory = try ObservationFactory()
-				switch inputType {
-				case .bloodPressureSystolic:
-					let observation = try factory.observation(from: [Double(value1), Double(value2)], identifier: HKCorrelationTypeIdentifier.bloodPressure.rawValue, date: effectiveDateTime)
-					observation.subject = CareManager.shared.patient?.subject
-					self?.observation = observation
-					self?.bundle = nil
-				case .bodyMass:
-					let weightObservation = try factory.observation(from: [Double(value1)], identifier: HKQuantityTypeIdentifier.bodyMass.rawValue, date: effectiveDateTime)
-					let qoalObservation = try factory.observation(from: [Double(value2)], identifier: "HKQuantityTypeIdentifierIdealBodyMass", date: effectiveDateTime)
-					let observationPath = "/mobile/fhir/Observation"
-					let request = ModelsR4.BundleEntryRequest(method: FHIRPrimitive<HTTPVerb>(HTTPVerb.POST), url: FHIRPrimitive<FHIRURI>(stringLiteral: observationPath))
-					let fullURL = FHIRPrimitive<FHIRURI>(stringLiteral: AppConfig.apiBaseUrl + observationPath)
-					let weightEntry = ModelsR4.BundleEntry(extension: nil, fullUrl: fullURL, id: nil, link: nil, modifierExtension: nil, request: request, resource: .observation(weightObservation), response: nil, search: nil)
-					let goalWeightEntry = ModelsR4.BundleEntry(extension: nil, fullUrl: fullURL, id: nil, link: nil, modifierExtension: nil, request: request, resource: .observation(qoalObservation), response: nil, search: nil)
-					let bundle = ModelsR4.Bundle(entry: [weightEntry, goalWeightEntry], type: FHIRPrimitive<BundleType>(.transaction))
-					self?.observation = nil
-					self?.bundle = bundle
-				default:
-					break
-				}
-			} catch {
-				ALog.error("\(error.localizedDescription)")
-			}
-		}
-		todayInputViewController.inputAction = inputAction
-		navigate(to: todayInputViewController, with: .push)
 	}
 
 	func gotoProfileEntryViewController(from screen: NavigationSourceType = .profile) {
@@ -141,7 +100,7 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 			patient?.profile.weightInPounds = viewController.weightInPounds
 			patient?.profile.heightInInches = viewController.heightInInches
 			CareManager.shared.patient = patient
-			self?.parentCoordinator?.uploadPatient(patient: patient!)
+			self?.parent?.uploadPatient(patient: patient!)
 			self?.navigationController?.popViewController(animated: true)
 		}
 		navigate(to: viewController, with: .push)
@@ -152,44 +111,12 @@ class AppCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelega
 	func postObservationSearchAction(search: SearchParameter, viewController: ProfileViewController, start: Date, end: Date, hkType: HealthKitQuantityType) {}
 
 	func logout() {
-		parentCoordinator?.logout()
+		parent?.logout()
 	}
 
 	deinit {
 		navigationController?.viewControllers = []
 		rootViewController?.dismiss(animated: true, completion: nil)
-	}
-
-	@objc internal func backAction() {
-		navigationController?.popViewController(animated: true)
-	}
-
-	@objc internal func addAction() {
-		if let observation = observation {
-			showHUD()
-			APIClient.shared.post(observation: observation) { [weak self] result in
-				self?.hideHUD()
-				switch result {
-				case .failure(let error):
-					ALog.error("Error posting Observation", error: error)
-				case .success:
-					self?.observation = nil
-					self?.navigationController?.popViewController(animated: true)
-				}
-			}
-		} else if let bundle = bundle {
-			showHUD()
-			APIClient.shared.post(bundle: bundle) { [weak self] result in
-				self?.hideHUD()
-				switch result {
-				case .failure(let error):
-					ALog.error("Error posting Bundle", error: error)
-				case .success:
-					self?.bundle = nil
-					self?.navigationController?.popViewController(animated: true)
-				}
-			}
-		}
 	}
 
 	class var todayViewController: UINavigationController {

@@ -6,8 +6,7 @@
 import Foundation
 
 enum CoordinatorType: CaseIterable, Hashable {
-	case mainCoordinator
-	case authCoordinator
-	case appCoordinator
-	case settingsCoordinator
+	case main
+	case authentication
+	case application
 }

@@ -94,6 +94,9 @@ public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
 		})
 		if let linkage = try container.decodeIfPresent([String: String].self, forKey: .healthKitLinkage) {
 			self.healthKitLinkage = OCKHealthKitLinkage(linkage: linkage)
+			if asset == nil || asset == "" {
+				self.asset = healthKitLinkage?.quantityIdentifier.assetName
+			}
 		}
 	}
 

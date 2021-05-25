@@ -147,23 +147,14 @@ public extension UIWindow {
 	}
 
 	class func getVisibleViewControllerFrom(viewController: UIViewController) -> UIViewController {
-		switch viewController {
-		case is UINavigationController:
-			let navigationController = viewController as! UINavigationController
+		if let navigationController = viewController as? UINavigationController {
 			return UIWindow.getVisibleViewControllerFrom(viewController: navigationController.visibleViewController!)
-		case is UITabBarController:
-			let tabBarController = viewController as! UITabBarController
+		} else if let tabBarController = viewController as? UITabBarController {
 			return UIWindow.getVisibleViewControllerFrom(viewController: tabBarController.selectedViewController!)
-		default:
-			if let presentedViewController = viewController.presentedViewController {
-				if let presentedViewController2 = presentedViewController.presentedViewController {
-					return UIWindow.getVisibleViewControllerFrom(viewController: presentedViewController2)
-				} else {
-					return viewController
-				}
-			} else {
-				return viewController
-			}
+		} else if let presentedViewController = viewController.presentedViewController, let presentedViewController2 = presentedViewController.presentedViewController {
+			return UIWindow.getVisibleViewControllerFrom(viewController: presentedViewController2)
+		} else {
+			return viewController
 		}
 	}
 

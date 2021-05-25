@@ -46,11 +46,29 @@ class InsulinLogTaskViewController: OCKTaskViewController<InsulinLogTaskControll
 		guard let units = entryViews.units, !units.isEmpty, let value = Double(units) else {
 			return
 		}
+		let reason = insulinView.reason
+		let entryDate = entryViews.entryDate
+
 		let sample = HKDiscreteQuantitySample(insulinUnits: value, startDate: entryViews.entryDate, reason: insulinView.reason)
 		HKHealthStore().save(sample) { _, error in
 			if let error = error {
 				ALog.error("Unable to save insulin values", error: error)
 			}
+		}
+		let unit = HKUnit(from: "IU")
+		var outcomeValue = OCKOutcomeValue(value, units: unit.unitString)
+		outcomeValue.kind = reason.kind
+		outcomeValue.createdDate = entryDate
+		controller.append(outcomeValue: outcomeValue, at: eventIndexPath, completion: notifyDelegateAndResetViewOnError)
+	}
+
+	private func notifyDelegateAndResetViewOnError<Success, Error>(result: Result<Success, Error>) {
+		if case .failure(let error) = result {
+			if delegate == nil {
+				ALog.error("A task error occurred, but no delegate was set to forward it to!", error: error)
+			}
+			delegate?.taskViewController(self, didEncounterError: error)
+			controller.taskEvents = controller.taskEvents // triggers an update to the view
 		}
 	}
 }
