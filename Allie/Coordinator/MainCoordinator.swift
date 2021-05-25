@@ -251,7 +251,7 @@ class MainCoordinator: BaseCoordinator {
 			.sink { refreshResult in
 				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
 				CareManager.register(provider: RemoteConfigManager.shared.healthCareOrganization)
-                    .subscribe(on: DispatchQueue.main)
+					.subscribe(on: DispatchQueue.main)
 					.sink { registrationResult in
 						ALog.info("Did finish registering organization \(registrationResult)")
 						completion?(registrationResult)
