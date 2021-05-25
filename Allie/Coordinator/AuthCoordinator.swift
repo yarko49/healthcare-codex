@@ -41,8 +41,8 @@ class AuthCoordinator: BaseCoordinator {
 		gotoSignup()
 	}
 
-	func showHUD(animated: Bool = true) {
-		parent?.showHUD(animated: animated)
+	func showHUD(title: String? = nil, message: String? = nil, animated: Bool = true) {
+		parent?.showHUD(title: title, message: message, animated: animated)
 	}
 
 	func hideHUD(animated: Bool = true) {
@@ -203,15 +203,6 @@ class AuthCoordinator: BaseCoordinator {
 		}
 	}
 
-	func registerProviderAndGotoMainApp() {
-		parent?.refreshRemoteConfig(completion: { [weak self] _ in
-			DispatchQueue.main.async {
-				CareManager.shared.patient = self?.alliePatient
-				self?.parent?.gotoMainApp()
-			}
-		})
-	}
-
 	func gotoProfileSetupViewController(email: String?, user: RemoteUser) {
 		try? CareManager.shared.resetAllContents()
 		if alliePatient == nil {
@@ -235,7 +226,7 @@ class AuthCoordinator: BaseCoordinator {
 			self?.alliePatient?.birthday = viewController.dateOfBirth
 			self?.alliePatient?.profile.weightInPounds = viewController.weightInPounds
 			self?.alliePatient?.profile.heightInInches = viewController.heightInInches
-			self?.gotoMyDevices()
+			self?.createPatient()
 		}
 		navigate(to: viewController, with: .push)
 	}
@@ -245,7 +236,7 @@ class AuthCoordinator: BaseCoordinator {
 		healthViewController.screenFlowType = screenFlowType
 		healthViewController.authorizationFlowType = authorizationFlowType
 		healthViewController.notNowAction = { [weak self] in
-			self?.createPatient()
+			self?.parent?.gotoMainApp()
 		}
 
 		healthViewController.activateAction = { [weak self] in
@@ -257,22 +248,27 @@ class AuthCoordinator: BaseCoordinator {
 
 	func createPatient() {
 		alliePatient?.profile.isSignUpCompleted = true
-		showHUD()
+		CareManager.shared.patient = alliePatient
+		let title = NSLocalizedString("CREATING_ACCOUNT", comment: "Creating Account")
+		showHUD(title: title, message: nil, animated: true)
 		APIClient.shared.post(patient: alliePatient!) { [weak self] result in
-			self?.hideHUD()
 			switch result {
 			case .failure(let error):
 				let okAction = AlertHelper.AlertAction(withTitle: String.ok) {
-					DispatchQueue.main.async {
-						self?.registerProviderAndGotoMainApp()
-					}
+					self?.parent?.refreshRemoteConfig(completion: { [weak self] _ in
+						self?.hideHUD()
+						self?.gotoMyDevices()
+					})
 				}
 				self?.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
 			case .success(let carePlanResponse):
 				if let patient = carePlanResponse.patients.first {
 					CareManager.shared.patient = patient
 				}
-				self?.registerProviderAndGotoMainApp()
+				self?.parent?.refreshRemoteConfig(completion: { [weak self] _ in
+					self?.hideHUD()
+					self?.gotoMyDevices()
+				})
 			}
 		}
 	}
@@ -290,7 +286,7 @@ class AuthCoordinator: BaseCoordinator {
 			}
 			ALog.info("HealthKit Successfully Authorized.")
 			DispatchQueue.main.async {
-				self?.createPatient()
+				self?.parent?.gotoMainApp()
 			}
 		}
 	}

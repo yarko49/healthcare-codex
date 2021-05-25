@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/zendesk/chat_providers_sdk_ios",
         "state": {
           "branch": null,
-          "revision": "538bdb3921c937287f6ad3c3269fb90524e6870f",
-          "version": "2.11.0"
+          "revision": "eb3b54f087d0f21bb7a80f98a4e4680e490c6abf",
+          "version": "2.11.1"
         }
       },
       {
@@ -78,8 +78,8 @@
         "repositoryURL": "https://github.com/zendesk/chat_sdk_ios",
         "state": {
           "branch": null,
-          "revision": "2695ef66d4d3c582157c526d4df92677af9c9553",
-          "version": "2.11.0"
+          "revision": "92ca0c74e4004b7513cfdad31e3700a0ea7d8f2e",
+          "version": "2.11.1"
         }
       },
       {
@@ -141,8 +141,8 @@
         "repositoryURL": "https://github.com/google/GoogleUtilities.git",
         "state": {
           "branch": null,
-          "revision": "66f5945ac3a4c4ac268bf94c31f226116b14e327",
-          "version": "7.4.0"
+          "revision": "58359415d4ea29ebdc8fa5b41ce96c434d76d901",
+          "version": "7.4.1"
         }
       },
       {
@@ -294,8 +294,8 @@
         "repositoryURL": "https://github.com/apple/swift-protobuf.git",
         "state": {
           "branch": null,
-          "revision": "bfe4255ff60f22a41cafa113059668571ed5d461",
-          "version": "1.16.0"
+          "revision": "1f62db409f2c9b0223a3f68567b4a01333aae778",
+          "version": "1.17.0"
         }
       }
     ]
