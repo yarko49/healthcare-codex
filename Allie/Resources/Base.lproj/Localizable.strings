@@ -70,7 +70,8 @@
 /* Email Sent! */
 "EMAIL_SENT" = "Email Sent!";
 
-"CHECK_MAIL" = "Check your email and verify";
+/* Check your email and use the verify link */
+"CHECK_MAIL" = "Check your email and use the verify link";
 
 "SENT_EMAIL_AT_SIGN_IN" = "We just sent an email to you at %@. Click the link, and you’ll be automatically signed in.";
 
@@ -569,4 +570,7 @@
 
 /* Authenticate to login */
 "KEYCHAIN_PROMPT" = "Authenticate to login";
+
+/* Creating Account */
+"CREATING_ACCOUNT" = "Creating Account";
 

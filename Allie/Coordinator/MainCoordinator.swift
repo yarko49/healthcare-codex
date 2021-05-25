@@ -25,12 +25,21 @@ class MainCoordinator: BaseCoordinator {
 		navigationController
 	}
 
-	func showHUD(animated: Bool = true) {
-		hud.show(in: window, animated: animated)
+	func showHUD(title: String? = nil, message: String? = nil, animated: Bool = true) {
+		DispatchQueue.main.async { [weak self] in
+			guard let strongSelf = self else {
+				return
+			}
+			strongSelf.hud.textLabel.text = title
+			strongSelf.hud.detailTextLabel.text = message
+			strongSelf.hud.show(in: strongSelf.window, animated: animated)
+		}
 	}
 
 	func hideHUD(animated: Bool = true) {
-		hud.dismiss(animated: animated)
+		DispatchQueue.main.async { [weak self] in
+			self?.hud.dismiss(animated: animated)
+		}
 	}
 
 	init(window: UIWindow) {
@@ -242,6 +251,7 @@ class MainCoordinator: BaseCoordinator {
 			.sink { refreshResult in
 				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
 				CareManager.register(provider: RemoteConfigManager.shared.healthCareOrganization)
+                    .subscribe(on: DispatchQueue.main)
 					.sink { registrationResult in
 						ALog.info("Did finish registering organization \(registrationResult)")
 						completion?(registrationResult)
