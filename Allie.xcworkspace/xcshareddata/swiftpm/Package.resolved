@@ -48,10 +48,10 @@
       },
       {
         "package": "CareKit",
-        "repositoryURL": "https://github.com/carekit-apple/CareKit.git",
+        "repositoryURL": "https://github.com/Codex-Health/CareKit.git",
         "state": {
           "branch": "main",
-          "revision": "6ac64df2582e61adbb938c216f5bfd1356572384",
+          "revision": "0463fef037e7a9b665fcd9a0d67a8a2b38412a06",
           "version": null
         }
       },
