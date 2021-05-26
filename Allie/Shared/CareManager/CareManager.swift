@@ -33,7 +33,12 @@ class CareManager: NSObject, ObservableObject {
 	}()
 
 	private(set) lazy var store = OCKStore(name: Constants.careStore, type: Constants.coreDataStoreType, remote: remoteSynchronizationManager)
-	private(set) lazy var healthKitStore = OCKHealthKitPassthroughStore(store: store)
+	private(set) lazy var healthKitStore: OCKHealthKitPassthroughStore = {
+		let healthKitStore = OCKHealthKitPassthroughStore(store: store)
+		healthKitStore.sampleToOutcomeValueMapper = { $0.outcomeValues(task: $1) }
+		return healthKitStore
+	}()
+
 	private(set) lazy var synchronizedStoreManager: OCKSynchronizedStoreManager = {
 		let coordinator = OCKStoreCoordinator()
 		coordinator.attach(store: store)

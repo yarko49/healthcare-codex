@@ -49,17 +49,12 @@ class InsulinLogTaskViewController: OCKTaskViewController<InsulinLogTaskControll
 		let reason = insulinView.reason
 		let entryDate = entryViews.entryDate
 
-		let sample = HKDiscreteQuantitySample(insulinUnits: value, startDate: entryViews.entryDate, reason: insulinView.reason)
+		let sample = HKDiscreteQuantitySample(insulinUnits: value, startDate: entryDate, reason: reason)
 		HKHealthStore().save(sample) { _, error in
 			if let error = error {
 				ALog.error("Unable to save insulin values", error: error)
 			}
 		}
-		let unit = HKUnit(from: "IU")
-		var outcomeValue = OCKOutcomeValue(value, units: unit.unitString)
-		outcomeValue.kind = reason.kind
-		outcomeValue.createdDate = entryDate
-		controller.append(outcomeValue: outcomeValue, at: eventIndexPath, completion: notifyDelegateAndResetViewOnError)
 	}
 
 	private func notifyDelegateAndResetViewOnError<Success, Error>(result: Result<Success, Error>) {

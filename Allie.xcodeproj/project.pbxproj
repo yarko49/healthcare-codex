@@ -155,6 +155,10 @@
 		844F06EA25C122DA00D26119 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F06E925C122DA00D26119 /* Bundle+Version.swift */; };
 		8452775C262E8DB9002241A1 /* EmailSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8452775B262E8DB9002241A1 /* EmailSentViewController.swift */; };
 		84552C0F265CC687003B55A9 /* HKQuantityTypeIdentifier+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84552C0E265CC687003B55A9 /* HKQuantityTypeIdentifier+Image.swift */; };
+		845A082D265DD94800A7BDB7 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 845A082C265DD94800A7BDB7 /* CareKitFHIR */; };
+		845A082F265DD94800A7BDB7 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 845A082E265DD94800A7BDB7 /* CareKit */; };
+		845A0831265DD94800A7BDB7 /* CareKitStore in Frameworks */ = {isa = PBXBuildFile; productRef = 845A0830265DD94800A7BDB7 /* CareKitStore */; };
+		845A0833265DD94800A7BDB7 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 845A0832265DD94800A7BDB7 /* CareKitUI */; };
 		845AAC71259C36E900FF8F3F /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 845AAC70259C36E900FF8F3F /* IQKeyboardManagerSwift */; };
 		845AAC77259C374500FF8F3F /* BonMot in Frameworks */ = {isa = PBXBuildFile; productRef = 845AAC76259C374500FF8F3F /* BonMot */; };
 		845F18992632444F005A601A /* CHDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F18982632444F005A601A /* CHDevice.swift */; };
@@ -439,10 +443,6 @@
 		8487493425B6A594008C15E2 /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 8487493325B6A594008C15E2 /* JGProgressHUD */; };
 		84897F7B25E0DFDD00ABC715 /* OutcomeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F0259C2A4E00C50C09 /* OutcomeValue.swift */; };
 		84897F7F25E0E1E400ABC715 /* OutcomeValue+OCKOutcomeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766EB259C2A4E00C50C09 /* OutcomeValue+OCKOutcomeValue.swift */; };
-		84944E9825E08D3C00FB1938 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 84944E9725E08D3C00FB1938 /* CareKitFHIR */; };
-		84944E9A25E08D3C00FB1938 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 84944E9925E08D3C00FB1938 /* CareKit */; };
-		84944E9C25E08D3C00FB1938 /* CareKitStore in Frameworks */ = {isa = PBXBuildFile; productRef = 84944E9B25E08D3C00FB1938 /* CareKitStore */; };
-		84944E9E25E08D3C00FB1938 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 84944E9D25E08D3C00FB1938 /* CareKitUI */; };
 		849E158F26113ABB00663010 /* AlliePatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E158E26113ABB00663010 /* AlliePatientTests.swift */; };
 		849F362125B9161300FC2D1B /* TitledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F362025B9161300FC2D1B /* TitledTextField.swift */; };
 		849F378F25BA7F2200FC2D1B /* AuthorizationFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */; };
@@ -477,6 +477,9 @@
 		84CF2D9E261AC5D40080293F /* GenderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2D9D261AC5D40080293F /* GenderPickerView.swift */; };
 		84CF2DA2261ACAA30080293F /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2DA1261ACAA30080293F /* ButtonView.swift */; };
 		84CF2DA4261AE60B0080293F /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2DA3261AE60B0080293F /* DatePickerView.swift */; };
+		84CFEB30265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFEB2F265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift */; };
+		84CFEB31265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFEB2F265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift */; };
+		84CFEB32265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFEB2F265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift */; };
 		84D121C3264100BC00990196 /* Outcomes1.json in Resources */ = {isa = PBXBuildFile; fileRef = 84D121C1264100BC00990196 /* Outcomes1.json */; };
 		84D121C4264100BC00990196 /* Outcomes2.json in Resources */ = {isa = PBXBuildFile; fileRef = 84D121C2264100BC00990196 /* Outcomes2.json */; };
 		84D121C6264101EB00990196 /* OutcomesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D121C5264101EB00990196 /* OutcomesTests.swift */; };
@@ -963,6 +966,7 @@
 		84CF2D9D261AC5D40080293F /* GenderPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderPickerView.swift; sourceTree = "<group>"; };
 		84CF2DA1261ACAA30080293F /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		84CF2DA3261AE60B0080293F /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
+		84CFEB2F265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKSample+OCKOutcomeValue.swift"; sourceTree = "<group>"; };
 		84D121C1264100BC00990196 /* Outcomes1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Outcomes1.json; sourceTree = "<group>"; };
 		84D121C2264100BC00990196 /* Outcomes2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Outcomes2.json; sourceTree = "<group>"; };
 		84D121C5264101EB00990196 /* OutcomesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutcomesTests.swift; sourceTree = "<group>"; };
@@ -1011,17 +1015,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84944E9A25E08D3C00FB1938 /* CareKit in Frameworks */,
 				8487493425B6A594008C15E2 /* JGProgressHUD in Frameworks */,
 				844EE8392629FC4B001B2D9E /* KeychainAccess in Frameworks */,
 				84436275264B527B002B475C /* FirebaseInstallations in Frameworks */,
 				8431136A262E87F300561329 /* SkyFloatingLabelTextField in Frameworks */,
-				84944E9825E08D3C00FB1938 /* CareKitFHIR in Frameworks */,
-				84944E9C25E08D3C00FB1938 /* CareKitStore in Frameworks */,
 				8443627D264B527B002B475C /* FirebaseAuth in Frameworks */,
 				84B3320A261D166F007EB839 /* ZendeskSupportSDK in Frameworks */,
 				8443627F264B527B002B475C /* FirebaseDynamicLinks in Frameworks */,
-				84944E9E25E08D3C00FB1938 /* CareKitUI in Frameworks */,
+				845A0833265DD94800A7BDB7 /* CareKitUI in Frameworks */,
+				845A082F265DD94800A7BDB7 /* CareKit in Frameworks */,
 				8443627B264B527B002B475C /* FirebaseMessaging in Frameworks */,
 				845AAC71259C36E900FF8F3F /* IQKeyboardManagerSwift in Frameworks */,
 				84700A84259C331B0083E2AA /* Charts in Frameworks */,
@@ -1032,7 +1034,9 @@
 				843372E2264F9B20005BED99 /* SDWebImage in Frameworks */,
 				84C22BCB25A5821800D16CFF /* Logging in Frameworks */,
 				F2E095A67D8D601362DA792D /* (null) in Frameworks */,
+				845A082D265DD94800A7BDB7 /* CareKitFHIR in Frameworks */,
 				84436279264B527B002B475C /* FirebaseCrashlytics in Frameworks */,
+				845A0831265DD94800A7BDB7 /* CareKitStore in Frameworks */,
 				84436277264B527B002B475C /* FirebaseAnalytics in Frameworks */,
 				EFE9274FBB0B8715F2405B31 /* (null) in Frameworks */,
 				93C7277966942A2A5AD3490B /* Pods_Allie.framework in Frameworks */,
@@ -1535,6 +1539,7 @@
 				844766F0259C2A4E00C50C09 /* OutcomeValue.swift */,
 				844766EB259C2A4E00C50C09 /* OutcomeValue+OCKOutcomeValue.swift */,
 				845F18A426328403005A601A /* OutcomeValue+HKQuantity.swift */,
+				84CFEB2F265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift */,
 				844766F5259C2A4E00C50C09 /* ScheduleElement.swift */,
 				8461B30325A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift */,
 				844766F6259C2A4E00C50C09 /* Task.swift */,
@@ -1828,10 +1833,6 @@
 				845AAC76259C374500FF8F3F /* BonMot */,
 				84C22BCA25A5821800D16CFF /* Logging */,
 				8487493325B6A594008C15E2 /* JGProgressHUD */,
-				84944E9725E08D3C00FB1938 /* CareKitFHIR */,
-				84944E9925E08D3C00FB1938 /* CareKit */,
-				84944E9B25E08D3C00FB1938 /* CareKitStore */,
-				84944E9D25E08D3C00FB1938 /* CareKitUI */,
 				84B331FD261D162B007EB839 /* ZendeskAnswerBotSDK */,
 				84B33203261D164B007EB839 /* ZendeskChatSDK */,
 				84B33209261D166F007EB839 /* ZendeskSupportSDK */,
@@ -1845,6 +1846,10 @@
 				8443627E264B527B002B475C /* FirebaseDynamicLinks */,
 				84436280264B527B002B475C /* FirebaseRemoteConfig */,
 				843372E1264F9B20005BED99 /* SDWebImage */,
+				845A082C265DD94800A7BDB7 /* CareKitFHIR */,
+				845A082E265DD94800A7BDB7 /* CareKit */,
+				845A0830265DD94800A7BDB7 /* CareKitStore */,
+				845A0832265DD94800A7BDB7 /* CareKitUI */,
 			);
 			productName = Alfred;
 			productReference = 842398C7259C1144006FB3F4 /* Allie.app */;
@@ -2022,7 +2027,6 @@
 				845AAC75259C374500FF8F3F /* XCRemoteSwiftPackageReference "BonMot" */,
 				84C22BC925A5821700D16CFF /* XCRemoteSwiftPackageReference "swift-log" */,
 				8487493225B6A594008C15E2 /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
-				84944E9625E08D3B00FB1938 /* XCRemoteSwiftPackageReference "CareKit" */,
 				84B331FC261D162A007EB839 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */,
 				84B33202261D164B007EB839 /* XCRemoteSwiftPackageReference "chat_sdk_ios" */,
 				84B33208261D166F007EB839 /* XCRemoteSwiftPackageReference "support_sdk_ios" */,
@@ -2030,6 +2034,7 @@
 				84311368262E87F300561329 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */,
 				84436273264B527B002B475C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				843372E0264F9B20005BED99 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				845A082B265DD94700A7BDB7 /* XCRemoteSwiftPackageReference "CareKit" */,
 			);
 			productRefGroup = 842398C8259C1144006FB3F4 /* Products */;
 			projectDirPath = "";
@@ -2628,6 +2633,7 @@
 				842398CB259C1144006FB3F4 /* AppDelegate.swift in Sources */,
 				844767E8259C2A4E00C50C09 /* WebService+Image.swift in Sources */,
 				84476730259C2A4E00C50C09 /* GoogleSignInButton.swift in Sources */,
+				84CFEB30265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift in Sources */,
 				84749FBB26313B4200D7D7A8 /* CareManager+HealthKitSynchronization.swift in Sources */,
 				84E0624825C7C2E7008142C6 /* SettingsType.swift in Sources */,
 				84342FD025A8276C00B3EF5B /* DailyTasksPageViewController.swift in Sources */,
@@ -2944,6 +2950,7 @@
 				847DCC5B265871F3004E9C1D /* Collection+Average.swift in Sources */,
 				847DCC5C265871F3004E9C1D /* BaseFactory.swift in Sources */,
 				847DCC5D265871F3004E9C1D /* URL+Request.swift in Sources */,
+				84CFEB32265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift in Sources */,
 				847DCC5E265871F3004E9C1D /* ProfileViewController.swift in Sources */,
 				847DCC5F265871F3004E9C1D /* CarePlan.swift in Sources */,
 				847DCC60265871F3004E9C1D /* UICollectionView+Appearance.swift in Sources */,
@@ -3140,6 +3147,7 @@
 				84D12288264112DE00990196 /* Collection+Average.swift in Sources */,
 				84D12289264112DE00990196 /* BaseFactory.swift in Sources */,
 				84D1228A264112DE00990196 /* URL+Request.swift in Sources */,
+				84CFEB31265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift in Sources */,
 				84D1228B264112DE00990196 /* ProfileViewController.swift in Sources */,
 				84D1228C264112DE00990196 /* CarePlan.swift in Sources */,
 				84D1228D264112DE00990196 /* UICollectionView+Appearance.swift in Sources */,
@@ -3617,7 +3625,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 89;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie-Dev-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3646,7 +3654,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 89;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie-Dev-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3816,6 +3824,14 @@
 				minimumVersion = 4.2.2;
 			};
 		};
+		845A082B265DD94700A7BDB7 /* XCRemoteSwiftPackageReference "CareKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Codex-Health/CareKit.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		845AAC6F259C36E900FF8F3F /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -3950,14 +3966,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.2.0;
-			};
-		};
-		84944E9625E08D3B00FB1938 /* XCRemoteSwiftPackageReference "CareKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/carekit-apple/CareKit.git";
-			requirement = {
-				branch = main;
-				kind = branch;
 			};
 		};
 		84B331FC261D162A007EB839 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */ = {
@@ -4149,6 +4157,26 @@
 			package = 844EE8372629FC4B001B2D9E /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
 		};
+		845A082C265DD94800A7BDB7 /* CareKitFHIR */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 845A082B265DD94700A7BDB7 /* XCRemoteSwiftPackageReference "CareKit" */;
+			productName = CareKitFHIR;
+		};
+		845A082E265DD94800A7BDB7 /* CareKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 845A082B265DD94700A7BDB7 /* XCRemoteSwiftPackageReference "CareKit" */;
+			productName = CareKit;
+		};
+		845A0830265DD94800A7BDB7 /* CareKitStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 845A082B265DD94700A7BDB7 /* XCRemoteSwiftPackageReference "CareKit" */;
+			productName = CareKitStore;
+		};
+		845A0832265DD94800A7BDB7 /* CareKitUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 845A082B265DD94700A7BDB7 /* XCRemoteSwiftPackageReference "CareKit" */;
+			productName = CareKitUI;
+		};
 		845AAC70259C36E900FF8F3F /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 845AAC6F259C36E900FF8F3F /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
@@ -4278,26 +4306,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8487493225B6A594008C15E2 /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
 			productName = JGProgressHUD;
-		};
-		84944E9725E08D3C00FB1938 /* CareKitFHIR */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 84944E9625E08D3B00FB1938 /* XCRemoteSwiftPackageReference "CareKit" */;
-			productName = CareKitFHIR;
-		};
-		84944E9925E08D3C00FB1938 /* CareKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 84944E9625E08D3B00FB1938 /* XCRemoteSwiftPackageReference "CareKit" */;
-			productName = CareKit;
-		};
-		84944E9B25E08D3C00FB1938 /* CareKitStore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 84944E9625E08D3B00FB1938 /* XCRemoteSwiftPackageReference "CareKit" */;
-			productName = CareKitStore;
-		};
-		84944E9D25E08D3C00FB1938 /* CareKitUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 84944E9625E08D3B00FB1938 /* XCRemoteSwiftPackageReference "CareKit" */;
-			productName = CareKitUI;
 		};
 		84B331FD261D162B007EB839 /* ZendeskAnswerBotSDK */ = {
 			isa = XCSwiftPackageProductDependency;
