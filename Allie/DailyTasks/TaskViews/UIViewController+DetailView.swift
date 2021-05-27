@@ -20,7 +20,7 @@ extension UIViewController {
 		detailViewController.detailView.imageView.sd_setImage(with: imageURL, completed: nil)
 		detailViewController.detailView.imageLabel.text = title
 		detailViewController.detailView.imageLabel.textColor = .white
-		navigationController?.show(detailViewController, sender: self)
+		navigationController?.showDetailViewController(detailViewController, sender: self)
 	}
 
 	func showTextContent(title: String?, content: String, imageURL: URL?) {
@@ -28,7 +28,7 @@ extension UIViewController {
 		textContentViewController.titleLabel.text = title
 		textContentViewController.textView.text = content
 		textContentViewController.imageURL = imageURL
-		navigationController?.show(textContentViewController, sender: self)
+		navigationController?.showDetailViewController(textContentViewController, sender: self)
 	}
 
 	func showURLContent(url: URL) {
@@ -36,6 +36,6 @@ extension UIViewController {
 			return
 		}
 		let safariViewController = SFSafariViewController(url: url)
-		navigationController?.present(safariViewController, animated: true, completion: nil)
+		navigationController?.showDetailViewController(safariViewController, sender: self)
 	}
 }

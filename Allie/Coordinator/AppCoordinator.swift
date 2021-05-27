@@ -27,7 +27,6 @@ class AppCoordinator: BaseCoordinator {
 	init(parent: MainCoordinator?) {
 		super.init(type: .application)
 		self.parent = parent
-		parent?.registerServices()
 		start()
 	}
 

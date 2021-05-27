@@ -31,11 +31,14 @@ class ProfileEntryViewController: SignupBaseViewController {
 		mainStackView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(mainStackView)
 		let viewTopAnchor = controllerViewMode == .onboarding ? titleLabel.bottomAnchor : view.safeAreaLayoutGuide.topAnchor
-		let viewTopOffset: CGFloat = controllerViewMode == .onboarding ? 2.0 : 0.0
+		let viewTopOffset: CGFloat = controllerViewMode == .onboarding ? 2.0 : 1.0
 		NSLayoutConstraint.activate([mainStackView.topAnchor.constraint(equalToSystemSpacingBelow: viewTopAnchor, multiplier: viewTopOffset),
 		                             mainStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: mainStackView.trailingAnchor, multiplier: 2.0)])
 		mainStackView.addArrangedSubview(nameTextField)
+		if controllerViewMode != .onboarding {
+			mainStackView.addArrangedSubview(emailTextField)
+		}
 		mainStackView.addArrangedSubview(dateOfBirthView)
 		mainStackView.addArrangedSubview(buttonStackView)
 		buttonStackView.addArrangedSubview(heightButton)
@@ -121,6 +124,25 @@ class ProfileEntryViewController: SignupBaseViewController {
 		return textField
 	}()
 
+	lazy var emailTextField: SkyFloatingLabelTextField = {
+		let textField = SkyFloatingLabelTextField(frame: .zero)
+		textField.translatesAutoresizingMaskIntoConstraints = false
+		textField.heightAnchor.constraint(equalToConstant: 48.0).isActive = true
+		textField.placeholder = NSLocalizedString("EMAIL", comment: "Email")
+		textField.title = NSLocalizedString("EMAIL_ADDRESS", comment: "Email address")
+		textField.errorColor = .systemRed
+		textField.lineColor = .allieSeparator
+		textField.selectedLineColor = .allieLighterGray
+		textField.lineHeight = 1.0
+		textField.selectedLineHeight = 1.0
+		textField.textColor = .allieButtons
+		textField.keyboardType = .emailAddress
+		textField.autocorrectionType = .no
+		textField.autocapitalizationType = .none
+		textField.selectedTitleColor = .allieLighterGray
+		return textField
+	}()
+
 	let dateOfBirthView: DatePickerView = {
 		let view = DatePickerView(frame: .zero)
 		view.translatesAutoresizingMaskIntoConstraints = false
@@ -182,6 +204,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 	func configureValues() {
 		nameTextField.delegate = self
 		nameTextField.text = patient?.name.fullName
+		emailTextField.text = patient?.profile.email
 		heightInInches = patient?.profile.heightInInches ?? Constants.heightInInches
 		weightInPounds = patient?.profile.weightInPounds ?? Constants.weightInPounds
 		sex = patient?.sex ?? .male

@@ -2,10 +2,14 @@ import UIKit
 
 class SplashViewController: BaseViewController {
 	let imageView: UIImageView = {
-		let view = UIImageView(image: UIImage(named: "logo"))
+		let view = UIImageView(image: UIImage(named: "Logo"))
 		view.contentMode = .center
 		return view
 	}()
+
+	override var prefersStatusBarHidden: Bool {
+		false
+	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
