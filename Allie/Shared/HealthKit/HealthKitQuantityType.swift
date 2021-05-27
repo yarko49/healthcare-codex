@@ -61,15 +61,15 @@ enum HealthKitQuantityType: String, CaseIterable {
 	var image: UIImage {
 		switch self {
 		case .activity:
-			return UIImage(named: "activityIcon") ?? UIImage()
+			return UIImage(named: "icon-activity") ?? UIImage()
 		case .bloodPressure:
-			return UIImage(named: "bloodPressureIcon") ?? UIImage()
+			return UIImage(named: "icon-blood-pressure") ?? UIImage()
 		case .heartRate:
-			return UIImage(named: "heartRateIcon") ?? UIImage()
+			return UIImage(named: "icon-heart-rate") ?? UIImage()
 		case .restingHeartRate:
-			return UIImage(named: "restingHRIcon") ?? UIImage()
+			return UIImage(named: "icon-heart-rate") ?? UIImage()
 		case .weight:
-			return UIImage(named: "weightIcon") ?? UIImage()
+			return UIImage(named: "icon-weight") ?? UIImage()
 		}
 	}
 

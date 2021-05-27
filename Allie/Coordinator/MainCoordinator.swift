@@ -154,23 +154,8 @@ class MainCoordinator: BaseCoordinator {
 		#endif
 	}
 
-	func registerServices() {
-		if CareManager.shared.patient == nil {
-			CareManager.shared.loadPatient { result in
-				switch result {
-				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
-				case .success:
-					AppDelegate.registerServices(patient: CareManager.shared.patient)
-				}
-			}
-		} else {
-			AppDelegate.registerServices(patient: CareManager.shared.patient)
-		}
-	}
-
 	func firebaseAuthentication(completion: @escaping (Bool) -> Void) {
-		Auth.auth().currentUser?.getIDTokenResult(completion: { [weak self] tokenResult, error in
+		Auth.auth().currentUser?.getIDTokenResult(completion: { tokenResult, error in
 			guard error == nil else {
 				ALog.error("Error signing out:", error: error)
 				completion(false)
@@ -183,9 +168,7 @@ class MainCoordinator: BaseCoordinator {
 			if let token = AuthenticaionToken(result: tokenResult) {
 				Keychain.authenticationToken = token
 			}
-			self?.refreshRemoteConfig { _ in
-				completion(true)
-			}
+			completion(true)
 		})
 	}
 

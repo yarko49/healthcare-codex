@@ -1,5 +1,6 @@
 import AnswerBotSDK
 import ChatSDK
+import KeychainAccess
 import MessagingSDK
 import SafariServices
 import SDKConfigurations
@@ -65,7 +66,11 @@ class SettingsViewController: BaseViewController {
 		tableView.delegate = self
 		var snapshot = dataSource.snapshot()
 		snapshot.appendSections([0])
-		snapshot.appendItems(SettingsType.allCases, toSection: 0)
+		var items = SettingsType.allCases
+		items.removeAll { type in
+			type == .notifications
+		}
+		snapshot.appendItems(items, toSection: 0)
 		dataSource.apply(snapshot, animatingDifferences: false) {
 			ALog.info("Finished Apply Snapshot")
 		}
@@ -120,6 +125,7 @@ extension SettingsViewController: UITableViewDelegate {
 			if let name = PersonNameComponents(fullName: profileEntryViewController.fullName) {
 				alliePatient?.name = name
 			}
+			alliePatient?.profile.email = profileEntryViewController.emailTextField.text
 			alliePatient?.sex = profileEntryViewController.sex
 			alliePatient?.updatedDate = Date()
 			alliePatient?.birthday = profileEntryViewController.dateOfBirth
@@ -138,6 +144,7 @@ extension SettingsViewController: UITableViewDelegate {
 					case .success(let response):
 						if let patient = response.patients.first {
 							CareManager.shared.patient = patient
+							Keychain.userEmail = patient.profile.email
 						}
 					}
 				}

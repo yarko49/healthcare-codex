@@ -19,8 +19,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	private let hud: JGProgressHUD = {
 		let view = JGProgressHUD(style: .dark)
 		view.vibrancyEnabled = true
-		view.textLabel.text = NSLocalizedString("LOADING_DOTS", comment: "Loading...")
-		view.detailTextLabel.text = NSLocalizedString("CAREPLAN", comment: "CarePlan")
+		view.textLabel.text = NSLocalizedString("LOADING", comment: "Loading")
+		view.detailTextLabel.text = NSLocalizedString("YOUR_CAREPLAN", comment: "Your Care Plan")
 		return view
 	}()
 
@@ -158,11 +158,11 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			return
 		}
 		isRefreshingCarePlan = true
-		hud.show(in: view)
+		hud.show(in: tabBarController?.view ?? view, animated: true)
 		APIClient.shared.getCarePlan(option: .carePlan)
 			.sink { [weak self] completion in
 				self?.isRefreshingCarePlan = false
-				self?.hud.dismiss()
+				self?.hud.dismiss(animated: true)
 				switch completion {
 				case .failure(let error):
 					ALog.error("Unable to fetch care plan", error: error)

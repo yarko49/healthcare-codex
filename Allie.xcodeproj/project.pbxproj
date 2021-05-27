@@ -1688,15 +1688,12 @@
 				844F06E925C122DA00D26119 /* Bundle+Version.swift */,
 				8437270B25F8989C005B2C5C /* Notification+Names.swift */,
 				844766BB259C2A4E00C50C09 /* UIColor+Names.swift */,
-				844EE87A262D02E0001B2D9E /* UIView+Appearance.swift */,
-				84476723259C2A4E00C50C09 /* UINavigationBar+Appearance.swift */,
-				841640C92627D999000903AF /* UITabBar+Appearance.swift */,
-				841640D72627F478000903AF /* UICollectionView+Appearance.swift */,
 				845F8BA12647618300999091 /* String+Capitalizing.swift */,
 				845F8BA42647B9BD00999091 /* Date+Conversion.swift */,
 				846B5EB92648B287003046EF /* NSLayoutConstraint+Extensions.swift */,
 				84552C0E265CC687003B55A9 /* HKQuantityTypeIdentifier+Image.swift */,
 				840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */,
+				84D625B0265F5B8E00B5A973 /* Appearance */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1770,6 +1767,17 @@
 				84EDA19126577F3B0049323C /* HKInsulinDeliveryReason+Display.swift */,
 			);
 			path = InsulinLog;
+			sourceTree = "<group>";
+		};
+		84D625B0265F5B8E00B5A973 /* Appearance */ = {
+			isa = PBXGroup;
+			children = (
+				844EE87A262D02E0001B2D9E /* UIView+Appearance.swift */,
+				84476723259C2A4E00C50C09 /* UINavigationBar+Appearance.swift */,
+				841640C92627D999000903AF /* UITabBar+Appearance.swift */,
+				841640D72627F478000903AF /* UICollectionView+Appearance.swift */,
+			);
+			path = Appearance;
 			sourceTree = "<group>";
 		};
 		84EDA197265A0A240049323C /* Production */ = {
@@ -3625,7 +3633,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 89;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie-Dev-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3654,7 +3662,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 89;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie-Dev-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (

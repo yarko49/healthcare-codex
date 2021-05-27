@@ -12,7 +12,7 @@ struct IllustartionItem: Hashable {
 	var title: String
 
 	static var defaultItems: [IllustartionItem] {
-		[IllustartionItem(image: UIImage(named: "logo"), title: String.slide1Title),
+		[IllustartionItem(image: UIImage(named: "Logo"), title: String.slide1Title),
 		 IllustartionItem(image: UIImage(named: "illustration2"), title: String.slide2Title),
 		 IllustartionItem(image: UIImage(named: "illustration3"), title: String.slide3Title)]
 	}

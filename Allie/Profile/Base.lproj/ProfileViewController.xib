@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -15,9 +14,9 @@
                 <outlet property="detailsLabel" destination="uwP-1v-8sO" id="gdA-5W-dNa"/>
                 <outlet property="nameLabel" destination="Weo-Cf-rHP" id="M3A-e1-h5R"/>
                 <outlet property="nextDateButton" destination="OvH-Vr-yXU" id="OiG-P2-UaA"/>
-                <outlet property="patientTrendsTableView" destination="Ylz-Gs-IZC" id="b51-2x-X53"/>
                 <outlet property="previousDateButton" destination="kCx-ND-wzt" id="fQs-i7-83Y"/>
                 <outlet property="separatorLineView" destination="vpQ-cx-Mye" id="MWw-BT-nLx"/>
+                <outlet property="tableView" destination="Ylz-Gs-IZC" id="b51-2x-X53"/>
                 <outlet property="topView" destination="I9d-ig-t3i" id="9V5-U8-NuO"/>
                 <outlet property="view" destination="uXc-Wl-59h" id="oxl-gE-6tu"/>
             </connections>
@@ -28,10 +27,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hTG-SI-LD5">
-                    <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ylz-Gs-IZC">
-                            <rect key="frame" x="0.0" y="171" width="414" height="681"/>
+                            <rect key="frame" x="0.0" y="171" width="414" height="725"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </tableView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I9d-ig-t3i">

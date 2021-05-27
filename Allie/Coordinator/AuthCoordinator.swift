@@ -236,7 +236,9 @@ class AuthCoordinator: BaseCoordinator {
 		healthViewController.screenFlowType = screenFlowType
 		healthViewController.authorizationFlowType = authorizationFlowType
 		healthViewController.notNowAction = { [weak self] in
-			self?.parent?.gotoMainApp()
+			DispatchQueue.main.async {
+				self?.parent?.gotoMainApp()
+			}
 		}
 
 		healthViewController.activateAction = { [weak self] in

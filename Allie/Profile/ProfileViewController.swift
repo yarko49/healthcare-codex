@@ -32,7 +32,7 @@ class ProfileViewController: BaseViewController {
 
 	// MARK: IBOutlets
 
-	@IBOutlet var patientTrendsTableView: UITableView!
+	@IBOutlet var tableView: UITableView!
 	@IBOutlet var dateLabel: UILabel!
 	@IBOutlet var previousDateButton: UIButton!
 	@IBOutlet var nextDateButton: UIButton!
@@ -55,7 +55,7 @@ class ProfileViewController: BaseViewController {
 				fetchData(newDateRange: (startDate, endDate))
 			} else {
 				updateDateLabel()
-				patientTrendsTableView?.reloadData()
+				tableView?.reloadData()
 			}
 		}
 	}
@@ -63,20 +63,20 @@ class ProfileViewController: BaseViewController {
 	var expandedIndexPath: IndexPath?
 	var currentHKData: [HealthKitQuantityType: [StatModel]] = [:] {
 		didSet {
-			patientTrendsTableView?.reloadData()
+			tableView?.reloadData()
 		}
 	}
 
 	var goals: [HealthKitQuantityType: Int] = [:] {
 		didSet {
-			patientTrendsTableView?.reloadData()
+			tableView?.reloadData()
 		}
 	}
 
 	var expandCollapseState: [HealthKitQuantityType: Bool] = [:]
 	var todayHKData: [HealthKitQuantityType: [Any]] = [:] {
 		didSet {
-			patientTrendsTableView?.reloadData()
+			tableView?.reloadData()
 		}
 	}
 
@@ -128,23 +128,23 @@ class ProfileViewController: BaseViewController {
 		title = String.profile
 		let name = patient?.name.givenName ?? ""
 		resetExpandState()
-		topView.backgroundColor = UIColor.profile
+		topView.backgroundColor = UIColor.white
 		separatorLineView.backgroundColor = UIColor.swipe
 		nameLabel.attributedText = name.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 
-		patientTrendsTableView.register(UINib(nibName: StatCell.nibName, bundle: nil), forCellReuseIdentifier: StatCell.reuseIdentifier)
-		patientTrendsTableView.register(UINib(nibName: TodayStatCell.nibName, bundle: nil), forCellReuseIdentifier: TodayStatCell.reuseIdentifier)
-		patientTrendsTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
-		patientTrendsTableView.estimatedRowHeight = 300
+		tableView.register(UINib(nibName: StatCell.nibName, bundle: nil), forCellReuseIdentifier: StatCell.reuseIdentifier)
+		tableView.register(UINib(nibName: TodayStatCell.nibName, bundle: nil), forCellReuseIdentifier: TodayStatCell.reuseIdentifier)
+		tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+		tableView.estimatedRowHeight = 300
 
-		patientTrendsTableView.rowHeight = UITableView.automaticDimension
-		patientTrendsTableView.delegate = self
-		patientTrendsTableView.dataSource = self
+		tableView.rowHeight = UITableView.automaticDimension
+		tableView.delegate = self
+		tableView.dataSource = self
 		setupInitialDateInterval()
 	}
 
 	private func resetExpandState() {
-		patientTrendsTableView?.contentOffset = CGPoint.zero
+		tableView?.contentOffset = CGPoint.zero
 		HealthKitQuantityType.allCases.forEach {
 			expandCollapseState[$0] = false
 		}
@@ -191,7 +191,7 @@ class ProfileViewController: BaseViewController {
 		weight = patient?.profile.weightInPounds
 		height = patient?.profile.heightInInches
 		createDetailsLabel()
-		patientTrendsTableView.reloadData()
+		tableView.reloadData()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
