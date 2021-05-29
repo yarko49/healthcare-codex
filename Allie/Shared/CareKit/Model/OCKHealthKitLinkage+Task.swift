@@ -26,8 +26,8 @@ extension OCKHealthKitLinkage {
 			identifier = "HKQuantityTypeIdentifier" + identifier.capitalizingFirstLetter()
 		}
 		let quantityIdentifier = HKQuantityTypeIdentifier(rawValue: identifier)
-		if quantityIdentifier == .insulinDelivery, unitString != "IU" {
-			unitString = "IU"
+		if quantityIdentifier == .insulinDelivery, unitString != HKUnit.internationalUnit().unitString {
+			unitString = HKUnit.internationalUnit().unitString
 		}
 		let unit = HKUnit(from: unitString)
 		self.init(quantityIdentifier: quantityIdentifier, quantityType: quantityType, unit: unit)

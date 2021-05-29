@@ -10,7 +10,7 @@ import Foundation
 import ModelsR4
 
 protocol AllieAPI {
-	func registerProvider(identifier: String) -> Future<Bool, Never>
+	func registerOrganization(organization: Organization) -> Future<Bool, Never>
 	func getCarePlan(option: CarePlanResponseType, completion: @escaping WebService.DecodableCompletion<CarePlanResponse>) -> URLSession.ServicePublisher?
 	func getCarePlan(option: CarePlanResponseType) -> Future<CarePlanResponse, Error>
 	func postCarePlan(carePlanResponse: CarePlanResponse, completion: @escaping WebService.DecodableCompletion<[String: Int]>) -> URLSession.ServicePublisher?
@@ -21,6 +21,7 @@ protocol AllieAPI {
 	func post(patient: AlliePatient, completion: @escaping WebService.RequestCompletion<CarePlanResponse>) -> URLSession.ServicePublisher?
 	func getOutcomes() -> Future<CarePlanResponse, Error>
 	func post(outcomes: [Outcome]) -> Future<CarePlanResponse, Error>
+	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> Future<SignedURLResponse, Error>
 }
 
 public final class APIClient: AllieAPI {
@@ -68,9 +69,9 @@ public final class APIClient: AllieAPI {
 
 //	func postBundle(bundle: ModelsR4.Bundle) async -> ModelsR4.Bundle {}
 
-	func registerProvider(identifier: String) -> Future<Bool, Never> {
+	func registerOrganization(organization: Organization) -> Future<Bool, Never> {
 		Future { [weak self] promise in
-			_ = self?.webService.requestSimple(route: APIRouter.registerProvider(HealthCareProvider(id: identifier)), completion: { result in
+			_ = self?.webService.requestSimple(route: APIRouter.registerOrganization(organization), completion: { result in
 				switch result {
 				case .failure(let error):
 					ALog.error("\(error.localizedDescription)")
@@ -180,6 +181,20 @@ public final class APIClient: AllieAPI {
 					promise(.success(response))
 				}
 			}
+		}
+	}
+
+	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> Future<SignedURLResponse, Error> {
+		Future { [weak self] promise in
+			let route = APIRouter.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
+			_ = self?.webService.request(route: route, completion: { (result: Result<SignedURLResponse, Error>) in
+				switch result {
+				case .failure(let error):
+					promise(.failure(error))
+				case .success(let response):
+					promise(.success(response))
+				}
+			})
 		}
 	}
 }

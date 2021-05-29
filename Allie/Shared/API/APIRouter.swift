@@ -23,17 +23,21 @@ enum APIRouter: URLRequestConvertible {
 		Keychain.authenticationToken?.token
 	}
 
-	case registerProvider(HealthCareProvider)
+	case organizations
+	case registerOrganization(Organization)
 	case getCarePlan(option: CarePlanResponseType)
 	case postCarePlan(carePlanResponse: CarePlanResponse)
 	case postPatient(patient: AlliePatient)
 	case postObservation(observation: ModelsR4.Observation)
 	case postBundle(bundle: ModelsR4.Bundle)
 	case postOutcomes(outcomes: [Outcome])
+	case getFeatureContent(carePlanId: String, taskId: String, asset: String)
 
 	var method: Request.Method {
 		switch self {
-		case .registerProvider:
+		case .organizations:
+			return .get
+		case .registerOrganization:
 			return .post
 		case .getCarePlan:
 			return .get
@@ -47,13 +51,17 @@ enum APIRouter: URLRequestConvertible {
 			return .post
 		case .postOutcomes:
 			return .post
+		case .getFeatureContent:
+			return .get
 		}
 	}
 
 	var path: String {
 		var path = "/mobile"
 		switch self {
-		case .registerProvider:
+		case .organizations:
+			path += "/organizations"
+		case .registerOrganization:
 			path += "/organization/register"
 		case .getCarePlan, .postCarePlan, .postPatient:
 			path += "/carePlan"
@@ -63,6 +71,8 @@ enum APIRouter: URLRequestConvertible {
 			path += "/fhir/Bundle"
 		case .postOutcomes:
 			path += "/carePlan/outcomes"
+		case .getFeatureContent(let carePlanId, let taskId, let asset):
+			path += "/carePlan/\(carePlanId)/task/\(taskId)/asset/\(asset)"
 		}
 
 		return path
@@ -83,8 +93,8 @@ enum APIRouter: URLRequestConvertible {
 		encoder.dateEncodingStrategy = .iso8601WithFractionalSeconds
 
 		switch self {
-		case .registerProvider(let provider):
-			data = try? encoder.encode(provider)
+		case .registerOrganization(let organization):
+			data = try? encoder.encode(organization)
 		case .postCarePlan(let carePlanResponse):
 			data = try? encoder.encode(carePlanResponse)
 		case .postPatient(let patient):
@@ -110,6 +120,10 @@ enum APIRouter: URLRequestConvertible {
 			headers[Request.Header.userAuthorization] = "Bearer " + authToken
 		}
 		switch self {
+		case .organizations:
+			break
+		case .registerOrganization:
+			break
 		case .getCarePlan(let option):
 			// possible values are return=Summary, return=Outcomes, return=ValueSpaceSample, return=VectorClock
 			switch option {
@@ -124,7 +138,7 @@ enum APIRouter: URLRequestConvertible {
 			case .summary:
 				headers[Request.Header.CarePlanPrefer] = "return=Summary"
 			}
-		case .registerProvider, .postCarePlan, .postPatient:
+		case .postCarePlan, .postPatient:
 			break
 		case .postObservation:
 			headers[Request.Header.contentType] = Request.ContentType.fhirjson
@@ -132,17 +146,25 @@ enum APIRouter: URLRequestConvertible {
 			headers[Request.Header.contentType] = Request.ContentType.fhirjson
 		case .postOutcomes:
 			break
+		case .getFeatureContent:
+			break
 		}
 		return headers
 	}
 
 	var parameters: [String: Any]? {
 		switch self {
-		case .registerProvider, .getCarePlan, .postCarePlan, .postPatient, .postObservation:
+		case .organizations:
+			return nil
+		case .registerOrganization:
+			return nil
+		case .getCarePlan, .postCarePlan, .postPatient, .postObservation:
 			return nil
 		case .postBundle:
 			return nil
 		case .postOutcomes:
+			return nil
+		case .getFeatureContent:
 			return nil
 		}
 	}
