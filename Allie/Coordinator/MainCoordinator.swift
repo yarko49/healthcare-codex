@@ -233,7 +233,8 @@ class MainCoordinator: BaseCoordinator {
 		RemoteConfigManager.shared.refresh()
 			.sink { refreshResult in
 				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
-				CareManager.register(provider: RemoteConfigManager.shared.healthCareOrganization)
+				let organization = Organization(id: RemoteConfigManager.shared.healthCareOrganization, name: "Default Organization", image: nil, info: nil)
+				CareManager.register(organization: organization)
 					.subscribe(on: DispatchQueue.main)
 					.sink { registrationResult in
 						ALog.info("Did finish registering organization \(registrationResult)")

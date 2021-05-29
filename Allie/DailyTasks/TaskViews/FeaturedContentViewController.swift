@@ -47,8 +47,21 @@ class FeaturedContentViewController: UIViewController, OCKFeaturedContentViewDel
 		self.task = task
 		featuredContentView.label.text = task?.title
 		featuredContentView.label.textColor = .white
-		let faturedURL = task?.featuredContentImageURL
-		featuredContentView.imageView.sd_setImage(with: faturedURL, completed: nil)
+		if let task = task, let asset = task.asset, !asset.isEmpty {
+			CareManager.shared.image(task: task) { [weak self] result in
+				switch result {
+				case .failure(let error):
+					ALog.error("unable to download image", error: error)
+				case .success(let image):
+					DispatchQueue.main.async {
+						self?.featuredContentView.imageView.image = image
+					}
+				}
+			}
+		} else {
+			let faturedURL = task?.featuredContentImageURL
+			featuredContentView.imageView.sd_setImage(with: faturedURL, completed: nil)
+		}
 	}
 
 	func didTapView(_ view: OCKFeaturedContentView) {

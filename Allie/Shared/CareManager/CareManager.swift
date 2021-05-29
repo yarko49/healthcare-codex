@@ -12,6 +12,7 @@ import Combine
 import FirebaseAuth
 import KeychainAccess
 import ModelsR4
+import SDWebImage
 import UIKit
 
 class CareManager: NSObject, ObservableObject {
@@ -234,8 +235,8 @@ extension CareManager {
 		APIClient.shared.post(patient: patient)
 	}
 
-	class func register(provider: String) -> Future<Bool, Never> {
-		APIClient.shared.registerProvider(identifier: provider)
+	class func register(organization: Organization) -> Future<Bool, Never> {
+		APIClient.shared.registerOrganization(organization: organization)
 	}
 }
 

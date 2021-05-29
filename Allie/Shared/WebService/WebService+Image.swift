@@ -15,6 +15,11 @@ public extension WebService {
 			return nil
 		}
 
+		return loadImage(url: url, completion: completion)
+	}
+
+	@discardableResult
+	func loadImage(url: URL, completion: @escaping RequestCompletion<UIImage>) -> URLSession.ServicePublisher? {
 		let publisher = session.servicePublisher(for: url)
 			.setHeaderValue(Request.ContentType.jpeg, forName: Request.Header.contentType)
 		publisher
@@ -34,7 +39,7 @@ public extension WebService {
 					ALog.error(error: error)
 					completion(.failure(error))
 				case .finished:
-					ALog.info("Finished Dowloading image at \(urlString)")
+					ALog.info("Finished Dowloading image at \(url.absoluteString)")
 				}
 			} receiveValue: { value in
 				completion(.success(value))

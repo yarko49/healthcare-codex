@@ -10,7 +10,7 @@ import HealthKit
 
 extension HKDiscreteQuantitySample {
 	convenience init(insulinUnits: Double, startDate: Date, reason: HKInsulinDeliveryReason) {
-		let quantity = HKQuantity(unit: HKUnit(from: "IU"), doubleValue: insulinUnits)
+		let quantity = HKQuantity(unit: HKUnit.internationalUnit(), doubleValue: insulinUnits)
 		var metadata: [String: Any] = [:]
 		metadata[HKMetadataKeyTimeZone] = TimeZone.current.identifier
 		metadata[HKMetadataKeyWasUserEntered] = true
