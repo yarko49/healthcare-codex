@@ -8,6 +8,8 @@ import UIKit
 typealias AllieResultCompletion<ResultType> = (Result<ResultType, Error>) -> Void
 
 enum AllieError: Error {
+	case missing(String)
+	case invalid(String)
 	case compound([Error])
 }
 

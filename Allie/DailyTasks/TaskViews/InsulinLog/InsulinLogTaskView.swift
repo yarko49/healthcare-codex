@@ -34,6 +34,12 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 
 	private lazy var headerButton = OCKAnimatedButton(contentView: headerView, highlightOptions: [.defaultDelayOnSelect, .defaultOverlay], handlesSelection: false)
 
+	private let closeButton: UIButton = {
+		let view = UIButton(type: .close)
+		NSLayoutConstraint.activate([view.heightAnchor.constraint(equalToConstant: 32.0), view.widthAnchor.constraint(equalToConstant: 32.0)])
+		return view
+	}()
+
 	private let headerStackView: OCKStackView = {
 		let view = OCKStackView()
 		view.axis = .vertical
@@ -123,6 +129,7 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 		[headerButton, entryViews, segmentedControl, contentStackView].forEach { headerStackView.addArrangedSubview($0) }
 		[shadowView, entryViews, segmentedControl, doneButton].forEach { entryStackView.addArrangedSubview($0) }
 		[instructionsLabel, logButton, logItemsStackView].forEach { contentStackView.addArrangedSubview($0) }
+		addSubview(closeButton)
 	}
 
 	func constrainSubviews() {
@@ -137,12 +144,17 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 				headerView.constraints(equalTo: headerButton, directions: [.bottom]))
 		entryViews.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
 		segmentedControl.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
+		closeButton.translatesAutoresizingMaskIntoConstraints = false
+		NSLayoutConstraint.activate([closeButton.centerYAnchor.constraint(equalTo: headerButton.centerYAnchor, constant: 0.0),
+		                             trailingAnchor.constraint(equalToSystemSpacingAfter: closeButton.trailingAnchor, multiplier: 2.0)])
+		closeButton.isHidden = true
 	}
 
 	private func setupGestures() {
 		headerButton.addTarget(self, action: #selector(didTapView), for: .touchUpInside)
 		doneButton.addTarget(self, action: #selector(didTapDoneButton(_:)), for: .touchUpInside)
 		logButton.addTarget(self, action: #selector(didTapLogButton(_:)), for: .touchUpInside)
+		closeButton.addTarget(self, action: #selector(closeEntryView(_:)), for: .touchUpInside)
 	}
 
 	@objc func didTapView() {
@@ -162,10 +174,22 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 		}
 		contentStackView.removeArrangedSubview(logButton, animated: true)
 		contentStackView.insertArrangedSubview(entryStackView, at: index, animated: true)
+		closeButton.isHidden = false
 	}
 
 	@objc func didTapDoneButton(_ sender: UIControl) {
 		delegate?.taskView(self, didCreateOutcomeValueAt: 0, eventIndexPath: .init(row: 0, section: 0), sender: sender)
+		closeEntryView(sender)
+	}
+
+	@objc func closeEntryView(_ sender: UIControl) {
+		guard let index = contentStackView.arrangedSubviews.firstIndex(of: entryStackView) else {
+			return
+		}
+		contentStackView.removeArrangedSubview(entryStackView, animated: true)
+		contentStackView.insertArrangedSubview(logButton, at: index, animated: true)
+		entryViews.prepareForReuse()
+		closeButton.isHidden = true
 	}
 
 	var reason: HKInsulinDeliveryReason {
@@ -173,24 +197,26 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 	}
 
 	var items: [InsulinLogItemButton] {
-		guard let buttons = logItemsStackView.arrangedSubviews as? [InsulinLogItemButton] else { fatalError("Unsupported type.") }
+		guard let buttons = logItemsStackView.arrangedSubviews as? [InsulinLogItemButton] else {
+			fatalError("Unsupported type.")
+		}
 		return buttons
 	}
 
 	private func makeItem(withTitle title: String?, detail: String?) -> InsulinLogItemButton {
 		let button = InsulinLogItemButton()
-		button.addTarget(self, action: #selector(itemTapped(_:)), for: .touchUpInside)
+		// button.addTarget(self, action: #selector(itemTapped(_:)), for: .touchUpInside)
 		button.titleLabel.text = title
 		button.detailLabel.text = detail
 		button.accessibilityLabel = (detail ?? "") + " " + (title ?? "")
-		button.accessibilityHint = loc("DOUBLE_TAP_TO_REMOVE_EVENT")
+//		button.accessibilityHint = loc("DOUBLE_TAP_TO_REMOVE_EVENT")
 		return button
 	}
 
 	private func makeTitle(units: String) -> String {
 		let selectedIndex = segmentedControl.selectedSegmentIndex
 		var string = segmentedControl.titleForSegment(at: selectedIndex) ?? ""
-		string += " " + units + " Units"
+		string += " " + units + " " + NSLocalizedString("UNITS", comment: "Units")
 		return string
 	}
 

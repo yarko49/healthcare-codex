@@ -36,7 +36,14 @@ class CareManager: NSObject, ObservableObject {
 	private(set) lazy var store = OCKStore(name: Constants.careStore, type: Constants.coreDataStoreType, remote: remoteSynchronizationManager)
 	private(set) lazy var healthKitStore: OCKHealthKitPassthroughStore = {
 		let healthKitStore = OCKHealthKitPassthroughStore(store: store)
-		healthKitStore.sampleToOutcomeValueMapper = { $0.outcomeValues(task: $1) }
+		healthKitStore.samplesToOutcomesValueMapper = { samples, task in
+			var outcomes: [OCKOutcomeValue] = []
+			samples.forEach { sample in
+				let values = sample.outcomeValues(task: task)
+				outcomes.append(contentsOf: values)
+			}
+			return outcomes
+		}
 		return healthKitStore
 	}()
 

@@ -463,6 +463,12 @@
 		84C212A52660C5F4000D491B /* Organization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C212A42660C5F4000D491B /* Organization.swift */; };
 		84C212A62660C5F4000D491B /* Organization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C212A42660C5F4000D491B /* Organization.swift */; };
 		84C212A72660C5F4000D491B /* Organization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C212A42660C5F4000D491B /* Organization.swift */; };
+		84C212B0266491A0000D491B /* FileManager+Documents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C212AF266491A0000D491B /* FileManager+Documents.swift */; };
+		84C212B1266491A0000D491B /* FileManager+Documents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C212AF266491A0000D491B /* FileManager+Documents.swift */; };
+		84C212B2266491A0000D491B /* FileManager+Documents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C212AF266491A0000D491B /* FileManager+Documents.swift */; };
+		84C212B42664A495000D491B /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C212B32664A495000D491B /* PDFViewController.swift */; };
+		84C212B52664A495000D491B /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C212B32664A495000D491B /* PDFViewController.swift */; };
+		84C212B62664A495000D491B /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C212B32664A495000D491B /* PDFViewController.swift */; };
 		84C22BCB25A5821800D16CFF /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 84C22BCA25A5821800D16CFF /* Logging */; };
 		84C39A4E25B172640063D92C /* Task+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */; };
 		84C517F525B7E55F00D684E5 /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C517F425B7E55F00D684E5 /* BottomButton.swift */; };
@@ -953,6 +959,8 @@
 		84C1060025E763EC00B126ED /* SimpleTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTaskViewController.swift; sourceTree = "<group>"; };
 		84C212A02660B3AC000D491B /* CareManager+FeatureContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+FeatureContent.swift"; sourceTree = "<group>"; };
 		84C212A42660C5F4000D491B /* Organization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Organization.swift; sourceTree = "<group>"; };
+		84C212AF266491A0000D491B /* FileManager+Documents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Documents.swift"; sourceTree = "<group>"; };
+		84C212B32664A495000D491B /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
 		84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+OCKHealthKitTask.swift"; sourceTree = "<group>"; };
 		84C517F425B7E55F00D684E5 /* BottomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
 		84C5180125B7EC5C00D684E5 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
@@ -1645,6 +1653,7 @@
 			children = (
 				8447671D259C2A4E00C50C09 /* BaseViewController.swift */,
 				84230BE8260801F7008BB83E /* HTMLViewerController.swift */,
+				84C212B32664A495000D491B /* PDFViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1703,6 +1712,7 @@
 				846B5EB92648B287003046EF /* NSLayoutConstraint+Extensions.swift */,
 				84552C0E265CC687003B55A9 /* HKQuantityTypeIdentifier+Image.swift */,
 				840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */,
+				84C212AF266491A0000D491B /* FileManager+Documents.swift */,
 				84D625B0265F5B8E00B5A973 /* Appearance */,
 			);
 			path = Extensions;
@@ -2724,6 +2734,7 @@
 				84476726259C2A4E00C50C09 /* TodayStatCell.swift in Sources */,
 				84476790259C2A4E00C50C09 /* NavigationSourceType.swift in Sources */,
 				845FBE8525FC777C00472257 /* ConversionError.swift in Sources */,
+				84C212B42664A495000D491B /* PDFViewController.swift in Sources */,
 				844767F1259C2A4E00C50C09 /* AppConfig.swift in Sources */,
 				841640CA2627D999000903AF /* UITabBar+Appearance.swift in Sources */,
 				844767EA259C2A4E00C50C09 /* WebService.swift in Sources */,
@@ -2768,6 +2779,7 @@
 				849F37A125BA8CF300FC2D1B /* ScreenFlowType.swift in Sources */,
 				84E4660225A040F100A10F8B /* ViewIdentifiable.swift in Sources */,
 				845F8B9F26470B2A00999091 /* OCKHealthKitLinkage+Task.swift in Sources */,
+				84C212B0266491A0000D491B /* FileManager+Documents.swift in Sources */,
 				84703C58265B4B350025A50D /* Keychain+Access.swift in Sources */,
 				846257AC25E22A00004AEBCD /* HKQuantitySample+Metadata.swift in Sources */,
 				845F8BA52647B9BD00999091 /* Date+Conversion.swift in Sources */,
@@ -2954,6 +2966,7 @@
 				847DCC48265871F3004E9C1D /* ConversionError.swift in Sources */,
 				847DCC49265871F3004E9C1D /* AppConfig.swift in Sources */,
 				847DCC4A265871F3004E9C1D /* UITabBar+Appearance.swift in Sources */,
+				84C212B62664A495000D491B /* PDFViewController.swift in Sources */,
 				847DCC4B265871F3004E9C1D /* WebService.swift in Sources */,
 				847DCC4C265871F3004E9C1D /* Dictionary+Encoding.swift in Sources */,
 				847DCC4D265871F3004E9C1D /* NotificationType.swift in Sources */,
@@ -2998,6 +3011,7 @@
 				84703C5A265B4B350025A50D /* Keychain+Access.swift in Sources */,
 				847DCC75265871F3004E9C1D /* ViewIdentifiable.swift in Sources */,
 				847DCC76265871F3004E9C1D /* OCKHealthKitLinkage+Task.swift in Sources */,
+				84C212B2266491A0000D491B /* FileManager+Documents.swift in Sources */,
 				847DCC78265871F3004E9C1D /* HKQuantitySample+Metadata.swift in Sources */,
 				847DCC79265871F3004E9C1D /* Date+Conversion.swift in Sources */,
 				847DCC7A265871F3004E9C1D /* Data+PrettyPrint.swift in Sources */,
@@ -3153,6 +3167,7 @@
 				84D12275264112DE00990196 /* ConversionError.swift in Sources */,
 				84D12276264112DE00990196 /* AppConfig.swift in Sources */,
 				84D12277264112DE00990196 /* UITabBar+Appearance.swift in Sources */,
+				84C212B52664A495000D491B /* PDFViewController.swift in Sources */,
 				84D12278264112DE00990196 /* WebService.swift in Sources */,
 				84D12279264112DE00990196 /* Dictionary+Encoding.swift in Sources */,
 				84D1227A264112DE00990196 /* NotificationType.swift in Sources */,
@@ -3197,6 +3212,7 @@
 				84703C59265B4B350025A50D /* Keychain+Access.swift in Sources */,
 				84D122A5264112DE00990196 /* ViewIdentifiable.swift in Sources */,
 				845F8BA026470B2A00999091 /* OCKHealthKitLinkage+Task.swift in Sources */,
+				84C212B1266491A0000D491B /* FileManager+Documents.swift in Sources */,
 				84D122A7264112DE00990196 /* HKQuantitySample+Metadata.swift in Sources */,
 				845F8BA62647B9BD00999091 /* Date+Conversion.swift in Sources */,
 				84D122A8264112DE00990196 /* Data+PrettyPrint.swift in Sources */,
@@ -3649,7 +3665,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 93;
+				CURRENT_PROJECT_VERSION = 95;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie-Dev-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3678,7 +3694,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 93;
+				CURRENT_PROJECT_VERSION = 95;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie-Dev-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (

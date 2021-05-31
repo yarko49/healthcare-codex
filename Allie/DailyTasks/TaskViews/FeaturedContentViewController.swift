@@ -8,11 +8,17 @@
 import CareKit
 import CareKitStore
 import CareKitUI
+import JGProgressHUD
 import SDWebImage
 import UIKit
 
 class FeaturedContentViewController: UIViewController, OCKFeaturedContentViewDelegate {
 	var task: OCKTask?
+	lazy var hud: JGProgressHUD = {
+		let view = JGProgressHUD()
+		view.largeContentTitle = NSLocalizedString("LOADING", comment: "Loading")
+		return view
+	}()
 
 	private let imageOverlayStyle: UIUserInterfaceStyle
 
@@ -67,15 +73,30 @@ class FeaturedContentViewController: UIViewController, OCKFeaturedContentViewDel
 	func didTapView(_ view: OCKFeaturedContentView) {
 		if let html = task?.featuredContentDetailViewHTML, !html.isEmpty {
 			let css = task?.featuredContentDetailViewCSS
+			let title = task?.featuredContentDetailViewImageLabel ?? task?.title
 			let imageURL = task?.featuredContentImageURL
-			let title = task?.featuredContentDetailViewImageLabel ?? featuredContentView.label.text
-			showHTMLCSSContent(title: title, html: html, css: css, imageURL: imageURL)
+			showHTMLCSSContent(title: title, html: html, css: css, image: view.imageView.image, imageURL: imageURL)
 		} else if let text = task?.featuredContentDetailViewText, !text.isEmpty {
 			let imageURL = task?.featuredContentImageURL
 			let title = task?.featuredContentDetailViewImageLabel
-			showTextContent(title: title, content: text, imageURL: imageURL)
+			showTextContent(title: title, content: text, image: view.imageView.image, imageURL: imageURL)
 		} else if let url = task?.featuredContentDetailViewURL {
 			showURLContent(url: url)
+		} else if let task = task, task.featuredContentDetailViewAsset != nil {
+			hud.show(in: tabBarController?.view ?? navigationController?.view ?? view, animated: true)
+			CareManager.shared.pdfData(task: task) { [weak self] result in
+				DispatchQueue.main.async {
+					self?.hud.dismiss(animated: true)
+				}
+				switch result {
+				case .failure(let error):
+					ALog.error("Unable to download Feature Content", error: error)
+				case .success(let url):
+					DispatchQueue.main.async {
+						self?.showPDFContent(url: url, title: task.featuredContentDetailViewImageLabel ?? task.title)
+					}
+				}
+			}
 		}
 	}
 }

@@ -32,6 +32,11 @@ class LabelValueView: OCKStackView {
 		}
 	}
 
+	func prepareForReuse() {
+		unitLabelValueView.textField.text = nil
+		timeLabelValueView.timePicker.date = Date()
+	}
+
 	let unitLabelValueView: SeperatorLabelValueEntryView = {
 		let view = SeperatorLabelValueEntryView(style: .plain)
 		view.titleLabel.text = NSLocalizedString("UNITS", comment: "Units")
