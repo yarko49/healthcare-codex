@@ -22,6 +22,7 @@ protocol AllieAPI {
 	func getOutcomes() -> Future<CarePlanResponse, Error>
 	func post(outcomes: [Outcome]) -> Future<CarePlanResponse, Error>
 	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> Future<SignedURLResponse, Error>
+	func getData(url: URL) -> Future<Data, Error>
 }
 
 public final class APIClient: AllieAPI {
@@ -32,24 +33,6 @@ public final class APIClient: AllieAPI {
 	}
 
 	let webService: WebService
-
-	private(set) lazy var backgroundSession: URLSession = {
-		let session = URLSession(configuration: APIClient.backgroundSessionConfiguration)
-		return session
-	}()
-
-	static var sessionIdentifier: String {
-		let bundleIdentifier = Bundle.main.bundleIdentifier!
-		return bundleIdentifier + ".networking"
-	}
-
-	static var backgroundSessionConfiguration: URLSessionConfiguration {
-		let config = URLSessionConfiguration.background(withIdentifier: sessionIdentifier)
-		config.isDiscretionary = true
-		config.sessionSendsLaunchEvents = true
-		config.httpMaximumConnectionsPerHost = 1
-		return config
-	}
 
 	public init(session: URLSession = .shared) {
 		session.configuration.httpMaximumConnectionsPerHost = 50
@@ -196,5 +179,9 @@ public final class APIClient: AllieAPI {
 				}
 			})
 		}
+	}
+
+	func getData(url: URL) -> Future<Data, Error> {
+		webService.requestData(url: url)
 	}
 }
