@@ -37,7 +37,7 @@ extension CareManager {
 			case .success(let newTasks):
 				let tasks: [OCKHealthKitTask] = newTasks.compactMap { anyTask in
 					let hkTask = anyTask as? OCKHealthKitTask
-					// ALog.info("nextUUID = \(hkTask?.nextVersionUUIDs.count), effectiveDate = \(anyTask.effectiveDate), createdDate = \(hkTask?.createdDate), updatedDate = \(hkTask?.createdDate)")
+					ALog.trace("nextUUID = \(hkTask?.nextVersionUUIDs.count), effectiveDate = \(anyTask.effectiveDate), createdDate = \(hkTask?.createdDate), updatedDate = \(hkTask?.createdDate)")
 					return hkTask
 				}
 				guard !tasks.isEmpty else {
@@ -65,9 +65,9 @@ extension CareManager {
 					let operation = OutcomesUploadOperation(task: task, chunkSize: Constants.maximumUploadOutcomesPerCall, callbackQueue: callbackQueue) { operationResult in
 						switch operationResult {
 						case .failure(let error):
-							ALog.error("Uploading outcomes \(error.localizedDescription)")
+							ALog.error("Uploading outcomes \(error.localizedDescription)", error: error)
 						case .success(let outcomes):
-							ALog.debug("Uploaded \(outcomes.count) outcomes")
+							ALog.trace("Uploaded \(outcomes.count) outcomes")
 						}
 						group.leave()
 					}
@@ -182,7 +182,7 @@ extension CareManager {
 			completion?(true)
 			return
 		}
-		ALog.info("\(outcomes.count) outcomes saved to server")
+		ALog.trace("\(outcomes.count) outcomes saved to server")
 		save(outcomes: outcomes)
 			.sink { completionResult in
 				switch completionResult {
@@ -195,7 +195,7 @@ extension CareManager {
 				completion?(true)
 			} receiveValue: { values in
 				completion?(true)
-				ALog.info("\(values.count) outcomes saved to store")
+				ALog.trace("\(values.count) outcomes saved to store")
 			}.store(in: &cancellables)
 	}
 }

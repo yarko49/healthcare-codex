@@ -12,7 +12,7 @@ import HealthKit
 extension OutcomeValue {
 	init?(quantity: HKQuantity, linkage: OCKHealthKitLinkage) {
 		var unit = linkage.unit
-		if linkage.quantityIdentifier == .bloodGlucose, unit.unitString != HKUnit.internationalUnit().unitString {
+		if linkage.quantityIdentifier == .insulinDelivery, unit.unitString != HKUnit.internationalUnit().unitString {
 			unit = HKUnit.internationalUnit()
 		}
 		if !quantity.is(compatibleWith: unit) {

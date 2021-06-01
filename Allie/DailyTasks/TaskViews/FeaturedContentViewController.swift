@@ -82,7 +82,7 @@ class FeaturedContentViewController: UIViewController, OCKFeaturedContentViewDel
 			showTextContent(title: title, content: text, image: view.imageView.image, imageURL: imageURL)
 		} else if let url = task?.featuredContentDetailViewURL {
 			showURLContent(url: url)
-        } else if let task = task, let asset = task.featuredContentDetailViewAsset, asset.hasSuffix("pdf") {
+		} else if let task = task, let asset = task.featuredContentDetailViewAsset, asset.hasSuffix("pdf") {
 			hud.show(in: tabBarController?.view ?? navigationController?.view ?? view, animated: true)
 			CareManager.shared.pdfData(task: task) { [weak self] result in
 				DispatchQueue.main.async {
