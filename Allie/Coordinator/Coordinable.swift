@@ -5,6 +5,14 @@
 
 import UIKit
 
+typealias AllieResultCompletion<ResultType> = (Result<ResultType, Error>) -> Void
+
+enum AllieError: Error {
+	case missing(String)
+	case invalid(String)
+	case compound([Error])
+}
+
 protocol Coordinable: AnyObject {
 	var type: CoordinatorType { get }
 	typealias ActionHandler = () -> Void
@@ -12,17 +20,16 @@ protocol Coordinable: AnyObject {
 
 	var navigationController: UINavigationController? { get }
 	var rootViewController: UIViewController? { get }
-	var childCoordinators: [CoordinatorType: Coordinable] { get set }
 
-	subscript(type: CoordinatorType) -> Coordinable? { get set }
-	func start()
+	var childCoordinators: [CoordinatorType: Coordinable] { get set }
 	func addChild(coordinator: Coordinable)
 	func removeChild(coordinator: Coordinable) -> Coordinable?
+	subscript(type: CoordinatorType) -> Coordinable? { get set }
+
+	func start()
 
 	func showHUD(animated: Bool)
 	func hideHUD(animated: Bool)
-
-	var careManager: CareManager { get }
 }
 
 extension Coordinable {
@@ -50,10 +57,6 @@ extension Coordinable {
 
 	func showHUD(animated: Bool) {}
 	func hideHUD(animated: Bool) {}
-
-	var careManager: CareManager {
-		AppDelegate.careManager
-	}
 }
 
 // MARK: Controller Navigation

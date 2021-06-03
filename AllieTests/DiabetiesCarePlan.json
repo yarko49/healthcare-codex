@@ -6,7 +6,7 @@
       "id": "",
       "notes": null,
       "asset": "",
-      "source": "",
+      "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan",
       "tags": [
         "default"
       ],
@@ -16,6 +16,7 @@
       },
       "userInfo": {
         "category": "",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -26,10 +27,10 @@
         "logText": "",
         "priority": ""
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": "2021-02-10T17:24:40.691Z",
-      "updatedDate": null,
+      "createdDate": "2021-05-14T04:00:11Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-14T04:00:11Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Default Care Plan",
       "patientId": "",
       "versions": null
@@ -42,7 +43,7 @@
       "id": "",
       "notes": null,
       "asset": "",
-      "source": "",
+      "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/education-easy-and-healthy-recipes",
       "tags": null,
       "timezone": {
         "abbreviation": "",
@@ -50,6 +51,7 @@
       },
       "userInfo": {
         "category": "education",
+        "detailViewAsset": "",
         "detailViewText": "Healthy Recipes\nSpinach & Kale",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -60,13 +62,13 @@
         "logText": "",
         "priority": "5"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-05-10T10:50:54Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Easy & Healthy Recipes",
-      "schedules": {
-        "scheduleA": {
+      "schedules": [
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -80,7 +82,7 @@
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": null,
       "instructions": "Instructions not to be displayed by Featured Content",
@@ -93,7 +95,7 @@
       "id": "",
       "notes": null,
       "asset": "",
-      "source": "",
+      "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/links-stanford-medicine",
       "tags": null,
       "timezone": {
         "abbreviation": "",
@@ -107,6 +109,7 @@
         "linkEmail0": "support@codexhealth.com",
         "linkEmailTitle0": "Email Support",
         "category": "links",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -117,13 +120,13 @@
         "logText": "",
         "priority": "6"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-05-10T10:50:54Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Links",
-      "schedules": {
-        "daily": {
+      "schedules": [
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -137,7 +140,7 @@
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": null,
       "instructions": "Helpful links",
@@ -150,7 +153,7 @@
       "id": "",
       "notes": null,
       "asset": "",
-      "source": "",
+      "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/measurements-activity",
       "tags": null,
       "timezone": {
         "abbreviation": "",
@@ -158,6 +161,7 @@
       },
       "userInfo": {
         "category": "measurements",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -168,13 +172,13 @@
         "logText": "",
         "priority": "2"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-05-10T10:50:54Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Activity",
-      "schedules": {
-        "scheduleA": {
+      "schedules": [
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -197,18 +201,6 @@
                 "abbreviation": "",
                 "identifier": ""
               },
-              "userInfo": {
-                "category": "",
-                "detailViewText": "",
-                "detailViewCSS": "",
-                "detailViewHTML": "",
-                "detailViewImageLabel": "",
-                "detailViewURL": "",
-                "image": "",
-                "subtitle": "",
-                "logText": "",
-                "priority": ""
-              },
               "createdDate": null,
               "deletedDate": null,
               "effectiveDate": null,
@@ -216,17 +208,18 @@
               "index": 0,
               "kind": "",
               "units": "count",
-              "value": 10000,
-              "type": "integer"
+              "value": 2000,
+              "type": "integer",
+              "userInfo": null
             }
           ],
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": {
-        "quantityIdentifier": "steps",
+        "quantityIdentifier": "stepCount",
         "quantitytype": "cumulative",
         "unit": "count"
       },
@@ -240,7 +233,7 @@
       "id": "",
       "notes": null,
       "asset": "",
-      "source": "",
+      "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/measurements-glucose-levels",
       "tags": null,
       "timezone": {
         "abbreviation": "",
@@ -248,6 +241,7 @@
       },
       "userInfo": {
         "category": "measurements",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -258,13 +252,13 @@
         "logText": "",
         "priority": "1"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-05-10T10:50:54Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Glucose Levels",
-      "schedules": {
-        "scheduleA": {
+      "schedules": [
+        {
           "custom": false,
           "daily": false,
           "weekly": true,
@@ -274,11 +268,35 @@
           "duration": 0,
           "interval": 0,
           "text": "",
-          "targetValues": null,
+          "targetValues": [
+            {
+              "groupIdentifier": "",
+              "remoteId": "",
+              "id": "",
+              "notes": null,
+              "asset": "",
+              "source": "",
+              "tags": null,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+              },
+              "createdDate": null,
+              "deletedDate": null,
+              "effectiveDate": null,
+              "updatedDate": null,
+              "index": 0,
+              "kind": "bloodGlucose",
+              "units": "mg/dL",
+              "value": 140,
+              "type": "integer",
+              "userInfo": null
+            }
+          ],
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": {
         "quantityIdentifier": "bloodGlucose",
@@ -290,12 +308,12 @@
       "versions": null
     },
     {
-      "groupIdentifier": "LABELED_VALUE",
-      "remoteId": "measurements-heart-rate",
+      "groupIdentifier": "LOG_INSULIN",
+      "remoteId": "measurements-insulin-levels",
       "id": "",
       "notes": null,
       "asset": "",
-      "source": "",
+      "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/measurements-insulin-levels",
       "tags": null,
       "timezone": {
         "abbreviation": "",
@@ -303,6 +321,7 @@
       },
       "userInfo": {
         "category": "measurements",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -311,15 +330,15 @@
         "image": "",
         "subtitle": "",
         "logText": "",
-        "priority": "2"
+        "priority": "1"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
-      "title": "Heart Rate",
-      "schedules": {
-        "scheduleA": {
+      "createdDate": "2021-05-10T10:50:54Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
+      "title": "Insulin Levels",
+      "schedules": [
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -329,24 +348,75 @@
           "duration": 0,
           "interval": 0,
           "text": "",
-          "targetValues": null,
-          "start": "2021-04-08T09:06:09.732Z",
-          "end": "2021-04-08T09:06:09.732Z"
+          "targetValues": [
+            {
+              "groupIdentifier": "",
+              "remoteId": "",
+              "id": "",
+              "notes": null,
+              "asset": "",
+              "source": "",
+              "tags": null,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+              },
+              "createdDate": null,
+              "deletedDate": null,
+              "effectiveDate": null,
+              "updatedDate": null,
+              "index": 0,
+              "kind": "fast-acting",
+              "units": "mIU/ml",
+              "value": 5,
+              "type": "integer",
+              "userInfo": null
+            },
+            {
+              "groupIdentifier": "",
+              "remoteId": "",
+              "id": "",
+              "notes": null,
+              "asset": "",
+              "source": "",
+              "tags": null,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+              },
+              "createdDate": null,
+              "deletedDate": null,
+              "effectiveDate": null,
+              "updatedDate": null,
+              "index": 0,
+              "kind": "long-acting",
+              "units": "mIU/ml",
+              "value": 5,
+              "type": "integer",
+              "userInfo": null
+            }
+          ],
+          "start": null,
+          "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
-      "healthKitLinkage": null,
-      "instructions": "",
-      "impactsAdherence": false,
+      "healthKitLinkage": {
+        "quantityIdentifier": "insulinDelivery",
+        "quantitytype": "discrete",
+        "unit": "mIU/ml"
+      },
+      "instructions": "Monitor daily insulin levels",
+      "impactsAdherence": true,
       "versions": null
     },
     {
-      "groupIdentifier": "LOG",
+      "groupIdentifier": "SIMPLE",
       "remoteId": "medications-metformin",
       "id": "",
       "notes": null,
       "asset": "",
-      "source": "",
+      "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/medications-metformin",
       "tags": null,
       "timezone": {
         "abbreviation": "",
@@ -354,6 +424,7 @@
       },
       "userInfo": {
         "category": "medications",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -364,13 +435,13 @@
         "logText": "",
         "priority": "0"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-05-10T10:50:54Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Metformin",
-      "schedules": {
-        "scheduleA": {
+      "schedules": [
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -384,7 +455,7 @@
           "start": null,
           "end": null
         },
-        "scheduleB": {
+        {
           "custom": false,
           "daily": false,
           "weekly": true,
@@ -398,7 +469,7 @@
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": null,
       "instructions": "Monitoring daily Metformin dosage",
@@ -411,7 +482,7 @@
       "id": "",
       "notes": null,
       "asset": "",
-      "source": "",
+      "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/physical-therapy-15-minutes-of-morning-exercise",
       "tags": null,
       "timezone": {
         "abbreviation": "",
@@ -419,6 +490,7 @@
       },
       "userInfo": {
         "category": "physical-therapy",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -429,13 +501,13 @@
         "logText": "",
         "priority": "4"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-05-10T10:50:54Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "15 Minutes of Morning Exercise",
-      "schedules": {
-        "scheduleA": {
+      "schedules": [
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -449,7 +521,7 @@
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": null,
       "instructions": "",
@@ -462,7 +534,7 @@
       "id": "",
       "notes": null,
       "asset": "",
-      "source": "",
+      "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/surveys-and-questionnaires-food-dairy-checklist",
       "tags": null,
       "timezone": {
         "abbreviation": "",
@@ -470,6 +542,7 @@
       },
       "userInfo": {
         "category": "surveys-and-questionnaires",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -480,13 +553,13 @@
         "logText": "",
         "priority": "1"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-05-10T10:50:54Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Daily Food Diary",
-      "schedules": {
-        "breakfast": {
+      "schedules": [
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -509,18 +582,6 @@
                 "abbreviation": "",
                 "identifier": ""
               },
-              "userInfo": {
-                "category": "",
-                "detailViewText": "",
-                "detailViewCSS": "",
-                "detailViewHTML": "",
-                "detailViewImageLabel": "",
-                "detailViewURL": "",
-                "image": "",
-                "subtitle": "",
-                "logText": "",
-                "priority": ""
-              },
               "createdDate": null,
               "deletedDate": null,
               "effectiveDate": null,
@@ -529,62 +590,14 @@
               "kind": "",
               "units": "",
               "value": true,
-              "type": "boolean"
+              "type": "boolean",
+              "userInfo": null
             }
           ],
           "start": null,
           "end": null
         },
-        "dinner": {
-          "custom": false,
-          "daily": true,
-          "weekly": false,
-          "weekday": 0,
-          "hour": 18,
-          "minutes": 0,
-          "duration": 0,
-          "interval": 0,
-          "text": "Dinner",
-          "targetValues": [
-            {
-              "groupIdentifier": "",
-              "remoteId": "",
-              "id": "",
-              "notes": null,
-              "asset": "",
-              "source": "",
-              "tags": null,
-              "timezone": {
-                "abbreviation": "",
-                "identifier": ""
-              },
-              "userInfo": {
-                "category": "",
-                "detailViewText": "",
-                "detailViewCSS": "",
-                "detailViewHTML": "",
-                "detailViewImageLabel": "",
-                "detailViewURL": "",
-                "image": "",
-                "subtitle": "",
-                "logText": "",
-                "priority": ""
-              },
-              "createdDate": null,
-              "deletedDate": null,
-              "effectiveDate": null,
-              "updatedDate": null,
-              "index": 0,
-              "kind": "",
-              "units": "",
-              "value": true,
-              "type": "boolean"
-            }
-          ],
-          "start": null,
-          "end": null
-        },
-        "lunch": {
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -607,17 +620,43 @@
                 "abbreviation": "",
                 "identifier": ""
               },
-              "userInfo": {
-                "category": "",
-                "detailViewText": "",
-                "detailViewCSS": "",
-                "detailViewHTML": "",
-                "detailViewImageLabel": "",
-                "detailViewURL": "",
-                "image": "",
-                "subtitle": "",
-                "logText": "",
-                "priority": ""
+              "createdDate": null,
+              "deletedDate": null,
+              "effectiveDate": null,
+              "updatedDate": null,
+              "index": 0,
+              "kind": "",
+              "units": "",
+              "value": true,
+              "type": "boolean",
+              "userInfo": null
+            }
+          ],
+          "start": null,
+          "end": null
+        },
+        {
+          "custom": false,
+          "daily": true,
+          "weekly": false,
+          "weekday": 0,
+          "hour": 18,
+          "minutes": 0,
+          "duration": 0,
+          "interval": 0,
+          "text": "Dinner",
+          "targetValues": [
+            {
+              "groupIdentifier": "",
+              "remoteId": "",
+              "id": "",
+              "notes": null,
+              "asset": "",
+              "source": "",
+              "tags": null,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
               },
               "createdDate": null,
               "deletedDate": null,
@@ -627,13 +666,14 @@
               "kind": "",
               "units": "",
               "value": true,
-              "type": "boolean"
+              "type": "boolean",
+              "userInfo": null
             }
           ],
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": null,
       "instructions": "Record your daily meals",
@@ -646,7 +686,7 @@
       "id": "",
       "notes": null,
       "asset": "",
-      "source": "",
+      "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/CarePlan/defaultCarePlan/Task/symptoms-hypoglycemia",
       "tags": null,
       "timezone": {
         "abbreviation": "",
@@ -654,6 +694,7 @@
       },
       "userInfo": {
         "category": "symptoms",
+        "detailViewAsset": "",
         "detailViewText": "",
         "detailViewCSS": "",
         "detailViewHTML": "",
@@ -664,13 +705,13 @@
         "logText": "Logged",
         "priority": "3"
       },
-      "createdDate": null,
-      "deletedDate": null,
-      "effectiveDate": null,
-      "updatedDate": null,
+      "createdDate": "2021-05-10T10:50:54Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-10T10:50:54Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
       "title": "Hypoglycemia",
-      "schedules": {
-        "scheduleA": {
+      "schedules": [
+        {
           "custom": false,
           "daily": true,
           "weekly": false,
@@ -684,20 +725,96 @@
           "start": null,
           "end": null
         }
-      },
+      ],
       "carePlanId": "defaultCarePlan",
       "healthKitLinkage": null,
       "instructions": "Report symptoms of Hypoglycemia",
       "impactsAdherence": false,
       "versions": null
+    },
+    {
+      "groupIdentifier": "LOG",
+      "remoteId": "yULAvxCDijVbz5gGGbR0",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/Task/yULAvxCDijVbz5gGGbR0",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": ""
+      },
+      "userInfo": {
+        "category": "medications",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": "0"
+      },
+      "createdDate": "2021-05-13T17:24:50Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-13T17:24:50Z",
+      "updatedDate": "2021-05-14T04:00:11Z",
+      "title": "Alpha Beta",
+      "schedules": [
+        {
+          "custom": false,
+          "daily": true,
+          "weekly": false,
+          "weekday": 0,
+          "hour": 0,
+          "minutes": 0,
+          "duration": 0,
+          "interval": 604800,
+          "text": "",
+          "targetValues": [
+            {
+              "groupIdentifier": "",
+              "remoteId": "",
+              "id": "",
+              "notes": null,
+              "asset": "",
+              "source": "",
+              "tags": null,
+              "timezone": {
+                "abbreviation": "",
+                "identifier": ""
+              },
+              "createdDate": null,
+              "deletedDate": null,
+              "effectiveDate": null,
+              "updatedDate": null,
+              "index": 0,
+              "kind": "",
+              "units": "count",
+              "value": 100,
+              "type": "integer",
+              "userInfo": null
+            }
+          ],
+          "start": "2021-05-13T17:24:03.921Z",
+          "end": "2021-05-13T17:24:03.921Z"
+        }
+      ],
+      "carePlanId": "",
+      "healthKitLinkage": null,
+      "instructions": "Take with water",
+      "impactsAdherence": false,
+      "versions": null
     }
   ],
-  "outcomes": null,
+  "outcomes": [],
   "patients": [
     {
       "groupIdentifier": "",
-      "remoteId": "",
-      "id": "TJZUuh7801dLn0yTir0Ppx8KEIP2",
+      "remoteId": "B2D3oFjNgteAlKhNww4QcTakl8C3",
+      "id": "B2D3oFjNgteAlKhNww4QcTakl8C3",
       "notes": null,
       "asset": "",
       "source": "",
@@ -706,11 +823,12 @@
         "abbreviation": "",
         "identifier": "America/Los_Angeles"
       },
-      "createdDate": "2021-04-13T05:16:07Z",
+      "createdDate": "2021-05-14T03:59:35Z",
       "deletedDate": null,
-      "effectiveDate": "2021-04-13T05:16:07Z",
-      "updatedDate": "2021-04-13T05:16:35Z",
-      "birthday": "1970-01-02T00:00:00Z",
+      "effectiveDate": "2021-05-14T03:59:35Z",
+      "updatedDate": "2021-05-14T03:59:56Z",
+      "allergies": null,
+      "birthday": "1970-02-03T00:00:00Z",
       "name": {
         "namePrefix": "",
         "givenName": "Waqar",
@@ -721,9 +839,10 @@
       },
       "profile": {
         "deviceManufacturer": "Apple",
-        "deviceSoftwareVersion": "14.4",
-        "FHIRId": "8266c283-aa20-4d31-b5cc-5aed52fef949",
-        "heightInches": 71,
+        "deviceSoftwareVersion": "14.5",
+        "email": "wmalloc+codex1@gmail.com",
+        "FHIRId": "9d2e81b0-4448-4110-8996-b072520b722d",
+        "heightInches": 66,
         "measurementBloodPressureEnabled": false,
         "measurementHeartRateEnabled": false,
         "measurementRestingHeartRateEnabled": false,
@@ -731,12 +850,15 @@
         "measurementWeightEnabled": false,
         "notificationsEnabled": false,
         "signUpCompleted": true,
-        "weightLbs": 237
+        "patientId": "B2D3oFjNgteAlKhNww4QcTakl8C3",
+        "userId": "B2D3oFjNgteAlKhNww4QcTakl8C3",
+        "weightLbs": 150
       },
+      "sex": "male",
       "userInfo": null
     }
   ],
   "vectorClock": {
-    "backend": 3
+    "backend": 4
   }
 }

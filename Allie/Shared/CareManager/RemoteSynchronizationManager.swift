@@ -17,18 +17,13 @@ public final class RemoteSynchronizationManager: OCKRemoteSynchronizable {
 	}
 
 	public func pullRevisions(since knowledgeVector: OCKRevisionRecord.KnowledgeVector, mergeRevision: @escaping (OCKRevisionRecord) -> Void, completion: @escaping (Error?) -> Void) {
-		APIClient.client.getCarePlan { result in
+		APIClient.shared.getCarePlan { result in
 			switch result {
 			case .failure(let error):
 				completion(error)
 			case .success(let carePlanResponses):
 				let vectorClock = carePlanResponses.vectorClock
-				guard let backendRevision = vectorClock["backend"] else {
-					let revision = OCKRevisionRecord(entities: [], knowledgeVector: .init())
-					mergeRevision(revision)
-					return
-				}
-				ALog.info("\(knowledgeVector), backend revision \(backendRevision)")
+				ALog.info("\(knowledgeVector), backend revision \(vectorClock)")
 				completion(nil)
 			}
 		}

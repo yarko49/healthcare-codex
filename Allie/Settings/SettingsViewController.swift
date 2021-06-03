@@ -1,5 +1,6 @@
 import AnswerBotSDK
 import ChatSDK
+import KeychainAccess
 import MessagingSDK
 import SafariServices
 import SDKConfigurations
@@ -7,12 +8,6 @@ import SupportSDK
 import UIKit
 
 class SettingsViewController: BaseViewController {
-	var didFinishAction: (() -> Void)?
-	var logoutAction: (() -> Void)?
-	var itemSelectionAction: ((SettingsType) -> Void)?
-
-	// MARK: - Properties
-
 	let rowHeight: CGFloat = 60
 	let footerHeight: CGFloat = 110
 
@@ -39,7 +34,7 @@ class SettingsViewController: BaseViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		title = Str.settings
+		title = String.settings
 
 		settingsFooterView.translatesAutoresizingMaskIntoConstraints = false
 		settingsFooterView.delegate = self
@@ -58,7 +53,7 @@ class SettingsViewController: BaseViewController {
 
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.reuseIdentifier)
 		tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: UITableViewHeaderFooterView.reuseIdentifier)
-		dataSource = UITableViewDiffableDataSource<Int, SettingsType>(tableView: tableView, cellProvider: { (tableView, indexPath, type) -> UITableViewCell? in
+		dataSource = UITableViewDiffableDataSource<Int, SettingsType>(tableView: tableView, cellProvider: { tableView, indexPath, type -> UITableViewCell? in
 			let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.reuseIdentifier, for: indexPath)
 			cell.tintColor = .allieButtons
 			cell.layoutMargins = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
@@ -71,7 +66,11 @@ class SettingsViewController: BaseViewController {
 		tableView.delegate = self
 		var snapshot = dataSource.snapshot()
 		snapshot.appendSections([0])
-		snapshot.appendItems(SettingsType.allCases, toSection: 0)
+		var items = SettingsType.allCases
+		items.removeAll { type in
+			type == .notifications
+		}
+		snapshot.appendItems(items, toSection: 0)
 		dataSource.apply(snapshot, animatingDifferences: false) {
 			ALog.info("Finished Apply Snapshot")
 		}
@@ -80,10 +79,6 @@ class SettingsViewController: BaseViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		AnalyticsManager.send(event: .pageView, properties: [.name: "SettingsView"])
-	}
-
-	@IBAction func close(_ sender: Any) {
-		didFinishAction?()
 	}
 }
 
@@ -121,19 +116,53 @@ extension SettingsViewController: UITableViewDelegate {
 	}
 
 	func showAccountDetails() {
-		let accountDetailsViewController = AccountDetailsViewController()
-		navigationController?.show(accountDetailsViewController, sender: self)
+		let profileEntryViewController = ProfileEntryViewController()
+		profileEntryViewController.controllerViewMode = .settings
+		profileEntryViewController.doneButtonTitle = NSLocalizedString("SAVE", comment: "Save")
+		profileEntryViewController.patient = CareManager.shared.patient
+		profileEntryViewController.doneAction = {
+			var alliePatient = CareManager.shared.patient
+			if let name = PersonNameComponents(fullName: profileEntryViewController.fullName) {
+				alliePatient?.name = name
+			}
+			alliePatient?.profile.email = profileEntryViewController.emailTextField.text
+			alliePatient?.sex = profileEntryViewController.sex
+			alliePatient?.updatedDate = Date()
+			alliePatient?.birthday = profileEntryViewController.dateOfBirth
+			alliePatient?.profile.weightInPounds = profileEntryViewController.weightInPounds
+			alliePatient?.profile.heightInInches = profileEntryViewController.heightInInches
+			self.navigationController?.popViewController(animated: true)
+			if let patient = alliePatient {
+				self.hud.show(in: self.view)
+				APIClient.shared.post(patient: patient) { carePlanResponse in
+					self.hud.dismiss()
+					switch carePlanResponse {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+						let okAction = AlertHelper.AlertAction(withTitle: String.ok)
+						AlertHelper.showAlert(title: String.error, detailText: error.localizedDescription, actions: [okAction])
+					case .success(let response):
+						if let patient = response.patients.first {
+							CareManager.shared.patient = patient
+							Keychain.userEmail = patient.profile.email
+						}
+					}
+				}
+			}
+		}
+		navigationController?.show(profileEntryViewController, sender: self)
 	}
 
 	func showMyDevices() {
 		let devicesViewController = DevicesSelectionViewController()
+		devicesViewController.controllerViewMode = .settings
 		devicesViewController.title = NSLocalizedString("MY_DEVICES", comment: "My Devices")
 		navigationController?.show(devicesViewController, sender: self)
 	}
 
 	func showNotifications() {
-		let myNotificationsViewController = NotificationSettingsController()
-		navigationController?.show(myNotificationsViewController, sender: self)
+		let notificationSettingsController = NotificationSettingsController()
+		navigationController?.show(notificationSettingsController, sender: self)
 	}
 
 	func showSystemAuthorization() {
@@ -185,20 +214,20 @@ extension SettingsViewController: UITableViewDelegate {
 
 	func showPrivacyPolicy() {
 		let privacyPolicyViewController = HTMLViewerController()
-		privacyPolicyViewController.title = Str.privacyPolicy
+		privacyPolicyViewController.title = String.privacyPolicy
 		navigationController?.show(privacyPolicyViewController, sender: self)
 	}
 
 	func showTermsOfService() {
 		let termsOfServiceViewController = HTMLViewerController()
-		termsOfServiceViewController.title = Str.termsOfService
+		termsOfServiceViewController.title = String.termsOfService
 		navigationController?.show(termsOfServiceViewController, sender: self)
 	}
 }
 
 extension SettingsViewController: SettingsFooterViewDelegate {
 	func settingsFooterViewDidTapLogout(_ view: SettingsFooterView) {
-		logoutAction?()
+		NotificationCenter.default.post(name: .applicationDidLogout, object: nil)
 	}
 }
 

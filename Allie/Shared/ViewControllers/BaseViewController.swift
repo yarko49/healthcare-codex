@@ -13,7 +13,7 @@ protocol ViewControllerInitializable {
 class BaseViewController: UIViewController, ViewControllerInitializable {
 	var cancellables: Set<AnyCancellable> = []
 
-	let hud: JGProgressHUD = {
+	private(set) lazy var hud: JGProgressHUD = {
 		let view = JGProgressHUD(style: .dark)
 		view.vibrancyEnabled = true
 		return view

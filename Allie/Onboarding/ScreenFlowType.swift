@@ -39,13 +39,13 @@ enum ScreenFlowType: String, Hashable, CaseIterable, CustomStringConvertible {
 	var viewTitle: String? {
 		switch self {
 		case .welcome:
-			return Str.welcome
+			return String.welcome
 		case .welcomeSuccess:
 			return nil
 		case .welcomeFailure:
 			return nil
 		case .selectDevices:
-			return Str.myDevices
+			return String.myDevices
 		case .healthKit:
 			return nil
 		case .activate:
@@ -58,15 +58,15 @@ enum ScreenFlowType: String, Hashable, CaseIterable, CustomStringConvertible {
 		case .welcome:
 			return NSLocalizedString("AUTHORIZING", comment: "Authorizing...")
 		case .welcomeSuccess:
-			return Str.successfulSignUp
+			return String.successfulSignUp
 		case .welcomeFailure:
-			return Str.signInFailed
+			return String.signInFailed
 		case .selectDevices:
-			return Str.appleHealthSelect
+			return String.appleHealthSelect
 		case .healthKit:
-			return Str.appleHealthImport
+			return String.appleHealthImport
 		case .activate:
-			return Str.synced
+			return String.synced
 		}
 	}
 
@@ -75,13 +75,13 @@ enum ScreenFlowType: String, Hashable, CaseIterable, CustomStringConvertible {
 		case .welcome:
 			return ""
 		case .welcomeSuccess:
-			return Str.continueProfile
+			return String.continueProfile
 		case .welcomeFailure:
 			return ""
 		case .selectDevices:
-			return Str.appleSelectMessage
+			return String.appleSelectMessage
 		case .healthKit:
-			return Str.appleImportMessage
+			return String.appleImportMessage
 		case .activate:
 			return ""
 		}
@@ -90,9 +90,9 @@ enum ScreenFlowType: String, Hashable, CaseIterable, CustomStringConvertible {
 	var buttonTitle: String {
 		switch self {
 		case .welcome, .welcomeFailure, .welcomeSuccess, .selectDevices, .healthKit:
-			return Str.next.uppercased()
+			return String.next.uppercased()
 		case .activate:
-			return Str.done.uppercased()
+			return String.done.uppercased()
 		}
 	}
 }

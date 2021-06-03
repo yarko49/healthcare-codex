@@ -70,7 +70,8 @@
 /* Email Sent! */
 "EMAIL_SENT" = "Email Sent!";
 
-"CHECK_MAIL" = "Check your email and verify";
+/* Check your email and use the verify link */
+"CHECK_MAIL" = "Check your email and use the verify link";
 
 "SENT_EMAIL_AT_SIGN_IN" = "We just sent an email to you at %@. Click the link, and you’ll be automatically signed in.";
 
@@ -557,4 +558,25 @@
 
 /* This will allow Allie to compare different measurements to give you the right type of assistance. */
 "ACTIVATION_MESSAGE" = "This will allow Allie to compare different measurements to give you the right type of assistance.";
+
+/* Fast Acting */
+"FAST_ACTING" = "Fast Acting";
+
+/* Long Acting */
+"LONG_ACTING" = "Long Acting";
+
+/* Units */
+"UNITS" = "Units";
+
+/* Authenticate to login */
+"KEYCHAIN_PROMPT" = "Authenticate to login";
+
+/* Creating Account */
+"CREATING_ACCOUNT" = "Creating Account";
+
+/* Loading */
+"LOADING" = "Loading";
+
+/* Your Care Plan */
+"YOUR_CAREPLAN" = "Your Care Plan";
 

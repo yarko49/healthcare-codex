@@ -27,7 +27,6 @@ class CareKitStoreTests: XCTestCase {
 	}
 
 	func testLoadPatient() throws {
-		try? careManager.resetAllContents()
 		let expect = expectation(description: "Load Patient")
 		careManager.loadPatient { result in
 			switch result {
@@ -61,7 +60,7 @@ class CareKitStoreTests: XCTestCase {
 	func testGetPatientFromServer() throws {
 		let carePlanResponse = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponse)
-		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
+		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
 		XCTAssert(!carePlanResponse!.isEmpty)
 		URLProtocolMock.testData[url!] = carePlanResponse
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
@@ -87,37 +86,34 @@ class CareKitStoreTests: XCTestCase {
 	func testInsertCarePlanFromServer() throws {
 		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)
-		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
+		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
 		XCTAssert(!carePlanResponseData!.isEmpty)
 		URLProtocolMock.testData[url!] = carePlanResponseData
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
 		let expect = expectation(description: "DefaultCarePlan")
-		let insert1 = expectation(description: "Insert CarePlan Store1")
 		client?.getCarePlan(completion: { [weak self] result in
 			switch result {
 			case .failure(let error):
 				XCTFail("Error Fetching DefaultDiabetes Care Plan = \(error.localizedDescription)")
 			case .success(let response):
-				self?.careManager.insert(carePlansResponse: response) { insertResult in
-					switch insertResult {
-					case .failure(let error):
-						XCTFail("Error inserting DefaultDiabetes Care Plan = \(error.localizedDescription)")
-					case .success:
+				self?.careManager.createOrUpdate(carePlanResponse: response, completion: { success in
+					if success {
 						XCTAssertNotNil(self?.careManager.patient)
-						insert1.fulfill()
+						expect.fulfill()
+					} else {
+						XCTFail("Error inserting DefaultDiabetes Care Plan")
 					}
-				}
-				expect.fulfill()
+				})
 			}
 			URLProtocolMock.response = nil
 		})
-		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect, insert1], timeout: 10))
+		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 	}
 
 	func testInsertPatients() throws {
 		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)
-		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
+		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
 		XCTAssert(!carePlanResponseData!.isEmpty)
 		URLProtocolMock.testData[url!] = carePlanResponseData
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
@@ -142,7 +138,7 @@ class CareKitStoreTests: XCTestCase {
 			}
 			let ockPatient = OCKPatient(patient: patient)
 			let add = expectation(description: "DefaultCarePlan")
-			careManager.store.createOrUpdatePatient(ockPatient, callbackQueue: .main) { result in
+			careManager.store.createOrUpdate(patient: ockPatient, callbackQueue: .main) { result in
 				switch result {
 				case .failure(let error):
 					XCTFail("Error inserting DefaultDiabetes Care Plan = \(error.localizedDescription)")

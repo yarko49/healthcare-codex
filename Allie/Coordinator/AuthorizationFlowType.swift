@@ -21,27 +21,27 @@ extension AuthorizationFlowType {
 	var googleButtonTitle: String {
 		switch self {
 		case .signIn:
-			return Str.signInWithGoogle
+			return String.signInWithGoogle
 		case .signUp:
-			return Str.signUpWithGoogle
+			return String.signUpWithGoogle
 		}
 	}
 
 	var emailButtonTitle: String {
 		switch self {
 		case .signIn:
-			return Str.signInWithYourEmail
+			return String.signInWithYourEmail
 		case .signUp:
-			return Str.signUpWithYourEmail
+			return String.signUpWithYourEmail
 		}
 	}
 
 	var modalTitle: String {
 		switch self {
 		case .signIn:
-			return Str.signInModal
+			return String.signInModal
 		case .signUp:
-			return Str.signup
+			return String.signup
 		}
 	}
 

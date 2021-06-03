@@ -11,6 +11,8 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:codexhealth.page.link</string>
+		<string>applinks:qacodexhealth.page.link</string>
+		<string>applinks:devcodexhealth.page.link</string>
 	</array>
 	<key>com.apple.developer.healthkit</key>
 	<true/>

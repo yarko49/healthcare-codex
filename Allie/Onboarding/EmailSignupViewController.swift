@@ -11,14 +11,10 @@ import UIKit
 class EmailSignupViewController: SignupBaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.addSubview(titleLabel)
-		NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 2.0),
-		                             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 10.0)])
 		titleLabel.text = NSLocalizedString("SIGN_UP", comment: "Sign up")
 		view.addSubview(buttonStackView)
-		NSLayoutConstraint.activate([buttonStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: buttonStackView.trailingAnchor, multiplier: 2.0),
+		NSLayoutConstraint.activate([buttonStackView.widthAnchor.constraint(equalToConstant: buttonWidth),
+		                             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 		                             buttonStackView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 8.0)])
 
 		let imageView = UIImageView(image: UIImage(named: "icon-email-circle"))
@@ -27,14 +23,14 @@ class EmailSignupViewController: SignupBaseViewController {
 		buttonStackView.addArrangedSubview(imageView)
 
 		view.addSubview(emailTextField)
-		NSLayoutConstraint.activate([emailTextField.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: emailTextField.trailingAnchor, multiplier: 0.0),
+		NSLayoutConstraint.activate([emailTextField.widthAnchor.constraint(equalToConstant: buttonWidth),
+		                             emailTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 		                             emailTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 30.0)])
 		emailTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
 
 		view.addSubview(bottomButton)
-		NSLayoutConstraint.activate([bottomButton.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: bottomButton.trailingAnchor, multiplier: 2.0),
+		NSLayoutConstraint.activate([bottomButton.widthAnchor.constraint(equalToConstant: buttonWidth),
+		                             bottomButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: bottomButton.bottomAnchor, multiplier: 2.0)])
 		bottomButton.addTarget(self, action: #selector(signupWithEmail(_:)), for: .touchUpInside)
 		bottomButton.setTitle(NSLocalizedString("SIGN_UP", comment: "Sign Up"), for: .normal)

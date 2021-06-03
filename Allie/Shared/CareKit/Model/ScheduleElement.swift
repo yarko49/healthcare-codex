@@ -39,7 +39,7 @@ public struct ScheduleElement: Codable {
 
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-		let startDate = try container.decodeIfPresent(Date.self, forKey: .start) ?? Date()
+		let startDate = (try? container.decodeIfPresent(Date.self, forKey: .start)) ?? Date()
 		self.start = Calendar.current.startOfDay(for: startDate)
 		self.end = try container.decodeIfPresent(Date.self, forKey: .end)
 		self.weekly = try container.decodeIfPresent(Bool.self, forKey: .weekly) ?? false
@@ -47,7 +47,7 @@ public struct ScheduleElement: Codable {
 		self.interval = try container.decodeIfPresent(TimeInterval.self, forKey: .duration) ?? .zero
 		self.custom = try container.decodeIfPresent(Bool.self, forKey: .custom) ?? false
 		self.text = try container.decodeIfPresent(String.self, forKey: .text)
-		self.targetValues = try container.decodeIfPresent([OutcomeValue].self, forKey: .targetValues)?.map { (value) -> OCKOutcomeValue in
+		self.targetValues = try container.decodeIfPresent([OutcomeValue].self, forKey: .targetValues)?.map { value -> OCKOutcomeValue in
 			OCKOutcomeValue(outcomeValue: value)
 		}
 		self.duration = try container.decodeIfPresent(TimeInterval.self, forKey: .duration) ?? .zero
@@ -69,7 +69,7 @@ public struct ScheduleElement: Codable {
 		try container.encode(hour, forKey: .hour)
 		try container.encode(minutes, forKey: .minutes)
 		try container.encode(weekday, forKey: .weekday)
-		let values = targetValues?.map { (outcome) -> OutcomeValue in
+		let values = targetValues?.map { outcome -> OutcomeValue in
 			OutcomeValue(ockOutcomeValue: outcome)
 		}
 		try container.encodeIfPresent(values, forKey: .targetValues)

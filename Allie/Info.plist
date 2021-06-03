@@ -45,16 +45,12 @@
 	<dict>
 		<key>API_Base_Host</key>
 		<string>$(API_BASE_HOST)</string>
-		<key>API_Key</key>
-		<string>$(API_KEY)</string>
 		<key>API_Version</key>
 		<string>$(API_VERSION)</string>
 		<key>Firebase_Deeplink_URL</key>
 		<string>$(FIREBASE_DEEPLINK_URL)</string>
 		<key>Support_Email</key>
 		<string>$(SUPPORT_EMAIL)</string>
-		<key>Tenant_ID</key>
-		<string>$(TENANT_ID)</string>
 		<key>Zendesk_App_Id</key>
 		<string>$(ZENDESK_APP_ID)</string>
 		<key>Zendesk_Chat_Account_Key</key>
@@ -120,7 +116,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

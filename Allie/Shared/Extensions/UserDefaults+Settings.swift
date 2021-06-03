@@ -9,12 +9,10 @@ import Foundation
 
 extension UserDefaults {
 	enum Keys: String {
-		case isCarePlanPopulated = "carePlanPopulated"
 		case hasRunOnce = "HAS_RUN_ONCE"
 		case hasCompletedOnboarding = "HAS_COMPLETED_ONBOARDING"
 		case isBiometricsEnabled = "IS_BIOMETRICS_ENABLED"
 		case haveAskedUserForBiometrics
-		case healthKitUploadChunkSize
 		case hasSmartScale
 		case hasSmartBloodPressureCuff
 		case hasSmartWatch
@@ -30,21 +28,13 @@ extension UserDefaults {
 		case measurementRestingHeartRateGoal
 		case measurementStepsGoal
 		case measurementWeightInPoundsGoal
+		case lastObervationUploadDate
 	}
 
 	static func registerDefautlts() {
-		let defaults: [String: Any] = [Self.Keys.isCarePlanPopulated.rawValue: false, Self.Keys.hasRunOnce.rawValue: false, Self.Keys.hasCompletedOnboarding.rawValue: false,
-		                               Self.Keys.isBiometricsEnabled.rawValue: false, Self.Keys.healthKitUploadChunkSize.rawValue: 4500, Self.Keys.haveAskedUserForBiometrics.rawValue: false]
+		let defaults: [String: Any] = [Self.Keys.hasRunOnce.rawValue: false, Self.Keys.hasCompletedOnboarding.rawValue: false,
+		                               Self.Keys.isBiometricsEnabled.rawValue: false, Self.Keys.haveAskedUserForBiometrics.rawValue: false]
 		UserDefaults.standard.register(defaults: defaults)
-	}
-
-	var isCarePlanPopulated: Bool {
-		get {
-			bool(forKey: Self.Keys.isCarePlanPopulated.rawValue)
-		}
-		set {
-			set(newValue, forKey: Self.Keys.isCarePlanPopulated.rawValue)
-		}
 	}
 
 	var hasRunOnce: Bool {
@@ -130,15 +120,6 @@ extension UserDefaults {
 
 	func removeBiometrics() {
 		removeObject(forKey: Self.Keys.isBiometricsEnabled.rawValue)
-	}
-
-	var healthKitUploadChunkSize: Int {
-		get {
-			integer(forKey: Self.Keys.healthKitUploadChunkSize.rawValue)
-		}
-		set {
-			set(newValue, forKey: Self.Keys.healthKitUploadChunkSize.rawValue)
-		}
 	}
 
 	var vectorClock: [String: Int] {
@@ -228,6 +209,33 @@ extension UserDefaults {
 		}
 		set {
 			setValue(newValue, forKey: Self.Keys.measurementWeightInPoundsGoal.rawValue)
+		}
+	}
+
+	var lastObervationUploadDate: Date {
+		get {
+			let date = Date()
+			return object(forKey: Self.Keys.lastObervationUploadDate.rawValue) as? Date ?? Calendar.current.date(byAdding: .day, value: -14, to: date) ?? date
+		}
+		set {
+			setValue(newValue, forKey: Self.Keys.lastObervationUploadDate.rawValue)
+		}
+	}
+
+	func resetUserDefaults() {
+		let dictionary = dictionaryRepresentation()
+		for (key, _) in dictionary {
+			removeObject(forKey: key)
+		}
+	}
+
+	subscript(lastOutcomesUploadDate key: String) -> Date {
+		get {
+			let now = Date()
+			return value(forKey: key + "LastOutcomesUpload") as? Date ?? Calendar.current.date(byAdding: .day, value: -14, to: now) ?? now
+		}
+		set {
+			setValue(newValue, forKey: key + "LastOutcomesUpload")
 		}
 	}
 }

@@ -14,9 +14,17 @@ class TextContentDetailViewController: UIViewController {
 		AnalyticsManager.send(event: .pageView, properties: [.name: "FeaturedContentDetailView"])
 	}
 
+	var image: UIImage? {
+		didSet {
+			imageView.image = image
+		}
+	}
+
 	var imageURL: URL? {
 		didSet {
-			imageView.sd_setImage(with: imageURL, completed: nil)
+			if imageURL != nil {
+				imageView.sd_setImage(with: imageURL, placeholderImage: image, options: [], context: nil)
+			}
 		}
 	}
 
@@ -66,5 +74,12 @@ class TextContentDetailViewController: UIViewController {
 		                             textView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: textView.trailingAnchor, multiplier: 0.0),
 		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: textView.bottomAnchor, multiplier: 0.0)])
+
+		let closeBarButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .done, target: self, action: #selector(close(_:)))
+		navigationItem.rightBarButtonItem = closeBarButton
+	}
+
+	@objc func close(_ sender: Any) {
+		dismiss(animated: true, completion: nil)
 	}
 }

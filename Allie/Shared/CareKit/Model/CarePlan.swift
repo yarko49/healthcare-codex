@@ -12,6 +12,7 @@ public typealias CarePlans = [CarePlan]
 
 public struct CarePlan: Codable, Identifiable {
 	public var id: String
+	public var uuid: UUID?
 	public var title: String
 	public var patientId: String?
 	public var remoteId: String?
@@ -28,6 +29,7 @@ public struct CarePlan: Codable, Identifiable {
 
 	private enum CodingKeys: String, CodingKey {
 		case id
+		case uuid
 		case title
 		case patientId
 		case remoteId
@@ -48,6 +50,7 @@ public struct CarePlan: Codable, Identifiable {
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.id = try container.decode(String.self, forKey: .id)
+		self.uuid = try container.decodeIfPresent(UUID.self, forKey: .uuid)
 		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId)
 		self.title = try container.decode(String.self, forKey: .title)
 		self.patientId = try container.decodeIfPresent(String.self, forKey: .patientId)
@@ -70,6 +73,7 @@ public struct CarePlan: Codable, Identifiable {
 	public func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(id, forKey: .id)
+		try container.encodeIfPresent(uuid, forKey: .uuid)
 		try container.encode(title, forKey: .title)
 		try container.encodeIfPresent(patientId, forKey: .patientId)
 		try container.encode(remoteId, forKey: .remoteId)
