@@ -29,8 +29,8 @@ class TaskTests: XCTestCase {
 		XCTAssertEqual(task.id, "TaskB2")
 		XCTAssertEqual(task.remoteId, "XXXX-SOME-UUID-ZZZZ")
 		XCTAssertEqual(task.title, "custom-3x-daily-finite-grid")
-		XCTAssertNotNil(task.schedules)
-		XCTAssertEqual(task.schedules?.count, 1)
+		XCTAssertNotNil(task.scheduleElements)
+		XCTAssertEqual(task.scheduleElements.count, 1)
 		XCTAssertEqual(task.groupIdentifier, "GRID")
 		XCTAssertEqual(task.timezone, TimeZone(identifier: "America/Los_Angeles"))
 		XCTAssertEqual(task.instructions, "3x daily instructions")
@@ -85,7 +85,7 @@ class TaskTests: XCTestCase {
 		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: data!)
 		let allTasks = carePlanResponse.tasks
 		XCTAssertNotEqual(allTasks.count, 0)
-		let ockTasks = allTasks.map { (task) -> OCKTask in
+		let ockTasks = allTasks.map { task -> OCKTask in
 			OCKTask(task: task)
 		}
 
@@ -148,5 +148,195 @@ class TaskTests: XCTestCase {
 //		XCTAssertEqual(sortedElements?[0].hour, 8)
 //		XCTAssertEqual(sortedElements?[1].hour, 12)
 //		XCTAssertEqual(sortedElements?[2].hour, 18)
+	}
+
+	func testValueAndType() throws {
+		let dataString = """
+		    {
+		      "groupIdentifier": "LOG",
+		      "remoteId": "ljWpJ9ESPRrAlbaff9SZ",
+		      "id": "",
+		      "notes": null,
+		      "asset": "",
+		      "source": "",
+		      "tags": null,
+		      "timezone": {
+		        "abbreviation": "",
+		        "identifier": ""
+		      },
+		      "userInfo": {
+		        "category": "medications",
+		        "detailViewText": "",
+		        "detailViewCSS": "",
+		        "detailViewHTML": "",
+		        "detailViewImageLabel": "",
+		        "detailViewURL": "",
+		        "image": "",
+		        "subtitle": "",
+		        "logText": "",
+		        "priority": "0"
+		      },
+		      "createdDate": "2021-04-22T12:22:16.222536Z",
+		      "deletedDate": "9999-01-01T00:00:00Z",
+		      "effectiveDate": "2021-04-22T12:22:16.222536Z",
+		      "updatedDate": "2021-04-27T23:43:34.164043Z",
+		      "title": "test org med",
+		      "schedules": {
+		        "scheduleA": {
+		          "custom": false,
+		          "daily": false,
+		          "weekly": true,
+		          "weekday": 0,
+		          "hour": 0,
+		          "minutes": 0,
+		          "duration": 0,
+		          "interval": 0,
+		          "text": "",
+		          "targetValues": [
+		            {
+		              "groupIdentifier": "",
+		              "remoteId": "",
+		              "id": "",
+		              "notes": null,
+		              "asset": "",
+		              "source": "",
+		              "tags": null,
+		              "userInfo": {
+		                "category": "",
+		                "detailViewText": "",
+		                "detailViewCSS": "",
+		                "detailViewHTML": "",
+		                "detailViewImageLabel": "",
+		                "detailViewURL": "",
+		                "image": "",
+		                "subtitle": "",
+		                "logText": "",
+		                "priority": ""
+		              },
+		              "createdDate": null,
+		              "deletedDate": null,
+		              "effectiveDate": null,
+		              "updatedDate": null,
+		              "index": 0,
+		              "kind": "",
+		              "units": "count",
+		              "value": 200,
+		              "type": "integer"
+		            }
+		          ],
+		          "start": "2021-04-22T12:15:38.96Z",
+		          "end": "2021-04-29T12:15:38.96Z"
+		        }
+		      },
+		      "carePlanId": "defaultCarePlan",
+		      "healthKitLinkage": null,
+		      "instructions": "",
+		      "impactsAdherence": false,
+		      "versions": null
+		    }
+		"""
+		let data = dataString.data(using: .utf8)
+		XCTAssertNotNil(data)
+		let task = try CHJSONDecoder().decode(Task.self, from: data!)
+		XCTAssertNotNil(task)
+		let ockTask = OCKTask(task: task)
+		XCTAssertNotNil(ockTask)
+	}
+
+	func testMedications() throws {
+		let dataString = """
+		{
+		    "groupIdentifier": "LOG",
+		    "remoteId": "yULAvxCDijVbz5gGGbR0",
+		    "id": "",
+		    "notes": null,
+		    "asset": "",
+		    "source": "HealthcareOrganization/CodexPilotHealthcare-3kuss/Task/yULAvxCDijVbz5gGGbR0",
+		    "tags": null,
+		    "timezone": {
+		        "abbreviation": "",
+		        "identifier": ""
+		    },
+		    "userInfo": {
+		        "category": "medications",
+		        "detailViewAsset": "",
+		        "detailViewText": "",
+		        "detailViewCSS": "",
+		        "detailViewHTML": "",
+		        "detailViewImageLabel": "",
+		        "detailViewURL": "",
+		        "image": "",
+		        "subtitle": "",
+		        "logText": "",
+		        "priority": "0"
+		    },
+		    "createdDate": "2021-05-13T17:24:50Z",
+		    "deletedDate": "9999-01-01T00:00:00Z",
+		    "effectiveDate": "2021-05-13T17:24:50Z",
+		    "updatedDate": "2021-05-14T02:53:49Z",
+		    "title": "Alpha Beta",
+		    "schedules": [
+		        {
+		            "custom": false,
+		            "daily": true,
+		            "weekly": false,
+		            "weekday": 0,
+		            "hour": 0,
+		            "minutes": 0,
+		            "duration": 0,
+		            "interval": 604800,
+		            "text": "",
+		            "targetValues": [
+		                {
+		                    "groupIdentifier": "",
+		                    "remoteId": "",
+		                    "id": "",
+		                    "notes": null,
+		                    "asset": "",
+		                    "source": "",
+		                    "tags": null,
+		                    "timezone": {
+		                        "abbreviation": "",
+		                        "identifier": ""
+		                    },
+		                    "createdDate": null,
+		                    "deletedDate": null,
+		                    "effectiveDate": null,
+		                    "updatedDate": null,
+		                    "index": 0,
+		                    "kind": "",
+		                    "units": "count",
+		                    "value": 100,
+		                    "type": "integer",
+		                    "userInfo": null
+		                }
+		            ],
+		            "start": "2021-05-13T17:24:03.921Z",
+		            "end": "2021-05-13T17:24:03.921Z"
+		        }
+		    ],
+		    "carePlanId": "",
+		    "healthKitLinkage": null,
+		    "instructions": "Take with water",
+		    "impactsAdherence": false,
+		    "versions": null
+		}
+		"""
+		let data = dataString.data(using: .utf8)
+		XCTAssertNotNil(data)
+		let task = try CHJSONDecoder().decode(Task.self, from: data!)
+		XCTAssertNotNil(task)
+		let ockTask = OCKTask(task: task)
+		XCTAssertNotNil(ockTask)
+	}
+
+	func testActivityTask() throws {
+		let testData = AllieTests.loadTestData(fileName: "ActivityTask.json")
+		XCTAssertNotNil(testData)
+		let task = try CHJSONDecoder().decode(Task.self, from: testData!)
+		XCTAssertNotNil(task)
+		let ockTask = task.ockTask
+		XCTAssertNotNil(ockTask)
+		ALog.info("\(ockTask)")
 	}
 }

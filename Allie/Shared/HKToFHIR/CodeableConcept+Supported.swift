@@ -47,4 +47,8 @@ extension ModelsR4.CodeableConcept {
 	class var bloodGlucose: ModelsR4.CodeableConcept {
 		ModelsR4.CodeableConcept(coding: [ModelsR4.Coding(code: "2339-0", display: "Glucose in Blood", system: "http://loinc.org")])
 	}
+
+	class var insulinDelivery: ModelsR4.CodeableConcept {
+		ModelsR4.CodeableConcept(coding: [ModelsR4.Coding(code: "4287-9", display: "Insulin", system: "http://loinc.org")])
+	}
 }

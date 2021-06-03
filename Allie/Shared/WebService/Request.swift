@@ -125,7 +125,7 @@ public struct Request {
 		}
 	}
 
-	public var queryParameterEncoder: QueryParameterEncoder = { (url, parameters) -> URL? in
+	public var queryParameterEncoder: QueryParameterEncoder = { url, parameters -> URL? in
 		url?.ws_URLByAppendingQueryItems(parameters.ws_queryItems)
 	}
 

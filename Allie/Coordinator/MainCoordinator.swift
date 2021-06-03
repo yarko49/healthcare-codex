@@ -12,13 +12,8 @@ import KeychainAccess
 import LocalAuthentication
 import UIKit
 
-class MainCoordinator: Coordinable {
-	let type: CoordinatorType = .mainCoordinator
-	var cancellables: Set<AnyCancellable> = []
-
-	private var window: UIWindow
-	var childCoordinators: [CoordinatorType: Coordinable]
-	var navigationController: UINavigationController?
+class MainCoordinator: BaseCoordinator {
+	private(set) var window: UIWindow
 
 	let hud: JGProgressHUD = {
 		let view = JGProgressHUD(style: .dark)
@@ -26,31 +21,44 @@ class MainCoordinator: Coordinable {
 		return view
 	}()
 
-	lazy var keychain = KeychainAccess.Keychain(server: AppConfig.apiBaseHost, protocolType: .https, accessGroup: AppConfig.keychainAccessGroup, authenticationType: .default)
-	lazy var remoteConfigManager = RemoteConfigManager()
-	lazy var context = LAContext()
-	var didRegisterOrgnization: Bool = false
-
-	public var rootViewController: UIViewController? {
+	override public var rootViewController: UIViewController? {
 		navigationController
 	}
 
-	func showHUD(animated: Bool = true) {
-		hud.show(in: window, animated: animated)
+	func showHUD(title: String? = nil, message: String? = nil, animated: Bool = true) {
+		DispatchQueue.main.async { [weak self] in
+			guard let strongSelf = self else {
+				return
+			}
+			strongSelf.hud.textLabel.text = title
+			strongSelf.hud.detailTextLabel.text = message
+			strongSelf.hud.show(in: strongSelf.window, animated: animated)
+		}
 	}
 
 	func hideHUD(animated: Bool = true) {
-		hud.dismiss(animated: animated)
+		DispatchQueue.main.async { [weak self] in
+			self?.hud.dismiss(animated: animated)
+		}
 	}
 
-	init(in window: UIWindow) {
-		self.childCoordinators = [:]
+	init(window: UIWindow) {
 		self.window = window
+		super.init(type: .main)
+		let navController = UINavigationController(rootViewController: SplashViewController())
+		navController.setNavigationBarHidden(true, animated: false)
+		self.navigationController = navController
 		self.window.rootViewController = rootViewController
 		self.window.makeKeyAndVisible()
+
+		NotificationCenter.default.publisher(for: .applicationDidLogout)
+			.sink { [weak self] _ in
+				self?.logout()
+			}.store(in: &cancellables)
 	}
 
-	func start() {
+	override func start() {
+		super.start()
 		if !UserDefaults.standard.hasRunOnce {
 			UserDefaults.resetStandardUserDefaults()
 			let firebaseAuth = Auth.auth()
@@ -60,7 +68,6 @@ class MainCoordinator: Coordinable {
 				ALog.error("Error signing out:", error: signOutError)
 			}
 			UserDefaults.standard.hasRunOnce = true
-			UserDefaults.standard.isCarePlanPopulated = false
 			Keychain.clearKeychain()
 		}
 		if Auth.auth().currentUser == nil {
@@ -71,22 +78,43 @@ class MainCoordinator: Coordinable {
 	}
 
 	func goToAuth(url: String? = nil) {
-		removeCoordinator(ofType: .appCoordinator)
+		removeCoordinator(ofType: .application)
 		Keychain.clearKeychain()
 		UserDefaults.resetStandardUserDefaults()
-		let authCoordinator = AuthCoordinator(parentCoordinator: self, deepLink: url)
+		let authCoordinator = AuthCoordinator(parent: self, deepLink: url)
 		addChild(coordinator: authCoordinator)
 		window.rootViewController = authCoordinator.rootViewController
 	}
 
 	public func gotoMainApp() {
-		removeCoordinator(ofType: .authCoordinator)
-		let appCoordinator = AppCoordinator(with: self)
+		removeCoordinator(ofType: .application)
+		let appCoordinator = AppCoordinator(parent: self)
 		addChild(coordinator: appCoordinator)
 		let rootViewController = appCoordinator.rootViewController
 		var transitionOptions = UIWindow.TransitionOptions()
 		transitionOptions.direction = .fade
 		window.setRootViewController(rootViewController, options: transitionOptions)
+	}
+
+	func createPatientIfNeeded() {
+		if let patient = CareManager.shared.patient, patient.profile.fhirId == nil {
+			APIClient.shared.post(patient: patient)
+				.receive(on: DispatchQueue.main)
+				.sink { [weak self] completion in
+					switch completion {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+						AlertHelper.showAlert(title: String.error, detailText: String.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
+					case .finished:
+						break
+					}
+					self?.gotoMainApp()
+				} receiveValue: { _ in
+					ALog.info("OK STATUS FOR PATIENT : 200")
+				}.store(in: &cancellables)
+		} else {
+			gotoMainApp()
+		}
 	}
 
 	func biometricsAuthentication() {
@@ -98,15 +126,15 @@ class MainCoordinator: Coordinable {
 		firebaseAuthentication(completion: { [weak self] success in
 			DispatchQueue.main.async {
 				if success {
-					self?.gotoMainApp()
+					self?.createPatientIfNeeded()
 				} else {
 					self?.goToAuth()
 				}
 			}
 		})
 		#else
-		let reason = Str.authWithBiometrics
-		context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, _ in
+		let reason = String.authWithBiometrics
+		authenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, _ in
 			guard success else {
 				DispatchQueue.main.async {
 					self?.goToAuth()
@@ -116,7 +144,7 @@ class MainCoordinator: Coordinable {
 			self?.firebaseAuthentication(completion: { success in
 				DispatchQueue.main.async {
 					if success {
-						self?.gotoMainApp()
+						self?.createPatientIfNeeded()
 					} else {
 						self?.goToAuth()
 					}
@@ -126,47 +154,32 @@ class MainCoordinator: Coordinable {
 		#endif
 	}
 
-	func registerServices() {
-		if careManager.patient == nil {
-			careManager.loadPatient { [weak self] result in
-				switch result {
-				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
-				case .success:
-					AppDelegate.registerServices(patient: self?.careManager.patient)
-				}
-			}
-		} else {
-			AppDelegate.registerServices(patient: careManager.patient)
-		}
-	}
-
 	func firebaseAuthentication(completion: @escaping (Bool) -> Void) {
-		Auth.auth().currentUser?.getIDTokenResult(completion: { [weak self] tokenResult, error in
+		Auth.auth().currentUser?.getIDTokenResult(completion: { tokenResult, error in
 			guard error == nil else {
 				ALog.error("Error signing out:", error: error)
 				completion(false)
 				return
 			}
-			guard let firebaseToken = tokenResult?.token else {
+			guard tokenResult?.token != nil else {
 				completion(false)
 				return
 			}
-			Keychain.authToken = firebaseToken
-			self?.refreshRemoteConfig { _ in
-				completion(true)
+			if let token = AuthenticaionToken(result: tokenResult) {
+				Keychain.authenticationToken = token
 			}
+			completion(true)
 		})
 	}
 
 	func uploadPatient(patient: AlliePatient) {
-		APIClient.client.postPatient(patient: patient)
+		APIClient.shared.post(patient: patient)
 			.receive(on: DispatchQueue.main)
 			.sink { completion in
 				switch completion {
 				case .failure(let error):
 					ALog.error("\(error.localizedDescription)")
-					AlertHelper.showAlert(title: Str.error, detailText: Str.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+					AlertHelper.showAlert(title: String.error, detailText: String.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 				case .finished:
 					break
 				}
@@ -176,11 +189,11 @@ class MainCoordinator: Coordinable {
 	}
 
 	func syncHealthKitData() {
-		HealthKitSyncManager.syncDataBackground(initialUpload: false, chunkSize: UserDefaults.standard.healthKitUploadChunkSize) { uploaded, total in
-			ALog.info("HealthKit data upload progress = \(uploaded), total: \(total)")
-		} completion: { success in
-			if success == false {
-				// show alert
+		let lastUploadDate = UserDefaults.standard.lastObervationUploadDate
+		let endDate = Date()
+		HealthKitManager.shared.syncData(startDate: lastUploadDate, endDate: endDate, options: []) { success in
+			if success {
+				UserDefaults.standard.lastObervationUploadDate = endDate
 			}
 		}
 	}
@@ -188,12 +201,9 @@ class MainCoordinator: Coordinable {
 	func logout() {
 		let firebaseAuth = Auth.auth()
 		do {
-			if let uid = Auth.auth().currentUser?.uid {
-				Keychain.delete(valueForKey: uid)
-			}
 			try firebaseAuth.signOut()
-			UserDefaults.resetStandardUserDefaults()
-			try AppDelegate.careManager.resetAllContents()
+			UserDefaults.standard.resetUserDefaults()
+			CareManager.shared.reset()
 			Keychain.clearKeychain()
 			goToAuth()
 		} catch let signOutError as NSError {
@@ -220,10 +230,12 @@ class MainCoordinator: Coordinable {
 	}
 
 	func refreshRemoteConfig(completion: Coordinable.BoolActionHandler?) {
-		remoteConfigManager.refresh()
+		RemoteConfigManager.shared.refresh()
 			.sink { refreshResult in
 				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
-				CareManager.register(provider: self.remoteConfigManager.healthCareOrganization)
+				let organization = Organization(id: RemoteConfigManager.shared.healthCareOrganization, name: "Default Organization", image: nil, info: nil)
+				CareManager.register(organization: organization)
+					.subscribe(on: DispatchQueue.main)
 					.sink { registrationResult in
 						ALog.info("Did finish registering organization \(registrationResult)")
 						completion?(registrationResult)

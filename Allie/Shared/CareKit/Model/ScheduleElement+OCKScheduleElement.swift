@@ -56,4 +56,15 @@ extension OCKScheduleElement {
 		self.duration = (scheduleElement.duration > 0) ? .seconds(scheduleElement.duration) : .allDay
 		self.targetValues = scheduleElement.ockOutcomeValues
 	}
+
+	func merged(new: OCKScheduleElement) -> Self {
+		var existing = self
+		existing.end = new.end
+		existing.duration = new.duration
+		existing.interval = new.interval
+		existing.targetValues = new.targetValues
+		existing.text = new.text
+
+		return existing
+	}
 }

@@ -6,6 +6,7 @@
 //
 
 @testable import Allie
+import HealthKit
 import XCTest
 
 class TasksTests: XCTestCase {
@@ -28,7 +29,33 @@ class TasksTests: XCTestCase {
 		XCTAssertNotNil(tasksDictionary)
 		let data = try JSONSerialization.data(withJSONObject: tasksDictionary!, options: .prettyPrinted)
 		let decoder = CHJSONDecoder()
-		let tasks = try decoder.decode([Task].self, from: data)
-		XCTAssertEqual(tasks.count, 9)
+		do {
+			let tasks = try decoder.decode([Task].self, from: data)
+			XCTAssertEqual(tasks.count, 9)
+		} catch {
+			ALog.error("\(error.localizedDescription)")
+		}
+	}
+
+	func testHealthKitIdentifier() throws {
+		let stepCount: HKQuantityTypeIdentifier = .stepCount
+		let identifier = HKQuantityTypeIdentifier(rawValue: "HKQuantityTypeIdentifier" + "stepCount".capitalizingFirstLetter())
+		XCTAssertEqual(stepCount, identifier)
+		let sampleType = HKSampleType.quantityType(forIdentifier: identifier)
+		XCTAssertNotNil(sampleType)
+	}
+
+	func testNewTasksDecode() throws {
+		let tasksData = AllieTests.loadTestData(fileName: "NewTasks.json")
+		XCTAssertNotNil(tasksData)
+		let decoder = CHJSONDecoder()
+		do {
+			let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: tasksData!)
+			XCTAssertNotNil(carePlanResponse.faultyTasks, "Missing faulty tasks")
+			ALog.info("\(carePlanResponse.tasks.count)")
+			ALog.info("\(String(describing: carePlanResponse.faultyTasks))")
+		} catch {
+			XCTFail("Unable to decode the data")
+		}
 	}
 }

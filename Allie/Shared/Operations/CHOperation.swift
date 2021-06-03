@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 1/15/21.
 //
 
+import Combine
 import Foundation
 
 class CHOperation: Operation {
@@ -18,15 +19,7 @@ class CHOperation: Operation {
 
 	private let stateQueue = DispatchQueue(label: Bundle.main.bundleIdentifier! + ".op.state", attributes: .concurrent)
 	private var _state: State = .isReady
-
-	private(set) lazy var operationQueue: OperationQueue = {
-		let queue = OperationQueue()
-		queue.name = Bundle(for: CHOperation.self).bundleIdentifier! + "Operations"
-		queue.maxConcurrentOperationCount = 1
-		queue.qualityOfService = .userInitiated
-		return queue
-	}()
-
+	var cancellables: Set<AnyCancellable> = []
 	@objc private dynamic var state: State {
 		get {
 			stateQueue.sync {

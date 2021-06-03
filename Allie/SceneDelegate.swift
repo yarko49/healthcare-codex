@@ -12,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	var window: UIWindow?
 
 	lazy var mainCoordinator: MainCoordinator = {
-		MainCoordinator(in: self.window!)
+		MainCoordinator(window: self.window!)
 	}()
 
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -84,7 +84,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 			return
 		}
 		DispatchQueue.main.async { [weak self] in
-			if let coord = (self?.mainCoordinator.childCoordinators[.authCoordinator] as? AuthCoordinator) {
+			if let coord = (self?.mainCoordinator.childCoordinators[.authentication] as? AuthCoordinator) {
 				coord.verifySendLink(link: url.absoluteString)
 			} else {
 				self?.mainCoordinator.goToAuth(url: url.absoluteString)

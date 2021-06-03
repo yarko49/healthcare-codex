@@ -12,26 +12,27 @@ struct IllustartionItem: Hashable {
 	var title: String
 
 	static var defaultItems: [IllustartionItem] {
-		[IllustartionItem(image: UIImage(named: "illustration1"), title: Str.slide1Title),
-		 IllustartionItem(image: UIImage(named: "illustration2"), title: Str.slide2Title),
-		 IllustartionItem(image: UIImage(named: "illustration3"), title: Str.slide3Title)]
+		[IllustartionItem(image: UIImage(named: "Logo"), title: String.slide1Title),
+		 IllustartionItem(image: UIImage(named: "illustration2"), title: String.slide2Title),
+		 IllustartionItem(image: UIImage(named: "illustration3"), title: String.slide3Title)]
 	}
 }
 
 class SignupViewController: SignupBaseViewController, UIViewControllerTransitioningDelegate {
 	override func viewDidLoad() {
+		controllerViewMode = .settings
 		super.viewDidLoad()
 		updateLabels()
 		view.backgroundColor = .allieWhite
 		view.addSubview(buttonStackView)
-		NSLayoutConstraint.activate([buttonStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: buttonStackView.trailingAnchor, multiplier: 2.0),
+		NSLayoutConstraint.activate([buttonStackView.widthAnchor.constraint(greaterThanOrEqualToConstant: buttonWidth),
+		                             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: buttonStackView.bottomAnchor, multiplier: 2.0)])
 
 		pageControl.numberOfPages = IllustartionItem.defaultItems.count
 		pageControl.currentPage = 0
 		buttonStackView.addArrangedSubview(pageControl)
-		buttonStackView.addArrangedSubview(appleSignInButton)
+		buttonStackView.addArrangedSubview(appleIdButton)
 		buttonStackView.addArrangedSubview(googleSignInButton)
 		buttonStackView.addArrangedSubview(emailSignInButton)
 		buttonStackView.addArrangedSubview(separatorView)
@@ -40,6 +41,7 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 		configureCollectionView()
 		loginFlowButton.addTarget(self, action: #selector(loginFlowButtonTapped(_:)), for: .touchUpInside)
 		emailSignInButton.addTarget(self, action: #selector(authenticateEmail(_:)), for: .touchUpInside)
+		title = nil
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -91,7 +93,7 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 		                             buttonStackView.topAnchor.constraint(equalToSystemSpacingBelow: collectionView.bottomAnchor, multiplier: mulitplier)])
 
 		collectionView.register(IllustrationCollectionViewCell.self, forCellWithReuseIdentifier: IllustrationCollectionViewCell.reuseIdentifier)
-		dataSource = UICollectionViewDiffableDataSource<Int, IllustartionItem>(collectionView: collectionView, cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
+		dataSource = UICollectionViewDiffableDataSource<Int, IllustartionItem>(collectionView: collectionView, cellProvider: { [weak self] collectionView, indexPath, item -> UICollectionViewCell? in
 			guard let self = self else {
 				return nil
 			}
@@ -138,12 +140,15 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 		let button = UIButton.emailSignInButton
 		button.layer.cornerRadius = 8.0
 		button.layer.cornerCurve = .continuous
-		button.layer.borderColor = UIColor.allieSeparator.cgColor
-		button.layer.borderWidth = 1.0
+		button.layer.borderColor = UIColor.black.cgColor
+		button.layer.borderWidth = 0.8
 		let title = authorizationFlowType.emailButtonTitle
 		button.setTitle(title, for: .normal)
+		button.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: .regular)
+		button.setTitleColor(.black, for: .normal)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+		button.setShadow()
 		return button
 	}()
 

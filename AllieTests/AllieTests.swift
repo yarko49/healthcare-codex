@@ -38,10 +38,22 @@ class AllieTests: XCTestCase {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 	}
 
+	func testDecodeCarePlan() throws {
+		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
+		XCTAssertNotNil(carePlanResponseData)
+		let decoder = CHJSONDecoder()
+		do {
+			let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: carePlanResponseData!)
+			XCTAssertNotEqual(carePlanResponse.carePlans.count, 0)
+		} catch {
+			ALog.error("\(error)")
+		}
+	}
+
 	func testCarePlanValueSpaceResponse() throws {
 		let carePlanResponse = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponse)
-		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
+		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
 		XCTAssert(!carePlanResponse!.isEmpty)
 		URLProtocolMock.testData[url!] = carePlanResponse
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
@@ -63,7 +75,7 @@ class AllieTests: XCTestCase {
 	func testDefaultDiabetesCarePlan() throws {
 		let carePlanResponse = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponse)
-		let url = APIRouter.getCarePlan(vectorClock: false, valueSpaceSample: false).urlRequest?.url
+		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
 		XCTAssert(!carePlanResponse!.isEmpty)
 		URLProtocolMock.testData[url!] = carePlanResponse
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
@@ -105,14 +117,12 @@ class AllieTests: XCTestCase {
 		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: carePlanResponseData!)
 		let storeManager = CareManager()
 		let expect = expectation(description: "InsertCarePlans")
-		storeManager.insert(carePlansResponse: carePlanResponse) { result in
-			switch result {
-			case .failure(let error):
-				XCTFail("Error Fetching DefaultDiabetes Care Plan = \(error.localizedDescription)")
-			case .success(let cardList):
-				print(cardList)
-				XCTAssertTrue(true)
+		storeManager.createOrUpdate(carePlanResponse: carePlanResponse, forceReset: false) { success in
+			XCTAssertTrue(success)
+			if success {
 				expect.fulfill()
+			} else {
+				XCTFail("Error Fetching DefaultDiabetes Care Plan")
 			}
 		}
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))

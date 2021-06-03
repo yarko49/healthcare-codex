@@ -11,11 +11,11 @@ enum WeightType: String, CaseIterable {
 	var qualityString: String? {
 		switch self {
 		case .healthy:
-			return Str.healthy
+			return String.healthy
 		case .heavy:
-			return Str.heavy
+			return String.heavy
 		case .obese:
-			return Str.obese
+			return String.obese
 		}
 	}
 

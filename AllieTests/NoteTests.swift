@@ -23,16 +23,9 @@ class NoteTests: XCTestCase {
 		let careplanNoteDictionary =
 			"""
 			{
-			  "source" : "",
 			  "author" : "test",
 			  "content" : "test content here",
-			  "remoteId" : "XXXX-ID-test",
-			  "id" : "",
 			  "title" : "test",
-			  "groupIdentifier" : "test",
-			  "timezone" : 0,
-			  "asset" : "",
-			  "effectiveDate" : null
 			}
 			"""
 		let decoder = CHJSONDecoder()
@@ -50,16 +43,9 @@ class NoteTests: XCTestCase {
 		let careplanNoteDictionary =
 			"""
 			{
-			  "source" : "",
 			  "author" : "testB",
 			  "content" : "test",
-			  "remoteId" : "XXXX-ID-test2",
-			  "id" : "",
 			  "title" : "test",
-			  "groupIdentifier" : "test",
-			  "timezone" : 0,
-			  "asset" : "",
-			  "effectiveDate" : null
 			}
 			"""
 		let decoder = CHJSONDecoder()

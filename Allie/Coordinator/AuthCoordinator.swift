@@ -10,34 +10,26 @@ import CryptoKit
 import FirebaseAuth
 import GoogleSignIn
 import HealthKit
-import LocalAuthentication
+import KeychainAccess
 import UIKit
 
-class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelegate {
-	let type: CoordinatorType = .authCoordinator
-	var cancellables: Set<AnyCancellable> = []
-
-	var navigationController: UINavigationController? = {
-		UINavigationController()
-	}()
-
-	var childCoordinators: [CoordinatorType: Coordinable] = [:]
-	weak var parentCoordinator: MainCoordinator?
+class AuthCoordinator: BaseCoordinator {
+	weak var parent: MainCoordinator?
 
 	var currentNonce: String?
-	var emailrequest: String?
 	var authorizationFlowType: AuthorizationFlowType = .signUp
 	var alliePatient: AlliePatient?
 
-	var rootViewController: UIViewController? {
+	override var rootViewController: UIViewController? {
 		navigationController
 	}
 
-	init(parentCoordinator parent: MainCoordinator?, deepLink: String?) {
-		self.parentCoordinator = parent
-		super.init()
+	init(parent: MainCoordinator?, deepLink: String?) {
+		super.init(type: .authentication)
+		navigationController = UINavigationController()
+		self.parent = parent
+		parent?.window.rootViewController = SplashViewController()
 		GIDSignIn.sharedInstance().delegate = self
-
 		if let link = deepLink {
 			verifySendLink(link: link)
 		} else {
@@ -45,16 +37,16 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		}
 	}
 
-	func start() {
+	override func start() {
 		gotoSignup()
 	}
 
-	func showHUD(animated: Bool = true) {
-		parentCoordinator?.showHUD(animated: animated)
+	func showHUD(title: String? = nil, message: String? = nil, animated: Bool = true) {
+		parent?.showHUD(title: title, message: message, animated: animated)
 	}
 
 	func hideHUD(animated: Bool = true) {
-		parentCoordinator?.hideHUD(animated: animated)
+		parent?.hideHUD(animated: animated)
 	}
 
 	func gotoSignup(authorizationFlowType type: AuthorizationFlowType = .signUp) {
@@ -102,7 +94,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				self?.gotoSignup(authorizationFlowType: authorizationFlowType)
 			}
 		}
-		navigate(to: loginViewController, with: .resetStack)
+		navigate(to: loginViewController, with: .push)
 	}
 
 	func gotoEmailSignup() {
@@ -111,7 +103,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			self?.authorizationFlowType = authorizationFlowType
 			self?.sendEmailLink(email: email)
 		}
-		navigate(to: emailSignupViewController, with: .resetStack)
+		navigate(to: emailSignupViewController, with: .push)
 	}
 
 	func sendEmailLink(email: String) {
@@ -123,12 +115,11 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		Auth.auth().sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings) { [weak self] error in
 			if let error = error {
 				ALog.error("Send signin Link", error: error)
-				AlertHelper.showAlert(title: Str.error, detailText: Str.failedSendLink, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+				AlertHelper.showAlert(title: String.error, detailText: String.failedSendLink, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 				return
 			}
 
-			Keychain.emailForLink = email
-			self?.emailrequest = email
+			Keychain.userEmail = email
 			self?.emailSentSuccess(email: email)
 		}
 	}
@@ -144,11 +135,11 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				}
 			}
 		}
-		navigate(to: emailSentViewController, with: .resetStack)
+		navigate(to: emailSentViewController, with: .push)
 	}
 
 	func verifySendLink(link: String) {
-		if let email = Keychain.emailForLink {
+		if let email = Keychain.userEmail {
 			showHUD()
 			if Auth.auth().isSignIn(withEmailLink: link) {
 				Auth.auth().signIn(withEmail: email, link: link) { [weak self] authResult, error in
@@ -156,10 +147,10 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 						self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { _ in
 							DispatchQueue.main.async {
 								if let authorizationFlowType = self?.authorizationFlowType, authorizationFlowType == .signIn {
-									if HealthKitManager.shared.healthKitAuthorized == false {
-										self?.gotoHealthViewController(screenFlowType: .healthKit)
-									} else {
-										self?.gotoMainApp()
+									HealthKitManager.shared.authorizeHealthKit { _, _ in
+										DispatchQueue.main.async {
+											self?.parent?.gotoMainApp()
+										}
 									}
 								} else {
 									self?.checkIfUserExists(email: email, user: authResult)
@@ -168,53 +159,24 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 						})
 					} else {
 						DispatchQueue.main.async {
-							AlertHelper.showAlert(title: error?.localizedDescription, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+							AlertHelper.showAlert(title: error?.localizedDescription, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 						}
 					}
 				}
 			}
 		} else {
-			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+			AlertHelper.showAlert(title: String.error, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 			start()
 		}
 	}
 
-	internal func gotoReset() {
-		let resetViewController = ResetViewController()
-		resetViewController.nextAction = { [weak self] email in
-			self?.resetPassword(email: email)
-		}
-		navigate(to: resetViewController, with: .push)
-	}
-
-	internal func resetPassword(email: String?) {
-		showHUD()
-		Auth.auth().sendPasswordReset(withEmail: email ?? "") { [weak self] error in
-			self?.hideHUD()
-			if error != nil {
-				AlertHelper.showAlert(title: Str.error, detailText: Str.invalidEmail, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
-			} else {
-				self?.goToResetMessage()
-			}
-		}
-	}
-
-	internal func goToResetMessage() {
-		let resetMessageViewController = ResetMessageViewController()
-		resetMessageViewController.backToSignInAction = { [weak self] in
-			self?.navigationController?.popViewController(animated: false)
-			self?.navigationController?.popViewController(animated: true)
-		}
-		navigate(to: resetMessageViewController, with: .push)
-	}
-
-	internal func getPatient(email: String?, user: RemoteUser) {
+	func getPatient(email: String?, user: RemoteUser) {
 		guard let user = Auth.auth().currentUser else {
 			gotoSignup()
 			return
 		}
 		showHUD()
-		APIClient.client.getCarePlan { [weak self] carePlanResult in
+		APIClient.shared.getCarePlan { [weak self] carePlanResult in
 			self?.hideHUD()
 			switch carePlanResult {
 			case .failure(let error):
@@ -224,14 +186,14 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				if let patient = carePlan.patients.first {
 					self?.alliePatient = patient
 					let ockPatient = OCKPatient(patient: patient)
-					try? AppDelegate.careManager.resetAllContents()
-					self?.careManager.createOrUpdate(patient: ockPatient) { patientResult in
+					try? CareManager.shared.resetAllContents()
+					CareManager.shared.createOrUpdate(patient: ockPatient) { patientResult in
 						switch patientResult {
 						case .failure(let error):
 							ALog.error("Unable to add patient to store", error: error)
 							self?.gotoProfileSetupViewController(email: email, user: user)
 						case .success:
-							self?.parentCoordinator?.gotoHealthKitAuthorization()
+							self?.parent?.gotoHealthKitAuthorization()
 						}
 					}
 				} else {
@@ -241,15 +203,8 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		}
 	}
 
-	public func gotoMainApp() {
-		parentCoordinator?.refreshRemoteConfig(completion: { [weak self] _ in
-			self?.careManager.patient = self?.alliePatient
-			self?.parentCoordinator?.gotoMainApp()
-		})
-	}
-
 	func gotoProfileSetupViewController(email: String?, user: RemoteUser) {
-		try? careManager.resetAllContents()
+		try? CareManager.shared.resetAllContents()
 		if alliePatient == nil {
 			alliePatient = AlliePatient(user: user)
 		}
@@ -261,17 +216,7 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 
 	func gotoProfileEntryViewController(from screen: NavigationSourceType = .signUp) {
 		let viewController = ProfileEntryViewController()
-		viewController.fullName = alliePatient?.name.fullName
-		viewController.sex = alliePatient?.sex ?? .male
-		if let dob = alliePatient?.birthday {
-			viewController.dateOfBirth = dob
-		}
-		if let weight = alliePatient?.profile.weightInPounds {
-			viewController.weightInPounds = weight
-		}
-		if let height = alliePatient?.profile.heightInInches {
-			viewController.heightInInches = height
-		}
+		viewController.patient = alliePatient
 		viewController.doneAction = { [weak self] in
 			if let name = PersonNameComponents(fullName: viewController.fullName) {
 				self?.alliePatient?.name = name
@@ -281,9 +226,9 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			self?.alliePatient?.birthday = viewController.dateOfBirth
 			self?.alliePatient?.profile.weightInPounds = viewController.weightInPounds
 			self?.alliePatient?.profile.heightInInches = viewController.heightInInches
-			self?.gotoMyDevices()
+			self?.createPatient()
 		}
-		navigate(to: viewController, with: .resetStack)
+		navigate(to: viewController, with: .push)
 	}
 
 	func gotoHealthViewController(screenFlowType: ScreenFlowType) {
@@ -291,34 +236,41 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		healthViewController.screenFlowType = screenFlowType
 		healthViewController.authorizationFlowType = authorizationFlowType
 		healthViewController.notNowAction = { [weak self] in
-			self?.createPatient()
+			DispatchQueue.main.async {
+				self?.parent?.gotoMainApp()
+			}
 		}
 
 		healthViewController.activateAction = { [weak self] in
 			self?.authorizeHKForUpload()
 		}
 
-		navigate(to: healthViewController, with: .resetStack)
+		navigate(to: healthViewController, with: .push)
 	}
 
 	func createPatient() {
 		alliePatient?.profile.isSignUpCompleted = true
-		showHUD()
-		APIClient.client.postPatient(patient: alliePatient!) { [weak self] result in
-			self?.hideHUD()
+		CareManager.shared.patient = alliePatient
+		let title = NSLocalizedString("CREATING_ACCOUNT", comment: "Creating Account")
+		showHUD(title: title, message: nil, animated: true)
+		APIClient.shared.post(patient: alliePatient!) { [weak self] result in
 			switch result {
 			case .failure(let error):
-				let okAction = AlertHelper.AlertAction(withTitle: Str.ok) {
-					DispatchQueue.main.async {
-						self?.gotoMainApp()
-					}
+				let okAction = AlertHelper.AlertAction(withTitle: String.ok) {
+					self?.parent?.refreshRemoteConfig(completion: { [weak self] _ in
+						self?.hideHUD()
+						self?.gotoMyDevices()
+					})
 				}
 				self?.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
-			case .success(let carePlan):
-				if let patient = carePlan.patients.first {
-					self?.careManager.patient = patient
+			case .success(let carePlanResponse):
+				if let patient = carePlanResponse.patients.first {
+					CareManager.shared.patient = patient
 				}
-				self?.gotoMainApp()
+				self?.parent?.refreshRemoteConfig(completion: { [weak self] _ in
+					self?.hideHUD()
+					self?.gotoMyDevices()
+				})
 			}
 		}
 	}
@@ -336,30 +288,9 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			}
 			ALog.info("HealthKit Successfully Authorized.")
 			DispatchQueue.main.async {
-				UserDefaults.standard.healthKitUploadChunkSize = 4500
-				self?.gotoMainApp()
+				self?.parent?.gotoMainApp()
 			}
 		}
-	}
-
-	func startInitialUpload() {
-		let hkDataUploadViewController = HKDataUploadViewController()
-		hkDataUploadViewController.queryAction = { [weak self] in
-			HealthKitSyncManager.syncData(chunkSize: UserDefaults.standard.healthKitUploadChunkSize) { uploaded, total in
-				hkDataUploadViewController.progress = uploaded
-				hkDataUploadViewController.maxProgress = total
-			} completion: { success in
-				if success {
-					self?.gotoHealthViewController(screenFlowType: .activate)
-				} else {
-					let okAction = AlertHelper.AlertAction(withTitle: Str.ok) { [weak self] in
-						self?.gotoHealthViewController(screenFlowType: .activate)
-					}
-					AlertHelper.showAlert(title: Str.error, detailText: Str.importHealthDataFailed, actions: [okAction])
-				}
-			}
-		}
-		navigate(to: hkDataUploadViewController, with: .push)
 	}
 
 	func gotoMyDevices() {
@@ -368,18 +299,6 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			self?.gotoHealthViewController(screenFlowType: .healthKit)
 		}
 		navigate(to: devicesViewController, with: .resetStack)
-	}
-
-	func gotoPrivacyPolicy() {
-		let privacyPolicyViewController = HTMLViewerController()
-		privacyPolicyViewController.title = Str.privacyPolicy
-		navigate(to: privacyPolicyViewController, with: .pushFullScreen)
-	}
-
-	func gotoTermsOfService() {
-		let termsOfServiceViewController = HTMLViewerController()
-		termsOfServiceViewController.title = Str.termsOfService
-		navigate(to: termsOfServiceViewController, with: .pushFullScreen)
 	}
 
 	func signInWithApple() {
@@ -405,18 +324,18 @@ class AuthCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		if let error = error {
 			ALog.error(error: error)
 			hideHUD()
-			AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+			AlertHelper.showAlert(title: String.error, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 		} else if let authDataResult = authDataResult {
 			authDataResult.user.getIDTokenResult { [weak self] tokenResult, error in
 				self?.hideHUD()
 				if let error = error {
 					ALog.info("\(error.localizedDescription)")
-					AlertHelper.showAlert(title: Str.error, detailText: Str.signInFailed, actions: [AlertHelper.AlertAction(withTitle: Str.ok)])
+					AlertHelper.showAlert(title: String.error, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 					completion(false)
-				} else if let authToken = tokenResult?.token {
-					self?.emailrequest = Auth.auth().currentUser?.email
-					Keychain.authToken = authToken
-					ALog.info("firebaseToken: \(authToken)")
+				} else if tokenResult?.token != nil {
+					Keychain.userEmail = Auth.auth().currentUser?.email
+					Keychain.authenticationToken = AuthenticaionToken(result: tokenResult)
+					ALog.info("firebaseToken: \(tokenResult?.token ?? "")")
 					completion(true)
 				}
 			}

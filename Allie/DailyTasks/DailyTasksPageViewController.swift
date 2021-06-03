@@ -14,22 +14,21 @@ import SwiftUI
 import UIKit
 
 class DailyTasksPageViewController: OCKDailyTasksPageViewController {
-	var careManager: CareManager {
-		AppDelegate.careManager
-	}
-
 	var timerInterval: TimeInterval = 60 * 10
 
 	private let hud: JGProgressHUD = {
 		let view = JGProgressHUD(style: .dark)
 		view.vibrancyEnabled = true
-		view.textLabel.text = NSLocalizedString("LOADING_DOTS", comment: "Loading...")
-		view.detailTextLabel.text = NSLocalizedString("CAREPLAN", comment: "CarePlan")
+		view.textLabel.text = NSLocalizedString("LOADING", comment: "Loading")
+		view.detailTextLabel.text = NSLocalizedString("YOUR_CAREPLAN", comment: "Your Care Plan")
 		return view
 	}()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		navigationItem.leftBarButtonItem = nil
+		navigationItem.titleView = todayButton
+		todayButton.addTarget(self, action: #selector(gotoToday(_:)), for: .touchDown)
 		view.backgroundColor = .allieWhite
 		NotificationCenter.default.publisher(for: .patientDidSnychronize)
 			.receive(on: DispatchQueue.main)
@@ -46,6 +45,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.reload()
 			}
 			.store(in: &cancellables)
+		CareManager.shared.startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
+		reload()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -58,6 +59,14 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			cancellable.cancel()
 		}
 	}
+
+	let todayButton: UIButton = {
+		let button = UIButton(type: .custom)
+		button.setTitle(NSLocalizedString("TODAY", comment: "Today"), for: .normal)
+		button.titleLabel?.font = UIFont.systemFont(ofSize: 17.0, weight: .semibold)
+		button.setTitleColor(.allieBlack, for: .normal)
+		return button
+	}()
 
 	var cancellables: Set<AnyCancellable> = []
 	var insertViewsAnimated: Bool = false
@@ -113,6 +122,12 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						viewController.view.tintColor = .allieButtons
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
+					case .logInsulin:
+						let viewController = InsulinLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						viewController.view.tintColor = .allieButtons
+						viewController.controller.fetchAndObserveEvents(forTaskIDs: [task.id], eventQuery: eventQuery)
+						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
+
 					case .numericProgress:
 						let view = NumericProgressTaskView(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
 						listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
@@ -143,37 +158,46 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			return
 		}
 		isRefreshingCarePlan = true
-		hud.show(in: view)
-		APIClient.client.getCarePlan()
+		hud.show(in: tabBarController?.view ?? view, animated: true)
+		APIClient.shared.getCarePlan(option: .carePlan)
 			.sink { [weak self] completion in
 				self?.isRefreshingCarePlan = false
-				self?.hud.dismiss()
+				self?.hud.dismiss(animated: true)
 				switch completion {
 				case .failure(let error):
-					let okAction = AlertHelper.AlertAction(withTitle: Str.ok)
+					ALog.error("Unable to fetch care plan", error: error)
+					let okAction = AlertHelper.AlertAction(withTitle: String.ok)
 					AlertHelper.showAlert(title: "Error", detailText: error.localizedDescription, actions: [okAction])
 				case .finished:
 					break
 				}
 			} receiveValue: { value in
-				if let patient = value.patients.first {
-					self.careManager.patient = patient
+				if let tasks = value.faultyTasks, !tasks.isEmpty {
+					self.showError(tasks: tasks)
 				}
-				self.careManager.vectorClock = value.vectorClock
-				self.careManager.insert(carePlansResponse: value) { result in
-					switch result {
-					case .failure(let error):
-						ALog.error(error: error)
-					case .success:
+				CareManager.shared.createOrUpdate(carePlanResponse: value, forceReset: false) { success in
+					if success {
 						ALog.info("added the care plan")
 						DispatchQueue.main.async {
-							self.hud.dismiss()
 							super.reload()
 						}
+					} else {
+						ALog.error("Unable to update the careplan data")
 					}
 					self.isRefreshingCarePlan = false
 				}
 			}.store(in: &cancellables)
+	}
+
+	func showError(tasks: [BasicTask]) {
+		let viewController = TaskErrorDisplayViewController(style: .plain)
+		viewController.items = tasks
+		let navigationController = UINavigationController(rootViewController: viewController)
+		tabBarController?.present(navigationController, animated: true, completion: nil)
+	}
+
+	@IBAction func gotoToday(_ sender: Any) {
+		selectDate(Date(), animated: true)
 	}
 }
 

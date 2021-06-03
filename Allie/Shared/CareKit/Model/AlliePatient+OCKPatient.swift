@@ -17,7 +17,7 @@ extension OCKPatient {
 		self.effectiveDate = patient.effectiveDate
 		self.groupIdentifier = patient.groupIdentifier
 		self.tags = patient.tags
-		self.remoteID = patient.remoteID
+		self.remoteID = patient.remoteId
 		self.source = patient.source
 		self.userInfo = patient.userInfo
 		self.asset = patient.asset
@@ -48,6 +48,7 @@ extension OCKPatient {
 extension AlliePatient {
 	init(ockPatient: OCKPatient) {
 		self.init(id: ockPatient.id, name: ockPatient.name)
+		self.uuid = ockPatient.uuid
 		self.sex = ockPatient.sex
 		self.birthday = ockPatient.birthday
 		self.allergies = ockPatient.allergies
@@ -56,7 +57,7 @@ extension AlliePatient {
 		self.effectiveDate = ockPatient.effectiveDate
 		self.groupIdentifier = ockPatient.groupIdentifier
 		self.tags = ockPatient.tags
-		self.remoteID = ockPatient.remoteID
+		self.remoteId = ockPatient.remoteID
 		self.source = ockPatient.source
 		self.userInfo = ockPatient.userInfo
 		self.asset = ockPatient.asset

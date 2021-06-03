@@ -16,18 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		UIApplication.shared.delegate as? AppDelegate
 	}
 
-	class var careManager: CareManager {
-		AppDelegate.appDelegate.careManager
-	}
-
 	class var appCoordinator: MainCoordinator? {
 		(primaryWindow.windowScene?.delegate as? SceneDelegate)?.mainCoordinator
 	}
 
-	var careManager = CareManager()
-
 	class var primaryWindow: UIWindow! {
-		AppDelegate.appDelegate.primaryWindow
+		Self.appDelegate.primaryWindow
 	}
 
 	var primaryWindow: UIWindow! {
@@ -43,9 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		UserDefaults.registerDefautlts()
 		FirebaseConfiguration.shared.setLoggerLevel(.min)
 		FirebaseApp.configure()
-		Crashlytics.crashlytics()
 		GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
 		IQKeyboardManager.shared.enable = true
+		Crashlytics.crashlytics()
 		Self.configureZendesk()
 		return true
 	}
@@ -62,6 +56,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Called when the user discards a scene session.
 		// If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
 		// Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+	}
+
+	var backgroundCompletionHandlers: [String: () -> Void] = [:]
+
+	func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
+		backgroundCompletionHandlers[identifier] = completionHandler
+	}
+
+	func finishBackgroundUpload(forBackgroundURLSession identifier: String) {
+		guard let handler = backgroundCompletionHandlers.removeValue(forKey: identifier) else {
+			return
+		}
+		handler()
 	}
 
 	static func configureZendesk() {

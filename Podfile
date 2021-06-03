@@ -18,6 +18,22 @@ target 'Allie' do
   end
 end
 
+target 'Allie QA' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for Allie
+  pod 'GoogleSignIn'
+end
+
+target 'Allie Dev' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+  
+  # Pods for Allie
+  pod 'GoogleSignIn'
+end
+
 # XCode 12 support, will remove when new cocoapods is released
 post_install do |installer|
   installer.pods_project.targets.each do |target|

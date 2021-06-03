@@ -12,12 +12,6 @@ class HKDataUploadViewController: BaseViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		titleLabel.translatesAutoresizingMaskIntoConstraints = false
-		view.addSubview(titleLabel)
-		NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 12.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 2.0)])
-
 		waitLabel.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(waitLabel)
 		NSLayoutConstraint.activate([waitLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 4.0),
@@ -40,7 +34,7 @@ class HKDataUploadViewController: BaseViewController {
 		let label = UILabel(frame: .zero)
 		label.numberOfLines = 3
 		label.textAlignment = .center
-		label.attributedText = Str.importingHealthData.with(style: .regular28, andColor: .black, andLetterSpacing: 0.36)
+		label.attributedText = String.importingHealthData.with(style: .regular28, andColor: .black, andLetterSpacing: 0.36)
 		return label
 	}()
 
@@ -48,7 +42,7 @@ class HKDataUploadViewController: BaseViewController {
 		let label = UILabel(frame: .zero)
 		label.numberOfLines = 1
 		label.textAlignment = .center
-		label.attributedText = Str.justASec.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.32)
+		label.attributedText = String.justASec.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.32)
 		return label
 	}()
 

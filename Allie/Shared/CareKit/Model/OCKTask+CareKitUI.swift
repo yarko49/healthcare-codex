@@ -22,7 +22,7 @@ extension String {
 
 extension OCKTask {
 	var linkItems: [CareKitUI.LinkItem]? {
-		let linkKeys = userInfo?.keys.filter { (key) -> Bool in
+		let linkKeys = userInfo?.keys.filter { key -> Bool in
 			key.hasPrefix("link") && !key.contains("Title")
 		} ?? []
 
@@ -30,7 +30,7 @@ extension OCKTask {
 			return nil
 		}
 
-		let linkItems: [CareKitUI.LinkItem] = linkKeys.compactMap { (key) -> CareKitUI.LinkItem? in
+		let linkItems: [CareKitUI.LinkItem] = linkKeys.compactMap { key -> CareKitUI.LinkItem? in
 			var taskLinktype: TaskLinkType = .appStore
 			if key.hasPrefix(TaskLinkType.appStore.rawValue) {
 				taskLinktype = .appStore

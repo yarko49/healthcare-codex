@@ -32,7 +32,7 @@ class ProfileViewController: BaseViewController {
 
 	// MARK: IBOutlets
 
-	@IBOutlet var patientTrendsTableView: UITableView!
+	@IBOutlet var tableView: UITableView!
 	@IBOutlet var dateLabel: UILabel!
 	@IBOutlet var previousDateButton: UIButton!
 	@IBOutlet var nextDateButton: UIButton!
@@ -45,7 +45,7 @@ class ProfileViewController: BaseViewController {
 	// MARK: Vars
 
 	var patient: AlliePatient? {
-		AppDelegate.appDelegate.careManager.patient
+		CareManager.shared.patient
 	}
 
 	var currentDateInterval: HealthStatsDateIntervalType = .daily {
@@ -55,7 +55,7 @@ class ProfileViewController: BaseViewController {
 				fetchData(newDateRange: (startDate, endDate))
 			} else {
 				updateDateLabel()
-				patientTrendsTableView?.reloadData()
+				tableView?.reloadData()
 			}
 		}
 	}
@@ -63,20 +63,20 @@ class ProfileViewController: BaseViewController {
 	var expandedIndexPath: IndexPath?
 	var currentHKData: [HealthKitQuantityType: [StatModel]] = [:] {
 		didSet {
-			patientTrendsTableView?.reloadData()
+			tableView?.reloadData()
 		}
 	}
 
 	var goals: [HealthKitQuantityType: Int] = [:] {
 		didSet {
-			patientTrendsTableView?.reloadData()
+			tableView?.reloadData()
 		}
 	}
 
 	var expandCollapseState: [HealthKitQuantityType: Bool] = [:]
 	var todayHKData: [HealthKitQuantityType: [Any]] = [:] {
 		didSet {
-			patientTrendsTableView?.reloadData()
+			tableView?.reloadData()
 		}
 	}
 
@@ -125,26 +125,26 @@ class ProfileViewController: BaseViewController {
 	// MARK: SetupViewController
 
 	override func setupView() {
-		title = Str.profile
+		title = String.profile
 		let name = patient?.name.givenName ?? ""
 		resetExpandState()
-		topView.backgroundColor = UIColor.profile
+		topView.backgroundColor = UIColor.white
 		separatorLineView.backgroundColor = UIColor.swipe
 		nameLabel.attributedText = name.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
 
-		patientTrendsTableView.register(UINib(nibName: StatCell.nibName, bundle: nil), forCellReuseIdentifier: StatCell.reuseIdentifier)
-		patientTrendsTableView.register(UINib(nibName: TodayStatCell.nibName, bundle: nil), forCellReuseIdentifier: TodayStatCell.reuseIdentifier)
-		patientTrendsTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
-		patientTrendsTableView.estimatedRowHeight = 300
+		tableView.register(UINib(nibName: StatCell.nibName, bundle: nil), forCellReuseIdentifier: StatCell.reuseIdentifier)
+		tableView.register(UINib(nibName: TodayStatCell.nibName, bundle: nil), forCellReuseIdentifier: TodayStatCell.reuseIdentifier)
+		tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+		tableView.estimatedRowHeight = 300
 
-		patientTrendsTableView.rowHeight = UITableView.automaticDimension
-		patientTrendsTableView.delegate = self
-		patientTrendsTableView.dataSource = self
+		tableView.rowHeight = UITableView.automaticDimension
+		tableView.delegate = self
+		tableView.dataSource = self
 		setupInitialDateInterval()
 	}
 
 	private func resetExpandState() {
-		patientTrendsTableView?.contentOffset = CGPoint.zero
+		tableView?.contentOffset = CGPoint.zero
 		HealthKitQuantityType.allCases.forEach {
 			expandCollapseState[$0] = false
 		}
@@ -191,7 +191,7 @@ class ProfileViewController: BaseViewController {
 		weight = patient?.profile.weightInPounds
 		height = patient?.profile.heightInInches
 		createDetailsLabel()
-		patientTrendsTableView.reloadData()
+		tableView.reloadData()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -201,15 +201,15 @@ class ProfileViewController: BaseViewController {
 
 	func createDetailsLabel() {
 		(feet, inches) = ((height ?? 0) / 12, (height ?? 0) % 12)
-		let details = "\(age ?? 0) \(Str.years) | \(feet)' \(inches)'' | \(weight ?? 0) \(Str.weightUnit)"
+		let details = "\(age ?? 0) \(String.years) | \(feet)' \(inches)'' | \(weight ?? 0) \(String.weightUnit)"
 		detailsLabel.attributedText = details.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: 0.36)
 	}
 
 	override func localize() {
-		dateIntervalSegmentedControl.setTitle(Str.today, forSegmentAt: 0)
-		dateIntervalSegmentedControl.setTitle(Str.wk, forSegmentAt: 1)
-		dateIntervalSegmentedControl.setTitle(Str.mo, forSegmentAt: 2)
-		dateIntervalSegmentedControl.setTitle(Str.yr, forSegmentAt: 3)
+		dateIntervalSegmentedControl.setTitle(String.today, forSegmentAt: 0)
+		dateIntervalSegmentedControl.setTitle(String.wk, forSegmentAt: 1)
+		dateIntervalSegmentedControl.setTitle(String.mo, forSegmentAt: 2)
+		dateIntervalSegmentedControl.setTitle(String.yr, forSegmentAt: 3)
 	}
 
 	private func setupInitialDateInterval() {
@@ -221,7 +221,7 @@ class ProfileViewController: BaseViewController {
 	private func updateDateLabel() {
 		switch currentDateInterval {
 		case .daily:
-			dateLabel.attributedText = Str.today.with(style: .semibold20, andColor: UIColor.pcp)
+			dateLabel.attributedText = String.today.with(style: .semibold20, andColor: UIColor.pcp)
 		case .weekly, .monthly:
 			guard let startDate = startDate, let endDate = endDate else { return }
 			dateLabel.attributedText = "\(DateFormatter.MMMdd.string(from: startDate))-\(DateFormatter.MMMdd.string(from: endDate))".with(style: .semibold20, andColor: UIColor.pcp)
@@ -304,9 +304,14 @@ class ProfileViewController: BaseViewController {
 				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
 					innergroup.enter()
 
-					HealthKitManager.shared.queryMostRecentEntry(identifier: identifier) { sample in
-						if let quantitySample = sample as? HKQuantitySample {
-							values.append(quantitySample)
+					HealthKitManager.shared.queryMostRecentEntry(identifier: identifier, options: []) { result in
+						switch result {
+						case .success(let sample):
+							if let quantitySample = sample as? HKQuantitySample {
+								values.append(quantitySample)
+							}
+						case .failure(let error):
+							ALog.error("\(error.localizedDescription)")
 						}
 						innergroup.leave()
 					}
@@ -318,8 +323,11 @@ class ProfileViewController: BaseViewController {
 				}
 			} else {
 				topGroup.enter()
-				HealthKitManager.shared.queryTodaySteps { (statistics) -> Void in
-					if let statistics = statistics {
+				HealthKitManager.shared.queryTodaySteps(options: []) { result in
+					switch result {
+					case .failure(let error):
+						ALog.error("\(error.localizedDescription)")
+					case .success(let statistics):
 						todayData[quantityType] = [statistics]
 					}
 					topGroup.leave()
