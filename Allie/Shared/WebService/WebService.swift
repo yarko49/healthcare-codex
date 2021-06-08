@@ -22,6 +22,7 @@ public final class WebService {
 	var subscriptions: Set<AnyCancellable> = []
 	public var configuration: WebService.Configuarion = Configuarion()
 	public var errorProcessor: ((URLRequest?, Error) -> Void)?
+	public var responseHandler: ((HTTPURLResponse) throws -> Void)?
 
 	public init(session: URLSession = .shared) {
 		self.session = session
@@ -92,6 +93,17 @@ public final class WebService {
 				}
 				return failure
 			}
+			.tryMap { [weak self] response -> (data: Data, response: URLResponse) in
+				guard let httpResponse = response.response as? HTTPURLResponse else {
+					throw URLError(.badServerResponse)
+				}
+
+				// We only want to re auth and other wise just pass the error down
+				if let handler = self?.responseHandler, httpResponse.statusCode == 401 {
+					try handler(httpResponse)
+				}
+				return response
+			}
 			.tryMap { [weak self] result -> Data in
 				let data = try result.data.ws_validate(result.response).ws_validate()
 				if self?.configuration.logResponses == true {
@@ -125,6 +137,16 @@ public final class WebService {
 					processor(request.urlRequest, failure)
 				}
 				return failure
+			}
+			.tryMap { [weak self] response -> (data: Data, response: URLResponse) in
+				guard let httpResponse = response.response as? HTTPURLResponse else {
+					throw URLError(.badServerResponse)
+				}
+				// We only want to re auth and other wise just pass the error down
+				if let handler = self?.responseHandler, httpResponse.statusCode == 401 {
+					try handler(httpResponse)
+				}
+				return response
 			}
 			.tryMap { [weak self] result -> Data in
 				if self?.configuration.logResponses == true {
@@ -164,6 +186,17 @@ public final class WebService {
 					processor(request.urlRequest, failure)
 				}
 				return failure
+			}
+			.tryMap { [weak self] response -> (data: Data, response: URLResponse) in
+				guard let httpResponse = response.response as? HTTPURLResponse else {
+					throw URLError(.badServerResponse)
+				}
+
+				// We only want to re auth and other wise just pass the error down
+				if let handler = self?.responseHandler, httpResponse.statusCode == 401 {
+					try handler(httpResponse)
+				}
+				return response
 			}
 			.tryMap { result -> Data in
 				let data = try result.data.ws_validate(result.response)

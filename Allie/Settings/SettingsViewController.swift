@@ -66,10 +66,7 @@ class SettingsViewController: BaseViewController {
 		tableView.delegate = self
 		var snapshot = dataSource.snapshot()
 		snapshot.appendSections([0])
-		var items = SettingsType.allCases
-		items.removeAll { type in
-			type == .notifications
-		}
+		let items: [SettingsType] = [.accountDetails, .myDevices, .systemAuthorization, .feedback, .privacyPolicy, .termsOfService]
 		snapshot.appendItems(items, toSection: 0)
 		dataSource.apply(snapshot, animatingDifferences: false) {
 			ALog.info("Finished Apply Snapshot")
@@ -105,7 +102,7 @@ extension SettingsViewController: UITableViewDelegate {
 		case .feedback:
 			showFeedback()
 		case .privacyPolicy:
-			showPrivacyPolicy()
+			showPrivacyPolicySoon()
 		case .termsOfService:
 			showTermsOfService()
 		case .support:
@@ -210,6 +207,16 @@ extension SettingsViewController: UITableViewDelegate {
 		}
 		alertController.addAction(cancelAction)
 		navigationController?.show(alertController, sender: self)
+	}
+
+	func showPrivacyPolicySoon() {
+		let title = NSLocalizedString("PRIVACY_POLICY", comment: "Privacy Policy")
+		let message = "It is coming soon"
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let action = UIAlertAction(title: "OK", style: .default) { _ in
+		}
+		alertController.addAction(action)
+		tabBarController?.show(alertController, sender: self)
 	}
 
 	func showPrivacyPolicy() {

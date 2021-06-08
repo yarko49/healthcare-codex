@@ -94,6 +94,7 @@ class MainCoordinator: BaseCoordinator {
 		var transitionOptions = UIWindow.TransitionOptions()
 		transitionOptions.direction = .fade
 		window.setRootViewController(rootViewController, options: transitionOptions)
+		AppDelegate.registerServices(patient: CareManager.shared.patient)
 	}
 
 	func createPatientIfNeeded() {
@@ -165,7 +166,7 @@ class MainCoordinator: BaseCoordinator {
 				completion(false)
 				return
 			}
-			if let token = AuthenticaionToken(result: tokenResult) {
+			if let token = AuthenticationToken(result: tokenResult) {
 				Keychain.authenticationToken = token
 			}
 			completion(true)

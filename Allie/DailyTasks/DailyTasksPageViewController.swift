@@ -60,7 +60,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		}
 	}
 
-	let todayButton: UIButton = {
+	private let todayButton: UIButton = {
 		let button = UIButton(type: .custom)
 		button.setTitle(NSLocalizedString("TODAY", comment: "Today"), for: .normal)
 		button.titleLabel?.font = UIFont.systemFont(ofSize: 17.0, weight: .semibold)
@@ -68,8 +68,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		return button
 	}()
 
-	var cancellables: Set<AnyCancellable> = []
-	var insertViewsAnimated: Bool = false
+	private var cancellables: Set<AnyCancellable> = []
+	private var insertViewsAnimated: Bool = false
 
 	override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController, prepare listViewController: OCKListViewController, for date: Date) {
 		let query = OCKTaskQuery(for: date)
@@ -163,13 +163,13 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			.sink { [weak self] completion in
 				self?.isRefreshingCarePlan = false
 				self?.hud.dismiss(animated: true)
-				switch completion {
-				case .failure(let error):
-					ALog.error("Unable to fetch care plan", error: error)
-					let okAction = AlertHelper.AlertAction(withTitle: String.ok)
-					AlertHelper.showAlert(title: "Error", detailText: error.localizedDescription, actions: [okAction])
-				case .finished:
-					break
+				if case .failure(let error) = completion {
+					let nsError = error as NSError
+					if nsError.code != 401 {
+						ALog.error("Unable to fetch care plan", error: error)
+						let okAction = AlertHelper.AlertAction(withTitle: String.ok)
+						AlertHelper.showAlert(title: "Error", detailText: error.localizedDescription, actions: [okAction])
+					}
 				}
 			} receiveValue: { value in
 				if let tasks = value.faultyTasks, !tasks.isEmpty {

@@ -176,13 +176,15 @@ class AuthCoordinator: BaseCoordinator {
 			return
 		}
 		showHUD()
-		APIClient.shared.getCarePlan { [weak self] carePlanResult in
-			self?.hideHUD()
-			switch carePlanResult {
-			case .failure(let error):
-				ALog.error("Unable to fetch CarePlan: ", error: error)
-				self?.gotoProfileSetupViewController(email: email, user: user)
-			case .success(let carePlan):
+		APIClient.shared.getCarePlan(option: .carePlan)
+			.sink { [weak self] completion in
+				if case .failure(let error) = completion {
+					self?.hideHUD()
+					ALog.error("Unable to fetch CarePlan: ", error: error)
+					self?.gotoProfileSetupViewController(email: email, user: user)
+				}
+			} receiveValue: { [weak self] carePlan in
+				self?.hideHUD()
 				if let patient = carePlan.patients.first {
 					self?.alliePatient = patient
 					let ockPatient = OCKPatient(patient: patient)
@@ -199,8 +201,7 @@ class AuthCoordinator: BaseCoordinator {
 				} else {
 					self?.gotoProfileSetupViewController(email: email, user: user)
 				}
-			}
-		}
+			}.store(in: &cancellables)
 	}
 
 	func gotoProfileSetupViewController(email: String?, user: RemoteUser) {
@@ -334,7 +335,7 @@ class AuthCoordinator: BaseCoordinator {
 					completion(false)
 				} else if tokenResult?.token != nil {
 					Keychain.userEmail = Auth.auth().currentUser?.email
-					Keychain.authenticationToken = AuthenticaionToken(result: tokenResult)
+					Keychain.authenticationToken = AuthenticationToken(result: tokenResult)
 					ALog.info("firebaseToken: \(tokenResult?.token ?? "")")
 					completion(true)
 				}

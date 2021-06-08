@@ -1,5 +1,5 @@
 //
-//  AuthenticaionToken.swift
+//  AuthenticationToken.swift
 //  Allie
 //
 //  Created by Waqar Malik on 5/23/21.
@@ -8,12 +8,12 @@
 import FirebaseAuth
 import Foundation
 
-struct AuthenticaionToken: Codable, Hashable {
+struct AuthenticationToken: Codable, Hashable {
 	let token: String
 	let expirationDate: Date
 }
 
-extension AuthenticaionToken {
+extension AuthenticationToken {
 	init?(result: AuthTokenResult?) {
 		guard let token = result?.token, let expirationDate = result?.expirationDate else {
 			return nil
@@ -23,7 +23,7 @@ extension AuthenticaionToken {
 	}
 }
 
-extension AuthenticaionToken: CustomStringConvertible {
+extension AuthenticationToken: CustomStringConvertible {
 	var description: String {
 		"{token: \(token)\nexpirationDate: \(expirationDate)}"
 	}

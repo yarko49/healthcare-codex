@@ -58,7 +58,6 @@ class SignupBaseViewController: BaseViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		GIDSignIn.sharedInstance()?.presentingViewController = self
 		if controllerViewMode == .onboarding {
 			view.addSubview(titleLabel)
 			NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
@@ -115,7 +114,9 @@ class SignupBaseViewController: BaseViewController {
 	}()
 
 	@IBAction private func authenticateGoogle(_ sender: Any) {
-		GIDSignIn.sharedInstance()?.signIn()
+		let gidSignIn = GIDSignIn.sharedInstance()
+		gidSignIn?.presentingViewController = self
+		gidSignIn?.signIn()
 	}
 
 	func updateLabels() {
