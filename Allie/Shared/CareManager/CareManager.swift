@@ -89,10 +89,11 @@ class CareManager: NSObject, ObservableObject {
 		set {
 			Keychain.patient = newValue
 			startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
+			AppDelegate.registerServices(patient: newValue)
 		}
 	}
 
-	var vectorClock: [String: Int] {
+	var vectorClock: UInt64 {
 		get {
 			UserDefaults.standard.vectorClock
 		}
@@ -169,17 +170,8 @@ class CareManager: NSObject, ObservableObject {
 		uploadOutcomesTimer?.cancel()
 	}
 
-	func isServerVectorClockAhead(serverClock: [String: Int]) -> Bool {
-		let key = "backend"
-		guard let localClockValue = vectorClock[key] else {
-			return true
-		}
-
-		guard let serverClockValue = serverClock[key] else {
-			return false
-		}
-
-		return serverClockValue > localClockValue
+	func isServerVectorClockAhead(serverClock: UInt64) -> Bool {
+		serverClock > vectorClock
 	}
 
 	func reset() {
@@ -223,18 +215,6 @@ extension CareManager {
 			}
 			self?.synchronizeHealthKitOutcomes()
 			completion?(result)
-		}
-	}
-
-	class func getCarePlan(completion: OCKResultClosure<CarePlanResponse>?) {
-		APIClient.shared.getCarePlan(option: .outcomes) { result in
-			switch result {
-			case .failure(let error):
-				ALog.error(error: error)
-				completion?(.failure(.fetchFailed(reason: error.localizedDescription)))
-			case .success(let carePlanResponse):
-				completion?(.success(carePlanResponse))
-			}
 		}
 	}
 

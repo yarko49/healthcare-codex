@@ -122,9 +122,9 @@ extension UserDefaults {
 		removeObject(forKey: Self.Keys.isBiometricsEnabled.rawValue)
 	}
 
-	var vectorClock: [String: Int] {
+	var vectorClock: UInt64 {
 		get {
-			object(forKey: Self.Keys.vectorClock.rawValue) as? [String: Int] ?? [:]
+			UInt64(integer(forKey: Self.Keys.vectorClock.rawValue))
 		}
 		set {
 			set(newValue, forKey: Self.Keys.vectorClock.rawValue)

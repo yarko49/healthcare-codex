@@ -7,13 +7,14 @@
 
 import Combine
 import Foundation
+import KeychainAccess
 import ModelsR4
 
 protocol AllieAPI {
+	func firebaseAuthenticationToken() -> Future<AuthenticationToken, Error>
 	func registerOrganization(organization: Organization) -> Future<Bool, Never>
-	func getCarePlan(option: CarePlanResponseType, completion: @escaping WebService.DecodableCompletion<CarePlanResponse>) -> URLSession.ServicePublisher?
 	func getCarePlan(option: CarePlanResponseType) -> Future<CarePlanResponse, Error>
-	func postCarePlan(carePlanResponse: CarePlanResponse, completion: @escaping WebService.DecodableCompletion<[String: Int]>) -> URLSession.ServicePublisher?
+	func post(carePlanResponse: CarePlanResponse) -> Future<UInt64, Error>
 	func post(bundle: ModelsR4.Bundle, completion: @escaping WebService.DecodableCompletion<ModelsR4.Bundle>) -> URLSession.ServicePublisher?
 	func post(bundle: ModelsR4.Bundle) -> Future<ModelsR4.Bundle, Error>
 	func post(observation: ModelsR4.Observation, completion: @escaping WebService.DecodableCompletion<ModelsR4.Observation>) -> URLSession.ServicePublisher?
@@ -33,21 +34,42 @@ public final class APIClient: AllieAPI {
 	}
 
 	let webService: WebService
+	private var cancellables: Set<AnyCancellable> = []
 
 	public init(session: URLSession = .shared) {
 		session.configuration.httpMaximumConnectionsPerHost = 50
 		session.configuration.timeoutIntervalForRequest = 120
 		self.webService = WebService(session: session)
-		webService.errorProcessor = { request, error in
-			let errorToSend = error as NSError
-			var userInfo = errorToSend.userInfo
-			userInfo["message"] = error.localizedDescription
-			if let url = request?.url {
-				userInfo["url"] = url
-			}
-			let crashlyticsError = NSError(domain: errorToSend.domain, code: errorToSend.code, userInfo: userInfo)
-			ALog.error(error: crashlyticsError)
+		webService.errorProcessor = { [weak self] request, error in
+			self?.process(error: error, url: request?.url)
 		}
+		webService.responseHandler = { [weak self] response in
+			try self?.process(response: response)
+		}
+	}
+
+	private func process(response: HTTPURLResponse) throws {
+		if response.statusCode == 401 {
+			firebaseAuthenticationToken()
+				.sink { [weak self] completion in
+					if case .failure(let error) = completion {
+						self?.process(error: error, url: response.url)
+					}
+				} receiveValue: { token in
+					Keychain.authenticationToken = token
+				}.store(in: &cancellables)
+		}
+	}
+
+	private func process(error: Error, url: URL?) {
+		let errorToSend = error as NSError
+		var userInfo = errorToSend.userInfo
+		userInfo["message"] = error.localizedDescription
+		if let url = url {
+			userInfo["url"] = url
+		}
+		let crashlyticsError = NSError(domain: errorToSend.domain, code: errorToSend.code, userInfo: userInfo)
+		ALog.error(error: crashlyticsError)
 	}
 
 //	func postBundle(bundle: ModelsR4.Bundle) async -> ModelsR4.Bundle {}
@@ -66,15 +88,10 @@ public final class APIClient: AllieAPI {
 		}
 	}
 
-	@discardableResult
-	public func getCarePlan(option: CarePlanResponseType = .carePlan, completion: @escaping WebService.DecodableCompletion<CarePlanResponse>) -> URLSession.ServicePublisher? {
-		let route = APIRouter.getCarePlan(option: option)
-		return webService.request(route: route, completion: completion)
-	}
-
 	func getCarePlan(option: CarePlanResponseType = .carePlan) -> Future<CarePlanResponse, Error> {
 		Future { [weak self] promise in
-			self?.getCarePlan(option: option, completion: { result in
+			let route = APIRouter.getCarePlan(option: option)
+			_ = self?.webService.request(route: route, completion: { (result: Result<CarePlanResponse, Error>) in
 				switch result {
 				case .failure(let error):
 					promise(.failure(error))
@@ -85,10 +102,17 @@ public final class APIClient: AllieAPI {
 		}
 	}
 
-	@discardableResult
-	func postCarePlan(carePlanResponse: CarePlanResponse, completion: @escaping WebService.DecodableCompletion<[String: Int]>) -> URLSession.ServicePublisher? {
-		let route = APIRouter.postCarePlan(carePlanResponse: carePlanResponse)
-		return webService.request(route: route, completion: completion)
+	func post(carePlanResponse: CarePlanResponse) -> Future<UInt64, Error> {
+		Future { [weak self] promise in
+			_ = self?.webService.request(route: .postCarePlan(carePlanResponse: carePlanResponse)) { (result: Result<UInt64, Error>) in
+				switch result {
+				case .failure(let error):
+					promise(.failure(error))
+				case .success(let clock):
+					promise(.success(clock))
+				}
+			}
+		}
 	}
 
 	@discardableResult

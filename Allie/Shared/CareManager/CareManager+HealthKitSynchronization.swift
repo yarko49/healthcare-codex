@@ -37,7 +37,7 @@ extension CareManager {
 			case .success(let newTasks):
 				let tasks: [OCKHealthKitTask] = newTasks.compactMap { anyTask in
 					let hkTask = anyTask as? OCKHealthKitTask
-					ALog.trace("nextUUID = \(hkTask?.nextVersionUUIDs.count), effectiveDate = \(anyTask.effectiveDate), createdDate = \(hkTask?.createdDate), updatedDate = \(hkTask?.createdDate)")
+					ALog.trace("nextUUID = \(String(describing: hkTask?.nextVersionUUIDs.count)), effectiveDate = \(anyTask.effectiveDate), createdDate = \(String(describing: hkTask?.createdDate)), updatedDate = \(String(describing: hkTask?.createdDate))")
 					return hkTask
 				}
 				guard !tasks.isEmpty else {

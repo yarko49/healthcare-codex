@@ -97,7 +97,7 @@ extension Keychain {
 		}
 	}
 
-	static var authenticationToken: AuthenticaionToken? {
+	static var authenticationToken: AuthenticationToken? {
 		get {
 			Self.shared[codable: Keys.authenticationToken]
 		}
