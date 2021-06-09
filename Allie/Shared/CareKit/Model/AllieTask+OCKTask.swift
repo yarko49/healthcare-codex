@@ -1,5 +1,5 @@
 //
-//  OCKTask+Conversion.swift
+//  AllieTask+OCKTask.swift
 //  Allie
 //
 //  Created by Waqar Malik on 12/8/20.
@@ -28,7 +28,7 @@ extension OCKAnyTask {}
 extension OCKTask: AnyTaskExtensible {}
 
 extension OCKTask {
-	init(task: Task) {
+	init(task: AllieTask) {
 		let schedule = task.schedule
 		self.init(id: task.id, title: task.title, carePlanUUID: task.carePlanUUID, schedule: schedule)
 		self.instructions = task.instructions
@@ -206,7 +206,7 @@ extension AnyTaskExtensible where Self: OCKAnyTask {
 	}
 }
 
-extension Task {
+extension AllieTask {
 	init(ockTask: OCKTask) {
 		self.carePlanId = ockTask.carePlanId
 		self.id = ockTask.id
@@ -235,7 +235,7 @@ extension Task {
 	}
 }
 
-extension Task {
+extension AllieTask {
 	var ockTask: OCKAnyTask {
 		healthKitLinkage != nil ? OCKHealthKitTask(task: self) : OCKTask(task: self)
 	}

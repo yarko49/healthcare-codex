@@ -1,5 +1,5 @@
 //
-//  Task+OCKHealthKitTask.swift
+//  AllieTask+OCKHealthKitTask.swift
 //  Allie
 //
 //  Created by Waqar Malik on 1/14/21.
@@ -11,7 +11,7 @@ import Foundation
 import HealthKit
 
 extension OCKHealthKitTask {
-	init(task: Task) {
+	init(task: AllieTask) {
 		let schedule = task.schedule
 		self.init(id: task.id, title: task.title, carePlanUUID: task.carePlanUUID, schedule: schedule, healthKitLinkage: task.healthKitLinkage!)
 		self.instructions = task.instructions

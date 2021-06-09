@@ -11,12 +11,12 @@ import Foundation
 public struct CarePlanResponse: Codable {
 	public var carePlans: [CarePlan]
 	public var patients: [AlliePatient]
-	public var tasks: [Task]
+	public var tasks: [AllieTask]
 	public var faultyTasks: [BasicTask]?
 	public var outcomes: [Outcome]
 	public var vectorClock: UInt64
 
-	public init(carePlans: [CarePlan] = [], patients: [AlliePatient] = [], tasks: [Task] = [], outcomes: [Outcome] = [], vectorClock: UInt64 = 0) {
+	public init(carePlans: [CarePlan] = [], patients: [AlliePatient] = [], tasks: [AllieTask] = [], outcomes: [Outcome] = [], vectorClock: UInt64 = 0) {
 		self.carePlans = carePlans
 		self.tasks = tasks
 		self.vectorClock = vectorClock
@@ -36,7 +36,7 @@ public struct CarePlanResponse: Codable {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		carePlans = try container.decodeIfPresent([CarePlan].self, forKey: .carePlans) ?? []
 		patients = try container.decodeIfPresent([AlliePatient].self, forKey: .patients) ?? []
-		let decodedTasks = container.safelyDecodeArray(of: Task.self, alternate: BasicTask.self, forKey: .tasks)
+		let decodedTasks = container.safelyDecodeArray(of: AllieTask.self, alternate: BasicTask.self, forKey: .tasks)
 		tasks = decodedTasks.0
 		if !decodedTasks.1.isEmpty {
 			self.faultyTasks = decodedTasks.1

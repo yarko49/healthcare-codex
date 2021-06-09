@@ -130,7 +130,7 @@ class ProfileViewController: BaseViewController {
 		resetExpandState()
 		topView.backgroundColor = UIColor.white
 		separatorLineView.backgroundColor = UIColor.swipe
-		nameLabel.attributedText = name.with(style: .bold28, andColor: .black, andLetterSpacing: 0.36)
+		nameLabel.attributedText = name.attributedString(style: .bold28, foregroundColor: .black, letterSpacing: 0.36)
 
 		tableView.register(UINib(nibName: StatCell.nibName, bundle: nil), forCellReuseIdentifier: StatCell.reuseIdentifier)
 		tableView.register(UINib(nibName: TodayStatCell.nibName, bundle: nil), forCellReuseIdentifier: TodayStatCell.reuseIdentifier)
@@ -202,7 +202,7 @@ class ProfileViewController: BaseViewController {
 	func createDetailsLabel() {
 		(feet, inches) = ((height ?? 0) / 12, (height ?? 0) % 12)
 		let details = "\(age ?? 0) \(String.years) | \(feet)' \(inches)'' | \(weight ?? 0) \(String.weightUnit)"
-		detailsLabel.attributedText = details.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: 0.36)
+		detailsLabel.attributedText = details.attributedString(style: .regular17, foregroundColor: .lightGrey, letterSpacing: 0.36)
 	}
 
 	override func localize() {
@@ -221,13 +221,13 @@ class ProfileViewController: BaseViewController {
 	private func updateDateLabel() {
 		switch currentDateInterval {
 		case .daily:
-			dateLabel.attributedText = String.today.with(style: .semibold20, andColor: UIColor.pcp)
+			dateLabel.attributedText = String.today.attributedString(style: .semibold20, foregroundColor: UIColor.pcp)
 		case .weekly, .monthly:
 			guard let startDate = startDate, let endDate = endDate else { return }
-			dateLabel.attributedText = "\(DateFormatter.MMMdd.string(from: startDate))-\(DateFormatter.MMMdd.string(from: endDate))".with(style: .semibold20, andColor: UIColor.pcp)
+			dateLabel.attributedText = "\(DateFormatter.MMMdd.string(from: startDate))-\(DateFormatter.MMMdd.string(from: endDate))".attributedString(style: .semibold20, foregroundColor: UIColor.pcp)
 		case .yearly:
 			guard let startDate = startDate else { return }
-			dateLabel.attributedText = "\(DateFormatter.yyyy.string(from: startDate))".with(style: .semibold20, andColor: UIColor.pcp)
+			dateLabel.attributedText = "\(DateFormatter.yyyy.string(from: startDate))".attributedString(style: .semibold20, foregroundColor: UIColor.pcp)
 		}
 		nextDateButton.isHidden = currentDateInterval == .daily
 		previousDateButton.isHidden = currentDateInterval == .daily

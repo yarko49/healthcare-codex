@@ -119,10 +119,10 @@
 		844767C7259C2A4E00C50C09 /* AlliePatient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766EE259C2A4E00C50C09 /* AlliePatient.swift */; };
 		844767C8259C2A4E00C50C09 /* CarePlanResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766EF259C2A4E00C50C09 /* CarePlanResponse.swift */; };
 		844767CA259C2A4E00C50C09 /* CarePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F1259C2A4E00C50C09 /* CarePlan.swift */; };
-		844767CC259C2A4E00C50C09 /* Task+OCKTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F3259C2A4E00C50C09 /* Task+OCKTask.swift */; };
+		844767CC259C2A4E00C50C09 /* AllieTask+OCKTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F3259C2A4E00C50C09 /* AllieTask+OCKTask.swift */; };
 		844767CD259C2A4E00C50C09 /* AlliePatient+OCKPatient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F4259C2A4E00C50C09 /* AlliePatient+OCKPatient.swift */; };
 		844767CE259C2A4E00C50C09 /* ScheduleElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F5259C2A4E00C50C09 /* ScheduleElement.swift */; };
-		844767CF259C2A4E00C50C09 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F6259C2A4E00C50C09 /* Task.swift */; };
+		844767CF259C2A4E00C50C09 /* AllieTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F6259C2A4E00C50C09 /* AllieTask.swift */; };
 		844767D1259C2A4E00C50C09 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766FA259C2A4E00C50C09 /* LoggingManager.swift */; };
 		844767D3259C2A4E00C50C09 /* HealthKitQuantityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766FD259C2A4E00C50C09 /* HealthKitQuantityType.swift */; };
 		844767D4259C2A4E00C50C09 /* WeightType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766FE259C2A4E00C50C09 /* WeightType.swift */; };
@@ -165,7 +165,6 @@
 		845A0831265DD94800A7BDB7 /* CareKitStore in Frameworks */ = {isa = PBXBuildFile; productRef = 845A0830265DD94800A7BDB7 /* CareKitStore */; };
 		845A0833265DD94800A7BDB7 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 845A0832265DD94800A7BDB7 /* CareKitUI */; };
 		845AAC71259C36E900FF8F3F /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 845AAC70259C36E900FF8F3F /* IQKeyboardManagerSwift */; };
-		845AAC77259C374500FF8F3F /* BonMot in Frameworks */ = {isa = PBXBuildFile; productRef = 845AAC76259C374500FF8F3F /* BonMot */; };
 		845F18992632444F005A601A /* CHDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F18982632444F005A601A /* CHDevice.swift */; };
 		845F189B263245A4005A601A /* CHDevice+HKDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F189A263245A4005A601A /* CHDevice+HKDevice.swift */; };
 		845F189D263246CE005A601A /* DeviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F189C263246CE005A601A /* DeviceTests.swift */; };
@@ -268,7 +267,7 @@
 		847DCC27265871F3004E9C1D /* AlliePatient+OCKPatient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F4259C2A4E00C50C09 /* AlliePatient+OCKPatient.swift */; };
 		847DCC28265871F3004E9C1D /* Data+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476715259C2A4E00C50C09 /* Data+Validation.swift */; };
 		847DCC29265871F3004E9C1D /* Sequence+Sum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766C5259C2A4E00C50C09 /* Sequence+Sum.swift */; };
-		847DCC2A265871F3004E9C1D /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F6259C2A4E00C50C09 /* Task.swift */; };
+		847DCC2A265871F3004E9C1D /* AllieTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F6259C2A4E00C50C09 /* AllieTask.swift */; };
 		847DCC2C265871F3004E9C1D /* FirebaseUser+RemoteUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F908D25AEB56D007421A6 /* FirebaseUser+RemoteUser.swift */; };
 		847DCC2D265871F3004E9C1D /* HKInsulinDeliveryReason+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDA19126577F3B0049323C /* HKInsulinDeliveryReason+Display.swift */; };
 		847DCC2F265871F3004E9C1D /* Double+Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766C6259C2A4E00C50C09 /* Double+Rounding.swift */; };
@@ -367,7 +366,7 @@
 		847DCC92265871F3004E9C1D /* GridTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487486525B3FAB0008C15E2 /* GridTaskViewController.swift */; };
 		847DCC93265871F3004E9C1D /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844EE89C262D3B05001B2D9E /* SeparatorView.swift */; };
 		847DCC94265871F3004E9C1D /* ScheduleUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D3F68C264A4BB700241BBB /* ScheduleUtility.swift */; };
-		847DCC95265871F3004E9C1D /* Task+OCKTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F3259C2A4E00C50C09 /* Task+OCKTask.swift */; };
+		847DCC95265871F3004E9C1D /* AllieTask+OCKTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F3259C2A4E00C50C09 /* AllieTask+OCKTask.swift */; };
 		847DCC96265871F3004E9C1D /* String+Capitalizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F8BA12647618300999091 /* String+Capitalizing.swift */; };
 		847DCC97265871F3004E9C1D /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2DA1261ACAA30080293F /* ButtonView.swift */; };
 		847DCC98265871F3004E9C1D /* CustomYAxisRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476622259C2A4E00C50C09 /* CustomYAxisRenderer.swift */; };
@@ -385,7 +384,7 @@
 		847DCCA5265871F3004E9C1D /* ResetMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476667259C2A4E00C50C09 /* ResetMessageViewController.swift */; };
 		847DCCA6265871F3004E9C1D /* UIView+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844EE87A262D02E0001B2D9E /* UIView+Appearance.swift */; };
 		847DCCA7265871F3004E9C1D /* HealthKitQuantityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766FD259C2A4E00C50C09 /* HealthKitQuantityType.swift */; };
-		847DCCA8265871F3004E9C1D /* Task+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */; };
+		847DCCA8265871F3004E9C1D /* AllieTask+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* AllieTask+OCKHealthKitTask.swift */; };
 		847DCCA9265871F3004E9C1D /* FeaturedContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487482F25B3E622008C15E2 /* FeaturedContentViewController.swift */; };
 		847DCCAA265871F3004E9C1D /* RemoteSynchronizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766E8259C2A4E00C50C09 /* RemoteSynchronizationManager.swift */; };
 		847DCCAB265871F3004E9C1D /* NotificationSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BE62607FA79008BB83E /* NotificationSettingsController.swift */; };
@@ -453,8 +452,9 @@
 		849F378F25BA7F2200FC2D1B /* AuthorizationFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */; };
 		849F37A125BA8CF300FC2D1B /* ScreenFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */; };
 		84A6316F2601B6B5000922F3 /* CareKitStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */; };
+		84AF11A126707C9B0061A9E5 /* GridTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF11A026707C9B0061A9E5 /* GridTaskController.swift */; };
+		84AF11A326709C770061A9E5 /* ChecklistTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF11A226709C770061A9E5 /* ChecklistTaskController.swift */; };
 		84B331FE261D162B007EB839 /* ZendeskAnswerBotSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84B331FD261D162B007EB839 /* ZendeskAnswerBotSDK */; };
-		84B33204261D164B007EB839 /* ZendeskChatSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84B33203261D164B007EB839 /* ZendeskChatSDK */; };
 		84B3320A261D166F007EB839 /* ZendeskSupportSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84B33209261D166F007EB839 /* ZendeskSupportSDK */; };
 		84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */; };
 		84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */; };
@@ -474,7 +474,7 @@
 		84C212B52664A495000D491B /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C212B32664A495000D491B /* PDFViewController.swift */; };
 		84C212B62664A495000D491B /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C212B32664A495000D491B /* PDFViewController.swift */; };
 		84C22BCB25A5821800D16CFF /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 84C22BCA25A5821800D16CFF /* Logging */; };
-		84C39A4E25B172640063D92C /* Task+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */; };
+		84C39A4E25B172640063D92C /* AllieTask+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* AllieTask+OCKHealthKitTask.swift */; };
 		84C517F525B7E55F00D684E5 /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C517F425B7E55F00D684E5 /* BottomButton.swift */; };
 		84C5180225B7EC5C00D684E5 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5180125B7EC5C00D684E5 /* SignupViewController.swift */; };
 		84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5181225B7F93600D684E5 /* IllustrationView.swift */; };
@@ -544,7 +544,7 @@
 		84D12255264112DE00990196 /* AlliePatient+OCKPatient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F4259C2A4E00C50C09 /* AlliePatient+OCKPatient.swift */; };
 		84D12256264112DE00990196 /* Data+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476715259C2A4E00C50C09 /* Data+Validation.swift */; };
 		84D12257264112DE00990196 /* Sequence+Sum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766C5259C2A4E00C50C09 /* Sequence+Sum.swift */; };
-		84D12258264112DE00990196 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F6259C2A4E00C50C09 /* Task.swift */; };
+		84D12258264112DE00990196 /* AllieTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F6259C2A4E00C50C09 /* AllieTask.swift */; };
 		84D1225B264112DE00990196 /* FirebaseUser+RemoteUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F908D25AEB56D007421A6 /* FirebaseUser+RemoteUser.swift */; };
 		84D1225D264112DE00990196 /* Double+Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766C6259C2A4E00C50C09 /* Double+Rounding.swift */; };
 		84D1225F264112DE00990196 /* UIView+LayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766BA259C2A4E00C50C09 /* UIView+LayoutConstraint.swift */; };
@@ -633,7 +633,7 @@
 		84D122C0264112DE00990196 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766B5259C2A4E00C50C09 /* AlertHelper.swift */; };
 		84D122C1264112DE00990196 /* GridTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487486525B3FAB0008C15E2 /* GridTaskViewController.swift */; };
 		84D122C2264112DE00990196 /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844EE89C262D3B05001B2D9E /* SeparatorView.swift */; };
-		84D122C3264112DE00990196 /* Task+OCKTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F3259C2A4E00C50C09 /* Task+OCKTask.swift */; };
+		84D122C3264112DE00990196 /* AllieTask+OCKTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766F3259C2A4E00C50C09 /* AllieTask+OCKTask.swift */; };
 		84D122C4264112DE00990196 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2DA1261ACAA30080293F /* ButtonView.swift */; };
 		84D122C5264112DE00990196 /* CustomYAxisRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476622259C2A4E00C50C09 /* CustomYAxisRenderer.swift */; };
 		84D122C6264112DE00990196 /* ViewNIBLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E4660F25A0453C00A10F8B /* ViewNIBLoading.swift */; };
@@ -647,7 +647,7 @@
 		84D122D0264112DE00990196 /* ResetMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476667259C2A4E00C50C09 /* ResetMessageViewController.swift */; };
 		84D122D1264112DE00990196 /* UIView+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844EE87A262D02E0001B2D9E /* UIView+Appearance.swift */; };
 		84D122D2264112DE00990196 /* HealthKitQuantityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766FD259C2A4E00C50C09 /* HealthKitQuantityType.swift */; };
-		84D122D3264112DE00990196 /* Task+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */; };
+		84D122D3264112DE00990196 /* AllieTask+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* AllieTask+OCKHealthKitTask.swift */; };
 		84D122D4264112DE00990196 /* FeaturedContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487482F25B3E622008C15E2 /* FeaturedContentViewController.swift */; };
 		84D122D5264112DE00990196 /* RemoteSynchronizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766E8259C2A4E00C50C09 /* RemoteSynchronizationManager.swift */; };
 		84D122D6264112DE00990196 /* NotificationSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BE62607FA79008BB83E /* NotificationSettingsController.swift */; };
@@ -866,10 +866,10 @@
 		844766EF259C2A4E00C50C09 /* CarePlanResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanResponse.swift; sourceTree = "<group>"; };
 		844766F0259C2A4E00C50C09 /* OutcomeValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutcomeValue.swift; sourceTree = "<group>"; };
 		844766F1259C2A4E00C50C09 /* CarePlan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlan.swift; sourceTree = "<group>"; };
-		844766F3259C2A4E00C50C09 /* Task+OCKTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Task+OCKTask.swift"; sourceTree = "<group>"; };
+		844766F3259C2A4E00C50C09 /* AllieTask+OCKTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AllieTask+OCKTask.swift"; sourceTree = "<group>"; };
 		844766F4259C2A4E00C50C09 /* AlliePatient+OCKPatient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AlliePatient+OCKPatient.swift"; sourceTree = "<group>"; };
 		844766F5259C2A4E00C50C09 /* ScheduleElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleElement.swift; sourceTree = "<group>"; };
-		844766F6259C2A4E00C50C09 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		844766F6259C2A4E00C50C09 /* AllieTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllieTask.swift; sourceTree = "<group>"; };
 		844766FA259C2A4E00C50C09 /* LoggingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
 		844766FD259C2A4E00C50C09 /* HealthKitQuantityType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthKitQuantityType.swift; sourceTree = "<group>"; };
 		844766FE259C2A4E00C50C09 /* WeightType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightType.swift; sourceTree = "<group>"; };
@@ -957,6 +957,8 @@
 		849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFlowType.swift; sourceTree = "<group>"; };
 		849F37A025BA8CF300FC2D1B /* ScreenFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenFlowType.swift; sourceTree = "<group>"; };
 		84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareKitStoreTests.swift; sourceTree = "<group>"; };
+		84AF11A026707C9B0061A9E5 /* GridTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridTaskController.swift; sourceTree = "<group>"; };
+		84AF11A226709C770061A9E5 /* ChecklistTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistTaskController.swift; sourceTree = "<group>"; };
 		84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
 		84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersonNameComponents+ResourceName.swift"; sourceTree = "<group>"; };
 		84C071F625E31FC20098B508 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
@@ -966,7 +968,7 @@
 		84C212A42660C5F4000D491B /* Organization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Organization.swift; sourceTree = "<group>"; };
 		84C212AF266491A0000D491B /* FileManager+Documents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Documents.swift"; sourceTree = "<group>"; };
 		84C212B32664A495000D491B /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
-		84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+OCKHealthKitTask.swift"; sourceTree = "<group>"; };
+		84C39A4D25B172640063D92C /* AllieTask+OCKHealthKitTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AllieTask+OCKHealthKitTask.swift"; sourceTree = "<group>"; };
 		84C517F425B7E55F00D684E5 /* BottomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
 		84C5180125B7EC5C00D684E5 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		84C5181225B7F93600D684E5 /* IllustrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustrationView.swift; sourceTree = "<group>"; };
@@ -1049,8 +1051,6 @@
 				84700A84259C331B0083E2AA /* Charts in Frameworks */,
 				84436281264B527B002B475C /* FirebaseRemoteConfig in Frameworks */,
 				84B331FE261D162B007EB839 /* ZendeskAnswerBotSDK in Frameworks */,
-				845AAC77259C374500FF8F3F /* BonMot in Frameworks */,
-				84B33204261D164B007EB839 /* ZendeskChatSDK in Frameworks */,
 				843372E2264F9B20005BED99 /* SDWebImage in Frameworks */,
 				84C22BCB25A5821800D16CFF /* Logging in Frameworks */,
 				F2E095A67D8D601362DA792D /* (null) in Frameworks */,
@@ -1564,9 +1564,9 @@
 				84CFEB2F265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift */,
 				844766F5259C2A4E00C50C09 /* ScheduleElement.swift */,
 				8461B30325A17BB800742A44 /* ScheduleElement+OCKScheduleElement.swift */,
-				844766F6259C2A4E00C50C09 /* Task.swift */,
-				844766F3259C2A4E00C50C09 /* Task+OCKTask.swift */,
-				84C39A4D25B172640063D92C /* Task+OCKHealthKitTask.swift */,
+				844766F6259C2A4E00C50C09 /* AllieTask.swift */,
+				844766F3259C2A4E00C50C09 /* AllieTask+OCKTask.swift */,
+				84C39A4D25B172640063D92C /* AllieTask+OCKHealthKitTask.swift */,
 				845F8B9E26470B2A00999091 /* OCKHealthKitLinkage+Task.swift */,
 				842F907825AE8DFD007421A6 /* OCKTask+CareKitUI.swift */,
 				841E9B8725F60112001192DD /* AnyPrimitiveValue.swift */,
@@ -1728,6 +1728,7 @@
 			children = (
 				8487488A25B4B8F1008C15E2 /* ChecklistTaskViewController.swift */,
 				84703C61265B6DA80025A50D /* ChecklistTaskViewSynchronizer.swift */,
+				84AF11A226709C770061A9E5 /* ChecklistTaskController.swift */,
 			);
 			path = Checklist;
 			sourceTree = "<group>";
@@ -1737,6 +1738,7 @@
 			children = (
 				8487486525B3FAB0008C15E2 /* GridTaskViewController.swift */,
 				84703C6B265B727C0025A50D /* GridTaskViewSynchronizer.swift */,
+				84AF11A026707C9B0061A9E5 /* GridTaskController.swift */,
 			);
 			path = Grid;
 			sourceTree = "<group>";
@@ -1863,11 +1865,9 @@
 			packageProductDependencies = (
 				84700A83259C331B0083E2AA /* Charts */,
 				845AAC70259C36E900FF8F3F /* IQKeyboardManagerSwift */,
-				845AAC76259C374500FF8F3F /* BonMot */,
 				84C22BCA25A5821800D16CFF /* Logging */,
 				8487493325B6A594008C15E2 /* JGProgressHUD */,
 				84B331FD261D162B007EB839 /* ZendeskAnswerBotSDK */,
-				84B33203261D164B007EB839 /* ZendeskChatSDK */,
 				84B33209261D166F007EB839 /* ZendeskSupportSDK */,
 				844EE8382629FC4B001B2D9E /* KeychainAccess */,
 				84311369262E87F300561329 /* SkyFloatingLabelTextField */,
@@ -2057,11 +2057,9 @@
 			packageReferences = (
 				84700A82259C331B0083E2AA /* XCRemoteSwiftPackageReference "Charts" */,
 				845AAC6F259C36E900FF8F3F /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
-				845AAC75259C374500FF8F3F /* XCRemoteSwiftPackageReference "BonMot" */,
 				84C22BC925A5821700D16CFF /* XCRemoteSwiftPackageReference "swift-log" */,
 				8487493225B6A594008C15E2 /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
 				84B331FC261D162A007EB839 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */,
-				84B33202261D164B007EB839 /* XCRemoteSwiftPackageReference "chat_sdk_ios" */,
 				84B33208261D166F007EB839 /* XCRemoteSwiftPackageReference "support_sdk_ios" */,
 				844EE8372629FC4B001B2D9E /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				84311368262E87F300561329 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */,
@@ -2650,6 +2648,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84AF11A126707C9B0061A9E5 /* GridTaskController.swift in Sources */,
 				84703C71265B743A0025A50D /* ButtonLogTaskViewSynchronizer.swift in Sources */,
 				842F907425AE8D9F007421A6 /* TaskLinkType.swift in Sources */,
 				8447679C259C2A4E00C50C09 /* UIColor+Names.swift in Sources */,
@@ -2710,7 +2709,7 @@
 				844767CD259C2A4E00C50C09 /* AlliePatient+OCKPatient.swift in Sources */,
 				844767E5259C2A4E00C50C09 /* Data+Validation.swift in Sources */,
 				844767A6259C2A4E00C50C09 /* Sequence+Sum.swift in Sources */,
-				844767CF259C2A4E00C50C09 /* Task.swift in Sources */,
+				844767CF259C2A4E00C50C09 /* AllieTask.swift in Sources */,
 				84703C62265B6DA80025A50D /* ChecklistTaskViewSynchronizer.swift in Sources */,
 				842F908E25AEB56D007421A6 /* FirebaseUser+RemoteUser.swift in Sources */,
 				84EDA19226577F3B0049323C /* HKInsulinDeliveryReason+Display.swift in Sources */,
@@ -2801,6 +2800,7 @@
 				84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */,
 				841A772C2652348C000913A9 /* CHOperation.swift in Sources */,
 				8476B0F1261D8691009516ED /* Outcome+OCKOutcome.swift in Sources */,
+				84AF11A326709C770061A9E5 /* ChecklistTaskController.swift in Sources */,
 				84230BE9260801F7008BB83E /* HTMLViewerController.swift in Sources */,
 				844EE890262D30A9001B2D9E /* LoginViewController.swift in Sources */,
 				844767A0259C2A4E00C50C09 /* Date+Relative.swift in Sources */,
@@ -2818,7 +2818,7 @@
 				8487486625B3FAB0008C15E2 /* GridTaskViewController.swift in Sources */,
 				844EE89D262D3B05001B2D9E /* SeparatorView.swift in Sources */,
 				84D3F68D264A4BB700241BBB /* ScheduleUtility.swift in Sources */,
-				844767CC259C2A4E00C50C09 /* Task+OCKTask.swift in Sources */,
+				844767CC259C2A4E00C50C09 /* AllieTask+OCKTask.swift in Sources */,
 				845F8BA22647618300999091 /* String+Capitalizing.swift in Sources */,
 				84CF2DA2261ACAA30080293F /* ButtonView.swift in Sources */,
 				8447672B259C2A4E00C50C09 /* CustomYAxisRenderer.swift in Sources */,
@@ -2837,7 +2837,7 @@
 				8447675F259C2A4E00C50C09 /* ResetMessageViewController.swift in Sources */,
 				844EE87B262D02E0001B2D9E /* UIView+Appearance.swift in Sources */,
 				844767D3259C2A4E00C50C09 /* HealthKitQuantityType.swift in Sources */,
-				84C39A4E25B172640063D92C /* Task+OCKHealthKitTask.swift in Sources */,
+				84C39A4E25B172640063D92C /* AllieTask+OCKHealthKitTask.swift in Sources */,
 				8487483025B3E622008C15E2 /* FeaturedContentViewController.swift in Sources */,
 				844767C2259C2A4E00C50C09 /* RemoteSynchronizationManager.swift in Sources */,
 				84230BE72607FA79008BB83E /* NotificationSettingsController.swift in Sources */,
@@ -2942,7 +2942,7 @@
 				847DCC27265871F3004E9C1D /* AlliePatient+OCKPatient.swift in Sources */,
 				847DCC28265871F3004E9C1D /* Data+Validation.swift in Sources */,
 				847DCC29265871F3004E9C1D /* Sequence+Sum.swift in Sources */,
-				847DCC2A265871F3004E9C1D /* Task.swift in Sources */,
+				847DCC2A265871F3004E9C1D /* AllieTask.swift in Sources */,
 				84703C64265B6DA80025A50D /* ChecklistTaskViewSynchronizer.swift in Sources */,
 				847DCC2C265871F3004E9C1D /* FirebaseUser+RemoteUser.swift in Sources */,
 				847DCC2D265871F3004E9C1D /* HKInsulinDeliveryReason+Display.swift in Sources */,
@@ -3049,7 +3049,7 @@
 				847DCC92265871F3004E9C1D /* GridTaskViewController.swift in Sources */,
 				847DCC93265871F3004E9C1D /* SeparatorView.swift in Sources */,
 				847DCC94265871F3004E9C1D /* ScheduleUtility.swift in Sources */,
-				847DCC95265871F3004E9C1D /* Task+OCKTask.swift in Sources */,
+				847DCC95265871F3004E9C1D /* AllieTask+OCKTask.swift in Sources */,
 				847DCC96265871F3004E9C1D /* String+Capitalizing.swift in Sources */,
 				847DCC97265871F3004E9C1D /* ButtonView.swift in Sources */,
 				847DCC98265871F3004E9C1D /* CustomYAxisRenderer.swift in Sources */,
@@ -3069,7 +3069,7 @@
 				847DCCA5265871F3004E9C1D /* ResetMessageViewController.swift in Sources */,
 				847DCCA6265871F3004E9C1D /* UIView+Appearance.swift in Sources */,
 				847DCCA7265871F3004E9C1D /* HealthKitQuantityType.swift in Sources */,
-				847DCCA8265871F3004E9C1D /* Task+OCKHealthKitTask.swift in Sources */,
+				847DCCA8265871F3004E9C1D /* AllieTask+OCKHealthKitTask.swift in Sources */,
 				840D1BF3265CCAE1000C9DB7 /* HKQuantityTypeIdentifier+Image.swift in Sources */,
 				847DCCA9265871F3004E9C1D /* FeaturedContentViewController.swift in Sources */,
 				847DCCAA265871F3004E9C1D /* RemoteSynchronizationManager.swift in Sources */,
@@ -3144,7 +3144,7 @@
 				84D12255264112DE00990196 /* AlliePatient+OCKPatient.swift in Sources */,
 				84D12256264112DE00990196 /* Data+Validation.swift in Sources */,
 				84D12257264112DE00990196 /* Sequence+Sum.swift in Sources */,
-				84D12258264112DE00990196 /* Task.swift in Sources */,
+				84D12258264112DE00990196 /* AllieTask.swift in Sources */,
 				84703C63265B6DA80025A50D /* ChecklistTaskViewSynchronizer.swift in Sources */,
 				84D1225B264112DE00990196 /* FirebaseUser+RemoteUser.swift in Sources */,
 				84EDA19326577F3B0049323C /* HKInsulinDeliveryReason+Display.swift in Sources */,
@@ -3251,7 +3251,7 @@
 				84D122C1264112DE00990196 /* GridTaskViewController.swift in Sources */,
 				84D122C2264112DE00990196 /* SeparatorView.swift in Sources */,
 				84D3F68E264A4BB700241BBB /* ScheduleUtility.swift in Sources */,
-				84D122C3264112DE00990196 /* Task+OCKTask.swift in Sources */,
+				84D122C3264112DE00990196 /* AllieTask+OCKTask.swift in Sources */,
 				845F8BA32647618300999091 /* String+Capitalizing.swift in Sources */,
 				84D122C4264112DE00990196 /* ButtonView.swift in Sources */,
 				84D122C5264112DE00990196 /* CustomYAxisRenderer.swift in Sources */,
@@ -3271,7 +3271,7 @@
 				84D122D0264112DE00990196 /* ResetMessageViewController.swift in Sources */,
 				84D122D1264112DE00990196 /* UIView+Appearance.swift in Sources */,
 				84D122D2264112DE00990196 /* HealthKitQuantityType.swift in Sources */,
-				84D122D3264112DE00990196 /* Task+OCKHealthKitTask.swift in Sources */,
+				84D122D3264112DE00990196 /* AllieTask+OCKHealthKitTask.swift in Sources */,
 				840D1BF2265CCAE0000C9DB7 /* HKQuantityTypeIdentifier+Image.swift in Sources */,
 				84D122D4264112DE00990196 /* FeaturedContentViewController.swift in Sources */,
 				84D122D5264112DE00990196 /* RemoteSynchronizationManager.swift in Sources */,
@@ -3523,7 +3523,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.2;
+				MARKETING_VERSION = 0.8.3;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3552,7 +3552,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.2;
+				MARKETING_VERSION = 0.8.3;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3888,14 +3888,6 @@
 				minimumVersion = 6.5.6;
 			};
 		};
-		845AAC75259C374500FF8F3F /* XCRemoteSwiftPackageReference "BonMot" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Rightpoint/BonMot.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.6.0;
-			};
-		};
 		84700A82259C331B0083E2AA /* XCRemoteSwiftPackageReference "Charts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielgindi/Charts.git";
@@ -4022,14 +4014,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.1.2;
-			};
-		};
-		84B33202261D164B007EB839 /* XCRemoteSwiftPackageReference "chat_sdk_ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/zendesk/chat_sdk_ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.10.0;
 			};
 		};
 		84B33208261D166F007EB839 /* XCRemoteSwiftPackageReference "support_sdk_ios" */ = {
@@ -4230,11 +4214,6 @@
 			package = 845AAC6F259C36E900FF8F3F /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
 		};
-		845AAC76259C374500FF8F3F /* BonMot */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 845AAC75259C374500FF8F3F /* XCRemoteSwiftPackageReference "BonMot" */;
-			productName = BonMot;
-		};
 		84700A83259C331B0083E2AA /* Charts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 84700A82259C331B0083E2AA /* XCRemoteSwiftPackageReference "Charts" */;
@@ -4359,11 +4338,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 84B331FC261D162A007EB839 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */;
 			productName = ZendeskAnswerBotSDK;
-		};
-		84B33203261D164B007EB839 /* ZendeskChatSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 84B33202261D164B007EB839 /* XCRemoteSwiftPackageReference "chat_sdk_ios" */;
-			productName = ZendeskChatSDK;
 		};
 		84B33209261D166F007EB839 /* ZendeskSupportSDK */ = {
 			isa = XCSwiftPackageProductDependency;

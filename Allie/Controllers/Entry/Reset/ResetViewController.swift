@@ -33,13 +33,13 @@ class ResetViewController: BaseViewController {
 
 	func setup() {
 		emailTextfieldView.setupValues(labelTitle: String.emailAddress, text: "", textIsPassword: false)
-		let attrText = String.save.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: 3)
+		let attrText = String.save.attributedString(style: .regular17, foregroundColor: UIColor.grey, letterSpacing: 3)
 		saveButton.setAttributedTitle(attrText, for: .normal)
 		saveButton.layer.cornerRadius = 28.5
 		saveButton.backgroundColor = UIColor.white
 		saveButton.layer.borderWidth = 2.0
 		saveButton.layer.borderColor = UIColor.grey.cgColor
-		resetLabel.attributedText = String.resetMessage.with(style: .regular17, andColor: .lightGray, andLetterSpacing: -0.408)
+		resetLabel.attributedText = String.resetMessage.attributedString(style: .regular17, foregroundColor: .lightGray, letterSpacing: -0.408)
 		resetLabel.numberOfLines = 0
 	}
 

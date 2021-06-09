@@ -409,7 +409,7 @@ extension CareManager {
 // MARK: - Tasks
 
 extension CareManager {
-	func syncCreateOrUpdate(tasks: [Task], carePlan: OCKCarePlan?, queue: DispatchQueue) -> ([OCKTask], [OCKHealthKitTask]) {
+	func syncCreateOrUpdate(tasks: [AllieTask], carePlan: OCKCarePlan?, queue: DispatchQueue) -> ([OCKTask], [OCKHealthKitTask]) {
 		let mapped = tasks.map { task -> OCKAnyTask in
 			if task.healthKitLinkage != nil {
 				var healKitTask = OCKHealthKitTask(task: task)

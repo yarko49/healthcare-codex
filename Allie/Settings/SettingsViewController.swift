@@ -1,5 +1,4 @@
 import AnswerBotSDK
-import ChatSDK
 import KeychainAccess
 import MessagingSDK
 import SafariServices
@@ -58,7 +57,7 @@ class SettingsViewController: BaseViewController {
 			cell.tintColor = .allieButtons
 			cell.layoutMargins = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
 			cell.accessoryType = .disclosureIndicator
-			cell.textLabel?.attributedText = type.title.with(style: .regular17, andColor: .allieButtons, andLetterSpacing: -0.41)
+			cell.textLabel?.attributedText = type.title.attributedString(style: .regular17, foregroundColor: .allieButtons, letterSpacing: -0.41)
 			return cell
 		})
 
@@ -169,10 +168,7 @@ extension SettingsViewController: UITableViewDelegate {
 	}
 
 	func showFeedback() {
-		let config = RequestUiConfiguration()
-		config.subject = "iOS Ticket"
-		config.tags = ["ios", "mobile"]
-		let requestListController = RequestUi.buildRequestList(with: [config])
+		let requestListController = RequestUi.buildRequestList(with: [])
 		navigationController?.show(requestListController, sender: self)
 	}
 
@@ -190,8 +186,7 @@ extension SettingsViewController: UITableViewDelegate {
 			let messagingConfiguration = MessagingConfiguration()
 			let answerBotEngine = try AnswerBotEngine.engine()
 			let supportEngine = try SupportEngine.engine()
-			let chatEngine = try ChatEngine.engine()
-			let viewController = try Messaging.instance.buildUI(engines: [supportEngine, chatEngine, answerBotEngine], configs: [messagingConfiguration])
+			let viewController = try Messaging.instance.buildUI(engines: [supportEngine, answerBotEngine], configs: [messagingConfiguration])
 			navigationController?.show(viewController, sender: self)
 		} catch {
 			ALog.error("Unable to show support", error: error)

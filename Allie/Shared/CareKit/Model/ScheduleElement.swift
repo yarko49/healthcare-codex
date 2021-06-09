@@ -54,6 +54,11 @@ public struct ScheduleElement: Codable {
 		self.hour = try container.decodeIfPresent(Int.self, forKey: .hour) ?? .zero
 		self.minutes = try container.decodeIfPresent(Int.self, forKey: .minutes) ?? .zero
 		self.weekday = try container.decodeIfPresent(Int.self, forKey: .weekday) ?? .zero
+		if minutes > 0 || hour > 0 {
+			var updatedDate = Calendar.current.date(byAdding: .hour, value: hour, to: start)
+			updatedDate = Calendar.current.date(byAdding: .minute, value: minutes, to: updatedDate ?? start)
+			self.start = updatedDate ?? start
+		}
 	}
 
 	public func encode(to encoder: Encoder) throws {

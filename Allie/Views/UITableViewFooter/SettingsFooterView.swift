@@ -37,7 +37,7 @@ class SettingsFooterView: UIView {
 
 	private func localize() {
 		if let version = Bundle.main.ch_appVersion {
-			appVersionLabel.attributedText = String.version(version).with(style: .regular17, andColor: UIColor.lightGrey, andLetterSpacing: -0.41)
+			appVersionLabel.attributedText = String.version(version).attributedString(style: .regular17, foregroundColor: UIColor.lightGrey, letterSpacing: -0.41)
 		}
 	}
 

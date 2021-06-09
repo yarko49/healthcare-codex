@@ -47,13 +47,12 @@ extension ScheduleElement {
 
 extension OCKScheduleElement {
 	init(scheduleElement: ScheduleElement) {
-		var components = DateComponents()
-		components.hour = scheduleElement.hour
-		components.minute = scheduleElement.minutes
-		components.day = 1
-		self.init(start: scheduleElement.start, end: scheduleElement.end, interval: components)
+		self.init(start: scheduleElement.start, end: scheduleElement.end, interval: .init(day: 1))
 		self.text = scheduleElement.text ?? NSLocalizedString("ANYTIME", comment: "Anytime")
-		self.duration = (scheduleElement.duration > 0) ? .seconds(scheduleElement.duration) : .allDay
+		self.duration = (scheduleElement.duration > 0) ? .seconds(scheduleElement.duration) : .seconds(1)
+		if scheduleElement.minutes == 0, scheduleElement.hour == 0 {
+			self.duration = .allDay
+		}
 		self.targetValues = scheduleElement.ockOutcomeValues
 	}
 
