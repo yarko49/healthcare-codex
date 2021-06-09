@@ -1,5 +1,5 @@
 //
-//  Task.swift
+//  AllieTask.swift
 //  Allie
 //
 //  Created by Waqar Malik on 12/6/20.
@@ -9,7 +9,7 @@ import CareKitStore
 import Foundation
 import HealthKit
 
-public typealias Tasks = [Task]
+public typealias AllieTasks = [AllieTask]
 
 public struct BasicTask: Codable {
 	public var id: String?
@@ -18,7 +18,7 @@ public struct BasicTask: Codable {
 	public var remoteId: String?
 }
 
-public struct Task: Codable, Identifiable, AnyUserInfoExtensible {
+public struct AllieTask: Codable, Identifiable, AnyUserInfoExtensible {
 	public var carePlanId: String?
 	public var id: String
 	public var carePlanUUID: UUID?

@@ -29,15 +29,6 @@
         }
       },
       {
-        "package": "BonMot",
-        "repositoryURL": "https://github.com/Rightpoint/BonMot.git",
-        "state": {
-          "branch": null,
-          "revision": "f9f38fd8bb7919f6a9262eae2811e40d4a890251",
-          "version": "5.6.0"
-        }
-      },
-      {
         "package": "BoringSSL-GRPC",
         "repositoryURL": "https://github.com/firebase/boringssl-SwiftPM.git",
         "state": {
@@ -62,24 +53,6 @@
           "branch": null,
           "revision": "66546404a6739173b8e436ab6bc1f2897cd08594",
           "version": "3.6.0"
-        }
-      },
-      {
-        "package": "ZendeskChatProvidersSDK",
-        "repositoryURL": "https://github.com/zendesk/chat_providers_sdk_ios",
-        "state": {
-          "branch": null,
-          "revision": "eb3b54f087d0f21bb7a80f98a4e4680e490c6abf",
-          "version": "2.11.1"
-        }
-      },
-      {
-        "package": "ZendeskChatSDK",
-        "repositoryURL": "https://github.com/zendesk/chat_sdk_ios",
-        "state": {
-          "branch": null,
-          "revision": "92ca0c74e4004b7513cfdad31e3700a0ea7d8f2e",
-          "version": "2.11.1"
         }
       },
       {

@@ -3,7 +3,6 @@
 //  Allie
 //
 
-import BonMot
 import Foundation
 import UIKit
 
@@ -34,7 +33,8 @@ class HKDataUploadViewController: BaseViewController {
 		let label = UILabel(frame: .zero)
 		label.numberOfLines = 3
 		label.textAlignment = .center
-		label.attributedText = String.importingHealthData.with(style: .regular28, andColor: .black, andLetterSpacing: 0.36)
+		let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 28.0, weight: .regular), .foregroundColor: UIColor.black, .kern: NSNumber(0.36)]
+		label.attributedText = NSAttributedString(string: .importingHealthData, attributes: attributes)
 		return label
 	}()
 
@@ -42,7 +42,8 @@ class HKDataUploadViewController: BaseViewController {
 		let label = UILabel(frame: .zero)
 		label.numberOfLines = 1
 		label.textAlignment = .center
-		label.attributedText = String.justASec.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.32)
+		let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 17.0, weight: .regular), .foregroundColor: UIColor.grey, .kern: NSNumber(-0.32)]
+		label.attributedText = NSAttributedString(string: .justASec, attributes: attributes)
 		return label
 	}()
 

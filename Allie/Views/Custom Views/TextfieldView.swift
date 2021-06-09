@@ -26,7 +26,7 @@ class TextfieldView: UIView {
 			titleLabel.text
 		}
 		set {
-			titleLabel.attributedText = newValue?.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.078)
+			titleLabel.attributedText = newValue?.attributedString(style: .regular17, foregroundColor: .lightGrey, letterSpacing: -0.078)
 		}
 	}
 
@@ -35,7 +35,7 @@ class TextfieldView: UIView {
 			textfield.text
 		}
 		set {
-			textfield.attributedText = newValue?.with(style: .regular20, andColor: .black, andLetterSpacing: 0.38)
+			textfield.attributedText = newValue?.attributedString(style: .regular20, foregroundColor: .black, letterSpacing: 0.38)
 		}
 	}
 
@@ -76,8 +76,8 @@ class TextfieldView: UIView {
 		addGestureRecognizer(tap)
 		textfield.delegate = self
 		textfield.tintColor = .cursorOrange
-		titleLabel.attributedText = title?.with(style: .regular17, andColor: .lightGrey, andLetterSpacing: -0.078)
-		textfield.attributedText = text?.with(style: .regular20, andColor: .black, andLetterSpacing: 0.38)
+		titleLabel.attributedText = title?.attributedString(style: .regular17, foregroundColor: .lightGrey, letterSpacing: -0.078)
+		textfield.attributedText = text?.attributedString(style: .regular20, foregroundColor: .black, letterSpacing: 0.38)
 	}
 
 	@objc func tapAction() {

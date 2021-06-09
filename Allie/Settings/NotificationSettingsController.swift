@@ -39,7 +39,7 @@ class NotificationSettingsController: BaseViewController, UITableViewDelegate {
 			accessoryView.isOn = notificaionType.isEnabled
 			accessoryView.tag = indexPath.row
 			cell.accessoryView = accessoryView
-			cell.textLabel?.attributedText = notificaionType.title.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: -0.41)
+			cell.textLabel?.attributedText = notificaionType.title.attributedString(style: .regular17, foregroundColor: UIColor.grey, letterSpacing: -0.41)
 			return cell
 		})
 		tableView.rowHeight = 60.0
