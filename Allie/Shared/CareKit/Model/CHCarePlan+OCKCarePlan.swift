@@ -8,7 +8,7 @@
 import CareKitStore
 import Foundation
 
-extension CarePlan {
+extension CHCarePlan {
 	init(ockCarePlan: OCKCarePlan) {
 		self.id = ockCarePlan.id
 		self.title = ockCarePlan.title
@@ -27,8 +27,8 @@ extension CarePlan {
 	}
 }
 
-extension OCKCarePlan {
-	init(carePlan: CarePlan) {
+extension OCKCarePlan: AnyItemDeletable {
+	init(carePlan: CHCarePlan) {
 		self.init(id: carePlan.id, title: carePlan.title, patientUUID: UUID(uuidString: carePlan.patientId ?? ""))
 		self.timezone = carePlan.timezone
 		self.groupIdentifier = carePlan.groupIdentifier

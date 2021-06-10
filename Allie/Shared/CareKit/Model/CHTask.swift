@@ -9,23 +9,23 @@ import CareKitStore
 import Foundation
 import HealthKit
 
-public typealias AllieTasks = [AllieTask]
+public typealias CHTasks = [CHTask]
 
-public struct BasicTask: Codable {
+public struct CHBasicTask: Codable {
 	public var id: String?
 	public var title: String?
 	public var carePlanId: String?
 	public var remoteId: String?
 }
 
-public struct AllieTask: Codable, Identifiable, AnyUserInfoExtensible {
+public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable {
 	public var carePlanId: String?
 	public var id: String
 	public var carePlanUUID: UUID?
 	public var title: String?
 	public var instructions: String?
 	public var impactsAdherence: Bool = true
-	public var scheduleElements: [ScheduleElement]
+	public var scheduleElements: [CHScheduleElement]
 	public var groupIdentifier: String?
 	public var tags: [String]?
 	public var effectiveDate: Date
@@ -63,13 +63,13 @@ public struct AllieTask: Codable, Identifiable, AnyUserInfoExtensible {
 		self.title = try container.decodeIfPresent(String.self, forKey: .title)
 		self.instructions = try container.decodeIfPresent(String.self, forKey: .instructions)
 		self.impactsAdherence = try container.decode(Bool.self, forKey: .impactsAdherence)
-		if let elements = try? container.decodeIfPresent([String: ScheduleElement].self, forKey: .scheduleElements) {
+		if let elements = try? container.decodeIfPresent([String: CHScheduleElement].self, forKey: .scheduleElements) {
 			self.scheduleElements = Array(elements.values)
-		} else if let elements = try? container.decodeIfPresent([ScheduleElement].self, forKey: .scheduleElements) {
+		} else if let elements = try? container.decodeIfPresent([CHScheduleElement].self, forKey: .scheduleElements) {
 			self.scheduleElements = elements
 		} else {
 			let context = DecodingError.Context(codingPath: [CodingKeys.scheduleElements], debugDescription: "Missing Schedule id = \(id), remoteId = \(String(describing: remoteId)), title = \(String(describing: title))")
-			throw DecodingError.valueNotFound([ScheduleElement].self, context)
+			throw DecodingError.valueNotFound([CHScheduleElement].self, context)
 		}
 
 		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)

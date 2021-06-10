@@ -86,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		Zendesk.instance?.setIdentity(identity)
 	}
 
-	static func registerServices(patient: AlliePatient?) {
+	static func registerServices(patient: CHPatient?) {
 		guard let patient = patient else {
 			return
 		}

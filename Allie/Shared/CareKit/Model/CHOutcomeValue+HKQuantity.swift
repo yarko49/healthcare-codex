@@ -9,7 +9,7 @@ import CareKitStore
 import Foundation
 import HealthKit
 
-extension OutcomeValue {
+extension CHOutcomeValue {
 	init?(quantity: HKQuantity, linkage: OCKHealthKitLinkage) {
 		var unit = linkage.unit
 		if linkage.quantityIdentifier == .insulinDelivery, unit.unitString != HKUnit.internationalUnit().unitString {

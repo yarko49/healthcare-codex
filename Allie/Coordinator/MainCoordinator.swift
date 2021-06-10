@@ -60,15 +60,8 @@ class MainCoordinator: BaseCoordinator {
 	override func start() {
 		super.start()
 		if !UserDefaults.standard.hasRunOnce {
-			UserDefaults.resetStandardUserDefaults()
-			let firebaseAuth = Auth.auth()
-			do {
-				try firebaseAuth.signOut()
-			} catch let signOutError {
-				ALog.error("Error signing out:", error: signOutError)
-			}
 			UserDefaults.standard.hasRunOnce = true
-			Keychain.clearKeychain()
+			logout()
 		}
 		if Auth.auth().currentUser == nil {
 			goToAuth()
@@ -79,8 +72,7 @@ class MainCoordinator: BaseCoordinator {
 
 	func goToAuth(url: String? = nil) {
 		removeCoordinator(ofType: .application)
-		Keychain.clearKeychain()
-		UserDefaults.resetStandardUserDefaults()
+		resetAll()
 		let authCoordinator = AuthCoordinator(parent: self, deepLink: url)
 		addChild(coordinator: authCoordinator)
 		window.rootViewController = authCoordinator.rootViewController
@@ -173,7 +165,7 @@ class MainCoordinator: BaseCoordinator {
 		})
 	}
 
-	func uploadPatient(patient: AlliePatient) {
+	func uploadPatient(patient: CHPatient) {
 		APIClient.shared.post(patient: patient)
 			.receive(on: DispatchQueue.main)
 			.sink { completion in
@@ -200,13 +192,17 @@ class MainCoordinator: BaseCoordinator {
 	}
 
 	func logout() {
+		resetAll()
+		goToAuth()
+	}
+
+	func resetAll() {
 		let firebaseAuth = Auth.auth()
 		do {
 			try firebaseAuth.signOut()
 			UserDefaults.standard.resetUserDefaults()
 			CareManager.shared.reset()
 			Keychain.clearKeychain()
-			goToAuth()
 		} catch let signOutError as NSError {
 			ALog.error("Error signing out:", error: signOutError)
 		}
@@ -234,7 +230,7 @@ class MainCoordinator: BaseCoordinator {
 		RemoteConfigManager.shared.refresh()
 			.sink { refreshResult in
 				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
-				let organization = Organization(id: RemoteConfigManager.shared.healthCareOrganization, name: "Default Organization", image: nil, info: nil)
+				let organization = CHOrganization(id: RemoteConfigManager.shared.healthCareOrganization, name: "Default Organization", image: nil)
 				CareManager.register(organization: organization)
 					.subscribe(on: DispatchQueue.main)
 					.sink { registrationResult in

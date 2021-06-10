@@ -12,19 +12,23 @@ import Foundation
 // MARK: - Patients
 
 extension OCKStore {
-	func createOrUpdate(patient: OCKPatient, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKPatient, OCKStoreError>) -> Void)? = nil) {
-		fetchPatient(withID: patient.id) { [weak self] result in
-			switch result {
-			case .failure:
-				self?.addPatient(patient, callbackQueue: callbackQueue, completion: completion)
-			case .success(let existing):
-				let merged = existing.merged(newPatient: patient)
-				self?.updatePatient(merged, callbackQueue: callbackQueue, completion: completion)
+	func process(patient: OCKPatient, callbackQueue: DispatchQueue, completion: ((Result<OCKPatient, OCKStoreError>) -> Void)? = nil) {
+		if patient.shouldDelete {
+			deletePatient(patient, callbackQueue: callbackQueue, completion: completion)
+		} else {
+			fetchPatient(withID: patient.id) { [weak self] result in
+				switch result {
+				case .failure:
+					self?.addPatient(patient, callbackQueue: callbackQueue, completion: completion)
+				case .success(let existing):
+					let merged = existing.merged(newPatient: patient)
+					self?.updatePatient(merged, callbackQueue: callbackQueue, completion: completion)
+				}
 			}
 		}
 	}
 
-	func createOrUpdate(patients: [OCKPatient], callbackQueue: DispatchQueue = .main, completion: ((Result<[OCKPatient], OCKStoreError>) -> Void)? = nil) {
+	func process(patients: [OCKPatient], callbackQueue: DispatchQueue, completion: ((Result<[OCKPatient], OCKStoreError>) -> Void)? = nil) {
 		guard !patients.isEmpty else {
 			completion?(.failure(.updateFailed(reason: "Missing input patients")))
 			return
@@ -36,7 +40,7 @@ extension OCKStore {
 			let group = DispatchGroup()
 			for patient in patients {
 				group.enter()
-				self?.createOrUpdate(patient: patient, callbackQueue: queue) { result in
+				self?.process(patient: patient, callbackQueue: queue) { result in
 					switch result {
 					case .failure(let error):
 						errors[patient.id] = error
@@ -56,19 +60,23 @@ extension OCKStore {
 // MARK: - CarePlans
 
 extension OCKStore {
-	func createOrUpdate(carePlan: OCKCarePlan, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKCarePlan, OCKStoreError>) -> Void)? = nil) {
-		fetchCarePlan(withID: carePlan.id, callbackQueue: callbackQueue) { [weak self] result in
-			switch result {
-			case .failure:
-				self?.addCarePlan(carePlan, callbackQueue: callbackQueue, completion: completion)
-			case .success(let existing):
-				let merged = existing.merged(newCarePlan: carePlan)
-				self?.updateCarePlan(merged, callbackQueue: callbackQueue, completion: completion)
+	func process(carePlan: OCKCarePlan, callbackQueue: DispatchQueue, completion: ((Result<OCKCarePlan, OCKStoreError>) -> Void)? = nil) {
+		if carePlan.shouldDelete {
+			deleteCarePlan(carePlan, callbackQueue: callbackQueue, completion: completion)
+		} else {
+			fetchCarePlan(withID: carePlan.id, callbackQueue: callbackQueue) { [weak self] result in
+				switch result {
+				case .failure:
+					self?.addCarePlan(carePlan, callbackQueue: callbackQueue, completion: completion)
+				case .success(let existing):
+					let merged = existing.merged(newCarePlan: carePlan)
+					self?.updateCarePlan(merged, callbackQueue: callbackQueue, completion: completion)
+				}
 			}
 		}
 	}
 
-	func createOrUpdate(carePlans: [OCKCarePlan], callbackQueue: DispatchQueue = .main, completion: ((Result<[OCKCarePlan], OCKStoreError>) -> Void)? = nil) {
+	func process(carePlans: [OCKCarePlan], callbackQueue: DispatchQueue, completion: ((Result<[OCKCarePlan], OCKStoreError>) -> Void)? = nil) {
 		guard !carePlans.isEmpty else {
 			completion?(.failure(.updateFailed(reason: "Missing input care plans")))
 			return
@@ -80,7 +88,7 @@ extension OCKStore {
 			let group = DispatchGroup()
 			for carePlan in carePlans {
 				group.enter()
-				self?.createOrUpdate(carePlan: carePlan, callbackQueue: queue, completion: { result in
+				self?.process(carePlan: carePlan, callbackQueue: queue, completion: { result in
 					switch result {
 					case .failure(let error):
 						errors[carePlan.id] = error
@@ -100,19 +108,23 @@ extension OCKStore {
 // MARK: - Tasks
 
 extension OCKStore {
-	func createOrUpdate(task: OCKTask, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKTask, OCKStoreError>) -> Void)? = nil) {
-		fetchTask(withID: task.id, callbackQueue: callbackQueue) { [weak self] result in
-			switch result {
-			case .failure:
-				self?.addTask(task, callbackQueue: callbackQueue, completion: completion)
-			case .success(let existing):
-				let merged = existing.merged(new: task)
-				self?.updateTask(merged, callbackQueue: callbackQueue, completion: completion)
+	func process(task: OCKTask, callbackQueue: DispatchQueue, completion: ((Result<OCKTask, OCKStoreError>) -> Void)? = nil) {
+		if task.shouldDelete {
+			deleteTask(task, callbackQueue: callbackQueue, completion: completion)
+		} else {
+			fetchTask(withID: task.id, callbackQueue: callbackQueue) { [weak self] result in
+				switch result {
+				case .failure:
+					self?.addTask(task, callbackQueue: callbackQueue, completion: completion)
+				case .success(let existing):
+					let merged = existing.merged(new: task)
+					self?.updateTask(merged, callbackQueue: callbackQueue, completion: completion)
+				}
 			}
 		}
 	}
 
-	func createOrUpdate(tasks: [OCKTask], callbackQueue: DispatchQueue = .main, completion: ((Result<[OCKTask], OCKStoreError>) -> Void)? = nil) {
+	func process(tasks: [OCKTask], callbackQueue: DispatchQueue, completion: ((Result<[OCKTask], OCKStoreError>) -> Void)? = nil) {
 		guard !tasks.isEmpty else {
 			completion?(.failure(.updateFailed(reason: "Missing input tasks")))
 			return
@@ -125,7 +137,7 @@ extension OCKStore {
 			let group = DispatchGroup()
 			for task in tasks {
 				group.enter()
-				self?.createOrUpdate(task: task, callbackQueue: queue, completion: { result in
+				self?.process(task: task, callbackQueue: queue, completion: { result in
 					switch result {
 					case .failure(let error):
 						ALog.error("\(error.localizedDescription)")
@@ -146,25 +158,29 @@ extension OCKStore {
 // MARK: - Outcomes
 
 extension OCKStore {
-	func createOrUpdate(outcome: OCKOutcome, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKOutcome, OCKStoreError>) -> Void)? = nil) {
-		var query = OCKOutcomeQuery()
-		query.uuids.append(outcome.uuid)
-		fetchOutcomes(query: query, callbackQueue: callbackQueue) { [weak self] result in
-			switch result {
-			case .failure:
-				self?.addOutcome(outcome, callbackQueue: callbackQueue, completion: completion)
-			case .success(let existingOutcomes):
-				if let first = existingOutcomes.first {
-					let merged = first.merged(newOutcome: outcome)
-					self?.updateOutcome(merged, callbackQueue: callbackQueue, completion: completion)
-				} else {
+	func process(outcome: OCKOutcome, callbackQueue: DispatchQueue, completion: ((Result<OCKOutcome, OCKStoreError>) -> Void)? = nil) {
+		if outcome.shouldDelete {
+			deleteOutcome(outcome, callbackQueue: callbackQueue, completion: completion)
+		} else {
+			var query = OCKOutcomeQuery()
+			query.uuids.append(outcome.uuid)
+			fetchOutcomes(query: query, callbackQueue: callbackQueue) { [weak self] result in
+				switch result {
+				case .failure:
 					self?.addOutcome(outcome, callbackQueue: callbackQueue, completion: completion)
+				case .success(let existingOutcomes):
+					if let first = existingOutcomes.first {
+						let merged = first.merged(newOutcome: outcome)
+						self?.updateOutcome(merged, callbackQueue: callbackQueue, completion: completion)
+					} else {
+						self?.addOutcome(outcome, callbackQueue: callbackQueue, completion: completion)
+					}
 				}
 			}
 		}
 	}
 
-	func createOrUpdate(outcomes: [OCKOutcome], callbackQueue: DispatchQueue = .main, completion: ((Result<[OCKOutcome], OCKStoreError>) -> Void)? = nil) {
+	func process(outcomes: [OCKOutcome], callbackQueue: DispatchQueue, completion: ((Result<[OCKOutcome], OCKStoreError>) -> Void)? = nil) {
 		guard !outcomes.isEmpty else {
 			completion?(.failure(.updateFailed(reason: "Missing input outcomes")))
 			return
@@ -177,7 +193,7 @@ extension OCKStore {
 			let group = DispatchGroup()
 			for outcome in outcomes {
 				group.enter()
-				self?.createOrUpdate(outcome: outcome, callbackQueue: queue, completion: { result in
+				self?.process(outcome: outcome, callbackQueue: queue, completion: { result in
 					switch result {
 					case .failure(let error):
 						ALog.error("\(error.localizedDescription)")

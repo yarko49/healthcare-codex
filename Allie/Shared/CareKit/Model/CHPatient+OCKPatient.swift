@@ -8,13 +8,14 @@
 import CareKitStore
 import Foundation
 
-extension OCKPatient {
-	init(patient: AlliePatient) {
+extension OCKPatient: AnyItemDeletable {
+	init(patient: CHPatient) {
 		self.init(id: patient.id, name: patient.name)
 		self.sex = patient.sex
 		self.birthday = patient.birthday
 		self.allergies = patient.allergies
 		self.effectiveDate = patient.effectiveDate
+		self.deletedDate = patient.deletedDate
 		self.groupIdentifier = patient.groupIdentifier
 		self.tags = patient.tags
 		self.remoteID = patient.remoteId
@@ -24,8 +25,8 @@ extension OCKPatient {
 		self.timezone = patient.timezone
 	}
 
-	var alliePatient: AlliePatient {
-		AlliePatient(ockPatient: self)
+	var codexPatient: CHPatient {
+		CHPatient(ockPatient: self)
 	}
 
 	func merged(newPatient: OCKPatient) -> Self {
@@ -45,7 +46,7 @@ extension OCKPatient {
 	}
 }
 
-extension AlliePatient {
+extension CHPatient {
 	init(ockPatient: OCKPatient) {
 		self.init(id: ockPatient.id, name: ockPatient.name)
 		self.uuid = ockPatient.uuid
@@ -55,6 +56,7 @@ extension AlliePatient {
 		self.createdDate = ockPatient.createdDate
 		self.updatedDate = ockPatient.updatedDate
 		self.effectiveDate = ockPatient.effectiveDate
+		self.deletedDate = ockPatient.deletedDate
 		self.groupIdentifier = ockPatient.groupIdentifier
 		self.tags = ockPatient.tags
 		self.remoteId = ockPatient.remoteID
