@@ -8,7 +8,7 @@
 import CareKitStore
 import Foundation
 
-public struct ScheduleElement: Codable {
+public struct CHScheduleElement: Codable {
 	public var start: Date
 	public var end: Date?
 	public var weekly: Bool
@@ -47,7 +47,7 @@ public struct ScheduleElement: Codable {
 		self.interval = try container.decodeIfPresent(TimeInterval.self, forKey: .duration) ?? .zero
 		self.custom = try container.decodeIfPresent(Bool.self, forKey: .custom) ?? false
 		self.text = try container.decodeIfPresent(String.self, forKey: .text)
-		self.targetValues = try container.decodeIfPresent([OutcomeValue].self, forKey: .targetValues)?.map { value -> OCKOutcomeValue in
+		self.targetValues = try container.decodeIfPresent([CHOutcomeValue].self, forKey: .targetValues)?.map { value -> OCKOutcomeValue in
 			OCKOutcomeValue(outcomeValue: value)
 		}
 		self.duration = try container.decodeIfPresent(TimeInterval.self, forKey: .duration) ?? .zero
@@ -74,8 +74,8 @@ public struct ScheduleElement: Codable {
 		try container.encode(hour, forKey: .hour)
 		try container.encode(minutes, forKey: .minutes)
 		try container.encode(weekday, forKey: .weekday)
-		let values = targetValues?.map { outcome -> OutcomeValue in
-			OutcomeValue(ockOutcomeValue: outcome)
+		let values = targetValues?.map { outcome -> CHOutcomeValue in
+			CHOutcomeValue(ockOutcomeValue: outcome)
 		}
 		try container.encodeIfPresent(values, forKey: .targetValues)
 	}

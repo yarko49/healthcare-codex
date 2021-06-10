@@ -11,7 +11,7 @@ import Foundation
 // MARK: - HealthKitTasks
 
 extension OCKHealthKitPassthroughStore {
-	func createOrUpdate(healthKitTask task: OCKHealthKitTask, callbackQueue: DispatchQueue = .main, completion: ((Result<OCKHealthKitTask, OCKStoreError>) -> Void)? = nil) {
+	func addOrUpdate(healthKitTask task: OCKHealthKitTask, callbackQueue: DispatchQueue, completion: ((Result<OCKHealthKitTask, OCKStoreError>) -> Void)? = nil) {
 		fetchTask(withID: task.id, callbackQueue: callbackQueue) { [weak self] result in
 			switch result {
 			case .failure:
@@ -23,7 +23,7 @@ extension OCKHealthKitPassthroughStore {
 		}
 	}
 
-	func createOrUpdate(healthKitTasks tasks: [OCKHealthKitTask], callbackQueue: DispatchQueue = .main, completion: ((Result<[OCKHealthKitTask], OCKStoreError>) -> Void)? = nil) {
+	func addOrUpdate(healthKitTasks tasks: [OCKHealthKitTask], callbackQueue: DispatchQueue, completion: ((Result<[OCKHealthKitTask], OCKStoreError>) -> Void)? = nil) {
 		guard !tasks.isEmpty else {
 			completion?(.failure(.updateFailed(reason: "Missing input HealthKit tasks")))
 			return
@@ -35,7 +35,7 @@ extension OCKHealthKitPassthroughStore {
 			let group = DispatchGroup()
 			for task in tasks {
 				group.enter()
-				self?.createOrUpdate(healthKitTask: task, callbackQueue: queue, completion: { result in
+				self?.addOrUpdate(healthKitTask: task, callbackQueue: queue, completion: { result in
 					switch result {
 					case .failure(let error):
 						errors[task.id] = error

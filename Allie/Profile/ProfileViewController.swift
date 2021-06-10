@@ -44,7 +44,7 @@ class ProfileViewController: BaseViewController {
 
 	// MARK: Vars
 
-	var patient: AlliePatient? {
+	var patient: CHPatient? {
 		CareManager.shared.patient
 	}
 

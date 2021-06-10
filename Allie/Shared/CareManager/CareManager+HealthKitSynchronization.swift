@@ -123,7 +123,7 @@ extension CareManager {
 				continue
 			}
 			let taskOucomes = taskSamples.compactMap { sample in
-				Outcome(sample: sample, task: task, carePlanId: carePlanId)
+				CHOutcome(sample: sample, task: task, carePlanId: carePlanId)
 			}
 			if taskOucomes.isEmpty {
 				continue
@@ -146,10 +146,10 @@ extension CareManager {
 		}
 	}
 
-	func upload(outcomes: [Outcome], callbackQueue: DispatchQueue, completion: @escaping ((Result<[Outcome], Error>) -> Void)) {
+	func upload(outcomes: [CHOutcome], callbackQueue: DispatchQueue, completion: @escaping ((Result<[CHOutcome], Error>) -> Void)) {
 		let chunkedOutcomes = outcomes.chunked(into: Constants.maximumUploadOutcomesPerCall)
 		let group = DispatchGroup()
-		var responseOutcomes: [Outcome] = []
+		var responseOutcomes: [CHOutcome] = []
 		var errors: [Error] = []
 		for chunkOutcome in chunkedOutcomes {
 			group.enter()
@@ -177,7 +177,7 @@ extension CareManager {
 		}
 	}
 
-	func process(outcomes: [Outcome], completion: BoolCompletion?) {
+	func process(outcomes: [CHOutcome], completion: BoolCompletion?) {
 		guard !outcomes.isEmpty else {
 			completion?(true)
 			return

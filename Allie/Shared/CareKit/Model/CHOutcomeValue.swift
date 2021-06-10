@@ -27,7 +27,7 @@ public extension OCKOutcomeValueUnderlyingType {
 	}
 }
 
-public struct OutcomeValue: Codable {
+public struct CHOutcomeValue: Codable {
 	public var index: Int
 	public var units: String?
 	public var value: OCKOutcomeValueUnderlyingType

@@ -34,9 +34,9 @@ class AppCoordinator: BaseCoordinator {
 		super.start()
 		if UserDefaults.standard.haveAskedUserForBiometrics == false {
 			enrollWithBiometrics()
-		} else {
-			if UserDefaults.standard.isBiometricsEnabled == false {}
 		}
+
+		UserDefaults.standard.hasRunOnce = true
 	}
 
 	func showHUD(animated: Bool = true) {
@@ -104,10 +104,6 @@ class AppCoordinator: BaseCoordinator {
 		}
 		navigate(to: viewController, with: .push)
 	}
-
-	func postGetData(search: SearchParameter, completion: @escaping (ModelsR4.Bundle?) -> Void) {}
-
-	func postObservationSearchAction(search: SearchParameter, viewController: ProfileViewController, start: Date, end: Date, hkType: HealthKitQuantityType) {}
 
 	func logout() {
 		parent?.logout()

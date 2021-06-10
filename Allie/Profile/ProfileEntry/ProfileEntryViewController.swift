@@ -17,7 +17,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 		static let poundsToKilograms: Double = 0.4535924
 	}
 
-	var patient: AlliePatient? {
+	var patient: CHPatient? {
 		didSet {
 			configureValues()
 		}

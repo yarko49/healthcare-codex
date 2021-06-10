@@ -8,7 +8,7 @@
 import UIKit
 
 class TaskErrorDisplayViewController: UITableViewController {
-	var items: [BasicTask] = []
+	var items: [CHBasicTask] = []
 
 	override func viewDidLoad() {
 		super.viewDidLoad()

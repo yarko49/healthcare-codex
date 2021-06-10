@@ -9,14 +9,14 @@ import CareKitStore
 import Foundation
 
 extension OCKOutcomeValue {
-	init(outcomeValue: OutcomeValue) {
+	init(outcomeValue: CHOutcomeValue) {
 		self.init(outcomeValue.value, units: outcomeValue.units)
 		self.createdDate = outcomeValue.createdDate
 		self.kind = outcomeValue.kind
 	}
 }
 
-extension OutcomeValue {
+extension CHOutcomeValue {
 	init(ockOutcomeValue: OCKOutcomeValue) {
 		self.init(ockOutcomeValue.value, units: ockOutcomeValue.units)
 		self.kind = ockOutcomeValue.kind

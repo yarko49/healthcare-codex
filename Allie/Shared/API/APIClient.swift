@@ -12,16 +12,16 @@ import ModelsR4
 
 protocol AllieAPI {
 	func firebaseAuthenticationToken() -> Future<AuthenticationToken, Error>
-	func registerOrganization(organization: Organization) -> Future<Bool, Never>
-	func getCarePlan(option: CarePlanResponseType) -> Future<CarePlanResponse, Error>
-	func post(carePlanResponse: CarePlanResponse) -> Future<UInt64, Error>
+	func registerOrganization(organization: CHOrganization) -> Future<Bool, Never>
+	func getCarePlan(option: CarePlanResponseType) -> Future<CHCarePlanResponse, Error>
+	func post(carePlanResponse: CHCarePlanResponse) -> Future<UInt64, Error>
 	func post(bundle: ModelsR4.Bundle, completion: @escaping WebService.DecodableCompletion<ModelsR4.Bundle>) -> URLSession.ServicePublisher?
 	func post(bundle: ModelsR4.Bundle) -> Future<ModelsR4.Bundle, Error>
 	func post(observation: ModelsR4.Observation, completion: @escaping WebService.DecodableCompletion<ModelsR4.Observation>) -> URLSession.ServicePublisher?
-	func post(patient: AlliePatient) -> Future<CarePlanResponse, Error>
-	func post(patient: AlliePatient, completion: @escaping WebService.RequestCompletion<CarePlanResponse>) -> URLSession.ServicePublisher?
-	func getOutcomes() -> Future<CarePlanResponse, Error>
-	func post(outcomes: [Outcome]) -> Future<CarePlanResponse, Error>
+	func post(patient: CHPatient) -> Future<CHCarePlanResponse, Error>
+	func post(patient: CHPatient, completion: @escaping WebService.RequestCompletion<CHCarePlanResponse>) -> URLSession.ServicePublisher?
+	func getOutcomes() -> Future<CHCarePlanResponse, Error>
+	func post(outcomes: [CHOutcome]) -> Future<CHCarePlanResponse, Error>
 	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> Future<SignedURLResponse, Error>
 	func getData(url: URL) -> Future<Data, Error>
 }
@@ -74,7 +74,7 @@ public final class APIClient: AllieAPI {
 
 //	func postBundle(bundle: ModelsR4.Bundle) async -> ModelsR4.Bundle {}
 
-	func registerOrganization(organization: Organization) -> Future<Bool, Never> {
+	func registerOrganization(organization: CHOrganization) -> Future<Bool, Never> {
 		Future { [weak self] promise in
 			_ = self?.webService.requestSimple(route: APIRouter.registerOrganization(organization), completion: { result in
 				switch result {
@@ -88,10 +88,10 @@ public final class APIClient: AllieAPI {
 		}
 	}
 
-	func getCarePlan(option: CarePlanResponseType = .carePlan) -> Future<CarePlanResponse, Error> {
+	func getCarePlan(option: CarePlanResponseType = .carePlan) -> Future<CHCarePlanResponse, Error> {
 		Future { [weak self] promise in
 			let route = APIRouter.getCarePlan(option: option)
-			_ = self?.webService.request(route: route, completion: { (result: Result<CarePlanResponse, Error>) in
+			_ = self?.webService.request(route: route, completion: { (result: Result<CHCarePlanResponse, Error>) in
 				switch result {
 				case .failure(let error):
 					promise(.failure(error))
@@ -102,7 +102,7 @@ public final class APIClient: AllieAPI {
 		}
 	}
 
-	func post(carePlanResponse: CarePlanResponse) -> Future<UInt64, Error> {
+	func post(carePlanResponse: CHCarePlanResponse) -> Future<UInt64, Error> {
 		Future { [weak self] promise in
 			_ = self?.webService.request(route: .postCarePlan(carePlanResponse: carePlanResponse)) { (result: Result<UInt64, Error>) in
 				switch result {
@@ -139,10 +139,10 @@ public final class APIClient: AllieAPI {
 		}
 	}
 
-	func post(patient: AlliePatient) -> Future<CarePlanResponse, Error> {
+	func post(patient: CHPatient) -> Future<CHCarePlanResponse, Error> {
 		Future { [weak self] promise in
 			let route = APIRouter.postPatient(patient: patient)
-			_ = self?.webService.request(route: route) { (result: Result<CarePlanResponse, Error>) in
+			_ = self?.webService.request(route: route) { (result: Result<CHCarePlanResponse, Error>) in
 				switch result {
 				case .failure(let error):
 					promise(.failure(error))
@@ -154,7 +154,7 @@ public final class APIClient: AllieAPI {
 	}
 
 	@discardableResult
-	func post(patient: AlliePatient, completion: @escaping WebService.RequestCompletion<CarePlanResponse>) -> URLSession.ServicePublisher? {
+	func post(patient: CHPatient, completion: @escaping WebService.RequestCompletion<CHCarePlanResponse>) -> URLSession.ServicePublisher? {
 		webService.request(route: .postPatient(patient: patient), completion: completion)
 	}
 
@@ -163,10 +163,10 @@ public final class APIClient: AllieAPI {
 		webService.requestSerializable(route: route, completion: completion)
 	}
 
-	func getOutcomes() -> Future<CarePlanResponse, Error> {
+	func getOutcomes() -> Future<CHCarePlanResponse, Error> {
 		Future { [weak self] promise in
 			let route = APIRouter.getCarePlan(option: .outcomes)
-			_ = self?.webService.request(route: route, completion: { (result: Result<CarePlanResponse, Error>) in
+			_ = self?.webService.request(route: route, completion: { (result: Result<CHCarePlanResponse, Error>) in
 				switch result {
 				case .failure(let error):
 					promise(.failure(error))
@@ -177,10 +177,10 @@ public final class APIClient: AllieAPI {
 		}
 	}
 
-	func post(outcomes: [Outcome]) -> Future<CarePlanResponse, Error> {
+	func post(outcomes: [CHOutcome]) -> Future<CHCarePlanResponse, Error> {
 		Future { [weak self] promise in
 			let route = APIRouter.postOutcomes(outcomes: outcomes)
-			_ = self?.webService.request(route: route) { (result: Result<CarePlanResponse, Error>) in
+			_ = self?.webService.request(route: route) { (result: Result<CHCarePlanResponse, Error>) in
 				switch result {
 				case .failure(let error):
 					promise(.failure(error))
