@@ -153,39 +153,66 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		}
 	}
 
-	private var isRefreshingCarePlan = false
 	override func reload() {
+		getAndUpdateCarePlans { result in
+			if result {
+				super.reload()
+			}
+		}
+	}
+
+	private var isRefreshingCarePlan = false
+	func getAndUpdateCarePlans(completion: @escaping AllieBoolCompletion) {
 		guard isRefreshingCarePlan == false else {
 			return
 		}
 		isRefreshingCarePlan = true
 		hud.show(in: tabBarController?.view ?? view, animated: true)
 		APIClient.shared.getCarePlan(option: .carePlan)
-			.sink { [weak self] completion in
+			.sink { [weak self] resultCompletion in
 				self?.isRefreshingCarePlan = false
 				self?.hud.dismiss(animated: true)
-				if case .failure(let error) = completion {
+				if case .failure(let error) = resultCompletion {
 					let nsError = error as NSError
 					if nsError.code != 401 {
 						ALog.error("Unable to fetch care plan", error: error)
 						let okAction = AlertHelper.AlertAction(withTitle: String.ok)
 						AlertHelper.showAlert(title: "Error", detailText: error.localizedDescription, actions: [okAction])
 					}
+					completion(false)
 				}
-			} receiveValue: { value in
+			} receiveValue: { [weak self] value in
 				if let tasks = value.faultyTasks, !tasks.isEmpty {
-					self.showError(tasks: tasks)
+					self?.showError(tasks: tasks)
 				}
-				CareManager.shared.process(carePlanResponse: value, forceReset: false) { success in
-					if success {
+				CareManager.shared.process(carePlanResponse: value, forceReset: false) { result in
+					switch result {
+					case .failure(let error):
+						ALog.error("Unable to update the careplan data", error: error)
+						completion(false)
+					case .success(let deletedTasks):
 						ALog.info("added the care plan")
 						DispatchQueue.main.async {
-							super.reload()
+							completion(true)
 						}
-					} else {
-						ALog.error("Unable to update the careplan data")
+						ALog.info("tasks to be deleted = \(deletedTasks.count)")
+//						DispatchQueue.main.async {
+//							if let view = self?.tabBarController?.view ?? self?.view {
+//								self?.hud.show(in: view, animated: true)
+//							}
+//						}
+//						CareManager.shared.delete(tasks: deletedTasks) { result in
+//							if case .failure(let error) = result {
+//								ALog.error("Delete failed \(error.localizedDescription)")
+//							}
+//							DispatchQueue.main.async {
+//								if (self?.tabBarController?.view ?? self?.view) != nil {
+//									self?.hud.dismiss()
+//								}
+//							}
+//						}
 					}
-					self.isRefreshingCarePlan = false
+					self?.isRefreshingCarePlan = false
 				}
 			}.store(in: &cancellables)
 	}

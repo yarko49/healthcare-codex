@@ -6,6 +6,8 @@
 import UIKit
 
 typealias AllieResultCompletion<ResultType> = (Result<ResultType, Error>) -> Void
+typealias AllieBoolCompletion = (Bool) -> Void
+typealias AllieVoidCompletion = () -> Void
 
 enum AllieError: Error {
 	case missing(String)
@@ -15,8 +17,8 @@ enum AllieError: Error {
 
 protocol Coordinable: AnyObject {
 	var type: CoordinatorType { get }
-	typealias ActionHandler = () -> Void
-	typealias BoolActionHandler = (Bool) -> Void
+	typealias ActionHandler = AllieVoidCompletion
+	typealias BoolActionHandler = AllieBoolCompletion
 
 	var navigationController: UINavigationController? { get }
 	var rootViewController: UIViewController? { get }

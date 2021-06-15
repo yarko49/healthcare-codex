@@ -26,7 +26,7 @@ extension CareManager {
 		}
 	}
 
-	func fetchAllHealthKitTasks(callbackQueue: DispatchQueue, completion: @escaping BoolCompletion) {
+	func fetchAllHealthKitTasks(callbackQueue: DispatchQueue, completion: @escaping AllieBoolCompletion) {
 		var query = OCKTaskQuery()
 		query.sortDescriptors = [.effectiveDate(ascending: false)]
 		healthKitStore.fetchAnyTasks(query: query, callbackQueue: callbackQueue) { [weak self] tasksResult in
@@ -80,7 +80,7 @@ extension CareManager {
 		}
 	}
 
-	func synchronizeHealthKitOutcomes(tasks: [OCKHealthKitTask], callbackQueue: DispatchQueue, completion: @escaping BoolCompletion) {
+	func synchronizeHealthKitOutcomes(tasks: [OCKHealthKitTask], callbackQueue: DispatchQueue, completion: @escaping AllieBoolCompletion) {
 		var allSamples: [HKQuantityTypeIdentifier: [HKSample]] = [:]
 		let group = DispatchGroup()
 		let endDate = Date()
@@ -112,7 +112,7 @@ extension CareManager {
 		}
 	}
 
-	func upload(samples: [HKQuantityTypeIdentifier: [HKSample]], tasks: [OCKHealthKitTask], endDate: Date, callbackQueue: DispatchQueue, completion: @escaping BoolCompletion) {
+	func upload(samples: [HKQuantityTypeIdentifier: [HKSample]], tasks: [OCKHealthKitTask], endDate: Date, callbackQueue: DispatchQueue, completion: @escaping AllieBoolCompletion) {
 		let group = DispatchGroup()
 		for task in tasks {
 			guard let carePlanId = task.carePlanId else {
@@ -177,7 +177,7 @@ extension CareManager {
 		}
 	}
 
-	func process(outcomes: [CHOutcome], completion: BoolCompletion?) {
+	func process(outcomes: [CHOutcome], completion: AllieBoolCompletion?) {
 		guard !outcomes.isEmpty else {
 			completion?(true)
 			return

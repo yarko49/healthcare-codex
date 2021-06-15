@@ -80,6 +80,7 @@ public extension OCKScheduleElement {
 		return element
 	}
 
+	// swiftlint:disable:next function_parameter_count
 	static func weeklyAtTime(weekday: Int, hours: Int, minutes: Int, start: Date, end: Date?, targetValues: [OCKOutcomeValue], text: String?, duration: OCKScheduleElement.Duration = .hours(1)) -> OCKScheduleElement {
 		let interval = DateComponents(weekOfYear: 1)
 		var startTime = Calendar.current.date(bySetting: .weekday, value: weekday, of: start)!
