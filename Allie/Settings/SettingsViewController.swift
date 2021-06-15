@@ -1,4 +1,3 @@
-import AnswerBotSDK
 import KeychainAccess
 import MessagingSDK
 import SafariServices
@@ -184,9 +183,8 @@ extension SettingsViewController: UITableViewDelegate {
 	func showSupport() {
 		do {
 			let messagingConfiguration = MessagingConfiguration()
-			let answerBotEngine = try AnswerBotEngine.engine()
 			let supportEngine = try SupportEngine.engine()
-			let viewController = try Messaging.instance.buildUI(engines: [supportEngine, answerBotEngine], configs: [messagingConfiguration])
+			let viewController = try Messaging.instance.buildUI(engines: [supportEngine], configs: [messagingConfiguration])
 			navigationController?.show(viewController, sender: self)
 		} catch {
 			ALog.error("Unable to show support", error: error)

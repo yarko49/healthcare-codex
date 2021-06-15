@@ -35,8 +35,6 @@ class AppCoordinator: BaseCoordinator {
 		if UserDefaults.standard.haveAskedUserForBiometrics == false {
 			enrollWithBiometrics()
 		}
-
-		UserDefaults.standard.hasRunOnce = true
 	}
 
 	func showHUD(animated: Bool = true) {
@@ -99,7 +97,7 @@ class AppCoordinator: BaseCoordinator {
 			patient?.profile.weightInPounds = viewController.weightInPounds
 			patient?.profile.heightInInches = viewController.heightInInches
 			CareManager.shared.patient = patient
-			self?.parent?.uploadPatient(patient: patient!)
+			self?.uploadPatient(patient: patient!)
 			self?.navigationController?.popViewController(animated: true)
 		}
 		navigate(to: viewController, with: .push)

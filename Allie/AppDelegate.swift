@@ -1,4 +1,3 @@
-import AnswerBotProvidersSDK
 import Firebase
 import FirebaseAuth
 import FirebaseCore
@@ -75,7 +74,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		CoreLogger.logLevel = .debug
 		Zendesk.initialize(appId: AppConfig.zendeskAppId, clientId: AppConfig.zendeskClientId, zendeskUrl: AppConfig.zendeskURL)
 		Support.initialize(withZendesk: Zendesk.instance)
-		AnswerBot.initialize(withZendesk: Zendesk.instance, support: Support.instance!)
 		let ident = Identity.createAnonymous()
 		Zendesk.instance?.setIdentity(ident)
 		ALog.info("Zendesk Initialized")

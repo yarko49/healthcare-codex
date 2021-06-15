@@ -398,14 +398,12 @@
 		847DCCB6265871F3004E9C1D /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 847DCBD6265871F3004E9C1D /* CareKitFHIR */; };
 		847DCCB7265871F3004E9C1D /* CareKitStore in Frameworks */ = {isa = PBXBuildFile; productRef = 847DCBD9265871F3004E9C1D /* CareKitStore */; };
 		847DCCB8265871F3004E9C1D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 847DCBEA265871F3004E9C1D /* FirebaseAuth */; };
-		847DCCB9265871F3004E9C1D /* ZendeskSupportSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 847DCBDF265871F3004E9C1D /* ZendeskSupportSDK */; };
 		847DCCBA265871F3004E9C1D /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = 847DCBEB265871F3004E9C1D /* FirebaseDynamicLinks */; };
 		847DCCBB265871F3004E9C1D /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 847DCBDA265871F3004E9C1D /* CareKitUI */; };
 		847DCCBC265871F3004E9C1D /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 847DCBE9265871F3004E9C1D /* FirebaseMessaging */; };
 		847DCCBD265871F3004E9C1D /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 847DCBCE265871F3004E9C1D /* IQKeyboardManagerSwift */; };
 		847DCCBE265871F3004E9C1D /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 847DCBCC265871F3004E9C1D /* Charts */; };
 		847DCCBF265871F3004E9C1D /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 847DCBEC265871F3004E9C1D /* FirebaseRemoteConfig */; };
-		847DCCC0265871F3004E9C1D /* ZendeskAnswerBotSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 847DCBDB265871F3004E9C1D /* ZendeskAnswerBotSDK */; };
 		847DCCC3265871F3004E9C1D /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 847DCBED265871F3004E9C1D /* SDWebImage */; };
 		847DCCC4265871F3004E9C1D /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 847DCBD2265871F3004E9C1D /* Logging */; };
 		847DCCC6265871F3004E9C1D /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 847DCBE8265871F3004E9C1D /* FirebaseCrashlytics */; };
@@ -457,8 +455,6 @@
 		84A6316F2601B6B5000922F3 /* CareKitStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */; };
 		84AF11A126707C9B0061A9E5 /* GridTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF11A026707C9B0061A9E5 /* GridTaskController.swift */; };
 		84AF11A326709C770061A9E5 /* ChecklistTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF11A226709C770061A9E5 /* ChecklistTaskController.swift */; };
-		84B331FE261D162B007EB839 /* ZendeskAnswerBotSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84B331FD261D162B007EB839 /* ZendeskAnswerBotSDK */; };
-		84B3320A261D166F007EB839 /* ZendeskSupportSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84B33209261D166F007EB839 /* ZendeskSupportSDK */; };
 		84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */; };
 		84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */; };
 		84C071F725E31FC20098B508 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C071F625E31FC20098B508 /* AnalyticsManager.swift */; };
@@ -493,6 +489,9 @@
 		84C83FE7259C48F200DAEF34 /* TaskB2.json in Resources */ = {isa = PBXBuildFile; fileRef = 84C83FD0259C48F200DAEF34 /* TaskB2.json */; };
 		84C83FE8259C48F200DAEF34 /* TaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FD1259C48F200DAEF34 /* TaskTests.swift */; };
 		84C83FE9259C48F200DAEF34 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83FD2259C48F200DAEF34 /* URLProtocolMock.swift */; };
+		84C8C402267714960015A258 /* ZendeskSupportSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84C8C401267714960015A258 /* ZendeskSupportSDK */; };
+		84C8C4042677227C0015A258 /* ZendeskSupportSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84C8C4032677227C0015A258 /* ZendeskSupportSDK */; };
+		84C8C4062677228A0015A258 /* ZendeskSupportSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84C8C4052677228A0015A258 /* ZendeskSupportSDK */; };
 		84C93C5F2616B7ED00C5E33E /* Date+FHIR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C93C5E2616B7ED00C5E33E /* Date+FHIR.swift */; };
 		84CF2D9E261AC5D40080293F /* GenderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2D9D261AC5D40080293F /* GenderPickerView.swift */; };
 		84CF2DA2261ACAA30080293F /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2DA1261ACAA30080293F /* ButtonView.swift */; };
@@ -663,14 +662,12 @@
 		84D122DF264112DE00990196 /* SkyFloatingLabelTextField in Frameworks */ = {isa = PBXBuildFile; productRef = 84D1221F264112DE00990196 /* SkyFloatingLabelTextField */; };
 		84D122E0264112DE00990196 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 84D12212264112DE00990196 /* CareKitFHIR */; };
 		84D122E1264112DE00990196 /* CareKitStore in Frameworks */ = {isa = PBXBuildFile; productRef = 84D12215264112DE00990196 /* CareKitStore */; };
-		84D122E2264112DE00990196 /* ZendeskSupportSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84D1221B264112DE00990196 /* ZendeskSupportSDK */; };
 		84D122E3264112DE00990196 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 84D12216264112DE00990196 /* CareKitUI */; };
 		84D122E4264112DE00990196 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 84D12207264112DE00990196 /* SDWebImage */; };
 		84D122E5264112DE00990196 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 84D12201264112DE00990196 /* IQKeyboardManagerSwift */; };
 		84D122E6264112DE00990196 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 84D1220B264112DE00990196 /* FirebaseAnalytics */; };
 		84D122E7264112DE00990196 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 84D1220E264112DE00990196 /* FirebaseMessaging */; };
 		84D122E8264112DE00990196 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 84D121FF264112DE00990196 /* Charts */; };
-		84D122E9264112DE00990196 /* ZendeskAnswerBotSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 84D12217264112DE00990196 /* ZendeskAnswerBotSDK */; };
 		84D122EB264112DE00990196 /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = 84D12210264112DE00990196 /* FirebaseDynamicLinks */; };
 		84D122ED264112DE00990196 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 84D1220F264112DE00990196 /* FirebaseAuth */; };
 		84D122EE264112DE00990196 /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 84D12205264112DE00990196 /* Logging */; };
@@ -1042,7 +1039,6 @@
 				84436275264B527B002B475C /* FirebaseInstallations in Frameworks */,
 				8431136A262E87F300561329 /* SkyFloatingLabelTextField in Frameworks */,
 				8443627D264B527B002B475C /* FirebaseAuth in Frameworks */,
-				84B3320A261D166F007EB839 /* ZendeskSupportSDK in Frameworks */,
 				8443627F264B527B002B475C /* FirebaseDynamicLinks in Frameworks */,
 				845A0833265DD94800A7BDB7 /* CareKitUI in Frameworks */,
 				845A082F265DD94800A7BDB7 /* CareKit in Frameworks */,
@@ -1050,7 +1046,6 @@
 				845AAC71259C36E900FF8F3F /* IQKeyboardManagerSwift in Frameworks */,
 				84700A84259C331B0083E2AA /* Charts in Frameworks */,
 				84436281264B527B002B475C /* FirebaseRemoteConfig in Frameworks */,
-				84B331FE261D162B007EB839 /* ZendeskAnswerBotSDK in Frameworks */,
 				843372E2264F9B20005BED99 /* SDWebImage in Frameworks */,
 				84C22BCB25A5821800D16CFF /* Logging in Frameworks */,
 				F2E095A67D8D601362DA792D /* (null) in Frameworks */,
@@ -1059,6 +1054,7 @@
 				845A0831265DD94800A7BDB7 /* CareKitStore in Frameworks */,
 				84436277264B527B002B475C /* FirebaseAnalytics in Frameworks */,
 				EFE9274FBB0B8715F2405B31 /* (null) in Frameworks */,
+				84C8C402267714960015A258 /* ZendeskSupportSDK in Frameworks */,
 				93C7277966942A2A5AD3490B /* Pods_Allie.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1087,18 +1083,17 @@
 				847DCCB2265871F3004E9C1D /* JGProgressHUD in Frameworks */,
 				847DCCB3265871F3004E9C1D /* KeychainAccess in Frameworks */,
 				847DCCB4265871F3004E9C1D /* FirebaseInstallations in Frameworks */,
+				84C8C4062677228A0015A258 /* ZendeskSupportSDK in Frameworks */,
 				847DCCB5265871F3004E9C1D /* SkyFloatingLabelTextField in Frameworks */,
 				847DCCB6265871F3004E9C1D /* CareKitFHIR in Frameworks */,
 				847DCCB7265871F3004E9C1D /* CareKitStore in Frameworks */,
 				847DCCB8265871F3004E9C1D /* FirebaseAuth in Frameworks */,
-				847DCCB9265871F3004E9C1D /* ZendeskSupportSDK in Frameworks */,
 				847DCCBA265871F3004E9C1D /* FirebaseDynamicLinks in Frameworks */,
 				847DCCBB265871F3004E9C1D /* CareKitUI in Frameworks */,
 				847DCCBC265871F3004E9C1D /* FirebaseMessaging in Frameworks */,
 				847DCCBD265871F3004E9C1D /* IQKeyboardManagerSwift in Frameworks */,
 				847DCCBE265871F3004E9C1D /* Charts in Frameworks */,
 				847DCCBF265871F3004E9C1D /* FirebaseRemoteConfig in Frameworks */,
-				847DCCC0265871F3004E9C1D /* ZendeskAnswerBotSDK in Frameworks */,
 				847DCCC3265871F3004E9C1D /* SDWebImage in Frameworks */,
 				847DCCC4265871F3004E9C1D /* Logging in Frameworks */,
 				847DCCC6265871F3004E9C1D /* FirebaseCrashlytics in Frameworks */,
@@ -1117,14 +1112,13 @@
 				84D122DF264112DE00990196 /* SkyFloatingLabelTextField in Frameworks */,
 				84D122E0264112DE00990196 /* CareKitFHIR in Frameworks */,
 				84D122E1264112DE00990196 /* CareKitStore in Frameworks */,
-				84D122E2264112DE00990196 /* ZendeskSupportSDK in Frameworks */,
 				84D122E3264112DE00990196 /* CareKitUI in Frameworks */,
+				84C8C4042677227C0015A258 /* ZendeskSupportSDK in Frameworks */,
 				84D122E4264112DE00990196 /* SDWebImage in Frameworks */,
 				84D122E5264112DE00990196 /* IQKeyboardManagerSwift in Frameworks */,
 				84D122E6264112DE00990196 /* FirebaseAnalytics in Frameworks */,
 				84D122E7264112DE00990196 /* FirebaseMessaging in Frameworks */,
 				84D122E8264112DE00990196 /* Charts in Frameworks */,
-				84D122E9264112DE00990196 /* ZendeskAnswerBotSDK in Frameworks */,
 				84D122EB264112DE00990196 /* FirebaseDynamicLinks in Frameworks */,
 				84D122ED264112DE00990196 /* FirebaseAuth in Frameworks */,
 				84D122EE264112DE00990196 /* Logging in Frameworks */,
@@ -1863,8 +1857,6 @@
 				845AAC70259C36E900FF8F3F /* IQKeyboardManagerSwift */,
 				84C22BCA25A5821800D16CFF /* Logging */,
 				8487493325B6A594008C15E2 /* JGProgressHUD */,
-				84B331FD261D162B007EB839 /* ZendeskAnswerBotSDK */,
-				84B33209261D166F007EB839 /* ZendeskSupportSDK */,
 				844EE8382629FC4B001B2D9E /* KeychainAccess */,
 				84311369262E87F300561329 /* SkyFloatingLabelTextField */,
 				84436274264B527B002B475C /* FirebaseInstallations */,
@@ -1879,6 +1871,7 @@
 				845A082E265DD94800A7BDB7 /* CareKit */,
 				845A0830265DD94800A7BDB7 /* CareKitStore */,
 				845A0832265DD94800A7BDB7 /* CareKitUI */,
+				84C8C401267714960015A258 /* ZendeskSupportSDK */,
 			);
 			productName = Alfred;
 			productReference = 842398C7259C1144006FB3F4 /* Allie.app */;
@@ -1953,8 +1946,6 @@
 				847DCBD8265871F3004E9C1D /* CareKit */,
 				847DCBD9265871F3004E9C1D /* CareKitStore */,
 				847DCBDA265871F3004E9C1D /* CareKitUI */,
-				847DCBDB265871F3004E9C1D /* ZendeskAnswerBotSDK */,
-				847DCBDF265871F3004E9C1D /* ZendeskSupportSDK */,
 				847DCBE1265871F3004E9C1D /* KeychainAccess */,
 				847DCBE3265871F3004E9C1D /* SkyFloatingLabelTextField */,
 				847DCBE5265871F3004E9C1D /* FirebaseInstallations */,
@@ -1965,6 +1956,7 @@
 				847DCBEB265871F3004E9C1D /* FirebaseDynamicLinks */,
 				847DCBEC265871F3004E9C1D /* FirebaseRemoteConfig */,
 				847DCBED265871F3004E9C1D /* SDWebImage */,
+				84C8C4052677228A0015A258 /* ZendeskSupportSDK */,
 			);
 			productName = Alfred;
 			productReference = 847DCCE1265871F3004E9C1D /* Allie Dev.app */;
@@ -2006,10 +1998,9 @@
 				84D12214264112DE00990196 /* CareKit */,
 				84D12215264112DE00990196 /* CareKitStore */,
 				84D12216264112DE00990196 /* CareKitUI */,
-				84D12217264112DE00990196 /* ZendeskAnswerBotSDK */,
-				84D1221B264112DE00990196 /* ZendeskSupportSDK */,
 				84D1221D264112DE00990196 /* KeychainAccess */,
 				84D1221F264112DE00990196 /* SkyFloatingLabelTextField */,
+				84C8C4032677227C0015A258 /* ZendeskSupportSDK */,
 			);
 			productName = Alfred;
 			productReference = 84D12309264112DE00990196 /* Allie QA.app */;
@@ -2051,13 +2042,12 @@
 				845AAC6F259C36E900FF8F3F /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				84C22BC925A5821700D16CFF /* XCRemoteSwiftPackageReference "swift-log" */,
 				8487493225B6A594008C15E2 /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
-				84B331FC261D162A007EB839 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */,
-				84B33208261D166F007EB839 /* XCRemoteSwiftPackageReference "support_sdk_ios" */,
 				844EE8372629FC4B001B2D9E /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				84311368262E87F300561329 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */,
 				84436273264B527B002B475C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				843372E0264F9B20005BED99 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				845A082B265DD94700A7BDB7 /* XCRemoteSwiftPackageReference "CareKit" */,
+				84C8C400267714950015A258 /* XCRemoteSwiftPackageReference "support_sdk_ios" */,
 			);
 			productRefGroup = 842398C8259C1144006FB3F4 /* Products */;
 			projectDirPath = "";
@@ -2541,7 +2531,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${BUILD_DIR%%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+			shellScript = "\"${BUILD_DIR%%Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
 		90E2F97001297323D7A6777A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3519,7 +3509,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.4;
+				MARKETING_VERSION = 0.8.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3548,7 +3538,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.4;
+				MARKETING_VERSION = 0.8.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3669,7 +3659,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 96;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3677,7 +3667,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.8.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3698,7 +3688,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 96;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3706,7 +3696,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.8.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3727,7 +3717,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3735,7 +3725,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.0;
+				MARKETING_VERSION = 0.8.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3756,7 +3746,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3764,7 +3754,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.0;
+				MARKETING_VERSION = 0.8.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3932,22 +3922,6 @@
 				kind = branch;
 			};
 		};
-		847DCBDC265871F3004E9C1D /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/zendesk/answer_bot_sdk_ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.1.2;
-			};
-		};
-		847DCBE0265871F3004E9C1D /* XCRemoteSwiftPackageReference "support_sdk_ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/zendesk/support_sdk_ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.2.0;
-			};
-		};
 		847DCBE2265871F3004E9C1D /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
@@ -3988,28 +3962,20 @@
 				minimumVersion = 2.2.0;
 			};
 		};
-		84B331FC261D162A007EB839 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/zendesk/answer_bot_sdk_ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.1.2;
-			};
-		};
-		84B33208261D166F007EB839 /* XCRemoteSwiftPackageReference "support_sdk_ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/zendesk/support_sdk_ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.2.0;
-			};
-		};
 		84C22BC925A5821700D16CFF /* XCRemoteSwiftPackageReference "swift-log" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-log.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.4.0;
+			};
+		};
+		84C8C400267714950015A258 /* XCRemoteSwiftPackageReference "support_sdk_ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/zendesk/support_sdk_ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.3.0;
 			};
 		};
 		84D12200264112DE00990196 /* XCRemoteSwiftPackageReference "Charts" */ = {
@@ -4066,22 +4032,6 @@
 			requirement = {
 				branch = main;
 				kind = branch;
-			};
-		};
-		84D12218264112DE00990196 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/zendesk/answer_bot_sdk_ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.1.2;
-			};
-		};
-		84D1221C264112DE00990196 /* XCRemoteSwiftPackageReference "support_sdk_ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/zendesk/support_sdk_ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.2.0;
 			};
 		};
 		84D1221E264112DE00990196 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
@@ -4223,16 +4173,6 @@
 			package = 847DCBD7265871F3004E9C1D /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKitUI;
 		};
-		847DCBDB265871F3004E9C1D /* ZendeskAnswerBotSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 847DCBDC265871F3004E9C1D /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */;
-			productName = ZendeskAnswerBotSDK;
-		};
-		847DCBDF265871F3004E9C1D /* ZendeskSupportSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 847DCBE0265871F3004E9C1D /* XCRemoteSwiftPackageReference "support_sdk_ios" */;
-			productName = ZendeskSupportSDK;
-		};
 		847DCBE1265871F3004E9C1D /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 847DCBE2265871F3004E9C1D /* XCRemoteSwiftPackageReference "KeychainAccess" */;
@@ -4288,20 +4228,25 @@
 			package = 8487493225B6A594008C15E2 /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
 			productName = JGProgressHUD;
 		};
-		84B331FD261D162B007EB839 /* ZendeskAnswerBotSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 84B331FC261D162A007EB839 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */;
-			productName = ZendeskAnswerBotSDK;
-		};
-		84B33209261D166F007EB839 /* ZendeskSupportSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 84B33208261D166F007EB839 /* XCRemoteSwiftPackageReference "support_sdk_ios" */;
-			productName = ZendeskSupportSDK;
-		};
 		84C22BCA25A5821800D16CFF /* Logging */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 84C22BC925A5821700D16CFF /* XCRemoteSwiftPackageReference "swift-log" */;
 			productName = Logging;
+		};
+		84C8C401267714960015A258 /* ZendeskSupportSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84C8C400267714950015A258 /* XCRemoteSwiftPackageReference "support_sdk_ios" */;
+			productName = ZendeskSupportSDK;
+		};
+		84C8C4032677227C0015A258 /* ZendeskSupportSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84C8C400267714950015A258 /* XCRemoteSwiftPackageReference "support_sdk_ios" */;
+			productName = ZendeskSupportSDK;
+		};
+		84C8C4052677228A0015A258 /* ZendeskSupportSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84C8C400267714950015A258 /* XCRemoteSwiftPackageReference "support_sdk_ios" */;
+			productName = ZendeskSupportSDK;
 		};
 		84D121FF264112DE00990196 /* Charts */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -4377,16 +4322,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 84D12213264112DE00990196 /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKitUI;
-		};
-		84D12217264112DE00990196 /* ZendeskAnswerBotSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 84D12218264112DE00990196 /* XCRemoteSwiftPackageReference "answer_bot_sdk_ios" */;
-			productName = ZendeskAnswerBotSDK;
-		};
-		84D1221B264112DE00990196 /* ZendeskSupportSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 84D1221C264112DE00990196 /* XCRemoteSwiftPackageReference "support_sdk_ios" */;
-			productName = ZendeskSupportSDK;
 		};
 		84D1221D264112DE00990196 /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -18,13 +18,12 @@ import UIKit
 class CareManager: NSObject, ObservableObject {
 	static let shared = CareManager(patient: nil)
 
-	typealias BoolCompletion = (Bool) -> Void
-
 	enum Constants {
 		static let careStore = "CareStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
 		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk(protection: .completeUnlessOpen)
 		static let maximumUploadOutcomesPerCall: Int = 450
+		static let deleteDelayTimeIntervalSeconds: Int = 2
 	}
 
 	private(set) lazy var remoteSynchronizationManager: RemoteSynchronizationManager = {
@@ -188,33 +187,53 @@ class CareManager: NSObject, ObservableObject {
 // MARK: - CarePlanResponse
 
 extension CareManager {
-	func process(carePlanResponse: CHCarePlanResponse, forceReset: Bool = false, completion: BoolCompletion?) {
+	func process(carePlanResponse: CHCarePlanResponse, forceReset: Bool = false, completion: AllieResultCompletion<[CHTask]>?) {
 		let queue = DispatchQueue.global(qos: .userInitiated)
-		var result: Bool = true
+		var result: OCKStoreError?
 		queue.async { [weak self] in
 			if let patient = carePlanResponse.patients.first {
 				let thePatient = self?.syncProcess(patient: patient, queue: queue)
 				ALog.debug("patient id \(String(describing: thePatient?.id)), patient uuid = \(String(describing: thePatient?.uuid?.uuidString))")
 				self?.patient = thePatient
-				result = thePatient != nil
+				if thePatient == nil {
+					result = OCKStoreError.updateFailed(reason: "Unable to update Patient")
+				}
 			}
 
 			var theCarePlan: OCKCarePlan?
-			if let carePlan = carePlanResponse.carePlans.first, result {
+			if let carePlan = carePlanResponse.carePlans.first, result == nil {
 				theCarePlan = self?.syncProcess(carePlan: carePlan, patient: self?.patient, queue: queue)
 				ALog.debug("CarePlan id \(String(describing: theCarePlan?.id)), carePlan uuid \(String(describing: theCarePlan?.uuid))")
-				result = theCarePlan != nil
+				if theCarePlan == nil {
+					result = OCKStoreError.updateFailed(reason: "Unable to ")
+				}
 			}
 
-			let tasks = self?.syncProcess(tasks: carePlanResponse.tasks, carePlan: theCarePlan, queue: queue)
-			ALog.debug("Regular tasks saved = \(String(describing: tasks?.0.count)), HealthKitTasks saved \(String(describing: tasks?.1.count))")
-			if !carePlanResponse.outcomes.isEmpty, result {
+			let deletedTasks = carePlanResponse.tasks.filter { task in
+				task.shouldDelete
+			}
+			if result == nil {
+				let processedTasks = self?.syncProcess(tasks: carePlanResponse.tasks, carePlan: theCarePlan, queue: queue) ?? ([], [])
+				ALog.debug("Regular tasks saved = \(String(describing: processedTasks.0.count)), HealthKitTasks saved \(String(describing: processedTasks.1.count))")
+
+				if (processedTasks.0.count + processedTasks.1.count + deletedTasks.count) != carePlanResponse.tasks.count {
+					result = OCKStoreError.updateFailed(reason: "Error updating tasks")
+				}
+			}
+			if !carePlanResponse.outcomes.isEmpty, result == nil {
 				let outcomes = self?.syncCreateOrUpdate(outcomes: carePlanResponse.outcomes, queue: queue)
-				result = outcomes != nil
+				if outcomes == nil {
+					result = OCKStoreError.updateFailed(reason: "Outcomes update failed")
+				}
 				ALog.debug("Number out outcomes saved \(String(describing: outcomes?.count))")
 			}
 			self?.synchronizeHealthKitOutcomes()
-			completion?(result)
+
+			if let error = result {
+				completion?(.failure(error))
+			} else {
+				completion?(.success(deletedTasks))
+			}
 		}
 	}
 
@@ -430,7 +449,7 @@ extension CareManager {
 		var healthKitTasks: [OCKHealthKitTask] = []
 		var storeTasks: [OCKTask] = []
 		let dispatchGroup = DispatchGroup()
-		for (task, anyTask) in mappedTasks {
+		for (_, anyTask) in mappedTasks {
 			if let healthKitTask = anyTask as? OCKHealthKitTask {
 				dispatchGroup.enter()
 				healthKitStore.addOrUpdate(healthKitTask: healthKitTask, callbackQueue: queue) { result in
@@ -459,22 +478,66 @@ extension CareManager {
 		return (storeTasks, healthKitTasks)
 	}
 
-	func delete(taskId: String) -> Future<[OCKAnyTask], Error> {
-		Future { promise in
-			let query = OCKTaskQuery(id: taskId)
-			self.store.fetchAnyTasks(query: query, callbackQueue: .main) { fetchResult in
+	func delete(tasks: [CHTask], completion: @escaping AllieResultCompletion<[CHTask]>) {
+		guard !tasks.isEmpty else {
+			completion(.success([]))
+			return
+		}
+		let queue = DispatchQueue.global(qos: .userInitiated)
+		var deletedTasks: [CHTask] = []
+		let group = DispatchGroup()
+		queue.asyncAfter(deadline: DispatchTime.now() + .seconds(Constants.deleteDelayTimeIntervalSeconds)) { [weak self] in
+			for task in tasks {
+				group.enter()
+				self?.delete(task: task) { result in
+					if case .success(let deleted) = result {
+						deletedTasks.append(deleted)
+					}
+					group.leave()
+				}
+			}
+		}
+
+		group.notify(queue: .main) {
+			completion(.success(deletedTasks))
+		}
+	}
+
+	func delete(task: CHTask, completion: @escaping AllieResultCompletion<CHTask>) {
+		if task.healthKitLinkage != nil {
+			healthKitStore.fetchTasks(query: OCKTaskQuery(id: task.id)) { [weak self] fetchResult in
 				switch fetchResult {
 				case .failure(let error):
-					promise(.failure(error))
+					ALog.error("HealthKit Tasks not found for id \(task.id)", error: error)
+					completion(.failure(error))
 				case .success(let tasks):
-					self.store.deleteAnyTasks(tasks, callbackQueue: .main) { deleteResult in
+					self?.healthKitStore.deleteTasks(tasks) { deleteResult in
 						switch deleteResult {
 						case .failure(let error):
-							promise(.failure(error))
-						case .success(let tasks):
-							promise(.success(tasks))
+							ALog.error("Unable to delete healthkit tasks with id \(task.id)", error: error)
+							completion(.failure(error))
+						case .success:
+							completion(.success(task))
 						}
 					}
+				}
+			}
+		} else {
+			store.fetchTasks(query: OCKTaskQuery(id: task.id)) { [weak self] fetchResult in
+				switch fetchResult {
+				case .failure(let error):
+					ALog.error("Tasks not found for id \(task.id)", error: error)
+					completion(.failure(error))
+				case .success(let tasks):
+					self?.store.deleteTasks(tasks, completion: { deleteResult in
+						switch deleteResult {
+						case .failure(let error):
+							ALog.error("Unable to delete tasks with id \(task.id)", error: error)
+							completion(.failure(error))
+						case .success:
+							completion(.success(task))
+						}
+					})
 				}
 			}
 		}

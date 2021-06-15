@@ -40,9 +40,6 @@ extension OCKTask {
 			self.createdDate = date
 		}
 		self.updatedDate = task.updatedDate
-		if task.shouldDelete {
-			self.deletedDate = task.deletedDate
-		}
 		self.remoteID = task.remoteId
 		self.source = task.source
 		self.userInfo = task.userInfo
@@ -67,7 +64,9 @@ extension OCKTask {
 			existing.createdDate = date
 		}
 		existing.updatedDate = new.updatedDate
-		existing.deletedDate = new.deletedDate
+		if let date = new.deletedDate {
+			existing.deletedDate = Calendar.current.startOfDay(for: date)
+		}
 		existing.remoteID = new.remoteID
 		existing.source = new.source
 		existing.userInfo = new.userInfo
