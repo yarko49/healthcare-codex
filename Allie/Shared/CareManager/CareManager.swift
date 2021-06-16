@@ -209,17 +209,20 @@ extension CareManager {
 				}
 			}
 
-			let deletedTasks = carePlanResponse.tasks.filter { task in
+			let toDelete = carePlanResponse.tasks.filter { task in
 				task.shouldDelete
 			}
+
+			let toProcess = carePlanResponse.tasks
 			if result == nil {
-				let processedTasks = self?.syncProcess(tasks: carePlanResponse.tasks, carePlan: theCarePlan, queue: queue) ?? ([], [])
+				let processedTasks = self?.syncProcess(tasks: toProcess, carePlan: theCarePlan, queue: queue) ?? ([], [])
 				ALog.debug("Regular tasks saved = \(String(describing: processedTasks.0.count)), HealthKitTasks saved \(String(describing: processedTasks.1.count))")
 
-				if (processedTasks.0.count + processedTasks.1.count + deletedTasks.count) != carePlanResponse.tasks.count {
+				if (processedTasks.0.count + processedTasks.1.count) != toProcess.count {
 					result = OCKStoreError.updateFailed(reason: "Error updating tasks")
 				}
 			}
+
 			if !carePlanResponse.outcomes.isEmpty, result == nil {
 				let outcomes = self?.syncCreateOrUpdate(outcomes: carePlanResponse.outcomes, queue: queue)
 				if outcomes == nil {
@@ -232,7 +235,7 @@ extension CareManager {
 			if let error = result {
 				completion?(.failure(error))
 			} else {
-				completion?(.success(deletedTasks))
+				completion?(.success(toDelete))
 			}
 		}
 	}
@@ -449,17 +452,29 @@ extension CareManager {
 		var healthKitTasks: [OCKHealthKitTask] = []
 		var storeTasks: [OCKTask] = []
 		let dispatchGroup = DispatchGroup()
-		for (_, anyTask) in mappedTasks {
+		for (task, anyTask) in mappedTasks {
 			if let healthKitTask = anyTask as? OCKHealthKitTask {
 				dispatchGroup.enter()
-				healthKitStore.addOrUpdate(healthKitTask: healthKitTask, callbackQueue: queue) { result in
-					switch result {
-					case .failure(let error):
-						ALog.error("\(error.localizedDescription)")
-					case .success(let newTask):
-						healthKitTasks.append(newTask)
+				if task.shouldDelete {
+					healthKitStore.deleteTask(healthKitTask, callbackQueue: queue) { result in
+						switch result {
+						case .failure(let error):
+							ALog.error("\(error.localizedDescription)")
+						case .success(let newTask):
+							healthKitTasks.append(newTask)
+						}
+						dispatchGroup.leave()
 					}
-					dispatchGroup.leave()
+				} else {
+					healthKitStore.addOrUpdate(healthKitTask: healthKitTask, callbackQueue: queue) { result in
+						switch result {
+						case .failure(let error):
+							ALog.error("\(error.localizedDescription)")
+						case .success(let newTask):
+							healthKitTasks.append(newTask)
+						}
+						dispatchGroup.leave()
+					}
 				}
 			} else if let ockTask = anyTask as? OCKTask {
 				dispatchGroup.enter()
@@ -476,71 +491,6 @@ extension CareManager {
 		}
 		dispatchGroup.wait()
 		return (storeTasks, healthKitTasks)
-	}
-
-	func delete(tasks: [CHTask], completion: @escaping AllieResultCompletion<[CHTask]>) {
-		guard !tasks.isEmpty else {
-			completion(.success([]))
-			return
-		}
-		let queue = DispatchQueue.global(qos: .userInitiated)
-		var deletedTasks: [CHTask] = []
-		let group = DispatchGroup()
-		queue.asyncAfter(deadline: DispatchTime.now() + .seconds(Constants.deleteDelayTimeIntervalSeconds)) { [weak self] in
-			for task in tasks {
-				group.enter()
-				self?.delete(task: task) { result in
-					if case .success(let deleted) = result {
-						deletedTasks.append(deleted)
-					}
-					group.leave()
-				}
-			}
-		}
-
-		group.notify(queue: .main) {
-			completion(.success(deletedTasks))
-		}
-	}
-
-	func delete(task: CHTask, completion: @escaping AllieResultCompletion<CHTask>) {
-		if task.healthKitLinkage != nil {
-			healthKitStore.fetchTasks(query: OCKTaskQuery(id: task.id)) { [weak self] fetchResult in
-				switch fetchResult {
-				case .failure(let error):
-					ALog.error("HealthKit Tasks not found for id \(task.id)", error: error)
-					completion(.failure(error))
-				case .success(let tasks):
-					self?.healthKitStore.deleteTasks(tasks) { deleteResult in
-						switch deleteResult {
-						case .failure(let error):
-							ALog.error("Unable to delete healthkit tasks with id \(task.id)", error: error)
-							completion(.failure(error))
-						case .success:
-							completion(.success(task))
-						}
-					}
-				}
-			}
-		} else {
-			store.fetchTasks(query: OCKTaskQuery(id: task.id)) { [weak self] fetchResult in
-				switch fetchResult {
-				case .failure(let error):
-					ALog.error("Tasks not found for id \(task.id)", error: error)
-					completion(.failure(error))
-				case .success(let tasks):
-					self?.store.deleteTasks(tasks, completion: { deleteResult in
-						switch deleteResult {
-						case .failure(let error):
-							ALog.error("Unable to delete tasks with id \(task.id)", error: error)
-							completion(.failure(error))
-						case .success:
-							completion(.success(task))
-						}
-					})
-				}
-			}
-		}
 	}
 }
 
@@ -670,6 +620,29 @@ extension CareManager {
 					promise(.success(outcomes))
 				case .failure(let error):
 					promise(.failure(error))
+				}
+			}
+		}
+	}
+
+	func deleteOutcomes(task: CHTask, completion: @escaping AllieResultCompletion<[OCKOutcome]>) {
+		let dateInterval = DateInterval(start: task.effectiveDate, end: Date.distantFuture)
+		var outcomeQuery = OCKOutcomeQuery(dateInterval: dateInterval)
+		outcomeQuery.taskIDs = [task.id]
+		store.fetchOutcomes(query: outcomeQuery) { [weak self] fetchResult in
+			switch fetchResult {
+			case .failure(let error):
+				ALog.error("No outcoms found for task id \(task.id)", error: error)
+				completion(.failure(error))
+			case .success(let outcomes):
+				self?.store.deleteOutcomes(outcomes) { deleteResult in
+					switch deleteResult {
+					case .failure(let error):
+						ALog.error("Unable to delete outcomes for task \(task.id)", error: error)
+						completion(.failure(error))
+					case .success(let deletedOutcomes):
+						completion(.success(deletedOutcomes))
+					}
 				}
 			}
 		}
