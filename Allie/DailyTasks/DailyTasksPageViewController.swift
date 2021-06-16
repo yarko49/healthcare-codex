@@ -82,7 +82,16 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			case .failure(let error):
 				ALog.error("Fetching tasks for carePlans", error: error)
 			case .success(let tasks):
-				let sorted = tasks.sorted { lhs, rhs in
+				let filtered = tasks.filter { task in
+					if let ockTask = task as? OCKTask {
+						return !ockTask.shouldDelete
+					} else if let hkTask = task as? OCKHealthKitTask, let deletedDate = hkTask.deletedDate {
+						return !(deletedDate <= Date())
+					} else {
+						return true
+					}
+				}
+				let sorted = filtered.sorted { lhs, rhs in
 					guard let left = lhs as? AnyTaskExtensible, let right = rhs as? AnyTaskExtensible else {
 						return false
 					}
@@ -154,8 +163,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	}
 
 	override func reload() {
-		getAndUpdateCarePlans { result in
-			if result {
+		getAndUpdateCarePlans { _ in
+			DispatchQueue.main.async {
 				super.reload()
 			}
 		}
@@ -190,27 +199,9 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 					case .failure(let error):
 						ALog.error("Unable to update the careplan data", error: error)
 						completion(false)
-					case .success(let deletedTasks):
+					case .success:
 						ALog.info("added the care plan")
-						DispatchQueue.main.async {
-							completion(true)
-						}
-						ALog.info("tasks to be deleted = \(deletedTasks.count)")
-//						DispatchQueue.main.async {
-//							if let view = self?.tabBarController?.view ?? self?.view {
-//								self?.hud.show(in: view, animated: true)
-//							}
-//						}
-//						CareManager.shared.delete(tasks: deletedTasks) { result in
-//							if case .failure(let error) = result {
-//								ALog.error("Delete failed \(error.localizedDescription)")
-//							}
-//							DispatchQueue.main.async {
-//								if (self?.tabBarController?.view ?? self?.view) != nil {
-//									self?.hud.dismiss()
-//								}
-//							}
-//						}
+						completion(true)
 					}
 					self?.isRefreshingCarePlan = false
 				}
