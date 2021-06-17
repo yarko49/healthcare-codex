@@ -34,8 +34,6 @@ class AppCoordinator: BaseCoordinator {
 		super.start()
 		if UserDefaults.standard.haveAskedUserForBiometrics == false {
 			enrollWithBiometrics()
-		} else {
-			if UserDefaults.standard.isBiometricsEnabled == false {}
 		}
 	}
 
@@ -99,15 +97,11 @@ class AppCoordinator: BaseCoordinator {
 			patient?.profile.weightInPounds = viewController.weightInPounds
 			patient?.profile.heightInInches = viewController.heightInInches
 			CareManager.shared.patient = patient
-			self?.parent?.uploadPatient(patient: patient!)
+			self?.uploadPatient(patient: patient!)
 			self?.navigationController?.popViewController(animated: true)
 		}
 		navigate(to: viewController, with: .push)
 	}
-
-	func postGetData(search: SearchParameter, completion: @escaping (ModelsR4.Bundle?) -> Void) {}
-
-	func postObservationSearchAction(search: SearchParameter, viewController: ProfileViewController, start: Date, end: Date, hkType: HealthKitQuantityType) {}
 
 	func logout() {
 		parent?.logout()

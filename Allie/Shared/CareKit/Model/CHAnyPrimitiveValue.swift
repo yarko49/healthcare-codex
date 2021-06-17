@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct AnyPrimitiveValue: Codable {
+public struct CHAnyPrimitiveValue: Codable {
 	private var int: Int?
 	private var string: String?
 	private var bool: Bool?

@@ -36,7 +36,7 @@ class RemoteConfigManager: ObservableObject {
 	private let remoteConfig = RemoteConfig.remoteConfig()
 	@Published var feedbackEmail: String = AppConfig.supportEmail
 	@Published var remoteLogging = RemoteLogging()
-	@Published var healthCareOrganization: String = "CodexPilotHealthcareOrganization"
+	@Published var healthCareOrganization: String = "Demo-Organization-hmbj3"
 	@Published var outcomesUploadTimeInterval: TimeInterval = 5.0
 
 	func refresh() -> Future<Bool, Never> {

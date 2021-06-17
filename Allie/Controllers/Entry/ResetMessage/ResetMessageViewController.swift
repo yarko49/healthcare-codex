@@ -2,7 +2,6 @@
 //  ResetMessageViewController.swift
 //  Allie
 
-import BonMot
 import UIKit
 
 class ResetMessageViewController: BaseViewController {
@@ -21,9 +20,11 @@ class ResetMessageViewController: BaseViewController {
 		title = String.signup
 		title = String.resetPassword
 		resetMesasageLabel.numberOfLines = 0
-		resetMesasageLabel.attributedText = String.longResetMessage.with(style: .regular17, andColor: .lightGray, andLetterSpacing: -0.408)
+		var attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 17.0, weight: .regular), .foregroundColor: UIColor.lightGray, .kern: NSNumber(-0.408)]
+		resetMesasageLabel.attributedText = NSAttributedString(string: .longResetMessage, attributes: attributes)
 		let back = UILabel()
-		back.attributedText = String.backToSignIn.with(style: .semibold17, andColor: .black, andLetterSpacing: -0.408)
+		attributes[.font] = UIColor.black
+		back.attributedText = NSAttributedString(string: .backToSignIn, attributes: attributes)
 		backButton.setAttributedTitle(back.attributedText, for: .normal)
 	}
 

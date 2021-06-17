@@ -10,8 +10,8 @@ import CareKitStore
 import CareKitUI
 import UIKit
 
-class ChecklistTaskViewController: OCKTaskViewController<OCKChecklistTaskController, ChecklistTaskViewSynchronizer> {
-	override public init(controller: OCKChecklistTaskController, viewSynchronizer: ChecklistTaskViewSynchronizer) {
+class ChecklistTaskViewController: OCKTaskViewController<ChecklistTaskController, ChecklistTaskViewSynchronizer> {
+	override public init(controller: ChecklistTaskController, viewSynchronizer: ChecklistTaskViewSynchronizer) {
 		super.init(controller: controller, viewSynchronizer: viewSynchronizer)
 	}
 

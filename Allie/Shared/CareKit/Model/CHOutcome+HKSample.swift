@@ -9,12 +9,12 @@ import CareKitStore
 import Foundation
 import HealthKit
 
-extension Outcome {
+extension CHOutcome {
 	init?(sample: HKSample, task: OCKHealthKitTask, carePlanId: String) {
 		let linkage = task.healthKitLinkage
-		var values: [OutcomeValue] = []
+		var values: [CHOutcomeValue] = []
 		if let cumulative = sample as? HKCumulativeQuantitySample {
-			if var value = OutcomeValue(quantity: cumulative.sumQuantity, linkage: linkage) {
+			if var value = CHOutcomeValue(quantity: cumulative.sumQuantity, linkage: linkage) {
 				value.kind = cumulative.quantityType.identifier
 				if let insulinReason = cumulative.metadata?[HKMetadataKeyInsulinDeliveryReason] as? Int {
 					value.kind = insulinReason == HKInsulinDeliveryReason.bolus.rawValue ? HKInsulinDeliveryReason.bolus.kind : HKInsulinDeliveryReason.basal.kind
@@ -24,7 +24,7 @@ extension Outcome {
 			}
 		} else if let discreet = sample as? HKDiscreteQuantitySample {
 			let quantity = discreet.mostRecentQuantity
-			if var value = OutcomeValue(quantity: quantity, linkage: linkage) {
+			if var value = CHOutcomeValue(quantity: quantity, linkage: linkage) {
 				value.kind = discreet.quantityType.identifier
 				value.index = 0
 				if let insulinReason = sample.metadata?[HKMetadataKeyInsulinDeliveryReason] as? Int {
@@ -40,7 +40,7 @@ extension Outcome {
 			var index: Int = 0
 			for sample in samples {
 				let quantity = sample.quantity
-				if var value = OutcomeValue(quantity: quantity, linkage: linkage) {
+				if var value = CHOutcomeValue(quantity: quantity, linkage: linkage) {
 					value.kind = sample.quantityType.identifier
 					value.index = index
 					value.createdDate = sample.startDate

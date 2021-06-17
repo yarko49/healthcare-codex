@@ -9,14 +9,14 @@ import CareKitStore
 import Foundation
 import HealthKit
 
-extension Outcome {
+extension CHOutcome {
 	init?(statistics: HKStatistics, task: OCKHealthKitTask, carePlanId: String) {
 		let linkage = task.healthKitLinkage
-		let outcomes = statistics.sources?.compactMap { source -> OutcomeValue? in
+		let outcomes = statistics.sources?.compactMap { source -> CHOutcomeValue? in
 			guard let quantity = statistics.sumQuantity(for: source) else {
 				return nil
 			}
-			var value = OutcomeValue(quantity: quantity, linkage: linkage)
+			var value = CHOutcomeValue(quantity: quantity, linkage: linkage)
 			value?.createdDate = statistics.startDate
 			value?.kind = source.name
 			return value

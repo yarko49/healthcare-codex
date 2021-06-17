@@ -1,5 +1,5 @@
 //
-//  Patient.swift
+//  CHPatient.swift
 //  Allie
 //
 //  Created by Waqar Malik on 12/6/20.
@@ -14,9 +14,9 @@ import UIKit
                                           |
  client <---pull-patient-resource--- cloud-endpoint
  */
-public typealias AlliePatients = [AlliePatient]
+public typealias CHPatients = [CHPatient]
 
-public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
+public struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyItemDeletable {
 	public let id: String
 	public var uuid: UUID?
 	public var name: PersonNameComponents
@@ -27,6 +27,7 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 	public var effectiveDate: Date
 	public var createdDate: Date?
 	public var updatedDate: Date?
+	public var deletedDate: Date?
 
 	public var groupIdentifier: String? // shared, active, inactive
 	public var tags: [String]?
@@ -36,7 +37,7 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 	public var asset: String?
 	public var timezone: TimeZone
 	public var notes: [OCKNote]?
-	public var profile = Profile()
+	public var profile = CHProfile()
 
 	public var age: Int? {
 		guard let birthday = birthday else {
@@ -49,7 +50,7 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 		remoteId
 	}
 
-	public struct Profile: Codable, Hashable {
+	public struct CHProfile: Codable, Hashable {
 		public var email: String?
 		public var patientId: String?
 		public var userId: String?
@@ -130,6 +131,7 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 		self.effectiveDate = try container.decode(Date.self, forKey: .effectiveDate)
 		self.createdDate = try container.decodeIfPresent(Date.self, forKey: .createdDate)
 		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
+		self.deletedDate = try container.decodeIfPresent(Date.self, forKey: .deletedDate)
 		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
 		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId)
@@ -146,7 +148,7 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 			self.asset = nil
 		}
 		self.timezone = (try? container.decode(TimeZone.self, forKey: .timezone)) ?? .current
-		self.profile = try container.decodeIfPresent(Profile.self, forKey: .profile) ?? Profile()
+		self.profile = try container.decodeIfPresent(CHProfile.self, forKey: .profile) ?? CHProfile()
 		name.cleanup()
 		if let fhirId = profile.fhirId, fhirId.isEmpty {
 			profile.fhirId = nil
@@ -184,6 +186,7 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 		try container.encode(effectiveDate, forKey: .effectiveDate)
 		try container.encodeIfPresent(createdDate, forKey: .createdDate)
 		try container.encodeIfPresent(updatedDate, forKey: .updatedDate)
+		try container.encodeIfPresent(deletedDate, forKey: .deletedDate)
 		try container.encodeIfPresent(groupIdentifier, forKey: .groupIdentifier)
 		try container.encodeIfPresent(tags, forKey: .tags)
 		try container.encodeIfPresent(remoteID, forKey: .remoteId)
@@ -204,6 +207,7 @@ public struct AlliePatient: Codable, Identifiable, Equatable, OCKAnyPatient {
 		case effectiveDate
 		case createdDate
 		case updatedDate
+		case deletedDate
 		case groupIdentifier
 		case tags
 		case remoteId

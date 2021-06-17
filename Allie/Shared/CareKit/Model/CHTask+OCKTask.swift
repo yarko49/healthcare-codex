@@ -1,5 +1,5 @@
 //
-//  OCKTask+Conversion.swift
+//  AllieTask+OCKTask.swift
 //  Allie
 //
 //  Created by Waqar Malik on 12/8/20.
@@ -25,10 +25,10 @@ protocol AnyTaskExtensible: AnyUserInfoExtensible {
 
 extension OCKAnyTask {}
 
-extension OCKTask: AnyTaskExtensible {}
+extension OCKTask: AnyTaskExtensible, AnyItemDeletable {}
 
 extension OCKTask {
-	init(task: Task) {
+	init(task: CHTask) {
 		let schedule = task.schedule
 		self.init(id: task.id, title: task.title, carePlanUUID: task.carePlanUUID, schedule: schedule)
 		self.instructions = task.instructions
@@ -39,12 +39,10 @@ extension OCKTask {
 		if let date = task.createdDate {
 			self.createdDate = date
 		}
-		if let date = task.updatedDate {
-			self.updatedDate = date
+		if let date = task.deletedDate, task.shouldDelete {
+			self.deletedDate = date
 		}
-//		if let date = task.deletedDate {
-//			self.deletedDate = date
-//		}
+		self.updatedDate = task.updatedDate
 		self.remoteID = task.remoteId
 		self.source = task.source
 		self.userInfo = task.userInfo
@@ -64,16 +62,6 @@ extension OCKTask {
 		existing.schedule = new.schedule
 		existing.groupIdentifier = new.groupIdentifier
 		existing.tags = new.tags
-		existing.effectiveDate = new.effectiveDate
-		if let date = new.createdDate {
-			existing.createdDate = date
-		}
-		if let date = new.updatedDate {
-			existing.updatedDate = date
-		}
-		if let date = new.deletedDate {
-			existing.deletedDate = date
-		}
 		existing.remoteID = new.remoteID
 		existing.source = new.source
 		existing.userInfo = new.userInfo
@@ -206,7 +194,7 @@ extension AnyTaskExtensible where Self: OCKAnyTask {
 	}
 }
 
-extension Task {
+extension CHTask {
 	init(ockTask: OCKTask) {
 		self.carePlanId = ockTask.carePlanId
 		self.id = ockTask.id
@@ -214,9 +202,9 @@ extension Task {
 		self.instructions = ockTask.instructions
 		self.impactsAdherence = ockTask.impactsAdherence
 		let schduleElements = ockTask.schedule.elements
-		var schedule: [ScheduleElement] = []
+		var schedule: [CHScheduleElement] = []
 		for ockElement in schduleElements {
-			let element = ScheduleElement(ockScheduleElement: ockElement)
+			let element = CHScheduleElement(ockScheduleElement: ockElement)
 			schedule.append(element)
 		}
 		self.scheduleElements = schedule
@@ -235,7 +223,7 @@ extension Task {
 	}
 }
 
-extension Task {
+extension CHTask {
 	var ockTask: OCKAnyTask {
 		healthKitLinkage != nil ? OCKHealthKitTask(task: self) : OCKTask(task: self)
 	}

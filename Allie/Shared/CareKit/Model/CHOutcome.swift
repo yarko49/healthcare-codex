@@ -1,5 +1,5 @@
 //
-//  Outcome.swift
+//  CHOutcome.swift
 //  Allie
 //
 //  Created by Waqar Malik on 4/6/21.
@@ -9,7 +9,7 @@ import CareKitStore
 import Foundation
 import HealthKit
 
-public struct Outcome: Codable {
+public struct CHOutcome: Codable, AnyItemDeletable {
 	public let taskID: String
 	public let carePlanID: String
 	public var uuid: UUID
@@ -27,7 +27,7 @@ public struct Outcome: Codable {
 	public var effectiveDate: Date
 	public var updatedDate: Date?
 	public let taskOccurrenceIndex: Int
-	public let values: [OutcomeValue]
+	public let values: [CHOutcomeValue]
 	public var startDate: Date?
 	public var endDate: Date?
 	public var device: CHDevice?
@@ -61,7 +61,7 @@ public struct Outcome: Codable {
 
 	public var id: String { taskUUID.uuidString + "_\(taskOccurrenceIndex)" }
 
-	public init(taskUUID: UUID, taskID: String, carePlanID: String, taskOccurrenceIndex: Int, values: [OutcomeValue]) {
+	public init(taskUUID: UUID, taskID: String, carePlanID: String, taskOccurrenceIndex: Int, values: [CHOutcomeValue]) {
 		self.uuid = UUID()
 		self.taskUUID = taskUUID
 		self.taskID = taskID
@@ -81,7 +81,7 @@ public struct Outcome: Codable {
 		self.taskID = try container.decodeIfPresent(String.self, forKey: .taskID) ?? ""
 		self.carePlanID = try container.decodeIfPresent(String.self, forKey: .carePlanID) ?? ""
 		self.taskOccurrenceIndex = try container.decodeIfPresent(Int.self, forKey: .taskOccurrenceIndex) ?? 0
-		self.values = try container.decodeIfPresent([OutcomeValue].self, forKey: .values) ?? []
+		self.values = try container.decodeIfPresent([CHOutcomeValue].self, forKey: .values) ?? []
 		self.createdDate = try container.decodeIfPresent(Date.self, forKey: .createdDate) ?? Date()
 		self.effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
 		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)

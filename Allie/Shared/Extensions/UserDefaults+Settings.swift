@@ -9,7 +9,6 @@ import Foundation
 
 extension UserDefaults {
 	enum Keys: String {
-		case hasRunOnce = "HAS_RUN_ONCE"
 		case hasCompletedOnboarding = "HAS_COMPLETED_ONBOARDING"
 		case isBiometricsEnabled = "IS_BIOMETRICS_ENABLED"
 		case haveAskedUserForBiometrics
@@ -32,18 +31,9 @@ extension UserDefaults {
 	}
 
 	static func registerDefautlts() {
-		let defaults: [String: Any] = [Self.Keys.hasRunOnce.rawValue: false, Self.Keys.hasCompletedOnboarding.rawValue: false,
+		let defaults: [String: Any] = [Self.Keys.hasCompletedOnboarding.rawValue: false,
 		                               Self.Keys.isBiometricsEnabled.rawValue: false, Self.Keys.haveAskedUserForBiometrics.rawValue: false]
 		UserDefaults.standard.register(defaults: defaults)
-	}
-
-	var hasRunOnce: Bool {
-		get {
-			bool(forKey: Self.Keys.hasRunOnce.rawValue)
-		}
-		set {
-			set(newValue, forKey: Self.Keys.hasRunOnce.rawValue)
-		}
 	}
 
 	var hasCompletedOnboarding: Bool {
@@ -122,9 +112,9 @@ extension UserDefaults {
 		removeObject(forKey: Self.Keys.isBiometricsEnabled.rawValue)
 	}
 
-	var vectorClock: [String: Int] {
+	var vectorClock: UInt64 {
 		get {
-			object(forKey: Self.Keys.vectorClock.rawValue) as? [String: Int] ?? [:]
+			UInt64(integer(forKey: Self.Keys.vectorClock.rawValue))
 		}
 		set {
 			set(newValue, forKey: Self.Keys.vectorClock.rawValue)

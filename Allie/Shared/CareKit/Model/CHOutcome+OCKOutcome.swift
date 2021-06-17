@@ -8,8 +8,8 @@
 import CareKitStore
 import Foundation
 
-extension OCKOutcome: AnyUserInfoExtensible {
-	init(outcome: Outcome) {
+extension OCKOutcome: AnyUserInfoExtensible, AnyItemDeletable {
+	init(outcome: CHOutcome) {
 		let ockOutcomeValues = outcome.values.map { outcomeValue -> OCKOutcomeValue in
 			OCKOutcomeValue(outcomeValue: outcomeValue)
 		}
@@ -50,10 +50,10 @@ extension OCKOutcome: AnyUserInfoExtensible {
 	}
 }
 
-extension Outcome {
+extension CHOutcome {
 	init(outcome: OCKOutcome, carePlanID: String, taskID: String) {
 		let values = outcome.values.map { outcome in
-			OutcomeValue(ockOutcomeValue: outcome)
+			CHOutcomeValue(ockOutcomeValue: outcome)
 		}
 		self.init(taskUUID: outcome.taskUUID, taskID: taskID, carePlanID: carePlanID, taskOccurrenceIndex: outcome.taskOccurrenceIndex, values: values)
 		groupIdentifier = outcome.groupIdentifier

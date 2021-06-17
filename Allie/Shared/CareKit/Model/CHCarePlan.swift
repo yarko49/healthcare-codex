@@ -1,5 +1,5 @@
 //
-//  CarePlan.swift
+//  CHCarePlan.swift
 //  Allie
 //
 //  Created by Waqar Malik on 12/6/20.
@@ -8,9 +8,9 @@
 import CareKitStore
 import Foundation
 
-public typealias CarePlans = [CarePlan]
+public typealias CHCarePlans = [CHCarePlan]
 
-public struct CarePlan: Codable, Identifiable {
+public struct CHCarePlan: Codable, Identifiable, AnyItemDeletable {
 	public var id: String
 	public var uuid: UUID?
 	public var title: String

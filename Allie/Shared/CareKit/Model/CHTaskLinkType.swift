@@ -1,5 +1,5 @@
 //
-//  TaskLinkType.swift
+//  CHTaskLinkType.swift
 //  Ally
 //
 //  Created by Waqar Malik on 1/11/21.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TaskLinkType: String {
+enum CHTaskLinkType: String {
 	case location = "linkLocation"
 	case email = "linkEmail"
 	case url = "linkURL"

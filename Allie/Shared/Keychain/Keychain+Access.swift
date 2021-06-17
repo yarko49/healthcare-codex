@@ -80,12 +80,12 @@ extension Keychain {
 		}
 	}
 
-	static var patient: AlliePatient? {
+	static var patient: CHPatient? {
 		get {
 			guard let userId = Self.userIdentifier else {
 				return nil
 			}
-			let patient: AlliePatient? = Self.shared.read(forKey: userId)
+			let patient: CHPatient? = Self.shared.read(forKey: userId)
 			return patient
 		}
 		set {
@@ -97,7 +97,7 @@ extension Keychain {
 		}
 	}
 
-	static var authenticationToken: AuthenticaionToken? {
+	static var authenticationToken: AuthenticationToken? {
 		get {
 			Self.shared[codable: Keys.authenticationToken]
 		}

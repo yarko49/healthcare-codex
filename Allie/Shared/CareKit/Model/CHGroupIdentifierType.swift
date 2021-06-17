@@ -1,5 +1,5 @@
 //
-//  GroupIdentifierType.swift
+//  CHGroupIdentifierType.swift
 //  Ally
 //
 //  Created by Waqar Malik on 1/11/21.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum GroupIdentifierType: String, Hashable, CaseIterable {
+public enum CHGroupIdentifierType: String, Hashable, CaseIterable {
 	case labeledValue = "LABELED_VALUE"
 	case numericProgress = "NUMERIC_PROGRESS"
 	case grid = "GRID"
