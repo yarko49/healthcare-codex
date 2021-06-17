@@ -31,20 +31,20 @@ extension OCKTask {
 		}
 
 		let linkItems: [CareKitUI.LinkItem] = linkKeys.compactMap { key -> CareKitUI.LinkItem? in
-			var taskLinktype: TaskLinkType = .appStore
-			if key.hasPrefix(TaskLinkType.appStore.rawValue) {
+			var taskLinktype: CHTaskLinkType = .appStore
+			if key.hasPrefix(CHTaskLinkType.appStore.rawValue) {
 				taskLinktype = .appStore
-			} else if key.hasPrefix(TaskLinkType.call.rawValue) {
+			} else if key.hasPrefix(CHTaskLinkType.call.rawValue) {
 				taskLinktype = .call
-			} else if key.hasPrefix(TaskLinkType.email.rawValue) {
+			} else if key.hasPrefix(CHTaskLinkType.email.rawValue) {
 				taskLinktype = .email
-			} else if key.hasPrefix(TaskLinkType.location.rawValue) {
+			} else if key.hasPrefix(CHTaskLinkType.location.rawValue) {
 				taskLinktype = .location
-			} else if key.hasPrefix(TaskLinkType.message.rawValue) {
+			} else if key.hasPrefix(CHTaskLinkType.message.rawValue) {
 				taskLinktype = .message
-			} else if key.hasPrefix(TaskLinkType.url.rawValue) {
+			} else if key.hasPrefix(CHTaskLinkType.url.rawValue) {
 				taskLinktype = .url
-			} else if key.hasPrefix(TaskLinkType.website.rawValue) {
+			} else if key.hasPrefix(CHTaskLinkType.website.rawValue) {
 				taskLinktype = .website
 			}
 			guard let value = userInfo?[key], !value.isEmpty else {
@@ -59,7 +59,7 @@ extension OCKTask {
 	}
 }
 
-extension TaskLinkType {
+extension CHTaskLinkType {
 	func linkItem(value: String, title: String?) -> CareKitUI.LinkItem {
 		let displayTitle = title ?? defaultTitle
 		switch self {

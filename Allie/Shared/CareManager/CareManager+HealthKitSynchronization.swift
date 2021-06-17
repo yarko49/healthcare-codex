@@ -26,7 +26,7 @@ extension CareManager {
 		}
 	}
 
-	func fetchAllHealthKitTasks(callbackQueue: DispatchQueue, completion: @escaping BoolCompletion) {
+	func fetchAllHealthKitTasks(callbackQueue: DispatchQueue, completion: @escaping AllieBoolCompletion) {
 		var query = OCKTaskQuery()
 		query.sortDescriptors = [.effectiveDate(ascending: false)]
 		healthKitStore.fetchAnyTasks(query: query, callbackQueue: callbackQueue) { [weak self] tasksResult in
@@ -37,7 +37,7 @@ extension CareManager {
 			case .success(let newTasks):
 				let tasks: [OCKHealthKitTask] = newTasks.compactMap { anyTask in
 					let hkTask = anyTask as? OCKHealthKitTask
-					ALog.trace("nextUUID = \(hkTask?.nextVersionUUIDs.count), effectiveDate = \(anyTask.effectiveDate), createdDate = \(hkTask?.createdDate), updatedDate = \(hkTask?.createdDate)")
+					ALog.trace("nextUUID = \(String(describing: hkTask?.nextVersionUUIDs.count)), effectiveDate = \(anyTask.effectiveDate), createdDate = \(String(describing: hkTask?.createdDate)), updatedDate = \(String(describing: hkTask?.createdDate))")
 					return hkTask
 				}
 				guard !tasks.isEmpty else {
@@ -80,7 +80,7 @@ extension CareManager {
 		}
 	}
 
-	func synchronizeHealthKitOutcomes(tasks: [OCKHealthKitTask], callbackQueue: DispatchQueue, completion: @escaping BoolCompletion) {
+	func synchronizeHealthKitOutcomes(tasks: [OCKHealthKitTask], callbackQueue: DispatchQueue, completion: @escaping AllieBoolCompletion) {
 		var allSamples: [HKQuantityTypeIdentifier: [HKSample]] = [:]
 		let group = DispatchGroup()
 		let endDate = Date()
@@ -112,7 +112,7 @@ extension CareManager {
 		}
 	}
 
-	func upload(samples: [HKQuantityTypeIdentifier: [HKSample]], tasks: [OCKHealthKitTask], endDate: Date, callbackQueue: DispatchQueue, completion: @escaping BoolCompletion) {
+	func upload(samples: [HKQuantityTypeIdentifier: [HKSample]], tasks: [OCKHealthKitTask], endDate: Date, callbackQueue: DispatchQueue, completion: @escaping AllieBoolCompletion) {
 		let group = DispatchGroup()
 		for task in tasks {
 			guard let carePlanId = task.carePlanId else {
@@ -123,7 +123,7 @@ extension CareManager {
 				continue
 			}
 			let taskOucomes = taskSamples.compactMap { sample in
-				Outcome(sample: sample, task: task, carePlanId: carePlanId)
+				CHOutcome(sample: sample, task: task, carePlanId: carePlanId)
 			}
 			if taskOucomes.isEmpty {
 				continue
@@ -146,10 +146,10 @@ extension CareManager {
 		}
 	}
 
-	func upload(outcomes: [Outcome], callbackQueue: DispatchQueue, completion: @escaping ((Result<[Outcome], Error>) -> Void)) {
+	func upload(outcomes: [CHOutcome], callbackQueue: DispatchQueue, completion: @escaping ((Result<[CHOutcome], Error>) -> Void)) {
 		let chunkedOutcomes = outcomes.chunked(into: Constants.maximumUploadOutcomesPerCall)
 		let group = DispatchGroup()
-		var responseOutcomes: [Outcome] = []
+		var responseOutcomes: [CHOutcome] = []
 		var errors: [Error] = []
 		for chunkOutcome in chunkedOutcomes {
 			group.enter()
@@ -177,7 +177,7 @@ extension CareManager {
 		}
 	}
 
-	func process(outcomes: [Outcome], completion: BoolCompletion?) {
+	func process(outcomes: [CHOutcome], completion: AllieBoolCompletion?) {
 		guard !outcomes.isEmpty else {
 			completion?(true)
 			return

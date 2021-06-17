@@ -38,8 +38,8 @@ class AppleHealthView: UIView {
 	}
 
 	func setup() { // used to be private
-		titleLabel.attributedText = title.with(style: .bold20, andColor: .black, andLetterSpacing: 0.36)
-		descLabel.attributedText = descr.with(style: .regular17, andColor: .grey, andLetterSpacing: -0.32)
+		titleLabel.attributedText = title.attributedString(style: .bold20, foregroundColor: .black, letterSpacing: 0.36)
+		descLabel.attributedText = descr.attributedString(style: .regular17, foregroundColor: .grey, letterSpacing: -0.32)
 		if image != "" {
 			ovalImageView.image = UIImage(named: image)
 		}

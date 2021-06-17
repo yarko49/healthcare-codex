@@ -18,13 +18,12 @@ import UIKit
 class CareManager: NSObject, ObservableObject {
 	static let shared = CareManager(patient: nil)
 
-	typealias BoolCompletion = (Bool) -> Void
-
 	enum Constants {
 		static let careStore = "CareStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
 		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk(protection: .completeUnlessOpen)
 		static let maximumUploadOutcomesPerCall: Int = 450
+		static let deleteDelayTimeIntervalSeconds: Int = 2
 	}
 
 	private(set) lazy var remoteSynchronizationManager: RemoteSynchronizationManager = {
@@ -82,17 +81,18 @@ class CareManager: NSObject, ObservableObject {
 		}
 	}
 
-	var patient: AlliePatient? {
+	var patient: CHPatient? {
 		get {
 			Keychain.patient
 		}
 		set {
 			Keychain.patient = newValue
 			startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
+			AppDelegate.registerServices(patient: newValue)
 		}
 	}
 
-	var vectorClock: [String: Int] {
+	var vectorClock: UInt64 {
 		get {
 			UserDefaults.standard.vectorClock
 		}
@@ -107,7 +107,7 @@ class CareManager: NSObject, ObservableObject {
 	}
 
 	// Hack so we cannot instantiate more than one
-	private init(patient: AlliePatient?) {
+	private init(patient: CHPatient?) {
 		super.init()
 		registerForNotifications()
 		registerForConfighanges()
@@ -169,17 +169,8 @@ class CareManager: NSObject, ObservableObject {
 		uploadOutcomesTimer?.cancel()
 	}
 
-	func isServerVectorClockAhead(serverClock: [String: Int]) -> Bool {
-		let key = "backend"
-		guard let localClockValue = vectorClock[key] else {
-			return true
-		}
-
-		guard let serverClockValue = serverClock[key] else {
-			return false
-		}
-
-		return serverClockValue > localClockValue
+	func isServerVectorClockAhead(serverClock: UInt64) -> Bool {
+		serverClock > vectorClock
 	}
 
 	func reset() {
@@ -196,53 +187,64 @@ class CareManager: NSObject, ObservableObject {
 // MARK: - CarePlanResponse
 
 extension CareManager {
-	func createOrUpdate(carePlanResponse: CarePlanResponse, forceReset: Bool = false, completion: BoolCompletion?) {
+	func process(carePlanResponse: CHCarePlanResponse, forceReset: Bool = false, completion: AllieResultCompletion<[CHTask]>?) {
 		let queue = DispatchQueue.global(qos: .userInitiated)
-		var result: Bool = true
+		var result: OCKStoreError?
 		queue.async { [weak self] in
 			if let patient = carePlanResponse.patients.first {
-				let thePatient = self?.syncCreateOrUpdate(patient: patient, queue: queue)
-				ALog.info("patient id \(String(describing: thePatient?.id)), patient uuid = \(String(describing: thePatient?.uuid?.uuidString))")
+				let thePatient = self?.syncProcess(patient: patient, queue: queue)
+				ALog.debug("patient id \(String(describing: thePatient?.id)), patient uuid = \(String(describing: thePatient?.uuid?.uuidString))")
 				self?.patient = thePatient
-				result = thePatient != nil
+				if thePatient == nil {
+					result = OCKStoreError.updateFailed(reason: "Unable to update Patient")
+				}
 			}
 
 			var theCarePlan: OCKCarePlan?
-			if let carePlan = carePlanResponse.carePlans.first, result {
-				theCarePlan = self?.syncCreateOrUpdate(carePlan: carePlan, patient: self?.patient, queue: queue)
-				ALog.info("CarePlan id \(String(describing: theCarePlan?.id)), carePlan uuid \(String(describing: theCarePlan?.uuid))")
-				result = theCarePlan != nil
+			if let carePlan = carePlanResponse.carePlans.first, result == nil {
+				theCarePlan = self?.syncProcess(carePlan: carePlan, patient: self?.patient, queue: queue)
+				ALog.debug("CarePlan id \(String(describing: theCarePlan?.id)), carePlan uuid \(String(describing: theCarePlan?.uuid))")
+				if theCarePlan == nil {
+					result = OCKStoreError.updateFailed(reason: "Unable to ")
+				}
 			}
 
-			let tasks = self?.syncCreateOrUpdate(tasks: carePlanResponse.tasks, carePlan: theCarePlan, queue: queue)
-			ALog.info("Regular tasks saved = \(String(describing: tasks?.0.count)), HealthKitTasks saved \(String(describing: tasks?.1.count))")
-			if !carePlanResponse.outcomes.isEmpty, result {
+			let toDelete = carePlanResponse.tasks.filter { task in
+				task.shouldDelete
+			}
+
+			let toProcess = carePlanResponse.tasks
+			if result == nil {
+				let processedTasks = self?.syncProcess(tasks: toProcess, carePlan: theCarePlan, queue: queue) ?? ([], [])
+				ALog.debug("Regular tasks saved = \(String(describing: processedTasks.0.count)), HealthKitTasks saved \(String(describing: processedTasks.1.count))")
+
+				if (processedTasks.0.count + processedTasks.1.count) != toProcess.count {
+					result = OCKStoreError.updateFailed(reason: "Error updating tasks")
+				}
+			}
+
+			if !carePlanResponse.outcomes.isEmpty, result == nil {
 				let outcomes = self?.syncCreateOrUpdate(outcomes: carePlanResponse.outcomes, queue: queue)
-				result = outcomes != nil
-				ALog.info("Number out outcomes saved \(String(describing: outcomes?.count))")
+				if outcomes == nil {
+					result = OCKStoreError.updateFailed(reason: "Outcomes update failed")
+				}
+				ALog.debug("Number out outcomes saved \(String(describing: outcomes?.count))")
 			}
 			self?.synchronizeHealthKitOutcomes()
-			completion?(result)
-		}
-	}
 
-	class func getCarePlan(completion: OCKResultClosure<CarePlanResponse>?) {
-		APIClient.shared.getCarePlan(option: .outcomes) { result in
-			switch result {
-			case .failure(let error):
-				ALog.error(error: error)
-				completion?(.failure(.fetchFailed(reason: error.localizedDescription)))
-			case .success(let carePlanResponse):
-				completion?(.success(carePlanResponse))
+			if let error = result {
+				completion?(.failure(error))
+			} else {
+				completion?(.success(toDelete))
 			}
 		}
 	}
 
-	class func postPatient(patient: AlliePatient) -> Future<CarePlanResponse, Error> {
+	class func postPatient(patient: CHPatient) -> Future<CHCarePlanResponse, Error> {
 		APIClient.shared.post(patient: patient)
 	}
 
-	class func register(organization: Organization) -> Future<Bool, Never> {
+	class func register(organization: CHOrganization) -> Future<Bool, Never> {
 		APIClient.shared.registerOrganization(organization: organization)
 	}
 }
@@ -250,7 +252,7 @@ extension CareManager {
 // MARK: - Patients
 
 extension CareManager {
-	func syncCreateOrUpdate(patient: AlliePatient, queue: DispatchQueue) -> AlliePatient {
+	func syncProcess(patient: CHPatient, queue: DispatchQueue) -> CHPatient {
 		var updatePatient = patient
 		let ockPatient = OCKPatient(patient: patient)
 		let dispatchGroup = DispatchGroup()
@@ -350,8 +352,8 @@ extension CareManager {
 			}.store(in: &cancellables)
 	}
 
-	func createOrUpdate(patient: OCKPatient, completion: OCKResultClosure<OCKPatient>?) {
-		store.createOrUpdate(patient: patient) { result in
+	func process(patient: OCKPatient, completion: OCKResultClosure<OCKPatient>?) {
+		store.process(patient: patient, callbackQueue: .main) { result in
 			switch result {
 			case .failure(let error):
 				completion?(.failure(error))
@@ -365,7 +367,7 @@ extension CareManager {
 // MARK: - CarePlans
 
 extension CareManager {
-	func syncCreateOrUpdate(carePlan: CarePlan, patient: AlliePatient?, queue: DispatchQueue) -> OCKCarePlan {
+	func syncProcess(carePlan: CHCarePlan, patient: CHPatient?, queue: DispatchQueue) -> OCKCarePlan {
 		var ockCarePlan = OCKCarePlan(carePlan: carePlan)
 		ockCarePlan.patientUUID = patient?.uuid
 		let dispatchGroup = DispatchGroup()
@@ -395,12 +397,11 @@ extension CareManager {
 				})
 			}
 		}
-
 		dispatchGroup.wait()
 		return ockCarePlan
 	}
 
-	func syncCreateOrUpdate(carePlans: [CarePlan], patient: AlliePatient?, queue: DispatchQueue) -> [OCKCarePlan] {
+	func syncProcess(carePlans: [CHCarePlan], patient: CHPatient?, queue: DispatchQueue) -> [OCKCarePlan] {
 		let mapped = carePlans.map { carePlan -> OCKCarePlan in
 			var ockCarePlan = OCKCarePlan(carePlan: carePlan)
 			ockCarePlan.patientUUID = patient?.uuid
@@ -411,7 +412,7 @@ extension CareManager {
 		let dispatchGroup = DispatchGroup()
 		for carePlan in mapped {
 			dispatchGroup.enter()
-			store.createOrUpdate(carePlan: carePlan, callbackQueue: queue) { result in
+			store.process(carePlan: carePlan, callbackQueue: queue) { result in
 				switch result {
 				case .failure(let error):
 					ALog.error("\(error.localizedDescription)")
@@ -429,43 +430,55 @@ extension CareManager {
 // MARK: - Tasks
 
 extension CareManager {
-	func syncCreateOrUpdate(tasks: [Task], carePlan: OCKCarePlan?, queue: DispatchQueue) -> ([OCKTask], [OCKHealthKitTask]) {
-		let mapped = tasks.map { task -> OCKAnyTask in
+	func syncProcess(tasks: [CHTask], carePlan: OCKCarePlan?, queue: DispatchQueue) -> ([OCKTask], [OCKHealthKitTask]) {
+		let mappedTasks = tasks.map { task -> (CHTask, OCKAnyTask) in
 			if task.healthKitLinkage != nil {
 				var healKitTask = OCKHealthKitTask(task: task)
 				healKitTask.carePlanUUID = carePlan?.uuid
 				if healKitTask.carePlanId == nil {
 					healKitTask.carePlanId = carePlan?.id
 				}
-				return healKitTask
+				return (task, healKitTask)
 			} else {
 				var ockTask = OCKTask(task: task)
 				ockTask.carePlanUUID = carePlan?.uuid
 				if ockTask.carePlanId == nil {
 					ockTask.carePlanId = carePlan?.id
 				}
-				return ockTask
+				return (task, ockTask)
 			}
 		}
 
 		var healthKitTasks: [OCKHealthKitTask] = []
 		var storeTasks: [OCKTask] = []
 		let dispatchGroup = DispatchGroup()
-		for task in mapped {
-			if let healthKitTask = task as? OCKHealthKitTask {
+		for (task, anyTask) in mappedTasks {
+			if let healthKitTask = anyTask as? OCKHealthKitTask {
 				dispatchGroup.enter()
-				healthKitStore.createOrUpdate(healthKitTask: healthKitTask, callbackQueue: queue) { result in
-					switch result {
-					case .failure(let error):
-						ALog.error("\(error.localizedDescription)")
-					case .success(let newTask):
-						healthKitTasks.append(newTask)
+				if task.shouldDelete {
+					healthKitStore.deleteTask(healthKitTask, callbackQueue: queue) { result in
+						switch result {
+						case .failure(let error):
+							ALog.error("\(error.localizedDescription)")
+						case .success(let newTask):
+							healthKitTasks.append(newTask)
+						}
+						dispatchGroup.leave()
 					}
-					dispatchGroup.leave()
+				} else {
+					healthKitStore.addOrUpdate(healthKitTask: healthKitTask, callbackQueue: queue) { result in
+						switch result {
+						case .failure(let error):
+							ALog.error("\(error.localizedDescription)")
+						case .success(let newTask):
+							healthKitTasks.append(newTask)
+						}
+						dispatchGroup.leave()
+					}
 				}
-			} else if let ockTask = task as? OCKTask {
+			} else if let ockTask = anyTask as? OCKTask {
 				dispatchGroup.enter()
-				store.createOrUpdate(task: ockTask, callbackQueue: queue) { result in
+				store.process(task: ockTask, callbackQueue: queue) { result in
 					switch result {
 					case .failure(let error):
 						ALog.error("\(error.localizedDescription)")
@@ -496,14 +509,14 @@ extension CareManager {
 }
 
 extension CareManager {
-	func syncCreateOrUpdate(outcome: Outcome, queue: DispatchQueue) -> OCKOutcome {
+	func syncCreateOrUpdate(outcome: CHOutcome, queue: DispatchQueue) -> OCKOutcome {
 		var ockOutcome = OCKOutcome(outcome: outcome)
-		let dispatchGroup = DispatchGroup()
 		var query = OCKOutcomeQuery()
 		if let remoteId = outcome.remoteID {
 			query.remoteIDs = [remoteId]
 		}
 
+		let dispatchGroup = DispatchGroup()
 		dispatchGroup.enter()
 		store.fetchOutcome(query: query, callbackQueue: queue) { [weak self] result in
 			switch result {
@@ -536,7 +549,7 @@ extension CareManager {
 		return ockOutcome
 	}
 
-	func syncCreateOrUpdate(outcomes: [Outcome], queue: DispatchQueue) -> [OCKOutcome] {
+	func syncCreateOrUpdate(outcomes: [CHOutcome], queue: DispatchQueue) -> [OCKOutcome] {
 		let mapped = outcomes.map { outcome -> OCKOutcome in
 			OCKOutcome(outcome: outcome)
 		}
@@ -545,7 +558,7 @@ extension CareManager {
 		let dispatchGroup = DispatchGroup()
 		for outcome in mapped {
 			dispatchGroup.enter()
-			store.createOrUpdate(outcome: outcome, callbackQueue: queue) { result in
+			store.process(outcome: outcome, callbackQueue: queue) { result in
 				switch result {
 				case .failure(let error):
 					ALog.error("\(error.localizedDescription)")
@@ -582,7 +595,7 @@ extension CareManager {
 	}
 
 	func upload(outcome: OCKOutcome, task: OCKTask, carePlanId: String) {
-		let allieOutcome = Outcome(outcome: outcome, carePlanID: carePlanId, taskID: task.id)
+		let allieOutcome = CHOutcome(outcome: outcome, carePlanID: carePlanId, taskID: task.id)
 		APIClient.shared.post(outcomes: [allieOutcome])
 			.sink { completion in
 				switch completion {
@@ -596,24 +609,7 @@ extension CareManager {
 			}.store(in: &cancellables)
 	}
 
-	func getOutcomes() {
-		APIClient.shared.getOutcomes()
-			.sink { completionResult in
-				switch completionResult {
-				case .finished:
-					break
-				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
-				}
-			} receiveValue: { response in
-				ALog.info("Number of carePlans = \(response.carePlans.count)")
-				ALog.info("Number of patients = \(response.patients.count)")
-				ALog.info("Number of tasks = \(response.tasks.count)")
-				ALog.info("Number of outcomes = \(response.outcomes.count)")
-			}.store(in: &cancellables)
-	}
-
-	func save(outcomes: [Outcome]) -> Future<[OCKOutcome], Error> {
+	func save(outcomes: [CHOutcome]) -> Future<[OCKOutcome], Error> {
 		Future { promise in
 			let ockOutomes = outcomes.compactMap { outcome -> OCKOutcome? in
 				OCKOutcome(outcome: outcome)
@@ -624,6 +620,29 @@ extension CareManager {
 					promise(.success(outcomes))
 				case .failure(let error):
 					promise(.failure(error))
+				}
+			}
+		}
+	}
+
+	func deleteOutcomes(task: CHTask, completion: @escaping AllieResultCompletion<[OCKOutcome]>) {
+		let dateInterval = DateInterval(start: task.effectiveDate, end: Date.distantFuture)
+		var outcomeQuery = OCKOutcomeQuery(dateInterval: dateInterval)
+		outcomeQuery.taskIDs = [task.id]
+		store.fetchOutcomes(query: outcomeQuery) { [weak self] fetchResult in
+			switch fetchResult {
+			case .failure(let error):
+				ALog.error("No outcoms found for task id \(task.id)", error: error)
+				completion(.failure(error))
+			case .success(let outcomes):
+				self?.store.deleteOutcomes(outcomes) { deleteResult in
+					switch deleteResult {
+					case .failure(let error):
+						ALog.error("Unable to delete outcomes for task \(task.id)", error: error)
+						completion(.failure(error))
+					case .success(let deletedOutcomes):
+						completion(.success(deletedOutcomes))
+					}
 				}
 			}
 		}

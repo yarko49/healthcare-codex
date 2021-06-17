@@ -59,17 +59,6 @@ class MainCoordinator: BaseCoordinator {
 
 	override func start() {
 		super.start()
-		if !UserDefaults.standard.hasRunOnce {
-			UserDefaults.resetStandardUserDefaults()
-			let firebaseAuth = Auth.auth()
-			do {
-				try firebaseAuth.signOut()
-			} catch let signOutError {
-				ALog.error("Error signing out:", error: signOutError)
-			}
-			UserDefaults.standard.hasRunOnce = true
-			Keychain.clearKeychain()
-		}
 		if Auth.auth().currentUser == nil {
 			goToAuth()
 		} else {
@@ -79,8 +68,6 @@ class MainCoordinator: BaseCoordinator {
 
 	func goToAuth(url: String? = nil) {
 		removeCoordinator(ofType: .application)
-		Keychain.clearKeychain()
-		UserDefaults.resetStandardUserDefaults()
 		let authCoordinator = AuthCoordinator(parent: self, deepLink: url)
 		addChild(coordinator: authCoordinator)
 		window.rootViewController = authCoordinator.rootViewController
@@ -94,6 +81,7 @@ class MainCoordinator: BaseCoordinator {
 		var transitionOptions = UIWindow.TransitionOptions()
 		transitionOptions.direction = .fade
 		window.setRootViewController(rootViewController, options: transitionOptions)
+		AppDelegate.registerServices(patient: CareManager.shared.patient)
 	}
 
 	func createPatientIfNeeded() {
@@ -165,27 +153,14 @@ class MainCoordinator: BaseCoordinator {
 				completion(false)
 				return
 			}
-			if let token = AuthenticaionToken(result: tokenResult) {
+			if let userId = Auth.auth().currentUser?.uid {
+				_ = Self.resetDataIfNeeded(newPatientId: userId)
+			}
+			if let token = AuthenticationToken(result: tokenResult) {
 				Keychain.authenticationToken = token
 			}
 			completion(true)
 		})
-	}
-
-	func uploadPatient(patient: AlliePatient) {
-		APIClient.shared.post(patient: patient)
-			.receive(on: DispatchQueue.main)
-			.sink { completion in
-				switch completion {
-				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
-					AlertHelper.showAlert(title: String.error, detailText: String.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
-				case .finished:
-					break
-				}
-			} receiveValue: { _ in
-				ALog.info("OK STATUS FOR PATIENT : 200")
-			}.store(in: &cancellables)
 	}
 
 	func syncHealthKitData() {
@@ -199,16 +174,8 @@ class MainCoordinator: BaseCoordinator {
 	}
 
 	func logout() {
-		let firebaseAuth = Auth.auth()
-		do {
-			try firebaseAuth.signOut()
-			UserDefaults.standard.resetUserDefaults()
-			CareManager.shared.reset()
-			Keychain.clearKeychain()
-			goToAuth()
-		} catch let signOutError as NSError {
-			ALog.error("Error signing out:", error: signOutError)
-		}
+		Self.resetAll()
+		goToAuth()
 	}
 
 	func gotoHealthKitAuthorization() {
@@ -233,7 +200,7 @@ class MainCoordinator: BaseCoordinator {
 		RemoteConfigManager.shared.refresh()
 			.sink { refreshResult in
 				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
-				let organization = Organization(id: RemoteConfigManager.shared.healthCareOrganization, name: "Default Organization", image: nil, info: nil)
+				let organization = CHOrganization(id: RemoteConfigManager.shared.healthCareOrganization, name: "Default Organization", image: nil)
 				CareManager.register(organization: organization)
 					.subscribe(on: DispatchQueue.main)
 					.sink { registrationResult in

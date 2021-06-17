@@ -50,7 +50,7 @@ class StatCell: UITableViewCell {
 		chartContainerView.alpha = expanded ? 1 : 0
 		chartContainerView.isHidden = !expanded
 		expandCollapseButton.isSelected = expanded
-		typeLabel.attributedText = quantityType.rawValue.with(style: .semibold20, andColor: quantityType.color)
+		typeLabel.attributedText = quantityType.rawValue.attributedString(style: .semibold20, foregroundColor: quantityType.color)
 		typeImageView.image = quantityType.image
 		var avgString: String {
 			switch intervalType {
@@ -66,9 +66,9 @@ class StatCell: UITableViewCell {
 			return
 		}
 		[highValueLabel, highLabel, lowValueLabel, lowLabel].forEach { $0?.isHidden = false }
-		avgLabel.attributedText = avgString.with(style: .regular15, andColor: .lightGrey)
-		highLabel.attributedText = String.high.with(style: .regular15, andColor: .lightGrey)
-		lowLabel.attributedText = String.low.with(style: .regular15, andColor: .lightGrey)
+		avgLabel.attributedText = avgString.attributedString(style: .regular15, foregroundColor: .lightGrey)
+		highLabel.attributedText = String.high.attributedString(style: .regular15, foregroundColor: .lightGrey)
+		lowLabel.attributedText = String.low.attributedString(style: .regular15, foregroundColor: .lightGrey)
 		highLowWNoDataWidthConstraint?.isActive = false
 		highLowWithDataWidthConstraint?.isActive = true
 		switch quantityType {
@@ -103,20 +103,20 @@ class StatCell: UITableViewCell {
 			formatter.numberStyle = .decimal
 			let avgNumber = NSNumber(value: Int(averageValue))
 			let avgNumberString = formatter.string(from: avgNumber) ?? "\(Int(averageValue))"
-			let value = NSMutableAttributedString(attributedString: avgNumberString.with(style: .semibold26, andColor: .black))
+			let value = NSMutableAttributedString(attributedString: avgNumberString.attributedString(style: .semibold26, foregroundColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.unit.with(style: .regular20, andColor: .black))
+			value.append(quantityType.unit.attributedString(style: .regular20, foregroundColor: .black))
 			avgValueLabel.attributedText = value
 
 			let hiValue = intValues.max() ?? averageValue
 			let hiNumber = NSNumber(value: Int(hiValue))
 			let hiNumberString = formatter.string(from: hiNumber) ?? "\(Int(hiValue))"
-			highValueLabel.attributedText = "\(hiNumberString)".with(style: .regular16, andColor: .black)
+			highValueLabel.attributedText = "\(hiNumberString)".attributedString(style: .regular16, foregroundColor: .black)
 
 			let lowValue = intValues.min() ?? averageValue
 			let lowNumber = NSNumber(value: lowValue)
 			let lowNumberString = formatter.string(from: lowNumber) ?? "\(Int(lowValue))"
-			lowValueLabel.attributedText = lowNumberString.with(style: .regular16, andColor: .black)
+			lowValueLabel.attributedText = lowNumberString.attributedString(style: .regular16, foregroundColor: .black)
 			lineChartView.setup(with: dataToPlot, quantityType: quantityType, intervalType: intervalType, goal: goal)
 		case .bloodPressure where data.count == 2:
 			let sortedData = data.sorted { data1, data2 -> Bool in
@@ -142,9 +142,9 @@ class StatCell: UITableViewCell {
 			let avgSystolic = mappedSystolicsValues.map { Int($0) }.sum() / mappedSystolicsValues.count
 			let avgDiastolic = mappedDiastolicsValues.map { Int($0) }.sum() / mappedDiastolicsValues.count
 
-			let value = NSMutableAttributedString(attributedString: String("\(Int(avgSystolic))/\(Int(avgDiastolic))").with(style: .semibold26, andColor: .black))
+			let value = NSMutableAttributedString(attributedString: String("\(Int(avgSystolic))/\(Int(avgDiastolic))").attributedString(style: .semibold26, foregroundColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.unit.with(style: .regular20, andColor: .black))
+			value.append(quantityType.unit.attributedString(style: .regular20, foregroundColor: .black))
 			avgValueLabel.attributedText = value
 
 			let combinedPressure = zip(mappedSystolicsValues, mappedDiastolicsValues).map(+)
@@ -159,12 +159,12 @@ class StatCell: UITableViewCell {
 			let maxPressure = datapointCouples[maxIndex]
 			let maxDiastolicInt = Int(maxPressure.diastolic.value?.doubleValue(for: .millimeterOfMercury()) ?? 0)
 			let maxSystolicInt = Int(maxPressure.systolic.value?.doubleValue(for: .millimeterOfMercury()) ?? 0)
-			highValueLabel.attributedText = "\(maxSystolicInt)/\(maxDiastolicInt)".with(style: .regular16, andColor: .black)
+			highValueLabel.attributedText = "\(maxSystolicInt)/\(maxDiastolicInt)".attributedString(style: .regular16, foregroundColor: .black)
 
 			let minPressure = datapointCouples[minIndex]
 			let minDiastolicInt = Int(minPressure.diastolic.value?.doubleValue(for: .millimeterOfMercury()) ?? 0)
 			let minSystolicInt = Int(minPressure.systolic.value?.doubleValue(for: .millimeterOfMercury()) ?? 0)
-			lowValueLabel.attributedText = "\(minSystolicInt)/\(minDiastolicInt)".with(style: .regular16, andColor: .black)
+			lowValueLabel.attributedText = "\(minSystolicInt)/\(minDiastolicInt)".attributedString(style: .regular16, foregroundColor: .black)
 			lineChartView.setup(with: data, quantityType: quantityType, intervalType: intervalType, goal: goal)
 		default:
 			showNoData(for: quantityType)
@@ -178,13 +178,13 @@ class StatCell: UITableViewCell {
 	private func showNoData(for quantityType: HealthKitQuantityType) {
 		[highValueLabel, highLabel, lowValueLabel, lowLabel].forEach { $0?.isHidden = true }
 		if quantityType == .activity {
-			let value = NSMutableAttributedString(attributedString: "0".with(style: .semibold26, andColor: .black))
+			let value = NSMutableAttributedString(attributedString: "0".attributedString(style: .semibold26, foregroundColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.unit.with(style: .regular20, andColor: .black))
+			value.append(quantityType.unit.attributedString(style: .regular20, foregroundColor: .black))
 			avgValueLabel.attributedText = value
 
 		} else {
-			avgValueLabel.attributedText = String.noEntriesFoundRange.with(style: .regular16, andColor: .black)
+			avgValueLabel.attributedText = String.noEntriesFoundRange.attributedString(style: .regular16, foregroundColor: .black)
 		}
 		avgLabel.text = ""
 		highLabel.text = ""

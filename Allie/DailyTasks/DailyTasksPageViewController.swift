@@ -60,7 +60,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		}
 	}
 
-	let todayButton: UIButton = {
+	private let todayButton: UIButton = {
 		let button = UIButton(type: .custom)
 		button.setTitle(NSLocalizedString("TODAY", comment: "Today"), for: .normal)
 		button.titleLabel?.font = UIFont.systemFont(ofSize: 17.0, weight: .semibold)
@@ -68,11 +68,12 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		return button
 	}()
 
-	var cancellables: Set<AnyCancellable> = []
-	var insertViewsAnimated: Bool = false
+	private var cancellables: Set<AnyCancellable> = []
+	private var insertViewsAnimated: Bool = false
 
 	override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController, prepare listViewController: OCKListViewController, for date: Date) {
-		let query = OCKTaskQuery(for: date)
+		var query = OCKTaskQuery(for: date)
+		query.excludesTasksWithNoEvents = true
 		storeManager.store.fetchAnyTasks(query: query, callbackQueue: .main) { [weak self] result in
 			guard let self = self else {
 				return
@@ -81,7 +82,16 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			case .failure(let error):
 				ALog.error("Fetching tasks for carePlans", error: error)
 			case .success(let tasks):
-				let sorted = tasks.sorted { lhs, rhs in
+				let filtered = tasks.filter { task in
+					if let ockTask = task as? OCKTask {
+						return !ockTask.shouldDelete
+					} else if let hkTask = task as? OCKHealthKitTask, let deletedDate = hkTask.deletedDate {
+						return !(deletedDate <= Date())
+					} else {
+						return true
+					}
+				}
+				let sorted = filtered.sorted { lhs, rhs in
 					guard let left = lhs as? AnyTaskExtensible, let right = rhs as? AnyTaskExtensible else {
 						return false
 					}
@@ -89,7 +99,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				}
 
 				for task in sorted {
-					guard let identifier = task.groupIdentifier, let taskType = GroupIdentifierType(rawValue: identifier) else {
+					guard let identifier = task.groupIdentifier, let taskType = CHGroupIdentifierType(rawValue: identifier) else {
 						continue
 					}
 					let eventQuery = OCKEventQuery(for: date)
@@ -152,44 +162,53 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		}
 	}
 
-	private var isRefreshingCarePlan = false
 	override func reload() {
+		getAndUpdateCarePlans { _ in
+			DispatchQueue.main.async {
+				super.reload()
+			}
+		}
+	}
+
+	private var isRefreshingCarePlan = false
+	func getAndUpdateCarePlans(completion: @escaping AllieBoolCompletion) {
 		guard isRefreshingCarePlan == false else {
 			return
 		}
 		isRefreshingCarePlan = true
 		hud.show(in: tabBarController?.view ?? view, animated: true)
 		APIClient.shared.getCarePlan(option: .carePlan)
-			.sink { [weak self] completion in
+			.sink { [weak self] resultCompletion in
 				self?.isRefreshingCarePlan = false
 				self?.hud.dismiss(animated: true)
-				switch completion {
-				case .failure(let error):
-					ALog.error("Unable to fetch care plan", error: error)
-					let okAction = AlertHelper.AlertAction(withTitle: String.ok)
-					AlertHelper.showAlert(title: "Error", detailText: error.localizedDescription, actions: [okAction])
-				case .finished:
-					break
-				}
-			} receiveValue: { value in
-				if let tasks = value.faultyTasks, !tasks.isEmpty {
-					self.showError(tasks: tasks)
-				}
-				CareManager.shared.createOrUpdate(carePlanResponse: value, forceReset: false) { success in
-					if success {
-						ALog.info("added the care plan")
-						DispatchQueue.main.async {
-							super.reload()
-						}
-					} else {
-						ALog.error("Unable to update the careplan data")
+				if case .failure(let error) = resultCompletion {
+					let nsError = error as NSError
+					if nsError.code != 401 {
+						ALog.error("Unable to fetch care plan", error: error)
+						let okAction = AlertHelper.AlertAction(withTitle: String.ok)
+						AlertHelper.showAlert(title: "Error", detailText: error.localizedDescription, actions: [okAction])
 					}
-					self.isRefreshingCarePlan = false
+					completion(false)
+				}
+			} receiveValue: { [weak self] value in
+				if let tasks = value.faultyTasks, !tasks.isEmpty {
+					self?.showError(tasks: tasks)
+				}
+				CareManager.shared.process(carePlanResponse: value, forceReset: false) { result in
+					switch result {
+					case .failure(let error):
+						ALog.error("Unable to update the careplan data", error: error)
+						completion(false)
+					case .success:
+						ALog.info("added the care plan")
+						completion(true)
+					}
+					self?.isRefreshingCarePlan = false
 				}
 			}.store(in: &cancellables)
 	}
 
-	func showError(tasks: [BasicTask]) {
+	func showError(tasks: [CHBasicTask]) {
 		let viewController = TaskErrorDisplayViewController(style: .plain)
 		viewController.items = tasks
 		let navigationController = UINavigationController(rootViewController: viewController)

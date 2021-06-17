@@ -16,4 +16,17 @@ class GridTaskViewSynchronizer: OCKGridTaskViewSynchronizer {
 		view.headerView.detailDisclosureImage?.isHidden = true
 		return view
 	}
+
+	override func updateView(_ view: OCKGridTaskView, context: OCKSynchronizationContext<OCKTaskEvents>) {
+		// Apply a custom sort to the events before they are displayed in the view
+		let sortedEvents = context.viewModel.flatMap { events in
+			events.sorted { lhs, rhs in
+				lhs.scheduleEvent.element.start < rhs.scheduleEvent.element.start
+			}
+		}
+		let newTaskEvents = OCKTaskEvents(events: sortedEvents)
+
+		let newContext = OCKSynchronizationContext(viewModel: newTaskEvents, oldViewModel: context.oldViewModel, animated: context.animated)
+		super.updateView(view, context: newContext)
+	}
 }

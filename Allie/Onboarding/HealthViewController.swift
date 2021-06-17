@@ -89,7 +89,7 @@ class HealthViewController: SignupBaseViewController {
 
 	let activateButton: UIButton = {
 		let button = UIButton(type: .system)
-		let attrText = String.activate.with(style: .regular20, andColor: .allieWhite, andLetterSpacing: 0.38)
+		let attrText = String.activate.attributedString(style: .regular20, foregroundColor: .allieWhite, letterSpacing: 0.38)
 		button.setAttributedTitle(attrText, for: .normal)
 		button.layer.cornerRadius = 8.0
 		button.layer.cornerCurve = .continuous
@@ -99,7 +99,7 @@ class HealthViewController: SignupBaseViewController {
 
 	let notNowButton: UIButton = {
 		let button = UIButton(type: .system)
-		let attrText = String.notNow.with(style: .regular20, andColor: .allieButtons, andLetterSpacing: 0.38)
+		let attrText = String.notNow.attributedString(style: .regular20, foregroundColor: .allieButtons, letterSpacing: 0.38)
 		button.setAttributedTitle(attrText, for: .normal)
 		button.layer.cornerRadius = 8.0
 		button.layer.cornerCurve = .continuous

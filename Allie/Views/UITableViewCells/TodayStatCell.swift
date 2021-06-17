@@ -20,7 +20,7 @@ class TodayStatCell: UITableViewCell {
 	}
 
 	func setup(for quantityType: HealthKitQuantityType, with data: [Any]?) {
-		typeLabel.attributedText = quantityType.rawValue.with(style: .semibold20, andColor: quantityType.color)
+		typeLabel.attributedText = quantityType.rawValue.attributedString(style: .semibold20, foregroundColor: quantityType.color)
 		typeImageView.image = quantityType.image
 
 		if let samples = data as? [HKQuantitySample] {
@@ -36,12 +36,12 @@ class TodayStatCell: UITableViewCell {
 		switch quantityType {
 		case .weight, .heartRate, .restingHeartRate:
 			let quantityValue = samples.first?.quantity.doubleValue(for: quantityType.hkUnit) ?? 0
-			let value = NSMutableAttributedString(attributedString: String(Int(quantityValue)).with(style: .semibold26, andColor: .black))
+			let value = NSMutableAttributedString(attributedString: String(Int(quantityValue)).attributedString(style: .semibold26, foregroundColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.unit.with(style: .regular20, andColor: .black))
+			value.append(quantityType.unit.attributedString(style: .regular20, foregroundColor: .black))
 			valueLabel.attributedText = value
 			let status = quantityType.status(for: [quantityValue])
-			statusLabel.attributedText = status.1.with(style: .regular13, andColor: .lightGrey)
+			statusLabel.attributedText = status.1.attributedString(style: .regular13, foregroundColor: .lightGrey)
 			statusIndicatorView.backgroundColor = status.0
 		case .bloodPressure where samples.count == 2:
 			let pressureData = samples.sorted { sample1, sample2 -> Bool in
@@ -50,17 +50,17 @@ class TodayStatCell: UITableViewCell {
 				return sample1Double > sample2Double
 			}.map { Int($0.quantity.doubleValue(for: .millimeterOfMercury())) }
 			guard let systolic = pressureData.first, let diastolic = pressureData.last else { return }
-			let value = NSMutableAttributedString(attributedString: "\(systolic)/\(diastolic)".with(style: .semibold26, andColor: .black))
+			let value = NSMutableAttributedString(attributedString: "\(systolic)/\(diastolic)".attributedString(style: .semibold26, foregroundColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.unit.with(style: .regular20, andColor: .black))
+			value.append(quantityType.unit.attributedString(style: .regular20, foregroundColor: .black))
 			valueLabel.attributedText = value
 			let status = quantityType.status(for: [Double(systolic), Double(diastolic)])
-			statusLabel.attributedText = status.1.with(style: .regular13, andColor: .lightGrey)
+			statusLabel.attributedText = status.1.attributedString(style: .regular13, foregroundColor: .lightGrey)
 			statusIndicatorView.backgroundColor = status.0
 		default:
 			showNoData(for: quantityType)
 		}
-		dateLabel.attributedText = samples.first?.endDate.relationalString.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+		dateLabel.attributedText = samples.first?.endDate.relationalString.attributedString(style: .regular13, foregroundColor: .lightGrey, letterSpacing: -0.16)
 	}
 
 	private func setup(for quantityType: HealthKitQuantityType, with statistics: [HKStatistics]) {
@@ -70,25 +70,25 @@ class TodayStatCell: UITableViewCell {
 		formatter.numberStyle = .decimal
 		let number = NSNumber(value: Int(quantityValue))
 		let numberString = formatter.string(from: number) ?? "\(Int(quantityValue))"
-		let value = NSMutableAttributedString(attributedString: numberString.with(style: .semibold26, andColor: .black))
+		let value = NSMutableAttributedString(attributedString: numberString.attributedString(style: .semibold26, foregroundColor: .black))
 		value.append(NSAttributedString(string: " "))
-		value.append(quantityType.unit.with(style: .regular20, andColor: .black))
+		value.append(quantityType.unit.attributedString(style: .regular20, foregroundColor: .black))
 		valueLabel.attributedText = value
-		dateLabel.attributedText = String.today.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+		dateLabel.attributedText = String.today.attributedString(style: .regular13, foregroundColor: .lightGrey, letterSpacing: -0.16)
 		let status = quantityType.status(for: [quantityValue])
-		statusLabel.attributedText = status.1.with(style: .regular13, andColor: .lightGrey)
+		statusLabel.attributedText = status.1.attributedString(style: .regular13, foregroundColor: .lightGrey)
 		statusIndicatorView.backgroundColor = status.0
 	}
 
 	private func showNoData(for quantityType: HealthKitQuantityType) {
 		if quantityType == .activity {
-			let value = NSMutableAttributedString(attributedString: "0".with(style: .semibold26, andColor: .black))
+			let value = NSMutableAttributedString(attributedString: "0".attributedString(style: .semibold26, foregroundColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.unit.with(style: .regular20, andColor: .black))
+			value.append(quantityType.unit.attributedString(style: .regular20, foregroundColor: .black))
 			valueLabel.attributedText = value
-			dateLabel.attributedText = String.today.with(style: .regular13, andColor: .lightGrey, andLetterSpacing: -0.16)
+			dateLabel.attributedText = String.today.attributedString(style: .regular13, foregroundColor: .lightGrey, letterSpacing: -0.16)
 		} else {
-			valueLabel.attributedText = String.noEntriesFoundToday.with(style: .regular16, andColor: .black)
+			valueLabel.attributedText = String.noEntriesFoundToday.attributedString(style: .regular16, foregroundColor: .black)
 			dateLabel.text = ""
 		}
 		statusLabel.text = ""

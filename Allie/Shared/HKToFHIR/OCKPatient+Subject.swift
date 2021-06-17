@@ -23,7 +23,7 @@ extension OCKPatient {
 	}
 }
 
-extension AlliePatient {
+extension CHPatient {
 	var subject: ModelsR4.Reference? {
 		let subject = ModelsR4.Reference()
 		if let identifier = profile.fhirId {

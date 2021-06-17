@@ -34,7 +34,7 @@ extension OCKPatient {
 	}
 }
 
-extension AlliePatient {
+extension CHPatient {
 	init?(user: RemoteUser?) {
 		guard let identifier = user?.uid else {
 			return nil

@@ -11,7 +11,7 @@ import Foundation
 import HealthKit
 
 protocol OutcomesResultProvider {
-	var outcomes: [Outcome]? { get }
+	var outcomes: [CHOutcome]? { get }
 }
 
 enum OutcomeUploadError: Error {
@@ -20,13 +20,13 @@ enum OutcomeUploadError: Error {
 }
 
 class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
-	var outcomes: [Outcome]?
+	var outcomes: [CHOutcome]?
 	var error: Error?
-	var completionHandler: ((Result<[Outcome], Error>) -> Void)?
+	var completionHandler: ((Result<[CHOutcome], Error>) -> Void)?
 	var task: OCKHealthKitTask
 	var chunkSize: Int
 
-	init(task: OCKHealthKitTask, chunkSize: Int, callbackQueue: DispatchQueue, completion: ((Result<[Outcome], Error>) -> Void)? = nil) {
+	init(task: OCKHealthKitTask, chunkSize: Int, callbackQueue: DispatchQueue, completion: ((Result<[CHOutcome], Error>) -> Void)? = nil) {
 		self.task = task
 		self.chunkSize = chunkSize
 		super.init()
@@ -79,14 +79,14 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 		}
 	}
 
-	private func upload(samples: [HKSample], carePlanId: String, completion: @escaping AllieResultCompletion<[Outcome]>) {
+	private func upload(samples: [HKSample], carePlanId: String, completion: @escaping AllieResultCompletion<[CHOutcome]>) {
 		guard !samples.isEmpty else {
 			completion(.success([]))
 			return
 		}
 
-		let taskOucomes: [Outcome] = samples.compactMap { sample in
-			Outcome(sample: sample, task: task, carePlanId: carePlanId)
+		let taskOucomes: [CHOutcome] = samples.compactMap { sample in
+			CHOutcome(sample: sample, task: task, carePlanId: carePlanId)
 		}
 
 		guard taskOucomes.count == samples.count else {
@@ -97,14 +97,14 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 		upload(outcomes: taskOucomes, completion: completion)
 	}
 
-	private func upload(statistics: [HKStatistics], carePlanId: String, completion: @escaping AllieResultCompletion<[Outcome]>) {
+	private func upload(statistics: [HKStatistics], carePlanId: String, completion: @escaping AllieResultCompletion<[CHOutcome]>) {
 		guard !statistics.isEmpty else {
 			completion(.success([]))
 			return
 		}
 
-		let taskOucomes: [Outcome] = statistics.compactMap { value in
-			Outcome(statistics: value, task: task, carePlanId: carePlanId)
+		let taskOucomes: [CHOutcome] = statistics.compactMap { value in
+			CHOutcome(statistics: value, task: task, carePlanId: carePlanId)
 		}
 
 		guard taskOucomes.count == statistics.count else {
@@ -115,7 +115,7 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 		upload(outcomes: taskOucomes, completion: completion)
 	}
 
-	private func upload(outcomes: [Outcome], completion: @escaping AllieResultCompletion<[Outcome]>) {
+	private func upload(outcomes: [CHOutcome], completion: @escaping AllieResultCompletion<[CHOutcome]>) {
 		guard !outcomes.isEmpty else {
 			completion(.success([]))
 			return
@@ -123,7 +123,7 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 		let chunkedOutcomes = outcomes.chunked(into: chunkSize)
 		let group = DispatchGroup()
 		var errors: [Error] = []
-		var uploaded: [Outcome] = []
+		var uploaded: [CHOutcome] = []
 		for chunkOutcome in chunkedOutcomes {
 			group.enter()
 			APIClient.shared.post(outcomes: chunkOutcome)

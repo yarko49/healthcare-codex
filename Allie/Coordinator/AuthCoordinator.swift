@@ -18,7 +18,7 @@ class AuthCoordinator: BaseCoordinator {
 
 	var currentNonce: String?
 	var authorizationFlowType: AuthorizationFlowType = .signUp
-	var alliePatient: AlliePatient?
+	var alliePatient: CHPatient?
 
 	override var rootViewController: UIViewController? {
 		navigationController
@@ -176,18 +176,20 @@ class AuthCoordinator: BaseCoordinator {
 			return
 		}
 		showHUD()
-		APIClient.shared.getCarePlan { [weak self] carePlanResult in
-			self?.hideHUD()
-			switch carePlanResult {
-			case .failure(let error):
-				ALog.error("Unable to fetch CarePlan: ", error: error)
-				self?.gotoProfileSetupViewController(email: email, user: user)
-			case .success(let carePlan):
+		APIClient.shared.getCarePlan(option: .carePlan)
+			.sink { [weak self] completion in
+				if case .failure(let error) = completion {
+					self?.hideHUD()
+					ALog.error("Unable to fetch CarePlan: ", error: error)
+					self?.gotoProfileSetupViewController(email: email, user: user)
+				}
+			} receiveValue: { [weak self] carePlan in
+				self?.hideHUD()
 				if let patient = carePlan.patients.first {
 					self?.alliePatient = patient
 					let ockPatient = OCKPatient(patient: patient)
 					try? CareManager.shared.resetAllContents()
-					CareManager.shared.createOrUpdate(patient: ockPatient) { patientResult in
+					CareManager.shared.process(patient: ockPatient) { patientResult in
 						switch patientResult {
 						case .failure(let error):
 							ALog.error("Unable to add patient to store", error: error)
@@ -199,14 +201,13 @@ class AuthCoordinator: BaseCoordinator {
 				} else {
 					self?.gotoProfileSetupViewController(email: email, user: user)
 				}
-			}
-		}
+			}.store(in: &cancellables)
 	}
 
 	func gotoProfileSetupViewController(email: String?, user: RemoteUser) {
 		try? CareManager.shared.resetAllContents()
 		if alliePatient == nil {
-			alliePatient = AlliePatient(user: user)
+			alliePatient = CHPatient(user: user)
 		}
 		if let email = email {
 			alliePatient?.profile.email = email
@@ -334,7 +335,7 @@ class AuthCoordinator: BaseCoordinator {
 					completion(false)
 				} else if tokenResult?.token != nil {
 					Keychain.userEmail = Auth.auth().currentUser?.email
-					Keychain.authenticationToken = AuthenticaionToken(result: tokenResult)
+					Keychain.authenticationToken = AuthenticationToken(result: tokenResult)
 					ALog.info("firebaseToken: \(tokenResult?.token ?? "")")
 					completion(true)
 				}
@@ -367,7 +368,7 @@ extension AuthCoordinator: GIDSignInDelegate {
 		Auth.auth().signIn(with: credential) { [weak self] authResult, error in
 			self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
 				if let authUser = authResult?.user {
-					var alliePatient = AlliePatient(user: authUser)
+					var alliePatient = CHPatient(user: authUser)
 					var name = PersonNameComponents()
 					if let givenName = user.profile.givenName {
 						name.givenName = givenName
@@ -380,7 +381,6 @@ extension AuthCoordinator: GIDSignInDelegate {
 					}
 					self?.alliePatient = alliePatient
 				}
-
 				self?.checkIfUserExists(email: user.profile.email, user: authResult)
 			})
 		}
@@ -408,7 +408,7 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 			Auth.auth().signIn(with: credential) { [weak self] authResult, error in
 				self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
 					if let user = authResult?.user {
-						var alliePatient = AlliePatient(user: user)
+						var alliePatient = CHPatient(user: user)
 						if let name = appleIDCredential.fullName {
 							alliePatient?.name = name
 						}

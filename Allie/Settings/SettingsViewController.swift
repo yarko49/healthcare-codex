@@ -1,5 +1,3 @@
-import AnswerBotSDK
-import ChatSDK
 import KeychainAccess
 import MessagingSDK
 import SafariServices
@@ -58,7 +56,7 @@ class SettingsViewController: BaseViewController {
 			cell.tintColor = .allieButtons
 			cell.layoutMargins = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
 			cell.accessoryType = .disclosureIndicator
-			cell.textLabel?.attributedText = type.title.with(style: .regular17, andColor: .allieButtons, andLetterSpacing: -0.41)
+			cell.textLabel?.attributedText = type.title.attributedString(style: .regular17, foregroundColor: .allieButtons, letterSpacing: -0.41)
 			return cell
 		})
 
@@ -66,10 +64,7 @@ class SettingsViewController: BaseViewController {
 		tableView.delegate = self
 		var snapshot = dataSource.snapshot()
 		snapshot.appendSections([0])
-		var items = SettingsType.allCases
-		items.removeAll { type in
-			type == .notifications
-		}
+		let items: [SettingsType] = [.accountDetails, .myDevices, .systemAuthorization, .feedback, .privacyPolicy, .termsOfService]
 		snapshot.appendItems(items, toSection: 0)
 		dataSource.apply(snapshot, animatingDifferences: false) {
 			ALog.info("Finished Apply Snapshot")
@@ -105,7 +100,7 @@ extension SettingsViewController: UITableViewDelegate {
 		case .feedback:
 			showFeedback()
 		case .privacyPolicy:
-			showPrivacyPolicy()
+			showPrivacyPolicySoon()
 		case .termsOfService:
 			showTermsOfService()
 		case .support:
@@ -172,10 +167,7 @@ extension SettingsViewController: UITableViewDelegate {
 	}
 
 	func showFeedback() {
-		let config = RequestUiConfiguration()
-		config.subject = "iOS Ticket"
-		config.tags = ["ios", "mobile"]
-		let requestListController = RequestUi.buildRequestList(with: [config])
+		let requestListController = RequestUi.buildRequestList(with: [])
 		navigationController?.show(requestListController, sender: self)
 	}
 
@@ -191,10 +183,8 @@ extension SettingsViewController: UITableViewDelegate {
 	func showSupport() {
 		do {
 			let messagingConfiguration = MessagingConfiguration()
-			let answerBotEngine = try AnswerBotEngine.engine()
 			let supportEngine = try SupportEngine.engine()
-			let chatEngine = try ChatEngine.engine()
-			let viewController = try Messaging.instance.buildUI(engines: [supportEngine, chatEngine, answerBotEngine], configs: [messagingConfiguration])
+			let viewController = try Messaging.instance.buildUI(engines: [supportEngine], configs: [messagingConfiguration])
 			navigationController?.show(viewController, sender: self)
 		} catch {
 			ALog.error("Unable to show support", error: error)
@@ -210,6 +200,16 @@ extension SettingsViewController: UITableViewDelegate {
 		}
 		alertController.addAction(cancelAction)
 		navigationController?.show(alertController, sender: self)
+	}
+
+	func showPrivacyPolicySoon() {
+		let title = NSLocalizedString("PRIVACY_POLICY", comment: "Privacy Policy")
+		let message = "It is coming soon"
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let action = UIAlertAction(title: "OK", style: .default) { _ in
+		}
+		alertController.addAction(action)
+		tabBarController?.show(alertController, sender: self)
 	}
 
 	func showPrivacyPolicy() {

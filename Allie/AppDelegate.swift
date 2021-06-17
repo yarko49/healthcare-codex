@@ -1,5 +1,3 @@
-import AnswerBotProvidersSDK
-import ChatProvidersSDK
 import Firebase
 import FirebaseAuth
 import FirebaseCore
@@ -72,10 +70,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	static func configureZendesk() {
+		CoreLogger.enabled = true
+		CoreLogger.logLevel = .debug
 		Zendesk.initialize(appId: AppConfig.zendeskAppId, clientId: AppConfig.zendeskClientId, zendeskUrl: AppConfig.zendeskURL)
 		Support.initialize(withZendesk: Zendesk.instance)
-		Chat.initialize(accountKey: AppConfig.zendeskChatAccountKey, appId: AppConfig.zendeskChatAppId)
-		AnswerBot.initialize(withZendesk: Zendesk.instance, support: Support.instance!)
+		let ident = Identity.createAnonymous()
+		Zendesk.instance?.setIdentity(ident)
 		ALog.info("Zendesk Initialized")
 	}
 
@@ -84,14 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		Zendesk.instance?.setIdentity(identity)
 	}
 
-	static func configureChat(name: String, email: String, phoneNumber: String?) {
-		let chatAPIConfiguration = ChatAPIConfiguration()
-		chatAPIConfiguration.department = "Department name"
-		chatAPIConfiguration.visitorInfo = VisitorInfo(name: name, email: email, phoneNumber: phoneNumber ?? "")
-		Chat.instance?.configuration = chatAPIConfiguration
-	}
-
-	static func registerServices(patient: AlliePatient?) {
+	static func registerServices(patient: CHPatient?) {
 		guard let patient = patient else {
 			return
 		}

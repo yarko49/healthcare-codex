@@ -41,7 +41,7 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 			accessoryView.isOn = deviceType.hasSmartDevice
 			accessoryView.tag = indexPath.row
 			cell.accessoryView = accessoryView
-			cell.textLabel?.attributedText = deviceType.title.with(style: .regular17, andColor: UIColor.grey, andLetterSpacing: -0.41)
+			cell.textLabel?.attributedText = deviceType.title.attributedString(style: .regular17, foregroundColor: UIColor.grey, letterSpacing: -0.41)
 			return cell
 		})
 		tableView.dataSource = dataSource

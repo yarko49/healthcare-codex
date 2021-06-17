@@ -24,13 +24,13 @@ enum APIRouter: URLRequestConvertible {
 	}
 
 	case organizations
-	case registerOrganization(Organization)
+	case registerOrganization(CHOrganization)
 	case getCarePlan(option: CarePlanResponseType)
-	case postCarePlan(carePlanResponse: CarePlanResponse)
-	case postPatient(patient: AlliePatient)
+	case postCarePlan(carePlanResponse: CHCarePlanResponse)
+	case postPatient(patient: CHPatient)
 	case postObservation(observation: ModelsR4.Observation)
 	case postBundle(bundle: ModelsR4.Bundle)
-	case postOutcomes(outcomes: [Outcome])
+	case postOutcomes(outcomes: [CHOutcome])
 	case getFeatureContent(carePlanId: String, taskId: String, asset: String)
 
 	var method: Request.Method {
@@ -98,14 +98,14 @@ enum APIRouter: URLRequestConvertible {
 		case .postCarePlan(let carePlanResponse):
 			data = try? encoder.encode(carePlanResponse)
 		case .postPatient(let patient):
-			let carePlan = CarePlanResponse(patients: [patient])
+			let carePlan = CHCarePlanResponse(patients: [patient])
 			data = try? encoder.encode(carePlan)
 		case .postObservation(let observation):
 			data = try? encoder.encode(observation)
 		case .postBundle(let bundle):
 			data = try? encoder.encode(bundle)
 		case .postOutcomes(let outcomes):
-			let carePlan = CarePlanResponse(outcomes: outcomes)
+			let carePlan = CHCarePlanResponse(outcomes: outcomes)
 			data = try? encoder.encode(carePlan)
 		default:
 			data = nil

@@ -10,8 +10,8 @@ import CareKitStore
 import CareKitUI
 import UIKit
 
-class GridTaskViewController: OCKTaskViewController<OCKGridTaskController, GridTaskViewSynchronizer>, UICollectionViewDataSource {
-	override public init(controller: OCKGridTaskController, viewSynchronizer: GridTaskViewSynchronizer) {
+class GridTaskViewController: OCKTaskViewController<GridTaskController, GridTaskViewSynchronizer>, UICollectionViewDataSource {
+	override public init(controller: GridTaskController, viewSynchronizer: GridTaskViewSynchronizer) {
 		super.init(controller: controller, viewSynchronizer: viewSynchronizer)
 	}
 
