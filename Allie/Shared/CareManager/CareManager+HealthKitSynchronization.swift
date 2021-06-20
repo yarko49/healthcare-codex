@@ -58,9 +58,6 @@ extension CareManager {
 				}
 
 				for (_, task) in uniqueTasks {
-					if task.healthKitLinkage.quantityIdentifier == .stepCount {
-						continue
-					}
 					group.enter()
 					let operation = OutcomesUploadOperation(task: task, chunkSize: Constants.maximumUploadOutcomesPerCall, callbackQueue: callbackQueue) { operationResult in
 						switch operationResult {
