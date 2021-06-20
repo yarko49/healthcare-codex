@@ -18,7 +18,7 @@
 		840D1BF4265CCAE4000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */; };
 		840D1BF5265CCAE4000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */; };
 		841640A92627D1C3000903AF /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 841640A82627D1C3000903AF /* Colors.xcassets */; };
-		841640C52627D714000903AF /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ChatViewController.swift */; };
+		841640C52627D714000903AF /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ConversationsViewController.swift */; };
 		841640CA2627D999000903AF /* UITabBar+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C92627D999000903AF /* UITabBar+Appearance.swift */; };
 		841640D82627F478000903AF /* UICollectionView+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640D72627F478000903AF /* UICollectionView+Appearance.swift */; };
 		8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */; };
@@ -35,6 +35,7 @@
 		842398CD259C1144006FB3F4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398CC259C1144006FB3F4 /* SceneDelegate.swift */; };
 		842398E2259C1144006FB3F4 /* AllieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398E1259C1144006FB3F4 /* AllieTests.swift */; };
 		842398ED259C1145006FB3F4 /* AlfredUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842398EC259C1145006FB3F4 /* AlfredUITests.swift */; };
+		842D018C267C53FF006B708F /* TwilioConversationsClient in Frameworks */ = {isa = PBXBuildFile; productRef = 842D018B267C53FF006B708F /* TwilioConversationsClient */; };
 		842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842DFC1225BBDA5900066A07 /* HealthViewController.swift */; };
 		842DFC5825BBF45100066A07 /* ResetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC5A25BBF45100066A07 /* ResetViewController.xib */; };
 		842DFC7025BBF47500066A07 /* ResetMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFC7225BBF47500066A07 /* ResetMessageViewController.xib */; };
@@ -146,6 +147,18 @@
 		844767EF259C2A4E00C50C09 /* APIClient+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476721259C2A4E00C50C09 /* APIClient+Image.swift */; };
 		844767F0259C2A4E00C50C09 /* UINavigationBar+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476723259C2A4E00C50C09 /* UINavigationBar+Appearance.swift */; };
 		844767F1259C2A4E00C50C09 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476724259C2A4E00C50C09 /* AppConfig.swift */; };
+		8449A65B267C58D300F73D8E /* ConversationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449A65A267C58D300F73D8E /* ConversationsManager.swift */; };
+		8449A65C267C58D300F73D8E /* ConversationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449A65A267C58D300F73D8E /* ConversationsManager.swift */; };
+		8449A65D267C58D300F73D8E /* ConversationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449A65A267C58D300F73D8E /* ConversationsManager.swift */; };
+		8449A65F267C5C8F00F73D8E /* CHConversations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449A65E267C5C8F00F73D8E /* CHConversations.swift */; };
+		8449A660267C5C8F00F73D8E /* CHConversations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449A65E267C5C8F00F73D8E /* CHConversations.swift */; };
+		8449A661267C5C8F00F73D8E /* CHConversations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449A65E267C5C8F00F73D8E /* CHConversations.swift */; };
+		8449A664267C746900F73D8E /* CHOutcomeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449A663267C746900F73D8E /* CHOutcomeResponse.swift */; };
+		8449A665267C746900F73D8E /* CHOutcomeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449A663267C746900F73D8E /* CHOutcomeResponse.swift */; };
+		8449A666267C746900F73D8E /* CHOutcomeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449A663267C746900F73D8E /* CHOutcomeResponse.swift */; };
+		8449A668267C789B00F73D8E /* OutcomesResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8449A667267C789B00F73D8E /* OutcomesResponse.json */; };
+		8449A66A267C798500F73D8E /* OraganizationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449A669267C798500F73D8E /* OraganizationsTests.swift */; };
+		8449A66C267C79A500F73D8E /* Organizations.json in Resources */ = {isa = PBXBuildFile; fileRef = 8449A66B267C79A500F73D8E /* Organizations.json */; };
 		844DD5E2264F76EC0039DB20 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 844DD5E0264F76EC0039DB20 /* GoogleService-Info.plist */; };
 		844DD5E4264F7B240039DB20 /* TaskErrorDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844DD5E3264F7B240039DB20 /* TaskErrorDisplayViewController.swift */; };
 		844DD5E5264F7B240039DB20 /* TaskErrorDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844DD5E3264F7B240039DB20 /* TaskErrorDisplayViewController.swift */; };
@@ -243,7 +256,7 @@
 		847DCC0E265871F3004E9C1D /* InsulinLogTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E8788426490D1D0000CCBB /* InsulinLogTaskView.swift */; };
 		847DCC0F265871F3004E9C1D /* AnyUserInfoExtensible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2BFD0260460D30064DB08 /* AnyUserInfoExtensible.swift */; };
 		847DCC10265871F3004E9C1D /* KeyedDecodingContainer+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766ED259C2A4E00C50C09 /* KeyedDecodingContainer+Custom.swift */; };
-		847DCC11265871F3004E9C1D /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ChatViewController.swift */; };
+		847DCC11265871F3004E9C1D /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ConversationsViewController.swift */; };
 		847DCC12265871F3004E9C1D /* OCKPatient+Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845FBEA925FC97B200472257 /* OCKPatient+Subject.swift */; };
 		847DCC13265871F3004E9C1D /* HKDataUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */; };
 		847DCC14265871F3004E9C1D /* CodeableConcept+Supported.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439C79625FB3650008C5940 /* CodeableConcept+Supported.swift */; };
@@ -528,7 +541,7 @@
 		84D1223F264112DE00990196 /* Notification+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8437270B25F8989C005B2C5C /* Notification+Names.swift */; };
 		84D12240264112DE00990196 /* AnyUserInfoExtensible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2BFD0260460D30064DB08 /* AnyUserInfoExtensible.swift */; };
 		84D12241264112DE00990196 /* KeyedDecodingContainer+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766ED259C2A4E00C50C09 /* KeyedDecodingContainer+Custom.swift */; };
-		84D12242264112DE00990196 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ChatViewController.swift */; };
+		84D12242264112DE00990196 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ConversationsViewController.swift */; };
 		84D12243264112DE00990196 /* OCKPatient+Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845FBEA925FC97B200472257 /* OCKPatient+Subject.swift */; };
 		84D12244264112DE00990196 /* HKDataUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */; };
 		84D12245264112DE00990196 /* CodeableConcept+Supported.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439C79625FB3650008C5940 /* CodeableConcept+Supported.swift */; };
@@ -762,7 +775,7 @@
 		84016C392616BED7006D5279 /* DiabetiesCarePlan.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DiabetiesCarePlan.json; sourceTree = "<group>"; };
 		840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKCorrelationTypeIdentifier+Image.swift"; sourceTree = "<group>"; };
 		841640A82627D1C3000903AF /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
-		841640C42627D714000903AF /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		841640C42627D714000903AF /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
 		841640C92627D999000903AF /* UITabBar+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar+Appearance.swift"; sourceTree = "<group>"; };
 		841640D72627F478000903AF /* UICollectionView+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Appearance.swift"; sourceTree = "<group>"; };
 		8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextContentDetailViewController.swift; sourceTree = "<group>"; };
@@ -888,6 +901,12 @@
 		84476721259C2A4E00C50C09 /* APIClient+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIClient+Image.swift"; sourceTree = "<group>"; };
 		84476723259C2A4E00C50C09 /* UINavigationBar+Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Appearance.swift"; sourceTree = "<group>"; };
 		84476724259C2A4E00C50C09 /* AppConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		8449A65A267C58D300F73D8E /* ConversationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsManager.swift; sourceTree = "<group>"; };
+		8449A65E267C5C8F00F73D8E /* CHConversations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHConversations.swift; sourceTree = "<group>"; };
+		8449A663267C746900F73D8E /* CHOutcomeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHOutcomeResponse.swift; sourceTree = "<group>"; };
+		8449A667267C789B00F73D8E /* OutcomesResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = OutcomesResponse.json; sourceTree = "<group>"; };
+		8449A669267C798500F73D8E /* OraganizationsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OraganizationsTests.swift; sourceTree = "<group>"; };
+		8449A66B267C79A500F73D8E /* Organizations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Organizations.json; sourceTree = "<group>"; };
 		844DD5DA264F76CE0039DB20 /* EnvironmentDev.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = EnvironmentDev.xcconfig; sourceTree = "<group>"; };
 		844DD5DB264F76CE0039DB20 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		844DD5DF264F76EC0039DB20 /* EnvironmentQA.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = EnvironmentQA.xcconfig; sourceTree = "<group>"; };
@@ -1033,6 +1052,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8487493425B6A594008C15E2 /* JGProgressHUD in Frameworks */,
+				842D018C267C53FF006B708F /* TwilioConversationsClient in Frameworks */,
 				844EE8392629FC4B001B2D9E /* KeychainAccess in Frameworks */,
 				84436275264B527B002B475C /* FirebaseInstallations in Frameworks */,
 				8431136A262E87F300561329 /* SkyFloatingLabelTextField in Frameworks */,
@@ -1153,7 +1173,8 @@
 		841640C32627D6EB000903AF /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				841640C42627D714000903AF /* ChatViewController.swift */,
+				841640C42627D714000903AF /* ConversationsViewController.swift */,
+				8449A65A267C58D300F73D8E /* ConversationsManager.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1242,6 +1263,7 @@
 				84D121C1264100BC00990196 /* Outcomes1.json */,
 				84D121C2264100BC00990196 /* Outcomes2.json */,
 				84D121C5264101EB00990196 /* OutcomesTests.swift */,
+				8449A667267C789B00F73D8E /* OutcomesResponse.json */,
 				84C83FBD259C48EF00DAEF34 /* PatientTests.swift */,
 				84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */,
 				84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */,
@@ -1260,6 +1282,8 @@
 				849E158E26113ABB00663010 /* AlliePatientTests.swift */,
 				845F189C263246CE005A601A /* DeviceTests.swift */,
 				84016C392616BED7006D5279 /* DiabetiesCarePlan.json */,
+				8449A669267C798500F73D8E /* OraganizationsTests.swift */,
+				8449A66B267C79A500F73D8E /* Organizations.json */,
 			);
 			path = AllieTests;
 			sourceTree = "<group>";
@@ -1531,7 +1555,6 @@
 			isa = PBXGroup;
 			children = (
 				84D2BFD0260460D30064DB08 /* AnyUserInfoExtensible.swift */,
-				84C212A42660C5F4000D491B /* CHOrganization.swift */,
 				842F906E25AE8D8A007421A6 /* CHGroupIdentifierType.swift */,
 				842F907325AE8D9F007421A6 /* CHTaskLinkType.swift */,
 				844766EF259C2A4E00C50C09 /* CHCarePlanResponse.swift */,
@@ -1548,6 +1571,7 @@
 				844766F0259C2A4E00C50C09 /* CHOutcomeValue.swift */,
 				844766EB259C2A4E00C50C09 /* CHOutcomeValue+OCKOutcomeValue.swift */,
 				845F18A426328403005A601A /* CHOutcomeValue+HKQuantity.swift */,
+				8449A663267C746900F73D8E /* CHOutcomeResponse.swift */,
 				84CFEB2F265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift */,
 				844766F5259C2A4E00C50C09 /* CHScheduleElement.swift */,
 				8461B30325A17BB800742A44 /* CHScheduleElement+OCKScheduleElement.swift */,
@@ -1655,7 +1679,7 @@
 				84476720259C2A4E00C50C09 /* APIClient.swift */,
 				84344D42266B378D00DD4A7A /* APIClient+Auth.swift */,
 				84476721259C2A4E00C50C09 /* APIClient+Image.swift */,
-				847DF4EE2660AF7A00CCC1E9 /* SignedURLResponse.swift */,
+				8449A662267C5E5400F73D8E /* Model */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -1669,6 +1693,16 @@
 				84703C5D265B61320025A50D /* ShadowView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		8449A662267C5E5400F73D8E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				847DF4EE2660AF7A00CCC1E9 /* SignedURLResponse.swift */,
+				84C212A42660C5F4000D491B /* CHOrganization.swift */,
+				8449A65E267C5C8F00F73D8E /* CHConversations.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		844DD5D9264F76CE0039DB20 /* Development */ = {
@@ -1868,6 +1902,7 @@
 				845A0830265DD94800A7BDB7 /* CareKitStore */,
 				845A0832265DD94800A7BDB7 /* CareKitUI */,
 				84C8C401267714960015A258 /* ZendeskSupportSDK */,
+				842D018B267C53FF006B708F /* TwilioConversationsClient */,
 			);
 			productName = Alfred;
 			productReference = 842398C7259C1144006FB3F4 /* Allie.app */;
@@ -2044,6 +2079,7 @@
 				843372E0264F9B20005BED99 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				845A082B265DD94700A7BDB7 /* XCRemoteSwiftPackageReference "CareKit" */,
 				84C8C400267714950015A258 /* XCRemoteSwiftPackageReference "support_sdk_ios" */,
+				842D018A267C53FF006B708F /* XCRemoteSwiftPackageReference "conversations-ios" */,
 			);
 			productRefGroup = 842398C8259C1144006FB3F4 /* Products */;
 			projectDirPath = "";
@@ -2087,6 +2123,8 @@
 			files = (
 				84D121C4264100BC00990196 /* Outcomes2.json in Resources */,
 				84D121C3264100BC00990196 /* Outcomes1.json in Resources */,
+				8449A66C267C79A500F73D8E /* Organizations.json in Resources */,
+				8449A668267C789B00F73D8E /* OutcomesResponse.json in Resources */,
 				84C83FD8259C48F200DAEF34 /* TestImage.png in Resources */,
 				84C83FE7259C48F200DAEF34 /* TaskB2.json in Resources */,
 				84C83FE6259C48F200DAEF34 /* SechduleA.json in Resources */,
@@ -2662,7 +2700,7 @@
 				84E8788C26490D1D0000CCBB /* InsulinLogTaskView.swift in Sources */,
 				84D2BFD1260460D30064DB08 /* AnyUserInfoExtensible.swift in Sources */,
 				844767C6259C2A4E00C50C09 /* KeyedDecodingContainer+Custom.swift in Sources */,
-				841640C52627D714000903AF /* ChatViewController.swift in Sources */,
+				841640C52627D714000903AF /* ConversationsViewController.swift in Sources */,
 				845FBEAA25FC97B200472257 /* OCKPatient+Subject.swift in Sources */,
 				8447675E259C2A4E00C50C09 /* HKDataUploadViewController.swift in Sources */,
 				8439C79725FB3650008C5940 /* CodeableConcept+Supported.swift in Sources */,
@@ -2730,6 +2768,7 @@
 				844767A2259C2A4E00C50C09 /* String+Validation.swift in Sources */,
 				8447678B259C2A4E00C50C09 /* SmartDeviceType.swift in Sources */,
 				8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */,
+				8449A664267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				84C1060125E763EC00B126ED /* SimpleTaskViewController.swift in Sources */,
 				84476732259C2A4E00C50C09 /* RoundedButton.swift in Sources */,
 				8439C7AA25FB46AF008C5940 /* Device+HKObject.swift in Sources */,
@@ -2746,6 +2785,7 @@
 				8439C79C25FB41B7008C5940 /* ObservationComponent+HKQuantitySample.swift in Sources */,
 				849F362125B9161300FC2D1B /* TitledTextField.swift in Sources */,
 				8447673B259C2A4E00C50C09 /* TextfieldView.swift in Sources */,
+				8449A65B267C58D300F73D8E /* ConversationsManager.swift in Sources */,
 				84897F7F25E0E1E400ABC715 /* CHOutcomeValue+OCKOutcomeValue.swift in Sources */,
 				84476743259C2A4E00C50C09 /* ProfileChartView.swift in Sources */,
 				84703C6C265B727C0025A50D /* GridTaskViewSynchronizer.swift in Sources */,
@@ -2776,6 +2816,7 @@
 				845FBE8025FC775E00472257 /* ConfigurationError.swift in Sources */,
 				84703C56265B495D0025A50D /* AuthenticationToken.swift in Sources */,
 				84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */,
+				8449A65F267C5C8F00F73D8E /* CHConversations.swift in Sources */,
 				841A772C2652348C000913A9 /* CHOperation.swift in Sources */,
 				8476B0F1261D8691009516ED /* CHOutcome+OCKOutcome.swift in Sources */,
 				84AF11A326709C770061A9E5 /* ChecklistTaskController.swift in Sources */,
@@ -2837,6 +2878,7 @@
 				84C83FE5259C48F200DAEF34 /* DateFormatterTests.swift in Sources */,
 				84C83FDE259C48F200DAEF34 /* TasksTests.swift in Sources */,
 				84C83FD4259C48F200DAEF34 /* PatientTests.swift in Sources */,
+				8449A66A267C798500F73D8E /* OraganizationsTests.swift in Sources */,
 				845FBE7725FC71A700472257 /* ObservationsConfigTest.swift in Sources */,
 				849E158F26113ABB00663010 /* AlliePatientTests.swift in Sources */,
 				84C83FD6259C48F200DAEF34 /* ScheduleTests.swift in Sources */,
@@ -2896,7 +2938,7 @@
 				847DCC0E265871F3004E9C1D /* InsulinLogTaskView.swift in Sources */,
 				847DCC0F265871F3004E9C1D /* AnyUserInfoExtensible.swift in Sources */,
 				847DCC10265871F3004E9C1D /* KeyedDecodingContainer+Custom.swift in Sources */,
-				847DCC11265871F3004E9C1D /* ChatViewController.swift in Sources */,
+				847DCC11265871F3004E9C1D /* ConversationsViewController.swift in Sources */,
 				847DCC12265871F3004E9C1D /* OCKPatient+Subject.swift in Sources */,
 				847DCC13265871F3004E9C1D /* HKDataUploadViewController.swift in Sources */,
 				847DCC14265871F3004E9C1D /* CodeableConcept+Supported.swift in Sources */,
@@ -2965,6 +3007,7 @@
 				847DCC56265871F3004E9C1D /* TextContentDetailViewController.swift in Sources */,
 				847DCC58265871F3004E9C1D /* SimpleTaskViewController.swift in Sources */,
 				847DCC59265871F3004E9C1D /* RoundedButton.swift in Sources */,
+				8449A666267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				847DCC5A265871F3004E9C1D /* Device+HKObject.swift in Sources */,
 				847DCC5B265871F3004E9C1D /* Collection+Average.swift in Sources */,
 				847DCC5C265871F3004E9C1D /* BaseFactory.swift in Sources */,
@@ -2981,6 +3024,7 @@
 				847DCC64265871F3004E9C1D /* ObservationComponent+HKQuantitySample.swift in Sources */,
 				847DCC65265871F3004E9C1D /* TitledTextField.swift in Sources */,
 				847DCC66265871F3004E9C1D /* TextfieldView.swift in Sources */,
+				8449A65D267C58D300F73D8E /* ConversationsManager.swift in Sources */,
 				847DCC67265871F3004E9C1D /* CHOutcomeValue+OCKOutcomeValue.swift in Sources */,
 				847DCC68265871F3004E9C1D /* ProfileChartView.swift in Sources */,
 				84703C6E265B727C0025A50D /* GridTaskViewSynchronizer.swift in Sources */,
@@ -3011,6 +3055,7 @@
 				847DCC80265871F3004E9C1D /* ConfigurationError.swift in Sources */,
 				847DCC81265871F3004E9C1D /* PersonNameComponents+ResourceName.swift in Sources */,
 				847DCC82265871F3004E9C1D /* CHOperation.swift in Sources */,
+				8449A661267C5C8F00F73D8E /* CHConversations.swift in Sources */,
 				847DCC83265871F3004E9C1D /* CHOutcome+OCKOutcome.swift in Sources */,
 				847DCC84265871F3004E9C1D /* HTMLViewerController.swift in Sources */,
 				847DCC85265871F3004E9C1D /* LoginViewController.swift in Sources */,
@@ -3100,7 +3145,7 @@
 				84E8788D26490D1D0000CCBB /* InsulinLogTaskView.swift in Sources */,
 				84D12240264112DE00990196 /* AnyUserInfoExtensible.swift in Sources */,
 				84D12241264112DE00990196 /* KeyedDecodingContainer+Custom.swift in Sources */,
-				84D12242264112DE00990196 /* ChatViewController.swift in Sources */,
+				84D12242264112DE00990196 /* ConversationsViewController.swift in Sources */,
 				84D12243264112DE00990196 /* OCKPatient+Subject.swift in Sources */,
 				84D12244264112DE00990196 /* HKDataUploadViewController.swift in Sources */,
 				84D12245264112DE00990196 /* CodeableConcept+Supported.swift in Sources */,
@@ -3169,6 +3214,7 @@
 				84D12282264112DE00990196 /* TextContentDetailViewController.swift in Sources */,
 				84D12285264112DE00990196 /* SimpleTaskViewController.swift in Sources */,
 				84D12286264112DE00990196 /* RoundedButton.swift in Sources */,
+				8449A665267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				84D12287264112DE00990196 /* Device+HKObject.swift in Sources */,
 				84D12288264112DE00990196 /* Collection+Average.swift in Sources */,
 				84D12289264112DE00990196 /* BaseFactory.swift in Sources */,
@@ -3185,6 +3231,7 @@
 				84D12291264112DE00990196 /* ObservationComponent+HKQuantitySample.swift in Sources */,
 				84D12292264112DE00990196 /* TitledTextField.swift in Sources */,
 				84D12293264112DE00990196 /* TextfieldView.swift in Sources */,
+				8449A65C267C58D300F73D8E /* ConversationsManager.swift in Sources */,
 				84D12294264112DE00990196 /* CHOutcomeValue+OCKOutcomeValue.swift in Sources */,
 				84D12295264112DE00990196 /* ProfileChartView.swift in Sources */,
 				84703C6D265B727C0025A50D /* GridTaskViewSynchronizer.swift in Sources */,
@@ -3215,6 +3262,7 @@
 				84D122AE264112DE00990196 /* ConfigurationError.swift in Sources */,
 				84D122AF264112DE00990196 /* PersonNameComponents+ResourceName.swift in Sources */,
 				841A772D2652348C000913A9 /* CHOperation.swift in Sources */,
+				8449A660267C5C8F00F73D8E /* CHConversations.swift in Sources */,
 				84D122B0264112DE00990196 /* CHOutcome+OCKOutcome.swift in Sources */,
 				84D122B1264112DE00990196 /* HTMLViewerController.swift in Sources */,
 				84D122B3264112DE00990196 /* LoginViewController.swift in Sources */,
@@ -3822,6 +3870,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		842D018A267C53FF006B708F /* XCRemoteSwiftPackageReference "conversations-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twilio/conversations-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.1;
+			};
+		};
 		84311368262E87F300561329 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Skyscanner/SkyFloatingLabelTextField.git";
@@ -4049,6 +4105,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		842D018B267C53FF006B708F /* TwilioConversationsClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 842D018A267C53FF006B708F /* XCRemoteSwiftPackageReference "conversations-ios" */;
+			productName = TwilioConversationsClient;
+		};
 		84311369262E87F300561329 /* SkyFloatingLabelTextField */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 84311368262E87F300561329 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */;

@@ -51,6 +51,10 @@
 		<string>$(FIREBASE_DEEPLINK_URL)</string>
 		<key>Support_Email</key>
 		<string>$(SUPPORT_EMAIL)</string>
+		<key>Twilio_Account_Sid</key>
+		<string>$(TWILIO_ACCOUNT_SID)</string>
+		<key>Twilio_Auth_Token</key>
+		<string>$(TWILIO_AUTH_TOKEN)</string>
 		<key>Zendesk_App_Id</key>
 		<string>$(ZENDESK_APP_ID)</string>
 		<key>Zendesk_Chat_Account_Key</key>

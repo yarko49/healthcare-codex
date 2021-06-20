@@ -22,7 +22,7 @@ class OutcomesTests: XCTestCase {
 		let data = AllieTests.loadTestData(fileName: "Outcomes1.json")
 		XCTAssertNotNil(data)
 		let decoder = CHJSONDecoder()
-		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: data!)
+		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
 		XCTAssertEqual(carePlanResponse.outcomes.count, 43)
 	}
 
@@ -30,7 +30,15 @@ class OutcomesTests: XCTestCase {
 		let data = AllieTests.loadTestData(fileName: "Outcomes2.json")
 		XCTAssertNotNil(data)
 		let decoder = CHJSONDecoder()
-		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: data!)
+		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
 		XCTAssertEqual(carePlanResponse.outcomes.count, 43)
+	}
+
+	func testGetOutcomes() throws {
+		let data = AllieTests.loadTestData(fileName: "OutcomesResponse.json")
+		XCTAssertNotNil(data)
+		let decoder = CHJSONDecoder()
+		let outcomeResponse = try decoder.decode(CHOutcomeResponse.self, from: data!)
+		XCTAssertEqual(outcomeResponse.outcomes.count, 18)
 	}
 }

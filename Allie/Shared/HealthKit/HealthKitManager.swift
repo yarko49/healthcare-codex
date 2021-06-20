@@ -4,6 +4,7 @@
 //
 
 import CareKit
+import Combine
 import Foundation
 import HealthKit
 import HealthKitUI
@@ -22,6 +23,8 @@ class HealthKitManager {
 	private var patientId: String? {
 		CareManager.shared.patient?.profile.fhirId
 	}
+
+	private var cancellables: Set<AnyCancellable> = []
 
 	typealias SampleCompletion = (Result<[HKSample], Error>) -> Void
 	func authorizeHealthKit(completion: @escaping (Bool, Error?) -> Void) {
@@ -49,7 +52,18 @@ class HealthKitManager {
 		}
 	}
 
-	// Post Data from Health Kit to BE
+    func queryHealthData(dataType: HealthKitDataType, startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
+        if dataType == .bloodPressure {
+            return queryBloodPressure(startDate: startDate, endDate: endDate, options: options)
+        } else {
+            guard let sampleType = dataType.quantityType[0] else {
+                return Fail(error: HealthKitManagerError.invalidInput("DataType \(dataType.rawValue) missing sample type"))
+                    .eraseToAnyPublisher()
+            }
+            return queryHealthData(quantityType: sampleType, startDate: startDate, endDate: endDate, options: options)
+        }
+    }
+
 	func queryHealthData(dataType: HealthKitDataType, startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping AllieResultCompletion<[HKSample]>) {
 		if dataType == .bloodPressure {
 			queryBloodPressure(startDate: startDate, endDate: endDate, options: options, completion: completion)
@@ -62,6 +76,21 @@ class HealthKitManager {
 		}
 	}
 
+    func queryHealthData(quantityType: HKQuantityType, startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
+        Future { [weak self] promise in
+            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
+            let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
+            let query = HKSampleQuery(sampleType: quantityType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, error in
+                if let error = error {
+                    promise(.failure(error))
+                } else {
+                    promise(.success(results ?? []))
+                }
+            }
+            self?.healthKitStore.execute(query)
+        }.eraseToAnyPublisher()
+    }
+
 	func queryHealthData(quantityType: HKQuantityType, startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping AllieResultCompletion<[HKSample]>) {
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
 		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
@@ -73,6 +102,27 @@ class HealthKitManager {
 			completion(.success(samples))
 		}
 		healthKitStore.execute(query)
+	}
+
+	func queryStatisticsStepCount(startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKStatistics], Error> {
+		Future { [weak self] promise in
+			let type = HKSampleType.quantityType(forIdentifier: .stepCount)
+			let beginingOfDay = Calendar.current.startOfDay(for: startDate)
+			var interval = DateComponents()
+			interval.day = 1
+			let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
+			let query = HKStatisticsCollectionQuery(quantityType: type!, quantitySamplePredicate: predicate, options: [.cumulativeSum, .separateBySource], anchorDate: beginingOfDay, intervalComponents: interval)
+			query.initialResultsHandler = { _, results, error in
+				if let error = error {
+					promise(.failure(error))
+				} else {
+					let statistics = results?.statistics() ?? []
+					promise(.success(statistics))
+				}
+			}
+
+			self?.healthKitStore.execute(query)
+		}.eraseToAnyPublisher()
 	}
 
 	func queryStatisticsStepCount(startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping (Bool, [HKStatistics]) -> Void) {
@@ -88,6 +138,25 @@ class HealthKitManager {
 		}
 
 		healthKitStore.execute(query)
+	}
+
+	func queryBloodPressure(startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
+		guard let bloodPressure = HKQuantityType.correlationType(forIdentifier: .bloodPressure) else {
+			return Fail(error: HealthKitManagerError.invalidInput("CorrelationType not valid BloodPressure"))
+				.eraseToAnyPublisher()
+		}
+		return Future { [weak self] promise in
+			let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
+			let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
+			let query = HKSampleQuery(sampleType: bloodPressure, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, error in
+				if let error = error {
+					promise(.failure(error))
+				} else {
+					promise(.success(results ?? []))
+				}
+			}
+			self?.healthKitStore.execute(query)
+		}.eraseToAnyPublisher()
 	}
 
 	func queryBloodPressure(startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping AllieResultCompletion<[HKSample]>) {
@@ -107,6 +176,26 @@ class HealthKitManager {
 		healthKitStore.execute(query)
 	}
 
+	func queryMostRecentEntry(identifier: HKQuantityTypeIdentifier, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
+		guard let type = HKSampleType.quantityType(forIdentifier: identifier) else {
+			return Fail(error: HealthKitManagerError.invalidInput("SampleType notd valid \(identifier.rawValue)"))
+				.eraseToAnyPublisher()
+		}
+		return Future { [weak self] promise in
+			let predicate = HKQuery.predicateForSamples(withStart: Date.distantPast, end: Date(), options: [])
+			let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
+			let limit = 1
+			let query = HKSampleQuery(sampleType: type, predicate: predicate, limit: limit, sortDescriptors: [sortDescriptor]) { _, samples, error in
+				if let error = error {
+					promise(.failure(error))
+				} else {
+					promise(.success(samples ?? []))
+				}
+			}
+			self?.healthKitStore.execute(query)
+		}.eraseToAnyPublisher()
+	}
+
 	func queryMostRecentEntry(identifier: HKQuantityTypeIdentifier, options: HKQueryOptions, completion: @escaping AllieResultCompletion<HKSample>) {
 		guard let type = HKSampleType.quantityType(forIdentifier: identifier) else {
 			completion(.failure(HealthKitManagerError.invalidInput("SampleType notd valid \(identifier.rawValue)")))
@@ -123,6 +212,30 @@ class HealthKitManager {
 			completion(.success(sample))
 		}
 		healthKitStore.execute(query)
+	}
+
+	func queryTodaySteps(options: HKQueryOptions) -> AnyPublisher<HKStatistics, Error> {
+		guard let stepsQuantityType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
+			return Fail(error: HealthKitManagerError.invalidInput("Steps quantity type invalid"))
+				.eraseToAnyPublisher()
+		}
+
+		return Future { [weak self] promise in
+			let now = Date()
+			let startOfDay = Calendar.current.startOfDay(for: now)
+			let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: options)
+			let query = HKStatisticsQuery(quantityType: stepsQuantityType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, error in
+				if let error = error {
+					promise(.failure(error))
+				} else if let statisticResult = result {
+					promise(.success(statisticResult))
+				} else {
+					promise(.failure(HealthKitManagerError.notAvailableOnDevice))
+				}
+			}
+
+			self?.healthKitStore.execute(query)
+		}.eraseToAnyPublisher()
 	}
 
 	func queryTodaySteps(options: HKQueryOptions, completion: @escaping AllieResultCompletion<HKStatistics>) {
@@ -256,16 +369,21 @@ class HealthKitManager {
 		}
 	}
 
+    func uploadHKData(entries: [ModelsR4.BundleEntry]) -> AnyPublisher<ModelsR4.Bundle, Error> {
+        let bundle = ModelsR4.Bundle(entry: entries, type: FHIRPrimitive<BundleType>(.transaction))
+        return APIClient.shared.post(bundle: bundle)
+    }
+
 	func uploadHKData(entries: [ModelsR4.BundleEntry], completion: @escaping (Bool) -> Void) {
 		let bundle = ModelsR4.Bundle(entry: entries, type: FHIRPrimitive<BundleType>(.transaction))
-		APIClient.shared.post(bundle: bundle) { result in
-			switch result {
-			case .failure(let error):
-				ALog.error("Post Bundle", error: error)
-				completion(false)
-			case .success:
+		APIClient.shared.post(bundle: bundle)
+			.sink(receiveCompletion: { result in
+				if case .failure(let error) = result {
+					ALog.error("Post Bundle", error: error)
+					completion(false)
+				}
+			}, receiveValue: { _ in
 				completion(true)
-			}
-		}
+			}).store(in: &cancellables)
 	}
 }

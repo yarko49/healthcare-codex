@@ -7,10 +7,11 @@
 
 @testable import Allie
 import CareKitStore
+import KeychainAccess
 import XCTest
 
 class AlliePatientTests: XCTestCase {
-	var patient: AlliePatient!
+	var patient: CHPatient!
 
 	override func setUpWithError() throws {
 		var name = PersonNameComponents()
@@ -19,7 +20,7 @@ class AlliePatientTests: XCTestCase {
 		name.middleName = "A"
 		let id = "v4GJLsOR7HbVWD0SmZyLhrDs3vq1"
 		let uuid = "3522daf3-422b-487f-bc79-d52d7aadb9eb"
-		patient = AlliePatient(id: id, name: name)
+		patient = CHPatient(id: id, name: name)
 		patient.birthday = Date(timeIntervalSince1970: 0)
 		patient.sex = .male
 		patient.allergies = ["pollen"]
@@ -51,17 +52,17 @@ class AlliePatientTests: XCTestCase {
 		let encoded = try encoder.encode(patient)
 		let decoder = JSONDecoder()
 		decoder.dateDecodingStrategy = .iso8601
-		let decoded = try decoder.decode(AlliePatient.self, from: encoded)
+		let decoded = try decoder.decode(CHPatient.self, from: encoded)
 		try comparePatients(lhs: patient, rhs: decoded)
 	}
 
 	func testEncodeToKeychain() throws {
-		Keychain.save(patient: patient)
-		let fromKeychain = Keychain.readPatient(forKey: patient.id)
+		Keychain.patient = patient
+		let fromKeychain = Keychain.patient
 		try comparePatients(lhs: patient, rhs: fromKeychain)
 	}
 
-	func comparePatients(lhs: AlliePatient!, rhs: AlliePatient!) throws {
+	func comparePatients(lhs: CHPatient!, rhs: CHPatient!) throws {
 		XCTAssertNotNil(lhs)
 		XCTAssertNotNil(lhs.remoteID)
 		XCTAssertNotNil(lhs.profile)

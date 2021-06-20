@@ -136,7 +136,7 @@ class AppCoordinator: BaseCoordinator {
 
 	class var chatViewController: UINavigationController {
 		let layout = UICollectionViewFlowLayout()
-		let controller = ChatViewController(collectionViewLayout: layout)
+		let controller = ConversationsViewController(collectionViewLayout: layout)
 		let title = NSLocalizedString("CHAT", comment: "Chat")
 		controller.title = title
 		controller.tabBarItem.image = UIImage(named: "icon-tabbar-chat")

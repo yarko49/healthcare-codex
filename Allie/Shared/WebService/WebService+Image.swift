@@ -5,24 +5,22 @@
 //  Created by Waqar Malik on 12/13/20.
 //
 
+import Combine
 import UIKit
 
 public extension WebService {
-	@discardableResult
-	func loadImage(urlString: String, completion: @escaping RequestCompletion<UIImage>) -> URLSession.ServicePublisher? {
+	func loadImage(urlString: String) -> AnyPublisher<UIImage, Error> {
 		guard let url = URL(string: urlString) else {
-			completion(.failure(URLError(.badURL)))
-			return nil
+			return Fail(error: URLError(.badURL))
+				.eraseToAnyPublisher()
 		}
 
-		return loadImage(url: url, completion: completion)
+		return loadImage(url: url)
 	}
 
-	@discardableResult
-	func loadImage(url: URL, completion: @escaping RequestCompletion<UIImage>) -> URLSession.ServicePublisher? {
-		let publisher = session.servicePublisher(for: url)
+	func loadImage(url: URL) -> AnyPublisher<UIImage, Error> {
+		session.servicePublisher(for: url)
 			.setHeaderValue(Request.ContentType.jpeg, forName: Request.Header.contentType)
-		publisher
 			.retry(configuration.retryCountForResource)
 			.tryMap { result -> Data in
 				try result.data.ws_validate(result.response).ws_validate()
@@ -33,17 +31,6 @@ public extension WebService {
 				return image
 			}.subscribe(on: DispatchQueue.global(qos: .background))
 			.receive(on: DispatchQueue.main)
-			.sink { receiveCompltion in
-				switch receiveCompltion {
-				case .failure(let error):
-					ALog.error(error: error)
-					completion(.failure(error))
-				case .finished:
-					ALog.info("Finished Dowloading image at \(url.absoluteString)")
-				}
-			} receiveValue: { value in
-				completion(.success(value))
-			}.store(in: &subscriptions)
-		return publisher
+			.eraseToAnyPublisher()
 	}
 }

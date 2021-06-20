@@ -30,7 +30,7 @@ class TasksTests: XCTestCase {
 		let data = try JSONSerialization.data(withJSONObject: tasksDictionary!, options: .prettyPrinted)
 		let decoder = CHJSONDecoder()
 		do {
-			let tasks = try decoder.decode([Task].self, from: data)
+			let tasks = try decoder.decode([CHTask].self, from: data)
 			XCTAssertEqual(tasks.count, 9)
 		} catch {
 			ALog.error("\(error.localizedDescription)")
@@ -50,7 +50,7 @@ class TasksTests: XCTestCase {
 		XCTAssertNotNil(tasksData)
 		let decoder = CHJSONDecoder()
 		do {
-			let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: tasksData!)
+			let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: tasksData!)
 			XCTAssertNotNil(carePlanResponse.faultyTasks, "Missing faulty tasks")
 			ALog.info("\(carePlanResponse.tasks.count)")
 			ALog.info("\(String(describing: carePlanResponse.faultyTasks))")

@@ -19,7 +19,6 @@ public final class WebService {
 	public typealias RequestCompletion<T> = (Result<T, Error>) -> Void
 
 	let session: URLSession
-	var subscriptions: Set<AnyCancellable> = []
 	public var configuration: WebService.Configuarion = Configuarion()
 	public var errorProcessor: ((URLRequest?, Error) -> Void)?
 	public var responseHandler: ((HTTPURLResponse) throws -> Void)?
@@ -28,65 +27,48 @@ public final class WebService {
 		self.session = session
 	}
 
-	public func cancelAll() {
-		subscriptions.forEach { cancellable in
-			cancellable.cancel()
-		}
-	}
-
-	func request<T: Decodable>(route: APIRouter, decoder: JSONDecoder = CHJSONDecoder(), completion: @escaping WebService.DecodableCompletion<T>) -> URLSession.ServicePublisher? {
+	func request<T: Decodable>(route: APIRouter, decoder: JSONDecoder = CHJSONDecoder()) -> AnyPublisher<T, Error> {
 		guard let request = route.request else {
-			completion(.failure(URLError(.badURL)))
-			return nil
+			return Fail(error: URLError(.badURL))
+				.eraseToAnyPublisher()
 		}
-		return self.request(request: request, decoder: decoder, completion: completion)
+		return decodable(request: request, decoder: decoder)
 	}
 
-	func requestSerializable(route: APIRouter, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.ServicePublisher? {
+	func serializable(route: APIRouter) -> AnyPublisher<Any, Error> {
 		guard let request = route.request else {
-			completion(.failure(URLError(.badURL)))
-			return nil
+			return Fail(error: URLError(.badURL))
+				.eraseToAnyPublisher()
 		}
-		return requestSerializable(request: request, completion: completion)
+		return serializable(request: request)
 	}
 
-	func requestSimple(route: APIRouter, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher? {
+	func simple(route: APIRouter) -> AnyPublisher<Bool, Error> {
 		guard let request = route.request else {
-			completion(.failure(URLError(.badURL)))
-			return nil
+			return Fail<Bool, Error>(error: URLError(.badURL))
+				.eraseToAnyPublisher()
 		}
-		return requestSimple(request: request, completion: completion)
+		return simple(request: request)
 	}
 
-	func requestData(url: URL) -> Future<Data, Error> {
-		Future { promise in
-			self.session.dataTaskPublisher(for: url)
-				.tryMap { [weak self] result in
-					let data = try result.data.ws_validate(result.response).ws_validate()
-					if self?.configuration.logResponses == true {
-						let string = String(data: data, encoding: .utf8)
-						ALog.info("\(string ?? "")")
-					}
-					return data
+	func data(url: URL) -> AnyPublisher<Data, Error> {
+		session.dataTaskPublisher(for: url)
+			.tryMap { [weak self] result in
+				let data = try result.data.ws_validate(result.response).ws_validate()
+				if self?.configuration.logResponses == true {
+					let string = String(data: data, encoding: .utf8)
+					ALog.info("\(string ?? "")")
 				}
-				.subscribe(on: DispatchQueue.global(qos: .background))
-				.receive(on: DispatchQueue.main)
-				.sink { completion in
-					switch completion {
-					case .failure(let error):
-						promise(.failure(error))
-					case .finished:
-						break
-					}
-				} receiveValue: { value in
-					promise(.success(value))
-				}.store(in: &self.subscriptions)
-		}
+				return data
+			}
+			.subscribe(on: DispatchQueue.global(qos: .background))
+			.receive(on: DispatchQueue.main)
+			.eraseToAnyPublisher()
 	}
 
-	func request<T: Decodable>(request: Request, decoder: JSONDecoder = CHJSONDecoder(), completion: @escaping WebService.DecodableCompletion<T>) -> URLSession.ServicePublisher? {
-		let publisher = session.servicePublisher(for: request)
-		publisher.retry(configuration.retryCountForRequest)
+	func decodable<T: Decodable>(request: Request, decoder: JSONDecoder = CHJSONDecoder()) -> AnyPublisher<T, Error> {
+		session.servicePublisher(for: request)
+			.retry(configuration.retryCountForRequest)
 			.mapError { [weak self] failure -> Error in
 				if let processor = self?.errorProcessor {
 					processor(request.urlRequest, failure)
@@ -115,23 +97,12 @@ public final class WebService {
 			.decode(type: T.self, decoder: decoder)
 			.subscribe(on: DispatchQueue.global(qos: .background))
 			.receive(on: DispatchQueue.main)
-			.sink(receiveCompletion: { receiveCompletion in
-				switch receiveCompletion {
-				case .failure(let error):
-					ALog.error(error: error)
-					completion(.failure(error))
-				case .finished:
-					ALog.info("Finished Dowloading")
-				}
-			}, receiveValue: { value in
-				completion(.success(value))
-			}).store(in: &subscriptions)
-		return publisher
+			.eraseToAnyPublisher()
 	}
 
-	func requestSerializable(request: Request, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.ServicePublisher? {
-		let publisher = session.servicePublisher(for: request)
-		publisher.retry(configuration.retryCountForRequest)
+	func serializable(request: Request) -> AnyPublisher<Any, Error> {
+		session.servicePublisher(for: request)
+			.retry(configuration.retryCountForRequest)
 			.mapError { [weak self] failure -> Error in
 				if let processor = self?.errorProcessor {
 					processor(request.urlRequest, failure)
@@ -156,31 +127,17 @@ public final class WebService {
 				let data = try result.data.ws_validate(result.response).ws_validate()
 				return data
 			}
-			.tryMap { data -> [String: Any] in
-				guard let jsonObject = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
-					throw URLError(.cannotDecodeContentData)
-				}
-				return jsonObject
+			.tryMap { data -> Any in
+				try JSONSerialization.jsonObject(with: data, options: .allowFragments)
 			}
 			.subscribe(on: DispatchQueue.global(qos: .background))
 			.receive(on: DispatchQueue.main)
-			.sink(receiveCompletion: { receiveCompletion in
-				switch receiveCompletion {
-				case .failure(let error):
-					ALog.error(error: error)
-					completion(.failure(error))
-				case .finished:
-					ALog.info("Finished Dowloading")
-				}
-			}, receiveValue: { value in
-				completion(.success(value))
-			}).store(in: &subscriptions)
-		return publisher
+			.eraseToAnyPublisher()
 	}
 
-	func requestSimple(request: Request, completion: @escaping WebService.RequestCompletion<Bool>) -> URLSession.ServicePublisher? {
-		let publisher = session.servicePublisher(for: request)
-		publisher.retry(configuration.retryCountForRequest)
+	func data(request: Request) -> AnyPublisher<Data, Error> {
+		session.servicePublisher(for: request)
+			.retry(configuration.retryCountForRequest)
 			.mapError { [weak self] failure -> Error in
 				if let processor = self?.errorProcessor {
 					processor(request.urlRequest, failure)
@@ -199,23 +156,40 @@ public final class WebService {
 				return response
 			}
 			.tryMap { result -> Data in
-				let data = try result.data.ws_validate(result.response)
-				return data
+				try result.data.ws_validate(result.response)
 			}
 			.subscribe(on: DispatchQueue.global(qos: .background))
 			.receive(on: DispatchQueue.main)
-			.sink(receiveCompletion: { receiveCompletion in
-				switch receiveCompletion {
-				case .failure(let error):
-					ALog.error(error: error)
-					completion(.failure(error))
-				case .finished:
-					ALog.info("Finished Dowloading")
+			.eraseToAnyPublisher()
+	}
+
+	func simple(request: Request) -> AnyPublisher<Bool, Error> {
+		session.servicePublisher(for: request)
+			.retry(configuration.retryCountForRequest)
+			.mapError { [weak self] failure -> Error in
+				if let processor = self?.errorProcessor {
+					processor(request.urlRequest, failure)
 				}
-			}, receiveValue: { _ in
-				completion(.success(true))
-			}).store(in: &subscriptions)
-		return publisher
+				return failure
+			}
+			.tryMap { [weak self] response -> (data: Data, response: URLResponse) in
+				guard let httpResponse = response.response as? HTTPURLResponse else {
+					throw URLError(.badServerResponse)
+				}
+
+				// We only want to re auth and other wise just pass the error down
+				if let handler = self?.responseHandler, httpResponse.statusCode == 401 {
+					try handler(httpResponse)
+				}
+				return response
+			}
+			.tryMap { result -> Bool in
+				let data = try? result.data.ws_validate(result.response)
+				return data != nil
+			}
+			.subscribe(on: DispatchQueue.global(qos: .background))
+			.receive(on: DispatchQueue.main)
+			.eraseToAnyPublisher()
 	}
 }
 

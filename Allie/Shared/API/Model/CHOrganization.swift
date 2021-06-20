@@ -7,15 +7,21 @@
 
 import Foundation
 
+struct CHOrganizationResponse: Codable, Hashable {
+	let organizations: [CHOrganization]
+}
+
 struct CHOrganization: Codable, Identifiable, Hashable {
 	let id: String
 	let name: String
 	let image: URL?
+	let totalPatients: Int
 
 	private enum CodingKeys: String, CodingKey {
-		case id = "healthcareProviderTenantID"
+		case id = "healthcareProviderTenantId"
 		case name
 		case image
+		case totalPatients
 	}
 }
 

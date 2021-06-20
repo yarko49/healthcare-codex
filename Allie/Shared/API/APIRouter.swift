@@ -25,12 +25,14 @@ enum APIRouter: URLRequestConvertible {
 
 	case organizations
 	case registerOrganization(CHOrganization)
+	case conversations
 	case getCarePlan(option: CarePlanResponseType)
 	case postCarePlan(carePlanResponse: CHCarePlanResponse)
 	case postPatient(patient: CHPatient)
 	case postObservation(observation: ModelsR4.Observation)
 	case postBundle(bundle: ModelsR4.Bundle)
 	case postOutcomes(outcomes: [CHOutcome])
+	case getOutcomes(carePlanId: String, taskId: String)
 	case getFeatureContent(carePlanId: String, taskId: String, asset: String)
 
 	var method: Request.Method {
@@ -39,6 +41,8 @@ enum APIRouter: URLRequestConvertible {
 			return .get
 		case .registerOrganization:
 			return .post
+		case .conversations:
+			return .get
 		case .getCarePlan:
 			return .get
 		case .postCarePlan:
@@ -51,6 +55,8 @@ enum APIRouter: URLRequestConvertible {
 			return .post
 		case .postOutcomes:
 			return .post
+		case .getOutcomes:
+			return .get
 		case .getFeatureContent:
 			return .get
 		}
@@ -63,6 +69,8 @@ enum APIRouter: URLRequestConvertible {
 			path += "/organizations"
 		case .registerOrganization:
 			path += "/organization/register"
+		case .conversations:
+			path += "/conversations"
 		case .getCarePlan, .postCarePlan, .postPatient:
 			path += "/carePlan"
 		case .postObservation:
@@ -71,6 +79,8 @@ enum APIRouter: URLRequestConvertible {
 			path += "/fhir/Bundle"
 		case .postOutcomes:
 			path += "/carePlan/outcomes"
+		case .getOutcomes(let carePlanId, let taskId):
+			path += "/carePlan/\(carePlanId)/task/\(taskId)/outcomes"
 		case .getFeatureContent(let carePlanId, let taskId, let asset):
 			path += "/carePlan/\(carePlanId)/task/\(taskId)/asset/\(asset)"
 		}
@@ -124,6 +134,8 @@ enum APIRouter: URLRequestConvertible {
 			break
 		case .registerOrganization:
 			break
+		case .conversations:
+			break
 		case .getCarePlan(let option):
 			// possible values are return=Summary, return=Outcomes, return=ValueSpaceSample, return=VectorClock
 			switch option {
@@ -133,7 +145,7 @@ enum APIRouter: URLRequestConvertible {
 				headers[Request.Header.CarePlanPrefer] = "return=VectorClock"
 			case .valueSpaceSample:
 				headers[Request.Header.CarePlanPrefer] = "return=ValueSpaceSample"
-			case .outcomes:
+			case .outcomes: // Deprecated
 				headers[Request.Header.CarePlanPrefer] = "return=Outcomes"
 			case .summary:
 				headers[Request.Header.CarePlanPrefer] = "return=Summary"
@@ -145,6 +157,8 @@ enum APIRouter: URLRequestConvertible {
 		case .postBundle:
 			headers[Request.Header.contentType] = Request.ContentType.fhirjson
 		case .postOutcomes:
+			break
+		case .getOutcomes:
 			break
 		case .getFeatureContent:
 			break
@@ -158,11 +172,15 @@ enum APIRouter: URLRequestConvertible {
 			return nil
 		case .registerOrganization:
 			return nil
+		case .conversations:
+			return nil
 		case .getCarePlan, .postCarePlan, .postPatient, .postObservation:
 			return nil
 		case .postBundle:
 			return nil
 		case .postOutcomes:
+			return nil
+		case .getOutcomes:
 			return nil
 		case .getFeatureContent:
 			return nil

@@ -7,12 +7,14 @@
 
 @testable import Allie
 import CareKitStore
+import Combine
 import ModelsR4
 import XCTest
 
 class CareKitStoreTests: XCTestCase {
-	let careManager = CareManager()
+	let careManager = CareManager.shared
 	var client: APIClient?
+	var cancellables: Set<AnyCancellable> = []
 
 	override func setUpWithError() throws {
 		let config = URLSessionConfiguration.ephemeral
@@ -65,11 +67,13 @@ class CareKitStoreTests: XCTestCase {
 		URLProtocolMock.testData[url!] = carePlanResponse
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
 		let expect = expectation(description: "DefaultCarePlan")
-		client?.getCarePlan(completion: { result in
-			switch result {
-			case .failure(let error):
-				XCTFail("Error Fetching DefaultDiabetes Care Plan = \(error.localizedDescription)")
-			case .success(let carePlanResponse):
+		client?.getCarePlan()
+			.sink(receiveCompletion: { result in
+				if case .failure(let error) = result {
+					XCTFail("Error Fetching DefaultDiabetes Care Plan = \(error.localizedDescription)")
+					URLProtocolMock.response = nil
+				}
+			}, receiveValue: { carePlanResponse in
 				let patients = carePlanResponse.patients
 				XCTAssertNotNil(patients)
 				XCTAssertEqual(patients.count, 1)
@@ -77,9 +81,8 @@ class CareKitStoreTests: XCTestCase {
 				XCTAssertNotNil(patient)
 				XCTAssertNotNil(patient?.profile.fhirId)
 				expect.fulfill()
-			}
-			URLProtocolMock.response = nil
-		})
+				URLProtocolMock.response = nil
+			}).store(in: &cancellables)
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 	}
 
@@ -91,22 +94,23 @@ class CareKitStoreTests: XCTestCase {
 		URLProtocolMock.testData[url!] = carePlanResponseData
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
 		let expect = expectation(description: "DefaultCarePlan")
-		client?.getCarePlan(completion: { [weak self] result in
-			switch result {
-			case .failure(let error):
-				XCTFail("Error Fetching DefaultDiabetes Care Plan = \(error.localizedDescription)")
-			case .success(let response):
-				self?.careManager.createOrUpdate(carePlanResponse: response, completion: { success in
-					if success {
+		client?.getCarePlan()
+			.sink(receiveCompletion: { result in
+				if case .failure(let error) = result {
+					XCTFail("Error Fetching DefaultDiabetes Care Plan = \(error.localizedDescription)")
+				}
+				URLProtocolMock.response = nil
+			}, receiveValue: { [weak self] response in
+				self?.careManager.process(carePlanResponse: response, completion: { result in
+					switch result {
+					case .failure(let error):
+						XCTFail("Error inserting DefaultDiabetes Care Plan \(error.localizedDescription)")
+					case .success:
 						XCTAssertNotNil(self?.careManager.patient)
 						expect.fulfill()
-					} else {
-						XCTFail("Error inserting DefaultDiabetes Care Plan")
 					}
 				})
-			}
-			URLProtocolMock.response = nil
-		})
+			}).store(in: &cancellables)
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 	}
 
@@ -118,17 +122,18 @@ class CareKitStoreTests: XCTestCase {
 		URLProtocolMock.testData[url!] = carePlanResponseData
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
 		let expect = expectation(description: "DefaultCarePlan")
-		var carePlanRespons: CarePlanResponse?
-		client?.getCarePlan(completion: { result in
-			switch result {
-			case .failure(let error):
-				XCTFail("Error Fetching DefaultDiabetes Care Plan = \(error.localizedDescription)")
-			case .success(let response):
+		var carePlanRespons: CHCarePlanResponse?
+		client?.getCarePlan()
+			.sink(receiveCompletion: { result in
+				if case .failure(let error) = result {
+					XCTFail("Error Fetching DefaultDiabetes Care Plan = \(error.localizedDescription)")
+					URLProtocolMock.response = nil
+				}
+			}, receiveValue: { response in
 				carePlanRespons = response
 				expect.fulfill()
-			}
-			URLProtocolMock.response = nil
-		})
+				URLProtocolMock.response = nil
+			}).store(in: &cancellables)
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 
 		if let carePlan = carePlanRespons {
@@ -138,7 +143,7 @@ class CareKitStoreTests: XCTestCase {
 			}
 			let ockPatient = OCKPatient(patient: patient)
 			let add = expectation(description: "DefaultCarePlan")
-			careManager.store.createOrUpdate(patient: ockPatient, callbackQueue: .main) { result in
+			careManager.store.process(patient: ockPatient, callbackQueue: .main, completion: { result in
 				switch result {
 				case .failure(let error):
 					XCTFail("Error inserting DefaultDiabetes Care Plan = \(error.localizedDescription)")
@@ -146,7 +151,7 @@ class CareKitStoreTests: XCTestCase {
 					ALog.info("\(newPatient.id), \(newPatient.uuid), \(newPatient.updatedDate)")
 					add.fulfill()
 				}
-			}
+			})
 			XCTAssertEqual(.completed, XCTWaiter().wait(for: [add], timeout: 10))
 		}
 	}

@@ -25,7 +25,7 @@ class TaskTests: XCTestCase {
 	func testTaskB2() throws {
 		let decoder = CHJSONDecoder()
 		XCTAssertNotNil(testData)
-		let task = try decoder.decode(Task.self, from: testData!)
+		let task = try decoder.decode(CHTask.self, from: testData!)
 		XCTAssertEqual(task.id, "TaskB2")
 		XCTAssertEqual(task.remoteId, "XXXX-SOME-UUID-ZZZZ")
 		XCTAssertEqual(task.title, "custom-3x-daily-finite-grid")
@@ -73,7 +73,7 @@ class TaskTests: XCTestCase {
 			.data(using: .utf8)
 
 		XCTAssertNotNil(taskData)
-		let task = try JSONDecoder().decode(Task.self, from: taskData!)
+		let task = try JSONDecoder().decode(CHTask.self, from: taskData!)
 		let ockTask = OCKTask(task: task)
 		XCTAssertEqual(ockTask.id, "DMSymptomsFatigue")
 	}
@@ -82,7 +82,7 @@ class TaskTests: XCTestCase {
 		let data = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(data)
 		let decoder = CHJSONDecoder()
-		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: data!)
+		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
 		let allTasks = carePlanResponse.tasks
 		XCTAssertNotEqual(allTasks.count, 0)
 		let ockTasks = allTasks.map { task -> OCKTask in
@@ -132,7 +132,7 @@ class TaskTests: XCTestCase {
 		"""
 		let data = taskString.data(using: .utf8)
 		XCTAssertNoThrow(data)
-		let task = try CHJSONDecoder().decode(Task.self, from: data!)
+		let task = try CHJSONDecoder().decode(CHTask.self, from: data!)
 		let ocTask = OCKTask(task: task)
 		let linkItems = ocTask.linkItems
 		XCTAssertNotNil(linkItems)
@@ -237,7 +237,7 @@ class TaskTests: XCTestCase {
 		"""
 		let data = dataString.data(using: .utf8)
 		XCTAssertNotNil(data)
-		let task = try CHJSONDecoder().decode(Task.self, from: data!)
+		let task = try CHJSONDecoder().decode(CHTask.self, from: data!)
 		XCTAssertNotNil(task)
 		let ockTask = OCKTask(task: task)
 		XCTAssertNotNil(ockTask)
@@ -324,7 +324,7 @@ class TaskTests: XCTestCase {
 		"""
 		let data = dataString.data(using: .utf8)
 		XCTAssertNotNil(data)
-		let task = try CHJSONDecoder().decode(Task.self, from: data!)
+		let task = try CHJSONDecoder().decode(CHTask.self, from: data!)
 		XCTAssertNotNil(task)
 		let ockTask = OCKTask(task: task)
 		XCTAssertNotNil(ockTask)
@@ -333,7 +333,7 @@ class TaskTests: XCTestCase {
 	func testActivityTask() throws {
 		let testData = AllieTests.loadTestData(fileName: "ActivityTask.json")
 		XCTAssertNotNil(testData)
-		let task = try CHJSONDecoder().decode(Task.self, from: testData!)
+		let task = try CHJSONDecoder().decode(CHTask.self, from: testData!)
 		XCTAssertNotNil(task)
 		let ockTask = task.ockTask
 		XCTAssertNotNil(ockTask)
