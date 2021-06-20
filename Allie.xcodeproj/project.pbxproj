@@ -461,6 +461,9 @@
 		8494705F2671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494705E2671D4EF000A77A7 /* AnyItemDeletable.swift */; };
 		849470602671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494705E2671D4EF000A77A7 /* AnyItemDeletable.swift */; };
 		849470612671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494705E2671D4EF000A77A7 /* AnyItemDeletable.swift */; };
+		84987B49267F0AA200294718 /* TwilioConversationsClient in Frameworks */ = {isa = PBXBuildFile; productRef = 84987B48267F0AA200294718 /* TwilioConversationsClient */; };
+		84987B4B267F0AA700294718 /* FirebaseInstallations in Frameworks */ = {isa = PBXBuildFile; productRef = 84987B4A267F0AA700294718 /* FirebaseInstallations */; };
+		84987B4D267F0AB000294718 /* TwilioConversationsClient in Frameworks */ = {isa = PBXBuildFile; productRef = 84987B4C267F0AB000294718 /* TwilioConversationsClient */; };
 		849E158F26113ABB00663010 /* AlliePatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E158E26113ABB00663010 /* AlliePatientTests.swift */; };
 		849F362125B9161300FC2D1B /* TitledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F362025B9161300FC2D1B /* TitledTextField.swift */; };
 		849F378F25BA7F2200FC2D1B /* AuthorizationFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */; };
@@ -1104,6 +1107,7 @@
 				847DCCB6265871F3004E9C1D /* CareKitFHIR in Frameworks */,
 				847DCCB7265871F3004E9C1D /* CareKitStore in Frameworks */,
 				847DCCB8265871F3004E9C1D /* FirebaseAuth in Frameworks */,
+				84987B4D267F0AB000294718 /* TwilioConversationsClient in Frameworks */,
 				847DCCBA265871F3004E9C1D /* FirebaseDynamicLinks in Frameworks */,
 				847DCCBB265871F3004E9C1D /* CareKitUI in Frameworks */,
 				847DCCBC265871F3004E9C1D /* FirebaseMessaging in Frameworks */,
@@ -1128,6 +1132,7 @@
 				84D122DF264112DE00990196 /* SkyFloatingLabelTextField in Frameworks */,
 				84D122E0264112DE00990196 /* CareKitFHIR in Frameworks */,
 				84D122E1264112DE00990196 /* CareKitStore in Frameworks */,
+				84987B49267F0AA200294718 /* TwilioConversationsClient in Frameworks */,
 				84D122E3264112DE00990196 /* CareKitUI in Frameworks */,
 				84C8C4042677227C0015A258 /* ZendeskSupportSDK in Frameworks */,
 				84D122E4264112DE00990196 /* SDWebImage in Frameworks */,
@@ -1136,6 +1141,7 @@
 				84D122E7264112DE00990196 /* FirebaseMessaging in Frameworks */,
 				84D122E8264112DE00990196 /* Charts in Frameworks */,
 				84D122EB264112DE00990196 /* FirebaseDynamicLinks in Frameworks */,
+				84987B4B267F0AA700294718 /* FirebaseInstallations in Frameworks */,
 				84D122ED264112DE00990196 /* FirebaseAuth in Frameworks */,
 				84D122EE264112DE00990196 /* Logging in Frameworks */,
 				84D122EF264112DE00990196 /* FirebaseCrashlytics in Frameworks */,
@@ -1988,6 +1994,7 @@
 				847DCBEC265871F3004E9C1D /* FirebaseRemoteConfig */,
 				847DCBED265871F3004E9C1D /* SDWebImage */,
 				84C8C4052677228A0015A258 /* ZendeskSupportSDK */,
+				84987B4C267F0AB000294718 /* TwilioConversationsClient */,
 			);
 			productName = Alfred;
 			productReference = 847DCCE1265871F3004E9C1D /* Allie Dev.app */;
@@ -2032,6 +2039,8 @@
 				84D1221D264112DE00990196 /* KeychainAccess */,
 				84D1221F264112DE00990196 /* SkyFloatingLabelTextField */,
 				84C8C4032677227C0015A258 /* ZendeskSupportSDK */,
+				84987B48267F0AA200294718 /* TwilioConversationsClient */,
+				84987B4A267F0AA700294718 /* FirebaseInstallations */,
 			);
 			productName = Alfred;
 			productReference = 84D12309264112DE00990196 /* Allie QA.app */;
@@ -4284,6 +4293,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8487493225B6A594008C15E2 /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
 			productName = JGProgressHUD;
+		};
+		84987B48267F0AA200294718 /* TwilioConversationsClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 842D018A267C53FF006B708F /* XCRemoteSwiftPackageReference "conversations-ios" */;
+			productName = TwilioConversationsClient;
+		};
+		84987B4A267F0AA700294718 /* FirebaseInstallations */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84436273264B527B002B475C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseInstallations;
+		};
+		84987B4C267F0AB000294718 /* TwilioConversationsClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 842D018A267C53FF006B708F /* XCRemoteSwiftPackageReference "conversations-ios" */;
+			productName = TwilioConversationsClient;
 		};
 		84C22BCA25A5821800D16CFF /* Logging */ = {
 			isa = XCSwiftPackageProductDependency;
