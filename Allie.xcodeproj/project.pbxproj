@@ -172,10 +172,6 @@
 		844F06EA25C122DA00D26119 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F06E925C122DA00D26119 /* Bundle+Version.swift */; };
 		8452775C262E8DB9002241A1 /* EmailSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8452775B262E8DB9002241A1 /* EmailSentViewController.swift */; };
 		84552C0F265CC687003B55A9 /* HKQuantityTypeIdentifier+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84552C0E265CC687003B55A9 /* HKQuantityTypeIdentifier+Image.swift */; };
-		845A082D265DD94800A7BDB7 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 845A082C265DD94800A7BDB7 /* CareKitFHIR */; };
-		845A082F265DD94800A7BDB7 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 845A082E265DD94800A7BDB7 /* CareKit */; };
-		845A0831265DD94800A7BDB7 /* CareKitStore in Frameworks */ = {isa = PBXBuildFile; productRef = 845A0830265DD94800A7BDB7 /* CareKitStore */; };
-		845A0833265DD94800A7BDB7 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 845A0832265DD94800A7BDB7 /* CareKitUI */; };
 		845AAC71259C36E900FF8F3F /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 845AAC70259C36E900FF8F3F /* IQKeyboardManagerSwift */; };
 		845F18992632444F005A601A /* CHDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F18982632444F005A601A /* CHDevice.swift */; };
 		845F189B263245A4005A601A /* CHDevice+HKDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F189A263245A4005A601A /* CHDevice+HKDevice.swift */; };
@@ -464,6 +460,9 @@
 		84987B49267F0AA200294718 /* TwilioConversationsClient in Frameworks */ = {isa = PBXBuildFile; productRef = 84987B48267F0AA200294718 /* TwilioConversationsClient */; };
 		84987B4B267F0AA700294718 /* FirebaseInstallations in Frameworks */ = {isa = PBXBuildFile; productRef = 84987B4A267F0AA700294718 /* FirebaseInstallations */; };
 		84987B4D267F0AB000294718 /* TwilioConversationsClient in Frameworks */ = {isa = PBXBuildFile; productRef = 84987B4C267F0AB000294718 /* TwilioConversationsClient */; };
+		84987B4F267F156700294718 /* FirebaseAuth+Listners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84987B4E267F156700294718 /* FirebaseAuth+Listners.swift */; };
+		84987B50267F156900294718 /* FirebaseAuth+Listners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84987B4E267F156700294718 /* FirebaseAuth+Listners.swift */; };
+		84987B51267F156A00294718 /* FirebaseAuth+Listners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84987B4E267F156700294718 /* FirebaseAuth+Listners.swift */; };
 		849E158F26113ABB00663010 /* AlliePatientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E158E26113ABB00663010 /* AlliePatientTests.swift */; };
 		849F362125B9161300FC2D1B /* TitledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F362025B9161300FC2D1B /* TitledTextField.swift */; };
 		849F378F25BA7F2200FC2D1B /* AuthorizationFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */; };
@@ -776,6 +775,7 @@
 		7F6441AE1BDC15A7051D6757 /* Pods-Alfred-AlfredUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alfred-AlfredUITests.release.xcconfig"; path = "Target Support Files/Pods-Alfred-AlfredUITests/Pods-Alfred-AlfredUITests.release.xcconfig"; sourceTree = "<group>"; };
 		84009047261AA77000FB3968 /* ProfileEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEntryViewController.swift; sourceTree = "<group>"; };
 		84016C392616BED7006D5279 /* DiabetiesCarePlan.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DiabetiesCarePlan.json; sourceTree = "<group>"; };
+		8404B5B0267FBBC600B200CE /* CareKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CareKit; path = ../../CareKit; sourceTree = "<group>"; };
 		840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKCorrelationTypeIdentifier+Image.swift"; sourceTree = "<group>"; };
 		841640A82627D1C3000903AF /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		841640C42627D714000903AF /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
@@ -969,6 +969,7 @@
 		8487486525B3FAB0008C15E2 /* GridTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridTaskViewController.swift; sourceTree = "<group>"; };
 		8487488A25B4B8F1008C15E2 /* ChecklistTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistTaskViewController.swift; sourceTree = "<group>"; };
 		8494705E2671D4EF000A77A7 /* AnyItemDeletable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyItemDeletable.swift; sourceTree = "<group>"; };
+		84987B4E267F156700294718 /* FirebaseAuth+Listners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseAuth+Listners.swift"; sourceTree = "<group>"; };
 		849E158E26113ABB00663010 /* AlliePatientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlliePatientTests.swift; sourceTree = "<group>"; };
 		849F362025B9161300FC2D1B /* TitledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitledTextField.swift; sourceTree = "<group>"; };
 		849F378E25BA7F2200FC2D1B /* AuthorizationFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFlowType.swift; sourceTree = "<group>"; };
@@ -1061,17 +1062,13 @@
 				8431136A262E87F300561329 /* SkyFloatingLabelTextField in Frameworks */,
 				8443627D264B527B002B475C /* FirebaseAuth in Frameworks */,
 				8443627F264B527B002B475C /* FirebaseDynamicLinks in Frameworks */,
-				845A0833265DD94800A7BDB7 /* CareKitUI in Frameworks */,
-				845A082F265DD94800A7BDB7 /* CareKit in Frameworks */,
 				8443627B264B527B002B475C /* FirebaseMessaging in Frameworks */,
 				845AAC71259C36E900FF8F3F /* IQKeyboardManagerSwift in Frameworks */,
 				84700A84259C331B0083E2AA /* Charts in Frameworks */,
 				84436281264B527B002B475C /* FirebaseRemoteConfig in Frameworks */,
 				843372E2264F9B20005BED99 /* SDWebImage in Frameworks */,
 				84C22BCB25A5821800D16CFF /* Logging in Frameworks */,
-				845A082D265DD94800A7BDB7 /* CareKitFHIR in Frameworks */,
 				84436279264B527B002B475C /* FirebaseCrashlytics in Frameworks */,
-				845A0831265DD94800A7BDB7 /* CareKitStore in Frameworks */,
 				84436277264B527B002B475C /* FirebaseAnalytics in Frameworks */,
 				84C8C402267714960015A258 /* ZendeskSupportSDK in Frameworks */,
 				93C7277966942A2A5AD3490B /* Pods_Allie.framework in Frameworks */,
@@ -1156,6 +1153,7 @@
 		3661848D668E4335C90931AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8404B5B0267FBBC600B200CE /* CareKit */,
 				063D529CF099CA9AE237C8D1 /* Pods_Allie_AllieUITests.framework */,
 				EE876C347FDD5F388EB10A5E /* Pods_AllieTests.framework */,
 				621FDBC65D647074905E6D17 /* Pods_Allie_QA.framework */,
@@ -1744,6 +1742,7 @@
 				84552C0E265CC687003B55A9 /* HKQuantityTypeIdentifier+Image.swift */,
 				840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */,
 				84C212AF266491A0000D491B /* FileManager+Documents.swift */,
+				84987B4E267F156700294718 /* FirebaseAuth+Listners.swift */,
 				84D625B0265F5B8E00B5A973 /* Appearance */,
 			);
 			path = Extensions;
@@ -1903,10 +1902,6 @@
 				8443627E264B527B002B475C /* FirebaseDynamicLinks */,
 				84436280264B527B002B475C /* FirebaseRemoteConfig */,
 				843372E1264F9B20005BED99 /* SDWebImage */,
-				845A082C265DD94800A7BDB7 /* CareKitFHIR */,
-				845A082E265DD94800A7BDB7 /* CareKit */,
-				845A0830265DD94800A7BDB7 /* CareKitStore */,
-				845A0832265DD94800A7BDB7 /* CareKitUI */,
 				84C8C401267714960015A258 /* ZendeskSupportSDK */,
 				842D018B267C53FF006B708F /* TwilioConversationsClient */,
 			);
@@ -2086,7 +2081,6 @@
 				84311368262E87F300561329 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */,
 				84436273264B527B002B475C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				843372E0264F9B20005BED99 /* XCRemoteSwiftPackageReference "SDWebImage" */,
-				845A082B265DD94700A7BDB7 /* XCRemoteSwiftPackageReference "CareKit" */,
 				84C8C400267714950015A258 /* XCRemoteSwiftPackageReference "support_sdk_ios" */,
 				842D018A267C53FF006B708F /* XCRemoteSwiftPackageReference "conversations-ios" */,
 			);
@@ -2787,6 +2781,7 @@
 				84344D3F266AED0C00DD4A7A /* CareManager.swift in Sources */,
 				8447677F259C2A4E00C50C09 /* ProfileViewController.swift in Sources */,
 				844767CA259C2A4E00C50C09 /* CHCarePlan.swift in Sources */,
+				84987B4F267F156700294718 /* FirebaseAuth+Listners.swift in Sources */,
 				841640D82627F478000903AF /* UICollectionView+Appearance.swift in Sources */,
 				844767EB259C2A4E00C50C09 /* Request.swift in Sources */,
 				844767AC259C2A4E00C50C09 /* Languages.swift in Sources */,
@@ -3026,6 +3021,7 @@
 				84344D41266AED0C00DD4A7A /* CareManager.swift in Sources */,
 				847DCC5F265871F3004E9C1D /* CHCarePlan.swift in Sources */,
 				847DCC60265871F3004E9C1D /* UICollectionView+Appearance.swift in Sources */,
+				84987B51267F156A00294718 /* FirebaseAuth+Listners.swift in Sources */,
 				847DCC61265871F3004E9C1D /* Request.swift in Sources */,
 				849470592671C389000A77A7 /* GridTaskController.swift in Sources */,
 				847DCC62265871F3004E9C1D /* Languages.swift in Sources */,
@@ -3233,6 +3229,7 @@
 				84344D40266AED0C00DD4A7A /* CareManager.swift in Sources */,
 				84D1228C264112DE00990196 /* CHCarePlan.swift in Sources */,
 				84D1228D264112DE00990196 /* UICollectionView+Appearance.swift in Sources */,
+				84987B50267F156900294718 /* FirebaseAuth+Listners.swift in Sources */,
 				84D1228E264112DE00990196 /* Request.swift in Sources */,
 				849470582671C388000A77A7 /* GridTaskController.swift in Sources */,
 				84D1228F264112DE00990196 /* Languages.swift in Sources */,
@@ -3562,7 +3559,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.8;
+				MARKETING_VERSION = 0.8.9;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3591,7 +3588,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.8;
+				MARKETING_VERSION = 0.8.9;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3720,7 +3717,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.8;
+				MARKETING_VERSION = 0.8.9;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3749,7 +3746,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.8;
+				MARKETING_VERSION = 0.8.9;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3778,7 +3775,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.8;
+				MARKETING_VERSION = 0.8.9;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3807,7 +3804,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.8;
+				MARKETING_VERSION = 0.8.9;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3917,14 +3914,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.2.2;
-			};
-		};
-		845A082B265DD94700A7BDB7 /* XCRemoteSwiftPackageReference "CareKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Codex-Health/CareKit.git";
-			requirement = {
-				branch = main;
-				kind = branch;
 			};
 		};
 		845AAC6F259C36E900FF8F3F /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
@@ -4168,26 +4157,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 844EE8372629FC4B001B2D9E /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
-		};
-		845A082C265DD94800A7BDB7 /* CareKitFHIR */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 845A082B265DD94700A7BDB7 /* XCRemoteSwiftPackageReference "CareKit" */;
-			productName = CareKitFHIR;
-		};
-		845A082E265DD94800A7BDB7 /* CareKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 845A082B265DD94700A7BDB7 /* XCRemoteSwiftPackageReference "CareKit" */;
-			productName = CareKit;
-		};
-		845A0830265DD94800A7BDB7 /* CareKitStore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 845A082B265DD94700A7BDB7 /* XCRemoteSwiftPackageReference "CareKit" */;
-			productName = CareKitStore;
-		};
-		845A0832265DD94800A7BDB7 /* CareKitUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 845A082B265DD94700A7BDB7 /* XCRemoteSwiftPackageReference "CareKit" */;
-			productName = CareKitUI;
 		};
 		845AAC70259C36E900FF8F3F /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;

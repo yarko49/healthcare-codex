@@ -33,8 +33,8 @@ extension OCKScheduleElement {
 			startTime = Calendar.current.date(bySettingHour: scheduleElement.hour, minute: scheduleElement.minutes, second: 0, of: scheduleElement.start)!
 		}
 		let text = scheduleElement.text ?? NSLocalizedString("ANYTIME", comment: "Anytime")
-		let defaultDuration: OCKScheduleElement.Duration = scheduleElement.hour > 0 ? .hours(1) : .allDay
-		let duration: OCKScheduleElement.Duration = (scheduleElement.duration > 0) ? .seconds(scheduleElement.duration) : defaultDuration
+		// let defaultDuration: OCKScheduleElement.Duration = scheduleElement.hour > 0 ? .hours(1) : .allDay
+		let duration: OCKScheduleElement.Duration = (scheduleElement.duration > 0) ? .seconds(scheduleElement.duration) : .allDay
 		self.init(start: startTime, end: scheduleElement.end, interval: interval, text: text, targetValues: scheduleElement.targetValues ?? [], duration: duration)
 	}
 

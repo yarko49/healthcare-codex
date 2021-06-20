@@ -20,15 +20,6 @@
         }
       },
       {
-        "package": "CareKit",
-        "repositoryURL": "https://github.com/Codex-Health/CareKit.git",
-        "state": {
-          "branch": "main",
-          "revision": "c89e31630bf8c1d964e877cae682d65cd1270c44",
-          "version": null
-        }
-      },
-      {
         "package": "Charts",
         "repositoryURL": "https://github.com/danielgindi/Charts.git",
         "state": {
