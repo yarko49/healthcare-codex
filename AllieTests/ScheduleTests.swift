@@ -25,7 +25,7 @@ class ScheduleTests: XCTestCase {
 	func testScheduleA() throws {
 		let decoder = CHJSONDecoder()
 		XCTAssertNotNil(testData)
-		let schedule = try decoder.decode(ScheduleElement.self, from: testData)
+		let schedule = try decoder.decode(CHScheduleElement.self, from: testData)
 		var startDate = DateFormatter.wholeDate.date(from: "2020-11-11T01:31:00.343Z")
 		startDate = Calendar.current.startOfDay(for: startDate!)
 		XCTAssertEqual(schedule.start, startDate!)

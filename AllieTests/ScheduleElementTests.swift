@@ -37,7 +37,7 @@ class ScheduleElementTests: XCTestCase {
 			"""
 			.data(using: .utf8)
 		XCTAssertNotNil(data)
-		let scheduleElement = try JSONDecoder().decode(ScheduleElement.self, from: data!)
+		let scheduleElement = try JSONDecoder().decode(CHScheduleElement.self, from: data!)
 		let ockScheduleElement = OCKScheduleElement(scheduleElement: scheduleElement)
 		XCTAssertEqual(ockScheduleElement.text, "")
 	}

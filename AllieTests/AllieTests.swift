@@ -7,12 +7,13 @@
 
 @testable import Allie
 import CareKitStore
+import Combine
 import Foundation
 import XCTest
 
 class AllieTests: XCTestCase {
 	var client: APIClient?
-
+	var cancellables: Set<AnyCancellable> = []
 	static func loadTestData(fileName: String) -> Data? {
 		let components = fileName.components(separatedBy: ".")
 		assert(components.count == 2)
@@ -43,7 +44,7 @@ class AllieTests: XCTestCase {
 		XCTAssertNotNil(carePlanResponseData)
 		let decoder = CHJSONDecoder()
 		do {
-			let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: carePlanResponseData!)
+			let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: carePlanResponseData!)
 			XCTAssertNotEqual(carePlanResponse.carePlans.count, 0)
 		} catch {
 			ALog.error("\(error)")
@@ -58,17 +59,18 @@ class AllieTests: XCTestCase {
 		URLProtocolMock.testData[url!] = carePlanResponse
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
 		let expect = expectation(description: "CarePlanResponse")
-		client?.getCarePlan(completion: { result in
-			switch result {
-			case .failure(let error):
-				XCTFail("Error Fetching Care Plan = \(error.localizedDescription)")
-			case .success(let carePlanResponse):
+		client?.getCarePlan()
+			.sink(receiveCompletion: { result in
+				if case .failure(let error) = result {
+					XCTFail("Error Fetching Care Plan = \(error.localizedDescription)")
+					URLProtocolMock.response = nil
+				}
+			}, receiveValue: { carePlanResponse in
 				XCTAssertNotNil(carePlanResponse.carePlans)
 				XCTAssertTrue(true)
 				expect.fulfill()
-			}
-			URLProtocolMock.response = nil
-		})
+				URLProtocolMock.response = nil
+			}).store(in: &cancellables)
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 	}
 
@@ -80,17 +82,18 @@ class AllieTests: XCTestCase {
 		URLProtocolMock.testData[url!] = carePlanResponse
 		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
 		let expect = expectation(description: "DefaultDiabetesCarePlan")
-		client?.getCarePlan(completion: { result in
-			switch result {
-			case .failure(let error):
-				XCTFail("Error Fetching DefaultDiabetes Care Plan = \(error.localizedDescription)")
-			case .success(let carePlanResponse):
+		client?.getCarePlan()
+			.sink(receiveCompletion: { result in
+				if case .failure(let error) = result {
+					XCTFail("Error Fetching DefaultDiabetes Care Plan = \(error.localizedDescription)")
+					URLProtocolMock.response = nil
+				}
+			}, receiveValue: { carePlanResponse in
 				XCTAssertNotNil(carePlanResponse.carePlans)
 				XCTAssertTrue(true)
 				expect.fulfill()
-			}
-			URLProtocolMock.response = nil
-		})
+				URLProtocolMock.response = nil
+			}).store(in: &cancellables)
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 	}
 
@@ -99,7 +102,7 @@ class AllieTests: XCTestCase {
 		XCTAssertNotNil(carePlanResponseData)
 		let decoder = CHJSONDecoder()
 		do {
-			let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: carePlanResponseData!)
+			let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: carePlanResponseData!)
 			let allTasks = carePlanResponse.tasks
 			for task in allTasks {
 				let ockTask = task.ockTask as? OCKTask
@@ -114,15 +117,15 @@ class AllieTests: XCTestCase {
 		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)
 		let decoder = CHJSONDecoder()
-		let carePlanResponse = try decoder.decode(CarePlanResponse.self, from: carePlanResponseData!)
-		let storeManager = CareManager()
+		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: carePlanResponseData!)
+		let storeManager = CareManager.shared
 		let expect = expectation(description: "InsertCarePlans")
-		storeManager.createOrUpdate(carePlanResponse: carePlanResponse, forceReset: false) { success in
-			XCTAssertTrue(success)
-			if success {
+		storeManager.process(carePlanResponse: carePlanResponse, forceReset: false) { result in
+			switch result {
+			case .failure(let error):
+				XCTFail("Error Fetching DefaultDiabetes Care Plan \(error.localizedDescription)")
+			case .success:
 				expect.fulfill()
-			} else {
-				XCTFail("Error Fetching DefaultDiabetes Care Plan")
 			}
 		}
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
@@ -135,16 +138,15 @@ class AllieTests: XCTestCase {
 		URLProtocolMock.testData[imageURL!] = data
 		URLProtocolMock.response = HTTPURLResponse(url: imageURL!, statusCode: 200, httpVersion: nil, headerFields: [Request.Header.contentType: Request.ContentType.png])
 		let expect = expectation(description: "ImageDownload")
-		client?.loadImage(urlString: imageURL!.absoluteString, completion: { result in
-			switch result {
-			case .failure(let error):
-				XCTFail("Error Fetching Image = \(error.localizedDescription)")
-			case .success(let image):
+		client?.loadImage(url: imageURL!)
+			.sink(receiveCompletion: { result in
+				if case .failure(let error) = result {
+					XCTFail("Error Fetching Image = \(error.localizedDescription)")
+				}
+			}, receiveValue: { _ in
 				XCTAssertTrue(true)
 				expect.fulfill()
-			}
-			URLProtocolMock.response = nil
-		})
+			}).store(in: &cancellables)
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 	}
 }

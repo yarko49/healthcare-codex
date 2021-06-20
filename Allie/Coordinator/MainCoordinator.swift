@@ -200,13 +200,18 @@ class MainCoordinator: BaseCoordinator {
 		RemoteConfigManager.shared.refresh()
 			.sink { refreshResult in
 				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
-				let organization = CHOrganization(id: RemoteConfigManager.shared.healthCareOrganization, name: "Default Organization", image: nil)
+				let organization = CHOrganization(id: RemoteConfigManager.shared.healthCareOrganization, name: "Default Organization", image: nil, totalPatients: 0)
 				CareManager.register(organization: organization)
 					.subscribe(on: DispatchQueue.main)
-					.sink { registrationResult in
+					.sink(receiveCompletion: { result in
+						if case .failure(let error) = result {
+							ALog.error("\(error.localizedDescription)", error: error)
+						}
+					}, receiveValue: { registrationResult in
 						ALog.info("Did finish registering organization \(registrationResult)")
 						completion?(registrationResult)
-					}.store(in: &self.cancellables)
+					})
+					.store(in: &self.cancellables)
 			}.store(in: &cancellables)
 	}
 }

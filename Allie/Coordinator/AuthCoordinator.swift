@@ -254,17 +254,18 @@ class AuthCoordinator: BaseCoordinator {
 		CareManager.shared.patient = alliePatient
 		let title = NSLocalizedString("CREATING_ACCOUNT", comment: "Creating Account")
 		showHUD(title: title, message: nil, animated: true)
-		APIClient.shared.post(patient: alliePatient!) { [weak self] result in
-			switch result {
-			case .failure(let error):
-				let okAction = AlertHelper.AlertAction(withTitle: String.ok) {
-					self?.parent?.refreshRemoteConfig(completion: { [weak self] _ in
-						self?.hideHUD()
-						self?.gotoMyDevices()
-					})
+		APIClient.shared.post(patient: alliePatient!)
+			.sink(receiveCompletion: { [weak self] result in
+				if case .failure(let error) = result {
+					let okAction = AlertHelper.AlertAction(withTitle: String.ok) {
+						self?.parent?.refreshRemoteConfig(completion: { [weak self] _ in
+							self?.hideHUD()
+							self?.gotoMyDevices()
+						})
+					}
+					self?.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
 				}
-				self?.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
-			case .success(let carePlanResponse):
+			}, receiveValue: { [weak self] carePlanResponse in
 				if let patient = carePlanResponse.patients.first {
 					CareManager.shared.patient = patient
 				}
@@ -272,8 +273,7 @@ class AuthCoordinator: BaseCoordinator {
 					self?.hideHUD()
 					self?.gotoMyDevices()
 				})
-			}
-		}
+			}).store(in: &cancellables)
 	}
 
 	func authorizeHKForUpload() {

@@ -188,13 +188,13 @@ class PatientTests: XCTestCase {
 		encoder.dateEncodingStrategy = .formatted(formatter)
 		let data = try encoder.encode(patient)
 		let decoder = CHJSONDecoder()
-		let reverse = try decoder.decode(AlliePatient.self, from: data)
+		let reverse = try decoder.decode(CHPatient.self, from: data)
 	}
 
-	func patientDecode(string: String) throws -> AlliePatient {
+	func patientDecode(string: String) throws -> CHPatient {
 		let decoder = CHJSONDecoder()
 		if let data = string.data(using: .utf8) {
-			let patient = try decoder.decode(AlliePatient.self, from: data)
+			let patient = try decoder.decode(CHPatient.self, from: data)
 			return patient
 		} else {
 			throw URLError(.cannotDecodeRawData)

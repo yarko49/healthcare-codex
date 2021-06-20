@@ -129,20 +129,19 @@ extension SettingsViewController: UITableViewDelegate {
 			self.navigationController?.popViewController(animated: true)
 			if let patient = alliePatient {
 				self.hud.show(in: self.view)
-				APIClient.shared.post(patient: patient) { carePlanResponse in
-					self.hud.dismiss()
-					switch carePlanResponse {
-					case .failure(let error):
-						ALog.error("\(error.localizedDescription)")
-						let okAction = AlertHelper.AlertAction(withTitle: String.ok)
-						AlertHelper.showAlert(title: String.error, detailText: error.localizedDescription, actions: [okAction])
-					case .success(let response):
-						if let patient = response.patients.first {
+				APIClient.shared.post(patient: patient)
+					.sink(receiveCompletion: { result in
+						if case .failure(let error) = result {
+							ALog.error("\(error.localizedDescription)")
+							let okAction = AlertHelper.AlertAction(withTitle: String.ok)
+							AlertHelper.showAlert(title: String.error, detailText: error.localizedDescription, actions: [okAction])
+						}
+					}, receiveValue: { carePlanResponse in
+						if let patient = carePlanResponse.patients.first {
 							CareManager.shared.patient = patient
 							Keychain.userEmail = patient.profile.email
 						}
-					}
-				}
+					}).store(in: &self.cancellables)
 			}
 		}
 		navigationController?.show(profileEntryViewController, sender: self)

@@ -5,16 +5,15 @@
 //  Created by Waqar Malik on 12/29/20.
 //
 
+import Combine
 import UIKit
 
 extension APIClient {
-	@discardableResult
-	func loadImage(urlString: String, completion: @escaping WebService.RequestCompletion<UIImage>) -> URLSession.ServicePublisher? {
-		webService.loadImage(urlString: urlString, completion: completion)
+	func loadImage(urlString: String) -> AnyPublisher<UIImage, Error> {
+		webService.loadImage(urlString: urlString)
 	}
 
-	@discardableResult
-	func loadImage(url: URL, completion: @escaping WebService.RequestCompletion<UIImage>) -> URLSession.ServicePublisher? {
-		webService.loadImage(url: url, completion: completion)
+	func loadImage(url: URL) -> AnyPublisher<UIImage, Error> {
+		webService.loadImage(url: url)
 	}
 }

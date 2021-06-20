@@ -1,0 +1,1286 @@
+{
+  "metaData": {
+    "first": "http://careplan-doumwfipga-uc.a.run.app/v0/mobile/carePlan/defaultCarePlan/task/measurements-insulin-levels/outcomes/?page=0&limit=100",
+    "self": "http://careplan-doumwfipga-uc.a.run.app/v0/mobile/carePlan/defaultCarePlan/task/measurements-insulin-levels/outcomes/?page=0&limit=100"
+  },
+  "outcomes": [
+    {
+      "groupIdentifier": "",
+      "remoteId": "wbGn9HTn49ps6eaQ10JL",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-06-08T04:26:36Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-06-08T04:26:36Z",
+      "updatedDate": "2021-06-08T04:26:36Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-15T03:47:30Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-06-08T04:26:36Z",
+          "updatedDate": "2021-06-15T03:47:30Z",
+          "index": 0,
+          "kind": "basal",
+          "units": "IU",
+          "value": 4.6,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "tWqpRURp4CqWButU1FVy",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-06-08T04:26:36Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-06-08T04:26:36Z",
+      "updatedDate": "2021-06-08T04:26:36Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-10T05:59:54Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-06-08T04:26:36Z",
+          "updatedDate": "2021-06-10T05:59:54Z",
+          "index": 0,
+          "kind": "basal",
+          "units": "IU",
+          "value": 4.6,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "pv6Ju4zOkFLtvCa4araf",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-06-08T04:26:36Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-06-08T04:26:36Z",
+      "updatedDate": "2021-06-08T04:26:36Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-15T06:06:51Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-06-08T04:26:36Z",
+          "updatedDate": "2021-06-15T06:06:51Z",
+          "index": 0,
+          "kind": "basal",
+          "units": "IU",
+          "value": 4.6,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "obFt85nm5WGg79IaYww4",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-06-08T04:26:36Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-06-08T04:26:36Z",
+      "updatedDate": "2021-06-08T04:26:36Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-15T03:37:39Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-06-08T04:26:36Z",
+          "updatedDate": "2021-06-15T03:37:39Z",
+          "index": 0,
+          "kind": "basal",
+          "units": "IU",
+          "value": 4.6,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "22KesTC3IrFofrT7Ga4U",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-06-08T04:26:36Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-06-08T04:26:36Z",
+      "updatedDate": "2021-06-08T04:26:36Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-15T03:21:13Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-06-08T04:26:36Z",
+          "updatedDate": "2021-06-15T03:21:13Z",
+          "index": 0,
+          "kind": "basal",
+          "units": "IU",
+          "value": 4.6,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "sbZp01F3X9GgwQPg1L6N",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-06-05T06:13:08Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-06-05T06:13:08Z",
+      "updatedDate": "2021-06-05T06:13:08Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-10T04:07:30Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-06-05T06:13:08Z",
+          "updatedDate": "2021-06-10T04:07:30Z",
+          "index": 0,
+          "kind": "basal",
+          "units": "IU",
+          "value": 4.6,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "RnujCBDDfSm0IN27qfRQ",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-06-01T03:47:57Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-06-01T03:47:57Z",
+      "updatedDate": "2021-06-01T03:47:57Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-15T03:37:39Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-06-01T03:47:57Z",
+          "updatedDate": "2021-06-15T03:37:39Z",
+          "index": 0,
+          "kind": "bolus",
+          "units": "IU",
+          "value": 4.7,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "OM1IbfyUv4bzP0XwPTJJ",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-06-01T03:47:57Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-06-01T03:47:57Z",
+      "updatedDate": "2021-06-01T03:47:57Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-15T03:47:30Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-06-01T03:47:57Z",
+          "updatedDate": "2021-06-15T03:47:30Z",
+          "index": 0,
+          "kind": "bolus",
+          "units": "IU",
+          "value": 4.7,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "FZncMaTH8AxRXtCLRdBW",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-06-01T03:47:57Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-06-01T03:47:57Z",
+      "updatedDate": "2021-06-01T03:47:57Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-10T05:59:54Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-06-01T03:47:57Z",
+          "updatedDate": "2021-06-10T05:59:54Z",
+          "index": 0,
+          "kind": "bolus",
+          "units": "IU",
+          "value": 4.7,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "11zIBuRz1tH0Gog67BPh",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-06-01T03:47:57Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-06-01T03:47:57Z",
+      "updatedDate": "2021-06-01T03:47:57Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-15T03:21:13Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-06-01T03:47:57Z",
+          "updatedDate": "2021-06-15T03:21:13Z",
+          "index": 0,
+          "kind": "bolus",
+          "units": "IU",
+          "value": 4.7,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "XaHaTIJ4VOzdtyc44A7I",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-05-30T20:55:53Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-30T20:55:53Z",
+      "updatedDate": "2021-05-30T20:55:53Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-10T05:59:54Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-05-30T20:55:53Z",
+          "updatedDate": "2021-06-10T05:59:54Z",
+          "index": 0,
+          "kind": "basal",
+          "units": "IU",
+          "value": 9,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "8TCBm2phJSlNbm4rO6Pc",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-05-30T20:52:47Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-30T20:52:47Z",
+      "updatedDate": "2021-05-30T20:52:47Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-10T05:59:54Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-05-30T20:52:47Z",
+          "updatedDate": "2021-06-10T05:59:54Z",
+          "index": 0,
+          "kind": "bolus",
+          "units": "IU",
+          "value": 7.5,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "KN9h3JJdreDBHN33D0KE",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-05-30T20:52:23Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-30T20:52:23Z",
+      "updatedDate": "2021-05-30T20:52:23Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-10T05:59:54Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-05-30T20:52:23Z",
+          "updatedDate": "2021-06-10T05:59:54Z",
+          "index": 0,
+          "kind": "bolus",
+          "units": "IU",
+          "value": 6.5,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "zC6cIboEMtz8YNDMvDNd",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-05-30T20:48:08Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-30T20:48:08Z",
+      "updatedDate": "2021-05-30T20:48:08Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-10T05:59:54Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-05-30T20:48:08Z",
+          "updatedDate": "2021-06-10T05:59:54Z",
+          "index": 0,
+          "kind": "bolus",
+          "units": "IU",
+          "value": 6.5,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "QwnWW8flh9DMbE3VzuY7",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-05-30T20:46:48Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-30T20:46:48Z",
+      "updatedDate": "2021-05-30T20:46:48Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-10T05:59:54Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-05-30T20:46:48Z",
+          "updatedDate": "2021-06-10T05:59:54Z",
+          "index": 0,
+          "kind": "bolus",
+          "units": "IU",
+          "value": 4.5,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "QQsgOCL48YRmaaectpow",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-05-29T06:56:22Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-29T06:56:22Z",
+      "updatedDate": "2021-05-29T06:56:22Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-10T05:59:54Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-05-29T06:56:22Z",
+          "updatedDate": "2021-06-10T05:59:54Z",
+          "index": 0,
+          "kind": "bolus",
+          "units": "IU",
+          "value": 4.5,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "SZtTEEWsYzAZC2C8juK5",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-05-28T06:07:00Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-28T06:07:00Z",
+      "updatedDate": "2021-05-28T06:07:00Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-10T05:59:54Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-05-28T06:07:00Z",
+          "updatedDate": "2021-06-10T05:59:54Z",
+          "index": 0,
+          "kind": "basal",
+          "units": "IU",
+          "value": 5.6,
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "groupIdentifier": "",
+      "remoteId": "AfaLIsUIpiBQyp4IWlPz",
+      "id": "",
+      "notes": null,
+      "asset": "",
+      "source": "",
+      "tags": null,
+      "timezone": {
+        "abbreviation": "",
+        "identifier": "America/Los_Angeles"
+      },
+      "userInfo": {
+        "category": "",
+        "detailViewAsset": "",
+        "detailViewText": "",
+        "detailViewCSS": "",
+        "detailViewHTML": "",
+        "detailViewImageLabel": "",
+        "detailViewURL": "",
+        "image": "",
+        "subtitle": "",
+        "logText": "",
+        "priority": ""
+      },
+      "createdDate": "2021-05-28T06:01:00Z",
+      "deletedDate": "9999-01-01T00:00:00Z",
+      "effectiveDate": "2021-05-28T06:01:00Z",
+      "updatedDate": "2021-05-28T06:01:00Z",
+      "android": null,
+      "taskId": "measurements-insulin-levels",
+      "carePlanId": "defaultCarePlan",
+      "taskOccurrenceIndex": 0,
+      "values": [
+        {
+          "groupIdentifier": "",
+          "remoteId": "",
+          "id": "",
+          "notes": null,
+          "asset": "",
+          "source": "",
+          "tags": null,
+          "timezone": {
+            "abbreviation": "",
+            "identifier": ""
+          },
+          "userInfo": {
+            "category": "",
+            "detailViewAsset": "",
+            "detailViewText": "",
+            "detailViewCSS": "",
+            "detailViewHTML": "",
+            "detailViewImageLabel": "",
+            "detailViewURL": "",
+            "image": "",
+            "subtitle": "",
+            "logText": "",
+            "priority": ""
+          },
+          "createdDate": "2021-06-10T05:59:54Z",
+          "deletedDate": "9999-01-01T00:00:00Z",
+          "effectiveDate": "2021-05-28T06:01:00Z",
+          "updatedDate": "2021-06-10T05:59:54Z",
+          "index": 0,
+          "kind": "bolus",
+          "units": "IU",
+          "value": 3.4,
+          "type": "double"
+        }
+      ]
+    }
+  ]
+}

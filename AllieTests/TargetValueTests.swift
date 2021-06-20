@@ -31,7 +31,7 @@ class TargetValueTests: XCTestCase {
 			"""
 		let decoder = CHJSONDecoder()
 		if let data = dataString.data(using: .utf8) {
-			let targetValue = try decoder.decode(OutcomeValue.self, from: data)
+			let targetValue = try decoder.decode(CHOutcomeValue.self, from: data)
 			XCTAssertEqual(targetValue.type, OCKOutcomeValueType.boolean, "invalid remote Id")
 		} else {
 			throw URLError(.cannotDecodeRawData)
@@ -74,7 +74,7 @@ class TargetValueTests: XCTestCase {
 			"""
 		let decoder = CHJSONDecoder()
 		if let data = dataString.data(using: .utf8) {
-			let targetValue = try decoder.decode(OutcomeValue.self, from: data)
+			let targetValue = try decoder.decode(CHOutcomeValue.self, from: data)
 			XCTAssertEqual(targetValue.type, OCKOutcomeValueType.integer, "invalid remote Id")
 		} else {
 			throw URLError(.cannotDecodeRawData)

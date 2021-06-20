@@ -12,18 +12,17 @@ import ModelsR4
 
 protocol AllieAPI {
 	func firebaseAuthenticationToken() -> Future<AuthenticationToken, Error>
-	func registerOrganization(organization: CHOrganization) -> Future<Bool, Never>
-	func getCarePlan(option: CarePlanResponseType) -> Future<CHCarePlanResponse, Error>
-	func post(carePlanResponse: CHCarePlanResponse) -> Future<UInt64, Error>
-	func post(bundle: ModelsR4.Bundle, completion: @escaping WebService.DecodableCompletion<ModelsR4.Bundle>) -> URLSession.ServicePublisher?
-	func post(bundle: ModelsR4.Bundle) -> Future<ModelsR4.Bundle, Error>
-	func post(observation: ModelsR4.Observation, completion: @escaping WebService.DecodableCompletion<ModelsR4.Observation>) -> URLSession.ServicePublisher?
-	func post(patient: CHPatient) -> Future<CHCarePlanResponse, Error>
-	func post(patient: CHPatient, completion: @escaping WebService.RequestCompletion<CHCarePlanResponse>) -> URLSession.ServicePublisher?
-	func getOutcomes() -> Future<CHCarePlanResponse, Error>
-	func post(outcomes: [CHOutcome]) -> Future<CHCarePlanResponse, Error>
-	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> Future<SignedURLResponse, Error>
-	func getData(url: URL) -> Future<Data, Error>
+	func registerOrganization(organization: CHOrganization) -> AnyPublisher<Bool, Error>
+	func getOrganizations() -> AnyPublisher<CHOrganizationResponse, Error>
+	func getConservations() -> AnyPublisher<CHConversations, Error>
+	func getCarePlan(option: CarePlanResponseType) -> AnyPublisher<CHCarePlanResponse, Error>
+	func post(carePlanResponse: CHCarePlanResponse) -> AnyPublisher<UInt64, Error>
+	func post(bundle: ModelsR4.Bundle) -> AnyPublisher<ModelsR4.Bundle, Error>
+	func post(patient: CHPatient) -> AnyPublisher<CHCarePlanResponse, Error>
+	func getOutcomes(carePlanId: String, taskId: String, page: String) -> AnyPublisher<CHOutcomeResponse, Error>
+	func post(outcomes: [CHOutcome]) -> AnyPublisher<CHCarePlanResponse, Error>
+	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> AnyPublisher<SignedURLResponse, Error>
+	func getData(url: URL) -> AnyPublisher<Data, Error>
 }
 
 public final class APIClient: AllieAPI {
@@ -74,138 +73,56 @@ public final class APIClient: AllieAPI {
 
 //	func postBundle(bundle: ModelsR4.Bundle) async -> ModelsR4.Bundle {}
 
-	func registerOrganization(organization: CHOrganization) -> Future<Bool, Never> {
-		Future { [weak self] promise in
-			_ = self?.webService.requestSimple(route: APIRouter.registerOrganization(organization), completion: { result in
-				switch result {
-				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
-					promise(.success(false))
-				case .success:
-					promise(.success(true))
-				}
-			})
-		}
+	func registerOrganization(organization: CHOrganization) -> AnyPublisher<Bool, Error> {
+		webService.simple(route: APIRouter.registerOrganization(organization))
 	}
 
-	func getCarePlan(option: CarePlanResponseType = .carePlan) -> Future<CHCarePlanResponse, Error> {
-		Future { [weak self] promise in
-			let route = APIRouter.getCarePlan(option: option)
-			_ = self?.webService.request(route: route, completion: { (result: Result<CHCarePlanResponse, Error>) in
-				switch result {
-				case .failure(let error):
-					promise(.failure(error))
-				case .success(let plan):
-					promise(.success(plan))
-				}
-			})
-		}
+	func getOrganizations() -> AnyPublisher<CHOrganizationResponse, Error> {
+		webService.request(route: .organizations)
 	}
 
-	func post(carePlanResponse: CHCarePlanResponse) -> Future<UInt64, Error> {
-		Future { [weak self] promise in
-			_ = self?.webService.request(route: .postCarePlan(carePlanResponse: carePlanResponse)) { (result: Result<UInt64, Error>) in
-				switch result {
-				case .failure(let error):
-					promise(.failure(error))
-				case .success(let clock):
-					promise(.success(clock))
-				}
-			}
-		}
+	func getConservations() -> AnyPublisher<CHConversations, Error> {
+		webService.request(route: .conversations)
 	}
 
-	@discardableResult
-	func post(observation: ModelsR4.Observation, completion: @escaping WebService.DecodableCompletion<ModelsR4.Observation>) -> URLSession.ServicePublisher? {
-		webService.request(route: APIRouter.postObservation(observation: observation), completion: completion)
+	func getCarePlan(option: CarePlanResponseType = .carePlan) -> AnyPublisher<CHCarePlanResponse, Error> {
+		let route = APIRouter.getCarePlan(option: option)
+		return webService.request(route: route)
 	}
 
-	@discardableResult
-	func post(bundle: ModelsR4.Bundle, completion: @escaping WebService.DecodableCompletion<ModelsR4.Bundle>) -> URLSession.ServicePublisher? {
-		webService.request(route: APIRouter.postBundle(bundle: bundle), completion: completion)
+	func post(carePlanResponse: CHCarePlanResponse) -> AnyPublisher<UInt64, Error> {
+		webService.request(route: .postCarePlan(carePlanResponse: carePlanResponse))
 	}
 
-	func post(bundle: ModelsR4.Bundle) -> Future<ModelsR4.Bundle, Error> {
-		Future { [weak self] promise in
-			let route = APIRouter.postBundle(bundle: bundle)
-			_ = self?.webService.request(route: route) { (result: Result<ModelsR4.Bundle, Error>) in
-				switch result {
-				case .failure(let error):
-					promise(.failure(error))
-				case .success(let response):
-					promise(.success(response))
-				}
-			}
-		}
+	func post(bundle: ModelsR4.Bundle) -> AnyPublisher<ModelsR4.Bundle, Error> {
+		let route = APIRouter.postBundle(bundle: bundle)
+		return webService.request(route: route)
 	}
 
-	func post(patient: CHPatient) -> Future<CHCarePlanResponse, Error> {
-		Future { [weak self] promise in
-			let route = APIRouter.postPatient(patient: patient)
-			_ = self?.webService.request(route: route) { (result: Result<CHCarePlanResponse, Error>) in
-				switch result {
-				case .failure(let error):
-					promise(.failure(error))
-				case .success(let response):
-					promise(.success(response))
-				}
-			}
-		}
+	func post(patient: CHPatient) -> AnyPublisher<CHCarePlanResponse, Error> {
+		let route = APIRouter.postPatient(patient: patient)
+		return webService.request(route: route)
 	}
 
-	@discardableResult
-	func post(patient: CHPatient, completion: @escaping WebService.RequestCompletion<CHCarePlanResponse>) -> URLSession.ServicePublisher? {
-		webService.request(route: .postPatient(patient: patient), completion: completion)
+	func getRawReaults(route: APIRouter) -> AnyPublisher<Any, Error>? {
+		webService.serializable(route: route)
 	}
 
-	@discardableResult
-	func getRawReaults(route: APIRouter, completion: @escaping WebService.RequestCompletion<[String: Any]>) -> URLSession.ServicePublisher? {
-		webService.requestSerializable(route: route, completion: completion)
+	func getOutcomes(carePlanId: String, taskId: String, page: String) -> AnyPublisher<CHOutcomeResponse, Error> {
+		webService.request(route: .getOutcomes(carePlanId: carePlanId, taskId: taskId))
 	}
 
-	func getOutcomes() -> Future<CHCarePlanResponse, Error> {
-		Future { [weak self] promise in
-			let route = APIRouter.getCarePlan(option: .outcomes)
-			_ = self?.webService.request(route: route, completion: { (result: Result<CHCarePlanResponse, Error>) in
-				switch result {
-				case .failure(let error):
-					promise(.failure(error))
-				case .success(let carePlanResponse):
-					promise(.success(carePlanResponse))
-				}
-			})
-		}
+	func post(outcomes: [CHOutcome]) -> AnyPublisher<CHCarePlanResponse, Error> {
+		let route = APIRouter.postOutcomes(outcomes: outcomes)
+		return webService.request(route: route)
 	}
 
-	func post(outcomes: [CHOutcome]) -> Future<CHCarePlanResponse, Error> {
-		Future { [weak self] promise in
-			let route = APIRouter.postOutcomes(outcomes: outcomes)
-			_ = self?.webService.request(route: route) { (result: Result<CHCarePlanResponse, Error>) in
-				switch result {
-				case .failure(let error):
-					promise(.failure(error))
-				case .success(let response):
-					promise(.success(response))
-				}
-			}
-		}
+	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> AnyPublisher<SignedURLResponse, Error> {
+		let route = APIRouter.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
+		return webService.request(route: route)
 	}
 
-	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> Future<SignedURLResponse, Error> {
-		Future { [weak self] promise in
-			let route = APIRouter.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
-			_ = self?.webService.request(route: route, completion: { (result: Result<SignedURLResponse, Error>) in
-				switch result {
-				case .failure(let error):
-					promise(.failure(error))
-				case .success(let response):
-					promise(.success(response))
-				}
-			})
-		}
-	}
-
-	func getData(url: URL) -> Future<Data, Error> {
-		webService.requestData(url: url)
+	func getData(url: URL) -> AnyPublisher<Data, Error> {
+		webService.data(url: url)
 	}
 }

@@ -1,0 +1,28 @@
+{
+  "organizations": [
+    {
+      "healthcareProviderTenantId": "CodexPilotHealthcare-3kuss",
+      "Id": "",
+      "name": " CodexPilotHealthcareOrganization",
+      "totalPatients": 0
+    },
+    {
+      "healthcareProviderTenantId": "CodexPilotHealthcare-3kuss",
+      "Id": "",
+      "name": "CodexPilotHealthcareOrganization",
+      "totalPatients": 2
+    },
+    {
+      "healthcareProviderTenantId": "David-Test-Organizat-t4z39",
+      "Id": "",
+      "name": "David Test Organization",
+      "totalPatients": 0
+    },
+    {
+      "healthcareProviderTenantId": "Demo-Organization-hmbj3",
+      "Id": "",
+      "name": "Demo Organization",
+      "totalPatients": 19
+    }
+  ]
+}

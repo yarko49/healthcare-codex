@@ -1,3 +1,10 @@
+//
+//  AppDelegate.swift
+//  Allie
+//
+//  Created by Waqar Malik on 12/17/20.
+//
+
 import Firebase
 import FirebaseAuth
 import FirebaseCore

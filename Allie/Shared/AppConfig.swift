@@ -54,6 +54,14 @@ enum AppConfig {
 		path("Environment", "Zendesk_Chat_App_Id")!
 	}
 
+	static var twilioAccountSID: String {
+		path("Environment", "Twilio_Account_Sid")!
+	}
+
+	static var twilioAuthToken: String {
+		path("Environment", "Twilio_Auth_Token")!
+	}
+
 	static var keychainAccessGroup: String {
 		"29P9H8TMND.com.codexhealth.Allie"
 	}

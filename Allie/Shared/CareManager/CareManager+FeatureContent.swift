@@ -6,6 +6,7 @@
 //
 
 import CareKitStore
+import Combine
 import SDWebImage
 import UIKit
 
@@ -22,11 +23,8 @@ extension CareManager {
 		} else {
 			APIClient.shared.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
 				.sink { completionResult in
-					switch completionResult {
-					case .failure(let error):
+					if case .failure(let error) = completionResult {
 						completion(.failure(error))
-					case .finished:
-						break
 					}
 				} receiveValue: { [weak self] value in
 					self?.image(key: key, url: value.signedURL, completion: completion)
@@ -35,16 +33,16 @@ extension CareManager {
 	}
 
 	func image(key: String, url: URL, completion: @escaping AllieResultCompletion<UIImage>) {
-		APIClient.shared.loadImage(url: url) { result in
-			switch result {
-			case .failure(let error):
-				completion(.failure(error))
-			case .success(let image):
+		APIClient.shared.loadImage(url: url)
+			.sink(receiveCompletion: { result in
+				if case .failure(let error) = result {
+					completion(.failure(error))
+				}
+			}, receiveValue: { image in
 				SDImageCache.shared.store(image, forKey: key, toDisk: true) {
 					completion(.success(image))
 				}
-			}
-		}
+			}).store(in: &cancellables)
 	}
 
 	func pdfData(task: OCKAnyTask & AnyTaskExtensible, completion: @escaping AllieResultCompletion<URL>) {
@@ -63,11 +61,8 @@ extension CareManager {
 		} else {
 			APIClient.shared.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
 				.sink { completionResult in
-					switch completionResult {
-					case .failure(let error):
+					if case .failure(let error) = completionResult {
 						completion(.failure(error))
-					case .finished:
-						break
 					}
 				} receiveValue: { [weak self] value in
 					self?.savePDFData(from: value.signedURL, to: url, completion: completion)
@@ -78,11 +73,8 @@ extension CareManager {
 	func savePDFData(from: URL, to: URL, completion: @escaping AllieResultCompletion<URL>) {
 		APIClient.shared.getData(url: from)
 			.sink { completionResult in
-				switch completionResult {
-				case .failure(let error):
+				if case .failure(let error) = completionResult {
 					completion(.failure(error))
-				case .finished:
-					break
 				}
 			} receiveValue: { data in
 				do {

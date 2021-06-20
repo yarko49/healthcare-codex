@@ -240,11 +240,11 @@ extension CareManager {
 		}
 	}
 
-	class func postPatient(patient: CHPatient) -> Future<CHCarePlanResponse, Error> {
+	class func postPatient(patient: CHPatient) -> AnyPublisher<CHCarePlanResponse, Error> {
 		APIClient.shared.post(patient: patient)
 	}
 
-	class func register(organization: CHOrganization) -> Future<Bool, Never> {
+	class func register(organization: CHOrganization) -> AnyPublisher<Bool, Error> {
 		APIClient.shared.registerOrganization(organization: organization)
 	}
 }

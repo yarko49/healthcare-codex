@@ -9,7 +9,7 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class ChatViewController: UICollectionViewController {
+class ConversationsViewController: UICollectionViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
