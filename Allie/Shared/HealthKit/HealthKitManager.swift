@@ -52,17 +52,17 @@ class HealthKitManager {
 		}
 	}
 
-    func queryHealthData(dataType: HealthKitDataType, startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
-        if dataType == .bloodPressure {
-            return queryBloodPressure(startDate: startDate, endDate: endDate, options: options)
-        } else {
-            guard let sampleType = dataType.quantityType[0] else {
-                return Fail(error: HealthKitManagerError.invalidInput("DataType \(dataType.rawValue) missing sample type"))
-                    .eraseToAnyPublisher()
-            }
-            return queryHealthData(quantityType: sampleType, startDate: startDate, endDate: endDate, options: options)
-        }
-    }
+	func queryHealthData(dataType: HealthKitDataType, startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
+		if dataType == .bloodPressure {
+			return queryBloodPressure(startDate: startDate, endDate: endDate, options: options)
+		} else {
+			guard let sampleType = dataType.quantityType[0] else {
+				return Fail(error: HealthKitManagerError.invalidInput("DataType \(dataType.rawValue) missing sample type"))
+					.eraseToAnyPublisher()
+			}
+			return queryHealthData(quantityType: sampleType, startDate: startDate, endDate: endDate, options: options)
+		}
+	}
 
 	func queryHealthData(dataType: HealthKitDataType, startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping AllieResultCompletion<[HKSample]>) {
 		if dataType == .bloodPressure {
@@ -76,20 +76,20 @@ class HealthKitManager {
 		}
 	}
 
-    func queryHealthData(quantityType: HKQuantityType, startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
-        Future { [weak self] promise in
-            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
-            let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
-            let query = HKSampleQuery(sampleType: quantityType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, error in
-                if let error = error {
-                    promise(.failure(error))
-                } else {
-                    promise(.success(results ?? []))
-                }
-            }
-            self?.healthKitStore.execute(query)
-        }.eraseToAnyPublisher()
-    }
+	func queryHealthData(quantityType: HKQuantityType, startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
+		Future { [weak self] promise in
+			let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
+			let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
+			let query = HKSampleQuery(sampleType: quantityType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, error in
+				if let error = error {
+					promise(.failure(error))
+				} else {
+					promise(.success(results ?? []))
+				}
+			}
+			self?.healthKitStore.execute(query)
+		}.eraseToAnyPublisher()
+	}
 
 	func queryHealthData(quantityType: HKQuantityType, startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping AllieResultCompletion<[HKSample]>) {
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
@@ -369,10 +369,10 @@ class HealthKitManager {
 		}
 	}
 
-    func uploadHKData(entries: [ModelsR4.BundleEntry]) -> AnyPublisher<ModelsR4.Bundle, Error> {
-        let bundle = ModelsR4.Bundle(entry: entries, type: FHIRPrimitive<BundleType>(.transaction))
-        return APIClient.shared.post(bundle: bundle)
-    }
+	func uploadHKData(entries: [ModelsR4.BundleEntry]) -> AnyPublisher<ModelsR4.Bundle, Error> {
+		let bundle = ModelsR4.Bundle(entry: entries, type: FHIRPrimitive<BundleType>(.transaction))
+		return APIClient.shared.post(bundle: bundle)
+	}
 
 	func uploadHKData(entries: [ModelsR4.BundleEntry], completion: @escaping (Bool) -> Void) {
 		let bundle = ModelsR4.Bundle(entry: entries, type: FHIRPrimitive<BundleType>(.transaction))

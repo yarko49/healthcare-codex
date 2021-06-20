@@ -9,29 +9,6 @@ import CareKitStore
 import Foundation
 
 extension CHScheduleElement {
-	init(ockScheduleElement: OCKScheduleElement) {
-		self.start = ockScheduleElement.start
-		self.end = ockScheduleElement.end
-		self.text = ockScheduleElement.text
-
-		let interval = ockScheduleElement.interval
-		self.hour = interval.hour ?? .zero
-		self.minutes = interval.minute ?? .zero
-		self.weekday = interval.weekday ?? .zero
-		switch ockScheduleElement.duration {
-		case .allDay:
-			self.daily = true
-			self.duration = 0
-		case .seconds(let value):
-			self.daily = false
-			self.duration = value
-		}
-		self.interval = 0
-		self.weekly = false
-		self.custom = false
-		self.targetValues = ockScheduleElement.targetValues
-	}
-
 	var ockOutcomeValues: [OCKOutcomeValue] {
 		targetValues ?? []
 	}
@@ -56,7 +33,8 @@ extension OCKScheduleElement {
 			startTime = Calendar.current.date(bySettingHour: scheduleElement.hour, minute: scheduleElement.minutes, second: 0, of: scheduleElement.start)!
 		}
 		let text = scheduleElement.text ?? NSLocalizedString("ANYTIME", comment: "Anytime")
-		let duration: OCKScheduleElement.Duration = (scheduleElement.duration > 0) ? .seconds(scheduleElement.duration) : .allDay
+		let defaultDuration: OCKScheduleElement.Duration = scheduleElement.hour > 0 ? .hours(1) : .allDay
+		let duration: OCKScheduleElement.Duration = (scheduleElement.duration > 0) ? .seconds(scheduleElement.duration) : defaultDuration
 		self.init(start: startTime, end: scheduleElement.end, interval: interval, text: text, targetValues: scheduleElement.targetValues ?? [], duration: duration)
 	}
 

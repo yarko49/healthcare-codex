@@ -25,10 +25,6 @@ extension OCKPatient: AnyItemDeletable {
 		self.timezone = patient.timezone
 	}
 
-	var codexPatient: CHPatient {
-		CHPatient(ockPatient: self)
-	}
-
 	func merged(newPatient: OCKPatient) -> Self {
 		var existing = self
 		existing.sex = newPatient.sex
@@ -43,30 +39,5 @@ extension OCKPatient: AnyItemDeletable {
 		existing.timezone = newPatient.timezone
 		existing.deletedDate = newPatient.deletedDate
 		return existing
-	}
-}
-
-extension CHPatient {
-	init(ockPatient: OCKPatient) {
-		self.init(id: ockPatient.id, name: ockPatient.name)
-		self.uuid = ockPatient.uuid
-		self.sex = ockPatient.sex
-		self.birthday = ockPatient.birthday
-		self.allergies = ockPatient.allergies
-		self.createdDate = ockPatient.createdDate
-		self.updatedDate = ockPatient.updatedDate
-		self.effectiveDate = ockPatient.effectiveDate
-		self.deletedDate = ockPatient.deletedDate
-		self.groupIdentifier = ockPatient.groupIdentifier
-		self.tags = ockPatient.tags
-		self.remoteId = ockPatient.remoteID
-		self.source = ockPatient.source
-		self.userInfo = ockPatient.userInfo
-		self.asset = ockPatient.asset
-		self.timezone = ockPatient.timezone
-	}
-
-	var ockPatient: OCKPatient {
-		OCKPatient(patient: self)
 	}
 }
