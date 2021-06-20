@@ -27,9 +27,7 @@ extension OCKHealthKitTask {
 		self.timezone = task.timezone
 		self.carePlanId = task.carePlanId
 	}
-}
 
-extension OCKHealthKitTask {
 	func merged(newTask: OCKHealthKitTask) -> Self {
 		var merged = self
 		merged.healthKitLinkage = newTask.healthKitLinkage

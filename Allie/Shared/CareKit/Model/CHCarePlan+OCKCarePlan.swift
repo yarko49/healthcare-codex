@@ -8,25 +8,6 @@
 import CareKitStore
 import Foundation
 
-extension CHCarePlan {
-	init(ockCarePlan: OCKCarePlan) {
-		self.id = ockCarePlan.id
-		self.title = ockCarePlan.title
-		self.timezone = ockCarePlan.timezone
-		self.remoteId = ockCarePlan.remoteID
-		self.groupIdentifier = ockCarePlan.groupIdentifier
-		self.effectiveDate = ockCarePlan.effectiveDate
-		self.deletedDate = ockCarePlan.deletedDate
-		self.asset = ockCarePlan.asset
-		self.tags = ockCarePlan.tags
-		self.source = ockCarePlan.source
-		self.userInfo = ockCarePlan.userInfo
-		self.createdDate = ockCarePlan.createdDate
-		self.updatedDate = ockCarePlan.updatedDate
-		self.patientId = ockCarePlan.patientUUID?.uuidString
-	}
-}
-
 extension OCKCarePlan: AnyItemDeletable {
 	init(carePlan: CHCarePlan) {
 		self.init(id: carePlan.id, title: carePlan.title, patientUUID: UUID(uuidString: carePlan.patientId ?? ""))

@@ -51,9 +51,7 @@ extension OCKTask {
 		self.timezone = task.timezone
 		self.carePlanId = task.carePlanId
 	}
-}
 
-extension OCKTask {
 	func merged(new: OCKTask) -> Self {
 		var existing = self
 		existing.title = new.title
@@ -191,35 +189,6 @@ extension AnyTaskExtensible where Self: OCKAnyTask {
 		set {
 			setUserInfo(string: newValue, forKey: "carePlanId")
 		}
-	}
-}
-
-extension CHTask {
-	init(ockTask: OCKTask) {
-		self.carePlanId = ockTask.carePlanId
-		self.id = ockTask.id
-		self.title = ockTask.title
-		self.instructions = ockTask.instructions
-		self.impactsAdherence = ockTask.impactsAdherence
-		let schduleElements = ockTask.schedule.elements
-		var schedule: [CHScheduleElement] = []
-		for ockElement in schduleElements {
-			let element = CHScheduleElement(ockScheduleElement: ockElement)
-			schedule.append(element)
-		}
-		self.scheduleElements = schedule
-		self.carePlanId = ockTask.carePlanId
-		self.groupIdentifier = ockTask.groupIdentifier
-		self.tags = ockTask.tags
-		self.effectiveDate = ockTask.effectiveDate
-		self.createdDate = ockTask.createdDate
-		self.updatedDate = ockTask.updatedDate
-		self.deletedDate = ockTask.deletedDate
-		self.remoteId = ockTask.remoteID
-		self.source = ockTask.source
-		self.userInfo = ockTask.userInfo
-		self.timezone = ockTask.timezone
-		self.schedule = ockTask.schedule
 	}
 }
 
