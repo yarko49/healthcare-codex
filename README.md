@@ -21,7 +21,7 @@ The application leverages an `Environment.xcconfig`  file to configure relevant 
 ### Compile 
 
 1. Open Allie.xcworkspace file using Xcode
-2. Compile and Run on desired simulator ( iOS version 12.0 and above)
+2. Compile and Run on desired simulator ( iOS version 14.0 and above)
 
 ### Architecture 
 

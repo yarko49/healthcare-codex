@@ -61,6 +61,7 @@ class MainCoordinator: BaseCoordinator {
 				if let user = user {
 					ALog.info("Auth State Did change \(user.uid)")
 				}
+				try? CareManager.shared.resetAllContents()
 			}.store(in: &cancellables)
 
 		Auth.auth().ch_idTokenDidChangePublisher()
@@ -68,6 +69,7 @@ class MainCoordinator: BaseCoordinator {
 				if let user = user {
 					ALog.info("Id Token Did Change \(user.uid)")
 				}
+				try? CareManager.shared.resetAllContents()
 			}.store(in: &cancellables)
 	}
 
