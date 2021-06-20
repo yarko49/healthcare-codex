@@ -729,8 +729,6 @@
 		84FE91432650EFFE00D681DF /* OCKHeaderView+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */; };
 		93C7277966942A2A5AD3490B /* Pods_Allie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D42393ED88BCEC0A777371 /* Pods_Allie.framework */; };
 		B2D4BB8EBB8BC1119E893C5D /* Pods_Allie_Dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58B4ED08C68C4E79C26CAA3B /* Pods_Allie_Dev.framework */; };
-		EFE9274FBB0B8715F2405B31 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		F2E095A67D8D601362DA792D /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1048,12 +1046,10 @@
 				84436281264B527B002B475C /* FirebaseRemoteConfig in Frameworks */,
 				843372E2264F9B20005BED99 /* SDWebImage in Frameworks */,
 				84C22BCB25A5821800D16CFF /* Logging in Frameworks */,
-				F2E095A67D8D601362DA792D /* (null) in Frameworks */,
 				845A082D265DD94800A7BDB7 /* CareKitFHIR in Frameworks */,
 				84436279264B527B002B475C /* FirebaseCrashlytics in Frameworks */,
 				845A0831265DD94800A7BDB7 /* CareKitStore in Frameworks */,
 				84436277264B527B002B475C /* FirebaseAnalytics in Frameworks */,
-				EFE9274FBB0B8715F2405B31 /* (null) in Frameworks */,
 				84C8C402267714960015A258 /* ZendeskSupportSDK in Frameworks */,
 				93C7277966942A2A5AD3490B /* Pods_Allie.framework in Frameworks */,
 			);
@@ -3509,7 +3505,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.7;
+				MARKETING_VERSION = 0.8.8;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3538,7 +3534,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.7;
+				MARKETING_VERSION = 0.8.8;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3667,7 +3663,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.7;
+				MARKETING_VERSION = 0.8.8;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3696,7 +3692,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.7;
+				MARKETING_VERSION = 0.8.8;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3725,7 +3721,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.7;
+				MARKETING_VERSION = 0.8.8;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3754,7 +3750,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.7;
+				MARKETING_VERSION = 0.8.8;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
