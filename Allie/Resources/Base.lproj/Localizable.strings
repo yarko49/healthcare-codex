@@ -1,18 +1,25 @@
 /* Login screen */
 "EMAIL" = "Email";
 
+/* Password */
 "PASSWORD" = "Password";
 
 "CONFIRM_PASSWORD" = "Confirm password";
 
+/* Register */
 "REGISTER" = "Register";
+
+/* Unregister */
+"UNREGISTER" = "Unregister";
 
 "LOG_IN_CTA" = "Already have an account? Log in";
 
 "REGISTER_CTA" = "Register";
 
+/* Home */
 "HOME" = "Home";
 
+/* Hello */
 "HELLO" = "Hello";
 
 "HELLO_NAME" = "Hello, %@";
@@ -22,6 +29,9 @@
 
 /* Cancel */
 "CANCEL" = "Cancel";
+
+/* Connect */
+"CONNECT" = "Connect";
 
 "SIGN_IN_WITH_GOOGLE" = "Sign in with Google";
 
@@ -580,3 +590,20 @@
 /* Your Care Plan */
 "YOUR_CAREPLAN" = "Your Care Plan";
 
+/* "Connect to your healthcare provider to get the full benefits of Allie" */
+"CONNECT_PROVIDER.title" = "Connect to your healthcare\nprovider to get the full\nbenefits of Allie";
+
+/* By connected your account to the provider you agree to share your medical data with provider. */
+"PROVIDER_CONSENT.message" = "By connected your account to the provider you agree to share your medical data with provider.";
+
+/* Welcome to Allie */
+"WELCOME_TO_ALLIE" = "Welcome to Allie";
+
+/* Choose your Healthcare Provider */
+"CHOOSE_PROVIDER.title" = "Choose your\nHealthcare Provider";
+
+/* Accept */
+"ACCEPT" = "Accept";
+
+/* Organizations */
+"ORGANIZATIONS" = "Organizations";

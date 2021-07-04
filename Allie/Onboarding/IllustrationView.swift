@@ -29,7 +29,7 @@ class IllustrationView: UIStackView {
 	let titleLabel: UILabel = {
 		let label = UILabel(frame: .zero)
 		label.font = UIFont.systemFont(ofSize: 20.0, weight: .bold)
-		label.textColor = .allieButtons
+		label.textColor = .allieGray
 		label.textAlignment = .center
 		label.numberOfLines = 2
 		label.translatesAutoresizingMaskIntoConstraints = false

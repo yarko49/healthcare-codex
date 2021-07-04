@@ -58,7 +58,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 		bottomButton.addTarget(self, action: #selector(done), for: .touchUpInside)
 		bottomButton.setTitle(doneButtonTitle, for: .normal)
 		bottomButton.isEnabled = true
-		bottomButton.backgroundColor = .allieButtons
+		bottomButton.backgroundColor = .allieGray
 		configureValues()
 	}
 
@@ -135,7 +135,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 		textField.selectedLineColor = .allieLighterGray
 		textField.lineHeight = 1.0
 		textField.selectedLineHeight = 1.0
-		textField.textColor = .allieButtons
+		textField.textColor = .allieGray
 		textField.keyboardType = .emailAddress
 		textField.autocorrectionType = .no
 		textField.autocapitalizationType = .none

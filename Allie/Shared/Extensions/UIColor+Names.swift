@@ -5,8 +5,16 @@ extension UIColor {
 		UIColor(named: "AllieBlack")!
 	}
 
-	class var allieButtons: UIColor {
-		UIColor(named: "AllieButtons")!
+	class var allieGray: UIColor {
+		UIColor(named: "AllieGray")!
+	}
+
+	class var allieChatDark: UIColor {
+		UIColor(named: "AllieChatDark")!
+	}
+
+	class var allieChatLight: UIColor {
+		UIColor(named: "AllieChatLight")!
 	}
 
 	class var allieLighterGray: UIColor {

@@ -21,7 +21,7 @@ class OraganizationsTests: XCTestCase {
 		let data = AllieTests.loadTestData(fileName: "Organizations.json")
 		XCTAssertNotNil(data)
 		let decoder = CHJSONDecoder()
-		let organizationResponse = try decoder.decode(CHOrganizationResponse.self, from: data!)
-		XCTAssertEqual(organizationResponse.organizations.count, 4)
+		let organizations = try decoder.decode(CHOrganizations.self, from: data!)
+		XCTAssertEqual(organizations.registered.count, 4)
 	}
 }

@@ -1,0 +1,270 @@
+//
+//  ChatViewController.swift
+//  Allie
+//
+//  Created by Waqar Malik on 4/14/21.
+//
+
+import Combine
+import InputBarAccessoryView
+import MessageKit
+import TwilioConversationsClient
+import UIKit
+
+class ConversationViewController: MessagesViewController {
+	weak var conversation: TCHConversation?
+	weak var conversationsManager: ConversationsManager?
+
+	var patient: CHPatient? {
+		CareManager.shared.patient
+	}
+
+	private let formatter: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.dateStyle = .medium
+		return formatter
+	}()
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		title = NSLocalizedString("CHAT", comment: "Chat")
+		configureMessageCollectionView()
+		configureMessageInputBar()
+		if let conversation = self.conversation {
+			conversationsManager?.join(conversation: conversation, completion: { [weak self] result in
+				switch result {
+				case .failure(let error):
+					ALog.error("\(error)")
+				case .success:
+					self?.messagesCollectionView.reloadData()
+				}
+			})
+		}
+	}
+
+	func configureMessageCollectionView() {
+		messagesCollectionView.messagesDataSource = self
+		messagesCollectionView.messagesLayoutDelegate = self
+		messagesCollectionView.messagesDisplayDelegate = self
+		messagesCollectionView.messageCellDelegate = self
+
+		scrollsToLastItemOnKeyboardBeginsEditing = true
+		maintainPositionOnKeyboardFrameChanged = true
+		showMessageTimestampOnSwipeLeft = true // default false
+	}
+
+	func configureMessageInputBar() {
+		messageInputBar.delegate = self
+		messageInputBar.inputTextView.tintColor = .allieGray
+		messageInputBar.sendButton.setTitleColor(.allieGray, for: .normal)
+		messageInputBar.sendButton.setTitleColor(
+			UIColor.allieGray.withAlphaComponent(0.3),
+			for: .highlighted
+		)
+	}
+
+	func insertMessage(_ message: TCHMessage) {
+		// Reload last section to update header/footer labels and insert a new one
+		let messageList = conversationsManager?.messages(for: conversation) ?? []
+		messagesCollectionView.performBatchUpdates({
+			messagesCollectionView.insertSections([messageList.count - 1])
+			if messageList.count >= 2 {
+				messagesCollectionView.reloadSections([messageList.count - 2])
+			}
+		}, completion: { [weak self] _ in
+			if self?.isLastSectionVisible(messageList: messageList) == true {
+				self?.messagesCollectionView.scrollToLastItem(animated: true)
+			}
+		})
+	}
+
+	func isLastSectionVisible(messageList: [TCHMessage]) -> Bool {
+		guard !messageList.isEmpty else {
+			return false
+		}
+		let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
+
+		return messagesCollectionView.indexPathsForVisibleItems.contains(lastIndexPath)
+	}
+}
+
+extension ConversationViewController: MessagesDataSource {
+	func currentSender() -> SenderType {
+		CareManager.shared.patient ?? CHParticipant(name: "Patient")
+	}
+
+	func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
+		conversationsManager?.message(for: conversation, at: indexPath) ?? TCHMessage()
+	}
+
+	func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
+		conversationsManager?.numberOfMessages(for: conversation) ?? 0
+	}
+
+	func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+		if indexPath.section % 3 == 0 {
+			return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+		}
+		return nil
+	}
+
+	func cellBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+		NSAttributedString(string: "Read", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+	}
+
+	func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+		let name = message.sender.displayName
+		return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)])
+	}
+
+	func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+		let dateString = formatter.string(from: message.sentDate)
+		return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)])
+	}
+
+	func textCell(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionViewCell? {
+		nil
+	}
+}
+
+extension ConversationViewController: MessagesLayoutDelegate {}
+
+extension ConversationViewController: MessagesDisplayDelegate {
+	func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+		message.sender.senderId == patient?.id ? .allieChatDark : .allieChatLight
+	}
+
+	func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+		message.sender.senderId == patient?.id ? .allieWhite : .allieGray
+	}
+}
+
+extension ConversationViewController: MessageCellDelegate {
+	func didTapAvatar(in cell: MessageCollectionViewCell) {
+		ALog.trace("Avatar tapped")
+	}
+
+	func didTapMessage(in cell: MessageCollectionViewCell) {
+		ALog.trace("Message tapped")
+	}
+
+	func didTapImage(in cell: MessageCollectionViewCell) {
+		ALog.trace("Image tapped")
+	}
+
+	func didTapCellTopLabel(in cell: MessageCollectionViewCell) {
+		ALog.trace("Top cell label tapped")
+	}
+
+	func didTapCellBottomLabel(in cell: MessageCollectionViewCell) {
+		ALog.trace("Bottom cell label tapped")
+	}
+
+	func didTapMessageTopLabel(in cell: MessageCollectionViewCell) {
+		ALog.trace("Top message label tapped")
+	}
+
+	func didTapMessageBottomLabel(in cell: MessageCollectionViewCell) {
+		ALog.trace("Bottom label tapped")
+	}
+
+	func didTapPlayButton(in cell: AudioMessageCell) {
+		ALog.trace("Audio message play tapped")
+	}
+
+	func didStartAudio(in cell: AudioMessageCell) {
+		ALog.trace("Did start playing audio sound")
+	}
+
+	func didPauseAudio(in cell: AudioMessageCell) {
+		ALog.trace("Did pause audio sound")
+	}
+
+	func didStopAudio(in cell: AudioMessageCell) {
+		ALog.trace("Did stop audio sound")
+	}
+
+	func didTapAccessoryView(in cell: MessageCollectionViewCell) {
+		ALog.trace("Accessory view tapped")
+	}
+}
+
+extension ConversationViewController: MessageLabelDelegate {
+	func didSelectAddress(_ addressComponents: [String: String]) {
+		ALog.trace("Address Selected: \(addressComponents)")
+	}
+
+	func didSelectDate(_ date: Date) {
+		ALog.trace("Date Selected: \(date)")
+	}
+
+	func didSelectPhoneNumber(_ phoneNumber: String) {
+		ALog.trace("Phone Number Selected: \(phoneNumber)")
+	}
+
+	func didSelectURL(_ url: URL) {
+		ALog.trace("URL Selected: \(url)")
+	}
+
+	func didSelectTransitInformation(_ transitInformation: [String: String]) {
+		ALog.trace("TransitInformation Selected: \(transitInformation)")
+	}
+
+	func didSelectHashtag(_ hashtag: String) {
+		ALog.trace("Hashtag selected: \(hashtag)")
+	}
+
+	func didSelectMention(_ mention: String) {
+		ALog.trace("Mention selected: \(mention)")
+	}
+
+	func didSelectCustom(_ pattern: String, match: String?) {
+		ALog.trace("Custom data detector patter selected: \(pattern)")
+	}
+}
+
+extension ConversationViewController: InputBarAccessoryViewDelegate {
+	@objc func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+		processInputBar(inputBar, text: text)
+	}
+
+	func processInputBar(_ inputBar: InputBarAccessoryView, text: String) {
+		// Here we can parse for which substrings were autocompleted
+		guard let conversation = self.conversation else {
+			return
+		}
+
+		let attributedText = inputBar.inputTextView.attributedText!
+		let range = NSRange(location: 0, length: attributedText.length)
+		attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { _, range, _ in
+			let substring = attributedText.attributedSubstring(from: range)
+			let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
+			ALog.trace("Autocompleted: `\(substring),` with context: \(context ?? [])")
+		}
+
+		let components = inputBar.inputTextView.components
+		inputBar.inputTextView.text = ""
+		inputBar.invalidatePlugins()
+		// Send button activity animation
+		inputBar.sendButton.startAnimating()
+		inputBar.inputTextView.placeholder = "Sending..."
+		// Resign first responder for iPad split view
+		inputBar.inputTextView.resignFirstResponder()
+
+		conversationsManager?.send(message: text, for: conversation, completion: { result in
+			switch result {
+			case .failure(let error):
+				ALog.error("Error sending message", error: error)
+				inputBar.inputTextView.text = text
+			case .success(let message):
+				inputBar.inputTextView.placeholder = "Your message"
+				ALog.info("Message Sent, \(message.id)")
+				DispatchQueue.main.async { [weak self] in
+					self?.insertMessage(message)
+				}
+			}
+		})
+	}
+
+	private func insertMessages(_ data: [Any]) {}
+}

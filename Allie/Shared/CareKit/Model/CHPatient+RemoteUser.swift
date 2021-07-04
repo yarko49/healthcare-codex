@@ -6,6 +6,7 @@
 //
 
 import CareKitStore
+import Firebase
 import FirebaseAuth
 import UIKit
 

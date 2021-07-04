@@ -7,6 +7,7 @@ import AuthenticationServices
 import CareKitStore
 import Combine
 import CryptoKit
+import Firebase
 import FirebaseAuth
 import GoogleSignIn
 import HealthKit

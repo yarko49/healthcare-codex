@@ -129,12 +129,12 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 					case .log:
 						let viewController = ButtonLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
-						viewController.view.tintColor = .allieButtons
+						viewController.view.tintColor = .allieGray
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .logInsulin:
 						let viewController = InsulinLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
-						viewController.view.tintColor = .allieButtons
+						viewController.view.tintColor = .allieGray
 						viewController.controller.fetchAndObserveEvents(forTaskIDs: [task.id], eventQuery: eventQuery)
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
@@ -144,7 +144,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 					case .labeledValue:
 						let view = LabeledValueTaskView(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
-							.accentColor(Color(.allieButtons))
+							.accentColor(Color(.allieGray))
 						listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
 
 					case .instruction:

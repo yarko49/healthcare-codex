@@ -34,7 +34,7 @@ class EmailSentViewController: SignupBaseViewController {
 		let label = UILabel(frame: .zero)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.font = UIFont.systemFont(ofSize: 16.0, weight: .regular)
-		label.textColor = .allieButtons
+		label.textColor = .allieGray
 		label.textAlignment = .center
 		label.text = NSLocalizedString("CHECK_MAIL", comment: "Check your email and use the verify link")
 		return label

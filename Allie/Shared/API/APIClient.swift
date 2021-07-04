@@ -12,8 +12,9 @@ import ModelsR4
 
 protocol AllieAPI {
 	func firebaseAuthenticationToken() -> Future<AuthenticationToken, Error>
-	func registerOrganization(organization: CHOrganization) -> AnyPublisher<Bool, Error>
-	func getOrganizations() -> AnyPublisher<CHOrganizationResponse, Error>
+	func registerOrganization(organization: CHOrganization) -> AnyPublisher<Bool, Never>
+	func unregisterOrganization(organization: CHOrganization) -> AnyPublisher<Bool, Never>
+	func getOrganizations() -> AnyPublisher<CHOrganizations, Never>
 	func getConservations() -> AnyPublisher<CHConversations, Error>
 	func getCarePlan(option: CarePlanResponseType) -> AnyPublisher<CHCarePlanResponse, Error>
 	func post(carePlanResponse: CHCarePlanResponse) -> AnyPublisher<UInt64, Error>
@@ -73,12 +74,25 @@ public final class APIClient: AllieAPI {
 
 //	func postBundle(bundle: ModelsR4.Bundle) async -> ModelsR4.Bundle {}
 
-	func registerOrganization(organization: CHOrganization) -> AnyPublisher<Bool, Error> {
+	func registerOrganization(organization: CHOrganization) -> AnyPublisher<Bool, Never> {
 		webService.simple(route: APIRouter.registerOrganization(organization))
+			.catch { _ -> Just<Bool> in
+				Just(false)
+			}.eraseToAnyPublisher()
 	}
 
-	func getOrganizations() -> AnyPublisher<CHOrganizationResponse, Error> {
+	func unregisterOrganization(organization: CHOrganization) -> AnyPublisher<Bool, Never> {
+		webService.simple(route: APIRouter.unregisterOrganization(organization))
+			.catch { _ -> Just<Bool> in
+				Just(false)
+			}.eraseToAnyPublisher()
+	}
+
+	func getOrganizations() -> AnyPublisher<CHOrganizations, Never> {
 		webService.request(route: .organizations)
+			.catch { _ -> Just<CHOrganizations> in
+				Just(CHOrganizations(available: [], registered: []))
+			}.eraseToAnyPublisher()
 	}
 
 	func getConservations() -> AnyPublisher<CHConversations, Error> {

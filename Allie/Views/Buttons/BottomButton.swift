@@ -40,7 +40,7 @@ import UIKit
 	}
 
 	func setupColors() {
-		layer.backgroundColor = UIColor.allieButtons.cgColor
+		layer.backgroundColor = UIColor.allieGray.cgColor
 	}
 
 	func addTextSpacing(_ letterSpacing: CGFloat) {

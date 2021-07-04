@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Firebase
 import FirebaseAuth
 import KeychainAccess
 import LocalAuthentication
@@ -27,6 +28,13 @@ class BaseCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 
 	init(type: CoordinatorType) {
 		self.type = type
+	}
+
+	deinit {
+		cancellables.forEach { cancellable in
+			cancellable.cancel()
+		}
+		cancellables.removeAll()
 	}
 
 	static func resetAll() {

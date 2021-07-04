@@ -108,7 +108,7 @@ class SignupBaseViewController: BaseViewController {
 		button.setTitle(NSLocalizedString("LOG_IN", comment: "Log In"), for: .normal)
 		button.setupButton()
 		button.isEnabled = false
-		button.backgroundColor = UIColor.allieButtons.withAlphaComponent(0.5)
+		button.backgroundColor = UIColor.allieGray.withAlphaComponent(0.5)
 		button.setShadow()
 		return button
 	}()

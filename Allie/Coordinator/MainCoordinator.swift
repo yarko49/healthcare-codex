@@ -90,8 +90,18 @@ class MainCoordinator: BaseCoordinator {
 	}
 
 	public func gotoMainApp() {
+		showHUD()
+		APIClient.shared.getOrganizations()
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] organizations in
+				self?.hideHUD()
+				self?.showMainApp(organizations: organizations)
+			}.store(in: &cancellables)
+	}
+
+	func showMainApp(organizations: CHOrganizations) {
 		removeCoordinator(ofType: .application)
-		let appCoordinator = AppCoordinator(parent: self)
+		let appCoordinator = AppCoordinator(parent: self, organizations: organizations)
 		addChild(coordinator: appCoordinator)
 		let rootViewController = appCoordinator.rootViewController
 		var transitionOptions = UIWindow.TransitionOptions()
@@ -216,18 +226,6 @@ class MainCoordinator: BaseCoordinator {
 		RemoteConfigManager.shared.refresh()
 			.sink { refreshResult in
 				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
-				let organization = CHOrganization(id: RemoteConfigManager.shared.healthCareOrganization, name: "Default Organization", image: nil, totalPatients: 0)
-				CareManager.register(organization: organization)
-					.subscribe(on: DispatchQueue.main)
-					.sink(receiveCompletion: { result in
-						if case .failure(let error) = result {
-							ALog.error("\(error.localizedDescription)", error: error)
-						}
-					}, receiveValue: { registrationResult in
-						ALog.info("Did finish registering organization \(registrationResult)")
-						completion?(registrationResult)
-					})
-					.store(in: &self.cancellables)
 			}.store(in: &cancellables)
 	}
 }

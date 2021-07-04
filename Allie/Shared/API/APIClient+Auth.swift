@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Firebase
 import FirebaseAuth
 import Foundation
 
