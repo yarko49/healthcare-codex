@@ -23,7 +23,7 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 		bottomButton.setTitle(NSLocalizedString("NEXT", comment: "Next"), for: .normal)
 		bottomButton.addTarget(self, action: #selector(didSelectNext(_:)), for: .touchUpInside)
 		bottomButton.isEnabled = true
-		bottomButton.backgroundColor = .allieButtons
+		bottomButton.backgroundColor = .allieGray
 		bottomButton.isHidden = controllerViewMode == .settings
 
 		titleLabel.text = NSLocalizedString("DEVICES", comment: "Devices")

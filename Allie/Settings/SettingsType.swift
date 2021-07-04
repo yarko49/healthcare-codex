@@ -15,6 +15,7 @@ enum SettingsType: CustomStringConvertible, CaseIterable {
 	case termsOfService
 	case support
 	case troubleShoot
+	case providers
 
 	var title: String {
 		switch self {
@@ -36,6 +37,8 @@ enum SettingsType: CustomStringConvertible, CaseIterable {
 			return String.privacyPolicy
 		case .termsOfService:
 			return String.termsOfService
+		case .providers:
+			return NSLocalizedString("ORGANIZATIONS", comment: "Organizations")
 		}
 	}
 

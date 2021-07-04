@@ -47,7 +47,7 @@ class EmailSignupViewController: SignupBaseViewController {
 		textField.selectedLineColor = .allieLighterGray
 		textField.lineHeight = 1.0
 		textField.selectedLineHeight = 1.0
-		textField.textColor = .allieButtons
+		textField.textColor = .allieGray
 		textField.keyboardType = .emailAddress
 		textField.autocorrectionType = .no
 		textField.autocapitalizationType = .none
@@ -75,6 +75,6 @@ class EmailSignupViewController: SignupBaseViewController {
 			}
 		}
 
-		bottomButton.backgroundColor = bottomButton.isEnabled ? .allieButtons : UIColor.allieButtons.withAlphaComponent(0.5)
+		bottomButton.backgroundColor = bottomButton.isEnabled ? .allieGray : UIColor.allieGray.withAlphaComponent(0.5)
 	}
 }

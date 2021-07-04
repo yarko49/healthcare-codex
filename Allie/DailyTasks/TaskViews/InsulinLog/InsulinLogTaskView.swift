@@ -90,7 +90,7 @@ class InsulinLogTaskView: OCKView, OCKTaskDisplayable {
 		let view = UISegmentedControl(items: [HKInsulinDeliveryReason.bolus.title, HKInsulinDeliveryReason.basal.title])
 		let textAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.allieWhite]
 		view.setTitleTextAttributes(textAttributes, for: .selected)
-		view.selectedSegmentTintColor = .allieButtons
+		view.selectedSegmentTintColor = .allieGray
 		view.selectedSegmentIndex = 0
 		return view
 	}()

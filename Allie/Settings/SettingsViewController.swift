@@ -53,10 +53,10 @@ class SettingsViewController: BaseViewController {
 		tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: UITableViewHeaderFooterView.reuseIdentifier)
 		dataSource = UITableViewDiffableDataSource<Int, SettingsType>(tableView: tableView, cellProvider: { tableView, indexPath, type -> UITableViewCell? in
 			let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.reuseIdentifier, for: indexPath)
-			cell.tintColor = .allieButtons
+			cell.tintColor = .allieGray
 			cell.layoutMargins = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
 			cell.accessoryType = .disclosureIndicator
-			cell.textLabel?.attributedText = type.title.attributedString(style: .regular17, foregroundColor: .allieButtons, letterSpacing: -0.41)
+			cell.textLabel?.attributedText = type.title.attributedString(style: .regular17, foregroundColor: .allieGray, letterSpacing: -0.41)
 			return cell
 		})
 
@@ -64,7 +64,7 @@ class SettingsViewController: BaseViewController {
 		tableView.delegate = self
 		var snapshot = dataSource.snapshot()
 		snapshot.appendSections([0])
-		let items: [SettingsType] = [.accountDetails, .myDevices, .systemAuthorization, .feedback, .privacyPolicy, .termsOfService]
+		let items: [SettingsType] = [.accountDetails, .providers, .myDevices, .systemAuthorization, .feedback, .privacyPolicy, .termsOfService]
 		snapshot.appendItems(items, toSection: 0)
 		dataSource.apply(snapshot, animatingDifferences: false) {
 			ALog.info("Finished Apply Snapshot")
@@ -107,6 +107,8 @@ extension SettingsViewController: UITableViewDelegate {
 			showSupport()
 		case .troubleShoot:
 			showHelpCenter()
+		case .providers:
+			showOrganizations()
 		}
 	}
 
@@ -221,6 +223,12 @@ extension SettingsViewController: UITableViewDelegate {
 		let termsOfServiceViewController = HTMLViewerController()
 		termsOfServiceViewController.title = String.termsOfService
 		navigationController?.show(termsOfServiceViewController, sender: self)
+	}
+
+	func showOrganizations() {
+		let selectProviderController = SelectProviderViewController(collectionViewLayout: SelectProviderViewController.layout)
+		selectProviderController.isModel = false
+		navigationController?.show(selectProviderController, sender: self)
 	}
 }
 

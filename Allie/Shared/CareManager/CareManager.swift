@@ -244,7 +244,7 @@ extension CareManager {
 		APIClient.shared.post(patient: patient)
 	}
 
-	class func register(organization: CHOrganization) -> AnyPublisher<Bool, Error> {
+	class func register(organization: CHOrganization) -> AnyPublisher<Bool, Never> {
 		APIClient.shared.registerOrganization(organization: organization)
 	}
 }

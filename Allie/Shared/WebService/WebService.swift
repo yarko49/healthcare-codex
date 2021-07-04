@@ -177,6 +177,8 @@ public final class WebService {
 					throw URLError(.badServerResponse)
 				}
 
+				let string = String(data: response.data, encoding: .utf8)
+				ALog.info("\(string)")
 				// We only want to re auth and other wise just pass the error down
 				if let handler = self?.responseHandler, httpResponse.statusCode == 401 {
 					try handler(httpResponse)

@@ -6,17 +6,27 @@
 //
 
 import Combine
+import MessageKit
 import TwilioConversationsClient
 import UIKit
 
-protocol ConversationsManagerDelegate: AnyObject {
-	func reloadMessages()
-	func receivedNewMessage()
-	func displayStatusMessage(_ statusMessage: String)
-	func displayErrorMessage(_ errorMessage: String)
+protocol ConversationMessagesDelegate: AnyObject {
+	func conversationsManager(_ manager: ConversationsManager, reloadMessagesFor conversation: TCHConversation)
+	func conversationsManager(_ manager: ConversationsManager, didReceive message: TCHMessage, for conversation: TCHConversation)
 }
 
-class ConversationsManager: NSObject {
+protocol ConversationManagerDelegate: AnyObject {
+	func conversationsManager(_ manager: ConversationsManager, displayStatus message: String)
+	func conversationsManager(_ manager: ConversationsManager, displayError message: String)
+}
+
+enum ConversationsManagerError: Error {
+	case forbidden(String)
+	case invalidClient
+	case failed(String)
+}
+
+class ConversationsManager: NSObject, ObservableObject {
 	private enum Constants {
 		static let apiBaseURLString = "https://conversations.twilio.com/v1"
 		static let uniqueConversationName = "general"
@@ -24,32 +34,58 @@ class ConversationsManager: NSObject {
 	}
 
 	private(set) var cancellables: Set<AnyCancellable> = []
-	weak var delegate: ConversationsManagerDelegate?
-	private var client: TwilioConversationsClient?
-	private var conversation: TCHConversation?
-	private(set) var messages: [TCHMessage] = []
+	weak var delegate: ConversationManagerDelegate?
+	weak var messagesDelegate: ConversationMessagesDelegate?
+	@Published private(set) var client: TwilioConversationsClient?
+	@Published private(set) var conversations: Set<TCHConversation> = []
+	@Published private(set) var messages: [String: [TCHMessage]] = [:]
+	private var conversationTokens: CHConversations?
 
-	private func refreshAccessToken() {
+	func refreshAccessToken() {
 		APIClient.shared.getConservations()
-			.sink { result in
+			.sink { [weak self] result in
 				if case .failure(let error) = result {
 					ALog.error("Error retrieving token \(error.localizedDescription)")
+					if let strongSelf = self {
+						strongSelf.delegate?.conversationsManager(strongSelf, displayError: error.localizedDescription)
+					}
 				}
 			} receiveValue: { [weak self] conversations in
-				self?.client?.updateToken(conversations.tokens.accessToken, completion: { result in
-					if result.isSuccessful {
-						ALog.info("Access token refreshed")
-					} else {
-						ALog.error("Unable to refresh access token")
-					}
-				})
+				self?.conversationTokens = conversations
+				if self?.client != nil {
+					self?.updateToken(token: conversations.tokens.first)
+				} else {
+					self?.login(token: conversations.tokens.first)
+				}
 			}.store(in: &cancellables)
 	}
 
-	func send(message: String, completion: @escaping (TCHResult, TCHMessage?) -> Void) {
+	func updateToken(token: CHConversations.Token?) {
+		guard let token = token else {
+			return
+		}
+		client?.updateToken(token.accessToken, completion: { [weak self] result in
+			if result.isSuccessful {
+				ALog.info("Access token refreshed")
+			} else {
+				ALog.error("Unable to refresh access token \(result.error?.localizedDescription ?? "")")
+				if let error = result.error, let strongSelf = self {
+					strongSelf.delegate?.conversationsManager(strongSelf, displayError: error.localizedDescription)
+				}
+			}
+		})
+	}
+
+	func send(message: String, for conversation: TCHConversation, completion: @escaping (Result<TCHMessage, Error>) -> Void) {
 		let messageOptions = TCHMessageOptions().withBody(message)
-		conversation?.sendMessage(with: messageOptions, completion: { result, message in
-			completion(result, message)
+		conversation.sendMessage(with: messageOptions, completion: { result, message in
+			if let message = message, result.isSuccessful {
+				completion(.success(message))
+			} else if let error = result.error {
+				completion(.failure(error))
+			} else {
+				completion(.failure(ConversationsManagerError.failed("To Send Message")))
+			}
 		})
 	}
 
@@ -61,15 +97,22 @@ class ConversationsManager: NSObject {
 					completion(false)
 				}
 			} receiveValue: { [weak self] conversations in
-				TwilioConversationsClient.conversationsClient(withToken: conversations.tokens.accessToken, properties: nil, delegate: self) { result, client in
+				guard let accessToken = conversations.tokens.first?.accessToken else {
+					completion(false)
+					return
+				}
+				TwilioConversationsClient.conversationsClient(withToken: accessToken, properties: nil, delegate: self) { result, client in
 					self?.client = client
 					completion(result.isSuccessful)
 				}
 			}.store(in: &cancellables)
 	}
 
-	func login(accessToken token: String) {
-		TwilioConversationsClient.conversationsClient(withToken: token, properties: nil, delegate: self) { [weak self] result, client in
+	func login(token: CHConversations.Token?) {
+		guard let accessToken = token?.accessToken else {
+			return
+		}
+		TwilioConversationsClient.conversationsClient(withToken: accessToken, properties: nil, delegate: self) { [weak self] result, client in
 			self?.client = client
 			ALog.info("Login Result \(result)")
 		}
@@ -84,23 +127,28 @@ class ConversationsManager: NSObject {
 		self.client = nil
 	}
 
-	private func createConversation(uniqueName: String, completion: @escaping (Bool, TCHConversation?) -> Void) {
-		guard let client = client else {
-			return
+	func createConversation(uniqueName: String, friendlyName: String?) -> AnyPublisher<TCHConversation, Error> {
+		guard let client = self.client else {
+			return Fail(error: ConversationsManagerError.invalidClient).eraseToAnyPublisher()
 		}
-		// Create the conversation if it hasn't been created yet
-		let options: [String: Any] = [TCHConversationOptionUniqueName: uniqueName]
-		client.createConversation(options: options) { result, conversation in
-			if result.isSuccessful {
-				ALog.info("Conversation created.")
-			} else {
-				ALog.error("Conversation NOT created \(result.error?.localizedDescription ?? "")", error: result.error)
+		var options: [String: Any] = [TCHConversationOptionUniqueName: uniqueName]
+		if let name = friendlyName {
+			options[TCHConversationOptionFriendlyName] = name
+		}
+		return Future { promise in
+			client.createConversation(options: options) { result, conversation in
+				if let conversation = conversation, result.isSuccessful { // success
+					promise(.success(conversation))
+				} else if let error = result.error {
+					promise(.failure(error))
+				} else {
+					promise(.failure(ConversationsManagerError.forbidden("Unable to create conversation, unkown error")))
+				}
 			}
-			completion(result.isSuccessful, conversation)
-		}
+		}.eraseToAnyPublisher()
 	}
 
-	private func checkConversationCreation(completion: @escaping (TCHResult?, TCHConversation?) -> Void) {
+	func checkConversationCreation(completion: @escaping (TCHResult?, TCHConversation?) -> Void) {
 		guard let client = client else {
 			return
 		}
@@ -111,33 +159,61 @@ class ConversationsManager: NSObject {
 		// completion(TCHResult(), client.myConversations()?.first)
 	}
 
-	private func join(conversation: TCHConversation) {
-		self.conversation = conversation
+	func join(conversation: TCHConversation, completion: @escaping ((Result<Bool, Error>) -> Void)) {
+		conversations.insert(conversation)
 		if conversation.status == .joined {
-			ALog.info("Current user already exists in conversation")
-			loadPreviousMessages(for: conversation)
+			loadPreviousMessages(for: conversation, completion: completion)
 		} else {
-			conversation.join(completion: { result in
+			conversation.join(completion: { [weak self] result in
 				ALog.info("Result of conversation join: \(result.resultText ?? "No Result")")
 				if result.isSuccessful {
-					self.loadPreviousMessages(for: conversation)
+					self?.loadPreviousMessages(for: conversation, completion: completion)
+				} else {
+					completion(.failure(ConversationsManagerError.failed("To join conversation")))
 				}
 			})
 		}
 	}
 
-	private func loadPreviousMessages(for conversation: TCHConversation) {
-		conversation.getLastMessages(withCount: Constants.messagesDownloadPageSize) { result, messages in
+	func loadPreviousMessages(for conversation: TCHConversation, completion: @escaping ((Result<Bool, Error>) -> Void)) {
+		conversation.getLastMessages(withCount: Constants.messagesDownloadPageSize) { [weak self] result, messages in
 			if let messages = messages, result.isSuccessful {
-				self.messages = messages
-				DispatchQueue.main.async {
-					self.delegate?.reloadMessages()
-				}
+				self?.messages[conversation.id] = messages
+				completion(.success(true))
+			} else if let error = result.error {
+				completion(.failure(error))
+			} else {
+				completion(.failure(ConversationsManagerError.failed("To Load Previous Messages")))
 			}
 		}
 	}
 }
 
+// - Messages Data Source
+extension ConversationsManager {
+	func numberOfMessages(for conversation: TCHConversation?) -> Int {
+		guard let conversation = conversation else {
+			return 0
+		}
+		return messages[conversation.id]?.count ?? 0
+	}
+
+	func message(for conversation: TCHConversation?, at indexPath: IndexPath) -> TCHMessage? {
+		guard let conversation = conversation else {
+			return nil
+		}
+		return messages[conversation.id]?[indexPath.section]
+	}
+
+	func messages(for conversation: TCHConversation?) -> [TCHMessage]? {
+		guard let conversation = conversation else {
+			return nil
+		}
+		return messages[conversation.id]
+	}
+}
+
+// - TwilioClient
 extension ConversationsManager: TwilioConversationsClientDelegate {
 	func conversationsClient(_ client: TwilioConversationsClient, connectionStateUpdated state: TCHClientConnectionState) {
 		ALog.trace("connectionStateUpdated:")
@@ -158,24 +234,18 @@ extension ConversationsManager: TwilioConversationsClientDelegate {
 			return
 		}
 
-		checkConversationCreation { _, conversation in
-			if let conversation = conversation {
-				self.join(conversation: conversation)
-			} else {
-				self.createConversation(uniqueName: Constants.uniqueConversationName) { success, conversation in
-					if success, let conversation = conversation {
-						self.join(conversation: conversation)
-					}
-				}
-			}
+		if let conversations = client.myConversations(), !conversations.isEmpty {
+			self.conversations = Set(conversations)
 		}
 	}
 
 	func conversationsClient(_ client: TwilioConversationsClient, conversationAdded conversation: TCHConversation) {
 		ALog.trace("conversationAdded:")
+		conversations.insert(conversation)
 	}
 
 	func conversationsClient(_ client: TwilioConversationsClient, conversation: TCHConversation, updated: TCHConversationUpdate) {
+		conversations.insert(conversation)
 		ALog.trace("conversation:updated:")
 	}
 
@@ -185,6 +255,7 @@ extension ConversationsManager: TwilioConversationsClientDelegate {
 
 	func conversationsClient(_ client: TwilioConversationsClient, conversationDeleted conversation: TCHConversation) {
 		ALog.trace("conversation:conversationDeleted:")
+		conversations.remove(conversation)
 	}
 
 	func conversationsClient(_ client: TwilioConversationsClient, conversation: TCHConversation, participantJoined participant: TCHParticipant) {
@@ -201,13 +272,16 @@ extension ConversationsManager: TwilioConversationsClientDelegate {
 
 	// Called whenever a conversation we've joined receives a new message
 	func conversationsClient(_ client: TwilioConversationsClient, conversation: TCHConversation, messageAdded message: TCHMessage) {
-		messages.append(message)
+		var conversationMessages = messages[conversation.id] ?? []
+		conversationMessages.append(message)
+		messages[conversation.id] = conversationMessages
 		// Changes to the delegate should occur on the UI thread
-		DispatchQueue.main.async {
-			if let delegate = self.delegate {
-				delegate.reloadMessages()
-				delegate.receivedNewMessage()
+		DispatchQueue.main.async { [weak self] in
+			guard let strongSelf = self else {
+				return
 			}
+			strongSelf.messagesDelegate?.conversationsManager(strongSelf, reloadMessagesFor: conversation)
+			strongSelf.messagesDelegate?.conversationsManager(strongSelf, didReceive: message, for: conversation)
 		}
 	}
 

@@ -18,3 +18,9 @@ struct SignedURLResponse: Codable {
 		case signedURL = "signedUrl"
 	}
 }
+
+extension SignedURLResponse: CustomStringConvertible {
+	var description: String {
+		"{\nMD5hash = \(MD5Hash ?? "")\nmethod = \(method)\nsignedURL = \(signedURL)\n}"
+	}
+}

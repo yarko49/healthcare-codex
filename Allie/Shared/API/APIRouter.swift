@@ -25,6 +25,7 @@ enum APIRouter: URLRequestConvertible {
 
 	case organizations
 	case registerOrganization(CHOrganization)
+	case unregisterOrganization(CHOrganization)
 	case conversations
 	case getCarePlan(option: CarePlanResponseType)
 	case postCarePlan(carePlanResponse: CHCarePlanResponse)
@@ -41,6 +42,8 @@ enum APIRouter: URLRequestConvertible {
 			return .get
 		case .registerOrganization:
 			return .post
+		case .unregisterOrganization:
+			return .delete
 		case .conversations:
 			return .get
 		case .getCarePlan:
@@ -68,6 +71,8 @@ enum APIRouter: URLRequestConvertible {
 		case .organizations:
 			path += "/organizations"
 		case .registerOrganization:
+			path += "/organization/register"
+		case .unregisterOrganization:
 			path += "/organization/register"
 		case .conversations:
 			path += "/conversations"
@@ -105,6 +110,8 @@ enum APIRouter: URLRequestConvertible {
 		switch self {
 		case .registerOrganization(let organization):
 			data = try? encoder.encode(organization)
+		case .unregisterOrganization(let organization):
+			data = try? encoder.encode(organization)
 		case .postCarePlan(let carePlanResponse):
 			data = try? encoder.encode(carePlanResponse)
 		case .postPatient(let patient):
@@ -133,6 +140,8 @@ enum APIRouter: URLRequestConvertible {
 		case .organizations:
 			break
 		case .registerOrganization:
+			break
+		case .unregisterOrganization:
 			break
 		case .conversations:
 			break
@@ -171,6 +180,8 @@ enum APIRouter: URLRequestConvertible {
 		case .organizations:
 			return nil
 		case .registerOrganization:
+			return nil
+		case .unregisterOrganization:
 			return nil
 		case .conversations:
 			return nil

@@ -71,7 +71,7 @@ class HealthViewController: SignupBaseViewController {
 		let label = UILabel(frame: .zero)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.font = UIFont.systemFont(ofSize: 20.0, weight: .regular)
-		label.textColor = .allieButtons
+		label.textColor = .allieGray
 		label.textAlignment = .center
 		label.text = NSLocalizedString("ACTIVATION_MESSAGE", comment: "This will allow Allie to compare different measurements to give you the right type of assistance.")
 		label.numberOfLines = 0
@@ -93,18 +93,18 @@ class HealthViewController: SignupBaseViewController {
 		button.setAttributedTitle(attrText, for: .normal)
 		button.layer.cornerRadius = 8.0
 		button.layer.cornerCurve = .continuous
-		button.backgroundColor = .allieButtons
+		button.backgroundColor = .allieGray
 		return button
 	}()
 
 	let notNowButton: UIButton = {
 		let button = UIButton(type: .system)
-		let attrText = String.notNow.attributedString(style: .regular20, foregroundColor: .allieButtons, letterSpacing: 0.38)
+		let attrText = String.notNow.attributedString(style: .regular20, foregroundColor: .allieGray, letterSpacing: 0.38)
 		button.setAttributedTitle(attrText, for: .normal)
 		button.layer.cornerRadius = 8.0
 		button.layer.cornerCurve = .continuous
 		button.layer.borderWidth = 1
-		button.layer.borderColor = UIColor.allieButtons.cgColor
+		button.layer.borderColor = UIColor.allieGray.cgColor
 		return button
 	}()
 

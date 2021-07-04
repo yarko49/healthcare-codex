@@ -10,4 +10,7 @@ import Foundation
 extension Notification.Name {
 	static let patientDidSnychronize = Notification.Name("patientDidSnychronize")
 	static let applicationDidLogout = Notification.Name("applicationDidLogout")
+
+	static let didRegisterOrganization = NSNotification.Name("didRegisterOrganization")
+	static let didUnregisterOrganization = NSNotification.Name("didUnregisterOrganization")
 }
