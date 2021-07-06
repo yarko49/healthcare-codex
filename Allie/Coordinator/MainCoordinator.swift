@@ -224,8 +224,10 @@ class MainCoordinator: BaseCoordinator {
 
 	func refreshRemoteConfig(completion: Coordinable.BoolActionHandler?) {
 		RemoteConfigManager.shared.refresh()
+			.receive(on: DispatchQueue.main)
 			.sink { refreshResult in
 				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
+				completion?(refreshResult)
 			}.store(in: &cancellables)
 	}
 }

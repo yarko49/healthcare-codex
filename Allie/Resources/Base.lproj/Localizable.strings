@@ -607,3 +607,6 @@
 
 /* Organizations */
 "ORGANIZATIONS" = "Organizations";
+
+/* Unknown Organization */
+"UNKNOWN_ORGANIZATION" = "Unknown Organization";

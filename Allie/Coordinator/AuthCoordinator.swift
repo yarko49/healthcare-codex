@@ -256,6 +256,7 @@ class AuthCoordinator: BaseCoordinator {
 		let title = NSLocalizedString("CREATING_ACCOUNT", comment: "Creating Account")
 		showHUD(title: title, message: nil, animated: true)
 		APIClient.shared.post(patient: alliePatient!)
+			.receive(on: DispatchQueue.main)
 			.sink(receiveCompletion: { [weak self] result in
 				if case .failure(let error) = result {
 					let okAction = AlertHelper.AlertAction(withTitle: String.ok) {

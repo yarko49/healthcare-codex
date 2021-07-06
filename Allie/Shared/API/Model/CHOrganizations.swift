@@ -19,7 +19,7 @@ struct CHOrganizations: Codable, Hashable {
 
 struct CHOrganization: Codable, Identifiable, Hashable {
 	let id: String
-	let name: String?
+	let name: String
 	let imageURL: URL?
 	let detailImageURL: URL?
 	let authURL: URL?
@@ -28,7 +28,7 @@ struct CHOrganization: Codable, Identifiable, Hashable {
 
 	init(id: String) {
 		self.id = id
-		self.name = "Unknown"
+		self.name = NSLocalizedString("UNKNOWN_ORGANIZATION", comment: "Unknown Organization")
 		self.imageURL = nil
 		self.detailImageURL = nil
 		self.authURL = nil
@@ -53,17 +53,28 @@ struct CHOrganization: Codable, Identifiable, Hashable {
 	static func == (lhs: CHOrganization, rhs: CHOrganization) -> Bool {
 		lhs.id == rhs.id
 	}
+
+	public init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		self.id = try container.decode(String.self, forKey: .id)
+		self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? NSLocalizedString("UNKNOWN_ORGANIZATION", comment: "Unknown Organization")
+		self.imageURL = try container.decodeIfPresent(URL.self, forKey: .imageURL)
+		self.detailImageURL = try container.decodeIfPresent(URL.self, forKey: .detailImageURL)
+		self.authURL = try container.decodeIfPresent(URL.self, forKey: .authURL)
+		self.totalPatients = try container.decodeIfPresent(Int.self, forKey: .totalPatients) ?? 0
+		self.info = try container.decodeIfPresent(String.self, forKey: .info)
+	}
 }
 
 extension CHOrganization: CustomStringConvertible {
 	var description: String {
-		name ?? "Unknown Organization"
+		name
 	}
 }
 
 extension CHOrganization: CustomDebugStringConvertible {
 	var debugDescription: String {
-		"{\n\tId = \(id)\n\tName = \(name ?? "Unknown Organization")\n}"
+		"{\n\tId = \(id)\n\tName = \(name)\n}"
 	}
 }
 
