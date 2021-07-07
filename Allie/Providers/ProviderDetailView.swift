@@ -5,11 +5,24 @@
 //  Created by Waqar Malik on 6/26/21.
 //
 
+import JGProgressHUD_SwiftUI
 import SDWebImageSwiftUI
 import SwiftUI
 
 struct ProviderDetailView: View {
 	@ObservedObject var viewModel: ProviderDetailViewModel
+	@State private var blockTouches = true
+
+	var body: some View {
+		JGProgressHUDPresenter(userInteractionOnHUD: blockTouches) {
+			ProviderDetailViewBody(viewModel: viewModel)
+		}
+	}
+}
+
+struct ProviderDetailViewBody: View {
+	@ObservedObject var viewModel: ProviderDetailViewModel
+	@EnvironmentObject var hudCoordinator: JGProgressHUDCoordinator
 
 	var body: some View {
 		VStack(spacing: 20) {
@@ -25,10 +38,18 @@ struct ProviderDetailView: View {
 				.padding(.horizontal, 43.0)
 			Spacer()
 			Button(viewModel.isRegistered ? "UNREGISTER" : "ACCEPT") {
+				hudCoordinator.showHUD {
+					let hud = JGProgressHUD()
+					return hud
+				}
 				if viewModel.isRegistered {
-					viewModel.unregister()
+					viewModel.unregister { _ in
+						hudCoordinator.presentedHUD?.dismiss(animated: true)
+					}
 				} else {
-					viewModel.register()
+					viewModel.register { _ in
+						hudCoordinator.presentedHUD?.dismiss(animated: true)
+					}
 				}
 			}
 

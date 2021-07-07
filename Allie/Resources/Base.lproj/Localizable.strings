@@ -590,7 +590,7 @@
 /* Your Care Plan */
 "YOUR_CAREPLAN" = "Your Care Plan";
 
-/* "Connect to your healthcare provider to get the full benefits of Allie" */
+/* Connect to your healthcare provider to get the full benefits of Allie */
 "CONNECT_PROVIDER.title" = "Connect to your healthcare\nprovider to get the full\nbenefits of Allie";
 
 /* By connected your account to the provider you agree to share your medical data with provider. */
@@ -610,3 +610,10 @@
 
 /* Unknown Organization */
 "UNKNOWN_ORGANIZATION" = "Unknown Organization";
+
+/* Registering... */
+"REGISTERING" = "Registering...";
+
+/* Unregistering... */
+"UNREGISTERING" = "Unregistering...";
+

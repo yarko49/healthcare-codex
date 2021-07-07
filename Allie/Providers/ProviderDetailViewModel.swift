@@ -17,8 +17,9 @@ class ProviderDetailViewModel: ObservableObject {
 		self.organization = organization
 	}
 
-	func register() {
+	func register(completion: @escaping AllieBoolCompletion) {
 		APIClient.shared.registerOrganization(organization: organization)
+			.receive(on: DispatchQueue.main)
 			.sink { [weak self] result in
 				self?.isRegistered = result
 				NotificationCenter.default.post(name: .didRegisterOrganization, object: nil, userInfo: nil)
@@ -26,12 +27,14 @@ class ProviderDetailViewModel: ObservableObject {
 			}.store(in: &cancellables)
 	}
 
-	func unregister() {
+	func unregister(completion: @escaping AllieBoolCompletion) {
 		APIClient.shared.unregisterOrganization(organization: organization)
+			.receive(on: DispatchQueue.main)
 			.sink { [weak self] result in
 				self?.isRegistered = !result
 				NotificationCenter.default.post(name: .didUnregisterOrganization, object: nil, userInfo: nil)
 				ALog.info("Did finish unregister \(result)")
+				completion(result)
 			}.store(in: &cancellables)
 	}
 }
