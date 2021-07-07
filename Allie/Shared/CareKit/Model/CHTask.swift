@@ -15,7 +15,6 @@ public struct CHBasicTask: Codable {
 	public var id: String?
 	public var title: String?
 	public var carePlanId: String?
-	public var remoteId: String?
 }
 
 public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable {
@@ -32,7 +31,6 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 	public var deletedDate: Date?
 	public var createdDate: Date?
 	public var updatedDate: Date?
-	public var remoteId: String?
 	public var source: String?
 	public var userInfo: [String: String]?
 	public var asset: String?
@@ -40,6 +38,10 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 	public var timezone: TimeZone
 	public var healthKitLinkage: OCKHealthKitLinkage?
 	public var schedule: OCKSchedule
+
+	var remoteId: String {
+		id
+	}
 
 	public init(id: String, title: String?, carePlanUUID: String?, schedule: OCKSchedule) {
 		self.id = id
@@ -54,11 +56,7 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.carePlanId = try container.decodeIfPresent(String.self, forKey: .carePlanId)
-		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId)
 		self.id = try container.decode(String.self, forKey: .id)
-		if id.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-			self.id = remoteId ?? ""
-		}
 		self.carePlanUUID = try container.decodeIfPresent(UUID.self, forKey: .carePlanUUID)
 		self.title = try container.decodeIfPresent(String.self, forKey: .title)
 		self.instructions = try container.decodeIfPresent(String.self, forKey: .instructions)
@@ -68,7 +66,7 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 		} else if let elements = try? container.decodeIfPresent([CHScheduleElement].self, forKey: .scheduleElements) {
 			self.scheduleElements = elements
 		} else {
-			let context = DecodingError.Context(codingPath: [CodingKeys.scheduleElements], debugDescription: "Missing Schedule id = \(id), remoteId = \(String(describing: remoteId)), title = \(String(describing: title))")
+			let context = DecodingError.Context(codingPath: [CodingKeys.scheduleElements], debugDescription: "Missing Schedule id = \(id), id = \(String(describing: id)), title = \(String(describing: title))")
 			throw DecodingError.valueNotFound([CHScheduleElement].self, context)
 		}
 
@@ -114,7 +112,6 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 		try container.encode(effectiveDate, forKey: .effectiveDate)
 		try container.encodeIfPresent(createdDate, forKey: .createdDate)
 		try container.encodeIfPresent(updatedDate, forKey: .updatedDate)
-		try container.encodeIfPresent(remoteId, forKey: .remoteId)
 		try container.encodeIfPresent(source, forKey: .source)
 		try container.encode(userInfo, forKey: .userInfo)
 		try container.encodeIfPresent(asset, forKey: .asset)
@@ -125,7 +122,7 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 
 	private enum CodingKeys: String, CodingKey {
 		case carePlanId
-		case id
+		case id = "remoteId"
 		case carePlanUUID
 		case title
 		case instructions
@@ -137,7 +134,6 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 		case createdDate
 		case updatedDate
 		case deletedDate
-		case remoteId
 		case source
 		case userInfo
 		case asset

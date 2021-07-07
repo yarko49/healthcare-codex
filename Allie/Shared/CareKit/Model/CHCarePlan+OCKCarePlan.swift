@@ -12,11 +12,9 @@ extension OCKCarePlan: AnyItemDeletable {
 	init(carePlan: CHCarePlan) {
 		self.init(id: carePlan.id, title: carePlan.title, patientUUID: UUID(uuidString: carePlan.patientId ?? ""))
 		self.timezone = carePlan.timezone
-		self.groupIdentifier = carePlan.groupIdentifier
 		self.tags = carePlan.tags
 		self.source = carePlan.source
 		self.userInfo = carePlan.userInfo
-		self.remoteID = carePlan.remoteId
 		self.asset = carePlan.asset
 		self.effectiveDate = carePlan.effectiveDate
 		self.deletedDate = carePlan.deletedDate
@@ -30,7 +28,6 @@ extension OCKCarePlan: AnyItemDeletable {
 		existing.deletedDate = newCarePlan.deletedDate
 		existing.groupIdentifier = newCarePlan.groupIdentifier
 		existing.tags = newCarePlan.tags
-		existing.remoteID = newCarePlan.remoteID
 		existing.userInfo = newCarePlan.userInfo
 		existing.source = newCarePlan.source
 		existing.asset = newCarePlan.asset
