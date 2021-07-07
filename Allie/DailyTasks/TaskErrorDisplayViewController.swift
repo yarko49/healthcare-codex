@@ -28,7 +28,7 @@ class TaskErrorDisplayViewController: UITableViewController {
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.reuseIdentifier, for: indexPath)
 		let item = items[indexPath.row]
-		cell.textLabel?.text = "Task Title: \(item.title ?? "") " + "\nRemote Id: \(item.remoteId ?? "")"
+		cell.textLabel?.text = "Task Title: \(item.title ?? "") " + "\nId: \(item.id ?? "")"
 		cell.textLabel?.numberOfLines = 0
 		return cell
 	}
