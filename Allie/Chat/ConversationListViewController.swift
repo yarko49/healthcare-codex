@@ -32,7 +32,6 @@ class ConversationListViewController: UICollectionViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		conversationManager.delegate = self
 		composeBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(createConversation(_:)))
 		navigationItem.rightBarButtonItem = composeBarButtonItem
 
@@ -57,7 +56,18 @@ class ConversationListViewController: UICollectionViewController {
 			self?.process(conversations: conversations)
 		}.store(in: &cancellables)
 
-		conversationManager.refreshAccessToken()
+		hud.show(in: tabBarController?.view ?? view)
+		conversationManager.refreshAccessToken { [weak self] result in
+			DispatchQueue.main.async {
+				self?.hud.dismiss(animated: false)
+				switch result {
+				case .failure(let error):
+					self?.showError(message: error.localizedDescription)
+				case .success:
+					self?.collectionView.reloadData()
+				}
+			}
+		}
 	}
 
 	@objc func createConversation(_ sender: Any?) {}
@@ -90,14 +100,8 @@ class ConversationListViewController: UICollectionViewController {
 		viewController.conversationsManager = conversationManager
 		navigationController?.show(viewController, sender: self)
 	}
-}
 
-extension ConversationListViewController: ConversationManagerDelegate {
-	func conversationsManager(_ manager: ConversationsManager, displayStatus message: String) {
-		ALog.info("\(message)")
-	}
-
-	func conversationsManager(_ manager: ConversationsManager, displayError message: String) {
+	func showError(message: String?) {
 		let controller = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
 		let okAction = UIAlertAction(title: "OK", style: .default) { _ in
 		}

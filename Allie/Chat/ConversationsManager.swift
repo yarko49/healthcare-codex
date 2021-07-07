@@ -15,11 +15,6 @@ protocol ConversationMessagesDelegate: AnyObject {
 	func conversationsManager(_ manager: ConversationsManager, didReceive message: TCHMessage, for conversation: TCHConversation)
 }
 
-protocol ConversationManagerDelegate: AnyObject {
-	func conversationsManager(_ manager: ConversationsManager, displayStatus message: String)
-	func conversationsManager(_ manager: ConversationsManager, displayError message: String)
-}
-
 enum ConversationsManagerError: Error {
 	case forbidden(String)
 	case invalidClient
@@ -34,49 +29,47 @@ class ConversationsManager: NSObject, ObservableObject {
 	}
 
 	private(set) var cancellables: Set<AnyCancellable> = []
-	weak var delegate: ConversationManagerDelegate?
 	weak var messagesDelegate: ConversationMessagesDelegate?
 	@Published private(set) var client: TwilioConversationsClient?
 	@Published private(set) var conversations: Set<TCHConversation> = []
 	@Published private(set) var messages: [String: [TCHMessage]] = [:]
 	private var conversationTokens: CHConversations?
 
-	func refreshAccessToken() {
+	func refreshAccessToken(completion: @escaping AllieResultCompletion<Bool>) {
 		APIClient.shared.getConservations()
-			.sink { [weak self] result in
+			.sink { result in
 				if case .failure(let error) = result {
 					ALog.error("Error retrieving token \(error.localizedDescription)")
-					if let strongSelf = self {
-						strongSelf.delegate?.conversationsManager(strongSelf, displayError: error.localizedDescription)
-					}
+					completion(.failure(error))
 				}
 			} receiveValue: { [weak self] conversations in
 				self?.conversationTokens = conversations
 				if self?.client != nil {
-					self?.updateToken(token: conversations.tokens.first)
+					self?.updateToken(token: conversations.tokens.first, completion: completion)
 				} else {
-					self?.login(token: conversations.tokens.first)
+					self?.login(token: conversations.tokens.first, completion: completion)
 				}
 			}.store(in: &cancellables)
 	}
 
-	func updateToken(token: CHConversations.Token?) {
+	func updateToken(token: CHConversations.Token?, completion: @escaping AllieResultCompletion<Bool>) {
 		guard let token = token else {
+			completion(.failure(AllieError.missing("Unable to update token, missing token")))
 			return
 		}
-		client?.updateToken(token.accessToken, completion: { [weak self] result in
+		client?.updateToken(token.accessToken, completion: { result in
 			if result.isSuccessful {
 				ALog.info("Access token refreshed")
+				completion(.success(true))
+			} else if let error = result.error {
+				completion(.failure(error))
 			} else {
-				ALog.error("Unable to refresh access token \(result.error?.localizedDescription ?? "")")
-				if let error = result.error, let strongSelf = self {
-					strongSelf.delegate?.conversationsManager(strongSelf, displayError: error.localizedDescription)
-				}
+				completion(.failure(URLError(.badServerResponse)))
 			}
 		})
 	}
 
-	func send(message: String, for conversation: TCHConversation, completion: @escaping (Result<TCHMessage, Error>) -> Void) {
+	func send(message: String, for conversation: TCHConversation, completion: @escaping AllieResultCompletion<TCHMessage>) {
 		let messageOptions = TCHMessageOptions().withBody(message)
 		conversation.sendMessage(with: messageOptions, completion: { result, message in
 			if let message = message, result.isSuccessful {
@@ -89,7 +82,7 @@ class ConversationsManager: NSObject, ObservableObject {
 		})
 	}
 
-	func loginFromServer(identity: String, completion: @escaping (Bool) -> Void) {
+	func loginFromServer(identity: String, completion: @escaping AllieBoolCompletion) {
 		APIClient.shared.getConservations()
 			.sink { result in
 				if case .failure(let error) = result {
@@ -108,13 +101,15 @@ class ConversationsManager: NSObject, ObservableObject {
 			}.store(in: &cancellables)
 	}
 
-	func login(token: CHConversations.Token?) {
+	func login(token: CHConversations.Token?, completion: @escaping AllieResultCompletion<Bool>) {
 		guard let accessToken = token?.accessToken else {
+			completion(.failure(AllieError.missing("Unable to login, missing token")))
 			return
 		}
 		TwilioConversationsClient.conversationsClient(withToken: accessToken, properties: nil, delegate: self) { [weak self] result, client in
 			self?.client = client
 			ALog.info("Login Result \(result)")
+			completion(.success(true))
 		}
 	}
 
@@ -159,7 +154,7 @@ class ConversationsManager: NSObject, ObservableObject {
 		// completion(TCHResult(), client.myConversations()?.first)
 	}
 
-	func join(conversation: TCHConversation, completion: @escaping ((Result<Bool, Error>) -> Void)) {
+	func join(conversation: TCHConversation, completion: @escaping AllieResultCompletion<Bool>) {
 		conversations.insert(conversation)
 		if conversation.status == .joined {
 			loadPreviousMessages(for: conversation, completion: completion)
@@ -175,7 +170,7 @@ class ConversationsManager: NSObject, ObservableObject {
 		}
 	}
 
-	func loadPreviousMessages(for conversation: TCHConversation, completion: @escaping ((Result<Bool, Error>) -> Void)) {
+	func loadPreviousMessages(for conversation: TCHConversation, completion: @escaping AllieResultCompletion<Bool>) {
 		conversation.getLastMessages(withCount: Constants.messagesDownloadPageSize) { [weak self] result, messages in
 			if let messages = messages, result.isSuccessful {
 				self?.messages[conversation.id] = messages
@@ -221,12 +216,26 @@ extension ConversationsManager: TwilioConversationsClientDelegate {
 
 	func conversationsClientTokenWillExpire(_ client: TwilioConversationsClient) {
 		ALog.info("Access token will expire.")
-		refreshAccessToken()
+		refreshAccessToken { result in
+			switch result {
+			case .success:
+				ALog.info("refreshed token")
+			case .failure(let error):
+				ALog.error("Unable to update the token \(error.localizedDescription)")
+			}
+		}
 	}
 
 	func conversationsClientTokenExpired(_ client: TwilioConversationsClient) {
 		ALog.info("Access token expired.")
-		refreshAccessToken()
+		refreshAccessToken { result in
+			switch result {
+			case .success:
+				ALog.info("refreshed token")
+			case .failure(let error):
+				ALog.error("Unable to update the token \(error.localizedDescription)")
+			}
+		}
 	}
 
 	func conversationsClient(_ client: TwilioConversationsClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus) {

@@ -7,6 +7,7 @@
 
 import Combine
 import InputBarAccessoryView
+import JGProgressHUD
 import MessageKit
 import TwilioConversationsClient
 import UIKit
@@ -18,6 +19,13 @@ class ConversationViewController: MessagesViewController {
 	var patient: CHPatient? {
 		CareManager.shared.patient
 	}
+
+	private let hud: JGProgressHUD = {
+		let view = JGProgressHUD(style: .dark)
+		view.vibrancyEnabled = true
+		view.textLabel.text = NSLocalizedString("LOADING", comment: "Loading")
+		return view
+	}()
 
 	private let formatter: DateFormatter = {
 		let formatter = DateFormatter()
@@ -31,12 +39,16 @@ class ConversationViewController: MessagesViewController {
 		configureMessageCollectionView()
 		configureMessageInputBar()
 		if let conversation = self.conversation {
+			hud.show(in: tabBarController?.view ?? view)
 			conversationsManager?.join(conversation: conversation, completion: { [weak self] result in
-				switch result {
-				case .failure(let error):
-					ALog.error("\(error)")
-				case .success:
-					self?.messagesCollectionView.reloadData()
+				DispatchQueue.main.async {
+					self?.hud.dismiss(animated: false)
+					switch result {
+					case .failure(let error):
+						ALog.error("\(error)")
+					case .success:
+						self?.messagesCollectionView.reloadData()
+					}
 				}
 			})
 		}
@@ -252,14 +264,15 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
 		inputBar.inputTextView.resignFirstResponder()
 
 		conversationsManager?.send(message: text, for: conversation, completion: { result in
-			switch result {
-			case .failure(let error):
-				ALog.error("Error sending message", error: error)
-				inputBar.inputTextView.text = text
-			case .success(let message):
-				inputBar.inputTextView.placeholder = "Your message"
-				ALog.info("Message Sent, \(message.id)")
-				DispatchQueue.main.async { [weak self] in
+			DispatchQueue.main.async { [weak self] in
+				inputBar.sendButton.stopAnimating()
+				switch result {
+				case .failure(let error):
+					ALog.error("Error sending message", error: error)
+					inputBar.inputTextView.text = text
+				case .success(let message):
+					inputBar.inputTextView.placeholder = "Your message"
+					ALog.info("Message Sent, \(message.id)")
 					self?.insertMessage(message)
 				}
 			}
