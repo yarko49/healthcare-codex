@@ -36,6 +36,38 @@ extension UIColor {
 	class var allieLightText: UIColor {
 		UIColor(named: "AllieLightText")!
 	}
+
+	class var medications: UIColor {
+		UIColor(named: "Medications")!
+	}
+
+	class var weight: UIColor {
+		UIColor(named: "Weight")!
+	}
+
+	class var activity: UIColor {
+		UIColor(named: "Activity")!
+	}
+
+	class var bloodPressure: UIColor {
+		UIColor(named: "BloodPressure")!
+	}
+
+	class var heartRate: UIColor {
+		UIColor(named: "HeartRate")!
+	}
+
+	class var restingHeartRate: UIColor {
+		UIColor(named: "HeartRate")!
+	}
+
+	class var insulin: UIColor {
+		UIColor(named: "Insulin")!
+	}
+
+	class var bloodGlucose: UIColor {
+		UIColor(named: "BloodGlucose")!
+	}
 }
 
 extension UIColor {
@@ -44,42 +76,17 @@ extension UIColor {
 	static let lightBackground = UIColor(named: "LightBackground")
 	static let lightGrey = UIColor(named: "LightGrey")!
 	static let blue = UIColor(named: "Blue")
-	static let purple400 = UIColor(named: "Purple400")
-	static let red400 = UIColor(named: "Red400")
-	static let orange600 = UIColor(named: "Orange600")
-	static let yellow300 = UIColor(named: "Yellow300")
-	static let green300 = UIColor(named: "Green300")
 	static let chart = UIColor(named: "Chart")
 	static let profile = UIColor(named: "Profile")
-	static let weight = UIColor(named: "Weight")
-	static let activity = UIColor(named: "Activity")
-	static let bloodPressure = UIColor(named: "BloodPressure")
-	static let heartRate = UIColor(named: "HeartRate")
 	static let swipe = UIColor(named: "Swipe")
 	static let google = UIColor(named: "Google")
 	static let next = UIColor(named: "Next")
 	static let pcp = UIColor(named: "PCP")!
-	static let onboardingBackground = UIColor(named: "OnboardingBackground")!
 	static let cursorOrange = UIColor(named: "CursorOrange")!
-	static let restingHeartRate = UIColor(named: "RestingHeartRate")
 	static let weightLabel = UIColor(named: "WeightLabel")
 	static let enterGrey = UIColor(named: "EnterGrey")!
 	static let tableViewSeparator = UIColor(named: "TableViewSeparator")
 	// Coach Cards
-	static let weightBackground = UIColor(named: "WeightBackground")!
-	static let activityBackground = UIColor(named: "ActivityBackground")!
-	static let bloodPressureBackground = UIColor(named: "BloodPressureBackground")!
-	static let surveyBackground = UIColor(named: "SurveyBackground")!
-	static let medicationBackground = UIColor(named: "MedicationBackground")!
-
-	// Measurement Cards
-	static let weightDataBackground = UIColor(named: "WeightDataBackground")!
-	static let activityDataBackground = UIColor(named: "ActivityDataBackground")!
-	static let bloodPressureDataBackground = UIColor(named: "BloodPressureDataBackground")!
-	static let surveyDataBackground = UIColor(named: "SurveyDataBackground")!
-	static let medicationDataBackground = UIColor(named: "MedicationDataBackground")!
-	static let defaultDataBackground = UIColor(named: "DefaultDataBackground")!
-
 	// Status
 	static let statusLow = UIColor(named: "StatusLow")!
 	static let statusGreen = UIColor(named: "StatusGreen")!

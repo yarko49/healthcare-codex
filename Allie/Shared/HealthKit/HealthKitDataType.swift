@@ -5,11 +5,11 @@
 //  Created by Waqar Malik on 2/20/21.
 //
 
-import Foundation
 import HealthKit
 import ModelsR4
+import UIKit
 
-enum HealthKitDataType: String, CaseIterable, CustomStringConvertible {
+enum HealthKitDataType: String, CaseIterable, Hashable {
 	case bodyMass
 	case heartRate
 	case restingHeartRate
@@ -17,10 +17,6 @@ enum HealthKitDataType: String, CaseIterable, CustomStringConvertible {
 	case bloodPressure
 	case bloodGlucose
 	case insulinDelivery
-
-	var description: String {
-		rawValue
-	}
 
 	var unit: HKUnit {
 		switch self {
@@ -37,7 +33,7 @@ enum HealthKitDataType: String, CaseIterable, CustomStringConvertible {
 		case .bloodGlucose:
 			return HKUnit.gram().unitDivided(by: HKUnit.liter())
 		case .insulinDelivery:
-			return HKUnit(from: "mIU/ml")
+			return HKUnit.internationalUnit()
 		}
 	}
 
@@ -76,6 +72,63 @@ enum HealthKitDataType: String, CaseIterable, CustomStringConvertible {
 			return [HKObjectType.quantityType(forIdentifier: .bloodGlucose)]
 		case .insulinDelivery:
 			return [HKObjectType.quantityType(forIdentifier: .insulinDelivery)]
+		}
+	}
+
+	var quantityTypeIdentifiers: [HKQuantityTypeIdentifier] {
+		switch self {
+		case .bodyMass:
+			return [.bodyMass]
+		case .heartRate:
+			return [.heartRate]
+		case .restingHeartRate:
+			return [.restingHeartRate]
+		case .stepCount:
+			return [.stepCount]
+		case .bloodPressure:
+			return [.bloodPressureDiastolic, .bloodPressureSystolic]
+		case .bloodGlucose:
+			return [.bloodGlucose]
+		case .insulinDelivery:
+			return [.insulinDelivery]
+		}
+	}
+
+	var color: UIColor {
+		switch self {
+		case .bodyMass:
+			return .activity
+		case .heartRate:
+			return .heartRate
+		case .restingHeartRate:
+			return .restingHeartRate
+		case .stepCount:
+			return .activity
+		case .bloodPressure:
+			return .bloodPressure
+		case .bloodGlucose:
+			return .bloodGlucose
+		case .insulinDelivery:
+			return .insulin
+		}
+	}
+
+	var image: UIImage? {
+		switch self {
+		case .bodyMass:
+			return UIImage(named: "icon-weight")
+		case .heartRate:
+			return UIImage(named: "icon-heart-rate")
+		case .restingHeartRate:
+			return UIImage(named: "icon-heart-rate")
+		case .stepCount:
+			return UIImage(named: "icon-activty")
+		case .bloodPressure:
+			return UIImage(named: "icon-blood-pressure")
+		case .bloodGlucose:
+			return UIImage(named: "icon-blood-gluclose")
+		case .insulinDelivery:
+			return UIImage(named: "icon-insulin")
 		}
 	}
 
