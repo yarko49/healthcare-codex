@@ -6,6 +6,7 @@
 import HealthKit
 import UIKit
 
+// Deprecated HealthKitDataType
 enum HealthKitQuantityType: String, CaseIterable {
 	case weight = "Weight"
 	case activity = "Activity"

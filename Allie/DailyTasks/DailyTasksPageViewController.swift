@@ -46,7 +46,16 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			}
 			.store(in: &cancellables)
 		CareManager.shared.startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
-		reload()
+		HealthKitManager.shared.authorizeHealthKit { [weak self] success, error in
+			if let error = error {
+				ALog.error("Unable to authorize the HealthKit", error: error)
+			} else {
+				ALog.info("Success result \(success)")
+			}
+			DispatchQueue.main.async {
+				self?.reload()
+			}
+		}
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -133,18 +142,26 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .logInsulin:
-						let viewController = InsulinLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						let viewController = GeneralizedLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						viewController.logDelegate = self
 						viewController.view.tintColor = .allieGray
 						viewController.controller.fetchAndObserveEvents(forTaskIDs: [task.id], eventQuery: eventQuery)
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
+					case .labeledValue:
+						if task is OCKHealthKitTask {
+							let viewController = GeneralizedLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+							viewController.logDelegate = self
+							viewController.view.tintColor = .allieGray
+							viewController.controller.fetchAndObserveEvents(forTaskIDs: [task.id], eventQuery: eventQuery)
+							listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
+						} else {
+							let view = LabeledValueTaskView(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+								.accentColor(Color(.allieGray))
+							listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
+						}
 					case .numericProgress:
 						let view = NumericProgressTaskView(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
-						listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
-
-					case .labeledValue:
-						let view = LabeledValueTaskView(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
-							.accentColor(Color(.allieGray))
 						listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
 
 					case .instruction:
@@ -217,6 +234,18 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 	@IBAction func gotoToday(_ sender: Any) {
 		selectDate(Date(), animated: true)
+	}
+}
+
+extension DailyTasksPageViewController: GeneralizedLogTaskViewControllerDelegate {
+	func generalizedLogTaskViewController(_ controller: GeneralizedLogTaskViewController, didSelectAddOutcome task: OCKHealthKitTask?) {
+		guard let healthKitTask = task else {
+			return
+		}
+		let viewController = GeneralizedEntryTaskViewController()
+		viewController.task = healthKitTask
+		viewController.modalPresentationStyle = .overFullScreen
+		tabBarController?.showDetailViewController(viewController, sender: self)
 	}
 }
 

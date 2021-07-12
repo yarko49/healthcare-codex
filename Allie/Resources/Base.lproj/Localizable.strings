@@ -53,7 +53,8 @@
 
 "SIGN_IN_MODAL" = "Sign in";
 
-"SAVE" = "SAVE";
+/* Save */
+"SAVE" = "Save";
 
 "WELCOME_BACK" = "Welcome Back";
 
@@ -616,4 +617,22 @@
 
 /* Unregistering... */
 "UNREGISTERING" = "Unregistering...";
+
+/* After Meal */
+"AFTER_MEAL" = "After Meal";
+
+/* Before Meal */
+"BEFORE_MEAL" = "Before Meal";
+
+/* Blood Glucose */
+"BLOOD_GLUCOSE" = "Blood Glucose";
+
+/* Fasting */
+"FASTING" = "Fasting";
+
+/* Insulin */
+"INSULIN" = "Insulin";
+
+/* Step Count */
+"STEP_COUNT" = "Step Count";
 

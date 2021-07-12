@@ -9,13 +9,13 @@ import CareKitUI
 import Foundation
 
 struct ScheduleUtility {
-	private static let timeFormatter: DateFormatter = {
+	static let timeFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.timeStyle = .short
 		return formatter
 	}()
 
-	private static let dateFormatter: DateFormatter = {
+	static let dateFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "M/d"
 		return formatter
@@ -63,7 +63,7 @@ struct ScheduleUtility {
 		return timeFormatter.string(from: completedDate)
 	}
 
-	private static func dateLabel(for events: [OCKAnyEvent]) -> String? {
+	static func dateLabel(for events: [OCKAnyEvent]) -> String? {
 		guard !events.isEmpty else { return nil }
 		if events.count > 1 {
 			let schedule = events.first!.scheduleEvent
@@ -72,13 +72,13 @@ struct ScheduleUtility {
 		return dateLabel(forStart: events.first!.scheduleEvent.start, end: events.last!.scheduleEvent.end)
 	}
 
-	private static func isMoreRecent(lhs: Date?, rhs: Date?) -> Bool {
+	static func isMoreRecent(lhs: Date?, rhs: Date?) -> Bool {
 		guard let lhs = lhs else { return false }
 		guard let rhs = rhs else { return true }
 		return lhs > rhs
 	}
 
-	private static func dateLabel(forStart start: Date, end: Date) -> String? {
+	static func dateLabel(forStart start: Date, end: Date) -> String? {
 		let datesAreInSameDay = Calendar.current.isDate(start, inSameDayAs: end)
 		if datesAreInSameDay {
 			let datesAreToday = Calendar.current.isDateInToday(start)
@@ -87,7 +87,7 @@ struct ScheduleUtility {
 		return "from \(label(for: start)) to \(label(for: end))"
 	}
 
-	private static func label(for date: Date) -> String {
+	static func label(for date: Date) -> String {
 		if Calendar.current.isDateInToday(date) {
 			return loc("TODAY")
 		}
@@ -95,7 +95,7 @@ struct ScheduleUtility {
 		return label
 	}
 
-	private static func completionLabel(for events: [OCKAnyEvent]) -> String? {
+	static func completionLabel(for events: [OCKAnyEvent]) -> String? {
 		guard !events.isEmpty else { return nil }
 		let completed = events.filter { $0.outcome != nil }.count
 		let remaining = events.count - completed

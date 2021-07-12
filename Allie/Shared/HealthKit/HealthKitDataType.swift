@@ -18,6 +18,25 @@ enum HealthKitDataType: String, CaseIterable, Hashable {
 	case bloodGlucose
 	case insulinDelivery
 
+	var displayTitle: String {
+		switch self {
+		case .bodyMass:
+			return NSLocalizedString("WEIGHT", comment: "Weight")
+		case .heartRate:
+			return NSLocalizedString("HEART_RATE", comment: "Heart Rate")
+		case .restingHeartRate:
+			return NSLocalizedString("RESTING_HEART_RATE", comment: "Resting Heart Rate")
+		case .stepCount:
+			return NSLocalizedString("STEP_COUNT", comment: "Step Count")
+		case .bloodPressure:
+			return NSLocalizedString("BLOOD_PRESSURE", comment: "BLOOD_PRESSURE")
+		case .bloodGlucose:
+			return NSLocalizedString("BLOOD_GLUCOSE", comment: "Blood Glucose")
+		case .insulinDelivery:
+			return NSLocalizedString("INSULIN", comment: "Insulin")
+		}
+	}
+
 	var unit: HKUnit {
 		switch self {
 		case .bodyMass:
@@ -31,7 +50,7 @@ enum HealthKitDataType: String, CaseIterable, Hashable {
 		case .bloodPressure:
 			return HKUnit.millimeterOfMercury()
 		case .bloodGlucose:
-			return HKUnit.gram().unitDivided(by: HKUnit.liter())
+			return HKUnit.gramUnit(with: .milli).unitDivided(by: HKUnit.literUnit(with: .deci))
 		case .insulinDelivery:
 			return HKUnit.internationalUnit()
 		}
@@ -126,7 +145,7 @@ enum HealthKitDataType: String, CaseIterable, Hashable {
 		case .bloodPressure:
 			return UIImage(named: "icon-blood-pressure")
 		case .bloodGlucose:
-			return UIImage(named: "icon-blood-gluclose")
+			return UIImage(named: "icon-blood-glucose")
 		case .insulinDelivery:
 			return UIImage(named: "icon-insulin")
 		}
