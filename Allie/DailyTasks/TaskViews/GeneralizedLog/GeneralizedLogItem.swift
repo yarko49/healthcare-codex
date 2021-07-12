@@ -9,7 +9,7 @@ import CareKit
 import CareKitUI
 import UIKit
 
-class InsulinLogItemButton: OCKAnimatedButton<OCKStackView> {
+class GeneralizedLogItem: OCKAnimatedButton<OCKStackView> {
 	private enum Constants {
 		static let spacing: CGFloat = 3
 	}
@@ -18,7 +18,7 @@ class InsulinLogItemButton: OCKAnimatedButton<OCKStackView> {
 
 	public let imageView: UIImageView = {
 		let imageView = UIImageView()
-		imageView.image = UIImage(systemName: "gearshape")
+		imageView.image = UIImage(named: "icon-lock-fill")
 		imageView.preferredSymbolConfiguration = .init(textStyle: .caption1)
 		return imageView
 	}()
