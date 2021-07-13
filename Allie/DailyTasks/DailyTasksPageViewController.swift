@@ -245,7 +245,18 @@ extension DailyTasksPageViewController: GeneralizedLogTaskViewControllerDelegate
 		let viewController = GeneralizedEntryTaskViewController()
 		viewController.task = healthKitTask
 		viewController.modalPresentationStyle = .overFullScreen
+		viewController.delegate = self
 		tabBarController?.showDetailViewController(viewController, sender: self)
+	}
+}
+
+extension DailyTasksPageViewController: GeneralizedEntryTaskViewControllerDelegate {
+	func generalizedEntryTaskViewControllerDidCancel(_ viewController: GeneralizedEntryTaskViewController) {
+		viewController.dismiss(animated: true, completion: nil)
+	}
+
+	func generalizedEntryTaskViewControllerDidSave(_ viewController: GeneralizedEntryTaskViewController) {
+		viewController.dismiss(animated: true, completion: nil)
 	}
 }
 

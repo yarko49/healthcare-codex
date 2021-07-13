@@ -45,19 +45,6 @@ class GeneralizedLogTaskView: OCKView, OCKTaskDisplayable {
 		return view
 	}()
 
-	private let headerStackView: OCKStackView = {
-		let view = OCKStackView()
-		view.axis = .vertical
-		return view
-	}()
-
-	let contentStackView: OCKStackView = {
-		let view = OCKStackView()
-		view.axis = .vertical
-		view.isLayoutMarginsRelativeArrangement = true
-		return view
-	}()
-
 	let headerView: EntryTaskSectionHeaderView = {
 		let view = EntryTaskSectionHeaderView(frame: .zero)
 		view.button.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -73,7 +60,6 @@ class GeneralizedLogTaskView: OCKView, OCKTaskDisplayable {
 	let logItemsStackView: OCKStackView = {
 		var view = OCKStackView()
 		view.axis = .vertical
-		view.isLayoutMarginsRelativeArrangement = true
 		return view
 	}()
 
@@ -87,15 +73,20 @@ class GeneralizedLogTaskView: OCKView, OCKTaskDisplayable {
 
 	func addSubviews() {
 		addSubview(contentView)
-		contentView.addSubview(headerStackView)
-		[headerView, contentStackView].forEach { headerStackView.addArrangedSubview($0) }
-		[logItemsStackView].forEach { contentStackView.addArrangedSubview($0) }
+		contentView.addSubview(headerView)
+		contentView.addSubview(logItemsStackView)
 	}
 
 	func constrainSubviews() {
-		[contentView, headerStackView, headerView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
-		NSLayoutConstraint.activate(
-			contentView.constraints(equalTo: self) + headerStackView.constraints(equalTo: contentView))
+		[contentView, headerView, logItemsStackView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+		NSLayoutConstraint.activate(contentView.constraints(equalTo: self))
+		NSLayoutConstraint.activate([headerView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 0.0),
+		                             headerView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 0.0),
+		                             contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: headerView.trailingAnchor, multiplier: 0.0)])
+		NSLayoutConstraint.activate([logItemsStackView.topAnchor.constraint(equalToSystemSpacingBelow: headerView.bottomAnchor, multiplier: 0.0),
+		                             logItemsStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 2.0),
+		                             contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: logItemsStackView.trailingAnchor, multiplier: 2.0),
+		                             contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: logItemsStackView.bottomAnchor, multiplier: 0.0)])
 	}
 
 	private func setupGestures() {
@@ -111,10 +102,7 @@ class GeneralizedLogTaskView: OCKView, OCKTaskDisplayable {
 		let style = self.style()
 		let cardBuilder = CardBuilder(cardView: self, contentView: contentView)
 		cardBuilder.enableCardStyling(true, style: style)
-		contentStackView.spacing = style.dimension.directionalInsets1.top
-		logItemsStackView.spacing = style.dimension.directionalInsets1.top
 		directionalLayoutMargins = style.dimension.directionalInsets1
-		contentStackView.directionalLayoutMargins = style.dimension.directionalInsets1
 	}
 
 	private func makeItem(withTitle title: String?, detail: String?) -> GeneralizedLogItem {

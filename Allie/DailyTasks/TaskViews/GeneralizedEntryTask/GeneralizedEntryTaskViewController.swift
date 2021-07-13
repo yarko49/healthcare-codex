@@ -14,11 +14,18 @@ enum GeneralizedEntryTaskError: Error {
 	case invalid(String)
 }
 
+protocol GeneralizedEntryTaskViewControllerDelegate: AnyObject {
+	func generalizedEntryTaskViewControllerDidCancel(_ viewController: GeneralizedEntryTaskViewController)
+	func generalizedEntryTaskViewControllerDidSave(_ viewController: GeneralizedEntryTaskViewController)
+}
+
 class GeneralizedEntryTaskViewController: UIViewController {
 	let entryTaskView: GeneralizedEntryTaskView = {
 		let view = GeneralizedEntryTaskView()
 		return view
 	}()
+
+	weak var delegate: GeneralizedEntryTaskViewControllerDelegate?
 
 	let headerView: EntryTaskSectionHeaderView = {
 		let view = EntryTaskSectionHeaderView(frame: .zero)
@@ -199,24 +206,22 @@ class GeneralizedEntryTaskViewController: UIViewController {
 
 extension GeneralizedEntryTaskViewController: EntryTaskSectionHeaderViewDelegate {
 	func entryTaskSectionHeaderViewDidSelectButton(_ view: EntryTaskSectionHeaderView) {
-		dismiss(animated: true, completion: nil)
+		delegate?.generalizedEntryTaskViewControllerDidCancel(self)
 	}
 }
 
 extension GeneralizedEntryTaskViewController: EntryTaskSectionFooterViewDelegate {
 	func entryTaskSectionFooterViewDidSelectButton(_ view: EntryTaskSectionFooterView) {
-		saveToHealthKit { [weak self] result in
+		saveToHealthKit { result in
 			switch result {
 			case .failure(let error):
 				ALog.error("Unable to save value", error: error)
 			case .success(let success):
 				ALog.info("Sample saved \(success)")
 			}
-
-			DispatchQueue.main.async {
-				self?.dismiss(animated: true, completion: nil)
-			}
 		}
+
+		delegate?.generalizedEntryTaskViewControllerDidSave(self)
 	}
 }
 

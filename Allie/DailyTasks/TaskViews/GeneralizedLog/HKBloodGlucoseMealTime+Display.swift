@@ -37,7 +37,7 @@ extension HKBloodGlucoseMealTime {
 		case .postprandial:
 			return "postprandial"
 		@unknown default:
-			return ""
+			return "noprandial"
 		}
 	}
 }
