@@ -79,7 +79,6 @@ class GeneralizedLogItem: OCKAnimatedButton<OCKStackView> {
 			contentStackView.constraints(equalTo: self, directions: [.horizontal]) +
 				contentStackView.constraints(equalTo: layoutMarginsGuide, directions: [.vertical])
 		)
-		imageView.isHidden = true
 	}
 
 	private func applyTintColor() {
