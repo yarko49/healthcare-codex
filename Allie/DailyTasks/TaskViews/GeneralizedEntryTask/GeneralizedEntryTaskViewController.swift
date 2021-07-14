@@ -110,6 +110,24 @@ class GeneralizedEntryTaskViewController: UIViewController {
 	private func configure(multiValueEntryView cell: MultiValueEntryView?) {
 		cell?.translatesAutoresizingMaskIntoConstraints = false
 		cell?.heightAnchor.constraint(equalToConstant: MultiValueEntryView.height).isActive = true
+		guard let targetValues = task?.schedule.elements.first?.targetValues else {
+			return
+		}
+		cell?.leadingEntryView.isHidden = true
+		cell?.trailingEntryView.isHidden = true
+		for (index, value) in targetValues.enumerated() {
+			if index == 0 {
+				cell?.leadingEntryView.isHidden = false
+				cell?.leadingEntryView.textField.placeholder = "\(value.integerValue ?? 0)"
+				cell?.leadingEntryView.textLabel.text = value.units
+			} else if index == 1 {
+				cell?.trailingEntryView.isHidden = false
+				cell?.trailingEntryView.textField.placeholder = "\(value.integerValue ?? 0)"
+				cell?.trailingEntryView.textLabel.text = value.units
+			} else {
+				break
+			}
+		}
 	}
 
 	private func configureView(task: OCKHealthKitTask?) {
@@ -118,20 +136,27 @@ class GeneralizedEntryTaskViewController: UIViewController {
 		let dataType = task?.healthKitLinkage.quantityIdentifier.dataType
 		headerView.imageView.image = dataType?.image
 
-		if let linkage = task?.healthKitLinkage, linkage.quantityIdentifier == .insulinDelivery || linkage.quantityIdentifier == .bloodGlucose {
-			identifiers = [TimeValueEntryView.reuseIdentifier, SegmentedEntryView.reuseIdentifier]
+		guard let linkage = task?.healthKitLinkage, let identifiers = linkage.quantityIdentifier.taskViews else {
+			return
 		}
-
-		for (index, identifier) in identifiers.enumerated() {
+		self.identifiers = identifiers
+		for (index, identifier) in self.identifiers.enumerated() {
 			addView(identifier: identifier, at: index)
 		}
 	}
 
 	func saveToHealthKit(completion: @escaping AllieResultCompletion<Bool>) {
-		if task?.healthKitLinkage.quantityIdentifier == .insulinDelivery {
+		guard let quantityIdentifier = task?.healthKitLinkage.quantityIdentifier else {
+			completion(.failure(GeneralizedEntryTaskError.missing("Quantity Identifier")))
+			return
+		}
+
+		if quantityIdentifier == .insulinDelivery {
 			saveInsulin(completion: completion)
-		} else if task?.healthKitLinkage.quantityIdentifier == .bloodGlucose {
+		} else if quantityIdentifier == .bloodGlucose {
 			saveBloodGlucose(completion: completion)
+		} else if quantityIdentifier == .bodyMass {
+			saveBodyMass(completion: completion)
 		} else {
 			completion(.failure(GeneralizedEntryTaskError.invalid("Quantity Identifier")))
 		}
@@ -193,6 +218,33 @@ class GeneralizedEntryTaskViewController: UIViewController {
 			mealTime = nil
 		}
 		let sample = HKDiscreteQuantitySample(bloodGlucose: value, startDate: date, mealTime: mealTime)
+		HKHealthStore().save(sample) { result, error in
+			if let error = error {
+				ALog.error("Unable to save blood glucose values", error: error)
+				completion(.failure(error))
+			} else {
+				completion(.success(result))
+			}
+		}
+	}
+
+	func saveBodyMass(completion: @escaping AllieResultCompletion<Bool>) {
+		guard let unitView = entryTaskView.entryView(forIdentifier: TimeValueEntryView.reuseIdentifier) as? TimeValueEntryView, let valueString = unitView.value, !valueString.isEmpty else {
+			completion(.failure(GeneralizedEntryTaskError.missing("Missing Value")))
+			return
+		}
+		guard let value = Double(valueString) else {
+			completion(.failure(GeneralizedEntryTaskError.invalid("Value of invalid type")))
+			return
+		}
+
+		let quantity = HKQuantity(unit: HealthKitDataType.bodyMass.unit, doubleValue: value)
+		var metadata: [String: Any] = [:]
+		metadata[HKMetadataKeyTimeZone] = TimeZone.current.identifier
+		metadata[HKMetadataKeyWasUserEntered] = true
+		let quantityType = HKQuantityType.quantityType(forIdentifier: .bodyMass)
+		let date = unitView.date
+		let sample = HKDiscreteQuantitySample(type: quantityType!, quantity: quantity, start: date, end: date, device: HKDevice.local(), metadata: metadata)
 		HKHealthStore().save(sample) { result, error in
 			if let error = error {
 				ALog.error("Unable to save blood glucose values", error: error)

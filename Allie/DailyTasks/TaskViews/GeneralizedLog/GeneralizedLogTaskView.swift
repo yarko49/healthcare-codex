@@ -196,6 +196,8 @@ extension GeneralizedLogTaskView {
 					title = outcomeValue.insulinLogItem
 				} else if linkage?.quantityIdentifier == .bloodGlucose {
 					title = outcomeValue.bloodGlucoseItem
+				} else {
+					title = outcomeValue.valueItem
 				}
 				_ = index < items.count ? updateItem(at: index, withTitle: dateString, detail: title) :
 					appendItem(withTitle: dateString, detail: title, animated: animated)
