@@ -18,6 +18,10 @@ extension OCKHealthKitLinkage {
 			identifier = "stepCount"
 		}
 
+		if identifier == "bloodPressure" {
+			identifier = "bloodPressureDiastolic"
+		}
+
 		guard let quantityType = OCKHealthKitLinkage.QuantityType(rawValue: type) else {
 			return nil
 		}

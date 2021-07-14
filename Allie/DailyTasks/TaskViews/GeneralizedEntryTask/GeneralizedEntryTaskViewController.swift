@@ -30,6 +30,7 @@ class GeneralizedEntryTaskViewController: UIViewController {
 	let headerView: EntryTaskSectionHeaderView = {
 		let view = EntryTaskSectionHeaderView(frame: .zero)
 		view.button.setImage(UIImage(systemName: "multiply"), for: .normal)
+		view.button.backgroundColor = .allieLighterGray
 		view.textLabel.text = "Insulin"
 		view.detailTextLabel.text = "Instructions"
 		view.imageView.image = UIImage(named: "icon-insulin")
@@ -156,6 +157,8 @@ class GeneralizedEntryTaskViewController: UIViewController {
 			saveBloodGlucose(completion: completion)
 		} else if quantityIdentifier == .bodyMass {
 			saveBodyMass(completion: completion)
+		} else if quantityIdentifier == .bloodPressureDiastolic || quantityIdentifier == .bloodPressureSystolic {
+			saveBloodPressure(completion: completion)
 		} else {
 			completion(.failure(GeneralizedEntryTaskError.invalid("Quantity Identifier")))
 		}
@@ -247,6 +250,55 @@ class GeneralizedEntryTaskViewController: UIViewController {
 		HKHealthStore().save(sample) { result, error in
 			if let error = error {
 				ALog.error("Unable to save blood glucose values", error: error)
+				completion(.failure(error))
+			} else {
+				completion(.success(result))
+			}
+		}
+	}
+
+	func saveBloodPressure(completion: @escaping AllieResultCompletion<Bool>) {
+		guard let view = entryTaskView.entryView(forIdentifier: MultiValueEntryView.reuseIdentifier) as? MultiValueEntryView, let lValueString = view.leadingValue, !lValueString.isEmpty, let tValueString = view.trailingValue, !tValueString.isEmpty else {
+			completion(.failure(GeneralizedEntryTaskError.missing("Missing Value")))
+			return
+		}
+
+		guard let lValue = Double(lValueString), let tValue = Double(tValueString) else {
+			completion(.failure(GeneralizedEntryTaskError.invalid("Value of invalid type")))
+			return
+		}
+
+		guard let targetValues = task?.schedule.elements.first?.targetValues, targetValues.count == 2 else {
+			completion(.failure(GeneralizedEntryTaskError.invalid("TargetValues missing")))
+			return
+		}
+		let systolic: Double
+		let diastolic: Double
+		if targetValues[0].kind == "systolic" {
+			systolic = lValue
+			diastolic = tValue
+		} else {
+			systolic = tValue
+			diastolic = lValue
+		}
+		let startDate = Date()
+		let endDate = startDate
+		let systolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureSystolic)!
+		let systolicQuantity = HKQuantity(unit: HealthKitDataType.bloodPressure.unit, doubleValue: systolic)
+		let systolicSample = HKQuantitySample(type: systolicType, quantity: systolicQuantity, start: startDate, end: endDate)
+		let diastolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureDiastolic)!
+		let diastolicQuantity = HKQuantity(unit: HealthKitDataType.bloodPressure.unit, doubleValue: diastolic)
+		let diastolicSample = HKQuantitySample(type: diastolicType, quantity: diastolicQuantity, start: startDate, end: endDate)
+		let bloodPressureCorrelationType = HKCorrelationType.correlationType(forIdentifier: .bloodPressure)!
+		let bloodPressureCorrelation = Set<HKSample>(arrayLiteral: systolicSample, diastolicSample)
+		let bloodPressureSample = HKCorrelation(type: bloodPressureCorrelationType, start: startDate, end: endDate, objects: bloodPressureCorrelation)
+
+		var metadata: [String: Any] = [:]
+		metadata[HKMetadataKeyTimeZone] = TimeZone.current.identifier
+		metadata[HKMetadataKeyWasUserEntered] = true
+		HKHealthStore().save(bloodPressureSample) { result, error in
+			if let error = error {
+				ALog.error("Unable to save blood pressure values", error: error)
 				completion(.failure(error))
 			} else {
 				completion(.success(result))

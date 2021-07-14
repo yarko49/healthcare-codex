@@ -47,7 +47,8 @@ public struct CHScheduleElement: Codable {
 		self.interval = try container.decodeIfPresent(TimeInterval.self, forKey: .duration) ?? .zero
 		self.custom = try container.decodeIfPresent(Bool.self, forKey: .custom) ?? false
 		self.text = try container.decodeIfPresent(String.self, forKey: .text)
-		self.targetValues = try container.decodeIfPresent([CHOutcomeValue].self, forKey: .targetValues)?.map { value -> OCKOutcomeValue in
+		let targets = try container.decodeIfPresent([CHOutcomeValue].self, forKey: .targetValues)
+		self.targetValues = targets?.map { value -> OCKOutcomeValue in
 			OCKOutcomeValue(outcomeValue: value)
 		}
 		self.duration = try container.decodeIfPresent(TimeInterval.self, forKey: .duration) ?? .zero
