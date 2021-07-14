@@ -48,7 +48,7 @@ class EntryTaskSectionHeaderView: UICollectionReusableView {
 	let textLabel: UILabel = {
 		let label = UILabel(frame: .zero)
 		label.textAlignment = .center
-		label.font = UIFont.systemFont(ofSize: 16.0, weight: .regular)
+		label.font = UIFont.systemFont(ofSize: 16.0, weight: .bold)
 		label.textColor = .allieGray
 		return label
 	}()

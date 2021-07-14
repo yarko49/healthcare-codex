@@ -30,7 +30,6 @@ class GeneralizedEntryTaskViewController: UIViewController {
 	let headerView: EntryTaskSectionHeaderView = {
 		let view = EntryTaskSectionHeaderView(frame: .zero)
 		view.button.setImage(UIImage(systemName: "multiply"), for: .normal)
-		view.button.backgroundColor = .allieLighterGray
 		view.textLabel.text = "Insulin"
 		view.detailTextLabel.text = "Instructions"
 		view.imageView.image = UIImage(named: "icon-insulin")
