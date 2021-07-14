@@ -75,7 +75,11 @@ class GeneralizedEntryTaskViewController: UIViewController {
 			configure(timeValueEntryView: cell)
 		} else if identifier == MultiValueEntryView.reuseIdentifier {
 			let cell = entryTaskView.dequeueCell(identifier: identifier, at: index) as? MultiValueEntryView
-			configure(multiValueEntryView: cell)
+			if task?.healthKitLinkage.quantityIdentifier == .bloodPressureDiastolic || task?.healthKitLinkage.quantityIdentifier == .bloodPressureSystolic {
+				configure(bloodPressureEntryView: cell)
+			} else {
+				configure(multiValueEntryView: cell)
+			}
 		}
 	}
 
@@ -127,6 +131,27 @@ class GeneralizedEntryTaskViewController: UIViewController {
 			} else {
 				break
 			}
+		}
+	}
+
+	private func configure(bloodPressureEntryView cell: MultiValueEntryView?) {
+		cell?.translatesAutoresizingMaskIntoConstraints = false
+		cell?.heightAnchor.constraint(equalToConstant: MultiValueEntryView.height).isActive = true
+		guard let targetValues = task?.schedule.elements.first?.targetValues else {
+			return
+		}
+		cell?.leadingEntryView.isHidden = false
+		cell?.trailingEntryView.isHidden = false
+		if targetValues[0].kind == "systolic" {
+			cell?.leadingEntryView.textField.placeholder = "\(targetValues[0].integerValue ?? 0)"
+			cell?.leadingEntryView.textLabel.text = targetValues[0].units
+			cell?.trailingEntryView.textField.placeholder = "\(targetValues[1].integerValue ?? 0)"
+			cell?.trailingEntryView.textLabel.text = targetValues[1].units
+		} else {
+			cell?.leadingEntryView.textField.placeholder = "\(targetValues[1].integerValue ?? 0)"
+			cell?.leadingEntryView.textLabel.text = targetValues[1].units
+			cell?.trailingEntryView.textField.placeholder = "\(targetValues[0].integerValue ?? 0)"
+			cell?.trailingEntryView.textLabel.text = targetValues[0].units
 		}
 	}
 
@@ -263,24 +288,11 @@ class GeneralizedEntryTaskViewController: UIViewController {
 			return
 		}
 
-		guard let lValue = Double(lValueString), let tValue = Double(tValueString) else {
+		guard let systolic = Double(lValueString), let diastolic = Double(tValueString) else {
 			completion(.failure(GeneralizedEntryTaskError.invalid("Value of invalid type")))
 			return
 		}
 
-		guard let targetValues = task?.schedule.elements.first?.targetValues, targetValues.count == 2 else {
-			completion(.failure(GeneralizedEntryTaskError.invalid("TargetValues missing")))
-			return
-		}
-		let systolic: Double
-		let diastolic: Double
-		if targetValues[0].kind == "systolic" {
-			systolic = lValue
-			diastolic = tValue
-		} else {
-			systolic = tValue
-			diastolic = lValue
-		}
 		let startDate = Date()
 		let endDate = startDate
 		let systolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureSystolic)!
