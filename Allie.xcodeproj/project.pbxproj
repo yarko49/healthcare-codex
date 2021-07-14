@@ -825,6 +825,9 @@
 		84EDA195265786120049323C /* CHOutcome+HKStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDA194265786120049323C /* CHOutcome+HKStatistics.swift */; };
 		84EDA196265786120049323C /* CHOutcome+HKStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDA194265786120049323C /* CHOutcome+HKStatistics.swift */; };
 		84EDA19B265A0A240049323C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84EDA199265A0A240049323C /* GoogleService-Info.plist */; };
+		84F2E9A6269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F2E9A5269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift */; };
+		84F2E9A7269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F2E9A5269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift */; };
+		84F2E9A8269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F2E9A5269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift */; };
 		84F47F6526412CAB009CC791 /* JSONDecoder+iso8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F47F6426412CAB009CC791 /* JSONDecoder+iso8601.swift */; };
 		84F47F6626412E04009CC791 /* JSONDecoder+iso8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F47F6426412CAB009CC791 /* JSONDecoder+iso8601.swift */; };
 		84F47F6826412F15009CC791 /* JSONEncoder+iso8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F47F6726412F15009CC791 /* JSONEncoder+iso8601.swift */; };
@@ -1147,6 +1150,7 @@
 		84EDA198265A0A240049323C /* Environment.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Environment.xcconfig; sourceTree = "<group>"; };
 		84EDA199265A0A240049323C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		84F2596E268ACBA00093FCF0 /* CareKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CareKit; path = ../CareKit; sourceTree = "<group>"; };
+		84F2E9A5269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKQuantityTypeIdentifier+TaskViews.swift"; sourceTree = "<group>"; };
 		84F47F6426412CAB009CC791 /* JSONDecoder+iso8601.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+iso8601.swift"; sourceTree = "<group>"; };
 		84F47F6726412F15009CC791 /* JSONEncoder+iso8601.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONEncoder+iso8601.swift"; sourceTree = "<group>"; };
 		84F47F6A26426136009CC791 /* ActivityTask.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ActivityTask.json; sourceTree = "<group>"; };
@@ -1973,6 +1977,7 @@
 				848CD8BB2696CD3D008B675F /* LabeledTextEntryView.swift */,
 				84D84ADE269945B3007BE781 /* EntryTaskSectionHeaderView.swift */,
 				84D84AE226994B0E007BE781 /* EntryTaskSectionFooterView.swift */,
+				84F2E9A5269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift */,
 			);
 			path = GeneralizedEntryTask;
 			sourceTree = "<group>";
@@ -3016,6 +3021,7 @@
 				842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */,
 				845F18A326328255005A601A /* CHOutcome+HKSample.swift in Sources */,
 				84C517F525B7E55F00D684E5 /* BottomButton.swift in Sources */,
+				84F2E9A6269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */,
 				84476796259C2A4E00C50C09 /* TextStyle.swift in Sources */,
 				84009048261AA77000FB3968 /* ProfileEntryViewController.swift in Sources */,
 				845FBE8025FC775E00472257 /* ConfigurationError.swift in Sources */,
@@ -3283,6 +3289,7 @@
 				84C212A72660C5F4000D491B /* CHOrganizations.swift in Sources */,
 				847DCC7C265871F3004E9C1D /* CHOutcome+HKSample.swift in Sources */,
 				847DCC7D265871F3004E9C1D /* BottomButton.swift in Sources */,
+				84F2E9A8269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */,
 				847DCC7E265871F3004E9C1D /* TextStyle.swift in Sources */,
 				847DCC7F265871F3004E9C1D /* ProfileEntryViewController.swift in Sources */,
 				847DCC80265871F3004E9C1D /* ConfigurationError.swift in Sources */,
@@ -3517,6 +3524,7 @@
 				84C212A62660C5F4000D491B /* CHOrganizations.swift in Sources */,
 				84D122AA264112DE00990196 /* CHOutcome+HKSample.swift in Sources */,
 				84D122AB264112DE00990196 /* BottomButton.swift in Sources */,
+				84F2E9A7269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */,
 				84D122AC264112DE00990196 /* TextStyle.swift in Sources */,
 				84D122AD264112DE00990196 /* ProfileEntryViewController.swift in Sources */,
 				84D122AE264112DE00990196 /* ConfigurationError.swift in Sources */,
