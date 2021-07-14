@@ -23,6 +23,8 @@ extension HKQuantityTypeIdentifier {
 			return .bloodGlucose
 		case .insulinDelivery:
 			return .insulinDelivery
+		case .bloodPressureSystolic, .bloodPressureDiastolic:
+			return .bloodPressure
 		default:
 			return nil
 		}

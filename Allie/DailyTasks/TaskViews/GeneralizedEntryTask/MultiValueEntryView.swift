@@ -17,12 +17,20 @@ class MultiValueEntryView: UIView {
 		String(describing: self)
 	}
 
+	var leadingValue: String? {
+		leadingEntryView.textField.text
+	}
+
 	let leadingEntryView: LabeledTextEntryView = {
 		let view = LabeledTextEntryView(frame: .zero)
 		view.textField.placeholder = "120"
 		view.textLabel.text = "mmHg"
 		return view
 	}()
+
+	var trailingValue: String? {
+		trailingEntryView.textField.text
+	}
 
 	let trailingEntryView: LabeledTextEntryView = {
 		let view = LabeledTextEntryView(frame: .zero)

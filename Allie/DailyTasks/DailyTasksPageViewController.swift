@@ -149,7 +149,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .labeledValue:
-						if task is OCKHealthKitTask {
+						if (task as? OCKHealthKitTask)?.healthKitLinkage != nil {
 							let viewController = GeneralizedLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
 							viewController.logDelegate = self
 							viewController.view.tintColor = .allieGray
