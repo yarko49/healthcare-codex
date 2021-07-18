@@ -49,7 +49,7 @@ class AppCoordinator: BaseCoordinator {
 		self.todayNavController = Self.todayNavController(rootViewController: todayController)
 		self.conversationsNavController = Self.conversationsNavController(rootViewController: chatController)
 		self.tabBarController = UITabBarController()
-		tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, conversationsNavController!, Self.settingsNavController]
+		tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, Self.settingsNavController]
 		start()
 	}
 

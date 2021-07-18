@@ -26,7 +26,11 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 		bottomButton.backgroundColor = .allieGray
 		bottomButton.isHidden = controllerViewMode == .settings
 
-		titleLabel.text = NSLocalizedString("DEVICES", comment: "Devices")
+		if controllerViewMode == .onboarding {
+			titleLabel.text = NSLocalizedString("DEVICES", comment: "Devices")
+		} else {
+			title = NSLocalizedString("DEVICES", comment: "Devices")
+		}
 		let viewTopAnchor = controllerViewMode == .onboarding ? titleLabel.bottomAnchor : view.safeAreaLayoutGuide.topAnchor
 		let viewTopOffset: CGFloat = controllerViewMode == .onboarding ? 8.0 : 0.0
 		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalToSystemSpacingBelow: viewTopAnchor, multiplier: viewTopOffset),
