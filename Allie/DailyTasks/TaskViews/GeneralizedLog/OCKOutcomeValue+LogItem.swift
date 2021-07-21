@@ -25,7 +25,7 @@ extension OCKOutcomeValue {
 	}
 
 	var valueItem: String? {
-		let value = doubleValue ?? 0
+		let value = integerValue ?? Int(doubleValue ?? 0)
 		let title = "\(value) " + (units ?? "")
 		return title
 	}

@@ -81,5 +81,9 @@ extension CHOutcome {
 				return nil
 			}
 		}
+
+		if let timeZoneIdentifier = sample.metadata?[HKMetadataKeyTimeZone] as? String, let timezone = TimeZone(identifier: timeZoneIdentifier) {
+			self.timezone = timezone
+		}
 	}
 }

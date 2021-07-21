@@ -105,11 +105,12 @@ class GeneralizedLogTaskView: OCKView, OCKTaskDisplayable {
 		directionalLayoutMargins = style.dimension.directionalInsets1
 	}
 
-	private func makeItem(withTitle title: String?, detail: String?) -> GeneralizedLogItem {
+	private func makeItem(withTitle title: String?, detail: String?, canDelete: Bool) -> GeneralizedLogItem {
 		let item = GeneralizedLogItem()
 		item.addTarget(self, action: #selector(itemTapped(_:)), for: .touchUpInside)
 		item.titleLabel.text = title
 		item.detailLabel.text = detail
+		item.imageView.image = canDelete ? UIImage(named: "icon-edit") : UIImage(named: "icon-lock-fill")
 		item.accessibilityLabel = (detail ?? "") + " " + (title ?? "")
 		item.accessibilityHint = loc("DOUBLE_TAP_TO_REMOVE_EVENT")
 		return item
@@ -133,16 +134,16 @@ class GeneralizedLogTaskView: OCKView, OCKTaskDisplayable {
 	}
 
 	@discardableResult
-	func insertItem(withTitle title: String?, detail: String?, at index: Int, animated: Bool) -> GeneralizedLogItem {
-		let button = makeItem(withTitle: title, detail: detail)
+	func insertItem(withTitle title: String?, detail: String?, at index: Int, animated: Bool, canDelete: Bool) -> GeneralizedLogItem {
+		let button = makeItem(withTitle: title, detail: detail, canDelete: canDelete)
 		logItemsStackView.insertArrangedSubview(button, at: index, animated: animated)
 		headerView.shadowView.isHidden = false
 		return button
 	}
 
 	@discardableResult
-	func appendItem(withTitle title: String?, detail: String?, animated: Bool) -> GeneralizedLogItem {
-		let button = makeItem(withTitle: title, detail: detail)
+	func appendItem(withTitle title: String?, detail: String?, animated: Bool, canDelete: Bool) -> GeneralizedLogItem {
+		let button = makeItem(withTitle: title, detail: detail, canDelete: canDelete)
 		logItemsStackView.addArrangedSubview(button, animated: animated)
 		headerView.shadowView.isHidden = false
 		return button
@@ -175,19 +176,27 @@ extension GeneralizedLogTaskView {
 				let title = outcomeValue.insulinLogItem
 				_ = index < items.count ?
 					updateItem(at: index, withTitle: dateString, detail: title) :
-					appendItem(withTitle: dateString, detail: title, animated: animated)
+					appendItem(withTitle: dateString, detail: title, animated: animated, canDelete: false)
 			}
 		}
 		trimItems(given: outcomeValues, animated: animated)
 	}
 
 	func updateItems(withEvent event: OCKAnyEvent, animated: Bool) {
-		let outcomeValues = event.outcome?.values ?? []
-		let linkage = (event.task as? OCKHealthKitTask)?.healthKitLinkage
+		if let outcome = event.outcome {
+			let linkage = (event.task as? OCKHealthKitTask)?.healthKitLinkage
+			updateItems(withOutcome: outcome, healthKitLinkage: linkage, animated: animated)
+		} else {
+			clearItems(animated: animated)
+		}
+	}
 
+	func updateItems(withOutcome outcome: OCKAnyOutcome, healthKitLinkage linkage: OCKHealthKitLinkage?, animated: Bool) {
+		let outcomeValues = outcome.values
 		if outcomeValues.isEmpty {
 			clearItems(animated: animated)
 		} else {
+			let canDelete = (outcome as? OCKHealthKitOutcome)?.isOwnedByApp ?? false
 			for (index, outcomeValue) in outcomeValues.enumerated() {
 				let date = outcomeValue.createdDate
 				let dateString = ScheduleUtility.timeFormatter.string(from: date)
@@ -200,7 +209,7 @@ extension GeneralizedLogTaskView {
 					title = outcomeValue.valueItem
 				}
 				_ = index < items.count ? updateItem(at: index, withTitle: dateString, detail: title) :
-					appendItem(withTitle: dateString, detail: title, animated: animated)
+					appendItem(withTitle: dateString, detail: title, animated: animated, canDelete: canDelete)
 			}
 		}
 		trimItems(given: outcomeValues, animated: animated)

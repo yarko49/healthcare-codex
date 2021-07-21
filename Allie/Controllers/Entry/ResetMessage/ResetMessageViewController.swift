@@ -5,7 +5,7 @@
 import UIKit
 
 class ResetMessageViewController: BaseViewController {
-	var backToSignInAction: Coordinable.ActionHandler?
+	var backToSignInAction: AllieActionHandler?
 
 	@IBOutlet var resetMesasageLabel: UILabel!
 	@IBOutlet var backButton: UIButton!

@@ -1,5 +1,5 @@
 //
-//  GeneralizedEntryTaskView.swift
+//  GeneralizedLogTaskDetailView.swift
 //  Allie
 //
 //  Created by Waqar Malik on 7/10/21.
@@ -8,7 +8,7 @@
 import CareKitUI
 import UIKit
 
-class GeneralizedEntryTaskView: OCKStackView {
+class GeneralizedLogTaskDetailView: OCKStackView {
 	override init(style: OCKStackView.Style = .plain) {
 		super.init(style: style)
 		commonInit()

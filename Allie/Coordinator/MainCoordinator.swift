@@ -222,7 +222,7 @@ class MainCoordinator: BaseCoordinator {
 		}
 	}
 
-	func refreshRemoteConfig(completion: Coordinable.BoolActionHandler?) {
+	func refreshRemoteConfig(completion: AllieBoolActionHandler?) {
 		RemoteConfigManager.shared.refresh()
 			.receive(on: DispatchQueue.main)
 			.sink { refreshResult in

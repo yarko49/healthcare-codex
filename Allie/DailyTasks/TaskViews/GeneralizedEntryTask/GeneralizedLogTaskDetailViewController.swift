@@ -1,5 +1,5 @@
 //
-//  GeneralizedEntryTaskViewController.swift
+//  GeneralizedLogTaskDetailViewController.swift
 //  Allie
 //
 //  Created by Waqar Malik on 7/5/21.
@@ -14,18 +14,17 @@ enum GeneralizedEntryTaskError: Error {
 	case invalid(String)
 }
 
-protocol GeneralizedEntryTaskViewControllerDelegate: AnyObject {
-	func generalizedEntryTaskViewControllerDidCancel(_ viewController: GeneralizedEntryTaskViewController)
-	func generalizedEntryTaskViewControllerDidSave(_ viewController: GeneralizedEntryTaskViewController)
-}
+class GeneralizedLogTaskDetailViewController: UIViewController {
+	var saveAction: AllieActionHandler?
+	var cancelAction: AllieActionHandler?
+	var deleteAction: AllieActionHandler?
 
-class GeneralizedEntryTaskViewController: UIViewController {
-	let entryTaskView: GeneralizedEntryTaskView = {
-		let view = GeneralizedEntryTaskView()
+	let entryTaskView: GeneralizedLogTaskDetailView = {
+		let view = GeneralizedLogTaskDetailView()
 		return view
 	}()
 
-	weak var delegate: GeneralizedEntryTaskViewControllerDelegate?
+	var outcome: OCKAnyOutcome?
 
 	let headerView: EntryTaskSectionHeaderView = {
 		let view = EntryTaskSectionHeaderView(frame: .zero)
@@ -40,7 +39,7 @@ class GeneralizedEntryTaskViewController: UIViewController {
 
 	let footerView: EntryTaskSectionFooterView = {
 		let view = EntryTaskSectionFooterView(frame: .zero)
-		view.button.setTitle(NSLocalizedString("SAVE", comment: "Save"), for: .normal)
+		view.saveButton.setTitle(NSLocalizedString("SAVE", comment: "Save"), for: .normal)
 		view.heightAnchor.constraint(equalToConstant: EntryTaskSectionFooterView.height).isActive = true
 		return view
 	}()
@@ -107,8 +106,16 @@ class GeneralizedEntryTaskViewController: UIViewController {
 		let unit = task?.healthKitLinkage.unit
 		let elements = task?.schedule.elements
 		let targetValue = elements?.first?.targetValues.first
-		let value = targetValue?.integerValue ?? 100
-		cell.configure(placeHolder: "\(value)", title: unit?.unitString ?? "", date: nil)
+		let placeholder = targetValue?.integerValue ?? 100
+		let outcomeValue = outcome?.values.first
+		var value: String?
+		if let intValue = outcomeValue?.integerValue {
+			value = "\(intValue)"
+		} else if let doubleValue = outcomeValue?.doubleValue {
+			value = "\(Int(doubleValue))"
+		}
+		let date = outcomeValue?.createdDate
+		cell.configure(placeHolder: "\(placeholder)", value: value, unitTitle: unit?.unitString ?? "", date: date)
 	}
 
 	private func configure(multiValueEntryView cell: MultiValueEntryView?) {
@@ -168,6 +175,7 @@ class GeneralizedEntryTaskViewController: UIViewController {
 		for (index, identifier) in self.identifiers.enumerated() {
 			addView(identifier: identifier, at: index)
 		}
+		footerView.deleteButton.isHidden = outcome == nil
 	}
 
 	func saveToHealthKit(completion: @escaping AllieResultCompletion<Bool>) {
@@ -296,11 +304,11 @@ class GeneralizedEntryTaskViewController: UIViewController {
 		let startDate = Date()
 		let endDate = startDate
 		let systolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureSystolic)!
-		let systolicQuantity = HKQuantity(unit: HealthKitDataType.bloodPressure.unit, doubleValue: systolic)
-		let systolicSample = HKQuantitySample(type: systolicType, quantity: systolicQuantity, start: startDate, end: endDate)
+		let systolicQuantity = HKQuantity(unit: HKUnit.millimeterOfMercury(), doubleValue: systolic)
+		let systolicSample = HKDiscreteQuantitySample(type: systolicType, quantity: systolicQuantity, start: startDate, end: endDate)
 		let diastolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureDiastolic)!
-		let diastolicQuantity = HKQuantity(unit: HealthKitDataType.bloodPressure.unit, doubleValue: diastolic)
-		let diastolicSample = HKQuantitySample(type: diastolicType, quantity: diastolicQuantity, start: startDate, end: endDate)
+		let diastolicQuantity = HKQuantity(unit: HKUnit.millimeterOfMercury(), doubleValue: diastolic)
+		let diastolicSample = HKDiscreteQuantitySample(type: diastolicType, quantity: diastolicQuantity, start: startDate, end: endDate)
 		let bloodPressureCorrelationType = HKCorrelationType.correlationType(forIdentifier: .bloodPressure)!
 		let bloodPressureCorrelation = Set<HKSample>(arrayLiteral: systolicSample, diastolicSample)
 		let bloodPressureSample = HKCorrelation(type: bloodPressureCorrelationType, start: startDate, end: endDate, objects: bloodPressureCorrelation)
@@ -319,14 +327,14 @@ class GeneralizedEntryTaskViewController: UIViewController {
 	}
 }
 
-extension GeneralizedEntryTaskViewController: EntryTaskSectionHeaderViewDelegate {
+extension GeneralizedLogTaskDetailViewController: EntryTaskSectionHeaderViewDelegate {
 	func entryTaskSectionHeaderViewDidSelectButton(_ view: EntryTaskSectionHeaderView) {
-		delegate?.generalizedEntryTaskViewControllerDidCancel(self)
+		cancelAction?()
 	}
 }
 
-extension GeneralizedEntryTaskViewController: EntryTaskSectionFooterViewDelegate {
-	func entryTaskSectionFooterViewDidSelectButton(_ view: EntryTaskSectionFooterView) {
+extension GeneralizedLogTaskDetailViewController: EntryTaskSectionFooterViewDelegate {
+	func entryTaskSectionFooterViewDidSelectSave(_ view: EntryTaskSectionFooterView) {
 		saveToHealthKit { result in
 			switch result {
 			case .failure(let error):
@@ -336,10 +344,14 @@ extension GeneralizedEntryTaskViewController: EntryTaskSectionFooterViewDelegate
 			}
 		}
 
-		delegate?.generalizedEntryTaskViewControllerDidSave(self)
+		saveAction?()
+	}
+
+	func entryTaskSectionFooterViewDidSelectDelete(_ view: EntryTaskSectionFooterView) {
+		deleteAction?()
 	}
 }
 
-extension GeneralizedEntryTaskViewController: SegmentedEntryViewDelegate {
+extension GeneralizedLogTaskDetailViewController: SegmentedEntryViewDelegate {
 	func segmentedEntryView(_ view: SegmentedEntryView, didSelectItem index: Int) {}
 }

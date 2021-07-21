@@ -8,16 +8,15 @@
 import UIKit
 
 class EmailSentViewController: SignupBaseViewController {
-	var openMailApp: Coordinable.ActionHandler?
+	var openMailApp: AllieActionHandler?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.addSubview(titleLabel)
 		titleLabel.text = NSLocalizedString("EMAIL_SENT", comment: "Email Sent!")
 		view.addSubview(buttonStackView)
 		NSLayoutConstraint.activate([buttonStackView.widthAnchor.constraint(equalToConstant: buttonWidth),
 		                             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-		                             buttonStackView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 8.0)])
+		                             buttonStackView.topAnchor.constraint(equalToSystemSpacingBelow: labekStackView.bottomAnchor, multiplier: 8.0)])
 
 		let imageView = UIImageView(image: UIImage(named: "illustration4-1"))
 		imageView.translatesAutoresizingMaskIntoConstraints = false
