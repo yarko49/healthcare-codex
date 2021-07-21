@@ -8,7 +8,7 @@
 import UIKit
 
 class DevicesSelectionViewController: SignupBaseViewController, UITableViewDelegate {
-	var nextButtonAction: Coordinable.ActionHandler?
+	var nextButtonAction: AllieActionHandler?
 
 	var dataSource: UITableViewDiffableDataSource<Int, SmartDeviceType>!
 
@@ -26,12 +26,22 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 		bottomButton.backgroundColor = .allieGray
 		bottomButton.isHidden = controllerViewMode == .settings
 
+		let detailText = NSLocalizedString("DEVICES_MESSAGE", comment: "Please select the types of smart devices you may have so Allie can automatically read measurements.")
+		let strLength = detailText.count
+		let style = NSMutableParagraphStyle()
+		style.lineSpacing = 4
+		style.alignment = .center
+		let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 20.0, weight: .regular), .foregroundColor: UIColor.allieGray, .kern: NSNumber(-0.32)]
+		let attributedString = NSMutableAttributedString(string: detailText, attributes: attributes)
+		attributedString.addAttribute(.paragraphStyle, value: style, range: NSRange(location: 0, length: strLength))
+		subtitleLabel.attributedText = attributedString
+		subtitleLabel.isHidden = false
 		if controllerViewMode == .onboarding {
 			titleLabel.text = NSLocalizedString("DEVICES", comment: "Devices")
 		} else {
 			title = NSLocalizedString("DEVICES", comment: "Devices")
 		}
-		let viewTopAnchor = controllerViewMode == .onboarding ? titleLabel.bottomAnchor : view.safeAreaLayoutGuide.topAnchor
+		let viewTopAnchor = controllerViewMode == .onboarding ? labekStackView.bottomAnchor : view.safeAreaLayoutGuide.topAnchor
 		let viewTopOffset: CGFloat = controllerViewMode == .onboarding ? 8.0 : 0.0
 		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalToSystemSpacingBelow: viewTopAnchor, multiplier: viewTopOffset),
 		                             tableView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),

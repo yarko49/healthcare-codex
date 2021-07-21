@@ -26,9 +26,9 @@ class ProfileViewController: BaseViewController {
 	var editButtonAction: ((Int, Int) -> Void)?
 	var profileInputAction: (() -> (ModelsR4.Observation?, ModelsR4.Bundle?))?
 	var comingFrom: Coming = .today
-	var getData: Coordinable.ActionHandler?
+	var getData: AllieActionHandler?
 	var getRangeData: ((HealthStatsDateIntervalType, Date, Date, (([HealthKitQuantityType: [StatModel]]?, [HealthKitQuantityType: Int]?) -> Void)?) -> Void)?
-	var getTodayData: Coordinable.ActionHandler?
+	var getTodayData: AllieActionHandler?
 
 	// MARK: IBOutlets
 

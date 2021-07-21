@@ -9,6 +9,7 @@ import CareKit
 import CareKitStore
 import CareKitUI
 import Combine
+import HealthKit
 import JGProgressHUD
 import SwiftUI
 import UIKit
@@ -143,7 +144,6 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 					case .logInsulin:
 						let viewController = GeneralizedLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
-						viewController.logDelegate = self
 						viewController.view.tintColor = .allieGray
 						viewController.controller.fetchAndObserveEvents(forTaskIDs: [task.id], eventQuery: eventQuery)
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
@@ -151,7 +151,6 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 					case .labeledValue:
 						if (task as? OCKHealthKitTask)?.healthKitLinkage != nil {
 							let viewController = GeneralizedLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
-							viewController.logDelegate = self
 							viewController.view.tintColor = .allieGray
 							viewController.controller.fetchAndObserveEvents(forTaskIDs: [task.id], eventQuery: eventQuery)
 							listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
@@ -234,29 +233,6 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 	@IBAction func gotoToday(_ sender: Any) {
 		selectDate(Date(), animated: true)
-	}
-}
-
-extension DailyTasksPageViewController: GeneralizedLogTaskViewControllerDelegate {
-	func generalizedLogTaskViewController(_ controller: GeneralizedLogTaskViewController, didSelectAddOutcome task: OCKHealthKitTask?) {
-		guard let healthKitTask = task else {
-			return
-		}
-		let viewController = GeneralizedEntryTaskViewController()
-		viewController.task = healthKitTask
-		viewController.modalPresentationStyle = .overFullScreen
-		viewController.delegate = self
-		tabBarController?.showDetailViewController(viewController, sender: self)
-	}
-}
-
-extension DailyTasksPageViewController: GeneralizedEntryTaskViewControllerDelegate {
-	func generalizedEntryTaskViewControllerDidCancel(_ viewController: GeneralizedEntryTaskViewController) {
-		viewController.dismiss(animated: true, completion: nil)
-	}
-
-	func generalizedEntryTaskViewControllerDidSave(_ viewController: GeneralizedEntryTaskViewController) {
-		viewController.dismiss(animated: true, completion: nil)
 	}
 }
 

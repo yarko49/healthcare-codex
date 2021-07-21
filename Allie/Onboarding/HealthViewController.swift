@@ -8,9 +8,9 @@
 import UIKit
 
 class HealthViewController: SignupBaseViewController {
-	var notNowAction: Coordinable.ActionHandler?
-	var activateAction: Coordinable.ActionHandler?
-	var signInAction: Coordinable.ActionHandler?
+	var notNowAction: AllieActionHandler?
+	var activateAction: AllieActionHandler?
+	var signInAction: AllieActionHandler?
 
 	var screenFlowType: ScreenFlowType = .welcome {
 		didSet {
@@ -28,7 +28,7 @@ class HealthViewController: SignupBaseViewController {
 		view.addSubview(buttonStackView)
 		NSLayoutConstraint.activate([buttonStackView.widthAnchor.constraint(equalToConstant: buttonWidth),
 		                             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-		                             buttonStackView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 5.0)])
+		                             buttonStackView.topAnchor.constraint(equalToSystemSpacingBelow: labekStackView.bottomAnchor, multiplier: 5.0)])
 
 		let imageView = UIImageView(image: UIImage(named: "illustration8"))
 		imageView.translatesAutoresizingMaskIntoConstraints = false

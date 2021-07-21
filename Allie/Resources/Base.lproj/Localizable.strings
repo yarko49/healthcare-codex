@@ -636,3 +636,9 @@
 /* Step Count */
 "STEP_COUNT" = "Step Count";
 
+/* Delete */
+"DELETE" = "Delete";
+
+/* Please select the types of smart\ndevices you may have so Allie can\nautomatically read measurements. */
+"DEVICES_MESSAGE" = "Please select the types of smart\ndevices you may have so Allie can\nautomatically read measurements.";
+

@@ -16,7 +16,7 @@ class LoginViewController: SignupBaseViewController {
 		view.addSubview(buttonStackView)
 		NSLayoutConstraint.activate([buttonStackView.widthAnchor.constraint(equalToConstant: buttonWidth),
 		                             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-		                             buttonStackView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 8.0)])
+		                             buttonStackView.topAnchor.constraint(equalToSystemSpacingBelow: labekStackView.bottomAnchor, multiplier: 8.0)])
 		buttonStackView.addArrangedSubview(appleIdButton)
 		buttonStackView.addArrangedSubview(googleSignInButton)
 

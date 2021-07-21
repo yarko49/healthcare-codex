@@ -15,6 +15,13 @@ enum ControllerViewMode {
 }
 
 class SignupBaseViewController: BaseViewController {
+	deinit {
+		cancellables.forEach { cancellable in
+			cancellable.cancel()
+		}
+		cancellables.removeAll()
+	}
+
 	var buttonHeight: CGFloat {
 		view.frame.height < 700 ? 42.0 : 48.0
 	}
@@ -24,7 +31,7 @@ class SignupBaseViewController: BaseViewController {
 	}
 
 	var authorizeWithEmail: ((_ email: String, _ authorizationFlowType: AuthorizationFlowType) -> Void)?
-	var appleAuthoizationAction: Coordinable.ActionHandler?
+	var appleAuthoizationAction: AllieActionHandler?
 	var emailAuthorizationAction: ((AuthorizationFlowType) -> Void)?
 	var authorizationFlowChangedAction: ((AuthorizationFlowType) -> Void)?
 
@@ -36,6 +43,15 @@ class SignupBaseViewController: BaseViewController {
 
 	var controllerViewMode: ControllerViewMode = .onboarding
 
+	let labekStackView: UIStackView = {
+		let view = UIStackView(frame: .zero)
+		view.axis = .vertical
+		view.spacing = 32.0
+		view.distribution = .fill
+		view.alignment = .fill
+		return view
+	}()
+
 	private(set) lazy var titleLabel: UILabel = {
 		let label = UILabel(frame: .zero)
 		label.translatesAutoresizingMaskIntoConstraints = false
@@ -43,6 +59,17 @@ class SignupBaseViewController: BaseViewController {
 		label.textAlignment = .center
 		label.text = NSLocalizedString("LOGIN", comment: "Login")
 		label.font = UIFont.systemFont(ofSize: 26.0, weight: .bold)
+		return label
+	}()
+
+	private(set) lazy var subtitleLabel: UILabel = {
+		let label = UILabel(frame: .zero)
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.textColor = .allieBlack
+		label.textAlignment = .center
+		label.text = nil
+		label.numberOfLines = 0
+		label.font = UIFont.systemFont(ofSize: 20.0, weight: .regular)
 		return label
 	}()
 
@@ -59,10 +86,16 @@ class SignupBaseViewController: BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		if controllerViewMode == .onboarding {
-			view.addSubview(titleLabel)
-			NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-			                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 2.0),
-			                             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 4.0)])
+			[labekStackView, titleLabel, subtitleLabel].forEach { view in
+				view.translatesAutoresizingMaskIntoConstraints = false
+			}
+			view.addSubview(labekStackView)
+			NSLayoutConstraint.activate([labekStackView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 4.0),
+			                             labekStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
+			                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: labekStackView.trailingAnchor, multiplier: 2.0)])
+			labekStackView.addArrangedSubview(titleLabel)
+			labekStackView.addArrangedSubview(subtitleLabel)
+			subtitleLabel.isHidden = true
 			titleLabel.text = NSLocalizedString("PROFILE", comment: "Profile")
 		} else {
 			title = NSLocalizedString("PROFILE", comment: "Profile")
@@ -102,7 +135,7 @@ class SignupBaseViewController: BaseViewController {
 	}()
 
 	private(set) lazy var bottomButton: BottomButton = {
-		let button = BottomButton(frame: .zero)
+		let button = BottomButton(type: .system)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
 		button.setTitle(NSLocalizedString("LOG_IN", comment: "Log In"), for: .normal)

@@ -88,7 +88,7 @@ class EntryTaskSectionHeaderView: UICollectionReusableView {
 		}
 		addSubview(imageView)
 		NSLayoutConstraint.activate([imageView.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 22.0 / 8.0),
-		                             imageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -5.0)])
+		                             imageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0.0)])
 		addSubview(labelStackView)
 		NSLayoutConstraint.activate([labelStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: imageView.trailingAnchor, multiplier: 15.0 / 8),
 		                             labelStackView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)])

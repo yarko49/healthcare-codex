@@ -75,10 +75,8 @@ class GeneralizedLogItem: OCKAnimatedButton<OCKStackView> {
 		[contentStackView].forEach { $0?.translatesAutoresizingMaskIntoConstraints = false }
 		detailLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 		imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-		NSLayoutConstraint.activate(
-			contentStackView.constraints(equalTo: self, directions: [.horizontal]) +
-				contentStackView.constraints(equalTo: layoutMarginsGuide, directions: [.vertical])
-		)
+		NSLayoutConstraint.activate(contentStackView.constraints(equalTo: self, directions: [.horizontal]) +
+			contentStackView.constraints(equalTo: layoutMarginsGuide, directions: [.vertical]))
 	}
 
 	private func applyTintColor() {

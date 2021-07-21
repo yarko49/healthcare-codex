@@ -119,9 +119,7 @@ extension SettingsViewController: UITableViewDelegate {
 		profileEntryViewController.patient = CareManager.shared.patient
 		profileEntryViewController.doneAction = {
 			var alliePatient = CareManager.shared.patient
-			if let name = PersonNameComponents(fullName: profileEntryViewController.fullName) {
-				alliePatient?.name = name
-			}
+			alliePatient?.name = profileEntryViewController.name
 			alliePatient?.profile.email = profileEntryViewController.emailTextField.text
 			alliePatient?.sex = profileEntryViewController.sex
 			alliePatient?.updatedDate = Date()

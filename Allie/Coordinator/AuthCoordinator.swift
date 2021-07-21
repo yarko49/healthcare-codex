@@ -220,9 +220,7 @@ class AuthCoordinator: BaseCoordinator {
 		let viewController = ProfileEntryViewController()
 		viewController.patient = alliePatient
 		viewController.doneAction = { [weak self] in
-			if let name = PersonNameComponents(fullName: viewController.fullName) {
-				self?.alliePatient?.name = name
-			}
+			self?.alliePatient?.name = viewController.name
 			self?.alliePatient?.sex = viewController.sex
 			self?.alliePatient?.updatedDate = Date()
 			self?.alliePatient?.birthday = viewController.dateOfBirth

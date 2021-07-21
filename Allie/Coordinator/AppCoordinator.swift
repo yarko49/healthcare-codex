@@ -49,7 +49,7 @@ class AppCoordinator: BaseCoordinator {
 		self.todayNavController = Self.todayNavController(rootViewController: todayController)
 		self.conversationsNavController = Self.conversationsNavController(rootViewController: chatController)
 		self.tabBarController = UITabBarController()
-		tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, Self.settingsNavController]
+		tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, conversationsNavController!, Self.settingsNavController]
 		start()
 	}
 
@@ -112,7 +112,9 @@ class AppCoordinator: BaseCoordinator {
 	func gotoProfileEntryViewController(from screen: NavigationSourceType = .profile) {
 		let viewController = ProfileEntryViewController()
 		let alliePatient = CareManager.shared.patient
-		viewController.fullName = alliePatient?.name.fullName
+		if let name = alliePatient?.name {
+			viewController.name = name
+		}
 		viewController.sex = alliePatient?.sex ?? .male
 		if let dob = alliePatient?.birthday {
 			viewController.dateOfBirth = dob
@@ -125,9 +127,7 @@ class AppCoordinator: BaseCoordinator {
 		}
 		viewController.doneAction = { [weak self] in
 			var patient = CareManager.shared.patient
-			if let name = PersonNameComponents(fullName: viewController.fullName) {
-				patient?.name = name
-			}
+			patient?.name = viewController.name
 			patient?.sex = viewController.sex
 			patient?.updatedDate = Date()
 			patient?.birthday = viewController.dateOfBirth

@@ -12,14 +12,9 @@ import Combine
 import HealthKit
 import UIKit
 
-protocol GeneralizedLogTaskViewControllerDelegate: AnyObject {
-	func generalizedLogTaskViewController(_ controller: GeneralizedLogTaskViewController, didSelectAddOutcome task: OCKHealthKitTask?)
-}
-
 class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTaskController, GeneralizedLogTaskViewSynchronizer> {
 	private var cancellables: Set<AnyCancellable> = []
 	var healthKitTask: OCKHealthKitTask?
-	weak var logDelegate: GeneralizedLogTaskViewControllerDelegate?
 
 	override public init(controller: GeneralizedLogTaskController, viewSynchronizer: GeneralizedLogTaskViewSynchronizer) {
 		super.init(controller: controller, viewSynchronizer: viewSynchronizer)
@@ -45,27 +40,25 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 	}
 
 	override open func didSelectTaskView(_ taskView: UIView & OCKTaskDisplayable, eventIndexPath: IndexPath) {
-		logDelegate?.generalizedLogTaskViewController(self, didSelectAddOutcome: healthKitTask)
+		guard let healthKitTask = healthKitTask else {
+			return
+		}
+
+		let viewController = GeneralizedLogTaskDetailViewController()
+		viewController.task = healthKitTask
+		viewController.modalPresentationStyle = .overFullScreen
+		viewController.saveAction = { [weak viewController] in
+			viewController?.dismiss(animated: true, completion: nil)
+		}
+
+		viewController.cancelAction = { [weak viewController] in
+			viewController?.dismiss(animated: true, completion: nil)
+		}
+
+		tabBarController?.showDetailViewController(viewController, sender: self)
 	}
 
-	override open func taskView(_ taskView: UIView & OCKTaskDisplayable, didCreateOutcomeValueAt index: Int, eventIndexPath: IndexPath, sender: Any?) {
-//		guard let generalizedLogTaskView = taskView as? GeneralizedLogTaskView else {
-//			return
-//		}
-		//        let entryViews = generalizedLogTaskView.entryViews
-		//        guard let units = entryViews.units, !units.isEmpty, let value = Double(units) else {
-		//            return
-		//        }
-		//        let reason = insulinView.reason
-		//        let entryDate = entryViews.entryDate
-//
-		//        let sample = HKDiscreteQuantitySample(insulinUnits: value, startDate: entryDate, reason: reason)
-		//        HKHealthStore().save(sample) { _, error in
-		//            if let error = error {
-		//                ALog.error("Unable to save insulin values", error: error)
-		//            }
-		//        }
-	}
+	override open func taskView(_ taskView: UIView & OCKTaskDisplayable, didCreateOutcomeValueAt index: Int, eventIndexPath: IndexPath, sender: Any?) {}
 
 	private func notifyDelegateAndResetViewOnError<Success, Error>(result: Result<Success, Error>) {
 		if case .failure(let error) = result {
@@ -74,6 +67,49 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 			}
 			delegate?.taskViewController(self, didEncounterError: error)
 			controller.taskEvents = controller.taskEvents // triggers an update to the view
+		}
+	}
+
+	override func taskView(_ taskView: UIView & OCKTaskDisplayable, didSelectOutcomeValueAt index: Int, eventIndexPath: IndexPath, sender: Any?) {
+		do {
+			_ = try controller.validatedViewModel()
+			let event = try controller.validatedEvent(forIndexPath: eventIndexPath)
+			guard let outcome = event.outcome, index < outcome.values.count else {
+				throw AllieError.missing("No Outcome Value for Event at index \(index)")
+			}
+
+			if let hkOutcome = outcome as? OCKHealthKitOutcome, hkOutcome.isOwnedByApp == false {
+				throw AllieError.forbidden("Cannot delete this outcome")
+			}
+
+			guard let healthKitTask = healthKitTask else {
+				throw AllieError.missing("HealthKit task is missing")
+			}
+
+			let viewController = GeneralizedLogTaskDetailViewController()
+			viewController.task = healthKitTask
+			viewController.modalPresentationStyle = .overFullScreen
+			viewController.saveAction = { [weak viewController] in
+				viewController?.dismiss(animated: true, completion: nil)
+			}
+
+			viewController.cancelAction = { [weak viewController] in
+				viewController?.dismiss(animated: true, completion: nil)
+			}
+
+			viewController.deleteAction = { [weak viewController] in
+				viewController?.dismiss(animated: true, completion: {
+					super.taskView(taskView, didSelectOutcomeValueAt: index, eventIndexPath: eventIndexPath, sender: sender)
+				})
+			}
+
+			viewController.outcome = outcome
+			tabBarController?.showDetailViewController(viewController, sender: self)
+		} catch {
+			if delegate == nil {
+				ALog.error("A task error occurred, but no delegate was set to forward it to!", error: error)
+			}
+			delegate?.taskViewController(self, didEncounterError: error)
 		}
 	}
 }

@@ -6,6 +6,7 @@
 //
 
 import CareKitStore
+import Combine
 import SkyFloatingLabelTextField
 import UIKit
 
@@ -23,19 +24,25 @@ class ProfileEntryViewController: SignupBaseViewController {
 		}
 	}
 
-	var doneAction: Coordinable.ActionHandler?
+	var doneAction: AllieActionHandler?
 	static let controlHeight: CGFloat = 48.0
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .allieWhite
-		mainStackView.translatesAutoresizingMaskIntoConstraints = false
+		configureValidation()
+		[namesStackView, firstNameTextField, lastNameTextField, middleNamesTextField, mainStackView].forEach { view in
+			view.translatesAutoresizingMaskIntoConstraints = false
+		}
 		view.addSubview(mainStackView)
-		let viewTopAnchor = controllerViewMode == .onboarding ? titleLabel.bottomAnchor : view.safeAreaLayoutGuide.topAnchor
+		let viewTopAnchor = controllerViewMode == .onboarding ? labekStackView.bottomAnchor : view.safeAreaLayoutGuide.topAnchor
 		let viewTopOffset: CGFloat = controllerViewMode == .onboarding ? 2.0 : 1.0
 		NSLayoutConstraint.activate([mainStackView.topAnchor.constraint(equalToSystemSpacingBelow: viewTopAnchor, multiplier: viewTopOffset),
 		                             mainStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: mainStackView.trailingAnchor, multiplier: 2.0)])
-		mainStackView.addArrangedSubview(nameTextField)
+		namesStackView.addArrangedSubview(firstNameTextField)
+		namesStackView.addArrangedSubview(lastNameTextField)
+		mainStackView.addArrangedSubview(namesStackView)
+		mainStackView.addArrangedSubview(middleNamesTextField)
 		if controllerViewMode != .onboarding {
 			mainStackView.addArrangedSubview(emailTextField)
 		}
@@ -57,20 +64,71 @@ class ProfileEntryViewController: SignupBaseViewController {
 		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: bottomButton.bottomAnchor, multiplier: 2.0)])
 		bottomButton.addTarget(self, action: #selector(done), for: .touchUpInside)
 		bottomButton.setTitle(doneButtonTitle, for: .normal)
-		bottomButton.isEnabled = true
 		bottomButton.backgroundColor = .allieGray
+		firstNameTextField.addTarget(self, action: #selector(firstNameDidChange(_:)), for: .editingChanged)
+		lastNameTextField.addTarget(self, action: #selector(lastNameDidChange(_:)), for: .editingChanged)
+		middleNamesTextField.addTarget(self, action: #selector(middleNameDidChange(_:)), for: .editingChanged)
 		configureValues()
+	}
+
+	private func configureValidation() {
+		validName
+			.receive(on: RunLoop.main)
+			.assign(to: \.isEnabled, on: bottomButton)
+			.store(in: &cancellables)
+		bottomButton.publisher(for: \.isEnabled)
+			.receive(on: RunLoop.main)
+			.map { $0 }
+			.sink { enabled in
+				self.bottomButton.backgroundColor = enabled ? .allieGray : .allieGray.withAlphaComponent(0.5)
+			}.store(in: &cancellables)
 	}
 
 	var doneButtonTitle: String? = NSLocalizedString("NEXT", comment: "Next")
 
-	var fullName: String? {
+	@Published var firstName: String = ""
+	@Published var lastName: String = ""
+	@Published var middleName: String = ""
+
+	var name: PersonNameComponents {
 		get {
-			nameTextField.text
+			var name = PersonNameComponents()
+			name.familyName = lastName
+			name.givenName = firstName
+			if !middleName.isEmpty {
+				name.middleName = middleName
+			}
+			return name
 		}
 		set {
-			nameTextField.text = newValue
+			lastName = newValue.familyName ?? ""
+			firstName = newValue.givenName ?? ""
+			middleName = newValue.middleName ?? ""
 		}
+	}
+
+	var validName: AnyPublisher<Bool, Never> {
+		validFirstName.combineLatest(validLastName) { validFirstName, validLastName in
+			validFirstName && validLastName
+		}.eraseToAnyPublisher()
+	}
+
+	var validFirstName: AnyPublisher<Bool, Never> {
+		$firstName
+			.debounce(for: 0.2, scheduler: RunLoop.main)
+			.removeDuplicates()
+			.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+			.map { $0.count > 1 ? true : false }
+			.eraseToAnyPublisher()
+	}
+
+	var validLastName: AnyPublisher<Bool, Never> {
+		$lastName
+			.debounce(for: 0.2, scheduler: RunLoop.main)
+			.removeDuplicates()
+			.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+			.map { $0.count > 1 ? true : false }
+			.eraseToAnyPublisher()
 	}
 
 	var heightInInches: Int = Constants.heightInInches {
@@ -107,21 +165,54 @@ class ProfileEntryViewController: SignupBaseViewController {
 		}
 	}
 
-	let nameTextField: SkyFloatingLabelTextField = {
+	private class func createNameTextField(placeholder: String, isRequired: Bool = false) -> SkyFloatingLabelTextField {
 		let textField = SkyFloatingLabelTextField(frame: .zero)
 		textField.lineHeight = 1.0
 		textField.selectedLineHeight = 1.0
 		textField.lineColor = .allieSeparator
 		textField.selectedLineColor = .allieSeparator
-		textField.placeholder = NSLocalizedString("YOUR_FULL_NAME", comment: "Your full name")
+		textField.placeholder = placeholder
 		textField.selectedTitleColor = .allieSeparator
-		textField.selectedTitle = NSLocalizedString("YOUR_FULL_NAME", comment: "Your full name")
+		textField.selectedTitle = placeholder + (isRequired ? "*" : "")
 		textField.autocorrectionType = .no
 		textField.keyboardType = .default
 		textField.autocapitalizationType = .none
 		textField.translatesAutoresizingMaskIntoConstraints = false
 		textField.heightAnchor.constraint(equalToConstant: controlHeight).isActive = true
 		return textField
+	}
+
+	let namesStackView: UIStackView = {
+		let view = UIStackView(frame: .zero)
+		view.axis = .horizontal
+		view.spacing = 8.0
+		view.distribution = .fillEqually
+		view.alignment = .fill
+		return view
+	}()
+
+	@IBAction func firstNameDidChange(_ sender: UITextField) {
+		firstName = sender.text ?? ""
+	}
+
+	@IBAction func lastNameDidChange(_ sender: UITextField) {
+		lastName = sender.text ?? ""
+	}
+
+	@IBAction func middleNameDidChange(_ sender: UITextField) {
+		middleName = sender.text ?? ""
+	}
+
+	let firstNameTextField: SkyFloatingLabelTextField = {
+		createNameTextField(placeholder: NSLocalizedString("FIRST_NAME", comment: "First Name"), isRequired: true)
+	}()
+
+	let lastNameTextField: SkyFloatingLabelTextField = {
+		createNameTextField(placeholder: NSLocalizedString("LAST_NAME", comment: "Last Name"), isRequired: false)
+	}()
+
+	let middleNamesTextField: SkyFloatingLabelTextField = {
+		createNameTextField(placeholder: NSLocalizedString("MIDDLE_NAMES", comment: "Middle Names"))
 	}()
 
 	lazy var emailTextField: SkyFloatingLabelTextField = {
@@ -202,8 +293,15 @@ class ProfileEntryViewController: SignupBaseViewController {
 	}()
 
 	func configureValues() {
-		nameTextField.delegate = self
-		nameTextField.text = patient?.name.fullName
+		firstNameTextField.delegate = self
+		lastNameTextField.delegate = self
+		middleNamesTextField.delegate = self
+		firstNameTextField.text = patient?.name.givenName
+		lastNameTextField.text = patient?.name.familyName
+		middleNamesTextField.text = patient?.name.middleName
+		firstName = patient?.name.givenName ?? ""
+		lastName = patient?.name.familyName ?? ""
+		middleName = patient?.name.middleName ?? ""
 		emailTextField.text = patient?.profile.email
 		heightInInches = patient?.profile.heightInInches ?? Constants.heightInInches
 		weightInPounds = patient?.profile.weightInPounds ?? Constants.weightInPounds
@@ -239,13 +337,17 @@ class ProfileEntryViewController: SignupBaseViewController {
 	}()
 
 	@IBAction func showHeightPicker() {
-		nameTextField.resignFirstResponder()
+		[firstNameTextField, lastNameTextField, middleNamesTextField].forEach { textField in
+			textField.resignFirstResponder()
+		}
 		weightPickerView.isHidden = true
 		heightPickerView.isHidden = false
 	}
 
 	@IBAction func showWeightPicker() {
-		nameTextField.resignFirstResponder()
+		[firstNameTextField, lastNameTextField, middleNamesTextField].forEach { textField in
+			textField.resignFirstResponder()
+		}
 		heightPickerView.isHidden = true
 		weightPickerView.isHidden = false
 	}
