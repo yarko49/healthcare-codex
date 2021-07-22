@@ -42,6 +42,8 @@ class ProfileHelper {
 			return UserDefaults.standard.measurementHeartRateGoal
 		case .restingHeartRate:
 			return UserDefaults.standard.measurementRestingHeartRateGoal
+		case .bloodGlucose:
+			return UserDefaults.standard.measurementBloodGlucoseGoal
 		}
 	}
 }

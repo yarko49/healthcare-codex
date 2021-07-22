@@ -8,11 +8,29 @@ import UIKit
 
 // Deprecated HealthKitDataType
 enum HealthKitQuantityType: String, CaseIterable {
-	case weight = "Weight"
-	case activity = "Activity"
-	case bloodPressure = "Blood Pressure"
-	case restingHeartRate = "Resting Heart Rate"
-	case heartRate = "Heart Rate"
+	case weight
+	case activity
+	case bloodPressure
+	case restingHeartRate
+	case heartRate
+	case bloodGlucose
+
+	var displayTitle: String {
+		switch self {
+		case .weight:
+			return NSLocalizedString("WEIGHT", comment: "Weight")
+		case .activity:
+			return NSLocalizedString("ACTIVITY", comment: "Activity")
+		case .bloodPressure:
+			return NSLocalizedString("BLOOD_PRESSURE", comment: "Blood Pressure")
+		case .restingHeartRate:
+			return NSLocalizedString("RESTING_HEART_RATE", comment: "Resting Heart Rate")
+		case .heartRate:
+			return NSLocalizedString("HEART_RATE", comment: "Heart Rate")
+		case .bloodGlucose:
+			return NSLocalizedString("BLOOD_GLUCOSE", comment: "Blood Glucose")
+		}
+	}
 
 	var healthKitQuantityType: HKQuantityType? {
 		switch self {
@@ -24,6 +42,8 @@ enum HealthKitQuantityType: String, CaseIterable {
 			return HKObjectType.quantityType(forIdentifier: .restingHeartRate)
 		case .heartRate:
 			return HKObjectType.quantityType(forIdentifier: .heartRate)
+		case .bloodGlucose:
+			return HKObjectType.quantityType(forIdentifier: .bloodGlucose)
 		default:
 			return nil
 		}
@@ -41,6 +61,8 @@ enum HealthKitQuantityType: String, CaseIterable {
 			return [.heartRate]
 		case .restingHeartRate:
 			return [.restingHeartRate]
+		case .bloodGlucose:
+			return [.bloodGlucose]
 		}
 	}
 
@@ -56,25 +78,29 @@ enum HealthKitQuantityType: String, CaseIterable {
 			return UIColor.restingHeartRate
 		case .weight:
 			return UIColor.weight
+		case .bloodGlucose:
+			return UIColor.bloodGlucose
 		}
 	}
 
-	var image: UIImage {
+	var image: UIImage? {
 		switch self {
 		case .activity:
-			return UIImage(named: "icon-activity") ?? UIImage()
+			return UIImage(named: "icon-activity")
 		case .bloodPressure:
-			return UIImage(named: "icon-blood-pressure") ?? UIImage()
+			return UIImage(named: "icon-blood-pressure")
 		case .heartRate:
-			return UIImage(named: "icon-heart-rate") ?? UIImage()
+			return UIImage(named: "icon-heart-rate")
 		case .restingHeartRate:
-			return UIImage(named: "icon-heart-rate") ?? UIImage()
+			return UIImage(named: "icon-heart-rate")
 		case .weight:
-			return UIImage(named: "icon-weight") ?? UIImage()
+			return UIImage(named: "icon-weight")
+		case .bloodGlucose:
+			return UIImage(named: "icon-blood-glucose")
 		}
 	}
 
-	var unit: String {
+	var unitString: String {
 		switch self {
 		case .activity:
 			return "steps"
@@ -86,6 +112,8 @@ enum HealthKitQuantityType: String, CaseIterable {
 			return "bpm"
 		case .weight:
 			return "lbs"
+		case .bloodGlucose:
+			return "mg/dL"
 		}
 	}
 
@@ -100,7 +128,9 @@ enum HealthKitQuantityType: String, CaseIterable {
 		case .restingHeartRate:
 			return HKUnit.count().unitDivided(by: .minute())
 		case .weight:
-			return .pound()
+			return HKUnit.pound()
+		case .bloodGlucose:
+			return HKUnit.gramUnit(with: .milli).unitDivided(by: HKUnit.literUnit(with: .deci))
 		}
 	}
 
@@ -156,6 +186,19 @@ enum HealthKitQuantityType: String, CaseIterable {
 				return (.statusOrange, String.notNormal)
 			} else {
 				return (.statusGreen, String.healthy)
+			}
+		case .bloodGlucose:
+			guard let bloodGlucose = values.first else { return (.clear, "") }
+			if bloodGlucose > 250 {
+				return (.statusOrange, NSLocalizedString("VERY_HIGH", comment: "Very High"))
+			} else if bloodGlucose > 180 {
+				return (.statusYellow, NSLocalizedString("HIGH", comment: "High"))
+			} else if bloodGlucose >= 70 {
+				return (.statusGreen, String.normal)
+			} else if bloodGlucose >= 54 {
+				return (.statusRed, NSLocalizedString("LOW", comment: "Low"))
+			} else {
+				return (.statusDeepRed, NSLocalizedString("VERY_LOW", comment: "Very Low"))
 			}
 		}
 	}

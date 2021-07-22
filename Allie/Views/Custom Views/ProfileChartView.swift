@@ -137,7 +137,7 @@ class ProfileChartView: LineChartView {
 		                                  font: .boldSystemFont(ofSize: 11),
 		                                  textColor: .white,
 		                                  insets: UIEdgeInsets(top: 2, left: 4, bottom: 2, right: 4),
-		                                  unit: quantityType.unit,
+		                                  unit: quantityType.unitString,
 		                                  numberFormatter: numberFormatter, intervalType: chartIntervalType)
 		balloonMarker.chartView = self
 		marker = balloonMarker
@@ -145,11 +145,14 @@ class ProfileChartView: LineChartView {
 
 	func getNumberOfLabels(for intervalType: HealthStatsDateIntervalType, entries: Int) -> (Int, Bool) {
 		switch intervalType {
-		case .daily: return (0, false)
-		case .weekly: return (7, true)
+		case .daily:
+			return (0, false)
+		case .weekly:
+			return (7, true)
 		case .monthly:
 			return (min(entries, 6), false)
-		case .yearly: return (12, true)
+		case .yearly:
+			return (12, true)
 		}
 	}
 
@@ -168,9 +171,12 @@ class ProfileChartView: LineChartView {
 
 	func getDateFormat(for intervalType: HealthStatsDateIntervalType) -> String {
 		switch intervalType {
-		case .weekly: return "EEEEEE"
-		case .monthly: return "M/dd"
-		case .yearly: return "MMMMM"
+		case .weekly:
+			return "EEEEEE"
+		case .monthly:
+			return "M/dd"
+		case .yearly:
+			return "MMMMM"
 		default:
 			return "EEEEEE"
 		}

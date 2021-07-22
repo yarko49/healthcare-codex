@@ -50,14 +50,18 @@ class StatCell: UITableViewCell {
 		chartContainerView.alpha = expanded ? 1 : 0
 		chartContainerView.isHidden = !expanded
 		expandCollapseButton.isSelected = expanded
-		typeLabel.attributedText = quantityType.rawValue.attributedString(style: .semibold20, foregroundColor: quantityType.color)
+		typeLabel.attributedText = quantityType.displayTitle.attributedString(style: .semibold20, foregroundColor: quantityType.color)
 		typeImageView.image = quantityType.image
 		var avgString: String {
 			switch intervalType {
-			case .daily: return ""
-			case .weekly: return quantityType != .activity ? String.weeklyAvg : String.dailyAverage
-			case .monthly: return quantityType != .activity ? String.monthlyAvg : String.dailyAverage
-			case .yearly: return quantityType != .activity ? String.yearlyAvg : String.dailyAverage
+			case .daily:
+				return ""
+			case .weekly:
+				return quantityType != .activity ? String.weeklyAvg : String.dailyAverage
+			case .monthly:
+				return quantityType != .activity ? String.monthlyAvg : String.dailyAverage
+			case .yearly:
+				return quantityType != .activity ? String.yearlyAvg : String.dailyAverage
 			}
 		}
 
@@ -72,7 +76,7 @@ class StatCell: UITableViewCell {
 		highLowWNoDataWidthConstraint?.isActive = false
 		highLowWithDataWidthConstraint?.isActive = true
 		switch quantityType {
-		case .weight, .heartRate, .restingHeartRate, .activity:
+		case .weight, .heartRate, .restingHeartRate, .activity, .bloodGlucose:
 			var intValues: [Int] = []
 			var dataToPlot = data
 			if quantityType == .activity, intervalType == .yearly {
@@ -105,7 +109,7 @@ class StatCell: UITableViewCell {
 			let avgNumberString = formatter.string(from: avgNumber) ?? "\(Int(averageValue))"
 			let value = NSMutableAttributedString(attributedString: avgNumberString.attributedString(style: .semibold26, foregroundColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.unit.attributedString(style: .regular20, foregroundColor: .black))
+			value.append(quantityType.unitString.attributedString(style: .regular20, foregroundColor: .black))
 			avgValueLabel.attributedText = value
 
 			let hiValue = intValues.max() ?? averageValue
@@ -144,7 +148,7 @@ class StatCell: UITableViewCell {
 
 			let value = NSMutableAttributedString(attributedString: String("\(Int(avgSystolic))/\(Int(avgDiastolic))").attributedString(style: .semibold26, foregroundColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.unit.attributedString(style: .regular20, foregroundColor: .black))
+			value.append(quantityType.unitString.attributedString(style: .regular20, foregroundColor: .black))
 			avgValueLabel.attributedText = value
 
 			let combinedPressure = zip(mappedSystolicsValues, mappedDiastolicsValues).map(+)
@@ -180,7 +184,7 @@ class StatCell: UITableViewCell {
 		if quantityType == .activity {
 			let value = NSMutableAttributedString(attributedString: "0".attributedString(style: .semibold26, foregroundColor: .black))
 			value.append(NSAttributedString(string: " "))
-			value.append(quantityType.unit.attributedString(style: .regular20, foregroundColor: .black))
+			value.append(quantityType.unitString.attributedString(style: .regular20, foregroundColor: .black))
 			avgValueLabel.attributedText = value
 
 		} else {

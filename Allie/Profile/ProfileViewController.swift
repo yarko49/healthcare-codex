@@ -238,13 +238,18 @@ class ProfileViewController: BaseViewController {
 	private func fetchData(newDateRange: (Date?, Date?)) {
 		guard let start = newDateRange.0, let end = newDateRange.1 else { return }
 		getRangeData?(currentDateInterval, start, end, { [weak self] newData, goals in
-			guard let newData = newData, let goals = goals else { return }
+			guard let newData = newData, let goals = goals else {
+				return
+			}
 			self?.currentHKData = newData
 			self?.goals = goals
 			switch self?.currentDateInterval {
-			case .weekly: self?.currentWkDate = start
-			case .monthly: self?.currentMonthDate = start
-			case .yearly: self?.currentYearDate = start
+			case .weekly:
+				self?.currentWkDate = start
+			case .monthly:
+				self?.currentMonthDate = start
+			case .yearly:
+				self?.currentYearDate = start
 			default: break
 			}
 		})
@@ -303,7 +308,6 @@ class ProfileViewController: BaseViewController {
 				var values: [Any] = []
 				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
 					innergroup.enter()
-
 					HealthKitManager.shared.queryMostRecentEntry(identifier: identifier, options: []) { result in
 						switch result {
 						case .success(let sample):
