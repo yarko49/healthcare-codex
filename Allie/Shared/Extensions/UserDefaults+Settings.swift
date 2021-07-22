@@ -27,6 +27,7 @@ extension UserDefaults {
 		case measurementRestingHeartRateGoal
 		case measurementStepsGoal
 		case measurementWeightInPoundsGoal
+		case measurementBloodGlucoseGoal
 		case lastObervationUploadDate
 	}
 
@@ -199,6 +200,15 @@ extension UserDefaults {
 		}
 		set {
 			setValue(newValue, forKey: Self.Keys.measurementWeightInPoundsGoal.rawValue)
+		}
+	}
+
+	var measurementBloodGlucoseGoal: Int {
+		get {
+			integer(forKey: Self.Keys.measurementBloodGlucoseGoal.rawValue)
+		}
+		set {
+			setValue(newValue, forKey: Self.Keys.measurementBloodGlucoseGoal.rawValue)
 		}
 	}
 
