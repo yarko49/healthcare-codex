@@ -33,10 +33,11 @@ class ConversationsManager: NSObject, ObservableObject {
 	@Published private(set) var client: TwilioConversationsClient?
 	@Published private(set) var conversations: Set<TCHConversation> = []
 	@Published private(set) var messages: [String: [TCHMessage]] = [:]
-	private var conversationTokens: CHConversations?
+	@Published private(set) var codexUsers: [String: CHConversationsUser] = [:]
+	private var conversationTokens: CHConversationsTokens?
 
 	func refreshAccessToken(completion: @escaping AllieResultCompletion<Bool>) {
-		APIClient.shared.getConservations()
+		APIClient.shared.getConservationsTokens()
 			.sink { result in
 				if case .failure(let error) = result {
 					ALog.error("Error retrieving token \(error.localizedDescription)")
@@ -52,7 +53,7 @@ class ConversationsManager: NSObject, ObservableObject {
 			}.store(in: &cancellables)
 	}
 
-	func updateToken(token: CHConversations.Token?, completion: @escaping AllieResultCompletion<Bool>) {
+	func updateToken(token: CHConversationsTokens.Token?, completion: @escaping AllieResultCompletion<Bool>) {
 		guard let token = token else {
 			completion(.failure(AllieError.missing("Unable to update token, missing token")))
 			return
@@ -83,7 +84,7 @@ class ConversationsManager: NSObject, ObservableObject {
 	}
 
 	func loginFromServer(identity: String, completion: @escaping AllieBoolCompletion) {
-		APIClient.shared.getConservations()
+		APIClient.shared.getConservationsTokens()
 			.sink { result in
 				if case .failure(let error) = result {
 					ALog.error("Error retrieving token \(error.localizedDescription)")
@@ -101,7 +102,20 @@ class ConversationsManager: NSObject, ObservableObject {
 			}.store(in: &cancellables)
 	}
 
-	func login(token: CHConversations.Token?, completion: @escaping AllieResultCompletion<Bool>) {
+	func getCodexUsers() {
+		var identifiers: [String] = []
+		for (_, value) in messages {
+			let ids = value.compactMap { message in
+				message.sender.senderId
+			}
+			identifiers.append(contentsOf: ids)
+		}
+		guard !identifiers.isEmpty else {
+			return
+		}
+	}
+
+	func login(token: CHConversationsTokens.Token?, completion: @escaping AllieResultCompletion<Bool>) {
 		guard let accessToken = token?.accessToken else {
 			completion(.failure(AllieError.missing("Unable to login, missing token")))
 			return

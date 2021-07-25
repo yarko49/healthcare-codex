@@ -648,3 +648,18 @@
 /* Very Low */
 "VERY_LOW" = "Very Low";
 
+/* Error saving data! */
+"HEALTHKIT_ERROR_SAVE_DATA" = "Error saving data!";
+
+/* Cannot Register */
+"CANNOT_REGISTER" = "Cannot Register";
+
+/* Unregister from existing Organization before registering with this one. */
+"UNREGISTER_FIRST.message" = "Unregister from existing Organization before registering with this one.";
+
+/* Sending... */
+"SENDING" = "Sending...";
+
+/* Your message */
+"YOUR_MESSAGE" = "Your message";
+

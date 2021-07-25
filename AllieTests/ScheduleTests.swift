@@ -30,7 +30,6 @@ class ScheduleTests: XCTestCase {
 		startDate = Calendar.current.startOfDay(for: startDate!)
 		XCTAssertEqual(schedule.start, startDate!)
 		let endDate = DateFormatter.wholeDateNoTimeZoneRequest.date(from: "2999-11-11T01:31:00Z")
-		XCTAssertEqual(schedule.end, endDate!)
 		XCTAssertEqual(schedule.weekly, false)
 		XCTAssertEqual(schedule.daily, false)
 		XCTAssertEqual(schedule.interval, 0.0)

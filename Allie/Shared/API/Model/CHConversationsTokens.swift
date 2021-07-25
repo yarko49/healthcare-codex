@@ -1,5 +1,5 @@
 //
-//  CHConversationsResponse.swift
+//  CHConversationsTokens.swift
 //  Allie
 //
 //  Created by Waqar Malik on 6/17/21.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CHConversations: Codable {
+struct CHConversationsTokens: Codable {
 	struct Token: Codable, Identifiable {
 		let id: String
 		let accessToken: String
@@ -25,19 +25,19 @@ struct CHConversations: Codable {
 	let tokens: [Token] // For now we are assuming only one valid token
 }
 
-extension CHConversations: CustomStringConvertible {
+extension CHConversationsTokens: CustomStringConvertible {
 	var description: String {
 		"toknes = \(tokens)"
 	}
 }
 
-extension CHConversations.Token: CustomStringConvertible {
+extension CHConversationsTokens.Token: CustomStringConvertible {
 	var description: String {
 		"{\nid = \(id)\naccessToken = \(accessToken)\nexpiresAt = \(expirationDate)\n}"
 	}
 }
 
-extension CHConversations.Token: CustomDebugStringConvertible {
+extension CHConversationsTokens.Token: CustomDebugStringConvertible {
 	var debugDescription: String {
 		"{\nid = \(id)\naccessToken = \(accessToken)\nexpirationDate = \(expirationDate)\nserviceSID = \(serviceSid)\n}"
 	}

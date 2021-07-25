@@ -34,7 +34,7 @@ class DateFormatterTests: XCTestCase {
 		let dates = dateStrings.compactMap { dateString -> Date? in
 			Formatter.iso8601WithFractionalSeconds.date(from: dateString)
 		}
-		XCTAssertEqual(dates.count, 1)
+		XCTAssertEqual(dates.count, 2)
 	}
 
 	func testDaysSubtracting() throws {

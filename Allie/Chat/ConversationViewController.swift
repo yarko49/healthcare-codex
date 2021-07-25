@@ -15,6 +15,7 @@ import UIKit
 class ConversationViewController: MessagesViewController {
 	weak var conversation: TCHConversation?
 	weak var conversationsManager: ConversationsManager?
+	private var cancellables: Set<AnyCancellable> = []
 
 	var patient: CHPatient? {
 		CareManager.shared.patient
@@ -52,6 +53,11 @@ class ConversationViewController: MessagesViewController {
 				}
 			})
 		}
+		conversationsManager?.messagesDelegate = self
+		if let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout {
+			layout.setMessageIncomingAvatarSize(.zero)
+			layout.setMessageOutgoingAvatarSize(.zero)
+		}
 	}
 
 	func configureMessageCollectionView() {
@@ -75,21 +81,6 @@ class ConversationViewController: MessagesViewController {
 		)
 	}
 
-	func insertMessage(_ message: TCHMessage) {
-		// Reload last section to update header/footer labels and insert a new one
-		let messageList = conversationsManager?.messages(for: conversation) ?? []
-		messagesCollectionView.performBatchUpdates({
-			messagesCollectionView.insertSections([messageList.count - 1])
-			if messageList.count >= 2 {
-				messagesCollectionView.reloadSections([messageList.count - 2])
-			}
-		}, completion: { [weak self] _ in
-			if self?.isLastSectionVisible(messageList: messageList) == true {
-				self?.messagesCollectionView.scrollToLastItem(animated: true)
-			}
-		})
-	}
-
 	func isLastSectionVisible(messageList: [TCHMessage]) -> Bool {
 		guard !messageList.isEmpty else {
 			return false
@@ -97,6 +88,16 @@ class ConversationViewController: MessagesViewController {
 		let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
 
 		return messagesCollectionView.indexPathsForVisibleItems.contains(lastIndexPath)
+	}
+}
+
+extension ConversationViewController: ConversationMessagesDelegate {
+	func conversationsManager(_ manager: ConversationsManager, reloadMessagesFor conversation: TCHConversation) {
+		messagesCollectionView.reloadData()
+	}
+
+	func conversationsManager(_ manager: ConversationsManager, didReceive message: TCHMessage, for conversation: TCHConversation) {
+		ALog.trace("Did Recieve message")
 	}
 }
 
@@ -132,10 +133,6 @@ extension ConversationViewController: MessagesDataSource {
 	func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
 		let dateString = formatter.string(from: message.sentDate)
 		return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)])
-	}
-
-	func textCell(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionViewCell? {
-		nil
 	}
 }
 
@@ -259,7 +256,7 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
 		inputBar.invalidatePlugins()
 		// Send button activity animation
 		inputBar.sendButton.startAnimating()
-		inputBar.inputTextView.placeholder = "Sending..."
+		inputBar.inputTextView.placeholder = NSLocalizedString("SENDING", comment: "Sending...")
 		// Resign first responder for iPad split view
 		inputBar.inputTextView.resignFirstResponder()
 
@@ -271,9 +268,8 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
 					ALog.error("Error sending message", error: error)
 					inputBar.inputTextView.text = text
 				case .success(let message):
-					inputBar.inputTextView.placeholder = "Your message"
+					inputBar.inputTextView.placeholder = NSLocalizedString("YOUR_MESSAGE", comment: "Your message")
 					ALog.info("Message Sent, \(message.id)")
-					self?.insertMessage(message)
 				}
 			}
 		})

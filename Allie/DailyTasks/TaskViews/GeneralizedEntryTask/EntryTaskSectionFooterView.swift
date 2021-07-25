@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 7/9/21.
 //
 
+import Combine
 import UIKit
 
 protocol EntryTaskSectionFooterViewDelegate: AnyObject {

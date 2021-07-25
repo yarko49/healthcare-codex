@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "842398C6259C1144006FB3F4"
-               BuildableName = "Allie.app"
-               BlueprintName = "Allie"
+               BlueprintIdentifier = "847DCBCB265871F3004E9C1D"
+               BuildableName = "Allie Dev.app"
+               BlueprintName = "Allie Dev"
                ReferencedContainer = "container:Allie.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,26 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "842398DC259C1144006FB3F4"
-               BuildableName = "AllieTests.xctest"
-               BlueprintName = "AllieTests"
-               ReferencedContainer = "container:Allie.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "842398E7259C1144006FB3F4"
-               BuildableName = "AllieUITests.xctest"
-               BlueprintName = "AllieUITests"
-               ReferencedContainer = "container:Allie.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -64,9 +44,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "842398C6259C1144006FB3F4"
-            BuildableName = "Allie.app"
-            BlueprintName = "Allie"
+            BlueprintIdentifier = "847DCBCB265871F3004E9C1D"
+            BuildableName = "Allie Dev.app"
+            BlueprintName = "Allie Dev"
             ReferencedContainer = "container:Allie.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -81,9 +61,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "842398C6259C1144006FB3F4"
-            BuildableName = "Allie.app"
-            BlueprintName = "Allie"
+            BlueprintIdentifier = "847DCBCB265871F3004E9C1D"
+            BuildableName = "Allie Dev.app"
+            BlueprintName = "Allie Dev"
             ReferencedContainer = "container:Allie.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

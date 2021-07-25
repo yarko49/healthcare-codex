@@ -2926,7 +2926,5 @@
         }
     ],
     "patients": [],
-    "vectorClock": {
-        "backend": 32
-    }
+    "vectorClock": 32
 }

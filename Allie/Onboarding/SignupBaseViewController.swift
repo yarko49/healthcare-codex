@@ -6,7 +6,6 @@
 //
 
 import AuthenticationServices
-import GoogleSignIn
 import UIKit
 
 enum ControllerViewMode {
@@ -32,6 +31,7 @@ class SignupBaseViewController: BaseViewController {
 
 	var authorizeWithEmail: ((_ email: String, _ authorizationFlowType: AuthorizationFlowType) -> Void)?
 	var appleAuthoizationAction: AllieActionHandler?
+	var googleAuthorizationAction: AllieActionHandler?
 	var emailAuthorizationAction: ((AuthorizationFlowType) -> Void)?
 	var authorizationFlowChangedAction: ((AuthorizationFlowType) -> Void)?
 
@@ -147,9 +147,7 @@ class SignupBaseViewController: BaseViewController {
 	}()
 
 	@IBAction private func authenticateGoogle(_ sender: Any) {
-		let gidSignIn = GIDSignIn.sharedInstance()
-		gidSignIn?.presentingViewController = self
-		gidSignIn?.signIn()
+		googleAuthorizationAction?()
 	}
 
 	func updateLabels() {

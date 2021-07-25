@@ -103,6 +103,9 @@ class SelectProviderViewController: UICollectionViewController {
 		detailViewModel = ProviderDetailViewModel(organization: item)
 		if let viewModel = detailViewModel {
 			viewModel.isRegistered = organizations.registered.contains(item)
+			if !organizations.registered.contains(item), !organizations.registered.isEmpty {
+				viewModel.shouldShowAlert = true
+			}
 			viewModel.$isRegistered
 				.dropFirst()
 				.sink { [weak self] _ in

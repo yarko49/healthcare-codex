@@ -858,7 +858,5 @@
       "userInfo": null
     }
   ],
-  "vectorClock": {
-    "backend": 4
-  }
+  "vectorClock": 4
 }

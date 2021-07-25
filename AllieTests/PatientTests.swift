@@ -53,7 +53,6 @@ class PatientTests: XCTestCase {
 		let patient = try patientDecode(string: patientDictionary)
 		XCTAssertEqual(patient.id, "patientOtherA", "invalid Id")
 		XCTAssertEqual(patient.groupIdentifier, "shared", "invalid groud Id")
-		XCTAssertEqual(patient.remoteID, "XXX-ID-patientOtherA", "invalid remote Id")
 		XCTAssertEqual(patient.timezone, TimeZone(identifier: "America/Los_Angeles"), "invalid timezone")
 		XCTAssertNotNil(patient.createdDate)
 		XCTAssertNotNil(patient.updatedDate)
@@ -92,7 +91,6 @@ class PatientTests: XCTestCase {
 		let patient = try patientDecode(string: patientDictionary)
 		XCTAssertEqual(patient.id, "patientOtherC", "invalid Id")
 		XCTAssertEqual(patient.groupIdentifier, "inactive", "invalid groud Id")
-		XCTAssertEqual(patient.remoteID, "XXX-ID-patientOtherC", "invalid remote Id")
 		XCTAssertEqual(patient.timezone, TimeZone(identifier: "America/Los_Angeles"), "invalid timezone")
 		XCTAssertNotNil(patient.createdDate)
 		XCTAssertNotNil(patient.updatedDate)
@@ -138,7 +136,6 @@ class PatientTests: XCTestCase {
 		let patient = try patientDecode(string: patientDictionary)
 		XCTAssertEqual(patient.id, "patientId", "invalid Id")
 		XCTAssertEqual(patient.groupIdentifier, "active", "invalid groud Id")
-		XCTAssertEqual(patient.remoteID, "XXX-ID-patientId", "invalid remote Id")
 		XCTAssertEqual(patient.timezone, TimeZone(identifier: "America/Los_Angeles"), "invalid timezone")
 		XCTAssertNotNil(patient.createdDate)
 		XCTAssertNotNil(patient.updatedDate)
@@ -147,48 +144,6 @@ class PatientTests: XCTestCase {
 		XCTAssertNotNil(patient.name)
 		XCTAssertNotNil(patient.tags)
 		XCTAssertNotNil(patient.userInfo)
-	}
-
-	func testPatientReverse() throws {
-		let patientDictionary =
-			"""
-			    {
-			          "id" : "patientId",
-			          "remoteId" : "XXX-ID-patientId",
-			          "createdDate" : "2020-11-25T02:10:11.022Z",
-			          "asset" : "",
-			          "tags" : [
-			            "tag1",
-			            "tag2"
-			          ],
-			          "source" : "",
-			          "updatedDate" : "2020-11-25T02:10:11.022Z",
-			          "birthday" : "2020-11-25T00:00:00Z",
-			          "groupIdentifier" : "active",
-			          "timezone" : 28800,
-			          "effectiveDate" : "2020-11-25T02:10:11.022Z",
-			          "userInfo" : {
-			            "key1" : "value1",
-			            "key2" : "value2"
-			          },
-			          "name" : {
-			            "namePrefix" : "",
-			            "givenName" : "first",
-			            "nameSuffix" : "jr",
-			            "middleName" : "middle",
-			            "familyName" : "last",
-			            "nickname" : ""
-			          }
-			        }
-			"""
-		let patient = try patientDecode(string: patientDictionary)
-		let encoder = JSONEncoder()
-		let formatter = DateFormatter()
-		formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-		encoder.dateEncodingStrategy = .formatted(formatter)
-		let data = try encoder.encode(patient)
-		let decoder = CHJSONDecoder()
-		let reverse = try decoder.decode(CHPatient.self, from: data)
 	}
 
 	func patientDecode(string: String) throws -> CHPatient {
