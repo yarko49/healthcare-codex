@@ -9,6 +9,7 @@
 import CareKitStore
 import Combine
 import Foundation
+import WebService
 import XCTest
 
 class AllieTests: XCTestCase {
@@ -54,10 +55,10 @@ class AllieTests: XCTestCase {
 	func testCarePlanValueSpaceResponse() throws {
 		let carePlanResponse = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponse)
-		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
+		let url = try APIRouter.getCarePlan(option: .carePlan).url()
 		XCTAssert(!carePlanResponse!.isEmpty)
-		URLProtocolMock.testData[url!] = carePlanResponse
-		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
+		URLProtocolMock.testData[url] = carePlanResponse
+		URLProtocolMock.response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
 		let expect = expectation(description: "CarePlanResponse")
 		client?.getCarePlan()
 			.sink(receiveCompletion: { result in
@@ -77,10 +78,10 @@ class AllieTests: XCTestCase {
 	func testDefaultDiabetesCarePlan() throws {
 		let carePlanResponse = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponse)
-		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
+		let url = try APIRouter.getCarePlan(option: .carePlan).url()
 		XCTAssert(!carePlanResponse!.isEmpty)
-		URLProtocolMock.testData[url!] = carePlanResponse
-		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
+		URLProtocolMock.testData[url] = carePlanResponse
+		URLProtocolMock.response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
 		let expect = expectation(description: "DefaultDiabetesCarePlan")
 		client?.getCarePlan()
 			.sink(receiveCompletion: { result in

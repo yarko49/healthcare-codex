@@ -8,6 +8,7 @@
 import Foundation
 import KeychainAccess
 import ModelsR4
+import WebService
 
 public enum CarePlanResponseType: Hashable {
 	case carePlan
@@ -17,7 +18,7 @@ public enum CarePlanResponseType: Hashable {
 	case vectorClock
 }
 
-enum APIRouter: URLRequestConvertible {
+enum APIRouter {
 	static let baseURLPath = AppConfig.apiBaseUrl
 	static var authToken: String? {
 		Keychain.authenticationToken?.token
@@ -26,7 +27,8 @@ enum APIRouter: URLRequestConvertible {
 	case organizations
 	case registerOrganization(CHOrganization)
 	case unregisterOrganization(CHOrganization)
-	case conversations
+	case conversationsTokens
+	case postConversationsUsers(CHOrganization, [String])
 	case getCarePlan(option: CarePlanResponseType)
 	case postCarePlan(carePlanResponse: CHCarePlanResponse)
 	case postPatient(patient: CHPatient)
@@ -39,29 +41,31 @@ enum APIRouter: URLRequestConvertible {
 	var method: Request.Method {
 		switch self {
 		case .organizations:
-			return .get
+			return .GET
 		case .registerOrganization:
-			return .post
+			return .POST
 		case .unregisterOrganization:
-			return .delete
-		case .conversations:
-			return .get
+			return .DELETE
+		case .conversationsTokens:
+			return .GET
+		case .postConversationsUsers:
+			return .POST
 		case .getCarePlan:
-			return .get
+			return .GET
 		case .postCarePlan:
-			return .post
+			return .POST
 		case .postPatient:
-			return .post
+			return .POST
 		case .postObservation:
-			return .post
+			return .POST
 		case .postBundle:
-			return .post
+			return .POST
 		case .postOutcomes:
-			return .post
+			return .POST
 		case .getOutcomes:
-			return .get
+			return .GET
 		case .getFeatureContent:
-			return .get
+			return .GET
 		}
 	}
 
@@ -74,8 +78,10 @@ enum APIRouter: URLRequestConvertible {
 			path += "/organization/register"
 		case .unregisterOrganization:
 			path += "/organization/register"
-		case .conversations:
+		case .conversationsTokens:
 			path += "/conversations"
+		case .postConversationsUsers(let organization, _):
+			path += "/conversations/\(organization.id)/users"
 		case .getCarePlan, .postCarePlan, .postPatient:
 			path += "/carePlan"
 		case .postObservation:
@@ -95,7 +101,7 @@ enum APIRouter: URLRequestConvertible {
 
 	var encoding: Request.ParameterEncoding {
 		switch method {
-		case .post:
+		case .POST:
 			return .json
 		default:
 			return .percent
@@ -124,6 +130,9 @@ enum APIRouter: URLRequestConvertible {
 		case .postOutcomes(let outcomes):
 			let carePlan = CHCarePlanResponse(outcomes: outcomes)
 			data = try? encoder.encode(carePlan)
+		case .postConversationsUsers(_, let users):
+			let requestObject = ["users": users]
+			data = try? encoder.encode(requestObject)
 		default:
 			data = nil
 		}
@@ -143,7 +152,7 @@ enum APIRouter: URLRequestConvertible {
 			break
 		case .unregisterOrganization:
 			break
-		case .conversations:
+		case .conversationsTokens, .postConversationsUsers:
 			break
 		case .getCarePlan(let option):
 			// possible values are return=Summary, return=Outcomes, return=ValueSpaceSample, return=VectorClock
@@ -177,13 +186,9 @@ enum APIRouter: URLRequestConvertible {
 
 	var parameters: [String: Any]? {
 		switch self {
-		case .organizations:
+		case .organizations, .registerOrganization, .unregisterOrganization:
 			return nil
-		case .registerOrganization:
-			return nil
-		case .unregisterOrganization:
-			return nil
-		case .conversations:
+		case .conversationsTokens, .postConversationsUsers:
 			return nil
 		case .getCarePlan, .postCarePlan, .postPatient, .postObservation:
 			return nil
@@ -201,11 +206,18 @@ enum APIRouter: URLRequestConvertible {
 	var queryParameters: [URLQueryItem]? {
 		nil
 	}
+}
 
-	var request: Request? {
+extension APIRouter: URLRequestEncodable {
+	func url() throws -> URL {
 		guard let url = URL(string: APIRouter.baseURLPath)?.appendingPathComponent(path) else {
-			return nil
+			throw URLError(.badURL)
 		}
+		return url
+	}
+
+	func request() throws -> Request {
+		let url = try url()
 		var request = Request(method, url: url)
 		request.setHeaders(headers)
 		if let queryItems = queryParameters {
@@ -217,7 +229,7 @@ enum APIRouter: URLRequestConvertible {
 		return request
 	}
 
-	var urlRequest: URLRequest? {
-		request?.urlRequest
+	func urlRequest() throws -> URLRequest {
+		try request().urlRequest()
 	}
 }

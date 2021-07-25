@@ -9,13 +9,15 @@ import Combine
 import Foundation
 import KeychainAccess
 import ModelsR4
+import WebService
 
 protocol AllieAPI {
 	func firebaseAuthenticationToken() -> Future<AuthenticationToken, Error>
 	func registerOrganization(organization: CHOrganization) -> AnyPublisher<Bool, Never>
 	func unregisterOrganization(organization: CHOrganization) -> AnyPublisher<Bool, Never>
 	func getOrganizations() -> AnyPublisher<CHOrganizations, Never>
-	func getConservations() -> AnyPublisher<CHConversations, Error>
+	func getConservationsTokens() -> AnyPublisher<CHConversationsTokens, Error>
+	func postConservationsUsers(organization: CHOrganization, users: [String]) -> AnyPublisher<CHConversationsUsers, Error>
 	func getCarePlan(option: CarePlanResponseType) -> AnyPublisher<CHCarePlanResponse, Error>
 	func post(carePlanResponse: CHCarePlanResponse) -> AnyPublisher<UInt64, Error>
 	func post(bundle: ModelsR4.Bundle) -> AnyPublisher<ModelsR4.Bundle, Error>
@@ -39,13 +41,13 @@ public final class APIClient: AllieAPI {
 	public init(session: URLSession = .shared) {
 		session.configuration.httpMaximumConnectionsPerHost = 50
 		session.configuration.timeoutIntervalForRequest = 120
-		self.webService = WebService(session: session)
-		webService.errorProcessor = { [weak self] request, error in
-			self?.process(error: error, url: request?.url)
-		}
-		webService.responseHandler = { [weak self] response in
-			try self?.process(response: response)
-		}
+		self.webService = WebService(baseURLString: APIRouter.baseURLPath, session: session)
+//		webService.errorProcessor = { [weak self] request, error in
+//			self?.process(error: error, url: request?.url)
+//		}
+//		webService.responseHandler = { [weak self] response in
+//			try self?.process(response: response)
+//		}
 	}
 
 	private func process(response: HTTPURLResponse) throws {
@@ -89,33 +91,37 @@ public final class APIClient: AllieAPI {
 	}
 
 	func getOrganizations() -> AnyPublisher<CHOrganizations, Never> {
-		webService.request(route: .organizations)
+		webService.decodable(route: .organizations)
 			.catch { _ -> Just<CHOrganizations> in
 				Just(CHOrganizations(available: [], registered: []))
 			}.eraseToAnyPublisher()
 	}
 
-	func getConservations() -> AnyPublisher<CHConversations, Error> {
-		webService.request(route: .conversations)
+	func getConservationsTokens() -> AnyPublisher<CHConversationsTokens, Error> {
+		webService.decodable(route: .conversationsTokens)
+	}
+
+	func postConservationsUsers(organization: CHOrganization, users: [String]) -> AnyPublisher<CHConversationsUsers, Error> {
+		webService.decodable(route: .postConversationsUsers(organization, users))
 	}
 
 	func getCarePlan(option: CarePlanResponseType = .carePlan) -> AnyPublisher<CHCarePlanResponse, Error> {
 		let route = APIRouter.getCarePlan(option: option)
-		return webService.request(route: route)
+		return webService.decodable(route: route)
 	}
 
 	func post(carePlanResponse: CHCarePlanResponse) -> AnyPublisher<UInt64, Error> {
-		webService.request(route: .postCarePlan(carePlanResponse: carePlanResponse))
+		webService.decodable(route: .postCarePlan(carePlanResponse: carePlanResponse))
 	}
 
 	func post(bundle: ModelsR4.Bundle) -> AnyPublisher<ModelsR4.Bundle, Error> {
 		let route = APIRouter.postBundle(bundle: bundle)
-		return webService.request(route: route)
+		return webService.decodable(route: route)
 	}
 
 	func post(patient: CHPatient) -> AnyPublisher<CHCarePlanResponse, Error> {
 		let route = APIRouter.postPatient(patient: patient)
-		return webService.request(route: route)
+		return webService.decodable(route: route)
 	}
 
 	func getRawReaults(route: APIRouter) -> AnyPublisher<Any, Error>? {
@@ -123,20 +129,20 @@ public final class APIClient: AllieAPI {
 	}
 
 	func getOutcomes(carePlanId: String, taskId: String, page: String) -> AnyPublisher<CHOutcomeResponse, Error> {
-		webService.request(route: .getOutcomes(carePlanId: carePlanId, taskId: taskId))
+		webService.decodable(route: .getOutcomes(carePlanId: carePlanId, taskId: taskId))
 	}
 
 	func post(outcomes: [CHOutcome]) -> AnyPublisher<CHCarePlanResponse, Error> {
 		let route = APIRouter.postOutcomes(outcomes: outcomes)
-		return webService.request(route: route)
+		return webService.decodable(route: route)
 	}
 
 	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> AnyPublisher<SignedURLResponse, Error> {
 		let route = APIRouter.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
-		return webService.request(route: route)
+		return webService.decodable(route: route)
 	}
 
 	func getData(url: URL) -> AnyPublisher<Data, Error> {
-		webService.data(url: url)
+		webService.data(request: Request(.GET, url: url))
 	}
 }

@@ -1,5 +1,5 @@
 {
-  "available": [
+  "availableOrganizations": [
     {
       "healthcareProviderTenantId": "CodexPilotHealthcare-3kuss",
       "Id": "",
@@ -24,5 +24,6 @@
       "name": "Demo Organization",
       "totalPatients": 19
     }
-  ]
+  ],
+  "registeredOrganizations": []
 }

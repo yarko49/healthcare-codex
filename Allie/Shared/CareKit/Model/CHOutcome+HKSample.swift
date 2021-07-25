@@ -65,8 +65,14 @@ extension CHOutcome {
 		if let hkDevice = sample.device {
 			device = CHDevice(device: hkDevice)
 		}
+
+		var metadata = sample.metadata
+		if let userEntered = metadata?[HKMetadataKeyWasUserEntered] as? Bool {
+			self.isUserEntered = userEntered
+			metadata?.removeValue(forKey: HKMetadataKeyWasUserEntered)
+		}
 		sourceRevision = CHSourceRevision(sourceRevision: sample.sourceRevision)
-		userInfo = sample.metadata?.compactMapValues { anyValue in
+		userInfo = metadata?.compactMapValues { anyValue in
 			if let value = anyValue as? String {
 				return value
 			} else if let intValue = anyValue as? Int {

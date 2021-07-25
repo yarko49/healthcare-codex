@@ -28,21 +28,6 @@ class CareKitStoreTests: XCTestCase {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 	}
 
-	func testLoadPatient() throws {
-		let expect = expectation(description: "Load Patient")
-		careManager.loadPatient { result in
-			switch result {
-			case .failure(let error):
-				ALog.error("\(error.localizedDescription)")
-
-			case .success(let patient):
-				ALog.info("\(patient.id)")
-				expect.fulfill()
-			}
-		}
-		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
-	}
-
 	func testLoadAllPatient() throws {
 		let expect = expectation(description: "Load Patient")
 		careManager.store.fetchPatients { result in
@@ -62,10 +47,10 @@ class CareKitStoreTests: XCTestCase {
 	func testGetPatientFromServer() throws {
 		let carePlanResponse = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponse)
-		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
+		let url = try APIRouter.getCarePlan(option: .carePlan).url()
 		XCTAssert(!carePlanResponse!.isEmpty)
-		URLProtocolMock.testData[url!] = carePlanResponse
-		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
+		URLProtocolMock.testData[url] = carePlanResponse
+		URLProtocolMock.response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
 		let expect = expectation(description: "DefaultCarePlan")
 		client?.getCarePlan()
 			.sink(receiveCompletion: { result in
@@ -89,10 +74,10 @@ class CareKitStoreTests: XCTestCase {
 	func testInsertCarePlanFromServer() throws {
 		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)
-		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
+		let url = try APIRouter.getCarePlan(option: .carePlan).url()
 		XCTAssert(!carePlanResponseData!.isEmpty)
-		URLProtocolMock.testData[url!] = carePlanResponseData
-		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
+		URLProtocolMock.testData[url] = carePlanResponseData
+		URLProtocolMock.response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
 		let expect = expectation(description: "DefaultCarePlan")
 		client?.getCarePlan()
 			.sink(receiveCompletion: { result in
@@ -117,10 +102,10 @@ class CareKitStoreTests: XCTestCase {
 	func testInsertPatients() throws {
 		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)
-		let url = APIRouter.getCarePlan(option: .carePlan).urlRequest?.url
+		let url = try APIRouter.getCarePlan(option: .carePlan).url()
 		XCTAssert(!carePlanResponseData!.isEmpty)
-		URLProtocolMock.testData[url!] = carePlanResponseData
-		URLProtocolMock.response = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
+		URLProtocolMock.testData[url] = carePlanResponseData
+		URLProtocolMock.response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
 		let expect = expectation(description: "DefaultCarePlan")
 		var carePlanRespons: CHCarePlanResponse?
 		client?.getCarePlan()

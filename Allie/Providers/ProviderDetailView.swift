@@ -15,7 +15,7 @@ struct ProviderDetailView: View {
 
 	var body: some View {
 		JGProgressHUDPresenter(userInteractionOnHUD: blockTouches) {
-			ProviderDetailViewBody(viewModel: viewModel)
+			ProviderDetailViewBody(viewModel: viewModel, shouldShowAlert: viewModel.shouldShowAlert)
 		}
 	}
 }
@@ -23,6 +23,8 @@ struct ProviderDetailView: View {
 struct ProviderDetailViewBody: View {
 	@ObservedObject var viewModel: ProviderDetailViewModel
 	@EnvironmentObject var hudCoordinator: JGProgressHUDCoordinator
+	var shouldShowAlert: Bool
+	@State var showAlert = false
 
 	var body: some View {
 		VStack(spacing: 20) {
@@ -38,21 +40,27 @@ struct ProviderDetailViewBody: View {
 				.padding(.horizontal, 43.0)
 			Spacer()
 			Button(viewModel.isRegistered ? "UNREGISTER" : "ACCEPT") {
-				hudCoordinator.showHUD {
-					let hud = JGProgressHUD()
-					return hud
-				}
-				if viewModel.isRegistered {
-					viewModel.unregister { _ in
-						hudCoordinator.presentedHUD?.dismiss(animated: true)
-					}
+				if shouldShowAlert {
+					showAlert = true
 				} else {
-					viewModel.register { _ in
-						hudCoordinator.presentedHUD?.dismiss(animated: true)
+					hudCoordinator.showHUD {
+						let hud = JGProgressHUD()
+						return hud
+					}
+					if viewModel.isRegistered {
+						viewModel.unregister { _ in
+							hudCoordinator.presentedHUD?.dismiss(animated: true)
+						}
+					} else {
+						viewModel.register { _ in
+							hudCoordinator.presentedHUD?.dismiss(animated: true)
+						}
 					}
 				}
 			}
-
+			.alert(isPresented: $showAlert, content: {
+				Alert(title: Text("CANNOT_REGISTER"), message: Text("UNREGISTER_FIRST.message"), dismissButton: .cancel())
+			})
 			.frame(minWidth: 100.0, maxWidth: .infinity, minHeight: 40.0, maxHeight: .infinity, alignment: .center)
 			.background(Color.allieButtons)
 			.foregroundColor(.allieWhite)

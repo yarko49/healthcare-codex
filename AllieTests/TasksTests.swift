@@ -29,12 +29,8 @@ class TasksTests: XCTestCase {
 		XCTAssertNotNil(tasksDictionary)
 		let data = try JSONSerialization.data(withJSONObject: tasksDictionary!, options: .prettyPrinted)
 		let decoder = CHJSONDecoder()
-		do {
-			let tasks = try decoder.decode([CHTask].self, from: data)
-			XCTAssertEqual(tasks.count, 9)
-		} catch {
-			ALog.error("\(error.localizedDescription)")
-		}
+		let tasks = try decoder.decode([CHTask].self, from: data)
+		XCTAssertEqual(tasks.count, 10)
 	}
 
 	func testHealthKitIdentifier() throws {

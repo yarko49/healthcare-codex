@@ -22,6 +22,6 @@ class OraganizationsTests: XCTestCase {
 		XCTAssertNotNil(data)
 		let decoder = CHJSONDecoder()
 		let organizations = try decoder.decode(CHOrganizations.self, from: data!)
-		XCTAssertEqual(organizations.registered.count, 4)
+		XCTAssertEqual(organizations.registered.count, 0)
 	}
 }

@@ -7,6 +7,7 @@
 
 import Combine
 import UIKit
+import WebService
 
 public extension WebService {
 	func loadImage(urlString: String) -> AnyPublisher<UIImage, Error> {
@@ -21,9 +22,8 @@ public extension WebService {
 	func loadImage(url: URL) -> AnyPublisher<UIImage, Error> {
 		session.servicePublisher(for: url)
 			.setHeaderValue(Request.ContentType.jpeg, forName: Request.Header.contentType)
-			.retry(configuration.retryCountForResource)
 			.tryMap { result -> Data in
-				try result.data.ws_validate(result.response).ws_validate()
+				try result.data.ws_validate(result.response).ws_validateNotEmptyData()
 			}.tryMap { data -> UIImage in
 				guard let image = UIImage(data: data) else {
 					throw URLError(.cannotDecodeContentData)

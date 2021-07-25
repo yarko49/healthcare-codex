@@ -26,7 +26,7 @@ class TaskTests: XCTestCase {
 		let decoder = CHJSONDecoder()
 		XCTAssertNotNil(testData)
 		let task = try decoder.decode(CHTask.self, from: testData!)
-		XCTAssertEqual(task.id, "TaskB2")
+		XCTAssertEqual(task.id, "XXXX-SOME-UUID-ZZZZ")
 		XCTAssertEqual(task.remoteId, "XXXX-SOME-UUID-ZZZZ")
 		XCTAssertEqual(task.title, "custom-3x-daily-finite-grid")
 		XCTAssertNotNil(task.scheduleElements)
@@ -75,7 +75,7 @@ class TaskTests: XCTestCase {
 		XCTAssertNotNil(taskData)
 		let task = try JSONDecoder().decode(CHTask.self, from: taskData!)
 		let ockTask = OCKTask(task: task)
-		XCTAssertEqual(ockTask.id, "DMSymptomsFatigue")
+		XCTAssertEqual(ockTask.id, "09e01234-fa95-51f0-b4a8-3c5cb815135b")
 	}
 
 	func testAllTasks() throws {

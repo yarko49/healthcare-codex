@@ -89,4 +89,18 @@ extension CareManager {
 				}
 			}.store(in: &cancellables)
 	}
+
+	/*
+	    networkService.request(.login(username: username, password: password))
+	    .flatMap { token in
+	    networkService.request(.playlists(token))
+	    }.flatMap { playlists in
+	    let playlist = playlists.first
+	    networkService.request(.songs(for: playlist.id))
+	    }.sink(receiveCompletion: {  _ in
+	    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+	    }, receiveValue: { songs in
+	    self.configure(with: songs)
+	    }
+	 */
 }

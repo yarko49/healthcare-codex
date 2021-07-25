@@ -176,6 +176,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			addView(identifier: identifier, at: index)
 		}
 		footerView.deleteButton.isHidden = outcome == nil
+		footerView.saveButton.isHidden = outcome != nil
 	}
 
 	func saveToHealthKit(completion: @escaping AllieResultCompletion<Bool>) {
@@ -325,6 +326,20 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			}
 		}
 	}
+
+	private func showErrorAlert(title: String?, error: Error) {
+		let controller = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
+		let cancelAction = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"), style: .cancel) { _ in
+		}
+		let settingsAction = UIAlertAction(title: NSLocalizedString("SETTINGS", comment: "Settings"), style: .default) { _ in
+			if let url = URL(string: UIApplication.openSettingsURLString) {
+				UIApplication.shared.open(url, options: [:], completionHandler: nil)
+			}
+		}
+		controller.addAction(cancelAction)
+		controller.addAction(settingsAction)
+		show(controller, sender: self)
+	}
 }
 
 extension GeneralizedLogTaskDetailViewController: EntryTaskSectionHeaderViewDelegate {
@@ -335,16 +350,18 @@ extension GeneralizedLogTaskDetailViewController: EntryTaskSectionHeaderViewDele
 
 extension GeneralizedLogTaskDetailViewController: EntryTaskSectionFooterViewDelegate {
 	func entryTaskSectionFooterViewDidSelectSave(_ view: EntryTaskSectionFooterView) {
-		saveToHealthKit { result in
-			switch result {
-			case .failure(let error):
-				ALog.error("Unable to save value", error: error)
-			case .success(let success):
-				ALog.info("Sample saved \(success)")
+		saveToHealthKit { [weak self] result in
+			DispatchQueue.main.async {
+				switch result {
+				case .failure(let error):
+					let title = NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA", comment: "Error saving data!")
+					self?.showErrorAlert(title: title, error: error)
+				case .success(let success):
+					ALog.info("Sample saved \(success)")
+					self?.saveAction?()
+				}
 			}
 		}
-
-		saveAction?()
 	}
 
 	func entryTaskSectionFooterViewDidSelectDelete(_ view: EntryTaskSectionFooterView) {

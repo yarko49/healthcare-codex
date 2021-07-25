@@ -12,6 +12,7 @@ class ProviderDetailViewModel: ObservableObject {
 	private var cancellables: Set<AnyCancellable> = []
 	private(set) var organization: CHOrganization
 	@Published var isRegistered: Bool = false
+	var shouldShowAlert = false
 
 	init(organization: CHOrganization) {
 		self.organization = organization

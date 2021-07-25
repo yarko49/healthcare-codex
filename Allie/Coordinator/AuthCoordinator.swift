@@ -30,7 +30,6 @@ class AuthCoordinator: BaseCoordinator {
 		navigationController = UINavigationController()
 		self.parent = parent
 		parent?.window.rootViewController = SplashViewController()
-		GIDSignIn.sharedInstance().delegate = self
 		if let link = deepLink {
 			verifySendLink(link: link)
 		} else {
@@ -71,6 +70,11 @@ class AuthCoordinator: BaseCoordinator {
 				self?.gotoSignup(authorizationFlowType: authorizationFlowType)
 			}
 		}
+
+		signupViewController.googleAuthorizationAction = { [weak self, weak signupViewController] in
+			self?.signInWithGoogle(presentingViewController: signupViewController)
+		}
+
 		navigate(to: signupViewController, with: .resetStack)
 	}
 
@@ -95,6 +99,11 @@ class AuthCoordinator: BaseCoordinator {
 				self?.gotoSignup(authorizationFlowType: authorizationFlowType)
 			}
 		}
+
+		loginViewController.googleAuthorizationAction = { [weak self, weak loginViewController] in
+			self?.signInWithGoogle(presentingViewController: loginViewController)
+		}
+
 		navigate(to: loginViewController, with: .push)
 	}
 
@@ -311,6 +320,45 @@ class AuthCoordinator: BaseCoordinator {
 		ALog.info("Got in startSignInWithApple")
 	}
 
+	func signInWithGoogle(presentingViewController viewController: UIViewController?) {
+		guard let clientId = FirebaseApp.app()?.options.clientID, let viewController = viewController else {
+			return
+		}
+		let configuration = GIDConfiguration(clientID: clientId)
+		GIDSignIn.sharedInstance.signIn(with: configuration, presenting: viewController) { user, error in
+			if let error = error {
+				ALog.error(error: error)
+				return
+			}
+
+			guard let idToken = user?.authentication.idToken, let accessToken = user?.authentication.accessToken, error == nil else {
+				ALog.error(error: error)
+				return
+			}
+
+			let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+			Auth.auth().signIn(with: credential) { [weak self] authResult, error in
+				self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
+					if let authUser = authResult?.user {
+						var alliePatient = CHPatient(user: authUser)
+						var name = PersonNameComponents()
+						if let givenName = user?.profile?.givenName {
+							name.givenName = givenName
+						}
+						if let familyName = user?.profile?.familyName {
+							name.familyName = familyName
+						}
+						if alliePatient?.profile.email == nil {
+							alliePatient?.profile.email = user?.profile?.email
+						}
+						self?.alliePatient = alliePatient
+					}
+					self?.checkIfUserExists(email: user?.profile?.email, user: authResult)
+				})
+			}
+		}
+	}
+
 	func createAuthorizationAppleIDRequest() -> ASAuthorizationOpenIDRequest {
 		let appleIDProvider = ASAuthorizationAppleIDProvider()
 		let request = appleIDProvider.createRequest()
@@ -349,40 +397,6 @@ class AuthCoordinator: BaseCoordinator {
 			gotoProfileSetupViewController(email: email, user: (user?.user)!)
 		} else {
 			getPatient(email: email, user: (user?.user)!)
-		}
-	}
-}
-
-extension AuthCoordinator: GIDSignInDelegate {
-	func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
-		if let error = error {
-			ALog.error(error: error)
-			return
-		}
-
-		guard let authentication = user.authentication, error == nil else {
-			ALog.error(error: error)
-			return
-		}
-		let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-		Auth.auth().signIn(with: credential) { [weak self] authResult, error in
-			self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
-				if let authUser = authResult?.user {
-					var alliePatient = CHPatient(user: authUser)
-					var name = PersonNameComponents()
-					if let givenName = user.profile.givenName {
-						name.givenName = givenName
-					}
-					if let familyName = user.profile.familyName {
-						name.familyName = familyName
-					}
-					if alliePatient?.profile.email == nil {
-						alliePatient?.profile.email = user.profile.email
-					}
-					self?.alliePatient = alliePatient
-				}
-				self?.checkIfUserExists(email: user.profile.email, user: authResult)
-			})
 		}
 	}
 }

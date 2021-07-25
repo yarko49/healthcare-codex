@@ -42,27 +42,6 @@ class CarePlanTests: XCTestCase {
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 	}
 
-	func testCarePlanResponseUpdate() throws {
-		let data = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
-		XCTAssertNotNil(data)
-		let decoder = CHJSONDecoder()
-		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
-		let careManager = CareManager.shared
-		let expect = expectation(description: "CreateOrUpdate")
-		careManager.process(carePlanResponse: carePlanResponse, completion: { result in
-			switch result {
-			case .failure(let error):
-				XCTFail(error.localizedDescription)
-			case .success:
-				XCTAssertNotNil(careManager.patient)
-				XCTAssertNotNil(careManager.patient?.uuid)
-				expect.fulfill()
-				ALog.info("did succeed")
-			}
-		})
-		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
-	}
-
 	func testCarePlanEncodeDecode() throws {
 		let data = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(data)

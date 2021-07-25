@@ -7,6 +7,7 @@
 
 import CareKitStore
 import Foundation
+import HealthKit
 
 extension OCKOutcome: AnyUserInfoExtensible, AnyItemDeletable {
 	init(outcome: CHOutcome) {
@@ -47,6 +48,8 @@ extension OCKOutcome: AnyUserInfoExtensible, AnyItemDeletable {
 			let dateString = DateFormatter.wholeDateRequest.string(from: date)
 			setUserInfo(string: dateString, forKey: "endDate")
 		}
+
+		setUserInfo(string: String(outcome.isUserEntered), forKey: HKMetadataKeyWasUserEntered)
 	}
 }
 
@@ -83,6 +86,9 @@ extension CHOutcome {
 		if let dateString = outcome.userInfo?["endDate"] {
 			self.endDate = DateFormatter.wholeDateRequest.date(from: dateString)
 		}
+		if let userEnteredString = outcome.userInfo?[HKMetadataKeyWasUserEntered] {
+			self.isUserEntered = Bool(userEnteredString) ?? false
+		}
 	}
 }
 
@@ -95,9 +101,6 @@ extension OCKOutcome {
 		existing.effectiveDate = newOutcome.effectiveDate
 		if newOutcome.deletedDate != nil {
 			existing.deletedDate = newOutcome.deletedDate
-		}
-		if newOutcome.createdDate != nil {
-			existing.createdDate = newOutcome.createdDate
 		}
 
 		if newOutcome.updatedDate != nil {
@@ -124,8 +127,10 @@ extension OCKOutcome {
 			existing.source = newOutcome.source
 		}
 
-		if newOutcome.userInfo != nil {
-			existing.userInfo = newOutcome.userInfo
+		if let userInfo = newOutcome.userInfo {
+			existing.userInfo?.merge(userInfo, uniquingKeysWith: { _, newValue in
+				newValue
+			})
 		}
 
 		if newOutcome.asset != nil {
