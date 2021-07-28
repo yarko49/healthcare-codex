@@ -34,6 +34,12 @@ class ConversationViewController: MessagesViewController {
 		return formatter
 	}()
 
+	deinit {
+		cancellables.forEach { cancellable in
+			cancellable.cancel()
+		}
+	}
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = NSLocalizedString("CHAT", comment: "Chat")
@@ -54,9 +60,18 @@ class ConversationViewController: MessagesViewController {
 			})
 		}
 		conversationsManager?.messagesDelegate = self
+
+		conversationsManager?.$codexUsers
+			.receive(on: DispatchQueue.main)
+			.sink(receiveValue: { _ in
+				self.messagesCollectionView.reloadData()
+			}).store(in: &cancellables)
+
 		if let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout {
 			layout.setMessageIncomingAvatarSize(.zero)
 			layout.setMessageOutgoingAvatarSize(.zero)
+			layout.setMessageOutgoingMessageTopLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 5, right: 8)))
+			layout.setMessageIncomingMessageTopLabelAlignment(LabelAlignment(textAlignment: .left, textInsets: UIEdgeInsets(top: 0, left: 8, bottom: 5, right: 0)))
 		}
 	}
 
@@ -116,23 +131,24 @@ extension ConversationViewController: MessagesDataSource {
 
 	func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
 		if indexPath.section % 3 == 0 {
-			return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+			return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.allieGray])
 		}
 		return nil
 	}
 
 	func cellBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-		NSAttributedString(string: "Read", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+		NSAttributedString(string: "Read", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.allieGray])
 	}
 
 	func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-		let name = message.sender.displayName
-		return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)])
+		let theMessage = message as? TCHMessage
+		let name = conversationsManager?.participantFriendlyName(identifier: theMessage?.author) ?? message.sender.displayName
+		return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1), .foregroundColor: UIColor.allieGray])
 	}
 
 	func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
 		let dateString = formatter.string(from: message.sentDate)
-		return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)])
+		return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2), .foregroundColor: UIColor.allieGray])
 	}
 }
 
@@ -145,6 +161,14 @@ extension ConversationViewController: MessagesDisplayDelegate {
 
 	func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
 		message.sender.senderId == patient?.id ? .allieWhite : .allieGray
+	}
+
+	func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+		20.0
+	}
+
+	func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+		20.0
 	}
 }
 

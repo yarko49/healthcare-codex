@@ -28,7 +28,7 @@ enum APIRouter {
 	case registerOrganization(CHOrganization)
 	case unregisterOrganization(CHOrganization)
 	case conversationsTokens
-	case postConversationsUsers(CHOrganization, [String])
+	case postConversationsUsers(String, [String])
 	case getCarePlan(option: CarePlanResponseType)
 	case postCarePlan(carePlanResponse: CHCarePlanResponse)
 	case postPatient(patient: CHPatient)
@@ -81,7 +81,7 @@ enum APIRouter {
 		case .conversationsTokens:
 			path += "/conversations"
 		case .postConversationsUsers(let organization, _):
-			path += "/conversations/\(organization.id)/users"
+			path += "/conversations/\(organization)/users"
 		case .getCarePlan, .postCarePlan, .postPatient:
 			path += "/carePlan"
 		case .postObservation:
