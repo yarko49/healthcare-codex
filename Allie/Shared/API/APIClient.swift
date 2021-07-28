@@ -17,7 +17,7 @@ protocol AllieAPI {
 	func unregisterOrganization(organization: CHOrganization) -> AnyPublisher<Bool, Never>
 	func getOrganizations() -> AnyPublisher<CHOrganizations, Never>
 	func getConservationsTokens() -> AnyPublisher<CHConversationsTokens, Error>
-	func postConservationsUsers(organization: CHOrganization, users: [String]) -> AnyPublisher<CHConversationsUsers, Error>
+	func postConservationsUsers(organizationId: String, users: [String]) -> AnyPublisher<CHConversationsUsers, Error>
 	func getCarePlan(option: CarePlanResponseType) -> AnyPublisher<CHCarePlanResponse, Error>
 	func post(carePlanResponse: CHCarePlanResponse) -> AnyPublisher<UInt64, Error>
 	func post(bundle: ModelsR4.Bundle) -> AnyPublisher<ModelsR4.Bundle, Error>
@@ -101,8 +101,8 @@ public final class APIClient: AllieAPI {
 		webService.decodable(route: .conversationsTokens)
 	}
 
-	func postConservationsUsers(organization: CHOrganization, users: [String]) -> AnyPublisher<CHConversationsUsers, Error> {
-		webService.decodable(route: .postConversationsUsers(organization, users))
+	func postConservationsUsers(organizationId: String, users: [String]) -> AnyPublisher<CHConversationsUsers, Error> {
+		webService.decodable(route: .postConversationsUsers(organizationId, users))
 	}
 
 	func getCarePlan(option: CarePlanResponseType = .carePlan) -> AnyPublisher<CHCarePlanResponse, Error> {

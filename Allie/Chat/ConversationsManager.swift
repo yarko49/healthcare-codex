@@ -32,7 +32,12 @@ class ConversationsManager: NSObject, ObservableObject {
 	weak var messagesDelegate: ConversationMessagesDelegate?
 	@Published private(set) var client: TwilioConversationsClient?
 	@Published private(set) var conversations: Set<TCHConversation> = []
-	@Published private(set) var messages: [String: [TCHMessage]] = [:]
+	@Published private(set) var messages: [String: [TCHMessage]] = [:] {
+		didSet {
+			getCodexUsers()
+		}
+	}
+
 	@Published private(set) var codexUsers: [String: CHConversationsUser] = [:]
 	private var conversationTokens: CHConversationsTokens?
 
@@ -102,17 +107,39 @@ class ConversationsManager: NSObject, ObservableObject {
 			}.store(in: &cancellables)
 	}
 
-	func getCodexUsers() {
-		var identifiers: [String] = []
-		for (_, value) in messages {
-			let ids = value.compactMap { message in
-				message.sender.senderId
-			}
-			identifiers.append(contentsOf: ids)
+	func participantFriendlyName(identifier: String?) -> String? {
+		guard let id = identifier else {
+			return nil
 		}
-		guard !identifiers.isEmpty else {
+		return codexUsers[id]?.name
+	}
+
+	func getCodexUsers() {
+		var identifiers: Set<String> = []
+		for (_, value) in messages {
+			let ids: [String] = value.compactMap { message in
+				let author: String = message.author ?? ""
+				return self.codexUsers[author] == nil ? author : nil
+			}
+			if !ids.isEmpty {
+				identifiers = identifiers.union(Set(ids))
+			}
+		}
+		guard let conversationToken = conversationTokens?.tokens.first, !identifiers.isEmpty else {
 			return
 		}
+
+		APIClient.shared.postConservationsUsers(organizationId: conversationToken.id, users: Array(identifiers))
+			.sink { completionResult in
+				if case .failure(let error) = completionResult {
+					ALog.error("unable to get users \(error.localizedDescription)")
+				}
+			} receiveValue: { [weak self] users in
+				let usersByKey = users.usersByKey
+				self?.codexUsers.merge(usersByKey) { _, newValue in
+					newValue
+				}
+			}.store(in: &cancellables)
 	}
 
 	func login(token: CHConversationsTokens.Token?, completion: @escaping AllieResultCompletion<Bool>) {
