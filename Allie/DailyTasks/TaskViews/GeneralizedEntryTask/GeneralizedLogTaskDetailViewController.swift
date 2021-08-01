@@ -115,7 +115,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			value = "\(Int(doubleValue))"
 		}
 		let date = outcomeValue?.createdDate
-		cell.configure(placeHolder: "\(placeholder)", value: value, unitTitle: unit?.unitString ?? "", date: date)
+		cell.configure(placeHolder: "\(placeholder)", value: value, unitTitle: unit?.unitString ?? "", date: date, isActive: true)
 	}
 
 	private func configure(multiValueEntryView cell: MultiValueEntryView?) {
@@ -131,6 +131,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 				cell?.leadingEntryView.isHidden = false
 				cell?.leadingEntryView.textField.placeholder = "\(value.integerValue ?? 0)"
 				cell?.leadingEntryView.textLabel.text = value.units
+				cell?.leadingEntryView.textField.becomeFirstResponder()
 			} else if index == 1 {
 				cell?.trailingEntryView.isHidden = false
 				cell?.trailingEntryView.textField.placeholder = "\(value.integerValue ?? 0)"
@@ -152,11 +153,13 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		if targetValues[0].kind == "systolic" {
 			cell?.leadingEntryView.textField.placeholder = "\(targetValues[0].integerValue ?? 0)"
 			cell?.leadingEntryView.textLabel.text = targetValues[0].units
+			cell?.leadingEntryView.textField.becomeFirstResponder()
 			cell?.trailingEntryView.textField.placeholder = "\(targetValues[1].integerValue ?? 0)"
 			cell?.trailingEntryView.textLabel.text = targetValues[1].units
 		} else {
 			cell?.leadingEntryView.textField.placeholder = "\(targetValues[1].integerValue ?? 0)"
 			cell?.leadingEntryView.textLabel.text = targetValues[1].units
+			cell?.leadingEntryView.textField.becomeFirstResponder()
 			cell?.trailingEntryView.textField.placeholder = "\(targetValues[0].integerValue ?? 0)"
 			cell?.trailingEntryView.textLabel.text = targetValues[0].units
 		}

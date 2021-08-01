@@ -110,7 +110,7 @@ class GeneralizedLogTaskView: OCKView, OCKTaskDisplayable {
 		item.addTarget(self, action: #selector(itemTapped(_:)), for: .touchUpInside)
 		item.titleLabel.text = title
 		item.detailLabel.text = detail
-		item.imageView.image = canDelete ? UIImage(named: "icon-edit") : UIImage(named: "icon-lock-fill")
+		item.imageView.image = canDelete ? UIImage(systemName: "trash") : UIImage(named: "icon-lock-fill")
 		item.accessibilityLabel = (detail ?? "") + " " + (title ?? "")
 		item.accessibilityHint = loc("DOUBLE_TAP_TO_REMOVE_EVENT")
 		return item

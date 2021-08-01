@@ -285,7 +285,7 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
 		inputBar.inputTextView.resignFirstResponder()
 
 		conversationsManager?.send(message: text, for: conversation, completion: { result in
-			DispatchQueue.main.async { [weak self] in
+			DispatchQueue.main.async {
 				inputBar.sendButton.stopAnimating()
 				switch result {
 				case .failure(let error):
@@ -298,6 +298,4 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
 			}
 		})
 	}
-
-	private func insertMessages(_ data: [Any]) {}
 }

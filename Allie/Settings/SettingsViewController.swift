@@ -117,32 +117,34 @@ extension SettingsViewController: UITableViewDelegate {
 		profileEntryViewController.controllerViewMode = .settings
 		profileEntryViewController.doneButtonTitle = NSLocalizedString("SAVE", comment: "Save")
 		profileEntryViewController.patient = CareManager.shared.patient
-		profileEntryViewController.doneAction = {
-			var alliePatient = CareManager.shared.patient
-			alliePatient?.name = profileEntryViewController.name
-			alliePatient?.profile.email = profileEntryViewController.emailTextField.text
-			alliePatient?.sex = profileEntryViewController.sex
-			alliePatient?.updatedDate = Date()
-			alliePatient?.birthday = profileEntryViewController.dateOfBirth
-			alliePatient?.profile.weightInPounds = profileEntryViewController.weightInPounds
-			alliePatient?.profile.heightInInches = profileEntryViewController.heightInInches
-			self.navigationController?.popViewController(animated: true)
-			if let patient = alliePatient {
-				self.hud.show(in: self.view)
-				APIClient.shared.post(patient: patient)
-					.sink(receiveCompletion: { result in
-						if case .failure(let error) = result {
-							ALog.error("\(error.localizedDescription)")
-							let okAction = AlertHelper.AlertAction(withTitle: String.ok)
-							AlertHelper.showAlert(title: String.error, detailText: error.localizedDescription, actions: [okAction])
-						}
-					}, receiveValue: { carePlanResponse in
-						if let patient = carePlanResponse.patients.first {
-							CareManager.shared.patient = patient
-							Keychain.userEmail = patient.profile.email
-						}
-					}).store(in: &self.cancellables)
+		profileEntryViewController.doneAction = { [weak self] in
+			guard let strongSelf = self else {
+				return
 			}
+			var alliePatient = CareManager.shared.patient ?? CHPatient(id: Keychain.userIdentifier ?? "", name: PersonNameComponents())
+			alliePatient.name = profileEntryViewController.name
+			alliePatient.profile.email = profileEntryViewController.emailTextField.text
+			alliePatient.sex = profileEntryViewController.sex
+			alliePatient.updatedDate = Date()
+			alliePatient.birthday = profileEntryViewController.dateOfBirth
+			alliePatient.profile.weightInPounds = profileEntryViewController.weightInPounds
+			alliePatient.profile.heightInInches = profileEntryViewController.heightInInches
+			strongSelf.hud.show(in: strongSelf.view)
+			APIClient.shared.post(patient: alliePatient)
+				.sink(receiveCompletion: { result in
+					if case .failure(let error) = result {
+						ALog.error("\(error.localizedDescription)")
+						let okAction = AlertHelper.AlertAction(withTitle: String.ok)
+						AlertHelper.showAlert(title: String.error, detailText: error.localizedDescription, actions: [okAction])
+					}
+					strongSelf.hud.dismiss()
+					strongSelf.navigationController?.popViewController(animated: true)
+				}, receiveValue: { carePlanResponse in
+					if let patient = carePlanResponse.patients.first {
+						CareManager.shared.patient = patient
+						Keychain.userEmail = patient.profile.email
+					}
+				}).store(in: &strongSelf.cancellables)
 		}
 		navigationController?.show(profileEntryViewController, sender: self)
 	}

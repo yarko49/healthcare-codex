@@ -70,46 +70,46 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 		}
 	}
 
-	override func taskView(_ taskView: UIView & OCKTaskDisplayable, didSelectOutcomeValueAt index: Int, eventIndexPath: IndexPath, sender: Any?) {
-		do {
-			_ = try controller.validatedViewModel()
-			let event = try controller.validatedEvent(forIndexPath: eventIndexPath)
-			guard let outcome = event.outcome, index < outcome.values.count else {
-				throw AllieError.missing("No Outcome Value for Event at index \(index)")
-			}
-
-			if let hkOutcome = outcome as? OCKHealthKitOutcome, hkOutcome.isOwnedByApp == false {
-				throw AllieError.forbidden("Cannot delete this outcome")
-			}
-
-			guard let healthKitTask = healthKitTask else {
-				throw AllieError.missing("HealthKit task is missing")
-			}
-
-			let viewController = GeneralizedLogTaskDetailViewController()
-			viewController.task = healthKitTask
-			viewController.modalPresentationStyle = .overFullScreen
-			viewController.saveAction = { [weak viewController] in
-				viewController?.dismiss(animated: true, completion: nil)
-			}
-
-			viewController.cancelAction = { [weak viewController] in
-				viewController?.dismiss(animated: true, completion: nil)
-			}
-
-			viewController.deleteAction = { [weak viewController] in
-				viewController?.dismiss(animated: true, completion: {
-					super.taskView(taskView, didSelectOutcomeValueAt: index, eventIndexPath: eventIndexPath, sender: sender)
-				})
-			}
-
-			viewController.outcome = outcome
-			tabBarController?.showDetailViewController(viewController, sender: self)
-		} catch {
-			if delegate == nil {
-				ALog.error("A task error occurred, but no delegate was set to forward it to!", error: error)
-			}
-			delegate?.taskViewController(self, didEncounterError: error)
-		}
-	}
+//	override func taskView(_ taskView: UIView & OCKTaskDisplayable, didSelectOutcomeValueAt index: Int, eventIndexPath: IndexPath, sender: Any?) {
+//		do {
+//			_ = try controller.validatedViewModel()
+//			let event = try controller.validatedEvent(forIndexPath: eventIndexPath)
+//			guard let outcome = event.outcome, index < outcome.values.count else {
+//				throw AllieError.missing("No Outcome Value for Event at index \(index)")
+//			}
+//
+//			if let hkOutcome = outcome as? OCKHealthKitOutcome, hkOutcome.isOwnedByApp == false {
+//				throw AllieError.forbidden("Cannot delete this outcome")
+//			}
+//
+//			guard let healthKitTask = healthKitTask else {
+//				throw AllieError.missing("HealthKit task is missing")
+//			}
+//
+//			let viewController = GeneralizedLogTaskDetailViewController()
+//			viewController.task = healthKitTask
+//			viewController.modalPresentationStyle = .overFullScreen
+//			viewController.saveAction = { [weak viewController] in
+//				viewController?.dismiss(animated: true, completion: nil)
+//			}
+//
+//			viewController.cancelAction = { [weak viewController] in
+//				viewController?.dismiss(animated: true, completion: nil)
+//			}
+//
+//			viewController.deleteAction = { [weak viewController] in
+//				viewController?.dismiss(animated: true, completion: {
+//					super.taskView(taskView, didSelectOutcomeValueAt: index, eventIndexPath: eventIndexPath, sender: sender)
+//				})
+//			}
+//
+//			viewController.outcome = outcome
+//			tabBarController?.showDetailViewController(viewController, sender: self)
+//		} catch {
+//			if delegate == nil {
+//				ALog.error("A task error occurred, but no delegate was set to forward it to!", error: error)
+//			}
+//			delegate?.taskViewController(self, didEncounterError: error)
+//		}
+//	}
 }
