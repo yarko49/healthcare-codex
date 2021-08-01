@@ -58,11 +58,14 @@ class TimeValueEntryView: UIView {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	func configure(placeHolder: String, value: String?, unitTitle: String, date: Date?) {
+	func configure(placeHolder: String, value: String?, unitTitle: String, date: Date?, isActive: Bool) {
 		datePicker.date = date ?? Date()
 		labelEntry.textField.placeholder = placeHolder
 		labelEntry.textLabel.text = unitTitle
 		labelEntry.textField.text = value
+		if isActive {
+			labelEntry.textField.becomeFirstResponder()
+		}
 	}
 
 	func values() -> (String, Date) {

@@ -62,7 +62,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 		NSLayoutConstraint.activate([bottomButton.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: bottomButton.trailingAnchor, multiplier: 2.0),
 		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: bottomButton.bottomAnchor, multiplier: 2.0)])
-		bottomButton.addTarget(self, action: #selector(done), for: .touchUpInside)
+		bottomButton.addTarget(self, action: #selector(save(_:)), for: .touchUpInside)
 		bottomButton.setTitle(doneButtonTitle, for: .normal)
 		bottomButton.backgroundColor = .allieGray
 		firstNameTextField.addTarget(self, action: #selector(firstNameDidChange(_:)), for: .editingChanged)
@@ -352,7 +352,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 		weightPickerView.isHidden = false
 	}
 
-	@IBAction func done() {
+	@IBAction func save(_ sender: Any?) {
 		doneAction?()
 	}
 

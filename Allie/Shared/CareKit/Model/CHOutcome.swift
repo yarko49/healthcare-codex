@@ -32,7 +32,7 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 	public var endDate: Date?
 	public var device: CHDevice?
 	public var sourceRevision: CHSourceRevision?
-	public var isUserEntered: Bool
+	public var isBluetoothCollected: Bool
 
 	private enum CodingKeys: String, CodingKey {
 		case uuid
@@ -58,7 +58,7 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 		case device
 		case sourceRevision
 		case sampleSource
-		case isUserEntered = "userEntered"
+		case isBluetoothCollected = "bluetoothCollected"
 	}
 
 	public var id: String { taskUUID.uuidString + "_\(taskOccurrenceIndex)" }
@@ -73,7 +73,7 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 		self.createdDate = Date()
 		self.effectiveDate = Date()
 		self.timezone = .current
-		self.isUserEntered = false
+		self.isBluetoothCollected = false
 	}
 
 	public init(from decoder: Decoder) throws {
@@ -100,7 +100,7 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 		self.endDate = try container.decodeIfPresent(Date.self, forKey: .endDate)
 		self.device = try container.decodeIfPresent(CHDevice.self, forKey: .device)
 		self.sourceRevision = try container.decodeIfPresent(CHSourceRevision.self, forKey: .sourceRevision)
-		self.isUserEntered = try container.decodeIfPresent(Bool.self, forKey: .isUserEntered) ?? false
+		self.isBluetoothCollected = try container.decodeIfPresent(Bool.self, forKey: .isBluetoothCollected) ?? false
 	}
 
 	public func encode(to encoder: Encoder) throws {
@@ -127,6 +127,6 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 		try container.encodeIfPresent(endDate, forKey: .endDate)
 		try container.encodeIfPresent(device, forKey: .device)
 		try container.encodeIfPresent(sourceRevision, forKey: .sourceRevision)
-		try container.encode(isUserEntered, forKey: .isUserEntered)
+		try container.encode(isBluetoothCollected, forKey: .isBluetoothCollected)
 	}
 }

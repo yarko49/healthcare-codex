@@ -16,7 +16,6 @@ import UIKit
 
 class AuthCoordinator: BaseCoordinator {
 	weak var parent: MainCoordinator?
-
 	var currentNonce: String?
 	var authorizationFlowType: AuthorizationFlowType = .signUp
 	var alliePatient: CHPatient?
@@ -227,14 +226,19 @@ class AuthCoordinator: BaseCoordinator {
 
 	func gotoProfileEntryViewController(from screen: NavigationSourceType = .signUp) {
 		let viewController = ProfileEntryViewController()
+		if alliePatient == nil {
+			alliePatient = CHPatient(user: Auth.auth().currentUser)
+		}
 		viewController.patient = alliePatient
 		viewController.doneAction = { [weak self] in
-			self?.alliePatient?.name = viewController.name
-			self?.alliePatient?.sex = viewController.sex
-			self?.alliePatient?.updatedDate = Date()
-			self?.alliePatient?.birthday = viewController.dateOfBirth
-			self?.alliePatient?.profile.weightInPounds = viewController.weightInPounds
-			self?.alliePatient?.profile.heightInInches = viewController.heightInInches
+			var patient = self?.alliePatient ?? CHPatient(user: Auth.auth().currentUser)
+			patient?.name = viewController.name
+			patient?.sex = viewController.sex
+			patient?.updatedDate = Date()
+			patient?.birthday = viewController.dateOfBirth
+			patient?.profile.weightInPounds = viewController.weightInPounds
+			patient?.profile.heightInInches = viewController.heightInInches
+			self?.alliePatient = patient
 			self?.createPatient()
 		}
 		navigate(to: viewController, with: .push)
