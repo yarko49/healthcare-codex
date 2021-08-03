@@ -71,6 +71,9 @@
 		842F966A26915C8D0041237F /* CHParticipant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F966926915C8D0041237F /* CHParticipant.swift */; };
 		842F966B26915C8D0041237F /* CHParticipant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F966926915C8D0041237F /* CHParticipant.swift */; };
 		842F966C26915C8D0041237F /* CHParticipant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F966926915C8D0041237F /* CHParticipant.swift */; };
+		843004CB26B773550004CB3E /* Mutex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843004CA26B773550004CB3E /* Mutex.swift */; };
+		843004CC26B773550004CB3E /* Mutex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843004CA26B773550004CB3E /* Mutex.swift */; };
+		843004CD26B773550004CB3E /* Mutex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843004CA26B773550004CB3E /* Mutex.swift */; };
 		8431136A262E87F300561329 /* SkyFloatingLabelTextField in Frameworks */ = {isa = PBXBuildFile; productRef = 84311369262E87F300561329 /* SkyFloatingLabelTextField */; };
 		843372E2264F9B20005BED99 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 843372E1264F9B20005BED99 /* SDWebImage */; };
 		84342FD025A8276C00B3EF5B /* DailyTasksPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84342FCF25A8276C00B3EF5B /* DailyTasksPageViewController.swift */; };
@@ -136,7 +139,6 @@
 		844767AD259C2A4E00C50C09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 844766CF259C2A4E00C50C09 /* Assets.xcassets */; };
 		844767AE259C2A4E00C50C09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844766D0259C2A4E00C50C09 /* LaunchScreen.storyboard */; };
 		844767AF259C2A4E00C50C09 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 844766D2259C2A4E00C50C09 /* Localizable.strings */; };
-		844767C2259C2A4E00C50C09 /* RemoteSynchronizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766E8259C2A4E00C50C09 /* RemoteSynchronizationManager.swift */; };
 		844767C6259C2A4E00C50C09 /* KeyedDecodingContainer+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766ED259C2A4E00C50C09 /* KeyedDecodingContainer+Custom.swift */; };
 		844767C7259C2A4E00C50C09 /* CHPatient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766EE259C2A4E00C50C09 /* CHPatient.swift */; };
 		844767C8259C2A4E00C50C09 /* CHCarePlanResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766EF259C2A4E00C50C09 /* CHCarePlanResponse.swift */; };
@@ -421,7 +423,6 @@
 		847DCCA7265871F3004E9C1D /* HealthKitQuantityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766FD259C2A4E00C50C09 /* HealthKitQuantityType.swift */; };
 		847DCCA8265871F3004E9C1D /* CHTask+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* CHTask+OCKHealthKitTask.swift */; };
 		847DCCA9265871F3004E9C1D /* FeaturedContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487482F25B3E622008C15E2 /* FeaturedContentViewController.swift */; };
-		847DCCAA265871F3004E9C1D /* RemoteSynchronizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766E8259C2A4E00C50C09 /* RemoteSynchronizationManager.swift */; };
 		847DCCAB265871F3004E9C1D /* NotificationSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BE62607FA79008BB83E /* NotificationSettingsController.swift */; };
 		847DCCAC265871F3004E9C1D /* CHJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476711259C2A4E00C50C09 /* CHJSONDecoder.swift */; };
 		847DCCAD265871F3004E9C1D /* DeviceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845FBE8E25FC7C9200472257 /* DeviceFactory.swift */; };
@@ -520,6 +521,12 @@
 		84A8085E269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8085D269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift */; };
 		84A8085F269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8085D269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift */; };
 		84A80860269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8085D269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift */; };
+		84A8F4F826B754FE00A62818 /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8F4F726B754FE00A62818 /* ReadWriteLock.swift */; };
+		84A8F4F926B754FE00A62818 /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8F4F726B754FE00A62818 /* ReadWriteLock.swift */; };
+		84A8F4FA26B754FE00A62818 /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8F4F726B754FE00A62818 /* ReadWriteLock.swift */; };
+		84A8F50426B76AE700A62818 /* InflightIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8F50326B76AE700A62818 /* InflightIdentifiers.swift */; };
+		84A8F50526B76AE700A62818 /* InflightIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8F50326B76AE700A62818 /* InflightIdentifiers.swift */; };
+		84A8F50626B76AE700A62818 /* InflightIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8F50326B76AE700A62818 /* InflightIdentifiers.swift */; };
 		84A9202B26858DE300A52412 /* ConnectProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9202A26858DE300A52412 /* ConnectProviderViewController.swift */; };
 		84A9202C26858DE300A52412 /* ConnectProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9202A26858DE300A52412 /* ConnectProviderViewController.swift */; };
 		84A9202D26858DE300A52412 /* ConnectProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9202A26858DE300A52412 /* ConnectProviderViewController.swift */; };
@@ -749,7 +756,6 @@
 		84D122D2264112DE00990196 /* HealthKitQuantityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766FD259C2A4E00C50C09 /* HealthKitQuantityType.swift */; };
 		84D122D3264112DE00990196 /* CHTask+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* CHTask+OCKHealthKitTask.swift */; };
 		84D122D4264112DE00990196 /* FeaturedContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487482F25B3E622008C15E2 /* FeaturedContentViewController.swift */; };
-		84D122D5264112DE00990196 /* RemoteSynchronizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766E8259C2A4E00C50C09 /* RemoteSynchronizationManager.swift */; };
 		84D122D6264112DE00990196 /* NotificationSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BE62607FA79008BB83E /* NotificationSettingsController.swift */; };
 		84D122D7264112DE00990196 /* CHJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476711259C2A4E00C50C09 /* CHJSONDecoder.swift */; };
 		84D122D8264112DE00990196 /* DeviceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845FBE8E25FC7C9200472257 /* DeviceFactory.swift */; };
@@ -899,6 +905,7 @@
 		842F907825AE8DFD007421A6 /* OCKTask+CareKitUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKTask+CareKitUI.swift"; sourceTree = "<group>"; };
 		842F908D25AEB56D007421A6 /* CHPatient+RemoteUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHPatient+RemoteUser.swift"; sourceTree = "<group>"; };
 		842F966926915C8D0041237F /* CHParticipant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHParticipant.swift; sourceTree = "<group>"; };
+		843004CA26B773550004CB3E /* Mutex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mutex.swift; sourceTree = "<group>"; };
 		84342FCF25A8276C00B3EF5B /* DailyTasksPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTasksPageViewController.swift; sourceTree = "<group>"; };
 		84344D38266AEC8D00DD4A7A /* Info-qa.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-qa.plist"; sourceTree = "<group>"; };
 		84344D39266AEC8D00DD4A7A /* Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-dev.plist"; sourceTree = "<group>"; };
@@ -956,7 +963,6 @@
 		844766CF259C2A4E00C50C09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		844766D1259C2A4E00C50C09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		844766D3259C2A4E00C50C09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
-		844766E8259C2A4E00C50C09 /* RemoteSynchronizationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteSynchronizationManager.swift; sourceTree = "<group>"; };
 		844766EB259C2A4E00C50C09 /* CHOutcomeValue+OCKOutcomeValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CHOutcomeValue+OCKOutcomeValue.swift"; sourceTree = "<group>"; };
 		844766ED259C2A4E00C50C09 /* KeyedDecodingContainer+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KeyedDecodingContainer+Custom.swift"; sourceTree = "<group>"; };
 		844766EE259C2A4E00C50C09 /* CHPatient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHPatient.swift; sourceTree = "<group>"; };
@@ -1069,6 +1075,8 @@
 		84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareKitStoreTests.swift; sourceTree = "<group>"; };
 		84A80859269BD7840012028C /* HKBloodGlucoseMealTime+Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKBloodGlucoseMealTime+Display.swift"; sourceTree = "<group>"; };
 		84A8085D269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKDiscreteQuantitySample+BloodGlucose.swift"; sourceTree = "<group>"; };
+		84A8F4F726B754FE00A62818 /* ReadWriteLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadWriteLock.swift; sourceTree = "<group>"; };
+		84A8F50326B76AE700A62818 /* InflightIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InflightIdentifiers.swift; sourceTree = "<group>"; };
 		84A9202A26858DE300A52412 /* ConnectProviderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectProviderViewController.swift; sourceTree = "<group>"; };
 		84A9202E26858E0400A52412 /* ConnectProviderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectProviderView.swift; sourceTree = "<group>"; };
 		84A92032268599DA00A52412 /* SelectProviderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProviderViewController.swift; sourceTree = "<group>"; };
@@ -1305,8 +1313,8 @@
 			isa = PBXGroup;
 			children = (
 				84344D3E266AED0C00DD4A7A /* CareManager.swift */,
+				84A8F50326B76AE700A62818 /* InflightIdentifiers.swift */,
 				84749FBA26313B4200D7D7A8 /* CareManager+HealthKitSynchronization.swift */,
-				844766E8259C2A4E00C50C09 /* RemoteSynchronizationManager.swift */,
 				84C212A02660B3AC000D491B /* CareManager+FeatureContent.swift */,
 			);
 			path = CareManager;
@@ -1763,6 +1771,8 @@
 			isa = PBXGroup;
 			children = (
 				841A771B2652348C000913A9 /* Operations */,
+				84A8F4F726B754FE00A62818 /* ReadWriteLock.swift */,
+				843004CA26B773550004CB3E /* Mutex.swift */,
 				84476711259C2A4E00C50C09 /* CHJSONDecoder.swift */,
 				84F47F6426412CAB009CC791 /* JSONDecoder+iso8601.swift */,
 				84F47F6726412F15009CC791 /* JSONEncoder+iso8601.swift */,
@@ -1983,7 +1993,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 842398F1259C1145006FB3F4 /* Build configuration list for PBXNativeTarget "Allie" */;
 			buildPhases = (
-				848E161E259C3F6A00412E2B /* Swift Format */,
 				848E161F259C3F8600412E2B /* Swift Lint */,
 				842398C3259C1144006FB3F4 /* Sources */,
 				842398C4259C1144006FB3F4 /* Frameworks */,
@@ -2031,6 +2040,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 842398F4259C1145006FB3F4 /* Build configuration list for PBXNativeTarget "AllieTests" */;
 			buildPhases = (
+				84C0D02626B8FB8F004A9827 /* Swift Format */,
 				842398D9259C1144006FB3F4 /* Sources */,
 				842398DA259C1144006FB3F4 /* Frameworks */,
 				842398DB259C1144006FB3F4 /* Resources */,
@@ -2067,7 +2077,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 847DCCDE265871F3004E9C1D /* Build configuration list for PBXNativeTarget "Allie Dev" */;
 			buildPhases = (
-				847DCBF0265871F3004E9C1D /* Swift Format */,
 				847DCBF1265871F3004E9C1D /* Swift Lint */,
 				847DCBF2265871F3004E9C1D /* Sources */,
 				847DCCB0265871F3004E9C1D /* Frameworks */,
@@ -2115,7 +2124,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84D12306264112DE00990196 /* Build configuration list for PBXNativeTarget "Allie QA" */;
 			buildPhases = (
-				84D12222264112DE00990196 /* Swift Format */,
 				84D12223264112DE00990196 /* Swift Lint */,
 				84D12224264112DE00990196 /* Sources */,
 				84D122DB264112DE00990196 /* Frameworks */,
@@ -2352,24 +2360,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${BUILD_DIR%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\n";
 		};
-		847DCBF0265871F3004E9C1D /* Swift Format */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Swift Format";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftformat >/dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
-		};
 		847DCBF1265871F3004E9C1D /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2426,24 +2416,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${BUILD_DIR%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\n";
 		};
-		848E161E259C3F6A00412E2B /* Swift Format */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Swift Format";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftformat >/dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
-		};
 		848E161F259C3F8600412E2B /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2482,7 +2454,7 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${BUILD_DIR%%Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
-		84D12222264112DE00990196 /* Swift Format */ = {
+		84C0D02626B8FB8F004A9827 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2581,6 +2553,7 @@
 				84476795259C2A4E00C50C09 /* SearchParameter.swift in Sources */,
 				844767DC259C2A4E00C50C09 /* CoordinatorType.swift in Sources */,
 				8437270C25F8989C005B2C5C /* Notification+Names.swift in Sources */,
+				84A8F50426B76AE700A62818 /* InflightIdentifiers.swift in Sources */,
 				84D2BFD1260460D30064DB08 /* AnyUserInfoExtensible.swift in Sources */,
 				844767C6259C2A4E00C50C09 /* KeyedDecodingContainer+Custom.swift in Sources */,
 				84A9202B26858DE300A52412 /* ConnectProviderViewController.swift in Sources */,
@@ -2742,6 +2715,7 @@
 				844EE89D262D3B05001B2D9E /* SeparatorView.swift in Sources */,
 				84D3F68D264A4BB700241BBB /* ScheduleUtility.swift in Sources */,
 				844767CC259C2A4E00C50C09 /* CHTask+OCKTask.swift in Sources */,
+				843004CB26B773550004CB3E /* Mutex.swift in Sources */,
 				845F8BA22647618300999091 /* String+Capitalizing.swift in Sources */,
 				84CF2DA2261ACAA30080293F /* ButtonView.swift in Sources */,
 				8447672B259C2A4E00C50C09 /* CustomYAxisRenderer.swift in Sources */,
@@ -2749,6 +2723,7 @@
 				84E4661025A0453C00A10F8B /* ViewNIBLoading.swift in Sources */,
 				844767DF259C2A4E00C50C09 /* AppCoordinator.swift in Sources */,
 				845F18992632444F005A601A /* CHDevice.swift in Sources */,
+				84A8F4F826B754FE00A62818 /* ReadWriteLock.swift in Sources */,
 				8426167E269A70DD006BD8B0 /* GeneralizedLogTaskController.swift in Sources */,
 				845B4543269BA17B00EC5211 /* OCKOutcomeValue+LogItem.swift in Sources */,
 				84230BE12607243A008BB83E /* DevicesSelectionViewController.swift in Sources */,
@@ -2763,7 +2738,6 @@
 				846E0A7D26A5455700DC4743 /* OCKOutcome+LogItem.swift in Sources */,
 				84C39A4E25B172640063D92C /* CHTask+OCKHealthKitTask.swift in Sources */,
 				8487483025B3E622008C15E2 /* FeaturedContentViewController.swift in Sources */,
-				844767C2259C2A4E00C50C09 /* RemoteSynchronizationManager.swift in Sources */,
 				84230BE72607FA79008BB83E /* NotificationSettingsController.swift in Sources */,
 				844767E2259C2A4E00C50C09 /* CHJSONDecoder.swift in Sources */,
 				845FBE8F25FC7C9200472257 /* DeviceFactory.swift in Sources */,
@@ -2846,6 +2820,7 @@
 				847DCC0C265871F3004E9C1D /* CoordinatorType.swift in Sources */,
 				847DCC0D265871F3004E9C1D /* Notification+Names.swift in Sources */,
 				847DCC0F265871F3004E9C1D /* AnyUserInfoExtensible.swift in Sources */,
+				84A8F50626B76AE700A62818 /* InflightIdentifiers.swift in Sources */,
 				847DCC10265871F3004E9C1D /* KeyedDecodingContainer+Custom.swift in Sources */,
 				847DCC11265871F3004E9C1D /* ConversationViewController.swift in Sources */,
 				84A9202D26858DE300A52412 /* ConnectProviderViewController.swift in Sources */,
@@ -3007,6 +2982,7 @@
 				847DCC95265871F3004E9C1D /* CHTask+OCKTask.swift in Sources */,
 				847DCC96265871F3004E9C1D /* String+Capitalizing.swift in Sources */,
 				847DCC97265871F3004E9C1D /* ButtonView.swift in Sources */,
+				843004CD26B773550004CB3E /* Mutex.swift in Sources */,
 				847DCC98265871F3004E9C1D /* CustomYAxisRenderer.swift in Sources */,
 				847DCC99265871F3004E9C1D /* OutcomesUploadOperation.swift in Sources */,
 				847DCC9A265871F3004E9C1D /* ViewNIBLoading.swift in Sources */,
@@ -3014,6 +2990,7 @@
 				847DCC9E265871F3004E9C1D /* CHDevice.swift in Sources */,
 				84703C5C265B4B510025A50D /* AuthenticationToken.swift in Sources */,
 				84261680269A70DD006BD8B0 /* GeneralizedLogTaskController.swift in Sources */,
+				84A8F4FA26B754FE00A62818 /* ReadWriteLock.swift in Sources */,
 				845B4545269BA17B00EC5211 /* OCKOutcomeValue+LogItem.swift in Sources */,
 				847DCCA0265871F3004E9C1D /* DevicesSelectionViewController.swift in Sources */,
 				847DCCA2265871F3004E9C1D /* DateFormatter+Formatters.swift in Sources */,
@@ -3028,7 +3005,6 @@
 				846E0A7F26A5455700DC4743 /* OCKOutcome+LogItem.swift in Sources */,
 				840D1BF3265CCAE1000C9DB7 /* HKQuantityTypeIdentifier+Image.swift in Sources */,
 				847DCCA9265871F3004E9C1D /* FeaturedContentViewController.swift in Sources */,
-				847DCCAA265871F3004E9C1D /* RemoteSynchronizationManager.swift in Sources */,
 				847DCCAB265871F3004E9C1D /* NotificationSettingsController.swift in Sources */,
 				847DCCAC265871F3004E9C1D /* CHJSONDecoder.swift in Sources */,
 				847DCCAD265871F3004E9C1D /* DeviceFactory.swift in Sources */,
@@ -3078,6 +3054,7 @@
 				84D1223E264112DE00990196 /* CoordinatorType.swift in Sources */,
 				84D1223F264112DE00990196 /* Notification+Names.swift in Sources */,
 				84D12240264112DE00990196 /* AnyUserInfoExtensible.swift in Sources */,
+				84A8F50526B76AE700A62818 /* InflightIdentifiers.swift in Sources */,
 				84D12241264112DE00990196 /* KeyedDecodingContainer+Custom.swift in Sources */,
 				84D12242264112DE00990196 /* ConversationViewController.swift in Sources */,
 				84A9202C26858DE300A52412 /* ConnectProviderViewController.swift in Sources */,
@@ -3239,6 +3216,7 @@
 				84D122C3264112DE00990196 /* CHTask+OCKTask.swift in Sources */,
 				845F8BA32647618300999091 /* String+Capitalizing.swift in Sources */,
 				84D122C4264112DE00990196 /* ButtonView.swift in Sources */,
+				843004CC26B773550004CB3E /* Mutex.swift in Sources */,
 				84D122C5264112DE00990196 /* CustomYAxisRenderer.swift in Sources */,
 				841A77332652348C000913A9 /* OutcomesUploadOperation.swift in Sources */,
 				84D122C6264112DE00990196 /* ViewNIBLoading.swift in Sources */,
@@ -3246,6 +3224,7 @@
 				84D122C9264112DE00990196 /* CHDevice.swift in Sources */,
 				84703C5B265B4B510025A50D /* AuthenticationToken.swift in Sources */,
 				8426167F269A70DD006BD8B0 /* GeneralizedLogTaskController.swift in Sources */,
+				84A8F4F926B754FE00A62818 /* ReadWriteLock.swift in Sources */,
 				845B4544269BA17B00EC5211 /* OCKOutcomeValue+LogItem.swift in Sources */,
 				84D122CA264112DE00990196 /* DevicesSelectionViewController.swift in Sources */,
 				84D122CC264112DE00990196 /* DateFormatter+Formatters.swift in Sources */,
@@ -3260,7 +3239,6 @@
 				846E0A7E26A5455700DC4743 /* OCKOutcome+LogItem.swift in Sources */,
 				840D1BF2265CCAE0000C9DB7 /* HKQuantityTypeIdentifier+Image.swift in Sources */,
 				84D122D4264112DE00990196 /* FeaturedContentViewController.swift in Sources */,
-				84D122D5264112DE00990196 /* RemoteSynchronizationManager.swift in Sources */,
 				84D122D6264112DE00990196 /* NotificationSettingsController.swift in Sources */,
 				84D122D7264112DE00990196 /* CHJSONDecoder.swift in Sources */,
 				84D122D8264112DE00990196 /* DeviceFactory.swift in Sources */,
@@ -3510,7 +3488,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.23;
+				MARKETING_VERSION = 0.8.24;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3539,7 +3517,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.23;
+				MARKETING_VERSION = 0.8.24;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3664,7 +3642,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.23;
+				MARKETING_VERSION = 0.8.24;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3693,7 +3671,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.23;
+				MARKETING_VERSION = 0.8.24;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3722,7 +3700,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.23;
+				MARKETING_VERSION = 0.8.24;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3751,7 +3729,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.23;
+				MARKETING_VERSION = 0.8.24;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";

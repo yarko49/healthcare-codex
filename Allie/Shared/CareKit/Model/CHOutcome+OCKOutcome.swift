@@ -49,7 +49,7 @@ extension OCKOutcome: AnyUserInfoExtensible, AnyItemDeletable {
 			setUserInfo(string: dateString, forKey: "endDate")
 		}
 
-		setUserInfo(string: String(outcome.isBluetoothCollected), forKey: HKMetadataKeyWasUserEntered)
+		setUserInfo(string: String(!outcome.isBluetoothCollected), forKey: HKMetadataKeyWasUserEntered)
 	}
 }
 
@@ -87,7 +87,7 @@ extension CHOutcome {
 			self.endDate = DateFormatter.wholeDateRequest.date(from: dateString)
 		}
 		if let userEnteredString = outcome.userInfo?[HKMetadataKeyWasUserEntered] {
-			self.isBluetoothCollected = Bool(userEnteredString) ?? false
+			self.isBluetoothCollected = !(Bool(userEnteredString) ?? false)
 		}
 	}
 }

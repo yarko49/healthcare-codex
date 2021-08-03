@@ -55,22 +55,6 @@ class MainCoordinator: BaseCoordinator {
 			.sink { [weak self] _ in
 				self?.logout()
 			}.store(in: &cancellables)
-
-		Auth.auth().ch_authStateDidChangePublisher()
-			.sink { user in
-				if let user = user {
-					ALog.info("Auth State Did change \(user.uid)")
-				}
-				try? CareManager.shared.resetAllContents()
-			}.store(in: &cancellables)
-
-		Auth.auth().ch_idTokenDidChangePublisher()
-			.sink { user in
-				if let user = user {
-					ALog.info("Id Token Did Change \(user.uid)")
-				}
-				try? CareManager.shared.resetAllContents()
-			}.store(in: &cancellables)
 	}
 
 	override func start() {

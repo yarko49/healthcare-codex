@@ -51,29 +51,85 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 		}
 		let startDate = UserDefaults.standard[lastOutcomesUploadDate: linkage.quantityIdentifier.rawValue]
 		let endDate = Date()
-		HealthKitManager.shared.queryHealthData(quantityType: quantityType, startDate: startDate, endDate: endDate, options: []) { [weak self] queryResult in
-			guard let strongSelf = self else {
-				self?.complete()
-				return
-			}
-			switch queryResult {
-			case .failure(let error):
-				strongSelf.error = error
-				strongSelf.complete()
-				return
-			case .success(let samples):
-				ALog.trace("\(samples.count) found for identifier \(linkage.quantityIdentifier.rawValue), startDate \(startDate) endDate \(endDate)")
-				strongSelf.upload(samples: samples, carePlanId: carePlanId) { uploadResult in
-					switch uploadResult {
-					case .failure(let error):
-						strongSelf.error = error
-					case .success(let outcomes):
-						self?.outcomes = outcomes
-						if !outcomes.isEmpty {
-							UserDefaults.standard[lastOutcomesUploadDate: linkage.quantityIdentifier.rawValue] = endDate
-						}
-					}
+		if linkage.quantityIdentifier == .stepCount {
+			HealthKitManager.shared.stepCount(startDate: startDate, endDate: endDate, options: []) { [weak self] queryResult in
+				guard let strongSelf = self else {
+					self?.complete()
+					return
+				}
+				switch queryResult {
+				case .failure(let error):
+					strongSelf.error = error
 					strongSelf.complete()
+					return
+				case .success(let statistics):
+					ALog.trace("\(statistics.count) found for identifier \(linkage.quantityIdentifier.rawValue), startDate \(startDate) endDate \(endDate)")
+					strongSelf.upload(statistics: statistics, carePlanId: carePlanId) { uploadResult in
+						switch uploadResult {
+						case .failure(let error):
+							strongSelf.error = error
+						case .success(let outcomes):
+							self?.outcomes = outcomes
+							if !outcomes.isEmpty {
+								UserDefaults.standard[lastOutcomesUploadDate: linkage.quantityIdentifier.rawValue] = endDate
+							}
+						}
+						strongSelf.complete()
+					}
+				}
+			}
+		} else if linkage.quantityIdentifier == .bloodPressureSystolic || linkage.quantityIdentifier == .bloodPressureDiastolic {
+			HealthKitManager.shared.bloodPressure(startDate: startDate, endDate: endDate, options: []) { [weak self] queryResult in
+				guard let strongSelf = self else {
+					self?.complete()
+					return
+				}
+				switch queryResult {
+				case .failure(let error):
+					strongSelf.error = error
+					strongSelf.complete()
+					return
+				case .success(let samples):
+					ALog.trace("\(samples.count) found for identifier \(linkage.quantityIdentifier.rawValue), startDate \(startDate) endDate \(endDate)")
+					strongSelf.upload(samples: samples, carePlanId: carePlanId) { uploadResult in
+						switch uploadResult {
+						case .failure(let error):
+							strongSelf.error = error
+						case .success(let outcomes):
+							self?.outcomes = outcomes
+							if !outcomes.isEmpty {
+								UserDefaults.standard[lastOutcomesUploadDate: linkage.quantityIdentifier.rawValue] = endDate
+							}
+						}
+						strongSelf.complete()
+					}
+				}
+			}
+		} else {
+			HealthKitManager.shared.samples(for: quantityType, startDate: startDate, endDate: endDate, options: []) { [weak self] queryResult in
+				guard let strongSelf = self else {
+					self?.complete()
+					return
+				}
+				switch queryResult {
+				case .failure(let error):
+					strongSelf.error = error
+					strongSelf.complete()
+					return
+				case .success(let samples):
+					ALog.trace("\(samples.count) found for identifier \(linkage.quantityIdentifier.rawValue), startDate \(startDate) endDate \(endDate)")
+					strongSelf.upload(samples: samples, carePlanId: carePlanId) { uploadResult in
+						switch uploadResult {
+						case .failure(let error):
+							strongSelf.error = error
+						case .success(let outcomes):
+							self?.outcomes = outcomes
+							if !outcomes.isEmpty {
+								UserDefaults.standard[lastOutcomesUploadDate: linkage.quantityIdentifier.rawValue] = endDate
+							}
+						}
+						strongSelf.complete()
+					}
 				}
 			}
 		}

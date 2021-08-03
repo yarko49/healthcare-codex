@@ -36,7 +36,7 @@ class CareKitStoreTests: XCTestCase {
 				ALog.error("\(error.localizedDescription)")
 			case .success(let patients):
 				patients.forEach { patient in
-					ALog.info("\(patient.id), \(patient.createdDate), \(patient.updatedDate), \(patient.deletedDate), \(patient.effectiveDate)")
+					ALog.info("\(patient.id), \(String(describing: patient.createdDate)), \(String(describing: patient.updatedDate)), \(String(describing: patient.deletedDate)), \(patient.effectiveDate)")
 				}
 				expect.fulfill()
 			}
@@ -133,7 +133,7 @@ class CareKitStoreTests: XCTestCase {
 				case .failure(let error):
 					XCTFail("Error inserting DefaultDiabetes Care Plan = \(error.localizedDescription)")
 				case .success(let newPatient):
-					ALog.info("\(newPatient.id), \(newPatient.uuid), \(newPatient.updatedDate)")
+					ALog.info("\(newPatient.id), \(newPatient.uuid), \(String(describing: newPatient.updatedDate))")
 					add.fulfill()
 				}
 			})

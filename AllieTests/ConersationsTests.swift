@@ -33,15 +33,10 @@ class ConersationsTests: XCTestCase {
 		XCTAssertNotNil(data)
 		let decoder = CHJSONDecoder()
 		let conversations = try decoder.decode(CHConversationsTokens.self, from: data!)
-		ALog.info("date = \(conversations.tokens.first?.expirationDate)")
+		ALog.info("date = \(String(describing: conversations.tokens.first?.expirationDate))")
 	}
 
 	func testConversationsUsersTests() throws {
-		let body = """
-		{
-		    "users": ["EThiGiMwuWghhXv6Lvepd6YFLZ42"]
-		}
-		""".data(using: .utf8)
 		let data = AllieTests.loadTestData(fileName: "ConversationsUsers.json")
 		XCTAssertNotNil(data)
 		let decoded = try CHJSONDecoder().decode(CHConversationsUsers.self, from: data!)
