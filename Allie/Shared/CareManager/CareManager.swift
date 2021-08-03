@@ -10,10 +10,12 @@ import CareKitFHIR
 import CareKitStore
 import Combine
 import FirebaseAuth
+import HealthKit
 import KeychainAccess
 import ModelsR4
 import SDWebImage
 import UIKit
+import WatchConnectivity
 
 class CareManager: NSObject, ObservableObject {
 	static let shared = CareManager(patient: nil)
@@ -21,18 +23,13 @@ class CareManager: NSObject, ObservableObject {
 	enum Constants {
 		static let careStore = "CareStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
-		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk(protection: .completeUnlessOpen)
+		static let coreDataStoreType: OCKCoreDataStoreType = .onDisk(protection: .completeUntilFirstUserAuthentication)
 		static let maximumUploadOutcomesPerCall: Int = 450
 		static let deleteDelayTimeIntervalSeconds: Int = 2
 	}
 
-	private(set) lazy var remoteSynchronizationManager: RemoteSynchronizationManager = {
-		let manager = RemoteSynchronizationManager(automaticallySynchronizes: false)
-		manager.delegate = self
-		return manager
-	}()
-
-	private(set) lazy var store = OCKStore(name: Constants.careStore, type: Constants.coreDataStoreType, remote: remoteSynchronizationManager)
+	private(set) lazy var peer = OCKWatchConnectivityPeer()
+	private(set) lazy var store = OCKStore(name: Constants.careStore, securityApplicationGroupIdentifier: nil, type: Constants.coreDataStoreType, remote: nil)
 	private(set) lazy var healthKitStore: OCKHealthKitPassthroughStore = {
 		let healthKitStore = OCKHealthKitPassthroughStore(store: store)
 		healthKitStore.samplesToOutcomesValueMapper = { samples, task in
@@ -48,8 +45,8 @@ class CareManager: NSObject, ObservableObject {
 
 	private(set) lazy var synchronizedStoreManager: OCKSynchronizedStoreManager = {
 		let coordinator = OCKStoreCoordinator()
-		coordinator.attach(store: store)
 		coordinator.attach(eventStore: healthKitStore)
+		coordinator.attach(store: store)
 		let manager = OCKSynchronizedStoreManager(wrapping: coordinator)
 		return manager
 	}()
@@ -62,6 +59,7 @@ class CareManager: NSObject, ObservableObject {
 	}()
 
 	private var uploadOperationQueues: [String: OperationQueue] = [:]
+	var inflightUploadIdentifiers = InflightIdentifers()
 	subscript(uploadOperationQueue identifier: String) -> OperationQueue {
 		get {
 			guard let queue = uploadOperationQueues[identifier] else {

@@ -275,7 +275,7 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
 			ALog.trace("Autocompleted: `\(substring),` with context: \(context ?? [])")
 		}
 
-		let components = inputBar.inputTextView.components
+		// let components = inputBar.inputTextView.components
 		inputBar.inputTextView.text = ""
 		inputBar.invalidatePlugins()
 		// Send button activity animation

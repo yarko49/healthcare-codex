@@ -68,7 +68,7 @@ extension CHOutcome {
 
 		var metadata = sample.metadata
 		if let userEntered = metadata?[HKMetadataKeyWasUserEntered] as? Bool {
-			self.isBluetoothCollected = userEntered
+			self.isBluetoothCollected = !userEntered
 			metadata?.removeValue(forKey: HKMetadataKeyWasUserEntered)
 		}
 		sourceRevision = CHSourceRevision(sourceRevision: sample.sourceRevision)

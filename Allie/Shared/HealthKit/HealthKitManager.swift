@@ -19,7 +19,7 @@ private enum HealthKitManagerError: Error {
 
 class HealthKitManager {
 	static let shared = HealthKitManager()
-	private let healthKitStore = HKHealthStore()
+	private let healthStore = HKHealthStore()
 	private var patientId: String? {
 		CareManager.shared.patient?.profile.fhirId
 	}
@@ -47,51 +47,49 @@ class HealthKitManager {
 
 		let healthKitTypesToWrite: Set<HKSampleType> = [bodyMass, heartRate, bloodPressureSystolic, bloodPressureDiastolic, bloodGloucose, insulinDelivery]
 		let healthKitTypesToRead: Set<HKQuantityType> = [bodyMass, heartRate, restingHeartRate, bloodPressureDiastolic, bloodPressureSystolic, stepCount, bloodGloucose, insulinDelivery]
-		healthKitStore.requestAuthorization(toShare: healthKitTypesToWrite, read: healthKitTypesToRead) { success, error in
+		healthStore.requestAuthorization(toShare: healthKitTypesToWrite, read: healthKitTypesToRead) { success, error in
 			completion(success, error)
 		}
 	}
 
-	func queryHealthData(dataType: HealthKitDataType, startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
+	func sample(dataType: HealthKitDataType, startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
 		if dataType == .bloodPressure {
-			return queryBloodPressure(startDate: startDate, endDate: endDate, options: options)
+			return bloodPressure(startDate: startDate, endDate: endDate, options: options)
 		} else {
 			guard let sampleType = dataType.quantityType[0] else {
 				return Fail(error: HealthKitManagerError.invalidInput("DataType \(dataType.rawValue) missing sample type"))
 					.eraseToAnyPublisher()
 			}
-			return queryHealthData(quantityType: sampleType, startDate: startDate, endDate: endDate, options: options)
+			return samples(for: sampleType, startDate: startDate, endDate: endDate, options: options)
 		}
 	}
 
-	func queryHealthData(dataType: HealthKitDataType, startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping AllieResultCompletion<[HKSample]>) {
+	func sample(dataType: HealthKitDataType, startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping AllieResultCompletion<[HKSample]>) {
 		if dataType == .bloodPressure {
-			queryBloodPressure(startDate: startDate, endDate: endDate, options: options, completion: completion)
+			bloodPressure(startDate: startDate, endDate: endDate, options: options, completion: completion)
 		} else {
 			guard let sampleType = dataType.quantityType[0] else {
 				completion(.failure(HealthKitManagerError.invalidInput("DataType \(dataType.rawValue) missing sample type")))
 				return
 			}
-			queryHealthData(quantityType: sampleType, startDate: startDate, endDate: endDate, options: options, completion: completion)
+			samples(for: sampleType, startDate: startDate, endDate: endDate, options: options, completion: completion)
 		}
 	}
 
-	func queryHealthData(quantityType: HKQuantityType, startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
+	func samples(for quantityType: HKQuantityType, startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
 		Future { [weak self] promise in
-			let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
-			let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
-			let query = HKSampleQuery(sampleType: quantityType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, error in
-				if let error = error {
+			self?.samples(for: quantityType, startDate: startDate, endDate: endDate, options: options, completion: { result in
+				switch result {
+				case .failure(let error):
 					promise(.failure(error))
-				} else {
-					promise(.success(results ?? []))
+				case .success(let samples):
+					promise(.success(samples))
 				}
-			}
-			self?.healthKitStore.execute(query)
+			})
 		}.eraseToAnyPublisher()
 	}
 
-	func queryHealthData(quantityType: HKQuantityType, startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping AllieResultCompletion<[HKSample]>) {
+	func samples(for quantityType: HKQuantityType, startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping AllieResultCompletion<[HKSample]>) {
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
 		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
 		let query = HKSampleQuery(sampleType: quantityType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, error in
@@ -101,31 +99,23 @@ class HealthKitManager {
 			}
 			completion(.success(samples))
 		}
-		healthKitStore.execute(query)
+		healthStore.execute(query)
 	}
 
-	func queryStatisticsStepCount(startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKStatistics], Error> {
+	func stepCount(startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKStatistics], Error> {
 		Future { [weak self] promise in
-			let type = HKSampleType.quantityType(forIdentifier: .stepCount)
-			let beginingOfDay = Calendar.current.startOfDay(for: startDate)
-			var interval = DateComponents()
-			interval.day = 1
-			let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
-			let query = HKStatisticsCollectionQuery(quantityType: type!, quantitySamplePredicate: predicate, options: [.cumulativeSum, .separateBySource], anchorDate: beginingOfDay, intervalComponents: interval)
-			query.initialResultsHandler = { _, results, error in
-				if let error = error {
+			self?.stepCount(startDate: startDate, endDate: endDate, options: options) { result in
+				switch result {
+				case .failure(let error):
 					promise(.failure(error))
-				} else {
-					let statistics = results?.statistics() ?? []
+				case .success(let statistics):
 					promise(.success(statistics))
 				}
 			}
-
-			self?.healthKitStore.execute(query)
 		}.eraseToAnyPublisher()
 	}
 
-	func queryStatisticsStepCount(startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping (Bool, [HKStatistics]) -> Void) {
+	func stepCount(startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping AllieResultCompletion<[HKStatistics]>) {
 		let type = HKSampleType.quantityType(forIdentifier: .stepCount)
 		let beginingOfDay = Calendar.current.startOfDay(for: startDate)
 		var interval = DateComponents()
@@ -133,33 +123,30 @@ class HealthKitManager {
 		let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
 		let query = HKStatisticsCollectionQuery(quantityType: type!, quantitySamplePredicate: predicate, options: [.cumulativeSum, .separateBySource], anchorDate: beginingOfDay, intervalComponents: interval)
 		query.initialResultsHandler = { _, results, error in
-			let statistics = results?.statistics() ?? []
-			completion(error == nil, statistics)
+			if let error = error {
+				completion(.failure(error))
+			} else {
+				completion(.success(results?.statistics() ?? []))
+			}
 		}
 
-		healthKitStore.execute(query)
+		healthStore.execute(query)
 	}
 
-	func queryBloodPressure(startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
-		guard let bloodPressure = HKQuantityType.correlationType(forIdentifier: .bloodPressure) else {
-			return Fail(error: HealthKitManagerError.invalidInput("CorrelationType not valid BloodPressure"))
-				.eraseToAnyPublisher()
-		}
-		return Future { [weak self] promise in
-			let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: options)
-			let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
-			let query = HKSampleQuery(sampleType: bloodPressure, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { _, results, error in
-				if let error = error {
+	func bloodPressure(startDate: Date, endDate: Date, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
+		Future { [weak self] promise in
+			self?.bloodPressure(startDate: startDate, endDate: endDate, options: options, completion: { result in
+				switch result {
+				case .failure(let error):
 					promise(.failure(error))
-				} else {
-					promise(.success(results ?? []))
+				case .success(let samples):
+					promise(.success(samples))
 				}
-			}
-			self?.healthKitStore.execute(query)
+			})
 		}.eraseToAnyPublisher()
 	}
 
-	func queryBloodPressure(startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping AllieResultCompletion<[HKSample]>) {
+	func bloodPressure(startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping AllieResultCompletion<[HKSample]>) {
 		guard let bloodPressure = HKQuantityType.correlationType(forIdentifier: .bloodPressure) else {
 			completion(.failure(HealthKitManagerError.invalidInput("CorrelationType not valid BloodPressure")))
 			return
@@ -173,72 +160,54 @@ class HealthKitManager {
 			}
 			completion(.success(samples))
 		}
-		healthKitStore.execute(query)
+		healthStore.execute(query)
 	}
 
-	func queryMostRecentEntry(identifier: HKQuantityTypeIdentifier, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
-		guard let type = HKSampleType.quantityType(forIdentifier: identifier) else {
-			return Fail(error: HealthKitManagerError.invalidInput("SampleType notd valid \(identifier.rawValue)"))
-				.eraseToAnyPublisher()
-		}
-		return Future { [weak self] promise in
-			let predicate = HKQuery.predicateForSamples(withStart: Date.distantPast, end: Date(), options: [])
-			let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
-			let limit = 1
-			let query = HKSampleQuery(sampleType: type, predicate: predicate, limit: limit, sortDescriptors: [sortDescriptor]) { _, samples, error in
-				if let error = error {
+	func mostRecentEntry(for identifier: HKQuantityTypeIdentifier, options: HKQueryOptions) -> AnyPublisher<[HKSample], Error> {
+		Future { [weak self] promise in
+			self?.mostRecentSample(for: identifier, options: options, completion: { result in
+				switch result {
+				case .failure(let error):
 					promise(.failure(error))
-				} else {
-					promise(.success(samples ?? []))
+				case .success(let samples):
+					promise(.success(samples))
 				}
-			}
-			self?.healthKitStore.execute(query)
+			})
 		}.eraseToAnyPublisher()
 	}
 
-	func queryMostRecentEntry(identifier: HKQuantityTypeIdentifier, options: HKQueryOptions, completion: @escaping AllieResultCompletion<HKSample>) {
+	func mostRecentSample(for identifier: HKQuantityTypeIdentifier, options: HKQueryOptions, completion: @escaping AllieResultCompletion<[HKSample]>) {
 		guard let type = HKSampleType.quantityType(forIdentifier: identifier) else {
-			completion(.failure(HealthKitManagerError.invalidInput("SampleType notd valid \(identifier.rawValue)")))
+			completion(.failure(HealthKitManagerError.invalidInput("SampleType not valid \(identifier.rawValue)")))
 			return
 		}
 		let predicate = HKQuery.predicateForSamples(withStart: Date.distantPast, end: Date(), options: [])
 		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
 		let limit = 1
 		let query = HKSampleQuery(sampleType: type, predicate: predicate, limit: limit, sortDescriptors: [sortDescriptor]) { _, samples, error in
-			guard let sample = samples?.first, error == nil else {
+			guard let sample = samples, error == nil else {
 				completion(.failure(error ?? HealthKitManagerError.dataTypeNotAvailable))
 				return
 			}
 			completion(.success(sample))
 		}
-		healthKitStore.execute(query)
+		healthStore.execute(query)
 	}
 
-	func queryTodaySteps(options: HKQueryOptions) -> AnyPublisher<HKStatistics, Error> {
-		guard let stepsQuantityType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
-			return Fail(error: HealthKitManagerError.invalidInput("Steps quantity type invalid"))
-				.eraseToAnyPublisher()
-		}
-
-		return Future { [weak self] promise in
-			let now = Date()
-			let startOfDay = Calendar.current.startOfDay(for: now)
-			let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: options)
-			let query = HKStatisticsQuery(quantityType: stepsQuantityType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, error in
-				if let error = error {
+	func todaysStepCount(options: HKQueryOptions) -> AnyPublisher<HKStatistics, Error> {
+		Future { [weak self] promise in
+			self?.todaysStepCount(options: options, completion: { result in
+				switch result {
+				case .failure(let error):
 					promise(.failure(error))
-				} else if let statisticResult = result {
-					promise(.success(statisticResult))
-				} else {
-					promise(.failure(HealthKitManagerError.notAvailableOnDevice))
+				case .success(let statistic):
+					promise(.success(statistic))
 				}
-			}
-
-			self?.healthKitStore.execute(query)
+			})
 		}.eraseToAnyPublisher()
 	}
 
-	func queryTodaySteps(options: HKQueryOptions, completion: @escaping AllieResultCompletion<HKStatistics>) {
+	func todaysStepCount(options: HKQueryOptions, completion: @escaping AllieResultCompletion<HKStatistics>) {
 		guard let stepsQuantityType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
 			completion(.failure(HealthKitManagerError.invalidInput("Steps quantity type invalid")))
 			return
@@ -255,7 +224,7 @@ class HealthKitManager {
 			completion(.success(statisticResult))
 		}
 
-		healthKitStore.execute(query)
+		healthStore.execute(query)
 	}
 
 	func queryData(identifier: HKQuantityTypeIdentifier, startDate: Date, endDate: Date, intervalType: HealthStatsDateIntervalType, completion: @escaping (([StatsDataPoint]) -> Void)) {
@@ -294,7 +263,7 @@ class HealthKitManager {
 			}
 			completion(data)
 		}
-		healthKitStore.execute(query)
+		healthStore.execute(query)
 	}
 
 	func syncData(startDate: Date, endDate: Date, options: HKQueryOptions, completion: @escaping (Bool) -> Void) {
@@ -324,7 +293,7 @@ class HealthKitManager {
 		for quantity in HealthKitDataType.allCases {
 			importGroup.enter()
 			if quantity == .bloodPressure {
-				queryBloodPressure(startDate: startDate, endDate: endDate, options: options, completion: { result in
+				bloodPressure(startDate: startDate, endDate: endDate, options: options, completion: { result in
 					switch result {
 					case .failure(let error):
 						errors.append(error)
@@ -334,7 +303,7 @@ class HealthKitManager {
 					importGroup.leave()
 				})
 			} else {
-				queryHealthData(dataType: quantity, startDate: startDate, endDate: endDate, options: options, completion: { result in
+				sample(dataType: quantity, startDate: startDate, endDate: endDate, options: options, completion: { result in
 					switch result {
 					case .failure(let error):
 						errors.append(error)

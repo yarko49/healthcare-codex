@@ -58,6 +58,11 @@ extension CareManager {
 				}
 
 				for (_, task) in uniqueTasks {
+					let identifier = task.healthKitLinkage.quantityIdentifier
+					if let contains = self?.inflightUploadIdentifiers.contains(identifier), contains {
+						continue
+					}
+					self?.inflightUploadIdentifiers.insert(identifier)
 					group.enter()
 					let operation = OutcomesUploadOperation(task: task, chunkSize: Constants.maximumUploadOutcomesPerCall, callbackQueue: callbackQueue) { operationResult in
 						switch operationResult {
@@ -66,6 +71,7 @@ extension CareManager {
 						case .success(let outcomes):
 							ALog.trace("Uploaded \(outcomes.count) outcomes")
 						}
+						_ = self?.inflightUploadIdentifiers.remove(identifier)
 						group.leave()
 					}
 					self?[uploadOperationQueue: task.healthKitLinkage.quantityIdentifier.rawValue].addOperation(operation)
@@ -86,7 +92,7 @@ extension CareManager {
 			let startDate = UserDefaults.standard[lastOutcomesUploadDate: linkage.quantityIdentifier.rawValue]
 			if let quantityType = HKObjectType.quantityType(forIdentifier: linkage.quantityIdentifier) {
 				group.enter()
-				HealthKitManager.shared.queryHealthData(quantityType: quantityType, startDate: startDate, endDate: endDate, options: []) { result in
+				HealthKitManager.shared.samples(for: quantityType, startDate: startDate, endDate: endDate, options: []) { result in
 					switch result {
 					case .failure(let error):
 						ALog.error("\(error.localizedDescription)")

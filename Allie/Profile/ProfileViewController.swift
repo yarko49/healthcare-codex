@@ -308,10 +308,10 @@ class ProfileViewController: BaseViewController {
 				var values: [Any] = []
 				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
 					innergroup.enter()
-					HealthKitManager.shared.queryMostRecentEntry(identifier: identifier, options: []) { result in
+					HealthKitManager.shared.mostRecentSample(for: identifier, options: []) { result in
 						switch result {
 						case .success(let sample):
-							if let quantitySample = sample as? HKQuantitySample {
+							if let quantitySample = sample.first as? HKQuantitySample {
 								values.append(quantitySample)
 							}
 						case .failure(let error):
@@ -327,7 +327,7 @@ class ProfileViewController: BaseViewController {
 				}
 			} else {
 				topGroup.enter()
-				HealthKitManager.shared.queryTodaySteps(options: []) { result in
+				HealthKitManager.shared.todaysStepCount(options: []) { result in
 					switch result {
 					case .failure(let error):
 						ALog.error("\(error.localizedDescription)")
