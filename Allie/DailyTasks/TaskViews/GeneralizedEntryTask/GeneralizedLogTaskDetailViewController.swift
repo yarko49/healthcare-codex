@@ -330,17 +330,19 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		}
 	}
 
-	private func showErrorAlert(title: String?, error: Error) {
-		let controller = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
+	private func showAlert(title: String?, message: String?, showSettings: Bool) {
+		let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		let cancelAction = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"), style: .cancel) { _ in
 		}
-		let settingsAction = UIAlertAction(title: NSLocalizedString("SETTINGS", comment: "Settings"), style: .default) { _ in
-			if let url = URL(string: UIApplication.openSettingsURLString) {
-				UIApplication.shared.open(url, options: [:], completionHandler: nil)
-			}
-		}
 		controller.addAction(cancelAction)
-		controller.addAction(settingsAction)
+		if showSettings {
+			let settingsAction = UIAlertAction(title: NSLocalizedString("SETTINGS", comment: "Settings"), style: .default) { _ in
+				if let url = URL(string: UIApplication.openSettingsURLString) {
+					UIApplication.shared.open(url, options: [:], completionHandler: nil)
+				}
+			}
+			controller.addAction(settingsAction)
+		}
 		show(controller, sender: self)
 	}
 }
@@ -358,7 +360,15 @@ extension GeneralizedLogTaskDetailViewController: EntryTaskSectionFooterViewDele
 				switch result {
 				case .failure(let error):
 					let title = NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA", comment: "Error saving data!")
-					self?.showErrorAlert(title: title, error: error)
+					var message: String?
+					var showSettings = false
+					if error is GeneralizedEntryTaskError {
+						message = NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save.")
+					} else {
+						message = error.localizedDescription
+						showSettings = true
+					}
+					self?.showAlert(title: title, message: message, showSettings: showSettings)
 				case .success(let success):
 					ALog.info("Sample saved \(success)")
 					self?.saveAction?()

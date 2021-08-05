@@ -32,9 +32,6 @@ class ConversationListViewController: UICollectionViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		composeBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(createConversation(_:)))
-		navigationItem.rightBarButtonItem = composeBarButtonItem
-
 		collectionView!.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: UICollectionViewListCell.reuseIdentifier)
 		let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, TCHConversation> { cell, _, conversation in
 			var configuration = cell.defaultContentConfiguration()
@@ -69,8 +66,6 @@ class ConversationListViewController: UICollectionViewController {
 			}
 		}
 	}
-
-	@objc func createConversation(_ sender: Any?) {}
 
 	func process(conversations: Set<TCHConversation>) {
 		let sorted = conversations.sorted { lhs, rhs in

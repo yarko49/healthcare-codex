@@ -37,6 +37,7 @@ enum APIRouter {
 	case postOutcomes(outcomes: [CHOutcome])
 	case getOutcomes(carePlanId: String, taskId: String)
 	case getFeatureContent(carePlanId: String, taskId: String, asset: String)
+	case postNotificationToken(String)
 
 	var method: Request.Method {
 		switch self {
@@ -66,6 +67,8 @@ enum APIRouter {
 			return .GET
 		case .getFeatureContent:
 			return .GET
+		case .postNotificationToken:
+			return .POST
 		}
 	}
 
@@ -94,6 +97,8 @@ enum APIRouter {
 			path += "/carePlan/\(carePlanId)/task/\(taskId)/outcomes"
 		case .getFeatureContent(let carePlanId, let taskId, let asset):
 			path += "/carePlan/\(carePlanId)/task/\(taskId)/asset/\(asset)"
+		case .postNotificationToken:
+			path += "/notifications/token"
 		}
 
 		return path
@@ -133,6 +138,9 @@ enum APIRouter {
 		case .postConversationsUsers(_, let users):
 			let requestObject = ["users": users]
 			data = try? encoder.encode(requestObject)
+		case .postNotificationToken(let token):
+			let tokenRequest: [String: String] = ["timestamp": DateFormatter.wholeDateRequest.string(from: Date()), "token": token]
+			data = try? encoder.encode(tokenRequest)
 		default:
 			data = nil
 		}
@@ -180,6 +188,8 @@ enum APIRouter {
 			break
 		case .getFeatureContent:
 			break
+		case .postNotificationToken:
+			break
 		}
 		return headers
 	}
@@ -199,6 +209,8 @@ enum APIRouter {
 		case .getOutcomes:
 			return nil
 		case .getFeatureContent:
+			return nil
+		case .postNotificationToken:
 			return nil
 		}
 	}

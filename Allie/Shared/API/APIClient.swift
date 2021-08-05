@@ -26,6 +26,7 @@ protocol AllieAPI {
 	func post(outcomes: [CHOutcome]) -> AnyPublisher<CHCarePlanResponse, Error>
 	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> AnyPublisher<SignedURLResponse, Error>
 	func getData(url: URL) -> AnyPublisher<Data, Error>
+	func uploadRemoteNotification(token: String) -> AnyPublisher<Bool, Error>
 }
 
 public final class APIClient: AllieAPI {
@@ -144,5 +145,9 @@ public final class APIClient: AllieAPI {
 
 	func getData(url: URL) -> AnyPublisher<Data, Error> {
 		webService.data(request: Request(.GET, url: url))
+	}
+
+	func uploadRemoteNotification(token: String) -> AnyPublisher<Bool, Error> {
+		webService.simple(route: APIRouter.postNotificationToken(token))
 	}
 }

@@ -92,6 +92,9 @@ class MainCoordinator: BaseCoordinator {
 		transitionOptions.direction = .fade
 		window.setRootViewController(rootViewController, options: transitionOptions)
 		AppDelegate.registerServices(patient: CareManager.shared.patient)
+		#if !targetEnvironment(simulator)
+		AppDelegate.appDelegate?.registerForPushNotifications(application: UIApplication.shared)
+		#endif
 	}
 
 	func createPatientIfNeeded() {
