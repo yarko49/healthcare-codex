@@ -59,6 +59,9 @@ extension CareManager {
 
 				for (_, task) in uniqueTasks {
 					let identifier = task.healthKitLinkage.quantityIdentifier
+					if identifier == .stepCount, !RemoteConfigManager.shared.stepCountUploadEnabled {
+						continue
+					}
 					if let contains = self?.inflightUploadIdentifiers.contains(identifier), contains {
 						continue
 					}

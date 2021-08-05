@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 12/17/20.
 //
 
+import Combine
 import Firebase
 import FirebaseAnalytics
 import FirebaseAuth
@@ -14,6 +15,7 @@ import GoogleSignIn
 import IQKeyboardManagerSwift
 import SupportProvidersSDK
 import UIKit
+import UserNotifications
 import ZendeskCoreSDK
 
 @main
@@ -63,17 +65,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Use this method to release any resources that were specific to the discarded scenes, as they will not return.
 	}
 
-	var backgroundCompletionHandlers: [String: () -> Void] = [:]
-
-	func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
-		backgroundCompletionHandlers[identifier] = completionHandler
+	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+		Messaging.messaging().appDidReceiveMessage(userInfo)
 	}
 
-	func finishBackgroundUpload(forBackgroundURLSession identifier: String) {
-		guard let handler = backgroundCompletionHandlers.removeValue(forKey: identifier) else {
-			return
-		}
-		handler()
+	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+		ALog.info("didRegisterForRemoteNotificationsWithDeviceToken:")
+		let token = deviceToken.map { String(format: "%.2hhx", $0) }.joined()
+		uploadRemoteNofication(token: token)
+		Messaging.messaging().apnsToken = deviceToken
+	}
+
+	func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+		ALog.error("didFailToRegisterForRemoteNotificationsWithError", error: error)
+	}
+
+	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+		Messaging.messaging().appDidReceiveMessage(userInfo)
+		completionHandler(UIBackgroundFetchResult.newData)
 	}
 
 	static func configureZendesk() {
@@ -105,5 +114,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		UINavigationBar.applyAppearance()
 		UITabBar.applyAppearance()
 		UICollectionView.applyAppearance()
+	}
+
+	func registerForPushNotifications(application: UIApplication) {
+		UNUserNotificationCenter.current().delegate = self
+		Messaging.messaging().delegate = self
+		let options: UNAuthorizationOptions = [.alert, .badge, .sound]
+		DispatchQueue.main.async {
+			UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, _ in
+				if granted {
+					DispatchQueue.main.async {
+						application.registerForRemoteNotifications()
+					}
+				}
+			}
+		}
+	}
+
+	var uploadTokenCancellable: AnyCancellable?
+	func uploadRemoteNofication(token: String) {
+		uploadTokenCancellable?.cancel()
+		uploadTokenCancellable = APIClient.shared.uploadRemoteNotification(token: token)
+			.sink(receiveCompletion: { completionResult in
+				if case .failure(let error) = completionResult {
+					ALog.error("Failed to uploaded remote notification token", error: error)
+				}
+			}, receiveValue: { result in
+				ALog.info("Token sent to server with result \(result)")
+			})
+	}
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+		completionHandler()
+	}
+
+	func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+		completionHandler([.badge, .banner, .sound])
+	}
+}
+
+extension AppDelegate: MessagingDelegate {
+	func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+		ALog.info("messaging:didReceiveRegistrationToken: \(String(describing: fcmToken))")
 	}
 }

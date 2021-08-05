@@ -38,6 +38,7 @@ class RemoteConfigManager: ObservableObject {
 	@Published var remoteLogging = RemoteLogging()
 	@Published var healthCareOrganization: String = "Demo-Organization-hmbj3"
 	@Published var outcomesUploadTimeInterval: TimeInterval = 5.0
+	@Published var stepCountUploadEnabled: Bool = false
 
 	func refresh() -> Future<Bool, Never> {
 		Future { [weak self] promise in
@@ -81,6 +82,7 @@ class RemoteConfigManager: ObservableObject {
 
 		let outcomesUploadInterval = remoteConfig.configValue(forKey: CodingKeys.outcomesUploadTimeInterval.rawValue).numberValue.doubleValue
 		outcomesUploadTimeInterval = TimeInterval(max(outcomesUploadInterval, 5.0))
+		stepCountUploadEnabled = remoteConfig.configValue(forKey: CodingKeys.stepCountUploadEnabled.rawValue).boolValue
 	}
 
 	private enum CodingKeys: String, CodingKey {
@@ -88,5 +90,6 @@ class RemoteConfigManager: ObservableObject {
 		case remoteLogging = "remote_logging"
 		case healthCareOrganization = "health_care_organization"
 		case outcomesUploadTimeInterval = "outcomes_upload_time_interval"
+		case stepCountUploadEnabled = "step_count_upload_enabled"
 	}
 }

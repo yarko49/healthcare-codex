@@ -663,3 +663,6 @@
 /* Your message */
 "YOUR_MESSAGE" = "Your message";
 
+/* Please enter correct value and then save. */
+"HEALTHKIT_ERROR_SAVE_DATA.message" = "Please enter correct value and then save.";
+

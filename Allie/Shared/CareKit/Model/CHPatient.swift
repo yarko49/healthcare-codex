@@ -128,7 +128,7 @@ public struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyIte
 		self.birthday = try container.decodeIfPresent(Date.self, forKey: .birthday)
 		self.allergies = try container.decodeIfPresent([String].self, forKey: .allergies)
 
-		self.effectiveDate = try container.decode(Date.self, forKey: .effectiveDate)
+		self.effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Calendar.current.startOfDay(for: Date())
 		self.createdDate = try container.decodeIfPresent(Date.self, forKey: .createdDate)
 		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
 		self.deletedDate = try container.decodeIfPresent(Date.self, forKey: .deletedDate)
