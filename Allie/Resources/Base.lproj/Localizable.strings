@@ -666,3 +666,6 @@
 /* Please enter correct value and then save. */
 "HEALTHKIT_ERROR_SAVE_DATA.message" = "Please enter correct value and then save.";
 
+/* Insulin Unit */
+"INSULIN_UNIT" = "Insulin Unit";
+

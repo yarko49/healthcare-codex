@@ -36,10 +36,19 @@ public struct CHCarePlanResponse: Codable {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		carePlans = try container.decodeIfPresent([CHCarePlan].self, forKey: .carePlans) ?? []
 		patients = try container.decodeIfPresent([CHPatient].self, forKey: .patients) ?? []
+		patients = patients.filter { patient in
+			!patient.id.isEmpty
+		}
 		let decodedTasks = container.safelyDecodeArray(of: CHTask.self, alternate: CHBasicTask.self, forKey: .tasks)
 		tasks = decodedTasks.0
 		if !decodedTasks.1.isEmpty {
 			self.faultyTasks = decodedTasks.1
+		}
+		self.tasks = tasks.filter { task in
+			if task.groupIdentifier == "LINK", task.links == nil {
+				return false
+			}
+			return true
 		}
 		self.outcomes = try container.decodeIfPresent([CHOutcome].self, forKey: .outcomes) ?? []
 		self.vectorClock = try container.decodeIfPresent(UInt64.self, forKey: .vectorClock) ?? 0
