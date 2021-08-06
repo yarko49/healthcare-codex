@@ -11,8 +11,10 @@ import FirebaseAnalytics
 import FirebaseAuth
 import FirebaseCore
 import FirebaseCrashlytics
+import FirebaseMessaging
 import GoogleSignIn
 import IQKeyboardManagerSwift
+import KeychainAccess
 import SupportProvidersSDK
 import UIKit
 import UserNotifications
@@ -71,9 +73,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 		ALog.info("didRegisterForRemoteNotificationsWithDeviceToken:")
-		let token = deviceToken.map { String(format: "%.2hhx", $0) }.joined()
-		uploadRemoteNofication(token: token)
 		Messaging.messaging().apnsToken = deviceToken
+		if let fcmToken = Messaging.messaging().fcmToken {
+			uploadRemoteNofication(token: fcmToken)
+		} else {
+			Messaging.messaging().token { [weak self] newToken, error in
+				guard let token = newToken, error != nil else {
+					ALog.error("Unable to get fcm Token", error: error ?? AllieError.invalid("FCM Token Missing"))
+					return
+				}
+				self?.uploadRemoteNofication(token: token)
+			}
+		}
 	}
 
 	func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -119,6 +130,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func registerForPushNotifications(application: UIApplication) {
 		UNUserNotificationCenter.current().delegate = self
 		Messaging.messaging().delegate = self
+		Messaging.messaging().isAutoInitEnabled = true
 		let options: UNAuthorizationOptions = [.alert, .badge, .sound]
 		DispatchQueue.main.async {
 			UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, _ in
@@ -157,6 +169,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
 extension AppDelegate: MessagingDelegate {
 	func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-		ALog.info("messaging:didReceiveRegistrationToken: \(String(describing: fcmToken))")
+		guard let token = fcmToken else {
+			return
+		}
+		ALog.info("messaging:didReceiveRegistrationToken: \(token)")
+		Keychain.fcmToken = token
+		uploadRemoteNofication(token: token)
 	}
 }

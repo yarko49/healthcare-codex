@@ -9,7 +9,7 @@ import Foundation
 import KeychainAccess
 
 extension Keychain {
-	static let shared = Keychain(service: AppConfig.appBundleID, accessGroup: AppConfig.keychainAccessGroup)
+	static let shared = Keychain(service: AppConfig.appBundleID)
 
 	subscript<T: Codable>(codable key: String) -> T? {
 		get {
@@ -60,6 +60,7 @@ extension Keychain {
 		static let authenticationToken = "AuthenticationToken"
 		static let userEmail = "UserEmail"
 		static let userIdentifier = "UserIdentifier"
+		static let fcmToken = "fcmToken"
 	}
 
 	static var userIdentifier: String? {
@@ -103,6 +104,15 @@ extension Keychain {
 		}
 		set {
 			Self.shared[codable: Keys.authenticationToken] = newValue
+		}
+	}
+
+	static var fcmToken: String? {
+		get {
+			Self.shared[Keys.fcmToken]
+		}
+		set {
+			Self.shared[Keys.fcmToken] = newValue
 		}
 	}
 }

@@ -38,6 +38,7 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 	public var timezone: TimeZone
 	public var healthKitLinkage: OCKHealthKitLinkage?
 	public var schedule: OCKSchedule
+	public var links: [CHLink]?
 
 	var remoteId: String {
 		id

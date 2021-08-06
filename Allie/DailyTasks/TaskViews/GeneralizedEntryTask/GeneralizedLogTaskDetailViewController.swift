@@ -115,7 +115,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			value = "\(Int(doubleValue))"
 		}
 		let date = outcomeValue?.createdDate
-		cell.configure(placeHolder: "\(placeholder)", value: value, unitTitle: unit?.unitString ?? "", date: date, isActive: true)
+		cell.configure(placeHolder: "\(placeholder)", value: value, unitTitle: unit?.displayUnitSting ?? "", date: date, isActive: true)
 	}
 
 	private func configure(multiValueEntryView cell: MultiValueEntryView?) {
@@ -203,7 +203,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 
 	func saveInsulin(completion: @escaping AllieResultCompletion<Bool>) {
 		guard let unitView = entryTaskView.entryView(forIdentifier: TimeValueEntryView.reuseIdentifier) as? TimeValueEntryView, let valueString = unitView.value, !valueString.isEmpty else {
-			completion(.failure(GeneralizedEntryTaskError.missing("Missing Value")))
+			completion(.failure(GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))))
 			return
 		}
 		guard let segementedView = entryTaskView.entryView(forIdentifier: SegmentedEntryView.reuseIdentifier) as? SegmentedEntryView else {
@@ -232,7 +232,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 
 	func saveBloodGlucose(completion: @escaping AllieResultCompletion<Bool>) {
 		guard let unitView = entryTaskView.entryView(forIdentifier: TimeValueEntryView.reuseIdentifier) as? TimeValueEntryView, let valueString = unitView.value, !valueString.isEmpty else {
-			completion(.failure(GeneralizedEntryTaskError.missing("Missing Value")))
+			completion(.failure(GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))))
 			return
 		}
 		guard let segementedView = entryTaskView.entryView(forIdentifier: SegmentedEntryView.reuseIdentifier) as? SegmentedEntryView else {
@@ -269,7 +269,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 
 	func saveBodyMass(completion: @escaping AllieResultCompletion<Bool>) {
 		guard let unitView = entryTaskView.entryView(forIdentifier: TimeValueEntryView.reuseIdentifier) as? TimeValueEntryView, let valueString = unitView.value, !valueString.isEmpty else {
-			completion(.failure(GeneralizedEntryTaskError.missing("Missing Value")))
+			completion(.failure(GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))))
 			return
 		}
 		guard let value = Double(valueString) else {
@@ -296,7 +296,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 
 	func saveBloodPressure(completion: @escaping AllieResultCompletion<Bool>) {
 		guard let view = entryTaskView.entryView(forIdentifier: MultiValueEntryView.reuseIdentifier) as? MultiValueEntryView, let lValueString = view.leadingValue, !lValueString.isEmpty, let tValueString = view.trailingValue, !tValueString.isEmpty else {
-			completion(.failure(GeneralizedEntryTaskError.missing("Missing Value")))
+			completion(.failure(GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))))
 			return
 		}
 
@@ -362,9 +362,10 @@ extension GeneralizedLogTaskDetailViewController: EntryTaskSectionFooterViewDele
 					let title = NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA", comment: "Error saving data!")
 					var message: String?
 					var showSettings = false
-					if error is GeneralizedEntryTaskError {
-						message = NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save.")
-					} else {
+					switch error {
+					case GeneralizedEntryTaskError.missing(let errorMessage):
+						message = errorMessage
+					default:
 						message = error.localizedDescription
 						showSettings = true
 					}

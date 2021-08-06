@@ -21,6 +21,7 @@ protocol AnyTaskExtensible: AnyUserInfoExtensible {
 	var category: String? { get set }
 	var subtitle: String? { get set }
 	var logText: String? { get set }
+	var links: [CHLink]? { get set }
 }
 
 extension OCKAnyTask {}
@@ -50,6 +51,7 @@ extension OCKTask {
 		self.notes = task.notes
 		self.timezone = task.timezone
 		self.carePlanId = task.carePlanId
+		self.links = task.links
 	}
 
 	func merged(new: OCKTask) -> Self {
@@ -69,6 +71,7 @@ extension OCKTask {
 		if let carePlanId = new.carePlanId {
 			existing.carePlanId = carePlanId
 		}
+		existing.links = new.links
 		return existing
 	}
 }
@@ -177,6 +180,28 @@ extension AnyTaskExtensible {
 		}
 		set {
 			setUserInfo(string: newValue, forKey: "logText")
+		}
+	}
+
+	var linksExist: Bool {
+		userInfo(forKey: "links", excludeEmptyString: true) != nil
+	}
+
+	var links: [CHLink]? {
+		get {
+			guard let linksDataString = userInfo(forKey: "links"), let data = linksDataString.data(using: .utf8) else {
+				return nil
+			}
+			guard let links = try? JSONDecoder().decode([CHLink].self, from: data) else {
+				return nil
+			}
+			return links
+		}
+		set {
+			guard let links = newValue, let data = try? JSONEncoder().encode(links), let linkDataString = String(data: data, encoding: .utf8) else {
+				return
+			}
+			setUserInfo(string: linkDataString, forKey: "links")
 		}
 	}
 }
