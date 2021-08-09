@@ -238,7 +238,8 @@ extension ConversationsManager {
 		guard let conversation = conversation else {
 			return nil
 		}
-		return messages[conversation.id]?[indexPath.section]
+		let message = messages[conversation.id]?[indexPath.section]
+		return message
 	}
 
 	func messages(for conversation: TCHConversation?) -> [TCHMessage]? {

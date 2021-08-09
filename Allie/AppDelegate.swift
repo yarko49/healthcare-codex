@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		UIApplication.shared.delegate as? AppDelegate
 	}
 
-	class var appCoordinator: MainCoordinator? {
+	class var mainCoordinator: MainCoordinator? {
 		(primaryWindow.windowScene?.delegate as? SceneDelegate)?.mainCoordinator
 	}
 
@@ -50,6 +50,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		IQKeyboardManager.shared.enable = true
 		Crashlytics.crashlytics()
 		Self.configureZendesk()
+		Messaging.messaging().delegate = self
+
+		let notificationOption = launchOptions?[.remoteNotification]
+		if let notification = notificationOption as? [String: AnyObject], notification["aps"] as? [String: AnyObject] != nil {
+			AppDelegate.mainCoordinator?.showMessagesTab()
+		}
 		return true
 	}
 
@@ -65,10 +71,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Called when the user discards a scene session.
 		// If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
 		// Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-	}
-
-	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-		Messaging.messaging().appDidReceiveMessage(userInfo)
 	}
 
 	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -129,8 +131,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func registerForPushNotifications(application: UIApplication) {
 		UNUserNotificationCenter.current().delegate = self
-		Messaging.messaging().delegate = self
-		Messaging.messaging().isAutoInitEnabled = true
 		let options: UNAuthorizationOptions = [.alert, .badge, .sound]
 		DispatchQueue.main.async {
 			UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, _ in
@@ -159,10 +159,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+		let userInfo = response.notification.request.content.userInfo
+		Messaging.messaging().appDidReceiveMessage(userInfo)
+		let application = UIApplication.shared
+		if application.applicationState != .active {
+			application.applicationIconBadgeNumber += 1
+			AppDelegate.mainCoordinator?.updateBadges(count: application.applicationIconBadgeNumber)
+		}
 		completionHandler()
 	}
 
 	func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+		let userInfo = notification.request.content.userInfo
+		Messaging.messaging().appDidReceiveMessage(userInfo)
 		completionHandler([.badge, .banner, .sound])
 	}
 }

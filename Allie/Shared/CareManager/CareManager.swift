@@ -43,11 +43,11 @@ class CareManager: NSObject, ObservableObject {
 		return healthKitStore
 	}()
 
-	private(set) lazy var synchronizedStoreManager: OCKSynchronizedStoreManager = {
+	private(set) lazy var synchronizedStoreManager: CHSynchronizedStoreManager = {
 		let coordinator = OCKStoreCoordinator()
 		coordinator.attach(eventStore: healthKitStore)
 		coordinator.attach(store: store)
-		let manager = OCKSynchronizedStoreManager(wrapping: coordinator)
+		let manager = CHSynchronizedStoreManager(wrapping: coordinator)
 		return manager
 	}()
 
@@ -571,7 +571,7 @@ extension CareManager {
 	}
 
 	func processOutcome(notification: OCKOutcomeNotification) {
-		guard let outcome = notification.outcome as? OCKOutcome else {
+		guard var outcome = notification.outcome as? OCKOutcome else {
 			return
 		}
 
@@ -590,6 +590,64 @@ extension CareManager {
 			}
 		}
 		ALog.info("\(notification.outcome)")
+	}
+
+	func upload(outcomes: [OCKAnyOutcome]) {
+		guard !outcomes.isEmpty else {
+			return
+		}
+		let group = DispatchGroup()
+		var chOutcomes: [CHOutcome] = []
+		for outcome in outcomes {
+			let hkOutcome = outcome as? OCKHealthKitOutcome
+			let ockOutcome = outcome as? OCKOutcome
+			guard let taskUUID = hkOutcome?.taskUUID ?? ockOutcome?.taskUUID else {
+				continue
+			}
+			group.enter()
+			var taskQuery = OCKTaskQuery()
+			taskQuery.uuids.append(taskUUID)
+			store.fetchTasks(query: taskQuery, callbackQueue: .main) { taskResult in
+				switch taskResult {
+				case .failure(let error):
+					ALog.error("\(error.localizedDescription)")
+				case .success(let tasks):
+					guard let task = tasks.first, let carePlanId = task.userInfo?["carePlanId"] else {
+						return
+					}
+					if let theOutcome = hkOutcome {
+						let chOutcome = CHOutcome(hkOutcome: theOutcome, carePlanID: carePlanId, taskID: task.id)
+						chOutcomes.append(chOutcome)
+					} else if let theOutcome = ockOutcome {
+						let chOutcome = CHOutcome(outcome: theOutcome, carePlanID: carePlanId, taskID: task.id)
+						chOutcomes.append(chOutcome)
+					}
+				}
+				group.leave()
+			}
+
+			group.notify(queue: .main) { [weak self] in
+				self?.upload(outcomes: outcomes)
+			}
+		}
+	}
+
+	func upload(outcomes: [CHOutcome]) {
+		guard !outcomes.isEmpty else {
+			return
+		}
+
+		APIClient.shared.post(outcomes: outcomes)
+			.sink { completion in
+				switch completion {
+				case .failure(let error):
+					ALog.error("\(error.localizedDescription)")
+				case .finished:
+					ALog.info("Uploaded the outcome")
+				}
+			} receiveValue: { response in
+				ALog.info("\(response.outcomes)")
+			}.store(in: &cancellables)
 	}
 
 	func upload(outcome: OCKOutcome, task: OCKTask, carePlanId: String) {

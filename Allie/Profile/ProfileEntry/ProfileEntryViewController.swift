@@ -25,17 +25,24 @@ class ProfileEntryViewController: SignupBaseViewController {
 	}
 
 	var doneAction: AllieActionHandler?
-	static let controlHeight: CGFloat = 48.0
+	static var controlHeight: CGFloat = 48.0
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .allieWhite
+		var viewTopOffset: CGFloat = controllerViewMode == .onboarding ? 2.0 : 1.0
+		var bottomButtonOffset: CGFloat = 2.0
+		if UIScreen.main.bounds.height <= 667 {
+			Self.controlHeight = 45.0
+			mainStackView.spacing = 5.0
+			viewTopOffset = 0.0
+			bottomButtonOffset = 0.0
+		}
 		configureValidation()
 		[namesStackView, firstNameTextField, lastNameTextField, middleNamesTextField, mainStackView].forEach { view in
 			view.translatesAutoresizingMaskIntoConstraints = false
 		}
 		view.addSubview(mainStackView)
 		let viewTopAnchor = controllerViewMode == .onboarding ? labekStackView.bottomAnchor : view.safeAreaLayoutGuide.topAnchor
-		let viewTopOffset: CGFloat = controllerViewMode == .onboarding ? 2.0 : 1.0
 		NSLayoutConstraint.activate([mainStackView.topAnchor.constraint(equalToSystemSpacingBelow: viewTopAnchor, multiplier: viewTopOffset),
 		                             mainStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: mainStackView.trailingAnchor, multiplier: 2.0)])
@@ -61,7 +68,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 		view.addSubview(bottomButton)
 		NSLayoutConstraint.activate([bottomButton.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: bottomButton.trailingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: bottomButton.bottomAnchor, multiplier: 2.0)])
+		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: bottomButton.bottomAnchor, multiplier: bottomButtonOffset)])
 		bottomButton.addTarget(self, action: #selector(save(_:)), for: .touchUpInside)
 		bottomButton.setTitle(doneButtonTitle, for: .normal)
 		bottomButton.backgroundColor = .allieGray

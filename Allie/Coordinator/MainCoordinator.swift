@@ -97,6 +97,18 @@ class MainCoordinator: BaseCoordinator {
 		#endif
 	}
 
+	func showMessagesTab() {
+		let appController = self[.application] as? AppCoordinator
+		appController?.tabBarController?.selectedIndex = 2
+	}
+
+	func updateBadges(count: Int?) {
+		let appController = self[.application] as? AppCoordinator
+		let tabbarItem = appController?.tabBarController?.tabBar.items?[2]
+		tabbarItem?.badgeColor = .systemRed
+		tabbarItem?.badgeValue = count == nil ? nil : "\(count ?? 0)"
+	}
+
 	func createPatientIfNeeded() {
 		if let patient = CareManager.shared.patient, patient.profile.fhirId == nil {
 			APIClient.shared.post(patient: patient)

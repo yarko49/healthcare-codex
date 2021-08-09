@@ -17,6 +17,19 @@ class TodayStatCell: UITableViewCell {
 	override func awakeFromNib() {
 		super.awakeFromNib()
 		statusIndicatorView.layer.cornerRadius = 5
+		statusIndicatorView.isHidden = true
+		statusLabel.isHidden = true
+	}
+
+	override func prepareForReuse() {
+		super.prepareForReuse()
+		typeImageView.image = nil
+		typeLabel.text = nil
+		dateLabel.text = nil
+		valueLabel.text = nil
+		statusIndicatorView.isHidden = true
+		statusLabel.text = nil
+		statusLabel.isHidden = true
 	}
 
 	func setup(for quantityType: HealthKitQuantityType, with data: [Any]?) {
