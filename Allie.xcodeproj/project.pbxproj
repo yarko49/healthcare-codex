@@ -23,6 +23,12 @@
 		840D1BF3265CCAE1000C9DB7 /* HKQuantityTypeIdentifier+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84552C0E265CC687003B55A9 /* HKQuantityTypeIdentifier+Image.swift */; };
 		840D1BF4265CCAE4000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */; };
 		840D1BF5265CCAE4000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */; };
+		841418F326BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */; };
+		841418F426BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */; };
+		841418F526BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */; };
+		841418F726BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */; };
+		841418F826BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */; };
+		841418F926BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */; };
 		841640A92627D1C3000903AF /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 841640A82627D1C3000903AF /* Colors.xcassets */; };
 		841640C52627D714000903AF /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ConversationViewController.swift */; };
 		841640CA2627D999000903AF /* UITabBar+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C92627D999000903AF /* UITabBar+Appearance.swift */; };
@@ -867,6 +873,8 @@
 		8408843B26883F8C003C3AE2 /* FilledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilledButton.swift; sourceTree = "<group>"; };
 		8408843F26884001003C3AE2 /* Color+Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Names.swift"; sourceTree = "<group>"; };
 		840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKCorrelationTypeIdentifier+Image.swift"; sourceTree = "<group>"; };
+		841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHSynchronizedStoreManager.swift; sourceTree = "<group>"; };
+		841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHOutcome+OCKHealthKitOutcome.swift"; sourceTree = "<group>"; };
 		841640A82627D1C3000903AF /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		841640C42627D714000903AF /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		841640C92627D999000903AF /* UITabBar+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar+Appearance.swift"; sourceTree = "<group>"; };
@@ -1320,6 +1328,7 @@
 				84A8F50326B76AE700A62818 /* InflightIdentifiers.swift */,
 				84749FBA26313B4200D7D7A8 /* CareManager+HealthKitSynchronization.swift */,
 				84C212A02660B3AC000D491B /* CareManager+FeatureContent.swift */,
+				841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */,
 			);
 			path = CareManager;
 			sourceTree = "<group>";
@@ -1710,6 +1719,7 @@
 				84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */,
 				8476B0EB261D84A4009516ED /* CHOutcome.swift */,
 				8476B0F0261D8691009516ED /* CHOutcome+OCKOutcome.swift */,
+				841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */,
 				845F18A226328255005A601A /* CHOutcome+HKSample.swift */,
 				84EDA194265786120049323C /* CHOutcome+HKStatistics.swift */,
 				844766F0259C2A4E00C50C09 /* CHOutcomeValue.swift */,
@@ -2750,6 +2760,7 @@
 				845F18992632444F005A601A /* CHDevice.swift in Sources */,
 				84A8F4F826B754FE00A62818 /* ReadWriteLock.swift in Sources */,
 				8426167E269A70DD006BD8B0 /* GeneralizedLogTaskController.swift in Sources */,
+				841418F726BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */,
 				845B4543269BA17B00EC5211 /* OCKOutcomeValue+LogItem.swift in Sources */,
 				84230BE12607243A008BB83E /* DevicesSelectionViewController.swift in Sources */,
 				8447679E259C2A4E00C50C09 /* DateFormatter+Formatters.swift in Sources */,
@@ -2769,6 +2780,7 @@
 				84476731259C2A4E00C50C09 /* EmailSignInButton.swift in Sources */,
 				845FBE9725FC87D700472257 /* ObservationFactory.swift in Sources */,
 				84D84ADF269945B3007BE781 /* EntryTaskSectionHeaderView.swift in Sources */,
+				841418F326BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3018,6 +3030,7 @@
 				84261680269A70DD006BD8B0 /* GeneralizedLogTaskController.swift in Sources */,
 				84A8F4FA26B754FE00A62818 /* ReadWriteLock.swift in Sources */,
 				845B4545269BA17B00EC5211 /* OCKOutcomeValue+LogItem.swift in Sources */,
+				841418F926BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */,
 				847DCCA0265871F3004E9C1D /* DevicesSelectionViewController.swift in Sources */,
 				847DCCA2265871F3004E9C1D /* DateFormatter+Formatters.swift in Sources */,
 				847DCCA3265871F3004E9C1D /* UserDefaults+Settings.swift in Sources */,
@@ -3037,6 +3050,7 @@
 				847DCCAE265871F3004E9C1D /* EmailSignInButton.swift in Sources */,
 				847DCCAF265871F3004E9C1D /* ObservationFactory.swift in Sources */,
 				84D84AE1269945B3007BE781 /* EntryTaskSectionHeaderView.swift in Sources */,
+				841418F526BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3253,6 +3267,7 @@
 				8426167F269A70DD006BD8B0 /* GeneralizedLogTaskController.swift in Sources */,
 				84A8F4F926B754FE00A62818 /* ReadWriteLock.swift in Sources */,
 				845B4544269BA17B00EC5211 /* OCKOutcomeValue+LogItem.swift in Sources */,
+				841418F826BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */,
 				84D122CA264112DE00990196 /* DevicesSelectionViewController.swift in Sources */,
 				84D122CC264112DE00990196 /* DateFormatter+Formatters.swift in Sources */,
 				84D122CD264112DE00990196 /* UserDefaults+Settings.swift in Sources */,
@@ -3272,6 +3287,7 @@
 				84D122D9264112DE00990196 /* EmailSignInButton.swift in Sources */,
 				84D122DA264112DE00990196 /* ObservationFactory.swift in Sources */,
 				84D84AE0269945B3007BE781 /* EntryTaskSectionHeaderView.swift in Sources */,
+				841418F426BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3515,7 +3531,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.24;
+				MARKETING_VERSION = 0.8.27;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3544,7 +3560,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.24;
+				MARKETING_VERSION = 0.8.27;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3669,7 +3685,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.26;
+				MARKETING_VERSION = 0.8.27;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3698,7 +3714,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.26;
+				MARKETING_VERSION = 0.8.27;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3727,7 +3743,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.24;
+				MARKETING_VERSION = 0.8.27;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3756,7 +3772,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.24;
+				MARKETING_VERSION = 0.8.27;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";

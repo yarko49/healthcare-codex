@@ -75,6 +75,13 @@ class ConversationViewController: MessagesViewController {
 		}
 	}
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		UIApplication.shared.applicationIconBadgeNumber = 0
+		AppDelegate.mainCoordinator?.updateBadges(count: nil)
+		messagesCollectionView.scrollToLastItem()
+	}
+
 	func configureMessageCollectionView() {
 		messagesCollectionView.messagesDataSource = self
 		messagesCollectionView.messagesLayoutDelegate = self
@@ -113,6 +120,7 @@ extension ConversationViewController: ConversationMessagesDelegate {
 
 	func conversationsManager(_ manager: ConversationsManager, didReceive message: TCHMessage, for conversation: TCHConversation) {
 		ALog.trace("Did Recieve message")
+		messagesCollectionView.scrollToLastItem()
 	}
 }
 
@@ -284,7 +292,7 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
 		// Resign first responder for iPad split view
 		inputBar.inputTextView.resignFirstResponder()
 
-		conversationsManager?.send(message: text, for: conversation, completion: { result in
+		conversationsManager?.send(message: text, for: conversation, completion: { [weak self] result in
 			DispatchQueue.main.async {
 				inputBar.sendButton.stopAnimating()
 				switch result {
@@ -295,6 +303,7 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
 					inputBar.inputTextView.placeholder = NSLocalizedString("YOUR_MESSAGE", comment: "Your message")
 					ALog.info("Message Sent, \(message.id)")
 				}
+				self?.messagesCollectionView.scrollToLastItem()
 			}
 		})
 	}
