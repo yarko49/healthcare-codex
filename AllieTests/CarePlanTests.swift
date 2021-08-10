@@ -59,4 +59,12 @@ class CarePlanTests: XCTestCase {
 			throw URLError(.cannotDecodeRawData)
 		}
 	}
+
+	func testNewCarePlan() throws {
+		let data = AllieTests.loadTestData(fileName: "NewCarePlan.json")
+		XCTAssertNotNil(data)
+		let decoder = CHJSONDecoder()
+		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
+		XCTAssertNotNil(carePlanResponse.tasks)
+	}
 }

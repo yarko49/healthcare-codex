@@ -532,6 +532,7 @@
 		84A8085E269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8085D269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift */; };
 		84A8085F269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8085D269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift */; };
 		84A80860269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8085D269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift */; };
+		84A85A0226C0CACC000023C2 /* NewCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 84A85A0126C0CACC000023C2 /* NewCarePlan.json */; };
 		84A8F4F826B754FE00A62818 /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8F4F726B754FE00A62818 /* ReadWriteLock.swift */; };
 		84A8F4F926B754FE00A62818 /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8F4F726B754FE00A62818 /* ReadWriteLock.swift */; };
 		84A8F4FA26B754FE00A62818 /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8F4F726B754FE00A62818 /* ReadWriteLock.swift */; };
@@ -1087,6 +1088,7 @@
 		84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareKitStoreTests.swift; sourceTree = "<group>"; };
 		84A80859269BD7840012028C /* HKBloodGlucoseMealTime+Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKBloodGlucoseMealTime+Display.swift"; sourceTree = "<group>"; };
 		84A8085D269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKDiscreteQuantitySample+BloodGlucose.swift"; sourceTree = "<group>"; };
+		84A85A0126C0CACC000023C2 /* NewCarePlan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NewCarePlan.json; sourceTree = "<group>"; };
 		84A8F4F726B754FE00A62818 /* ReadWriteLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadWriteLock.swift; sourceTree = "<group>"; };
 		84A8F50326B76AE700A62818 /* InflightIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InflightIdentifiers.swift; sourceTree = "<group>"; };
 		84A9202A26858DE300A52412 /* ConnectProviderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectProviderViewController.swift; sourceTree = "<group>"; };
@@ -1391,6 +1393,7 @@
 			children = (
 				842398E1259C1144006FB3F4 /* AllieTests.swift */,
 				84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */,
+				84A85A0126C0CACC000023C2 /* NewCarePlan.json */,
 				84C83FCE259C48F200DAEF34 /* DateFormatterTests.swift */,
 				84C83FCD259C48F100DAEF34 /* Info.plist */,
 				84C83FCC259C48F100DAEF34 /* NoteTests.swift */,
@@ -2275,6 +2278,7 @@
 				84D121C3264100BC00990196 /* Outcomes1.json in Resources */,
 				84A9D88B26AA70B5001E83B2 /* ConversationsUsers.json in Resources */,
 				8449A66C267C79A500F73D8E /* Organizations.json in Resources */,
+				84A85A0226C0CACC000023C2 /* NewCarePlan.json in Resources */,
 				8449A668267C789B00F73D8E /* OutcomesResponse.json in Resources */,
 				84C83FD8259C48F200DAEF34 /* TestImage.png in Resources */,
 				84C83FE7259C48F200DAEF34 /* TaskB2.json in Resources */,
@@ -3531,7 +3535,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.27;
+				MARKETING_VERSION = 0.8.28;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3560,7 +3564,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.27;
+				MARKETING_VERSION = 0.8.28;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3685,7 +3689,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.27;
+				MARKETING_VERSION = 0.8.28;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3714,7 +3718,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.27;
+				MARKETING_VERSION = 0.8.28;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3743,7 +3747,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.27;
+				MARKETING_VERSION = 0.8.28;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3772,7 +3776,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.27;
+				MARKETING_VERSION = 0.8.28;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";

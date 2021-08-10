@@ -339,4 +339,66 @@ class TaskTests: XCTestCase {
 		XCTAssertNotNil(ockTask)
 		ALog.info("\(ockTask)")
 	}
+
+	func testLinksTask() throws {
+		let taskData = """
+		    {
+		    "groupIdentifier": "LINK",
+		    "remoteId": "education-links-uc-health",
+		    "id": "",
+		    "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan/Task/education-links-uc-health",
+		    "userInfo": {
+		    "category": "links",
+		    "priority": "5"
+		    },
+		    "createdDate": "2021-08-05T18:53:43Z",
+		    "deletedDate": "9999-01-01T00:00:00Z",
+		    "effectiveDate": "2021-08-05T18:53:43Z",
+		    "updatedDate": "2021-08-09T01:23:09Z",
+		    "title": "Links",
+		    "schedules": [
+		    {
+		    "custom": false,
+		    "daily": true,
+		    "weekly": false
+		    }
+		    ],
+		    "carePlanId": "defaultCarePlan",
+		    "instructions": "Helpful links",
+		    "impactsAdherence": false,
+		    "links": [
+		    {
+		    "url": "https://www.uchealth.org/",
+		    "title": "UCHealth",
+		    "type": "url"
+		    },
+		    {
+		    "title": "UCHealth Hospital Address",
+		    "type": "location",
+		    "latitude": "39.742332",
+		    "longitude": "-104.841487"
+		    },
+		    {
+		    "title": "Email Support",
+		    "type": "email",
+		    "email": "support@codexhealth.com"
+		    }
+		    ]
+		    }
+		""".data(using: .utf8)
+		XCTAssertNotNil(testData)
+		do {
+			let decode = try CHJSONDecoder().decode(CHTask.self, from: taskData!)
+			let links = decode.links
+			XCTAssertNotNil(links)
+			let ockTask = OCKTask(task: decode)
+			XCTAssertNotNil(ockTask)
+			let ockLinks = ockTask.links
+			XCTAssertNotNil(ockLinks)
+			let linkItems = ockTask.linkItems
+			XCTAssertNotNil(linkItems)
+		} catch {
+			ALog.error("\(error.localizedDescription)")
+		}
+	}
 }

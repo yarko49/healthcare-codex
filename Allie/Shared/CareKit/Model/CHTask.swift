@@ -98,6 +98,7 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 				self.asset = healthKitLinkage?.quantityIdentifier.assetName
 			}
 		}
+		self.links = try container.decodeIfPresent([CHLink].self, forKey: .links)
 	}
 
 	public func encode(to encoder: Encoder) throws {
@@ -120,6 +121,7 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 		try container.encodeIfPresent(notes, forKey: .notes)
 		try container.encode(timezone, forKey: .timezone)
 		try container.encodeIfPresent(healthKitLinkage, forKey: .healthKitLinkage)
+		try container.encodeIfPresent(links, forKey: .links)
 	}
 
 	private enum CodingKeys: String, CodingKey {
@@ -142,5 +144,6 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 		case notes
 		case timezone
 		case healthKitLinkage
+		case links
 	}
 }
