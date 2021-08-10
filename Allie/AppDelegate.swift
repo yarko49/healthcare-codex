@@ -95,6 +95,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 		Messaging.messaging().appDidReceiveMessage(userInfo)
+		application.applicationIconBadgeNumber += 1
+		AppDelegate.mainCoordinator?.updateBadges(count: application.applicationIconBadgeNumber)
 		completionHandler(UIBackgroundFetchResult.newData)
 	}
 
@@ -162,16 +164,17 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 		let userInfo = response.notification.request.content.userInfo
 		Messaging.messaging().appDidReceiveMessage(userInfo)
 		let application = UIApplication.shared
-		if application.applicationState != .active {
-			application.applicationIconBadgeNumber += 1
-			AppDelegate.mainCoordinator?.updateBadges(count: application.applicationIconBadgeNumber)
-		}
+		application.applicationIconBadgeNumber += 1
+		AppDelegate.mainCoordinator?.updateBadges(count: application.applicationIconBadgeNumber)
 		completionHandler()
 	}
 
 	func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
 		let userInfo = notification.request.content.userInfo
 		Messaging.messaging().appDidReceiveMessage(userInfo)
+		let application = UIApplication.shared
+		application.applicationIconBadgeNumber += 1
+		AppDelegate.mainCoordinator?.updateBadges(count: application.applicationIconBadgeNumber)
 		completionHandler([.badge, .banner, .sound])
 	}
 }

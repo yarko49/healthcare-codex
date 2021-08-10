@@ -1,0 +1,306 @@
+{
+    "carePlans": [
+        {
+            "groupIdentifier": "",
+            "remoteId": "defaultCarePlan",
+            "id": "",
+            "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan",
+            "tags": [
+                "default"
+            ],
+            "userInfo": {},
+            "createdDate": "2021-08-05T18:53:43Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-08-05T18:53:43Z",
+            "updatedDate": "2021-08-09T01:23:09Z",
+            "title": "Default Care Plan",
+            "patientId": ""
+        }
+    ],
+    "tasks": [
+        {
+            "groupIdentifier": "FEATURED_CONTENT",
+            "remoteId": "education-easy-and-healthy-recipes",
+            "id": "",
+            "asset": "shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpeg",
+            "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan/Task/education-easy-and-healthy-recipes",
+            "userInfo": {
+                "category": "education",
+                "detailViewAsset": "recipes-Everyday-Healthy-Meals-Cookbook.pdf",
+                "priority": "4"
+            },
+            "createdDate": "2021-08-05T18:53:43Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-08-05T18:53:43Z",
+            "updatedDate": "2021-08-09T01:23:09Z",
+            "title": "Easy & Healthy Recipes",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": true,
+                    "weekly": false,
+                    "text": "All day"
+                }
+            ],
+            "carePlanId": "defaultCarePlan",
+            "impactsAdherence": false
+        },
+        {
+            "groupIdentifier": "LINK",
+            "remoteId": "education-links-uc-health",
+            "id": "",
+            "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan/Task/education-links-uc-health",
+            "userInfo": {
+                "category": "links",
+                "priority": "5"
+            },
+            "createdDate": "2021-08-05T18:53:43Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-08-05T18:53:43Z",
+            "updatedDate": "2021-08-09T01:23:09Z",
+            "title": "Links",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": true,
+                    "weekly": false
+                }
+            ],
+            "carePlanId": "defaultCarePlan",
+            "instructions": "Helpful links",
+            "impactsAdherence": false,
+            "links": [
+                {
+                    "url": "https://www.uchealth.org/",
+                    "title": "UCHealth",
+                    "type": "url"
+                },
+                {
+                    "title": "UCHealth Hospital Address",
+                    "type": "location",
+                    "latitude": "39.742332",
+                    "longitude": "-104.841487"
+                },
+                {
+                    "title": "Email Support",
+                    "type": "email",
+                    "email": "support@codexhealth.com"
+                }
+            ]
+        },
+        {
+            "groupIdentifier": "SIMPLE",
+            "remoteId": "lifestyle-30-minutes-of-morning-exercise",
+            "id": "",
+            "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan/Task/lifestyle-30-minutes-of-morning-exercise",
+            "userInfo": {
+                "category": "lifestyle",
+                "priority": "3"
+            },
+            "createdDate": "2021-08-05T18:53:43Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-08-05T18:53:43Z",
+            "updatedDate": "2021-08-09T01:23:09Z",
+            "title": "30 Minutes of Morning Exercise",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": true,
+                    "weekly": false,
+                    "hour": 8,
+                    "duration": 21600
+                }
+            ],
+            "carePlanId": "defaultCarePlan",
+            "impactsAdherence": false
+        },
+        {
+            "groupIdentifier": "NUMERIC_PROGRESS",
+            "remoteId": "measurements-activity",
+            "id": "",
+            "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan/Task/measurements-activity",
+            "userInfo": {
+                "category": "measurements",
+                "priority": "0"
+            },
+            "createdDate": "2021-08-05T18:53:43Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-08-05T18:53:43Z",
+            "updatedDate": "2021-08-09T01:23:09Z",
+            "title": "Activity",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": true,
+                    "weekly": false,
+                    "hour": 8,
+                    "text": "Anytime",
+                    "targetValues": [
+                        {
+                            "groupIdentifier": "",
+                            "id": "",
+                            "kind": "",
+                            "units": "count",
+                            "value": 2000,
+                            "type": "integer"
+                        }
+                    ]
+                }
+            ],
+            "carePlanId": "defaultCarePlan",
+            "healthKitLinkage": {
+                "quantityIdentifier": "stepCount",
+                "quantitytype": "cumulative",
+                "unit": "count"
+            },
+            "instructions": "Your total steps today",
+            "impactsAdherence": true
+        },
+        {
+            "groupIdentifier": "LABELED_VALUE",
+            "remoteId": "measurements-glucose-levels",
+            "id": "",
+            "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan/Task/measurements-glucose-levels",
+            "userInfo": {
+                "category": "measurements",
+                "priority": "0"
+            },
+            "createdDate": "2021-08-05T18:53:43Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-08-05T18:53:43Z",
+            "updatedDate": "2021-08-09T01:23:09Z",
+            "title": "Glucose Levels",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": true,
+                    "weekly": false,
+                    "targetValues": [
+                        {
+                            "groupIdentifier": "",
+                            "id": "",
+                            "kind": "bloodGlucose",
+                            "units": "mg/dL",
+                            "value": 140,
+                            "type": "integer"
+                        },
+                        {
+                            "groupIdentifier": "",
+                            "id": "",
+                            "kind": "noprandial",
+                            "units": "",
+                            "value": 0,
+                            "type": "integer"
+                        },
+                        {
+                            "groupIdentifier": "",
+                            "id": "",
+                            "kind": "preprandial",
+                            "units": "",
+                            "value": 1,
+                            "type": "integer"
+                        },
+                        {
+                            "groupIdentifier": "",
+                            "id": "",
+                            "kind": "postprandial",
+                            "units": "",
+                            "value": 2,
+                            "type": "integer"
+                        }
+                    ]
+                }
+            ],
+            "carePlanId": "defaultCarePlan",
+            "healthKitLinkage": {
+                "quantityIdentifier": "bloodGlucose",
+                "quantitytype": "discrete",
+                "unit": "mg/dl"
+            },
+            "instructions": "Monitor daily glucose levels",
+            "impactsAdherence": true
+        },
+        {
+            "groupIdentifier": "LABELED_VALUE",
+            "remoteId": "measurements-weight",
+            "id": "",
+            "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan/Task/measurements-weight",
+            "userInfo": {
+                "category": "measurements",
+                "priority": "0"
+            },
+            "createdDate": "2021-08-05T18:53:43Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-08-05T18:53:43Z",
+            "updatedDate": "2021-08-09T01:23:09Z",
+            "title": "Weight",
+            "schedules": [
+                {
+                    "custom": false,
+                    "daily": true,
+                    "weekly": false,
+                    "targetValues": [
+                        {
+                            "groupIdentifier": "",
+                            "id": "",
+                            "kind": "",
+                            "units": "lb",
+                            "value": 180,
+                            "type": "double"
+                        }
+                    ]
+                }
+            ],
+            "carePlanId": "defaultCarePlan",
+            "healthKitLinkage": {
+                "quantityIdentifier": "bodyMass",
+                "quantitytype": "discrete",
+                "unit": "lb"
+            },
+            "instructions": "Check daily weight",
+            "impactsAdherence": true
+        }
+    ],
+    "outcomes": [],
+    "patients": [
+        {
+            "groupIdentifier": "",
+            "remoteId": "8qD0k2rBjLXfOE3HPCq3zfvu3lK2",
+            "id": "8qD0k2rBjLXfOE3HPCq3zfvu3lK2",
+            "timezone": {
+                "identifier": "America/Los_Angeles"
+            },
+            "createdDate": "2021-08-09T01:21:26Z",
+            "effectiveDate": "2021-08-09T01:21:26Z",
+            "updatedDate": "2021-08-09T01:22:44Z",
+            "birthday": "1970-01-01T00:00:00Z",
+            "name": {
+                "namePrefix": "",
+                "givenName": "Waqar",
+                "middleName": "",
+                "familyName": "Links",
+                "nameSuffix": "",
+                "nickname": ""
+            },
+            "profile": {
+                "deviceManufacturer": "Apple",
+                "deviceSoftwareVersion": "14.6",
+                "email": "wmalloc+links@gmail.com",
+                "FHIRId": "392408d7-2390-4136-acc0-fdb06a3ee1ef",
+                "heightInches": 71,
+                "measurementBloodPressureEnabled": false,
+                "measurementHeartRateEnabled": false,
+                "measurementRestingHeartRateEnabled": false,
+                "measurementStepsEnabled": false,
+                "measurementWeightEnabled": false,
+                "notificationsEnabled": false,
+                "signUpCompleted": true,
+                "patientId": "8qD0k2rBjLXfOE3HPCq3zfvu3lK2",
+                "userId": "8qD0k2rBjLXfOE3HPCq3zfvu3lK2",
+                "weightLbs": 150
+            },
+            "sex": "male"
+        }
+    ],
+    "vectorClock": 4
+}

@@ -123,18 +123,18 @@ class CareManager: NSObject, ObservableObject {
 	}
 
 	func registerForNotifications() {
-		synchronizedStoreManager.notificationPublisher
-			.sink { [weak self] notification in
-				if let carePlanNotification = notification as? OCKCarePlanNotification {
-					self?.processCarePlan(notification: carePlanNotification)
-				} else if let patientNotification = notification as? OCKPatientNotification {
-					self?.processPatient(notification: patientNotification)
-				} else if let taskNotification = notification as? OCKTaskNotification {
-					self?.processTask(notification: taskNotification)
-				} else if let outcomeNotification = notification as? OCKOutcomeNotification {
-					self?.processOutcome(notification: outcomeNotification)
-				}
-			}.store(in: &cancellables)
+//		synchronizedStoreManager.notificationPublisher
+//			.sink { [weak self] notification in
+//				if let carePlanNotification = notification as? OCKCarePlanNotification {
+//					self?.processCarePlan(notification: carePlanNotification)
+//				} else if let patientNotification = notification as? OCKPatientNotification {
+//					self?.processPatient(notification: patientNotification)
+//				} else if let taskNotification = notification as? OCKTaskNotification {
+//					self?.processTask(notification: taskNotification)
+//				} else if let outcomeNotification = notification as? OCKOutcomeNotification {
+//					self?.processOutcome(notification: outcomeNotification)
+//				}
+//			}.store(in: &cancellables)
 
 		NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)
 			.sink { [weak self] _ in
