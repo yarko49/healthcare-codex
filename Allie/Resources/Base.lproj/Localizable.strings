@@ -669,3 +669,12 @@
 /* Insulin Unit */
 "INSULIN_UNIT" = "Insulin Unit";
 
+/* Deleting your account is permanent and will remove all content. Are you sure you want to delete your account? */
+"DELETE_ACCOUNT.message" = "Deleting your account is permanent and will remove all content. Are you sure you want to delete your account?";
+
+/* Delete Account */
+"DELETE_ACCOUNT" = "Delete Account";
+
+/* Deleteing Account */
+"DELETING_ACCOUNT" = "Deleteing Account";
+

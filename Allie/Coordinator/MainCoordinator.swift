@@ -55,6 +55,12 @@ class MainCoordinator: BaseCoordinator {
 			.sink { [weak self] _ in
 				self?.logout()
 			}.store(in: &cancellables)
+
+		NotificationCenter.default.publisher(for: .applicationDidDeleteAcount)
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] _ in
+				self?.deleteCurrentUser()
+			}.store(in: &cancellables)
 	}
 
 	override func start() {
@@ -228,5 +234,25 @@ class MainCoordinator: BaseCoordinator {
 				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
 				completion?(refreshResult)
 			}.store(in: &cancellables)
+	}
+
+	func deleteCurrentUser() {
+		guard let currentUser = Auth.auth().currentUser else {
+			return
+		}
+
+		showHUD(title: NSLocalizedString("DELETING_ACCOUNT", comment: "Deleteing Account"), message: nil, animated: true)
+		currentUser.delete { [weak self] error in
+			DispatchQueue.main.async {
+				self?.hideHUD()
+				if let error = error {
+					ALog.error("Unable to delete account \(error.localizedDescription)")
+					let okAction = AlertHelper.AlertAction(withTitle: String.ok)
+					self?.showAlert(title: "Delete Error", detailText: error.localizedDescription, actions: [okAction])
+				} else {
+					self?.logout()
+				}
+			}
+		}
 	}
 }
