@@ -24,6 +24,7 @@ class FeaturedContentViewController: UIViewController, OCKFeaturedContentViewDel
 
 	lazy var featuredContentView: OCKFeaturedContentView = {
 		let view = OCKFeaturedContentView(imageOverlayStyle: imageOverlayStyle)
+		view.imageView.contentMode = .scaleAspectFit
 		view.delegate = self
 		return view
 	}()

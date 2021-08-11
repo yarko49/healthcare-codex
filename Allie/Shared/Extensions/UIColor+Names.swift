@@ -37,6 +37,10 @@ extension UIColor {
 		UIColor(named: "AllieLightText")!
 	}
 
+	class var allieRed: UIColor {
+		UIColor(named: "AllieRed")!
+	}
+
 	class var medications: UIColor {
 		UIColor(named: "Medications")!
 	}

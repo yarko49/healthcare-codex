@@ -7,7 +7,7 @@ import UIKit
 
 class SettingsViewController: BaseViewController {
 	let rowHeight: CGFloat = 60
-	let footerHeight: CGFloat = 110
+	let footerHeight: CGFloat = 160
 
 	// MARK: - IBOutlets
 
@@ -235,6 +235,22 @@ extension SettingsViewController: UITableViewDelegate {
 extension SettingsViewController: SettingsFooterViewDelegate {
 	func settingsFooterViewDidTapLogout(_ view: SettingsFooterView) {
 		NotificationCenter.default.post(name: .applicationDidLogout, object: nil)
+	}
+
+	func settingsFooterViewDidTapDelete(_ view: SettingsFooterView) {
+		let title = NSLocalizedString("DELETE_ACCOUNT", comment: "Delete Account")
+		let message = NSLocalizedString("DELETE_ACCOUNT.message", comment: "Deleting your account is permanent and will remove all content. Are you sure you want to delete your account?")
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+		let cancelAction = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"), style: .cancel) { _ in
+		}
+		alertController.addAction(cancelAction)
+		let deleteAction = UIAlertAction(title: NSLocalizedString("DELETE", comment: "Delete"), style: .destructive) { _ in
+			DispatchQueue.main.async {
+				NotificationCenter.default.post(name: .applicationDidDeleteAcount, object: nil)
+			}
+		}
+		alertController.addAction(deleteAction)
+		tabBarController?.present(alertController, animated: true, completion: nil)
 	}
 }
 

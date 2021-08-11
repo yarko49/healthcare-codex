@@ -66,7 +66,6 @@
 		842DFCB525BBF4B500066A07 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCB725BBF4B500066A07 /* ProfileViewController.xib */; };
 		842DFCBB25BBF4F500066A07 /* StatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCBD25BBF4F500066A07 /* StatCell.xib */; };
 		842DFCC125BBF4F900066A07 /* TodayStatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCC325BBF4F900066A07 /* TodayStatCell.xib */; };
-		842DFCD625BBF51100066A07 /* SettingsFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCD825BBF51100066A07 /* SettingsFooterView.xib */; };
 		842DFCDC25BBF52500066A07 /* PickerTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCDE25BBF52500066A07 /* PickerTextField.xib */; };
 		842DFCE225BBF52A00066A07 /* TextfieldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCE425BBF52A00066A07 /* TextfieldView.xib */; };
 		842DFCE825BBF52F00066A07 /* AppleHealthView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCEA25BBF52F00066A07 /* AppleHealthView.xib */; };
@@ -471,7 +470,6 @@
 		847DCCD5265871F3004E9C1D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 844DD5DB264F76CE0039DB20 /* GoogleService-Info.plist */; };
 		847DCCD7265871F3004E9C1D /* TextfieldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCE425BBF52A00066A07 /* TextfieldView.xib */; };
 		847DCCD8265871F3004E9C1D /* TodayStatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCC325BBF4F900066A07 /* TodayStatCell.xib */; };
-		847DCCD9265871F3004E9C1D /* SettingsFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCD825BBF51100066A07 /* SettingsFooterView.xib */; };
 		847DF4EB265C7F5100CCC1E9 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847DF4EA265C7F5100CCC1E9 /* BaseCoordinator.swift */; };
 		847DF4EC265C7F5100CCC1E9 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847DF4EA265C7F5100CCC1E9 /* BaseCoordinator.swift */; };
 		847DF4ED265C7F5100CCC1E9 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847DF4EA265C7F5100CCC1E9 /* BaseCoordinator.swift */; };
@@ -801,7 +799,6 @@
 		84D122FE264112DE00990196 /* PickerTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCDE25BBF52500066A07 /* PickerTextField.xib */; };
 		84D12300264112DE00990196 /* TextfieldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCE425BBF52A00066A07 /* TextfieldView.xib */; };
 		84D12301264112DE00990196 /* TodayStatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCC325BBF4F900066A07 /* TodayStatCell.xib */; };
-		84D12302264112DE00990196 /* SettingsFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842DFCD825BBF51100066A07 /* SettingsFooterView.xib */; };
 		84D2BFD1260460D30064DB08 /* AnyUserInfoExtensible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2BFD0260460D30064DB08 /* AnyUserInfoExtensible.swift */; };
 		84D3F68D264A4BB700241BBB /* ScheduleUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D3F68C264A4BB700241BBB /* ScheduleUtility.swift */; };
 		84D3F68E264A4BB700241BBB /* ScheduleUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D3F68C264A4BB700241BBB /* ScheduleUtility.swift */; };
@@ -908,7 +905,6 @@
 		842DFCB625BBF4B500066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ProfileViewController.xib; sourceTree = "<group>"; };
 		842DFCBC25BBF4F500066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StatCell.xib; sourceTree = "<group>"; };
 		842DFCC225BBF4F900066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TodayStatCell.xib; sourceTree = "<group>"; };
-		842DFCD725BBF51100066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SettingsFooterView.xib; sourceTree = "<group>"; };
 		842DFCDD25BBF52500066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PickerTextField.xib; sourceTree = "<group>"; };
 		842DFCE325BBF52A00066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TextfieldView.xib; sourceTree = "<group>"; };
 		842DFCE925BBF52F00066A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AppleHealthView.xib; sourceTree = "<group>"; };
@@ -1524,7 +1520,6 @@
 			isa = PBXGroup;
 			children = (
 				84476633259C2A4E00C50C09 /* SettingsFooterView.swift */,
-				842DFCD825BBF51100066A07 /* SettingsFooterView.xib */,
 			);
 			path = UITableViewFooter;
 			sourceTree = "<group>";
@@ -2266,7 +2261,6 @@
 				84EDA19B265A0A240049323C /* GoogleService-Info.plist in Resources */,
 				842DFCE225BBF52A00066A07 /* TextfieldView.xib in Resources */,
 				842DFCC125BBF4F900066A07 /* TodayStatCell.xib in Resources */,
-				842DFCD625BBF51100066A07 /* SettingsFooterView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2314,7 +2308,6 @@
 				847DCCD5265871F3004E9C1D /* GoogleService-Info.plist in Resources */,
 				847DCCD7265871F3004E9C1D /* TextfieldView.xib in Resources */,
 				847DCCD8265871F3004E9C1D /* TodayStatCell.xib in Resources */,
-				847DCCD9265871F3004E9C1D /* SettingsFooterView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2336,7 +2329,6 @@
 				844DD5E2264F76EC0039DB20 /* GoogleService-Info.plist in Resources */,
 				84D12300264112DE00990196 /* TextfieldView.xib in Resources */,
 				84D12301264112DE00990196 /* TodayStatCell.xib in Resources */,
-				84D12302264112DE00990196 /* SettingsFooterView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3351,14 +3343,6 @@
 			name = TodayStatCell.xib;
 			sourceTree = "<group>";
 		};
-		842DFCD825BBF51100066A07 /* SettingsFooterView.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				842DFCD725BBF51100066A07 /* Base */,
-			);
-			name = SettingsFooterView.xib;
-			sourceTree = "<group>";
-		};
 		842DFCDE25BBF52500066A07 /* PickerTextField.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3535,7 +3519,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.28;
+				MARKETING_VERSION = 0.8.29;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3564,7 +3548,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.28;
+				MARKETING_VERSION = 0.8.29;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3689,7 +3673,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.28;
+				MARKETING_VERSION = 0.8.29;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3718,7 +3702,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.28;
+				MARKETING_VERSION = 0.8.29;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3747,7 +3731,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.28;
+				MARKETING_VERSION = 0.8.29;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3776,7 +3760,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.28;
+				MARKETING_VERSION = 0.8.29;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
