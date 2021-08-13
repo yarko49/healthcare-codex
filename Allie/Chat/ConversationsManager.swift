@@ -29,6 +29,7 @@ class ConversationsManager: NSObject, ObservableObject {
 	}
 
 	private(set) var cancellables: Set<AnyCancellable> = []
+
 	weak var messagesDelegate: ConversationMessagesDelegate?
 	@Published private(set) var client: TwilioConversationsClient?
 	@Published private(set) var conversations: Set<TCHConversation> = []
@@ -40,37 +41,64 @@ class ConversationsManager: NSObject, ObservableObject {
 
 	@Published private(set) var codexUsers: [String: CHConversationsUser] = [:]
 	private var conversationTokens: CHConversationsTokens?
+	private var refreshTokenWorkItem: DispatchWorkItem?
+	private var foregroundNotification: AnyCancellable?
+	private var backgroundNotification: AnyCancellable?
 
-	func refreshAccessToken(completion: @escaping AllieResultCompletion<Bool>) {
+	func configureNotifications() {
+		foregroundNotification?.cancel()
+		foregroundNotification = NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)
+			.sink { [weak self] _ in
+				self?.refreshAccessToken(completion: nil)
+			}
+
+		backgroundNotification?.cancel()
+		backgroundNotification = NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)
+			.sink(receiveValue: { [weak self] _ in
+				self?.refreshTokenWorkItem?.cancel()
+			})
+	}
+
+	func refreshAccessToken(completion: AllieResultCompletion<Bool>?) {
 		APIClient.shared.getConservationsTokens()
 			.sink { result in
 				if case .failure(let error) = result {
 					ALog.error("Error retrieving token \(error.localizedDescription)")
-					completion(.failure(error))
+					completion?(.failure(error))
 				}
-			} receiveValue: { [weak self] conversations in
-				self?.conversationTokens = conversations
+			} receiveValue: { [weak self] conversationTokens in
+				self?.conversationTokens = conversationTokens
 				if self?.client != nil {
-					self?.updateToken(token: conversations.tokens.first, completion: completion)
+					self?.updateToken(token: conversationTokens.tokens.first, completion: completion)
 				} else {
-					self?.login(token: conversations.tokens.first, completion: completion)
+					self?.login(token: conversationTokens.tokens.first, completion: completion)
+				}
+				self?.refreshTokenWorkItem?.cancel()
+				self?.refreshTokenWorkItem = DispatchWorkItem {
+					guard let strongSelf = self else {
+						return
+					}
+					strongSelf.refreshAccessToken(completion: nil)
+				}
+				if let workItem = self?.refreshTokenWorkItem {
+					DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + .seconds(55), execute: workItem)
 				}
 			}.store(in: &cancellables)
 	}
 
-	func updateToken(token: CHConversationsTokens.Token?, completion: @escaping AllieResultCompletion<Bool>) {
+	func updateToken(token: CHConversationsTokens.Token?, completion: AllieResultCompletion<Bool>?) {
 		guard let token = token else {
-			completion(.failure(AllieError.missing("Unable to update token, missing token")))
+			completion?(.failure(AllieError.missing("Unable to update token, missing token")))
 			return
 		}
 		client?.updateToken(token.accessToken, completion: { result in
 			if result.isSuccessful {
 				ALog.info("Access token refreshed")
-				completion(.success(true))
+				completion?(.success(true))
 			} else if let error = result.error {
-				completion(.failure(error))
+				completion?(.failure(error))
 			} else {
-				completion(.failure(URLError(.badServerResponse)))
+				completion?(.failure(URLError(.badServerResponse)))
 			}
 		})
 	}
@@ -142,15 +170,15 @@ class ConversationsManager: NSObject, ObservableObject {
 			}.store(in: &cancellables)
 	}
 
-	func login(token: CHConversationsTokens.Token?, completion: @escaping AllieResultCompletion<Bool>) {
+	func login(token: CHConversationsTokens.Token?, completion: AllieResultCompletion<Bool>?) {
 		guard let accessToken = token?.accessToken else {
-			completion(.failure(AllieError.missing("Unable to login, missing token")))
+			completion?(.failure(AllieError.missing("Unable to login, missing token")))
 			return
 		}
 		TwilioConversationsClient.conversationsClient(withToken: accessToken, properties: nil, delegate: self) { [weak self] result, client in
 			self?.client = client
 			ALog.info("Login Result \(result)")
-			completion(.success(true))
+			completion?(.success(true))
 		}
 	}
 

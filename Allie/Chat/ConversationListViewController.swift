@@ -65,6 +65,7 @@ class ConversationListViewController: UICollectionViewController {
 				}
 			}
 		}
+		conversationManager.configureNotifications()
 	}
 
 	func process(conversations: Set<TCHConversation>) {
@@ -97,8 +98,8 @@ class ConversationListViewController: UICollectionViewController {
 	}
 
 	func showError(message: String?) {
-		let controller = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-		let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+		let controller = UIAlertController(title: NSLocalizedString("ERROR", comment: "Error"), message: message, preferredStyle: .alert)
+		let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .default) { _ in
 		}
 		controller.addAction(okAction)
 		navigationController?.showDetailViewController(controller, sender: self)

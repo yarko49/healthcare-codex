@@ -571,7 +571,7 @@ extension CareManager {
 	}
 
 	func processOutcome(notification: OCKOutcomeNotification) {
-		guard var outcome = notification.outcome as? OCKOutcome else {
+		guard let outcome = notification.outcome as? OCKOutcome else {
 			return
 		}
 

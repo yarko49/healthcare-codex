@@ -1,29 +1,33 @@
 {
-  "availableOrganizations": [
-    {
-      "healthcareProviderTenantId": "CodexPilotHealthcare-3kuss",
-      "Id": "",
-      "name": " CodexPilotHealthcareOrganization",
-      "totalPatients": 0
-    },
-    {
-      "healthcareProviderTenantId": "CodexPilotHealthcare-3kuss",
-      "Id": "",
-      "name": "CodexPilotHealthcareOrganization",
-      "totalPatients": 2
-    },
-    {
-      "healthcareProviderTenantId": "David-Test-Organizat-t4z39",
-      "Id": "",
-      "name": "David Test Organization",
-      "totalPatients": 0
-    },
-    {
-      "healthcareProviderTenantId": "Demo-Organization-hmbj3",
-      "Id": "",
-      "name": "Demo Organization",
-      "totalPatients": 19
-    }
-  ],
-  "registeredOrganizations": []
+    "availableOrganizations": [
+        {
+            "authorizationCode": "",
+            "authUrl": "",
+            "description": "",
+            "image": "",
+            "healthcareProviderTenantID": "David-Test-Organizat-t4z39",
+            "name": "David Test",
+            "state": ""
+        },
+        {
+            "authorizationCode": "",
+            "authUrl": "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/authorize?client_id=565422d2-67b9-4b42-bcff-dab741271483&redirect_uri=https%3A%2F%2Fpatient-ehr.codexhealth.com&response_type=code&state=2021-08-11T04%3A57%3A59Z",
+            "description": "",
+            "image": "",
+            "healthcareProviderTenantID": "Demo-Organization-hmbj3",
+            "name": "Demo Organization",
+            "state": ""
+        }
+    ],
+    "registeredOrganizations": [
+        {
+            "authorizationCode": "",
+            "authUrl": "",
+            "description": "",
+            "image": "",
+            "healthcareProviderTenantID": "Demo-Organization-hmbj3",
+            "name": "Demo Organization",
+            "state": ""
+        }
+    ]
 }

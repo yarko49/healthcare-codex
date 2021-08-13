@@ -678,3 +678,9 @@
 /* Deleteing Account */
 "DELETING_ACCOUNT" = "Deleteing Account";
 
+/* Please try to Log Out and Log In again in order to Delete your account */
+"ACCOUNT_DELETION_ERROR.message" = "Please try to Log Out and Log In again in order to Delete your account";
+
+/* Account Deletion Error */
+"ACCOUNT_DELETION_ERROR" = "Account Deletion Error";
+
