@@ -1,3 +1,5 @@
+import Firebase
+import FirebaseAuth
 import KeychainAccess
 import MessagingSDK
 import SafariServices
@@ -240,17 +242,43 @@ extension SettingsViewController: SettingsFooterViewDelegate {
 	func settingsFooterViewDidTapDelete(_ view: SettingsFooterView) {
 		let title = NSLocalizedString("DELETE_ACCOUNT", comment: "Delete Account")
 		let message = NSLocalizedString("DELETE_ACCOUNT.message", comment: "Deleting your account is permanent and will remove all content. Are you sure you want to delete your account?")
-		let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		let cancelAction = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"), style: .cancel) { _ in
 		}
 		alertController.addAction(cancelAction)
-		let deleteAction = UIAlertAction(title: NSLocalizedString("DELETE", comment: "Delete"), style: .destructive) { _ in
-			DispatchQueue.main.async {
-				NotificationCenter.default.post(name: .applicationDidDeleteAcount, object: nil)
-			}
+		let deleteAction = UIAlertAction(title: NSLocalizedString("DELETE", comment: "Delete"), style: .destructive) { [weak self] _ in
+			self?.deleteUser()
 		}
 		alertController.addAction(deleteAction)
 		tabBarController?.present(alertController, animated: true, completion: nil)
+	}
+
+	func deleteUser() {
+		guard let currentUser = Auth.auth().currentUser else {
+			return
+		}
+
+		hud.textLabel.text = NSLocalizedString("DELETING_ACCOUNT", comment: "Deleteing Account")
+		hud.detailTextLabel.text = nil
+
+		hud.show(in: tabBarController?.view ?? navigationController?.view ?? view)
+		currentUser.delete { [weak self] error in
+			DispatchQueue.main.async {
+				self?.hud.dismiss()
+				if let error = error {
+					ALog.error("Unable to delete account \(error.localizedDescription)")
+					let title = NSLocalizedString("ACCOUNT_DELETION_ERROR", comment: "Account Deletion Error")
+					let message = NSLocalizedString("ACCOUNT_DELETION_ERROR.message", comment: "Please try to Log Out and Log In again in order to Delete your account")
+					let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
+					let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .default) { _ in
+					}
+					controller.addAction(okAction)
+					self?.navigationController?.showDetailViewController(controller, sender: self)
+				} else {
+					NotificationCenter.default.post(name: .applicationDidLogout, object: nil)
+				}
+			}
+		}
 	}
 }
 

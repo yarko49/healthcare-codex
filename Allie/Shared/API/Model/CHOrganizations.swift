@@ -21,29 +21,29 @@ struct CHOrganization: Codable, Identifiable, Hashable {
 	let id: String
 	let name: String
 	let imageURL: URL?
-	let detailImageURL: URL?
 	let authURL: URL?
-	let totalPatients: Int
 	let info: String?
+	let authorizationCode: String?
+	let state: String?
 
 	init(id: String) {
 		self.id = id
 		self.name = NSLocalizedString("UNKNOWN_ORGANIZATION", comment: "Unknown Organization")
 		self.imageURL = nil
-		self.detailImageURL = nil
 		self.authURL = nil
-		self.totalPatients = 0
 		self.info = nil
+		self.authorizationCode = nil
+		self.state = nil
 	}
 
 	private enum CodingKeys: String, CodingKey {
 		case id = "healthcareProviderTenantId"
 		case name
 		case imageURL = "image"
-		case detailImageURL = "detailImage"
 		case authURL = "authUrl"
-		case totalPatients
 		case info = "description"
+		case authorizationCode
+		case state
 	}
 
 	func hash(into hasher: inout Hasher) {
@@ -58,11 +58,16 @@ struct CHOrganization: Codable, Identifiable, Hashable {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.id = try container.decode(String.self, forKey: .id)
 		self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? NSLocalizedString("UNKNOWN_ORGANIZATION", comment: "Unknown Organization")
-		self.imageURL = try container.decodeIfPresent(URL.self, forKey: .imageURL)
-		self.detailImageURL = try container.decodeIfPresent(URL.self, forKey: .detailImageURL)
-		self.authURL = try container.decodeIfPresent(URL.self, forKey: .authURL)
-		self.totalPatients = try container.decodeIfPresent(Int.self, forKey: .totalPatients) ?? 0
-		self.info = try container.decodeIfPresent(String.self, forKey: .info)
+		let imageURLString = try container.decodeIfPresent(String.self, forKey: .imageURL)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+		self.imageURL = imageURLString.isEmpty ? nil : URL(string: imageURLString)
+		let authURLString = try container.decodeIfPresent(String.self, forKey: .authURL)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+		self.authURL = authURLString.isEmpty ? nil : URL(string: authURLString)
+		let info = try container.decodeIfPresent(String.self, forKey: .info)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+		self.info = info.isEmpty ? nil : info
+		let authorizationCode = try container.decodeIfPresent(String.self, forKey: .authorizationCode)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+		self.authorizationCode = authorizationCode.isEmpty ? nil : authorizationCode
+		let state = try container.decodeIfPresent(String.self, forKey: .state)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+		self.state = state.isEmpty ? nil : state
 	}
 }
 

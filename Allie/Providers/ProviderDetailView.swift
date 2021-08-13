@@ -28,7 +28,7 @@ struct ProviderDetailViewBody: View {
 
 	var body: some View {
 		VStack(spacing: 20) {
-			WebImage(url: viewModel.organization.detailImageURL)
+			WebImage(url: viewModel.organization.imageURL)
 				.placeholder(Image("Logo"))
 				.indicator(.activity)
 				.transition(.fade(duration: 0.5))

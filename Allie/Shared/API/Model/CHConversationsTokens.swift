@@ -27,7 +27,7 @@ struct CHConversationsTokens: Codable {
 
 extension CHConversationsTokens: CustomStringConvertible {
 	var description: String {
-		"toknes = \(tokens)"
+		"tokens = \(tokens)"
 	}
 }
 
