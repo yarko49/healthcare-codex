@@ -95,7 +95,7 @@ extension CareManager {
 			let startDate = UserDefaults.standard[lastOutcomesUploadDate: linkage.quantityIdentifier.rawValue]
 			if let quantityType = HKObjectType.quantityType(forIdentifier: linkage.quantityIdentifier) {
 				group.enter()
-				HealthKitManager.shared.samples(for: quantityType, startDate: startDate, endDate: endDate, options: []) { result in
+				healthKitManager.samples(for: quantityType, startDate: startDate, endDate: endDate, options: []) { result in
 					switch result {
 					case .failure(let error):
 						ALog.error("\(error.localizedDescription)")
@@ -159,7 +159,7 @@ extension CareManager {
 		var errors: [Error] = []
 		for chunkOutcome in chunkedOutcomes {
 			group.enter()
-			APIClient.shared.post(outcomes: chunkOutcome)
+			networkAPI.post(outcomes: chunkOutcome)
 				.sink { completionResult in
 					switch completionResult {
 					case .failure(let error):

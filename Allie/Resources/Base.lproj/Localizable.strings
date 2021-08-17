@@ -684,3 +684,21 @@
 /* Account Deletion Error */
 "ACCOUNT_DELETION_ERROR" = "Account Deletion Error";
 
+/* Would you like to connect to the following device: */
+"BGM_DETECTED.message" = "Would you like to connect to the following device:";
+
+/* Glucose meter detected! */
+"BGM_DETECTED" = "Glucose meter detected!";
+
+/* Only one device of this type can be paired at once. Please disconnect your previous device to connect this new one. */
+"BGM_CANNOT_PAIR.message" = "Only one device of this type can be paired at once. Please disconnect your previous device to connect this new one.";
+
+/* Cannot pair another device */
+"BGM_CANNOT_PAIR" = "Cannot pair another device";
+
+/* Connected Devices */
+"CONNECTED_DEVICES" = "Connected Devices";
+
+/* Your Devices */
+"YOUR_DEVICES" = "Your Devices";
+

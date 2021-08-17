@@ -21,7 +21,7 @@ extension CareManager {
 		if let image = SDImageCache.shared.imageFromDiskCache(forKey: key) {
 			completion(.success(image))
 		} else {
-			APIClient.shared.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
+			networkAPI.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
 				.sink { completionResult in
 					if case .failure(let error) = completionResult {
 						completion(.failure(error))
@@ -33,7 +33,7 @@ extension CareManager {
 	}
 
 	func image(key: String, url: URL, completion: @escaping AllieResultCompletion<UIImage>) {
-		APIClient.shared.loadImage(url: url)
+		networkAPI.loadImage(url: url)
 			.sink(receiveCompletion: { result in
 				if case .failure(let error) = result {
 					completion(.failure(error))
@@ -59,7 +59,7 @@ extension CareManager {
 		if FileManager.default.fileExists(atPath: url.path) {
 			completion(.success(url))
 		} else {
-			APIClient.shared.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
+			networkAPI.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
 				.sink { completionResult in
 					if case .failure(let error) = completionResult {
 						completion(.failure(error))
@@ -71,7 +71,7 @@ extension CareManager {
 	}
 
 	func savePDFData(from: URL, to: URL, completion: @escaping AllieResultCompletion<URL>) {
-		APIClient.shared.getData(url: from)
+		networkAPI.getData(url: from)
 			.sink { completionResult in
 				if case .failure(let error) = completionResult {
 					completion(.failure(error))

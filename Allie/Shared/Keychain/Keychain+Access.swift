@@ -9,7 +9,9 @@ import Foundation
 import KeychainAccess
 
 extension Keychain {
-	static let shared = Keychain(service: AppConfig.appBundleID)
+	class var shared: Keychain {
+		AppDelegate.appDelegate.keychain
+	}
 
 	subscript<T: Codable>(codable key: String) -> T? {
 		get {
@@ -21,7 +23,7 @@ extension Keychain {
 	}
 
 	func read<T: Decodable>(forKey key: String) -> T? {
-		guard let data = Self.shared[data: key] else {
+		guard let data = self[data: key] else {
 			return nil
 		}
 		do {
@@ -37,21 +39,21 @@ extension Keychain {
 
 	func save<T: Encodable>(value: T?, forKey key: String) {
 		guard let value = value else {
-			try? Self.shared.remove(key)
+			try? remove(key)
 			return
 		}
 		let encoder = JSONEncoder()
 		encoder.dateEncodingStrategy = .iso8601
 		do {
 			let data = try encoder.encode(value)
-			try Self.shared.set(data, key: key)
+			try set(data, key: key)
 		} catch {
 			ALog.error("\(error.localizedDescription)")
 		}
 	}
 
-	static func clearKeychain() {
-		try? Self.shared.removeAll()
+	func clearKeychain() {
+		try? removeAll()
 	}
 }
 
@@ -63,56 +65,65 @@ extension Keychain {
 		static let fcmToken = "fcmToken"
 	}
 
-	static var userIdentifier: String? {
+	var userIdentifier: String? {
 		get {
-			Self.shared[Keys.userIdentifier]
+			self[Keys.userIdentifier]
 		}
 		set {
-			Self.shared[Keys.userIdentifier] = newValue
+			self[Keys.userIdentifier] = newValue
 		}
 	}
 
-	static var userEmail: String? {
+	var userEmail: String? {
 		get {
-			Self.shared[Keys.userEmail]
+			self[Keys.userEmail]
 		}
 		set {
-			Self.shared[Keys.userEmail] = newValue
+			self[Keys.userEmail] = newValue
 		}
 	}
 
-	static var patient: CHPatient? {
+	var patient: CHPatient? {
 		get {
-			guard let userId = Self.userIdentifier else {
+			guard let userId = userIdentifier else {
 				return nil
 			}
-			let patient: CHPatient? = Self.shared.read(forKey: userId)
+			let patient: CHPatient? = read(forKey: userId)
 			return patient
 		}
 		set {
 			guard let userId = newValue?.id else {
 				return
 			}
-			Self.userIdentifier = userId
-			Self.shared.save(value: newValue, forKey: userId)
+			userIdentifier = userId
+			save(value: newValue, forKey: userId)
 		}
 	}
 
 	static var authenticationToken: AuthenticationToken? {
 		get {
-			Self.shared[codable: Keys.authenticationToken]
+			Self.shared.authenticationToken
 		}
 		set {
-			Self.shared[codable: Keys.authenticationToken] = newValue
+			Self.shared.authenticationToken = newValue
 		}
 	}
 
-	static var fcmToken: String? {
+	var authenticationToken: AuthenticationToken? {
 		get {
-			Self.shared[Keys.fcmToken]
+			self[codable: Keys.authenticationToken]
 		}
 		set {
-			Self.shared[Keys.fcmToken] = newValue
+			self[codable: Keys.authenticationToken] = newValue
+		}
+	}
+
+	var fcmToken: String? {
+		get {
+			self[Keys.fcmToken]
+		}
+		set {
+			self[Keys.fcmToken] = newValue
 		}
 	}
 }

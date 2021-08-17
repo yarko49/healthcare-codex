@@ -25,6 +25,8 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 	var completionHandler: ((Result<[CHOutcome], Error>) -> Void)?
 	var task: OCKHealthKitTask
 	var chunkSize: Int
+	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
+	@Injected(\.networkAPI) var networkAPI: AllieAPI
 
 	init(task: OCKHealthKitTask, chunkSize: Int, callbackQueue: DispatchQueue, completion: ((Result<[CHOutcome], Error>) -> Void)? = nil) {
 		self.task = task
@@ -52,7 +54,7 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 		let startDate = UserDefaults.standard[lastOutcomesUploadDate: linkage.quantityIdentifier.rawValue]
 		let endDate = Date()
 		if linkage.quantityIdentifier == .bloodPressureSystolic || linkage.quantityIdentifier == .bloodPressureDiastolic {
-			HealthKitManager.shared.bloodPressure(startDate: startDate, endDate: endDate, options: []) { [weak self] queryResult in
+			healthKitManager.bloodPressure(startDate: startDate, endDate: endDate, options: []) { [weak self] queryResult in
 				guard let strongSelf = self else {
 					self?.complete()
 					return
@@ -79,7 +81,7 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 				}
 			}
 		} else {
-			HealthKitManager.shared.samples(for: quantityType, startDate: startDate, endDate: endDate, options: []) { [weak self] queryResult in
+			healthKitManager.samples(for: quantityType, startDate: startDate, endDate: endDate, options: []) { [weak self] queryResult in
 				guard let strongSelf = self else {
 					self?.complete()
 					return
@@ -155,7 +157,7 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 		var uploaded: [CHOutcome] = []
 		for chunkOutcome in chunkedOutcomes {
 			group.enter()
-			APIClient.shared.post(outcomes: chunkOutcome)
+			networkAPI.post(outcomes: chunkOutcome)
 				.sink { completionResult in
 					switch completionResult {
 					case .failure(let error):

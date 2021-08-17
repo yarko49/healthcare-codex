@@ -17,3 +17,12 @@ public struct CHDevice: Codable {
 	public let manufacturer: String?
 	public let softwareVersion: String?
 }
+
+public extension CHDevice {
+	var uuid: UUID? {
+		guard let identifier = localIdentifier else {
+			return nil
+		}
+		return UUID(uuidString: identifier)
+	}
+}

@@ -29,8 +29,8 @@ class SettingsViewController: BaseViewController {
 	}()
 
 	var dataSource: UITableViewDiffableDataSource<Int, SettingsType>!
-
-	// MARK: - Setup
+	@Injected(\.networkAPI) var networkAPI: AllieAPI
+	@Injected(\.keychain) var keychain: Keychain
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -123,7 +123,7 @@ extension SettingsViewController: UITableViewDelegate {
 			guard let strongSelf = self else {
 				return
 			}
-			var alliePatient = CareManager.shared.patient ?? CHPatient(id: Keychain.userIdentifier ?? "", name: PersonNameComponents())
+			var alliePatient = CareManager.shared.patient ?? CHPatient(id: self?.keychain.userIdentifier ?? "", name: PersonNameComponents())
 			alliePatient.name = profileEntryViewController.name
 			alliePatient.profile.email = profileEntryViewController.emailTextField.text
 			alliePatient.sex = profileEntryViewController.sex
@@ -132,7 +132,7 @@ extension SettingsViewController: UITableViewDelegate {
 			alliePatient.profile.weightInPounds = profileEntryViewController.weightInPounds
 			alliePatient.profile.heightInInches = profileEntryViewController.heightInInches
 			strongSelf.hud.show(in: strongSelf.view)
-			APIClient.shared.post(patient: alliePatient)
+			self?.networkAPI.post(patient: alliePatient)
 				.sink(receiveCompletion: { result in
 					if case .failure(let error) = result {
 						ALog.error("\(error.localizedDescription)")
@@ -144,7 +144,7 @@ extension SettingsViewController: UITableViewDelegate {
 				}, receiveValue: { carePlanResponse in
 					if let patient = carePlanResponse.patients.first {
 						CareManager.shared.patient = patient
-						Keychain.userEmail = patient.profile.email
+						self?.keychain.userEmail = patient.profile.email
 					}
 				}).store(in: &strongSelf.cancellables)
 		}

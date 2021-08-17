@@ -128,7 +128,7 @@ class AuthCoordinator: BaseCoordinator {
 				return
 			}
 
-			Keychain.userEmail = email
+			self?.keychain.userEmail = email
 			self?.emailSentSuccess(email: email)
 		}
 	}
@@ -148,7 +148,7 @@ class AuthCoordinator: BaseCoordinator {
 	}
 
 	func verifySendLink(link: String) {
-		if let email = Keychain.userEmail {
+		if let email = keychain.userEmail {
 			showHUD()
 			if Auth.auth().isSignIn(withEmailLink: link) {
 				Auth.auth().signIn(withEmail: email, link: link) { [weak self] authResult, error in
@@ -156,7 +156,7 @@ class AuthCoordinator: BaseCoordinator {
 						self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { _ in
 							DispatchQueue.main.async {
 								if let authorizationFlowType = self?.authorizationFlowType, authorizationFlowType == .signIn {
-									HealthKitManager.shared.authorizeHealthKit { _, _ in
+									self?.healthKitManager.authorizeHealthKit { _, _ in
 										DispatchQueue.main.async {
 											self?.parent?.gotoMainApp()
 										}
@@ -185,7 +185,7 @@ class AuthCoordinator: BaseCoordinator {
 			return
 		}
 		showHUD()
-		APIClient.shared.getCarePlan(option: .carePlan)
+		networkAPI.getCarePlan(option: .carePlan)
 			.sink { [weak self] completion in
 				if case .failure(let error) = completion {
 					self?.hideHUD()
@@ -197,8 +197,8 @@ class AuthCoordinator: BaseCoordinator {
 				if let patient = carePlan.patients.first {
 					self?.alliePatient = patient
 					let ockPatient = OCKPatient(patient: patient)
-					try? CareManager.shared.resetAllContents()
-					CareManager.shared.process(patient: ockPatient) { patientResult in
+					try? self?.careManager.resetAllContents()
+					self?.careManager.process(patient: ockPatient) { patientResult in
 						switch patientResult {
 						case .failure(let error):
 							ALog.error("Unable to add patient to store", error: error)
@@ -214,7 +214,7 @@ class AuthCoordinator: BaseCoordinator {
 	}
 
 	func gotoProfileSetupViewController(email: String?, user: RemoteUser) {
-		try? CareManager.shared.resetAllContents()
+		try? careManager.resetAllContents()
 		if alliePatient == nil {
 			alliePatient = CHPatient(user: user)
 		}
@@ -263,10 +263,10 @@ class AuthCoordinator: BaseCoordinator {
 
 	func createPatient() {
 		alliePatient?.profile.isSignUpCompleted = true
-		CareManager.shared.patient = alliePatient
+		careManager.patient = alliePatient
 		let title = NSLocalizedString("CREATING_ACCOUNT", comment: "Creating Account")
 		showHUD(title: title, message: nil, animated: true)
-		APIClient.shared.post(patient: alliePatient!)
+		networkAPI.post(patient: alliePatient!)
 			.receive(on: DispatchQueue.main)
 			.sink(receiveCompletion: { [weak self] result in
 				if case .failure(let error) = result {
@@ -280,7 +280,7 @@ class AuthCoordinator: BaseCoordinator {
 				}
 			}, receiveValue: { [weak self] carePlanResponse in
 				if let patient = carePlanResponse.patients.first {
-					CareManager.shared.patient = patient
+					self?.careManager.patient = patient
 				}
 				self?.parent?.refreshRemoteConfig(completion: { [weak self] _ in
 					self?.hideHUD()
@@ -290,7 +290,7 @@ class AuthCoordinator: BaseCoordinator {
 	}
 
 	func authorizeHKForUpload() {
-		HealthKitManager.shared.authorizeHealthKit { [weak self] authorized, error in
+		healthKitManager.authorizeHealthKit { [weak self] authorized, error in
 			guard authorized else {
 				let baseMessage = "HealthKit Authorization Failed"
 				if let error = error {
@@ -386,8 +386,8 @@ class AuthCoordinator: BaseCoordinator {
 					AlertHelper.showAlert(title: String.error, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
 					completion(false)
 				} else if tokenResult?.token != nil {
-					Keychain.userEmail = Auth.auth().currentUser?.email
-					Keychain.authenticationToken = AuthenticationToken(result: tokenResult)
+					self?.keychain.userEmail = Auth.auth().currentUser?.email
+					self?.keychain.authenticationToken = AuthenticationToken(result: tokenResult)
 					ALog.info("firebaseToken: \(tokenResult?.token ?? "")")
 					completion(true)
 				}

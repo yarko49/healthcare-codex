@@ -29,6 +29,7 @@ class ConversationsManager: NSObject, ObservableObject {
 	}
 
 	private(set) var cancellables: Set<AnyCancellable> = []
+	@Injected(\.networkAPI) var networkAPI: AllieAPI
 
 	weak var messagesDelegate: ConversationMessagesDelegate?
 	@Published private(set) var client: TwilioConversationsClient?
@@ -60,7 +61,7 @@ class ConversationsManager: NSObject, ObservableObject {
 	}
 
 	func refreshAccessToken(completion: AllieResultCompletion<Bool>?) {
-		APIClient.shared.getConservationsTokens()
+		networkAPI.getConservationsTokens()
 			.sink { result in
 				if case .failure(let error) = result {
 					ALog.error("Error retrieving token \(error.localizedDescription)")
@@ -117,7 +118,7 @@ class ConversationsManager: NSObject, ObservableObject {
 	}
 
 	func loginFromServer(identity: String, completion: @escaping AllieBoolCompletion) {
-		APIClient.shared.getConservationsTokens()
+		networkAPI.getConservationsTokens()
 			.sink { result in
 				if case .failure(let error) = result {
 					ALog.error("Error retrieving token \(error.localizedDescription)")
@@ -157,7 +158,7 @@ class ConversationsManager: NSObject, ObservableObject {
 			return
 		}
 
-		APIClient.shared.postConservationsUsers(organizationId: conversationToken.id, users: Array(identifiers))
+		networkAPI.postConservationsUsers(organizationId: conversationToken.id, users: Array(identifiers))
 			.sink { completionResult in
 				if case .failure(let error) = completionResult {
 					ALog.error("unable to get users \(error.localizedDescription)")

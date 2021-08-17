@@ -16,6 +16,10 @@ class BaseCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 	let type: CoordinatorType
 	lazy var authenticationContext = LAContext()
 	var navigationController: UINavigationController?
+	@Injected(\.networkAPI) var networkAPI: AllieAPI
+	@Injected(\.careManager) var careManager: CareManager
+	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
+	@Injected(\.keychain) var keychain: Keychain
 
 	var rootViewController: UIViewController? {
 		nil
@@ -37,20 +41,20 @@ class BaseCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		cancellables.removeAll()
 	}
 
-	static func resetAll() {
+	func resetAll() {
 		let firebaseAuth = Auth.auth()
 		do {
 			try firebaseAuth.signOut()
 			UserDefaults.standard.resetUserDefaults()
-			CareManager.shared.reset()
-			Keychain.clearKeychain()
+			careManager.reset()
+			keychain.clearKeychain()
 		} catch let signOutError as NSError {
 			ALog.error("Error signing out:", error: signOutError)
 		}
 	}
 
 	func uploadPatient(patient: CHPatient) {
-		APIClient.shared.post(patient: patient)
+		networkAPI.post(patient: patient)
 			.receive(on: DispatchQueue.main)
 			.sink { completion in
 				switch completion {
@@ -65,7 +69,7 @@ class BaseCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 			}.store(in: &cancellables)
 	}
 
-	static func resetDataIfNeeded(newPatientId: String, force: Bool = false) -> Bool {
+	func resetDataIfNeeded(newPatientId: String, force: Bool = false) -> Bool {
 		// Patient does not exist, no need to reset
 		guard let existingPatientId = CareManager.shared.patient?.id, !existingPatientId.isEmpty else {
 			return false
@@ -77,7 +81,7 @@ class BaseCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 		}
 
 		// newPatientId and existingPatientId do not match, reset the data
-		Self.resetAll()
+		resetAll()
 		ALog.info("Did clear the patient data for existing UID \(existingPatientId), newUser id = \(newPatientId)")
 		return true
 	}

@@ -6,9 +6,9 @@
 //
 
 import Combine
-import Foundation
 import KeychainAccess
 import ModelsR4
+import UIKit
 import WebService
 
 protocol AllieAPI {
@@ -27,11 +27,12 @@ protocol AllieAPI {
 	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> AnyPublisher<SignedURLResponse, Error>
 	func getData(url: URL) -> AnyPublisher<Data, Error>
 	func uploadRemoteNotification(token: String) -> AnyPublisher<Bool, Error>
+
+	func loadImage(urlString: String) -> AnyPublisher<UIImage, Error>
+	func loadImage(url: URL) -> AnyPublisher<UIImage, Error>
 }
 
 public final class APIClient: AllieAPI {
-	static let shared = APIClient()
-
 	public var apiKey: String? {
 		AppConfig.apiKey
 	}

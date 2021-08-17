@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 12/16/20.
 //
 
+import Firebase
 import Foundation
 import KeychainAccess
 import ModelsR4
