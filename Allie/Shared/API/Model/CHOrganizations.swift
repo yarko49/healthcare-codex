@@ -23,7 +23,7 @@ struct CHOrganization: Codable, Identifiable, Hashable {
 	let imageURL: URL?
 	let authURL: URL?
 	let info: String?
-	let authorizationCode: String?
+	var authorizationToken: String?
 	let state: String?
 
 	init(id: String) {
@@ -32,7 +32,7 @@ struct CHOrganization: Codable, Identifiable, Hashable {
 		self.imageURL = nil
 		self.authURL = nil
 		self.info = nil
-		self.authorizationCode = nil
+		self.authorizationToken = nil
 		self.state = nil
 	}
 
@@ -42,7 +42,7 @@ struct CHOrganization: Codable, Identifiable, Hashable {
 		case imageURL = "image"
 		case authURL = "authUrl"
 		case info = "description"
-		case authorizationCode
+		case authorizationToken = "authorizationCode"
 		case state
 	}
 
@@ -64,8 +64,8 @@ struct CHOrganization: Codable, Identifiable, Hashable {
 		self.authURL = authURLString.isEmpty ? nil : URL(string: authURLString)
 		let info = try container.decodeIfPresent(String.self, forKey: .info)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
 		self.info = info.isEmpty ? nil : info
-		let authorizationCode = try container.decodeIfPresent(String.self, forKey: .authorizationCode)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-		self.authorizationCode = authorizationCode.isEmpty ? nil : authorizationCode
+		let authorizationCode = try container.decodeIfPresent(String.self, forKey: .authorizationToken)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+		self.authorizationToken = authorizationCode.isEmpty ? nil : authorizationCode
 		let state = try container.decodeIfPresent(String.self, forKey: .state)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
 		self.state = state.isEmpty ? nil : state
 	}

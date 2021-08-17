@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 6/24/21.
 //
 
+import AuthenticationServices
 import Combine
 import JGProgressHUD
 import SDWebImage
@@ -100,10 +101,18 @@ class SelectProviderViewController: UICollectionViewController {
 		guard let item = dataSource.itemIdentifier(for: indexPath) else {
 			return
 		}
-		detailViewModel = ProviderDetailViewModel(organization: item)
+		if item.authURL != nil {
+			showAuthentication(organization: item)
+		} else {
+			showProviderDetailView(organization: item)
+		}
+	}
+
+	func showProviderDetailView(organization: CHOrganization) {
+		detailViewModel = ProviderDetailViewModel(organization: organization)
 		if let viewModel = detailViewModel {
-			viewModel.isRegistered = organizations.registered.contains(item)
-			if !organizations.registered.contains(item), !organizations.registered.isEmpty {
+			viewModel.isRegistered = organizations.registered.contains(organization)
+			if !organizations.registered.contains(organization), !organizations.registered.isEmpty {
 				viewModel.shouldShowAlert = true
 			}
 			viewModel.$isRegistered
@@ -123,6 +132,30 @@ class SelectProviderViewController: UICollectionViewController {
 		}
 	}
 
+	func showAuthentication(organization: CHOrganization) {
+		guard let authURL = organization.authURL else {
+			return
+		}
+		let session = ASWebAuthenticationSession(url: authURL, callbackURLScheme: nil) { [weak self] url, error in
+			guard let callbackURL = url, error == nil else {
+				ALog.error("Error authenticating \(error?.localizedDescription ?? "Unknown Error")")
+				return
+			}
+			ALog.info("responseURL = \(callbackURL)")
+			let urlComponents = URLComponents(string: callbackURL.absoluteString)
+			let queryItems = urlComponents?.queryItems
+			if let token = queryItems?.filter({ $0.name == "token" }).first?.value {
+				DispatchQueue.main.async {
+					var updatedOrganization = organization
+					updatedOrganization.authorizationToken = token
+					self?.register(organization: organization)
+				}
+			}
+		}
+		session.presentationContextProvider = self
+		session.start()
+	}
+
 	private var detailViewModel: ProviderDetailViewModel?
 	var organizations = CHOrganizations(available: [], registered: [])
 	func process(organizations: CHOrganizations) {
@@ -134,6 +167,23 @@ class SelectProviderViewController: UICollectionViewController {
 			ALog.info("Did finish applying snapshot")
 			self?.collectionView.reloadData()
 		}
+	}
+
+	func register(organization: CHOrganization, animated: Bool = true) {
+		if animated {
+			hud.show(in: navigationController?.view ?? view)
+		}
+		networkAPI.registerOrganization(organization: organization)
+			.sinkOnMain { [weak self] completionResult in
+				if case .failure(let error) = completionResult {
+					ALog.error("Unable to register organization", error: error)
+				}
+				if animated {
+					self?.hud.dismiss()
+				}
+			} receiveValue: { success in
+				ALog.info("Did finish registering \(success)")
+			}.store(in: &cancellables)
 	}
 
 	func fetchOrganizations(animated: Bool = true) {
@@ -160,5 +210,11 @@ class SelectProviderViewController: UICollectionViewController {
 
 	@objc func done(_ sender: Any?) {
 		doneAction?(false)
+	}
+}
+
+extension SelectProviderViewController: ASWebAuthenticationPresentationContextProviding {
+	func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+		view.window!
 	}
 }

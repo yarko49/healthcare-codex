@@ -702,3 +702,12 @@
 /* Your Devices */
 "YOUR_DEVICES" = "Your Devices";
 
+/* Your device will be disconnected and will not stream data into your Allie account. */
+"UNPAIR_DEVICE.message" = "Your device will be disconnected and will not stream data into your Allie account.";
+
+/* Would you like to unpair this device? */
+"UNPAIR_DEVICE" = "Would you like to unpair this device?";
+
+/* Unpair */
+"UNPAIR" = "Unpair";
+
