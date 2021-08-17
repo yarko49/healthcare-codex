@@ -75,7 +75,7 @@ class MainCoordinator: BaseCoordinator {
 
 	public func gotoMainApp() {
 		showHUD()
-		APIClient.shared.getOrganizations()
+		networkAPI.getOrganizations()
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] organizations in
 				self?.hideHUD()
@@ -91,7 +91,7 @@ class MainCoordinator: BaseCoordinator {
 		var transitionOptions = UIWindow.TransitionOptions()
 		transitionOptions.direction = .fade
 		window.setRootViewController(rootViewController, options: transitionOptions)
-		AppDelegate.registerServices(patient: CareManager.shared.patient)
+		AppDelegate.registerServices(patient: careManager.patient)
 		#if !targetEnvironment(simulator)
 		AppDelegate.appDelegate?.registerForPushNotifications(application: UIApplication.shared)
 		#endif
@@ -110,8 +110,8 @@ class MainCoordinator: BaseCoordinator {
 	}
 
 	func createPatientIfNeeded() {
-		if let patient = CareManager.shared.patient, patient.profile.fhirId == nil {
-			APIClient.shared.post(patient: patient)
+		if let patient = careManager.patient, patient.profile.fhirId == nil {
+			networkAPI.post(patient: patient)
 				.receive(on: DispatchQueue.main)
 				.sink { [weak self] completion in
 					switch completion {
@@ -168,7 +168,7 @@ class MainCoordinator: BaseCoordinator {
 	}
 
 	func firebaseAuthentication(completion: @escaping (Bool) -> Void) {
-		Auth.auth().currentUser?.getIDTokenResult(completion: { tokenResult, error in
+		Auth.auth().currentUser?.getIDTokenResult(completion: { [weak self] tokenResult, error in
 			guard error == nil else {
 				ALog.error("Error signing out:", error: error)
 				completion(false)
@@ -179,10 +179,10 @@ class MainCoordinator: BaseCoordinator {
 				return
 			}
 			if let userId = Auth.auth().currentUser?.uid {
-				_ = Self.resetDataIfNeeded(newPatientId: userId)
+				_ = self?.resetDataIfNeeded(newPatientId: userId)
 			}
 			if let token = AuthenticationToken(result: tokenResult) {
-				Keychain.authenticationToken = token
+				self?.keychain.authenticationToken = token
 			}
 			completion(true)
 		})
@@ -191,7 +191,7 @@ class MainCoordinator: BaseCoordinator {
 	func syncHealthKitData() {
 		let lastUploadDate = UserDefaults.standard.lastObervationUploadDate
 		let endDate = Date()
-		HealthKitManager.shared.syncData(startDate: lastUploadDate, endDate: endDate, options: []) { success in
+		healthKitManager.syncData(startDate: lastUploadDate, endDate: endDate, options: []) { success in
 			if success {
 				UserDefaults.standard.lastObervationUploadDate = endDate
 			}
@@ -199,12 +199,12 @@ class MainCoordinator: BaseCoordinator {
 	}
 
 	func logout() {
-		Self.resetAll()
+		resetAll()
 		goToAuth()
 	}
 
 	func gotoHealthKitAuthorization() {
-		HealthKitManager.shared.authorizeHealthKit { [weak self] authorized, error in
+		healthKitManager.authorizeHealthKit { [weak self] authorized, error in
 			guard authorized else {
 				let baseMessage = "HealthKit Authorization Failed"
 				if let error = error {

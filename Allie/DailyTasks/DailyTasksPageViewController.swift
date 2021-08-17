@@ -9,15 +9,20 @@ import CareKit
 import CareKitStore
 import CareKitUI
 import Combine
+import CoreBluetooth
 import HealthKit
 import JGProgressHUD
 import SwiftUI
 import UIKit
 
 class DailyTasksPageViewController: OCKDailyTasksPageViewController {
-	var timerInterval: TimeInterval = 60 * 10
+	@Injected(\.careManager) var careManager: CareManager
+	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
+	@Injected(\.networkAPI) var networkAPI: AllieAPI
+	@Injected(\.bluetoothManager) var bloodGlucoseMonitor: BGMBluetoothManager
 
-	private let hud: JGProgressHUD = {
+	var timerInterval: TimeInterval = 60 * 10
+	let hud: JGProgressHUD = {
 		let view = JGProgressHUD(style: .dark)
 		view.vibrancyEnabled = true
 		view.textLabel.text = NSLocalizedString("LOADING", comment: "Loading")
@@ -46,8 +51,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.reload()
 			}
 			.store(in: &cancellables)
-		CareManager.shared.startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
-		HealthKitManager.shared.authorizeHealthKit { [weak self] success, error in
+		careManager.startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
+		healthKitManager.authorizeHealthKit { [weak self] success, error in
 			if let error = error {
 				ALog.error("Unable to authorize the HealthKit", error: error)
 			} else {
@@ -56,6 +61,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			DispatchQueue.main.async {
 				self?.reload()
 			}
+			self?.startBluetooth()
 		}
 	}
 
@@ -78,7 +84,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		return button
 	}()
 
-	private var cancellables: Set<AnyCancellable> = []
+	var cancellables: Set<AnyCancellable> = []
 	private var insertViewsAnimated: Bool = false
 
 	override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController, prepare listViewController: OCKListViewController, for date: Date) {
@@ -193,7 +199,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		}
 		isRefreshingCarePlan = true
 		hud.show(in: tabBarController?.view ?? view, animated: true)
-		APIClient.shared.getCarePlan(option: .carePlan)
+		networkAPI.getCarePlan(option: .carePlan)
 			.sink { [weak self] resultCompletion in
 				self?.isRefreshingCarePlan = false
 				self?.hud.dismiss(animated: true)
@@ -210,7 +216,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				if let tasks = value.faultyTasks, !tasks.isEmpty {
 					self?.showError(tasks: tasks)
 				}
-				CareManager.shared.process(carePlanResponse: value, forceReset: false) { result in
+				self?.careManager.process(carePlanResponse: value, forceReset: false) { result in
 					switch result {
 					case .failure(let error):
 						ALog.error("Unable to update the careplan data", error: error)

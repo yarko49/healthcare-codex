@@ -82,6 +82,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Allie app wants Bluetooh Access Rights [temp]</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Allie app wants Camera Access Rights [temp]</string>
 	<key>NSFaceIDUsageDescription</key>

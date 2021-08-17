@@ -111,7 +111,7 @@ class AppCoordinator: BaseCoordinator {
 
 	func gotoProfileEntryViewController(from screen: NavigationSourceType = .profile) {
 		let viewController = ProfileEntryViewController()
-		let alliePatient = CareManager.shared.patient
+		let alliePatient = careManager.patient
 		if let name = alliePatient?.name {
 			viewController.name = name
 		}
@@ -126,14 +126,14 @@ class AppCoordinator: BaseCoordinator {
 			viewController.heightInInches = height
 		}
 		viewController.doneAction = { [weak self] in
-			var patient = CareManager.shared.patient
+			var patient = self?.careManager.patient
 			patient?.name = viewController.name
 			patient?.sex = viewController.sex
 			patient?.updatedDate = Date()
 			patient?.birthday = viewController.dateOfBirth
 			patient?.profile.weightInPounds = viewController.weightInPounds
 			patient?.profile.heightInInches = viewController.heightInInches
-			CareManager.shared.patient = patient
+			self?.careManager.patient = patient
 			self?.uploadPatient(patient: patient!)
 			self?.navigationController?.popViewController(animated: true)
 		}
@@ -150,7 +150,7 @@ class AppCoordinator: BaseCoordinator {
 	}
 
 	func organizaionRegistraionDidChange(animated: Bool = true) {
-		APIClient.shared.getOrganizations()
+		networkAPI.getOrganizations()
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] organizations in
 				self?.updateControllers(organizations: organizations)

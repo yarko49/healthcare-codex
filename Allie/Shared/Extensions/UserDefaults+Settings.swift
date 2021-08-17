@@ -8,217 +8,196 @@
 import Foundation
 
 extension UserDefaults {
-	enum Keys: String {
-		case hasCompletedOnboarding = "HAS_COMPLETED_ONBOARDING"
-		case isBiometricsEnabled = "IS_BIOMETRICS_ENABLED"
-		case haveAskedUserForBiometrics
-		case hasSmartScale
-		case hasSmartBloodPressureCuff
-		case hasSmartWatch
-		case hasSmartPedometer
-		case hasSmartBloodGlucoseMonitor
-		case vectorClock
-		case measurementStepsNotificationEnabled
-		case measurementBloodPressureNotificationEnabled
-		case measurementWeightNotificationEnabled
-		case measurementBloodGlucoseNotificationEnabled
-		case measurementBloodPressureGoal
-		case measurementHeartRateGoal
-		case measurementRestingHeartRateGoal
-		case measurementStepsGoal
-		case measurementWeightInPoundsGoal
-		case measurementBloodGlucoseGoal
-		case lastObervationUploadDate
+	subscript<T: Codable>(codable: String) -> T? {
+		get {
+			guard let data = data(forKey: codable) else {
+				return nil
+			}
+			return try? JSONDecoder().decode(T.self, from: data)
+		}
+		set {
+			guard let encodable = newValue else {
+				removeObject(forKey: codable)
+				return
+			}
+			let data = try? JSONEncoder().encode(encodable)
+			setValue(data, forKey: codable)
+		}
+	}
+}
+
+extension UserDefaults {
+	enum Keys {
+		static let hasCompletedOnboarding = "HAS_COMPLETED_ONBOARDING"
+		static let isBiometricsEnabled = "IS_BIOMETRICS_ENABLED"
+		static let haveAskedUserForBiometrics = "haveAskedUserForBiometrics"
+		static let hasSmartScale = "hasSmartScale"
+		static let hasSmartBloodPressureCuff = "hasSmartBloodPressureCuff"
+		static let hasSmartWatch = "hasSmartWatch"
+		static let hasSmartPedometer = "hasSmartPedometer"
+		static let hasSmartBloodGlucoseMonitor = "hasSmartBloodGlucoseMonitor"
+		static let vectorClock = "vectorClock"
+		static let measurementStepsNotificationEnabled = "measurementStepsNotificationEnabled"
+		static let measurementBloodPressureNotificationEnabled = "measurementBloodPressureNotificationEnabled"
+		static let measurementWeightNotificationEnabled = "measurementWeightNotificationEnabled"
+		static let measurementBloodGlucoseNotificationEnabled = "measurementBloodGlucoseNotificationEnabled"
+		static let lastObervationUploadDate = "lastObervationUploadDate"
+		static let bloodGlucoseMonitor = "bloodGlucoseMonitor"
+		static let bloodGlucoseMonitorLastSyncDate = "bloodGlucoseMonitorLastSyncDate"
 	}
 
 	static func registerDefautlts() {
-		let defaults: [String: Any] = [Self.Keys.hasCompletedOnboarding.rawValue: false,
-		                               Self.Keys.isBiometricsEnabled.rawValue: false, Self.Keys.haveAskedUserForBiometrics.rawValue: false]
+		let defaults: [String: Any] = [Self.Keys.hasCompletedOnboarding: false,
+		                               Self.Keys.isBiometricsEnabled: false, Self.Keys.haveAskedUserForBiometrics: false]
 		UserDefaults.standard.register(defaults: defaults)
 	}
 
 	var hasCompletedOnboarding: Bool {
 		get {
-			bool(forKey: Self.Keys.hasCompletedOnboarding.rawValue)
+			bool(forKey: Self.Keys.hasCompletedOnboarding)
 		}
 		set {
-			set(newValue, forKey: Self.Keys.hasCompletedOnboarding.rawValue)
+			set(newValue, forKey: Self.Keys.hasCompletedOnboarding)
 		}
 	}
 
 	var isBiometricsEnabled: Bool {
 		get {
-			bool(forKey: Self.Keys.isBiometricsEnabled.rawValue)
+			bool(forKey: Self.Keys.isBiometricsEnabled)
 		}
 		set {
-			set(newValue, forKey: Self.Keys.isBiometricsEnabled.rawValue)
+			set(newValue, forKey: Self.Keys.isBiometricsEnabled)
 		}
 	}
 
 	var haveAskedUserForBiometrics: Bool {
 		get {
-			bool(forKey: Self.Keys.haveAskedUserForBiometrics.rawValue)
+			bool(forKey: Self.Keys.haveAskedUserForBiometrics)
 		}
 		set {
-			set(newValue, forKey: Self.Keys.haveAskedUserForBiometrics.rawValue)
+			set(newValue, forKey: Self.Keys.haveAskedUserForBiometrics)
 		}
 	}
 
 	var hasSmartScale: Bool {
 		get {
-			bool(forKey: Self.Keys.hasSmartScale.rawValue)
+			bool(forKey: Self.Keys.hasSmartScale)
 		}
 		set {
-			set(newValue, forKey: Self.Keys.hasSmartScale.rawValue)
+			set(newValue, forKey: Self.Keys.hasSmartScale)
 		}
 	}
 
 	var hasSmartBloodPressureCuff: Bool {
 		get {
-			bool(forKey: Self.Keys.hasSmartBloodPressureCuff.rawValue)
+			bool(forKey: Self.Keys.hasSmartBloodPressureCuff)
 		}
 		set {
-			set(newValue, forKey: Self.Keys.hasSmartBloodPressureCuff.rawValue)
+			set(newValue, forKey: Self.Keys.hasSmartBloodPressureCuff)
 		}
 	}
 
 	var hasSmartWatch: Bool {
 		get {
-			bool(forKey: Self.Keys.hasSmartWatch.rawValue)
+			bool(forKey: Self.Keys.hasSmartWatch)
 		}
 		set {
-			set(newValue, forKey: Self.Keys.hasSmartWatch.rawValue)
+			set(newValue, forKey: Self.Keys.hasSmartWatch)
 		}
 	}
 
 	var hasSmartPedometer: Bool {
 		get {
-			bool(forKey: Self.Keys.hasSmartPedometer.rawValue)
+			bool(forKey: Self.Keys.hasSmartPedometer)
 		}
 		set {
-			set(newValue, forKey: Self.Keys.hasSmartPedometer.rawValue)
+			set(newValue, forKey: Self.Keys.hasSmartPedometer)
 		}
 	}
 
 	var hasSmartBloodGlucoseMonitor: Bool {
 		get {
-			bool(forKey: Self.Keys.hasSmartBloodGlucoseMonitor.rawValue)
+			bool(forKey: Self.Keys.hasSmartBloodGlucoseMonitor)
 		}
 		set {
-			set(newValue, forKey: Self.Keys.hasSmartBloodGlucoseMonitor.rawValue)
+			set(newValue, forKey: Self.Keys.hasSmartBloodGlucoseMonitor)
 		}
 	}
 
 	func removeBiometrics() {
-		removeObject(forKey: Self.Keys.isBiometricsEnabled.rawValue)
+		removeObject(forKey: Self.Keys.isBiometricsEnabled)
 	}
 
 	var vectorClock: UInt64 {
 		get {
-			UInt64(integer(forKey: Self.Keys.vectorClock.rawValue))
+			UInt64(integer(forKey: Self.Keys.vectorClock))
 		}
 		set {
-			set(newValue, forKey: Self.Keys.vectorClock.rawValue)
+			set(newValue, forKey: Self.Keys.vectorClock)
 		}
 	}
 
 	var isMeasurementStepsNotificationEnabled: Bool {
 		get {
-			bool(forKey: Self.Keys.measurementStepsNotificationEnabled.rawValue)
+			bool(forKey: Self.Keys.measurementStepsNotificationEnabled)
 		}
 		set {
-			set(newValue, forKey: Self.Keys.measurementStepsNotificationEnabled.rawValue)
+			set(newValue, forKey: Self.Keys.measurementStepsNotificationEnabled)
 		}
 	}
 
 	var isMeasurementBloodPressureNotificationEnabled: Bool {
 		get {
-			bool(forKey: Self.Keys.measurementBloodPressureNotificationEnabled.rawValue)
+			bool(forKey: Self.Keys.measurementBloodPressureNotificationEnabled)
 		}
 		set {
-			set(newValue, forKey: Self.Keys.measurementBloodPressureNotificationEnabled.rawValue)
+			set(newValue, forKey: Self.Keys.measurementBloodPressureNotificationEnabled)
 		}
 	}
 
 	var isMeasurementWeightNotificationEnabled: Bool {
 		get {
-			bool(forKey: Self.Keys.measurementWeightNotificationEnabled.rawValue)
+			bool(forKey: Self.Keys.measurementWeightNotificationEnabled)
 		}
 		set {
-			set(newValue, forKey: Self.Keys.measurementWeightNotificationEnabled.rawValue)
+			set(newValue, forKey: Self.Keys.measurementWeightNotificationEnabled)
 		}
 	}
 
 	var isMeasurementBloodGlucoseNotificationEnabled: Bool {
 		get {
-			bool(forKey: Self.Keys.measurementBloodGlucoseNotificationEnabled.rawValue)
+			bool(forKey: Self.Keys.measurementBloodGlucoseNotificationEnabled)
 		}
 		set {
-			set(newValue, forKey: Self.Keys.measurementBloodGlucoseNotificationEnabled.rawValue)
-		}
-	}
-
-	var measurementBloodPressureGoal: Int {
-		get {
-			integer(forKey: Self.Keys.measurementBloodPressureGoal.rawValue)
-		}
-		set {
-			setValue(newValue, forKey: Self.Keys.measurementBloodPressureGoal.rawValue)
-		}
-	}
-
-	var measurementHeartRateGoal: Int {
-		get {
-			integer(forKey: Self.Keys.measurementHeartRateGoal.rawValue)
-		}
-		set {
-			setValue(newValue, forKey: Self.Keys.measurementHeartRateGoal.rawValue)
-		}
-	}
-
-	var measurementRestingHeartRateGoal: Int {
-		get {
-			integer(forKey: Self.Keys.measurementRestingHeartRateGoal.rawValue)
-		}
-		set {
-			setValue(newValue, forKey: Self.Keys.measurementRestingHeartRateGoal.rawValue)
-		}
-	}
-
-	var measurementStepsGoal: Int {
-		get {
-			integer(forKey: Self.Keys.measurementStepsGoal.rawValue)
-		}
-		set {
-			setValue(newValue, forKey: Self.Keys.measurementStepsGoal.rawValue)
-		}
-	}
-
-	var measurementWeightInPoundsGoal: Int {
-		get {
-			integer(forKey: Self.Keys.measurementWeightInPoundsGoal.rawValue)
-		}
-		set {
-			setValue(newValue, forKey: Self.Keys.measurementWeightInPoundsGoal.rawValue)
-		}
-	}
-
-	var measurementBloodGlucoseGoal: Int {
-		get {
-			integer(forKey: Self.Keys.measurementBloodGlucoseGoal.rawValue)
-		}
-		set {
-			setValue(newValue, forKey: Self.Keys.measurementBloodGlucoseGoal.rawValue)
+			set(newValue, forKey: Self.Keys.measurementBloodGlucoseNotificationEnabled)
 		}
 	}
 
 	var lastObervationUploadDate: Date {
 		get {
 			let date = Date()
-			return object(forKey: Self.Keys.lastObervationUploadDate.rawValue) as? Date ?? Calendar.current.date(byAdding: .day, value: -14, to: date) ?? date
+			return object(forKey: Self.Keys.lastObervationUploadDate) as? Date ?? Calendar.current.date(byAdding: .day, value: -14, to: date) ?? date
 		}
 		set {
-			setValue(newValue, forKey: Self.Keys.lastObervationUploadDate.rawValue)
+			setValue(newValue, forKey: Self.Keys.lastObervationUploadDate)
+		}
+	}
+
+	var bloodGlucoseMonitor: CHDevice? {
+		get {
+			self[Keys.bloodGlucoseMonitor]
+		}
+		set {
+			self[Keys.bloodGlucoseMonitor] = newValue
+		}
+	}
+
+	var bloodGlucoseMonitorLastSyncDate: Date? {
+		get {
+			object(forKey: Keys.bloodGlucoseMonitorLastSyncDate) as? Date
+		}
+		set {
+			setValue(newValue, forKey: Keys.bloodGlucoseMonitorLastSyncDate)
 		}
 	}
 

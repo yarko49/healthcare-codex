@@ -28,8 +28,8 @@ class SelectProviderViewController: UICollectionViewController {
 	}()
 
 	var doneAction: AllieBoolCompletion?
+	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	var showDetailAction: ((CHOrganization) -> Void)?
-
 	private var cancellables: Set<AnyCancellable> = []
 	var dataSource: UICollectionViewDiffableDataSource<Int, CHOrganization>!
 	var isModel = true
@@ -140,7 +140,7 @@ class SelectProviderViewController: UICollectionViewController {
 		if animated {
 			hud.show(in: navigationController?.view ?? view)
 		}
-		APIClient.shared.getOrganizations()
+		networkAPI.getOrganizations()
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
 				if case .failure(let error) = completion {

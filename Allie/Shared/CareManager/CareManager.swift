@@ -58,6 +58,10 @@ class CareManager: NSObject, ObservableObject {
 		return queue
 	}()
 
+	@Injected(\.networkAPI) var networkAPI: AllieAPI
+	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
+	@Injected(\.keychain) var keychain: Keychain
+
 	private var uploadOperationQueues: [String: OperationQueue] = [:]
 	var inflightUploadIdentifiers = InflightIdentifers()
 	subscript(uploadOperationQueue identifier: String) -> OperationQueue {
@@ -81,10 +85,10 @@ class CareManager: NSObject, ObservableObject {
 
 	var patient: CHPatient? {
 		get {
-			Keychain.patient
+			keychain.patient
 		}
 		set {
-			Keychain.patient = newValue
+			keychain.patient = newValue
 			startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
 			AppDelegate.registerServices(patient: newValue)
 		}
@@ -104,8 +108,7 @@ class CareManager: NSObject, ObservableObject {
 		fatalError("init() has not been implemented")
 	}
 
-	// Hack so we cannot instantiate more than one
-	private init(patient: CHPatient?) {
+	init(patient: CHPatient?) {
 		super.init()
 		registerForNotifications()
 		registerForConfighanges()
@@ -123,19 +126,6 @@ class CareManager: NSObject, ObservableObject {
 	}
 
 	func registerForNotifications() {
-//		synchronizedStoreManager.notificationPublisher
-//			.sink { [weak self] notification in
-//				if let carePlanNotification = notification as? OCKCarePlanNotification {
-//					self?.processCarePlan(notification: carePlanNotification)
-//				} else if let patientNotification = notification as? OCKPatientNotification {
-//					self?.processPatient(notification: patientNotification)
-//				} else if let taskNotification = notification as? OCKTaskNotification {
-//					self?.processTask(notification: taskNotification)
-//				} else if let outcomeNotification = notification as? OCKOutcomeNotification {
-//					self?.processOutcome(notification: outcomeNotification)
-//				}
-//			}.store(in: &cancellables)
-
 		NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)
 			.sink { [weak self] _ in
 				self?.startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
@@ -239,11 +229,11 @@ extension CareManager {
 	}
 
 	class func postPatient(patient: CHPatient) -> AnyPublisher<CHCarePlanResponse, Error> {
-		APIClient.shared.post(patient: patient)
+		Self.shared.networkAPI.post(patient: patient)
 	}
 
 	class func register(organization: CHOrganization) -> AnyPublisher<Bool, Never> {
-		APIClient.shared.registerOrganization(organization: organization)
+		Self.shared.networkAPI.registerOrganization(organization: organization)
 	}
 }
 
@@ -637,7 +627,7 @@ extension CareManager {
 			return
 		}
 
-		APIClient.shared.post(outcomes: outcomes)
+		networkAPI.post(outcomes: outcomes)
 			.sink { completion in
 				switch completion {
 				case .failure(let error):
@@ -652,7 +642,7 @@ extension CareManager {
 
 	func upload(outcome: OCKOutcome, task: OCKTask, carePlanId: String) {
 		let allieOutcome = CHOutcome(outcome: outcome, carePlanID: carePlanId, taskID: task.id)
-		APIClient.shared.post(outcomes: [allieOutcome])
+		networkAPI.post(outcomes: [allieOutcome])
 			.sink { completion in
 				switch completion {
 				case .failure(let error):

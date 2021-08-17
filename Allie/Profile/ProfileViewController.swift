@@ -25,6 +25,8 @@ class ProfileViewController: BaseViewController {
 
 	var editButtonAction: ((Int, Int) -> Void)?
 	var profileInputAction: (() -> (ModelsR4.Observation?, ModelsR4.Bundle?))?
+
+	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
 	var comingFrom: Coming = .today
 	var getData: AllieActionHandler?
 	var getRangeData: ((HealthStatsDateIntervalType, Date, Date, (([HealthKitQuantityType: [StatModel]]?, [HealthKitQuantityType: Int]?) -> Void)?) -> Void)?
@@ -161,9 +163,9 @@ class ProfileViewController: BaseViewController {
 				chartGroup.enter()
 				let innergroup = DispatchGroup()
 				var values: [StatModel] = []
-				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
+				quantityType.healthKitQuantityTypeIdentifiers.forEach { [weak self] identifier in
 					innergroup.enter()
-					HealthKitManager.shared.queryData(identifier: identifier, startDate: start, endDate: end, intervalType: interval) { dataPoints in
+					self?.healthKitManager.queryData(identifier: identifier, startDate: start, endDate: end, intervalType: interval) { dataPoints in
 						let stat = StatModel(type: quantityType, dataPoints: dataPoints)
 						values.append(stat)
 						innergroup.leave()
@@ -301,14 +303,14 @@ class ProfileViewController: BaseViewController {
 	func updateTodayData() {
 		var todayData: [HealthKitQuantityType: [Any]] = [:]
 		let topGroup = DispatchGroup()
-		HealthKitQuantityType.allCases.forEach { quantityType in
+		HealthKitQuantityType.allCases.forEach { [weak self] quantityType in
 			if quantityType != .activity {
 				topGroup.enter()
 				let innergroup = DispatchGroup()
 				var values: [Any] = []
 				quantityType.healthKitQuantityTypeIdentifiers.forEach { identifier in
 					innergroup.enter()
-					HealthKitManager.shared.mostRecentSample(for: identifier, options: []) { result in
+					self?.healthKitManager.mostRecentSample(for: identifier, options: []) { result in
 						switch result {
 						case .success(let sample):
 							if let quantitySample = sample.first as? HKQuantitySample {
@@ -327,7 +329,7 @@ class ProfileViewController: BaseViewController {
 				}
 			} else {
 				topGroup.enter()
-				HealthKitManager.shared.todaysStepCount(options: []) { result in
+				self?.healthKitManager.todaysStepCount(options: []) { result in
 					switch result {
 					case .failure(let error):
 						ALog.error("\(error.localizedDescription)")

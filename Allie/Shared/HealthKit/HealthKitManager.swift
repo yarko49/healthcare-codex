@@ -11,19 +11,20 @@ import HealthKitUI
 import ModelsR4
 import UIKit
 
-private enum HealthKitManagerError: Error {
+enum HealthKitManagerError: Error {
 	case notAvailableOnDevice
 	case dataTypeNotAvailable
 	case invalidInput(String)
 }
 
 class HealthKitManager {
-	static let shared = HealthKitManager()
-	private let healthStore = HKHealthStore()
+	let healthStore = HKHealthStore()
 	private var patientId: String? {
 		CareManager.shared.patient?.profile.fhirId
 	}
 
+	@Injected(\.networkAPI) var networkAPI: AllieAPI
+	var lastBGMSequenceNumber: Int = 0
 	private var cancellables: Set<AnyCancellable> = []
 
 	typealias SampleCompletion = (Result<[HKSample], Error>) -> Void
@@ -340,12 +341,12 @@ class HealthKitManager {
 
 	func uploadHKData(entries: [ModelsR4.BundleEntry]) -> AnyPublisher<ModelsR4.Bundle, Error> {
 		let bundle = ModelsR4.Bundle(entry: entries, type: FHIRPrimitive<BundleType>(.transaction))
-		return APIClient.shared.post(bundle: bundle)
+		return networkAPI.post(bundle: bundle)
 	}
 
 	func uploadHKData(entries: [ModelsR4.BundleEntry], completion: @escaping (Bool) -> Void) {
 		let bundle = ModelsR4.Bundle(entry: entries, type: FHIRPrimitive<BundleType>(.transaction))
-		APIClient.shared.post(bundle: bundle)
+		networkAPI.post(bundle: bundle)
 			.sink(receiveCompletion: { result in
 				if case .failure(let error) = result {
 					ALog.error("Post Bundle", error: error)

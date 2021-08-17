@@ -13,13 +13,13 @@ class ProviderDetailViewModel: ObservableObject {
 	private(set) var organization: CHOrganization
 	@Published var isRegistered: Bool = false
 	var shouldShowAlert = false
-
+	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	init(organization: CHOrganization) {
 		self.organization = organization
 	}
 
 	func register(completion: @escaping AllieBoolCompletion) {
-		APIClient.shared.registerOrganization(organization: organization)
+		networkAPI.registerOrganization(organization: organization)
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] result in
 				self?.isRegistered = result
@@ -29,7 +29,7 @@ class ProviderDetailViewModel: ObservableObject {
 	}
 
 	func unregister(completion: @escaping AllieBoolCompletion) {
-		APIClient.shared.unregisterOrganization(organization: organization)
+		networkAPI.unregisterOrganization(organization: organization)
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] result in
 				self?.isRegistered = !result

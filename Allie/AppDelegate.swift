@@ -145,10 +145,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		}
 	}
 
+	@Injected(\.keychain) var keychain: Keychain
+	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	var uploadTokenCancellable: AnyCancellable?
 	func uploadRemoteNofication(token: String) {
 		uploadTokenCancellable?.cancel()
-		uploadTokenCancellable = APIClient.shared.uploadRemoteNotification(token: token)
+		uploadTokenCancellable = networkAPI.uploadRemoteNotification(token: token)
 			.sink(receiveCompletion: { completionResult in
 				if case .failure(let error) = completionResult {
 					ALog.error("Failed to uploaded remote notification token", error: error)
@@ -185,7 +187,7 @@ extension AppDelegate: MessagingDelegate {
 			return
 		}
 		ALog.info("messaging:didReceiveRegistrationToken: \(token)")
-		Keychain.fcmToken = token
+		keychain.fcmToken = token
 		uploadRemoteNofication(token: token)
 	}
 }
