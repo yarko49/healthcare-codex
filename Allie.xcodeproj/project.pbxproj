@@ -2112,7 +2112,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 842398F1259C1145006FB3F4 /* Build configuration list for PBXNativeTarget "Allie" */;
 			buildPhases = (
-				84037C1C26CB5C0400C87189 /* Swift Lint */,
+				84037C1C26CB5C0400C87189 /* Swift Format */,
 				848E161F259C3F8600412E2B /* Swift Lint */,
 				842398C3259C1144006FB3F4 /* Sources */,
 				842398C4259C1144006FB3F4 /* Frameworks */,
@@ -2461,7 +2461,7 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftformat >/dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
 		};
-		84037C1C26CB5C0400C87189 /* Swift Lint */ = {
+		84037C1C26CB5C0400C87189 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2470,7 +2470,7 @@
 			);
 			inputPaths = (
 			);
-			name = "Swift Lint";
+			name = "Swift Format";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -3721,7 +3721,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.31;
+				MARKETING_VERSION = 0.9.1;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3750,7 +3750,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.31;
+				MARKETING_VERSION = 0.9.1;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3875,7 +3875,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.31;
+				MARKETING_VERSION = 0.9.1;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3904,7 +3904,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.31;
+				MARKETING_VERSION = 0.9.1;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3933,7 +3933,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.31;
+				MARKETING_VERSION = 0.9.1;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3962,7 +3962,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.8.31;
+				MARKETING_VERSION = 0.9.1;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";

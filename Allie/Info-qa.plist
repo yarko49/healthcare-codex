@@ -84,6 +84,8 @@
 	<true/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>Allie app wants Bluetooh Access Rights [temp]</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Allie app wants to use Bluetooth to read medical data from devices [temp]</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Allie app wants Camera Access Rights [temp]</string>
 	<key>NSFaceIDUsageDescription</key>
