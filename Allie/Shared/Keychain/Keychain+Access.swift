@@ -9,9 +9,10 @@ import Foundation
 import KeychainAccess
 
 extension Keychain {
-	class var shared: Keychain {
-		AppDelegate.appDelegate.keychain
-	}
+    // Must be called from Main thread
+    class var shared: Keychain {
+        AppDelegate.appDelegate.keychain
+    }
 
 	subscript<T: Codable>(codable key: String) -> T? {
 		get {

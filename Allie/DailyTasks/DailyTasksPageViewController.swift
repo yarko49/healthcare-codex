@@ -37,7 +37,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		todayButton.addTarget(self, action: #selector(gotoToday(_:)), for: .touchDown)
 		view.backgroundColor = .allieWhite
 		NotificationCenter.default.publisher(for: .patientDidSnychronize)
-			.receive(on: DispatchQueue.main)
+			.receive(on: RunLoop.main)
 			.sink { [weak self] _ in
 				self?.reload()
 			}.store(in: &cancellables)
@@ -52,13 +52,11 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 		Timer.publish(every: timerInterval, tolerance: 10.0, on: .current, in: .common, options: nil)
 			.autoconnect()
-			.receive(on: DispatchQueue.main)
-			.sink { _ in
-				ALog.info("Timer Fired")
-			} receiveValue: { [weak self] _ in
+			.receive(on: RunLoop.main)
+			.sink(receiveValue: { [weak self] _ in
 				self?.reload()
-			}
-			.store(in: &cancellables)
+			}).store(in: &cancellables)
+
 		careManager.startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
 		healthKitManager.authorizeHealthKit { [weak self] success, error in
 			if let error = error {

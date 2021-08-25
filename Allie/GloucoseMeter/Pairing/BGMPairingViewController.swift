@@ -199,6 +199,7 @@ extension BGMPairingViewController: BGMBluetoothManagerDelegate {
 		} else {
 			let device = CHDevice(peripheral: peripheral)
 			UserDefaults.standard.bloodGlucoseMonitor = device
+			bluetoothManager.stopMonitoring()
 			DispatchQueue.main.async { [weak self] in
 				self?.showSuccess()
 			}
