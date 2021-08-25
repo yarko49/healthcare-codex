@@ -42,11 +42,4 @@ import UIKit
 	func setupColors() {
 		layer.backgroundColor = UIColor.allieGray.cgColor
 	}
-
-	func addTextSpacing(_ letterSpacing: CGFloat) {
-		guard let attributedText = titleLabel?.attributedText else { return }
-		let attributedString = NSMutableAttributedString(attributedString: attributedText)
-		attributedString.addAttribute(NSAttributedString.Key.kern, value: letterSpacing, range: NSRange(location: 0, length: attributedText.string.count))
-		setAttributedTitle(attributedString, for: .normal)
-	}
 }

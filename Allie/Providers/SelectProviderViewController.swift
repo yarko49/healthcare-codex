@@ -101,11 +101,32 @@ class SelectProviderViewController: UICollectionViewController {
 		guard let item = dataSource.itemIdentifier(for: indexPath) else {
 			return
 		}
+
+		if organizations.registered.contains(item) {
+			showProviderDetailView(organization: item)
+			return
+		}
+
+		guard organizations.registered.isEmpty else {
+			showCannotRegister()
+			return
+		}
+
 		if item.authURL != nil {
 			showAuthentication(organization: item)
 		} else {
 			showProviderDetailView(organization: item)
 		}
+	}
+
+	func showCannotRegister() {
+		let title = NSLocalizedString("CANNOT_REGISTER", comment: "Cannot Register")
+		let message = NSLocalizedString("UNREGISTER_FIRST.message", comment: "Must unregister first")
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: "Ok"), style: .cancel) { _ in
+		}
+		alertController.addAction(okAction)
+		(tabBarController ?? navigationController ?? self).showDetailViewController(alertController, sender: self)
 	}
 
 	func showProviderDetailView(organization: CHOrganization) {
@@ -136,18 +157,37 @@ class SelectProviderViewController: UICollectionViewController {
 		guard let authURL = organization.authURL else {
 			return
 		}
-		let session = ASWebAuthenticationSession(url: authURL, callbackURLScheme: nil) { [weak self] url, error in
+		let authURLComponents = URLComponents(string: authURL.absoluteString)
+		let authQueryItems = authURLComponents?.queryItems
+		let redirectURL = authQueryItems?.first(where: { item in
+			item.name == "redirect_uri"
+		})?.value ?? ""
+		let tokenKey = authQueryItems?.first(where: { item in
+			item.name == "response_type"
+		})?.value ?? "code"
+		let session = ASWebAuthenticationSession(url: authURL, callbackURLScheme: redirectURL.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)) { [weak self] url, error in
 			guard let callbackURL = url, error == nil else {
-				ALog.error("Error authenticating \(error?.localizedDescription ?? "Unknown Error")")
+				if let authError = error as? ASWebAuthenticationSessionError, authError.code == .canceledLogin {
+				} else {
+					ALog.error("Error authenticating \(error?.localizedDescription ?? "Unknown Error")")
+				}
 				return
 			}
 			ALog.info("responseURL = \(callbackURL)")
 			let urlComponents = URLComponents(string: callbackURL.absoluteString)
 			let queryItems = urlComponents?.queryItems
-			if let token = queryItems?.filter({ $0.name == "token" }).first?.value {
+			let token = queryItems?.first(where: { item in
+				item.name == tokenKey
+			})?.value
+			let state = queryItems?.first(where: { item in
+				item.name == "state"
+			})?.value
+
+			if let token = token, let state = state {
 				DispatchQueue.main.async {
 					var updatedOrganization = organization
 					updatedOrganization.authorizationToken = token
+					updatedOrganization.state = state
 					self?.register(organization: organization)
 				}
 			}
@@ -215,6 +255,6 @@ class SelectProviderViewController: UICollectionViewController {
 
 extension SelectProviderViewController: ASWebAuthenticationPresentationContextProviding {
 	func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-		view.window!
+		view.window ?? ASPresentationAnchor()
 	}
 }

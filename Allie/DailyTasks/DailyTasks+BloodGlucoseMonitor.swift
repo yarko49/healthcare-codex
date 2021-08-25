@@ -17,7 +17,9 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 			}.store(in: &cancellables)
 	}
 
-	func bluetoothManager(_ manager: BGMBluetoothManager, didActivate state: Bool) {
+	func bluetoothManager(_ manager: BGMBluetoothManager, didUpdate state: CBManagerState) {
+		ALog.info("Bluetooth state = \(state)")
+		let state: Bool = state == .poweredOn ? true : false
 		if state {
 			ALog.info("Bluetooth Active")
 			bloodGlucoseMonitor.scanForPeripherals()
@@ -27,21 +29,21 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 		}
 	}
 
-	func bluetoothManager(_ manager: BGMBluetoothManager, didFindDevice device: CBPeripheral, rssi: Int) {
-		if let currentDevice = UserDefaults.standard.bloodGlucoseMonitor, device.identifier == currentDevice.uuid {
-			bloodGlucoseMonitor.connect(peripheral: device)
+	func bluetoothManager(_ manager: BGMBluetoothManager, didFindDevice peripheral: CBPeripheral, rssi: Int) {
+		if let currentDevice = UserDefaults.standard.bloodGlucoseMonitor, peripheral.identifier == currentDevice.uuid {
+			bloodGlucoseMonitor.connect(peripheral: peripheral)
 			return
 		}
 
-		guard !manager.peripherals.contains(device) else {
+		guard !manager.peripherals.contains(peripheral) else {
 			return
 		}
-		manager.peripherals.insert(device)
-		showBGMFoundAlert(device: device)
+		manager.peripherals.insert(peripheral)
+		// showBGMFoundAlert(device: peripheral)
 	}
 
-	func bluetoothManager(_ manager: BGMBluetoothManager, deviceReadyWith racpCharacteristic: CBCharacteristic) {
-		manager.racpCharacteristic = racpCharacteristic
+	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, readyWith characteristic: CBCharacteristic) {
+		manager.racpCharacteristic = characteristic
 		if let glucometer = manager.pairedPeripheral, let racp = manager.racpCharacteristic {
 			let sequenceNumber = healthKitManager.lastBGMSequenceNumber
 			var command = BGMBluetoothManager.Command.allRecords
@@ -79,8 +81,7 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 				self?.showCannotPair()
 				return
 			}
-			UserDefaults.standard.bloodGlucoseMonitor = CHDevice(peripheral: device)
-			self?.bloodGlucoseMonitor.connect(peripheral: device)
+			self?.showConnectFlow(identifier: device.identifier.uuidString)
 		}
 		alertController.addAction(connectAction)
 		(tabBarController ?? navigationController ?? self).showDetailViewController(alertController, sender: self)
@@ -102,5 +103,23 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 		}
 		alertController.addAction(okAction)
 		(tabBarController ?? navigationController ?? self).showDetailViewController(alertController, sender: self)
+	}
+
+	func showConnectFlow(identifier: String) {
+		let viewController = BGMPairingViewController()
+		viewController.modalPresentationStyle = .fullScreen
+		viewController.delegate = self
+		viewController.selectedIdentifier = identifier
+		(tabBarController ?? navigationController ?? self).showDetailViewController(viewController, sender: self)
+	}
+}
+
+extension DailyTasksPageViewController: BGMPairingViewControllerDelegate {
+	func pairingViewControllerDidFinish(_ controller: BGMPairingViewController) {
+		controller.dismiss(animated: true, completion: nil)
+	}
+
+	func pairingViewControllerDidCancel(_ controller: BGMPairingViewController) {
+		controller.dismiss(animated: true, completion: nil)
 	}
 }

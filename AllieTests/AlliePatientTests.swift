@@ -12,6 +12,7 @@ import XCTest
 
 class AlliePatientTests: XCTestCase {
 	var patient: CHPatient!
+	@Injected(\.keychain) var keychain: Keychain
 
 	override func setUpWithError() throws {
 		var name = PersonNameComponents()
@@ -57,8 +58,8 @@ class AlliePatientTests: XCTestCase {
 	}
 
 	func testEncodeToKeychain() throws {
-		Keychain.patient = patient
-		let fromKeychain = Keychain.patient
+		keychain.patient = patient
+		let fromKeychain = keychain.patient
 		try comparePatients(lhs: patient, rhs: fromKeychain)
 	}
 

@@ -24,7 +24,7 @@ struct CHOrganization: Codable, Identifiable, Hashable {
 	let authURL: URL?
 	let info: String?
 	var authorizationToken: String?
-	let state: String?
+	var state: String?
 
 	init(id: String) {
 		self.id = id

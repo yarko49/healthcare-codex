@@ -13,4 +13,6 @@ extension Notification.Name {
 
 	static let didRegisterOrganization = NSNotification.Name("didRegisterOrganization")
 	static let didUnregisterOrganization = NSNotification.Name("didUnregisterOrganization")
+
+	static let didPairBloodGlucoseMonitor = NSNotification.Name("didPairBloodGlucoseMonitor")
 }

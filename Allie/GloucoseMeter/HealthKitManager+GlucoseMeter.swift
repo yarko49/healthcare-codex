@@ -61,7 +61,7 @@ extension HealthKitManager {
 			if let sequence = samples.first?.metadata?[BGMMetadataKeySequenceNumber] as? NSNumber {
 				self?.lastBGMSequenceNumber = sequence.intValue
 			}
-			self?.healthStore.save(samples, withCompletion: { result, error in
+            self?.healthStore.save(samples, withCompletion: { result, error in
 				if let error = error {
 					promise(.failure(error))
 				} else {

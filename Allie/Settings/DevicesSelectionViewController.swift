@@ -55,15 +55,19 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 		tableView.register(DevicesSelectionHeaderView.self, forHeaderFooterViewReuseIdentifier: DevicesSelectionHeaderView.reuseIdentifier)
 		dataSource = UITableViewDiffableDataSource<SectionType, String>(tableView: tableView, cellProvider: { [weak self] tableView, indexPath, itemIdentifier in
 			let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.reuseIdentifier, for: indexPath)
-			self?.configure(regular: cell, at: indexPath, itemIdentifier: itemIdentifier)
+			if let sections = self?.dataSource.snapshot().sectionIdentifiers, sections[indexPath.section] == .bluetooth {
+				self?.configure(connected: cell, at: indexPath, itemIdentifier: itemIdentifier)
+			} else {
+				self?.configure(regular: cell, at: indexPath, itemIdentifier: itemIdentifier)
+			}
 			return cell
 		})
 		tableView.dataSource = dataSource
 		tableView.delegate = self
 		tableView.rowHeight = 48.0
-		tableView.sectionHeaderHeight = 54.0
+		tableView.sectionHeaderHeight = DevicesSelectionHeaderView.height
 		var snapshot = NSDiffableDataSourceSnapshot<SectionType, String>()
-		snapshot.appendSections([.regular])
+		snapshot.appendSections([.regular, .bluetooth])
 		let identifiers = SmartDeviceType.allCases.map { deviceType in
 			deviceType.rawValue
 		}
@@ -75,10 +79,11 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 		if controllerViewMode != .onboarding {
 			bluetoothManager.$peripherals
 				.receive(on: RunLoop.main)
-				.sink { devices in
+				.sink { [weak self] devices in
 					guard !devices.isEmpty else {
 						return
 					}
+					self?.updateConnected(devices: devices)
 				}.store(in: &cancellables)
 		}
 	}
@@ -174,7 +179,7 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 				showCannotPair()
 			}
 		} else if let identifier = itemIdentifier {
-			pairDevice(identifier: identifier)
+			showBluetoothPairFlow(identifier: identifier)
 		}
 	}
 
@@ -194,16 +199,12 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 		let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: DevicesSelectionHeaderView.reuseIdentifier) as? DevicesSelectionHeaderView
 		let sectionIdentifier = dataSource.snapshot().sectionIdentifiers[section]
 		headerView?.titleLabel.text = sectionIdentifier.title
+		let sections = dataSource.snapshot().sectionIdentifiers
+		if sections[section] == .bluetooth {
+			headerView?.isAddButtonHidden = false
+			headerView?.delegate = self
+		}
 		return headerView
-	}
-
-	func pairDevice(identifier: String) {
-		let peripheral = bluetoothManager.peripherals.first { peripheral in
-			peripheral.identifier.uuidString == identifier
-		}
-		if let peripheral = peripheral, let device = CHDevice(peripheral: peripheral) {
-			UserDefaults.standard.bloodGlucoseMonitor = device
-		}
 	}
 
 	func showUnpairAlert() {
@@ -227,5 +228,29 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 		}
 		alertController.addAction(okAction)
 		(tabBarController ?? navigationController ?? self).showDetailViewController(alertController, sender: self)
+	}
+}
+
+extension DevicesSelectionViewController: DevicesSelectionHeaderViewDelegate {
+	func devicesSelectionHeaderViewDidSelectAdd(_ view: DevicesSelectionHeaderView) {
+		showBluetoothPairFlow(identifier: nil)
+	}
+
+	func showBluetoothPairFlow(identifier: String?) {
+		let viewController = BGMPairingViewController()
+		viewController.modalPresentationStyle = .fullScreen
+		viewController.delegate = self
+		viewController.selectedIdentifier = identifier
+		(tabBarController ?? navigationController ?? self).showDetailViewController(viewController, sender: self)
+	}
+}
+
+extension DevicesSelectionViewController: BGMPairingViewControllerDelegate {
+	func pairingViewControllerDidCancel(_ controller: BGMPairingViewController) {
+		controller.dismiss(animated: true, completion: nil)
+	}
+
+	func pairingViewControllerDidFinish(_ controller: BGMPairingViewController) {
+		controller.dismiss(animated: true, completion: nil)
 	}
 }

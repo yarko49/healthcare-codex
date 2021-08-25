@@ -10,10 +10,23 @@ import CoreBluetooth
 import Foundation
 
 protocol BGMBluetoothManagerDelegate: AnyObject {
-	func bluetoothManager(_ manager: BGMBluetoothManager, didActivate state: Bool)
-	func bluetoothManager(_ manager: BGMBluetoothManager, didFindDevice device: CBPeripheral, rssi: Int)
-	func bluetoothManager(_ manager: BGMBluetoothManager, deviceReadyWith racpCharacteristic: CBCharacteristic)
+	func bluetoothManager(_ manager: BGMBluetoothManager, didUpdate state: CBManagerState)
+	func bluetoothManager(_ manager: BGMBluetoothManager, didFindDevice peripheral: CBPeripheral, rssi: Int)
+	func bluetoothManager(_ manager: BGMBluetoothManager, didConnect peripheral: CBPeripheral)
+	func bluetoothManager(_ central: BGMBluetoothManager, didFailToConnect peripheral: CBPeripheral, error: Error?)
+	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, readyWith characteristic: CBCharacteristic)
 	func bluetoothManager(_ manager: BGMBluetoothManager, didReceive data: [BGMDataReading])
+	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?)
+}
+
+extension BGMBluetoothManagerDelegate {
+	func bluetoothManager(_ manager: BGMBluetoothManager, didUpdate state: CBManagerState) {}
+	func bluetoothManager(_ manager: BGMBluetoothManager, didFindDevice peripheral: CBPeripheral, rssi: Int) {}
+	func bluetoothManager(_ manager: BGMBluetoothManager, didConnect peripheral: CBPeripheral) {}
+	func bluetoothManager(_ central: BGMBluetoothManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {}
+	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, readyWith characteristic: CBCharacteristic) {}
+	func bluetoothManager(_ manager: BGMBluetoothManager, didReceive data: [BGMDataReading]) {}
+	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {}
 }
 
 class BGMBluetoothManager: NSObject, ObservableObject {
@@ -38,6 +51,7 @@ class BGMBluetoothManager: NSObject, ObservableObject {
 
 	weak var delegate: BGMBluetoothManagerDelegate?
 	private var centralManager: CBCentralManager!
+
 	@Published var pairedPeripheral: CBPeripheral?
 	@Published var peripherals: Set<CBPeripheral> = []
 	var racpCharacteristic: CBCharacteristic? // BGM Record Access Control Point
@@ -45,6 +59,12 @@ class BGMBluetoothManager: NSObject, ObservableObject {
 	private var receivedDataSet: [BGMDataReading] = []
 	private lazy var receivedData = BGMDataReading(measurement: [], context: [], peripheral: pairedPeripheral)
 	private let supportedCharacteristics: Set<CBUUID> = BGMCharacteristic.supportedCharacteristics
+
+	func peripheral(for identifier: String) -> CBPeripheral? {
+		peripherals.first { peripheral in
+			peripheral.identifier.uuidString == identifier
+		}
+	}
 
 	func startMonitoring() {
 		centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
@@ -58,7 +78,7 @@ class BGMBluetoothManager: NSObject, ObservableObject {
 		pairedPeripheral = peripheral
 		pairedPeripheral?.delegate = self
 		centralManager.stopScan()
-		centralManager.connect(peripheral)
+		centralManager.connect(peripheral, options: nil)
 	}
 
 	// Write 1 byte message to the BLE peripheral
@@ -77,13 +97,13 @@ class BGMBluetoothManager: NSObject, ObservableObject {
 
 extension BGMBluetoothManager: CBCentralManagerDelegate {
 	func centralManagerDidUpdateState(_ central: CBCentralManager) {
-		let state: Bool = central.state == .poweredOn ? true : false
-		delegate?.bluetoothManager(self, didActivate: state)
+		delegate?.bluetoothManager(self, didUpdate: central.state)
 	}
 
 	func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
 		ALog.info("didConnect: \(peripheral), services = \(String(describing: peripheral.services))")
 		pairedPeripheral?.discoverServices([glucoseServiceId])
+		delegate?.bluetoothManager(self, didConnect: peripheral)
 	}
 
 	func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
@@ -100,6 +120,7 @@ extension BGMBluetoothManager: CBCentralManagerDelegate {
 	func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
 		pairedPeripheral?.delegate = nil
 		pairedPeripheral = nil
+		delegate?.bluetoothManager(self, didFailToConnect: peripheral, error: error)
 	}
 
 	func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
@@ -130,13 +151,19 @@ extension BGMBluetoothManager: CBPeripheralDelegate {
 		// 0x2a18 is glucose measurement, 0x2a34 is context, 0x2a52 is RACP
 		for characteristic in characteristics {
 			if supportedCharacteristics.contains(characteristic.uuid) {
-				peripheral.setNotifyValue(true, for: characteristic)
+				if characteristic.properties.contains(.notify) {
+					peripheral.setNotifyValue(true, for: characteristic)
+				}
 			}
 
 			if characteristic.uuid == BGMCharacteristic.racp.uuid {
-				delegate?.bluetoothManager(self, deviceReadyWith: characteristic)
+				delegate?.bluetoothManager(self, peripheral: peripheral, readyWith: characteristic)
 			}
 		}
+	}
+
+	func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+		delegate?.bluetoothManager(self, peripheral: peripheral, didWriteValueFor: characteristic, error: error)
 	}
 
 	// For notified characteristics, here's the triggered method when a value comes in from the Peripheral

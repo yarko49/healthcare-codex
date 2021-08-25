@@ -21,6 +21,10 @@ extension UIColor {
 		UIColor(named: "AllieLighterGray")!
 	}
 
+	class var allieLightGray: UIColor {
+		UIColor(named: "AllieLightGray")!
+	}
+
 	class var allieOrange: UIColor {
 		UIColor(named: "AllieOrange")!
 	}
@@ -71,6 +75,10 @@ extension UIColor {
 
 	class var bloodGlucose: UIColor {
 		UIColor(named: "BloodGlucose")!
+	}
+
+	class var allieGreen: UIColor {
+		UIColor(named: "AllieGreen")!
 	}
 }
 
