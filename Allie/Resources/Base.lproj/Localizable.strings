@@ -711,3 +711,36 @@
 /* Unpair */
 "UNPAIR" = "Unpair";
 
+/* Failure Message */
+"STEP_FAILURE.message" = "Something went wrong in pairing your device. Please try again and follow the provided steps!";
+
+/* Step Fail. */
+"STEP_FAILURE.title" = "Oops, something\nwent wrong!";
+
+/* Step 1 Message */
+"STEP_ONE.message" = "Make sure your meter is off and\nkeep it near your mobile device.";
+
+/* Step 1. */
+"STEP_ONE.title" = "Step 1.";
+
+/* Success Message */
+"STEP_SUCCESS.message" = "You have successfully paired your device and data should stream automatically into Allie.";
+
+/* Step Success. */
+"STEP_SUCCESS.title" = "Success!";
+
+/* Step 3 Message */
+"STEP_THREE.message" = "Pairing your device now";
+
+/* Step 3. */
+"STEP_THREE.title" = "Pairing device...";
+
+/* Step 2 Message */
+"STEP_TWO.message" = "Press and hold the center button\n(A) for 6 seconds until you see the\nblinking Bluetooth symbol.\n\nA blue light should blink when you\nare in pairing mode.";
+
+/* Step 2. */
+"STEP_TWO.title" = "Step 2.";
+
+/* Bluetooth Pairing */
+"BLUETOOTH_PAIRING" = "Bluetooth Pairing";
+

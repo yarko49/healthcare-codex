@@ -124,7 +124,6 @@
 		8447672B259C2A4E00C50C09 /* CustomYAxisRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476622259C2A4E00C50C09 /* CustomYAxisRenderer.swift */; };
 		84476730259C2A4E00C50C09 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476628259C2A4E00C50C09 /* GoogleSignInButton.swift */; };
 		84476731259C2A4E00C50C09 /* EmailSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476629259C2A4E00C50C09 /* EmailSignInButton.swift */; };
-		84476732259C2A4E00C50C09 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447662A259C2A4E00C50C09 /* RoundedButton.swift */; };
 		84476739259C2A4E00C50C09 /* SettingsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476633259C2A4E00C50C09 /* SettingsFooterView.swift */; };
 		8447673B259C2A4E00C50C09 /* TextfieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476636259C2A4E00C50C09 /* TextfieldView.swift */; };
 		84476743259C2A4E00C50C09 /* ProfileChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447663E259C2A4E00C50C09 /* ProfileChartView.swift */; };
@@ -385,7 +384,6 @@
 		847DCC55265871F3004E9C1D /* SmartDeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A6259C2A4E00C50C09 /* SmartDeviceType.swift */; };
 		847DCC56265871F3004E9C1D /* TextContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */; };
 		847DCC58265871F3004E9C1D /* SimpleTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1060025E763EC00B126ED /* SimpleTaskViewController.swift */; };
-		847DCC59265871F3004E9C1D /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447662A259C2A4E00C50C09 /* RoundedButton.swift */; };
 		847DCC5A265871F3004E9C1D /* Device+HKObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439C7A925FB46AF008C5940 /* Device+HKObject.swift */; };
 		847DCC5B265871F3004E9C1D /* Collection+Average.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766BE259C2A4E00C50C09 /* Collection+Average.swift */; };
 		847DCC5C265871F3004E9C1D /* BaseFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845FBE8925FC77E900472257 /* BaseFactory.swift */; };
@@ -678,6 +676,24 @@
 		84CFEB30265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFEB2F265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift */; };
 		84CFEB31265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFEB2F265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift */; };
 		84CFEB32265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CFEB2F265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift */; };
+		84D1128926D451FC000BA718 /* BGMPairingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1128826D451FC000BA718 /* BGMPairingViewModel.swift */; };
+		84D1128A26D451FC000BA718 /* BGMPairingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1128826D451FC000BA718 /* BGMPairingViewModel.swift */; };
+		84D1128B26D451FC000BA718 /* BGMPairingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1128826D451FC000BA718 /* BGMPairingViewModel.swift */; };
+		84D1128D26D45232000BA718 /* BGMPairingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1128C26D45232000BA718 /* BGMPairingItem.swift */; };
+		84D1128E26D45232000BA718 /* BGMPairingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1128C26D45232000BA718 /* BGMPairingItem.swift */; };
+		84D1128F26D45232000BA718 /* BGMPairingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1128C26D45232000BA718 /* BGMPairingItem.swift */; };
+		84D1129126D45724000BA718 /* BGMPairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1129026D45724000BA718 /* BGMPairingViewController.swift */; };
+		84D1129226D45724000BA718 /* BGMPairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1129026D45724000BA718 /* BGMPairingViewController.swift */; };
+		84D1129326D45724000BA718 /* BGMPairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1129026D45724000BA718 /* BGMPairingViewController.swift */; };
+		84D1129526D45957000BA718 /* BGMPairingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1129426D45957000BA718 /* BGMPairingPageViewController.swift */; };
+		84D1129626D45957000BA718 /* BGMPairingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1129426D45957000BA718 /* BGMPairingPageViewController.swift */; };
+		84D1129726D45957000BA718 /* BGMPairingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1129426D45957000BA718 /* BGMPairingPageViewController.swift */; };
+		84D1129D26D46A38000BA718 /* UIButton+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1129C26D46A38000BA718 /* UIButton+Custom.swift */; };
+		84D1129E26D46A38000BA718 /* UIButton+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1129C26D46A38000BA718 /* UIButton+Custom.swift */; };
+		84D1129F26D46A38000BA718 /* UIButton+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1129C26D46A38000BA718 /* UIButton+Custom.swift */; };
+		84D112A126D4719C000BA718 /* BGMPairingItem+AttributedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D112A026D4719C000BA718 /* BGMPairingItem+AttributedText.swift */; };
+		84D112A226D4719C000BA718 /* BGMPairingItem+AttributedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D112A026D4719C000BA718 /* BGMPairingItem+AttributedText.swift */; };
+		84D112A326D4719C000BA718 /* BGMPairingItem+AttributedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D112A026D4719C000BA718 /* BGMPairingItem+AttributedText.swift */; };
 		84D121C3264100BC00990196 /* Outcomes1.json in Resources */ = {isa = PBXBuildFile; fileRef = 84D121C1264100BC00990196 /* Outcomes1.json */; };
 		84D121C4264100BC00990196 /* Outcomes2.json in Resources */ = {isa = PBXBuildFile; fileRef = 84D121C2264100BC00990196 /* Outcomes2.json */; };
 		84D121C6264101EB00990196 /* OutcomesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D121C5264101EB00990196 /* OutcomesTests.swift */; };
@@ -754,7 +770,6 @@
 		84D12281264112DE00990196 /* SmartDeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A6259C2A4E00C50C09 /* SmartDeviceType.swift */; };
 		84D12282264112DE00990196 /* TextContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */; };
 		84D12285264112DE00990196 /* SimpleTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1060025E763EC00B126ED /* SimpleTaskViewController.swift */; };
-		84D12286264112DE00990196 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447662A259C2A4E00C50C09 /* RoundedButton.swift */; };
 		84D12287264112DE00990196 /* Device+HKObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439C7A925FB46AF008C5940 /* Device+HKObject.swift */; };
 		84D12288264112DE00990196 /* Collection+Average.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766BE259C2A4E00C50C09 /* Collection+Average.swift */; };
 		84D12289264112DE00990196 /* BaseFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845FBE8925FC77E900472257 /* BaseFactory.swift */; };
@@ -994,7 +1009,6 @@
 		84476622259C2A4E00C50C09 /* CustomYAxisRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomYAxisRenderer.swift; sourceTree = "<group>"; };
 		84476628259C2A4E00C50C09 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
 		84476629259C2A4E00C50C09 /* EmailSignInButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailSignInButton.swift; sourceTree = "<group>"; };
-		8447662A259C2A4E00C50C09 /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		84476633259C2A4E00C50C09 /* SettingsFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsFooterView.swift; sourceTree = "<group>"; };
 		84476636259C2A4E00C50C09 /* TextfieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextfieldView.swift; sourceTree = "<group>"; };
 		8447663E259C2A4E00C50C09 /* ProfileChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileChartView.swift; sourceTree = "<group>"; };
@@ -1208,6 +1222,12 @@
 		84CF2DA1261ACAA30080293F /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		84CF2DA3261AE60B0080293F /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		84CFEB2F265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKSample+OCKOutcomeValue.swift"; sourceTree = "<group>"; };
+		84D1128826D451FC000BA718 /* BGMPairingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGMPairingViewModel.swift; sourceTree = "<group>"; };
+		84D1128C26D45232000BA718 /* BGMPairingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGMPairingItem.swift; sourceTree = "<group>"; };
+		84D1129026D45724000BA718 /* BGMPairingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGMPairingViewController.swift; sourceTree = "<group>"; };
+		84D1129426D45957000BA718 /* BGMPairingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGMPairingPageViewController.swift; sourceTree = "<group>"; };
+		84D1129C26D46A38000BA718 /* UIButton+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Custom.swift"; sourceTree = "<group>"; };
+		84D112A026D4719C000BA718 /* BGMPairingItem+AttributedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BGMPairingItem+AttributedText.swift"; sourceTree = "<group>"; };
 		84D121C1264100BC00990196 /* Outcomes1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Outcomes1.json; sourceTree = "<group>"; };
 		84D121C2264100BC00990196 /* Outcomes2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Outcomes2.json; sourceTree = "<group>"; };
 		84D121C5264101EB00990196 /* OutcomesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutcomesTests.swift; sourceTree = "<group>"; };
@@ -1566,7 +1586,6 @@
 			isa = PBXGroup;
 			children = (
 				8447661B259C2A4E00C50C09 /* UITableViewCells */,
-				84476626259C2A4E00C50C09 /* Buttons */,
 				84476631259C2A4E00C50C09 /* UITableViewFooter */,
 				84476634259C2A4E00C50C09 /* Custom Views */,
 			);
@@ -1584,17 +1603,6 @@
 				84476622259C2A4E00C50C09 /* CustomYAxisRenderer.swift */,
 			);
 			path = UITableViewCells;
-			sourceTree = "<group>";
-		};
-		84476626259C2A4E00C50C09 /* Buttons */ = {
-			isa = PBXGroup;
-			children = (
-				84C517F425B7E55F00D684E5 /* BottomButton.swift */,
-				84476628259C2A4E00C50C09 /* GoogleSignInButton.swift */,
-				84476629259C2A4E00C50C09 /* EmailSignInButton.swift */,
-				8447662A259C2A4E00C50C09 /* RoundedButton.swift */,
-			);
-			path = Buttons;
 			sourceTree = "<group>";
 		};
 		84476631259C2A4E00C50C09 /* UITableViewFooter */ = {
@@ -1924,6 +1932,9 @@
 				84E4660125A040F100A10F8B /* ViewIdentifiable.swift */,
 				84E4660F25A0453C00A10F8B /* ViewNIBLoading.swift */,
 				84FE913E2650E55B00D681DF /* GradientView.swift */,
+				84C517F425B7E55F00D684E5 /* BottomButton.swift */,
+				84476629259C2A4E00C50C09 /* EmailSignInButton.swift */,
+				84476628259C2A4E00C50C09 /* GoogleSignInButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1966,6 +1977,7 @@
 				844F06E925C122DA00D26119 /* Bundle+Version.swift */,
 				8437270B25F8989C005B2C5C /* Notification+Names.swift */,
 				844766BB259C2A4E00C50C09 /* UIColor+Names.swift */,
+				8408843F26884001003C3AE2 /* Color+Names.swift */,
 				845F8BA12647618300999091 /* String+Capitalizing.swift */,
 				845F8BA42647B9BD00999091 /* Date+Conversion.swift */,
 				846B5EB92648B287003046EF /* NSLayoutConstraint+Extensions.swift */,
@@ -1973,8 +1985,8 @@
 				840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */,
 				84C212AF266491A0000D491B /* FileManager+Documents.swift */,
 				84987B4E267F156700294718 /* FirebaseAuth+Listners.swift */,
+				84D1129C26D46A38000BA718 /* UIButton+Custom.swift */,
 				84D625B0265F5B8E00B5A973 /* Appearance */,
-				8408843F26884001003C3AE2 /* Color+Names.swift */,
 				8475FBDD268C275900A916B6 /* UINavigationController+Transitions.swift */,
 			);
 			path = Extensions;
@@ -1994,6 +2006,11 @@
 				84AF4D0626CADC8300867349 /* BGMCharacteristic.swift */,
 				847E8A1F26CB13D5006D8820 /* HKDevice+CBPeripheral.swift */,
 				84037C1726CB5B6200C87189 /* CHDevice+CBPeripheral.swift */,
+				84D1129026D45724000BA718 /* BGMPairingViewController.swift */,
+				84D1129426D45957000BA718 /* BGMPairingPageViewController.swift */,
+				84D1128826D451FC000BA718 /* BGMPairingViewModel.swift */,
+				84D1128C26D45232000BA718 /* BGMPairingItem.swift */,
+				84D112A026D4719C000BA718 /* BGMPairingItem+AttributedText.swift */,
 			);
 			path = GloucoseMeter;
 			sourceTree = "<group>";
@@ -2692,6 +2709,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				842F966A26915C8D0041237F /* CHParticipant.swift in Sources */,
+				84D1128926D451FC000BA718 /* BGMPairingViewModel.swift in Sources */,
 				84AF11A126707C9B0061A9E5 /* GridTaskController.swift in Sources */,
 				84703C71265B743A0025A50D /* ButtonLogTaskViewSynchronizer.swift in Sources */,
 				84261686269A7111006BD8B0 /* GeneralizedLogTaskViewSynchronizer.swift in Sources */,
@@ -2754,15 +2772,18 @@
 				845B453F269B9C1C00EC5211 /* HKCorrelationTypeIdentifier+Linkage.swift in Sources */,
 				847DF4EF2660AF7A00CCC1E9 /* SignedURLResponse.swift in Sources */,
 				840D1BF1265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift in Sources */,
+				84D1129526D45957000BA718 /* BGMPairingPageViewController.swift in Sources */,
 				844767A3259C2A4E00C50C09 /* UILabel+Height.swift in Sources */,
 				84F47F6826412F15009CC791 /* JSONEncoder+iso8601.swift in Sources */,
 				8487485A25B3F946008C15E2 /* ButtonLogTaskViewController.swift in Sources */,
 				8426167A269A70B5006BD8B0 /* GeneralizedLogTaskView.swift in Sources */,
+				84D1129D26D46A38000BA718 /* UIButton+Custom.swift in Sources */,
 				846257A725E2230A004AEBCD /* HealthKitDataType.swift in Sources */,
 				844767EE259C2A4E00C50C09 /* APIClient.swift in Sources */,
 				844767CD259C2A4E00C50C09 /* CHPatient+OCKPatient.swift in Sources */,
 				84261682269A70F6006BD8B0 /* GeneralizedLogTaskViewController.swift in Sources */,
 				84A9D89C26AA96BB001E83B2 /* Request+Codex.swift in Sources */,
+				84D1128D26D45232000BA718 /* BGMPairingItem.swift in Sources */,
 				844767A6259C2A4E00C50C09 /* Sequence+Sum.swift in Sources */,
 				84AF4CEF26CA0D4D00867349 /* InjectedValues.swift in Sources */,
 				84CEF52B2688675A000C4C56 /* TCHParticipant+SenderType.swift in Sources */,
@@ -2770,6 +2791,7 @@
 				84CEF52726886586000C4C56 /* TCHMessage+MessageType.swift in Sources */,
 				84703C62265B6DA80025A50D /* ChecklistTaskViewSynchronizer.swift in Sources */,
 				844F218926B114AF00788DA9 /* HealthKitManager+GlucoseMeter.swift in Sources */,
+				84D112A126D4719C000BA718 /* BGMPairingItem+AttributedText.swift in Sources */,
 				842F908E25AEB56D007421A6 /* CHPatient+RemoteUser.swift in Sources */,
 				84EDA19226577F3B0049323C /* HKInsulinDeliveryReason+Display.swift in Sources */,
 				844767A7259C2A4E00C50C09 /* Double+Rounding.swift in Sources */,
@@ -2832,7 +2854,6 @@
 				8449A664267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				84C1060125E763EC00B126ED /* SimpleTaskViewController.swift in Sources */,
 				848994C726941CBE0057C6C4 /* GeneralizedLogTaskDetailViewController.swift in Sources */,
-				84476732259C2A4E00C50C09 /* RoundedButton.swift in Sources */,
 				8439C7AA25FB46AF008C5940 /* Device+HKObject.swift in Sources */,
 				8447679F259C2A4E00C50C09 /* Collection+Average.swift in Sources */,
 				845FBE8A25FC77E900472257 /* BaseFactory.swift in Sources */,
@@ -2881,6 +2902,7 @@
 				84009048261AA77000FB3968 /* ProfileEntryViewController.swift in Sources */,
 				845FBE8025FC775E00472257 /* ConfigurationError.swift in Sources */,
 				84703C56265B495D0025A50D /* AuthenticationToken.swift in Sources */,
+				84D1129126D45724000BA718 /* BGMPairingViewController.swift in Sources */,
 				847E8A2026CB13D5006D8820 /* HKDevice+CBPeripheral.swift in Sources */,
 				848199B1268996CF00DAB894 /* ProviderDetailViewModel.swift in Sources */,
 				84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */,
@@ -2982,6 +3004,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				842F966C26915C8D0041237F /* CHParticipant.swift in Sources */,
+				84D1128B26D451FC000BA718 /* BGMPairingViewModel.swift in Sources */,
 				84703C73265B743A0025A50D /* ButtonLogTaskViewSynchronizer.swift in Sources */,
 				84261688269A7111006BD8B0 /* GeneralizedLogTaskViewSynchronizer.swift in Sources */,
 				847DCBF4265871F3004E9C1D /* UIColor+Names.swift in Sources */,
@@ -3044,15 +3067,18 @@
 				845B4541269B9C1C00EC5211 /* HKCorrelationTypeIdentifier+Linkage.swift in Sources */,
 				847DF4F12660AF7A00CCC1E9 /* SignedURLResponse.swift in Sources */,
 				847DCC22265871F3004E9C1D /* UILabel+Height.swift in Sources */,
+				84D1129726D45957000BA718 /* BGMPairingPageViewController.swift in Sources */,
 				847DCC23265871F3004E9C1D /* JSONEncoder+iso8601.swift in Sources */,
 				847DCC24265871F3004E9C1D /* ButtonLogTaskViewController.swift in Sources */,
 				847DCC25265871F3004E9C1D /* HealthKitDataType.swift in Sources */,
 				8426167C269A70B5006BD8B0 /* GeneralizedLogTaskView.swift in Sources */,
+				84D1129F26D46A38000BA718 /* UIButton+Custom.swift in Sources */,
 				847DCC26265871F3004E9C1D /* APIClient.swift in Sources */,
 				847DCC27265871F3004E9C1D /* CHPatient+OCKPatient.swift in Sources */,
 				84261684269A70F6006BD8B0 /* GeneralizedLogTaskViewController.swift in Sources */,
 				847DCC29265871F3004E9C1D /* Sequence+Sum.swift in Sources */,
 				84A9D89E26AA96BB001E83B2 /* Request+Codex.swift in Sources */,
+				84D1128F26D45232000BA718 /* BGMPairingItem.swift in Sources */,
 				847DCC2A265871F3004E9C1D /* CHTask.swift in Sources */,
 				84AF4CF126CA0D4D00867349 /* InjectedValues.swift in Sources */,
 				84CEF52D2688675A000C4C56 /* TCHParticipant+SenderType.swift in Sources */,
@@ -3060,6 +3086,7 @@
 				84CEF52926886586000C4C56 /* TCHMessage+MessageType.swift in Sources */,
 				847DCC2C265871F3004E9C1D /* CHPatient+RemoteUser.swift in Sources */,
 				844F218B26B114AF00788DA9 /* HealthKitManager+GlucoseMeter.swift in Sources */,
+				84D112A326D4719C000BA718 /* BGMPairingItem+AttributedText.swift in Sources */,
 				847DCC2D265871F3004E9C1D /* HKInsulinDeliveryReason+Display.swift in Sources */,
 				847DCC2F265871F3004E9C1D /* Double+Rounding.swift in Sources */,
 				847DCC31265871F3004E9C1D /* UIView+LayoutConstraint.swift in Sources */,
@@ -3117,7 +3144,6 @@
 				847DCC56265871F3004E9C1D /* TextContentDetailViewController.swift in Sources */,
 				847DCC58265871F3004E9C1D /* SimpleTaskViewController.swift in Sources */,
 				8408844226884001003C3AE2 /* Color+Names.swift in Sources */,
-				847DCC59265871F3004E9C1D /* RoundedButton.swift in Sources */,
 				8449A666267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				847DCC5A265871F3004E9C1D /* Device+HKObject.swift in Sources */,
 				848994C926941CBE0057C6C4 /* GeneralizedLogTaskDetailViewController.swift in Sources */,
@@ -3171,6 +3197,7 @@
 				847DCC80265871F3004E9C1D /* ConfigurationError.swift in Sources */,
 				847DCC81265871F3004E9C1D /* PersonNameComponents+ResourceName.swift in Sources */,
 				848199B3268996CF00DAB894 /* ProviderDetailViewModel.swift in Sources */,
+				84D1129326D45724000BA718 /* BGMPairingViewController.swift in Sources */,
 				847E8A2226CB13D5006D8820 /* HKDevice+CBPeripheral.swift in Sources */,
 				847DCC82265871F3004E9C1D /* CHOperation.swift in Sources */,
 				8449A661267C5C8F00F73D8E /* CHConversationsTokens.swift in Sources */,
@@ -3238,6 +3265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				842F966B26915C8D0041237F /* CHParticipant.swift in Sources */,
+				84D1128A26D451FC000BA718 /* BGMPairingViewModel.swift in Sources */,
 				84703C72265B743A0025A50D /* ButtonLogTaskViewSynchronizer.swift in Sources */,
 				84261687269A7111006BD8B0 /* GeneralizedLogTaskViewSynchronizer.swift in Sources */,
 				84D12227264112DE00990196 /* UIColor+Names.swift in Sources */,
@@ -3300,15 +3328,18 @@
 				845B4540269B9C1C00EC5211 /* HKCorrelationTypeIdentifier+Linkage.swift in Sources */,
 				847DF4F02660AF7A00CCC1E9 /* SignedURLResponse.swift in Sources */,
 				84D12251264112DE00990196 /* UILabel+Height.swift in Sources */,
+				84D1129626D45957000BA718 /* BGMPairingPageViewController.swift in Sources */,
 				84F47F6926412F18009CC791 /* JSONEncoder+iso8601.swift in Sources */,
 				84D12252264112DE00990196 /* ButtonLogTaskViewController.swift in Sources */,
 				84D12253264112DE00990196 /* HealthKitDataType.swift in Sources */,
 				8426167B269A70B5006BD8B0 /* GeneralizedLogTaskView.swift in Sources */,
+				84D1129E26D46A38000BA718 /* UIButton+Custom.swift in Sources */,
 				84D12254264112DE00990196 /* APIClient.swift in Sources */,
 				84D12255264112DE00990196 /* CHPatient+OCKPatient.swift in Sources */,
 				84261683269A70F6006BD8B0 /* GeneralizedLogTaskViewController.swift in Sources */,
 				84D12257264112DE00990196 /* Sequence+Sum.swift in Sources */,
 				84A9D89D26AA96BB001E83B2 /* Request+Codex.swift in Sources */,
+				84D1128E26D45232000BA718 /* BGMPairingItem.swift in Sources */,
 				84D12258264112DE00990196 /* CHTask.swift in Sources */,
 				84AF4CF026CA0D4D00867349 /* InjectedValues.swift in Sources */,
 				84CEF52C2688675A000C4C56 /* TCHParticipant+SenderType.swift in Sources */,
@@ -3316,6 +3347,7 @@
 				84CEF52826886586000C4C56 /* TCHMessage+MessageType.swift in Sources */,
 				84D1225B264112DE00990196 /* CHPatient+RemoteUser.swift in Sources */,
 				844F218A26B114AF00788DA9 /* HealthKitManager+GlucoseMeter.swift in Sources */,
+				84D112A226D4719C000BA718 /* BGMPairingItem+AttributedText.swift in Sources */,
 				84EDA19326577F3B0049323C /* HKInsulinDeliveryReason+Display.swift in Sources */,
 				84D1225D264112DE00990196 /* Double+Rounding.swift in Sources */,
 				84D1225F264112DE00990196 /* UIView+LayoutConstraint.swift in Sources */,
@@ -3373,7 +3405,6 @@
 				84D12282264112DE00990196 /* TextContentDetailViewController.swift in Sources */,
 				84D12285264112DE00990196 /* SimpleTaskViewController.swift in Sources */,
 				8408844126884001003C3AE2 /* Color+Names.swift in Sources */,
-				84D12286264112DE00990196 /* RoundedButton.swift in Sources */,
 				8449A665267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				84D12287264112DE00990196 /* Device+HKObject.swift in Sources */,
 				848994C826941CBE0057C6C4 /* GeneralizedLogTaskDetailViewController.swift in Sources */,
@@ -3427,6 +3458,7 @@
 				84D122AE264112DE00990196 /* ConfigurationError.swift in Sources */,
 				84D122AF264112DE00990196 /* PersonNameComponents+ResourceName.swift in Sources */,
 				848199B2268996CF00DAB894 /* ProviderDetailViewModel.swift in Sources */,
+				84D1129226D45724000BA718 /* BGMPairingViewController.swift in Sources */,
 				847E8A2126CB13D5006D8820 /* HKDevice+CBPeripheral.swift in Sources */,
 				841A772D2652348C000913A9 /* CHOperation.swift in Sources */,
 				8449A660267C5C8F00F73D8E /* CHConversationsTokens.swift in Sources */,
@@ -3875,7 +3907,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.1;
+				MARKETING_VERSION = 0.9.2;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3904,7 +3936,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.1;
+				MARKETING_VERSION = 0.9.2;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";

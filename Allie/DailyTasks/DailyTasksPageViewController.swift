@@ -42,6 +42,14 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.reload()
 			}.store(in: &cancellables)
 
+		if UserDefaults.standard.bloodGlucoseMonitor == nil {
+			NotificationCenter.default.publisher(for: .didPairBloodGlucoseMonitor)
+				.receive(on: RunLoop.main)
+				.sink { [weak self] _ in
+					self?.startBluetooth()
+				}.store(in: &cancellables)
+		}
+
 		Timer.publish(every: timerInterval, tolerance: 10.0, on: .current, in: .common, options: nil)
 			.autoconnect()
 			.receive(on: DispatchQueue.main)
@@ -61,8 +69,15 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			DispatchQueue.main.async {
 				self?.reload()
 			}
-			self?.startBluetooth()
+			if UserDefaults.standard.bloodGlucoseMonitor != nil {
+				self?.startBluetooth()
+			}
 		}
+	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		bloodGlucoseMonitor.delegate = self
 	}
 
 	override func viewDidAppear(_ animated: Bool) {

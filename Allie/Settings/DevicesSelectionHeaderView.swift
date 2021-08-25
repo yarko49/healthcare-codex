@@ -7,7 +7,43 @@
 
 import UIKit
 
+protocol DevicesSelectionHeaderViewDelegate: AnyObject {
+	func devicesSelectionHeaderViewDidSelectAdd(_ view: DevicesSelectionHeaderView)
+}
+
 class DevicesSelectionHeaderView: UITableViewHeaderFooterView {
+	class var height: CGFloat {
+		54.0
+	}
+
+	weak var delegate: DevicesSelectionHeaderViewDelegate?
+
+	private let stackView: UIStackView = {
+		let view = UIStackView(frame: .zero)
+		view.axis = .horizontal
+		view.distribution = .fill
+		view.alignment = .fill
+		return view
+	}()
+
+	private let addButton: UIButton = {
+		let button = UIButton(type: .system)
+		button.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
+		button.tintColor = .allieGray
+		button.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+		button.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
+		return button
+	}()
+
+	var isAddButtonHidden: Bool {
+		get {
+			addButton.isHidden
+		}
+		set {
+			addButton.isHidden = newValue
+		}
+	}
+
 	let titleLabel: UILabel = {
 		let label = UILabel(frame: .zero)
 		label.textColor = .allieGray
@@ -26,15 +62,31 @@ class DevicesSelectionHeaderView: UITableViewHeaderFooterView {
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	override func prepareForReuse() {
+		super.prepareForReuse()
+		titleLabel.text = nil
+		isAddButtonHidden = true
+	}
+
 	private func commonInit() {
-		titleLabel.translatesAutoresizingMaskIntoConstraints = false
-		contentView.addSubview(titleLabel)
+		isAddButtonHidden = true
+		[stackView, titleLabel, addButton].forEach { view in
+			view.translatesAutoresizingMaskIntoConstraints = false
+		}
+		contentView.addSubview(stackView)
 		let view = UIView(frame: .zero)
 		view.backgroundColor = .white
 		backgroundView = view
-		NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 2.0),
-		                             contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 2.0),
-		                             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.0),
-		                             contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 1.0)])
+		NSLayoutConstraint.activate([stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 2.0),
+		                             contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2.0),
+		                             stackView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.0),
+		                             contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: stackView.bottomAnchor, multiplier: 1.0)])
+		stackView.addArrangedSubview(titleLabel)
+		stackView.addArrangedSubview(addButton)
+		addButton.addTarget(self, action: #selector(didSelectAdd(_:)), for: .touchUpInside)
+	}
+
+	@IBAction func didSelectAdd(_ button: UIButton) {
+		delegate?.devicesSelectionHeaderViewDidSelectAdd(self)
 	}
 }
