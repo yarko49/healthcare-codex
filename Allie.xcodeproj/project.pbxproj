@@ -197,6 +197,12 @@
 		8449A668267C789B00F73D8E /* OutcomesResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8449A667267C789B00F73D8E /* OutcomesResponse.json */; };
 		8449A66A267C798500F73D8E /* OraganizationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449A669267C798500F73D8E /* OraganizationsTests.swift */; };
 		8449A66C267C79A500F73D8E /* Organizations.json in Resources */ = {isa = PBXBuildFile; fileRef = 8449A66B267C79A500F73D8E /* Organizations.json */; };
+		8449F47026D5EB5E009B5F7A /* ConnectedDeviceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449F46F26D5EB5E009B5F7A /* ConnectedDeviceTableViewCell.swift */; };
+		8449F47126D5EB5E009B5F7A /* ConnectedDeviceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449F46F26D5EB5E009B5F7A /* ConnectedDeviceTableViewCell.swift */; };
+		8449F47226D5EB5E009B5F7A /* ConnectedDeviceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449F46F26D5EB5E009B5F7A /* ConnectedDeviceTableViewCell.swift */; };
+		8449F47426D5F08E009B5F7A /* BGMDeviceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449F47326D5F08E009B5F7A /* BGMDeviceDetailViewController.swift */; };
+		8449F47526D5F08E009B5F7A /* BGMDeviceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449F47326D5F08E009B5F7A /* BGMDeviceDetailViewController.swift */; };
+		8449F47626D5F08E009B5F7A /* BGMDeviceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449F47326D5F08E009B5F7A /* BGMDeviceDetailViewController.swift */; };
 		844AD612267FC7CB0096A08E /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 844AD611267FC7CB0096A08E /* CareKit */; };
 		844AD614267FC7CB0096A08E /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 844AD613267FC7CB0096A08E /* CareKitFHIR */; };
 		844AD616267FC7CB0096A08E /* CareKitStore in Frameworks */ = {isa = PBXBuildFile; productRef = 844AD615267FC7CB0096A08E /* CareKitStore */; };
@@ -1079,6 +1085,8 @@
 		8449A667267C789B00F73D8E /* OutcomesResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = OutcomesResponse.json; sourceTree = "<group>"; };
 		8449A669267C798500F73D8E /* OraganizationsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OraganizationsTests.swift; sourceTree = "<group>"; };
 		8449A66B267C79A500F73D8E /* Organizations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Organizations.json; sourceTree = "<group>"; };
+		8449F46F26D5EB5E009B5F7A /* ConnectedDeviceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedDeviceTableViewCell.swift; sourceTree = "<group>"; };
+		8449F47326D5F08E009B5F7A /* BGMDeviceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGMDeviceDetailViewController.swift; sourceTree = "<group>"; };
 		844CB3C4268AE8FE007F05A4 /* ConversationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListViewController.swift; sourceTree = "<group>"; };
 		844CB3C8268AF4D9007F05A4 /* ConersationsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConersationsTests.swift; sourceTree = "<group>"; };
 		844DD5DA264F76CE0039DB20 /* EnvironmentDev.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = EnvironmentDev.xcconfig; sourceTree = "<group>"; };
@@ -1669,6 +1677,7 @@
 				84476680259C2A4E00C50C09 /* SettingsViewController.swift */,
 				844766A4259C2A4E00C50C09 /* SettingsType.swift */,
 				84230BE02607243A008BB83E /* DevicesSelectionViewController.swift */,
+				8449F46F26D5EB5E009B5F7A /* ConnectedDeviceTableViewCell.swift */,
 				84037C2926CB714600C87189 /* DevicesSelectionHeaderView.swift */,
 				84230BE62607FA79008BB83E /* NotificationSettingsController.swift */,
 			);
@@ -1998,19 +2007,8 @@
 				84555DC126AFC60800C7BA55 /* BGMBluetoothManager.swift */,
 				84037C2126CB67B500C87189 /* BGMBluetoothManager+Injectable.swift */,
 				844F218826B114AF00788DA9 /* HealthKitManager+GlucoseMeter.swift */,
-				844F218426B1135E00788DA9 /* BGMDataFlags.swift */,
-				844F218026B1130600788DA9 /* BGMDataRecord.swift */,
-				8497046626B1278B006E2D51 /* BGMDataReading.swift */,
-				8497045A26B122B1006E2D51 /* BGMMealTime.swift */,
-				8497045C26B124C2006E2D51 /* BGMSampleType.swift */,
-				84AF4D0626CADC8300867349 /* BGMCharacteristic.swift */,
-				847E8A1F26CB13D5006D8820 /* HKDevice+CBPeripheral.swift */,
-				84037C1726CB5B6200C87189 /* CHDevice+CBPeripheral.swift */,
-				84D1129026D45724000BA718 /* BGMPairingViewController.swift */,
-				84D1129426D45957000BA718 /* BGMPairingPageViewController.swift */,
-				84D1128826D451FC000BA718 /* BGMPairingViewModel.swift */,
-				84D1128C26D45232000BA718 /* BGMPairingItem.swift */,
-				84D112A026D4719C000BA718 /* BGMPairingItem+AttributedText.swift */,
+				84AB058D26D5C49F006E8B9E /* Model */,
+				84AB058C26D5C478006E8B9E /* Pairing */,
 			);
 			path = GloucoseMeter;
 			sourceTree = "<group>";
@@ -2087,6 +2085,34 @@
 				84F2E9A5269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift */,
 			);
 			path = GeneralizedEntryTask;
+			sourceTree = "<group>";
+		};
+		84AB058C26D5C478006E8B9E /* Pairing */ = {
+			isa = PBXGroup;
+			children = (
+				84D1129026D45724000BA718 /* BGMPairingViewController.swift */,
+				84D1129426D45957000BA718 /* BGMPairingPageViewController.swift */,
+				84D1128826D451FC000BA718 /* BGMPairingViewModel.swift */,
+				84D1128C26D45232000BA718 /* BGMPairingItem.swift */,
+				84D112A026D4719C000BA718 /* BGMPairingItem+AttributedText.swift */,
+				8449F47326D5F08E009B5F7A /* BGMDeviceDetailViewController.swift */,
+			);
+			path = Pairing;
+			sourceTree = "<group>";
+		};
+		84AB058D26D5C49F006E8B9E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				844F218426B1135E00788DA9 /* BGMDataFlags.swift */,
+				844F218026B1130600788DA9 /* BGMDataRecord.swift */,
+				8497046626B1278B006E2D51 /* BGMDataReading.swift */,
+				8497045A26B122B1006E2D51 /* BGMMealTime.swift */,
+				8497045C26B124C2006E2D51 /* BGMSampleType.swift */,
+				84AF4D0626CADC8300867349 /* BGMCharacteristic.swift */,
+				847E8A1F26CB13D5006D8820 /* HKDevice+CBPeripheral.swift */,
+				84037C1726CB5B6200C87189 /* CHDevice+CBPeripheral.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		84D625B0265F5B8E00B5A973 /* Appearance */ = {
@@ -2810,6 +2836,7 @@
 				84555DC226AFC60800C7BA55 /* BGMBluetoothManager.swift in Sources */,
 				84037C2A26CB714600C87189 /* DevicesSelectionHeaderView.swift in Sources */,
 				844767D1259C2A4E00C50C09 /* LoggingManager.swift in Sources */,
+				8449F47426D5F08E009B5F7A /* BGMDeviceDetailViewController.swift in Sources */,
 				844767AB259C2A4E00C50C09 /* String+Localized.swift in Sources */,
 				84A9D88726AA51D0001E83B2 /* CHConversationsUsers.swift in Sources */,
 				84CEF52326886484000C4C56 /* CHPatient+SenderType.swift in Sources */,
@@ -2936,6 +2963,7 @@
 				8447672B259C2A4E00C50C09 /* CustomYAxisRenderer.swift in Sources */,
 				841A77322652348C000913A9 /* OutcomesUploadOperation.swift in Sources */,
 				84E4661025A0453C00A10F8B /* ViewNIBLoading.swift in Sources */,
+				8449F47026D5EB5E009B5F7A /* ConnectedDeviceTableViewCell.swift in Sources */,
 				844767DF259C2A4E00C50C09 /* AppCoordinator.swift in Sources */,
 				845F18992632444F005A601A /* CHDevice.swift in Sources */,
 				84A8F4F826B754FE00A62818 /* ReadWriteLock.swift in Sources */,
@@ -3105,6 +3133,7 @@
 				8497046126B124C7006E2D51 /* BGMMealTime.swift in Sources */,
 				84037C2C26CB714600C87189 /* DevicesSelectionHeaderView.swift in Sources */,
 				84555DC426AFC60800C7BA55 /* BGMBluetoothManager.swift in Sources */,
+				8449F47626D5F08E009B5F7A /* BGMDeviceDetailViewController.swift in Sources */,
 				847DCC3B265871F3004E9C1D /* String+Localized.swift in Sources */,
 				847DCC3C265871F3004E9C1D /* HealthKitManager.swift in Sources */,
 				84A9D88926AA51D0001E83B2 /* CHConversationsUsers.swift in Sources */,
@@ -3231,6 +3260,7 @@
 				847DCC9D265871F3004E9C1D /* AppCoordinator.swift in Sources */,
 				847DCC9E265871F3004E9C1D /* CHDevice.swift in Sources */,
 				84703C5C265B4B510025A50D /* AuthenticationToken.swift in Sources */,
+				8449F47226D5EB5E009B5F7A /* ConnectedDeviceTableViewCell.swift in Sources */,
 				84261680269A70DD006BD8B0 /* GeneralizedLogTaskController.swift in Sources */,
 				84A8F4FA26B754FE00A62818 /* ReadWriteLock.swift in Sources */,
 				845B4545269BA17B00EC5211 /* OCKOutcomeValue+LogItem.swift in Sources */,
@@ -3366,6 +3396,7 @@
 				8497046026B124C6006E2D51 /* BGMMealTime.swift in Sources */,
 				84037C2B26CB714600C87189 /* DevicesSelectionHeaderView.swift in Sources */,
 				84555DC326AFC60800C7BA55 /* BGMBluetoothManager.swift in Sources */,
+				8449F47526D5F08E009B5F7A /* BGMDeviceDetailViewController.swift in Sources */,
 				84D12267264112DE00990196 /* String+Localized.swift in Sources */,
 				84D12268264112DE00990196 /* HealthKitManager.swift in Sources */,
 				84A9D88826AA51D0001E83B2 /* CHConversationsUsers.swift in Sources */,
@@ -3492,6 +3523,7 @@
 				84D122C8264112DE00990196 /* AppCoordinator.swift in Sources */,
 				84D122C9264112DE00990196 /* CHDevice.swift in Sources */,
 				84703C5B265B4B510025A50D /* AuthenticationToken.swift in Sources */,
+				8449F47126D5EB5E009B5F7A /* ConnectedDeviceTableViewCell.swift in Sources */,
 				8426167F269A70DD006BD8B0 /* GeneralizedLogTaskController.swift in Sources */,
 				84A8F4F926B754FE00A62818 /* ReadWriteLock.swift in Sources */,
 				845B4544269BA17B00EC5211 /* OCKOutcomeValue+LogItem.swift in Sources */,
@@ -3907,7 +3939,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.2;
+				MARKETING_VERSION = 0.9.3;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3936,7 +3968,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.2;
+				MARKETING_VERSION = 0.9.3;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";

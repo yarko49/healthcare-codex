@@ -60,7 +60,9 @@ public final class APIClient: AllieAPI {
 						self?.process(error: error, url: response.url)
 					}
 				} receiveValue: { token in
-					Keychain.authenticationToken = token
+                    DispatchQueue.main.async {
+                        Keychain.authenticationToken = token
+                    }
 				}.store(in: &cancellables)
 		}
 	}

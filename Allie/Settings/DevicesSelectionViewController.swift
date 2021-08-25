@@ -67,11 +67,15 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 		tableView.rowHeight = 48.0
 		tableView.sectionHeaderHeight = DevicesSelectionHeaderView.height
 		var snapshot = NSDiffableDataSourceSnapshot<SectionType, String>()
-		snapshot.appendSections([.regular, .bluetooth])
+		snapshot.appendSections([.regular])
 		let identifiers = SmartDeviceType.allCases.map { deviceType in
 			deviceType.rawValue
 		}
 		snapshot.appendItems(identifiers, toSection: .regular)
+		if let device = UserDefaults.standard.bloodGlucoseMonitor, let identifier = device.localIdentifier {
+			snapshot.appendSections([.bluetooth])
+			snapshot.appendItems([identifier], toSection: .bluetooth)
+		}
 		dataSource.apply(snapshot, animatingDifferences: false) {
 			ALog.info("Did finish applying snapshot")
 		}
@@ -86,7 +90,16 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 					self?.updateConnected(devices: devices)
 				}.store(in: &cancellables)
 		}
+		addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showBluetoothPairFlow(_:)))
+		navigationItem.rightBarButtonItem = addBarButtonItem
 	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		tableView.reloadData()
+	}
+
+	var addBarButtonItem: UIBarButtonItem?
 
 	private func configure(regular cell: UITableViewCell, at indexPath: IndexPath, itemIdentifier: String) {
 		let accessoryView = UISwitch(frame: .zero)
@@ -99,19 +112,21 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 	}
 
 	private func configure(connected cell: UITableViewCell, at indexPath: IndexPath, itemIdentifier: String) {
-		var isOn = false
+		var color = UIColor.allieGray
 		if let identifier = bluetoothManager.pairedPeripheral?.identifier.uuidString, identifier == itemIdentifier {
-			isOn = true
+			color = UIColor.allieGreen
 		}
-		let accessoryView = UISwitch(frame: .zero)
-		accessoryView.addTarget(self, action: #selector(didSelectConnect(_:forEvent:)), for: .valueChanged)
-		accessoryView.isOn = isOn
-		accessoryView.tag = indexPath.row
-		cell.accessoryView = accessoryView
-		let peripheral = bluetoothManager.peripherals.first { peripheral in
+		let gearButton = UIButton(type: .system)
+		gearButton.frame = CGRect(origin: .zero, size: CGSize(width: 34.0, height: 34.0))
+		gearButton.tintColor = color
+		gearButton.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
+		gearButton.addTarget(self, action: #selector(didSelectGear(_:forEvent:)), for: .touchUpInside)
+		gearButton.tag = indexPath.row
+		cell.accessoryView = gearButton
+		let name = bluetoothManager.peripherals.first { peripheral in
 			peripheral.identifier.uuidString == itemIdentifier
-		}
-		cell.textLabel?.attributedText = peripheral?.name?.attributedString(style: .regular17, foregroundColor: UIColor.grey, letterSpacing: -0.41)
+		}?.name ?? UserDefaults.standard.bloodGlucoseMonitor?.name
+		cell.textLabel?.attributedText = name?.attributedString(style: .regular17, foregroundColor: UIColor.grey, letterSpacing: -0.41)
 	}
 
 	private func updateConnected(devices: Set<CBPeripheral>) {
@@ -160,6 +175,13 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 		nextButtonAction?()
 	}
 
+	@IBAction func showBluetoothPairFlow(_ sender: UIBarButtonItem?) {
+		let viewController = BGMPairingViewController()
+		viewController.modalPresentationStyle = .fullScreen
+		viewController.delegate = self
+		(tabBarController ?? navigationController ?? self).showDetailViewController(viewController, sender: self)
+	}
+
 	@IBAction func didSelectSwitch(_ sender: UISwitch, forEvent event: UIEvent) {
 		let indexPath = IndexPath(row: sender.tag, section: 0)
 		guard let identifier = dataSource.itemIdentifier(for: indexPath) else {
@@ -169,18 +191,22 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 		device?.hasSmartDevice.toggle()
 	}
 
-	@IBAction func didSelectConnect(_ sender: UISwitch, forEvent event: UIEvent) {
-		let indexPath = IndexPath(row: sender.tag, section: 1)
-		let itemIdentifier = dataSource.itemIdentifier(for: indexPath)
+	fileprivate func showProperViews(for identifier: String?) {
 		if let pairedIdentifier = UserDefaults.standard.bloodGlucoseMonitor?.localIdentifier {
-			if itemIdentifier == pairedIdentifier {
-				showUnpairAlert()
+			if identifier == pairedIdentifier {
+				showUnpairView()
 			} else {
 				showCannotPair()
 			}
-		} else if let identifier = itemIdentifier {
-			showBluetoothPairFlow(identifier: identifier)
+		} else {
+			showBluetoothPairFlow(nil)
 		}
+	}
+
+	@IBAction func didSelectGear(_ sender: UISwitch, forEvent event: UIEvent) {
+		let indexPath = IndexPath(row: sender.tag, section: 1)
+		let itemIdentifier = dataSource.itemIdentifier(for: indexPath)
+		showProperViews(for: itemIdentifier)
 	}
 
 	func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
@@ -193,31 +219,29 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
+		let sections = dataSource.snapshot().sectionIdentifiers
+		let sectionIdentifier = sections[indexPath.section]
+		guard let itemIdentifier = dataSource.itemIdentifier(for: indexPath), sectionIdentifier == .bluetooth else {
+			return
+		}
+
+		showProperViews(for: itemIdentifier)
 	}
 
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: DevicesSelectionHeaderView.reuseIdentifier) as? DevicesSelectionHeaderView
 		let sectionIdentifier = dataSource.snapshot().sectionIdentifiers[section]
 		headerView?.titleLabel.text = sectionIdentifier.title
-		let sections = dataSource.snapshot().sectionIdentifiers
-		if sections[section] == .bluetooth {
-			headerView?.isAddButtonHidden = false
-			headerView?.delegate = self
-		}
 		return headerView
 	}
 
-	func showUnpairAlert() {
-		let title = NSLocalizedString("UNPAIR_DEVICE", comment: "Would you like to unpair this device?")
-		let message = NSLocalizedString("UNPAIR_DEVICE.message", comment: "Your device will be disconnected and will not stream data into your Allie account.")
-		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-		let cancelAction = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"), style: .cancel, handler: nil)
-		alertController.addAction(cancelAction)
-		let unpairAction = UIAlertAction(title: NSLocalizedString("UNPAIR", comment: "Unpair"), style: .destructive) { _ in
-			UserDefaults.standard.bloodGlucoseMonitor = nil
+	func showUnpairView() {
+		guard let device = UserDefaults.standard.bloodGlucoseMonitor else {
+			return
 		}
-		alertController.addAction(unpairAction)
-		(tabBarController ?? navigationController ?? self).showDetailViewController(alertController, sender: self)
+		let viewController = BGMDeviceDetailViewController()
+		viewController.device = device
+		navigationController?.show(viewController, sender: self)
 	}
 
 	func showCannotPair() {
@@ -228,20 +252,6 @@ class DevicesSelectionViewController: SignupBaseViewController, UITableViewDeleg
 		}
 		alertController.addAction(okAction)
 		(tabBarController ?? navigationController ?? self).showDetailViewController(alertController, sender: self)
-	}
-}
-
-extension DevicesSelectionViewController: DevicesSelectionHeaderViewDelegate {
-	func devicesSelectionHeaderViewDidSelectAdd(_ view: DevicesSelectionHeaderView) {
-		showBluetoothPairFlow(identifier: nil)
-	}
-
-	func showBluetoothPairFlow(identifier: String?) {
-		let viewController = BGMPairingViewController()
-		viewController.modalPresentationStyle = .fullScreen
-		viewController.delegate = self
-		viewController.selectedIdentifier = identifier
-		(tabBarController ?? navigationController ?? self).showDetailViewController(viewController, sender: self)
 	}
 }
 

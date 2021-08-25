@@ -66,8 +66,22 @@ class BGMBluetoothManager: NSObject, ObservableObject {
 		}
 	}
 
+	func isConntect(identifier: String) -> Bool {
+		guard let device = pairedPeripheral else {
+			return false
+		}
+
+		return device.identifier.uuidString == identifier
+	}
+
 	func startMonitoring() {
 		centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
+	}
+
+	func stopMonitoring() {
+		centralManager.stopScan()
+		pairedPeripheral?.delegate = nil
+		pairedPeripheral = nil
 	}
 
 	func scanForPeripherals() {
@@ -89,9 +103,7 @@ class BGMBluetoothManager: NSObject, ObservableObject {
 	}
 
 	deinit {
-		centralManager.stopScan()
-		pairedPeripheral?.delegate = nil
-		pairedPeripheral = nil
+		stopMonitoring()
 	}
 }
 
@@ -151,9 +163,7 @@ extension BGMBluetoothManager: CBPeripheralDelegate {
 		// 0x2a18 is glucose measurement, 0x2a34 is context, 0x2a52 is RACP
 		for characteristic in characteristics {
 			if supportedCharacteristics.contains(characteristic.uuid) {
-				if characteristic.properties.contains(.notify) {
-					peripheral.setNotifyValue(true, for: characteristic)
-				}
+				peripheral.setNotifyValue(true, for: characteristic)
 			}
 
 			if characteristic.uuid == BGMCharacteristic.racp.uuid {

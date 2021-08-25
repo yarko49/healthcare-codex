@@ -39,7 +39,6 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 			return
 		}
 		manager.peripherals.insert(peripheral)
-		// showBGMFoundAlert(device: peripheral)
 	}
 
 	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, readyWith characteristic: CBCharacteristic) {
