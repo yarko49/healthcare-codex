@@ -20,9 +20,10 @@ enum HealthKitManagerError: Error {
 class HealthKitManager {
 	let healthStore = HKHealthStore()
 	private var patientId: String? {
-		CareManager.shared.patient?.profile.fhirId
+		careManager.patient?.profile.fhirId
 	}
 
+	@Injected(\.careManager) var careManager: CareManager
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	var lastBGMSequenceNumber: Int = 0
 	private var cancellables: Set<AnyCancellable> = []
@@ -322,7 +323,7 @@ class HealthKitManager {
 				let observationFactory = try ObservationFactory()
 				entries = try samples.compactMap { sample in
 					let observation = try observationFactory.observation(from: sample)
-					let subject = CareManager.shared.patient?.subject
+					let subject = careManager.patient?.subject
 					observation.subject = subject
 					let route = APIRouter.postObservation(observation: observation)
 					let observationPath = route.path

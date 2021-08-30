@@ -10,19 +10,23 @@ import Foundation
 import HealthKit
 
 let BGMMetadataKeySequenceNumber = "BGMSequenceNumber"
-let BGMMetadataKeyBloodType = "BloodSampleType"
-let BGMMetadataKeySampleLocation = "SampleLocation"
+let BGMMetadataKeyBloodType = "BGMBloodSampleType"
+let BGMMetadataKeySampleLocation = "BGMSampleLocation"
 let BGMMetadataKeyDeviceName = "BGMDeviceName"
 let BGMMetadataKeyDeviceId = "BGMDeviceId"
+let BGMMetadataKeyMeasurementRecord = "BMGMeasurementRecord"
+let BGMMetadataKeyContextRecord = "BGMContextRecord"
 
 extension BGMDataRecord {
 	var metadata: [String: Any] {
 		var metadata: [String: Any] = [HKMetadataKeyTimeZone: timeZone.identifier,
 		                               BGMMetadataKeySequenceNumber: NSNumber(value: sequence),
-		                               BGMMetadataKeyBloodType: bloodType,
+		                               BGMMetadataKeyBloodType: sampleType,
 		                               BGMMetadataKeySampleLocation: sampleLocation,
 		                               HKMetadataKeyWasUserEntered: NSNumber(value: false)]
-		if let mealTime = mealTime.mealTime {
+
+		metadata[CHMetadataKeyBloodGlucoseMealTime] = NSNumber(value: mealTime.rawValue)
+		if mealTime == .preprandial || mealTime == .postprandial {
 			metadata[HKMetadataKeyBloodGlucoseMealTime] = NSNumber(value: mealTime.rawValue)
 		}
 		if let deviceName = peripheral?.name {
@@ -31,13 +35,18 @@ extension BGMDataRecord {
 		if let deviceId = peripheral?.identifier.uuidString {
 			metadata[BGMMetadataKeyDeviceId] = deviceId
 		}
+		let measurementRecord = measurementData.base64EncodedString()
+		metadata[BGMMetadataKeyMeasurementRecord] = measurementRecord
+		if let contextRecord = contextData?.base64EncodedString() {
+			metadata[BGMMetadataKeyContextRecord] = contextRecord
+		}
 		return metadata
 	}
 
 	var quantitySample: HKQuantitySample {
 		let quantity = HKQuantity(unit: HealthKitQuantityType.bloodGlucose.hkUnit, doubleValue: glucoseConcentration)
 		let identifier = HealthKitQuantityType.bloodGlucose.healthKitQuantityType!
-		let sampleData = HKQuantitySample(type: identifier, quantity: quantity, start: timestamp, end: timestamp, metadata: metadata)
+		let sampleData = HKQuantitySample(type: identifier, quantity: quantity, start: utcTimestamp, end: utcTimestamp, metadata: metadata)
 		return sampleData
 	}
 }
@@ -61,6 +70,7 @@ extension HealthKitManager {
 			if let sequence = samples.first?.metadata?[BGMMetadataKeySequenceNumber] as? NSNumber {
 				self?.lastBGMSequenceNumber = sequence.intValue
 			}
+			promise(.success(true))
 			self?.healthStore.save(samples, withCompletion: { result, error in
 				if let error = error {
 					promise(.failure(error))

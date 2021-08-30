@@ -37,6 +37,7 @@ public final class APIClient: AllieAPI {
 		AppConfig.apiKey
 	}
 
+	@Injected(\.keychain) var keychain: Keychain
 	let webService: WebService
 	private var cancellables: Set<AnyCancellable> = []
 
@@ -60,9 +61,9 @@ public final class APIClient: AllieAPI {
 						self?.process(error: error, url: response.url)
 					}
 				} receiveValue: { token in
-                    DispatchQueue.main.async {
-                        Keychain.authenticationToken = token
-                    }
+					DispatchQueue.main.async { [weak self] in
+						self?.keychain.authenticationToken = token
+					}
 				}.store(in: &cancellables)
 		}
 	}

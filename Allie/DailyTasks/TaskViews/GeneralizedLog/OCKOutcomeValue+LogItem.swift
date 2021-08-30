@@ -18,9 +18,9 @@ extension OCKOutcomeValue {
 	}
 
 	var bloodGlucoseItem: String? {
-		let kind = HKBloodGlucoseMealTime(kind: self.kind ?? "")
+		let mealTime = CHBloodGlucoseMealTime(kind: kind ?? "")
 		let value = integerValue ?? 0
-		let title = "\(kind?.title ?? NSLocalizedString("FASTING", comment: "Fasting")) \(value) " + (units ?? "")
+		let title = "\(mealTime?.title ?? "") \(value) " + (units ?? "")
 		return title
 	}
 

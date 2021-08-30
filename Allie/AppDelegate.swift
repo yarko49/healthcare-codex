@@ -145,8 +145,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		}
 	}
 
-	@Injected(\.keychain) var keychain: Keychain
-	@Injected(\.networkAPI) var networkAPI: AllieAPI
+	@Injected(\.keychain) private var keychain: Keychain
+	@Injected(\.networkAPI) private var networkAPI: AllieAPI
 	var uploadTokenCancellable: AnyCancellable?
 	func uploadRemoteNofication(token: String) {
 		uploadTokenCancellable?.cancel()

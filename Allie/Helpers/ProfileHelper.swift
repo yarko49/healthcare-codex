@@ -9,6 +9,8 @@ import CareKitStore
 import Foundation
 
 class ProfileHelper {
+	@Injected(\.careManager) static var careManager: CareManager
+
 	static func computeHeight(value: Int) -> (Int, Int) {
 		let feet = value / 100 != 0 ? value / 100 : value / 10
 		let inches = value / 100 != 0 ? value % 100 : value % 10
@@ -16,18 +18,18 @@ class ProfileHelper {
 	}
 
 	static var firstName: String? {
-		CareManager.shared.patient?.name.givenName
+		careManager.patient?.name.givenName
 	}
 
 	static var birthdate: Int? {
-		guard let date = CareManager.shared.patient?.birthday else {
+		guard let date = careManager.patient?.birthday else {
 			return nil
 		}
 		return Calendar.current.component(.year, from: date)
 	}
 
 	static var gender: OCKBiologicalSex {
-		CareManager.shared.patient?.sex ?? .female
+		careManager.patient?.sex ?? .female
 	}
 
 	static func getGoal(for type: HealthKitQuantityType) -> Int {

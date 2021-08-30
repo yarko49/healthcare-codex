@@ -21,8 +21,9 @@ public enum CarePlanResponseType: Hashable {
 
 enum APIRouter {
 	static let baseURLPath = AppConfig.apiBaseUrl
+	@Injected(\.keychain) static var keychain: Keychain
 	static var authToken: String? {
-		Keychain.authenticationToken?.token
+		keychain.authenticationToken?.token
 	}
 
 	case organizations

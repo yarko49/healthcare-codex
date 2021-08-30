@@ -18,8 +18,7 @@ import UIKit
 import WatchConnectivity
 
 class CareManager: NSObject, ObservableObject {
-	static let shared = CareManager(patient: nil)
-
+	@Injected(\.careManager) static var shared: CareManager // Hack for few things
 	enum Constants {
 		static let careStore = "CareStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
@@ -228,12 +227,12 @@ extension CareManager {
 		}
 	}
 
-	class func postPatient(patient: CHPatient) -> AnyPublisher<CHCarePlanResponse, Error> {
-		Self.shared.networkAPI.post(patient: patient)
+	func postPatient(patient: CHPatient) -> AnyPublisher<CHCarePlanResponse, Error> {
+		networkAPI.post(patient: patient)
 	}
 
-	class func register(organization: CHOrganization) -> AnyPublisher<Bool, Never> {
-		Self.shared.networkAPI.registerOrganization(organization: organization)
+	func register(organization: CHOrganization) -> AnyPublisher<Bool, Never> {
+		networkAPI.registerOrganization(organization: organization)
 	}
 }
 

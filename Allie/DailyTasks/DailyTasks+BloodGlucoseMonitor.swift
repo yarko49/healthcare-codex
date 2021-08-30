@@ -45,9 +45,9 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 		manager.racpCharacteristic = characteristic
 		if let glucometer = manager.pairedPeripheral, let racp = manager.racpCharacteristic {
 			let sequenceNumber = healthKitManager.lastBGMSequenceNumber
-			var command = BGMBluetoothManager.Command.allRecords
+			var command = GATTCommand.allRecords
 			if sequenceNumber > 0 {
-				command = BGMBluetoothManager.Command.recordStart(sequenceNumber: sequenceNumber)
+				command = GATTCommand.recordStart(sequenceNumber: sequenceNumber)
 			}
 			bloodGlucoseMonitor.writeMessage(peripheral: glucometer, characteristic: racp, message: command)
 		}

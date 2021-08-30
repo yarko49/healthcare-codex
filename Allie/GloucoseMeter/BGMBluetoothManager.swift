@@ -30,35 +30,19 @@ extension BGMBluetoothManagerDelegate {
 }
 
 class BGMBluetoothManager: NSObject, ObservableObject {
-	let glucoseServiceId = CBUUID(string: "0x1808")
-
-	enum Command {
-		static let allRecords: [UInt8] = [1, 1] // 1,1 get all records
-		static let numberOfRecords: [UInt8] = [4, 1] // 4,1 get number of records
-		// static let lastRecord: [UInt8] = [1, 6] // 1,6 get last record received
-		// static let firstRecord: [UInt8] = [1, 5] // 1,5 get first record
-		// static let recordStart: [UInt8] = [1, 3, 1, 45, 0] // 1,3,1,45,0 extract from record 45 onwards
-
-		static func recordStart(sequenceNumber: Int) -> [UInt8] {
-			let sequence = sequenceNumber + 1 // sequenceNumber is the last glucose record that was written to HK
-			let seqLowByte = UInt8(0xFF & sequence)
-			let seqHighByte = UInt8(sequence >> 8)
-			ALog.info("Fetch data starting sequence #: \(sequenceNumber)")
-			// [1, 3, 1, seqLowByte, seqHighByte]
-			return [1, 3, 1, seqLowByte, seqHighByte]
-		}
-	}
-
 	weak var delegate: BGMBluetoothManagerDelegate?
 	private var centralManager: CBCentralManager!
 
+	var services: Set<CBUUID> = [GATTService.bloodGlucose.uuid, GATTService.deviceInformation.uuid]
+	var deviceCharacteristics: Set<CBUUID> = Set([GATTCharacteristic.firmwareRevisionString, .hardwareRevisionsString, .softwareRevisionString, .serialNumberString, .manufacturerNameString, .manufacturerModelNumberString, .timeZone, .systemId].map(\.uuid))
+	var measurementCharacteristics: Set<CBUUID> = Set([GATTCharacteristic.bloodGlucoseMeasurement, .bloodGlucoseMeasurementContext, .recordAccessControlPoint].map(\.uuid))
 	@Published var pairedPeripheral: CBPeripheral?
 	@Published var peripherals: Set<CBPeripheral> = []
 	var racpCharacteristic: CBCharacteristic? // BGM Record Access Control Point
 	private var cancellables: Set<AnyCancellable> = []
 	private var receivedDataSet: [BGMDataReading] = []
 	private lazy var receivedData = BGMDataReading(measurement: [], context: [], peripheral: pairedPeripheral)
-	private let supportedCharacteristics: Set<CBUUID> = BGMCharacteristic.supportedCharacteristics
+	var device = CHDevice()
 
 	func peripheral(for identifier: String) -> CBPeripheral? {
 		peripherals.first { peripheral in
@@ -85,7 +69,7 @@ class BGMBluetoothManager: NSObject, ObservableObject {
 	}
 
 	func scanForPeripherals() {
-		centralManager.scanForPeripherals(withServices: [glucoseServiceId]) // if BLE is powered, kick off scan for BGMs
+		centralManager.scanForPeripherals(withServices: Array(services)) // if BLE is powered, kick off scan for BGMs
 	}
 
 	func connect(peripheral: CBPeripheral) {
@@ -114,7 +98,7 @@ extension BGMBluetoothManager: CBCentralManagerDelegate {
 
 	func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
 		ALog.info("didConnect: \(peripheral), services = \(String(describing: peripheral.services))")
-		pairedPeripheral?.discoverServices([glucoseServiceId])
+		pairedPeripheral?.discoverServices(Array(services))
 		delegate?.bluetoothManager(self, didConnect: peripheral)
 	}
 
@@ -159,6 +143,7 @@ extension BGMBluetoothManager: CBPeripheralDelegate {
 			return
 		}
 
+		let supportedCharacteristics = deviceCharacteristics.union(measurementCharacteristics)
 		// Set notifications for glucose measurement and context
 		// 0x2a18 is glucose measurement, 0x2a34 is context, 0x2a52 is RACP
 		for characteristic in characteristics {
@@ -166,7 +151,7 @@ extension BGMBluetoothManager: CBPeripheralDelegate {
 				peripheral.setNotifyValue(true, for: characteristic)
 			}
 
-			if characteristic.uuid == BGMCharacteristic.racp.uuid {
+			if characteristic.uuid == GATTCharacteristic.recordAccessControlPoint.uuid {
 				delegate?.bluetoothManager(self, peripheral: peripheral, readyWith: characteristic)
 			}
 		}
@@ -179,35 +164,81 @@ extension BGMBluetoothManager: CBPeripheralDelegate {
 	// For notified characteristics, here's the triggered method when a value comes in from the Peripheral
 	func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
 		ALog.info("didUpdateValueForCharacteristic \(characteristic)")
-		if let value = characteristic.value {
-			ALog.info("dataBuffer \(value)")
-			// Turn input stream of UInt8 to an array of Ints so that can use standard methods in Model
-			let valueArray = [UInt8](value)
-			let outputArray = valueArray.map { byte in
-				Int(byte)
-			}
+		if measurementCharacteristics.contains(characteristic.uuid) {
+			processMeasurement(characteristic: characteristic, for: peripheral)
+		} else if deviceCharacteristics.contains(characteristic.uuid) {
+			processDevice(characteristic: characteristic, for: peripheral)
+		}
+	}
 
-			switch characteristic.uuid {
-			case BGMCharacteristic.measurement.uuid:
-				// Glucose measurement value
-				receivedData.measurement = outputArray
-				receivedData.peripheral = peripheral
-				if (outputArray[0] & 0b10000) == 0 { // No context attached, just do the write
-					receivedDataSet.append(receivedData)
-					receivedData = BGMDataReading(measurement: [], context: [], peripheral: peripheral)
-				}
-			case BGMCharacteristic.context.uuid:
-				// Glucose context value
-				receivedData.context = outputArray
+	private func processMeasurement(characteristic: CBCharacteristic, for peripheral: CBPeripheral) {
+		guard let value = characteristic.value else {
+			return
+		}
+		ALog.info("dataBuffer \(value)")
+		// Turn input stream of UInt8 to an array of Ints so that can use standard methods in Model
+		let valueArray = [UInt8](value)
+		let outputArray = valueArray.map { byte in
+			Int(byte)
+		}
+
+		switch characteristic.uuid {
+		case GATTCharacteristic.bloodGlucoseMeasurement.uuid:
+			// Glucose measurement value
+			receivedData.measurement = outputArray
+			receivedData.peripheral = peripheral
+			receivedData.measurementData = value
+
+			if (outputArray[0] & 0b10000) == 0 { // No context attached, just do the write
 				receivedDataSet.append(receivedData)
-				receivedData = BGMDataReading(measurement: [], context: [], peripheral: peripheral) // reset the received tuple
-
-			case BGMCharacteristic.racp.uuid:
-				delegate?.bluetoothManager(self, didReceive: receivedDataSet)
-
-			default:
-				break
+				receivedData = BGMDataReading(measurement: [], context: [], peripheral: peripheral)
 			}
+		case GATTCharacteristic.bloodGlucoseMeasurementContext.uuid:
+			// Glucose context value
+			receivedData.context = outputArray
+			receivedData.contextData = value
+			receivedDataSet.append(receivedData)
+			receivedData = BGMDataReading(measurement: [], context: [], peripheral: peripheral) // reset the received tuple
+
+		case GATTCharacteristic.recordAccessControlPoint.uuid:
+			delegate?.bluetoothManager(self, didReceive: receivedDataSet)
+
+		default:
+			break
+		}
+	}
+
+	private func processDevice(characteristic: CBCharacteristic, for peripheral: CBPeripheral) {
+		guard let value = characteristic.value else {
+			return
+		}
+		let valueString = String(data: value, encoding: .utf8)
+
+		switch characteristic.uuid {
+		case GATTCharacteristic.hardwareRevisionsString.uuid:
+			ALog.info("Hardware Revision \(valueString ?? "No hardware revision")")
+			device.hardwareVersion = valueString
+		case GATTCharacteristic.firmwareRevisionString.uuid:
+			ALog.info("Firmware Revision \(valueString ?? "No firmware revision")")
+			device.firmwareVersion = valueString
+		case GATTCharacteristic.softwareRevisionString.uuid:
+			ALog.info("Software Revision \(valueString ?? "No software revision")")
+			device.softwareVersion = valueString
+		case GATTCharacteristic.serialNumberString.uuid:
+			ALog.info("Serial Number \(valueString ?? "No serial number")")
+		case GATTCharacteristic.manufacturerNameString.uuid:
+			ALog.info("Name \(valueString ?? "No Name")")
+			device.name = valueString
+		case GATTCharacteristic.manufacturerModelNumberString.uuid:
+			ALog.info("Model Number \(valueString ?? "No Model Number")")
+			device.model = valueString
+		case GATTCharacteristic.timeZone.uuid:
+			ALog.info("Timezone \(valueString ?? "No Timezone")")
+		case GATTCharacteristic.systemId.uuid:
+			ALog.info("SystemId \(valueString ?? "No System Id")")
+			device.localIdentifier = valueString
+		default:
+			break
 		}
 	}
 }

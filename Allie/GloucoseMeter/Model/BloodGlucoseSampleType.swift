@@ -1,5 +1,5 @@
 //
-//  BGMSampleType.swift
+//  BloodGlucoseSampleType.swift
 //  Allie
 //
 //  Created by Waqar Malik on 7/27/21.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum BGMSampleType: String {
+enum BloodGlucoseSampleType: String, Hashable, CaseIterable {
 	case capillaryWholeBlood
 	case controlSolution
 	case other
@@ -23,11 +23,11 @@ enum BGMSampleType: String {
 	}
 }
 
-extension BGMSampleType: CustomStringConvertible {
+extension BloodGlucoseSampleType: CustomStringConvertible {
 	var description: String {
 		switch self {
 		case .capillaryWholeBlood:
-			return "Capillary Whole blood"
+			return "Capillary Whole Blood"
 		case .controlSolution:
 			return "Control Solution"
 		case .other:

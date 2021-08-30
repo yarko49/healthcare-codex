@@ -92,53 +92,6 @@ class TaskTests: XCTestCase {
 		XCTAssertEqual(ockTasks.count, allTasks.count)
 	}
 
-	func testLinkTask() throws {
-		let taskString = """
-		{
-		  "remoteId": "2b23a7bd-0507-516a-84d5-f3fee2d1addd",
-		  "id": "Link",
-		  "asset": "",
-		  "source": "",
-		  "timezone": 0,
-		  "userInfo": {
-		    "linkURL0": "https://med.stanford.edu/",
-		    "linkURLTitle0": "Stanford Medicine",
-		    "linkLocation0": "37.4275,122.1697",
-		    "linkLocationTitle0": "Stanford Address",
-		    "linkEmail0": "support@codexhealth.com",
-		    "linkEmailTitle0": "Email Support"
-		  },
-		  "effectiveDate": "2020-11-11T01:31:00.343Z",
-		  "title": "Links",
-		  "schedules": {
-		    "daily": {
-		      "custom": false,
-		      "daily": true,
-		      "weekly": false,
-		      "weekday": 0,
-		      "hour": 0,
-		      "minutes": 0,
-		      "duration": 0,
-		      "interval": 0,
-		      "text": "",
-		      "start": null
-		    }
-		  },
-		  "carePlanId": "defaultDiabetesCarePlan",
-		  "instructions": "Helpful links",
-		  "impactsAdherence": false,
-		  "groupIdentifier": "LINK"
-		}
-		"""
-		let data = taskString.data(using: .utf8)
-		XCTAssertNoThrow(data)
-		let task = try CHJSONDecoder().decode(CHTask.self, from: data!)
-		let ocTask = OCKTask(task: task)
-		let linkItems = ocTask.linkItems
-		XCTAssertNotNil(linkItems)
-		XCTAssertEqual(linkItems?.count, 3)
-	}
-
 	func testScheduleElementsSorting() throws {
 //		let data = CareManager.sampleResponse
 //		let task = data.tasks["FoodDiaryRecall2"]

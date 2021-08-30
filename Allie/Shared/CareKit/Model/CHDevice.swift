@@ -8,14 +8,14 @@
 import Foundation
 
 public struct CHDevice: Codable {
-	public let name: String?
-	public let model: String?
-	public let udiDeviceIdentifier: String?
-	public let firmwareVersion: String?
-	public let hardwareVersion: String?
-	public let localIdentifier: String?
-	public let manufacturer: String?
-	public let softwareVersion: String?
+	public var name: String?
+	public var model: String?
+	public var udiDeviceIdentifier: String?
+	public var firmwareVersion: String?
+	public var hardwareVersion: String?
+	public var localIdentifier: String?
+	public var manufacturer: String?
+	public var softwareVersion: String?
 }
 
 public extension CHDevice {

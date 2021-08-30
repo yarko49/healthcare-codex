@@ -71,7 +71,7 @@ class BaseCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 
 	func resetDataIfNeeded(newPatientId: String, force: Bool = false) -> Bool {
 		// Patient does not exist, no need to reset
-		guard let existingPatientId = CareManager.shared.patient?.id, !existingPatientId.isEmpty else {
+		guard let existingPatientId = careManager.patient?.id, !existingPatientId.isEmpty else {
 			return false
 		}
 

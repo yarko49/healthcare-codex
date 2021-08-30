@@ -15,23 +15,27 @@ enum GlucoseConcentrationUnit: String, Hashable {
 
 struct BGMDataRecord: Identifiable, Hashable {
 	let sequence: Int
-	let timestamp: Date
+	let utcTimestamp: Date
 	let timezoneOffsetInSeconds: Int
 	let glucoseConcentration: Double
 	let concentrationUnit: GlucoseConcentrationUnit
-	let bloodType: String
+	let sampleType: String
 	let sampleLocation: String
 	// var sensorFlags: Flags
 	let mealContext: String
-	let mealTime: BGMMealTime
+	let mealTime: CHBloodGlucoseMealTime
 	let peripheral: CBPeripheral?
+
+	let measurementData: Data
+	let contextData: Data?
 
 	var id: UUID? {
 		peripheral?.identifier
 	}
 
+    // For now just use the device timezone
 	var timeZone: TimeZone {
-		TimeZone(secondsFromGMT: timezoneOffsetInSeconds) ?? .current
+		.current // TimeZone(secondsFromGMT: timezoneOffsetInSeconds) ?? .current
 	}
 }
 
@@ -39,10 +43,10 @@ extension BGMDataRecord {
 	init(reading: BGMDataReading) {
 		self.peripheral = reading.peripheral
 		self.sequence = reading.sequence
-		self.timestamp = reading.timestamp ?? Date()
+		self.utcTimestamp = reading.utcTimestamp ?? Date()
 		self.timezoneOffsetInSeconds = reading.timezoneOffsetInSeconds
 		self.concentrationUnit = reading.units
-		self.bloodType = reading.type
+		self.sampleType = reading.type
 		self.sampleLocation = reading.location
 		self.mealContext = reading.mealContext
 		var glucoseValue = reading.concentration
@@ -51,11 +55,13 @@ extension BGMDataRecord {
 		}
 		self.glucoseConcentration = glucoseValue
 		self.mealTime = reading.mealTime
+		self.measurementData = reading.measurementData
+		self.contextData = reading.contextData
 	}
 }
 
 extension BGMDataRecord {
-	init(measurement: [Int], context: [Int], peripheral: CBPeripheral?) {
-		self.init(reading: BGMDataReading(measurement: measurement, context: context, peripheral: peripheral))
+	init(measurement: [Int], context: [Int], peripheral: CBPeripheral?, measurementData: Data, contextData: Data?) {
+		self.init(reading: BGMDataReading(measurement: measurement, context: context, peripheral: peripheral, measurementData: measurementData, contextData: contextData))
 	}
 }

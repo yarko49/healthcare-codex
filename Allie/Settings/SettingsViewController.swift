@@ -11,6 +11,8 @@ class SettingsViewController: BaseViewController {
 	let rowHeight: CGFloat = 60
 	let footerHeight: CGFloat = 160
 
+	@Injected(\.careManager) var careManager: CareManager
+
 	// MARK: - IBOutlets
 
 	let tableView: UITableView = {
@@ -118,12 +120,12 @@ extension SettingsViewController: UITableViewDelegate {
 		let profileEntryViewController = ProfileEntryViewController()
 		profileEntryViewController.controllerViewMode = .settings
 		profileEntryViewController.doneButtonTitle = NSLocalizedString("SAVE", comment: "Save")
-		profileEntryViewController.patient = CareManager.shared.patient
+		profileEntryViewController.patient = careManager.patient
 		profileEntryViewController.doneAction = { [weak self] in
 			guard let strongSelf = self else {
 				return
 			}
-			var alliePatient = CareManager.shared.patient ?? CHPatient(id: self?.keychain.userIdentifier ?? "", name: PersonNameComponents())
+			var alliePatient = self?.careManager.patient ?? CHPatient(id: self?.keychain.userIdentifier ?? "", name: PersonNameComponents())
 			alliePatient.name = profileEntryViewController.name
 			alliePatient.profile.email = profileEntryViewController.emailTextField.text
 			alliePatient.sex = profileEntryViewController.sex
@@ -141,9 +143,9 @@ extension SettingsViewController: UITableViewDelegate {
 					}
 					strongSelf.hud.dismiss()
 					strongSelf.navigationController?.popViewController(animated: true)
-				}, receiveValue: { carePlanResponse in
+				}, receiveValue: { [weak self] carePlanResponse in
 					if let patient = carePlanResponse.patients.first {
-						CareManager.shared.patient = patient
+						self?.careManager.patient = patient
 						self?.keychain.userEmail = patient.profile.email
 					}
 				}).store(in: &strongSelf.cancellables)

@@ -16,9 +16,10 @@ class ConversationViewController: MessagesViewController {
 	weak var conversation: TCHConversation?
 	weak var conversationsManager: ConversationsManager?
 	private var cancellables: Set<AnyCancellable> = []
+	@Injected(\.careManager) var careManager: CareManager
 
 	var patient: CHPatient? {
-		CareManager.shared.patient
+		careManager.patient
 	}
 
 	private let hud: JGProgressHUD = {
@@ -126,7 +127,7 @@ extension ConversationViewController: ConversationMessagesDelegate {
 
 extension ConversationViewController: MessagesDataSource {
 	func currentSender() -> SenderType {
-		CareManager.shared.patient ?? CHParticipant(name: "Patient")
+		careManager.patient ?? CHParticipant(name: "Patient")
 	}
 
 	func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {

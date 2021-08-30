@@ -9,11 +9,6 @@ import Foundation
 import KeychainAccess
 
 extension Keychain {
-    // Must be called from Main thread
-    class var shared: Keychain {
-        AppDelegate.appDelegate.keychain
-    }
-
 	subscript<T: Codable>(codable key: String) -> T? {
 		get {
 			read(forKey: key)
@@ -98,15 +93,6 @@ extension Keychain {
 			}
 			userIdentifier = userId
 			save(value: newValue, forKey: userId)
-		}
-	}
-
-	static var authenticationToken: AuthenticationToken? {
-		get {
-			Self.shared.authenticationToken
-		}
-		set {
-			Self.shared.authenticationToken = newValue
 		}
 	}
 
