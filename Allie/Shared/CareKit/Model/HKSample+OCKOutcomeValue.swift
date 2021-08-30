@@ -18,8 +18,8 @@ extension HKSample {
 				value.kind = cumulative.quantityType.identifier
 				if let insulinReason = cumulative.metadata?[HKMetadataKeyInsulinDeliveryReason] as? Int {
 					value.kind = insulinReason == HKInsulinDeliveryReason.bolus.rawValue ? HKInsulinDeliveryReason.bolus.kind : HKInsulinDeliveryReason.basal.kind
-				} else if let mealTime = metadata?[HKMetadataKeyBloodGlucoseMealTime] as? Int {
-					value.kind = mealTime == HKBloodGlucoseMealTime.preprandial.rawValue ? HKBloodGlucoseMealTime.preprandial.kind : HKBloodGlucoseMealTime.postprandial.kind
+				} else if let mealTimeValue = metadata?[CHMetadataKeyBloodGlucoseMealTime] as? Int ?? metadata?[HKMetadataKeyBloodGlucoseMealTime] as? Int, let mealTime = CHBloodGlucoseMealTime(rawValue: mealTimeValue) {
+					value.kind = mealTime.kind
 				}
 				value.createdDate = cumulative.startDate
 				values.append(value)
@@ -30,8 +30,8 @@ extension HKSample {
 				value.kind = discreet.quantityType.identifier
 				if let insulinReason = metadata?[HKMetadataKeyInsulinDeliveryReason] as? Int {
 					value.kind = insulinReason == HKInsulinDeliveryReason.bolus.rawValue ? HKInsulinDeliveryReason.bolus.kind : HKInsulinDeliveryReason.basal.kind
-				} else if let mealTime = metadata?[HKMetadataKeyBloodGlucoseMealTime] as? Int {
-					value.kind = mealTime == HKBloodGlucoseMealTime.preprandial.rawValue ? HKBloodGlucoseMealTime.preprandial.kind : HKBloodGlucoseMealTime.postprandial.kind
+				} else if let mealTimeValue = metadata?[CHMetadataKeyBloodGlucoseMealTime] as? Int ?? metadata?[HKMetadataKeyBloodGlucoseMealTime] as? Int, let mealTime = CHBloodGlucoseMealTime(rawValue: mealTimeValue) {
+					value.kind = mealTime.kind
 				}
 				value.createdDate = discreet.startDate
 				values.append(value)

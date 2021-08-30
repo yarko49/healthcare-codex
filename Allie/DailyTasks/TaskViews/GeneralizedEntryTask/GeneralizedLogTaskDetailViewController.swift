@@ -247,8 +247,10 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 
 		let date = unitView.date
 		let selectedIndex = segementedView.segementedControl.selectedSegmentIndex
-		var mealTime: HKBloodGlucoseMealTime?
+		var mealTime: CHBloodGlucoseMealTime?
 		switch selectedIndex {
+		case 0:
+			mealTime = .fasting
 		case 1:
 			mealTime = .preprandial
 		case 2:
@@ -256,6 +258,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		default:
 			mealTime = nil
 		}
+
 		let sample = HKDiscreteQuantitySample(bloodGlucose: value, startDate: date, mealTime: mealTime)
 		HKHealthStore().save(sample) { result, error in
 			if let error = error {

@@ -21,7 +21,7 @@ class FeaturedContentViewController: UIViewController, OCKFeaturedContentViewDel
 	}()
 
 	private let imageOverlayStyle: UIUserInterfaceStyle
-
+	@Injected(\.careManager) var careManager: CareManager
 	lazy var featuredContentView: OCKFeaturedContentView = {
 		let view = OCKFeaturedContentView(imageOverlayStyle: imageOverlayStyle)
 		view.imageView.contentMode = .scaleAspectFill
@@ -55,7 +55,7 @@ class FeaturedContentViewController: UIViewController, OCKFeaturedContentViewDel
 		featuredContentView.label.text = task?.title
 		featuredContentView.label.textColor = .white
 		if let task = task, let asset = task.asset, !asset.isEmpty {
-			CareManager.shared.image(task: task) { [weak self] result in
+			careManager.image(task: task) { [weak self] result in
 				switch result {
 				case .failure(let error):
 					ALog.error("unable to download image", error: error)
@@ -85,7 +85,7 @@ class FeaturedContentViewController: UIViewController, OCKFeaturedContentViewDel
 			showURLContent(url: url)
 		} else if let task = task, let asset = task.featuredContentDetailViewAsset, asset.hasSuffix("pdf") {
 			hud.show(in: tabBarController?.view ?? navigationController?.view ?? view, animated: true)
-			CareManager.shared.pdfData(task: task) { [weak self] result in
+			careManager.pdfData(task: task) { [weak self] result in
 				DispatchQueue.main.async {
 					self?.hud.dismiss(animated: true)
 				}

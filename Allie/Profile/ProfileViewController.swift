@@ -27,6 +27,8 @@ class ProfileViewController: BaseViewController {
 	var profileInputAction: (() -> (ModelsR4.Observation?, ModelsR4.Bundle?))?
 
 	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
+	@Injected(\.careManager) var careManager: CareManager
+
 	var comingFrom: Coming = .today
 	var getData: AllieActionHandler?
 	var getRangeData: ((HealthStatsDateIntervalType, Date, Date, (([HealthKitQuantityType: [StatModel]]?, [HealthKitQuantityType: Int]?) -> Void)?) -> Void)?
@@ -47,7 +49,7 @@ class ProfileViewController: BaseViewController {
 	// MARK: Vars
 
 	var patient: CHPatient? {
-		CareManager.shared.patient
+		careManager.patient
 	}
 
 	var currentDateInterval: HealthStatsDateIntervalType = .daily {

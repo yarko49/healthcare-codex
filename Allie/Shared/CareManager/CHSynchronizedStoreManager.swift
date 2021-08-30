@@ -10,8 +10,9 @@ import CareKitStore
 import Foundation
 
 class CHSynchronizedStoreManager: OCKSynchronizedStoreManager {
+	@Injected(\.careManager) var careManager: CareManager
 	override func outcomeStore(_ store: OCKAnyReadOnlyOutcomeStore, didDeleteOutcomes outcomes: [OCKAnyOutcome]) {
 		super.outcomeStore(store, didDeleteOutcomes: outcomes)
-		CareManager.shared.upload(outcomes: outcomes)
+		careManager.upload(outcomes: outcomes)
 	}
 }

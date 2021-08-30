@@ -6,6 +6,7 @@
 //
 
 @testable import Allie
+import CoreBluetooth
 import XCTest
 
 class GlucoseMeterTests: XCTestCase {
@@ -71,5 +72,15 @@ class GlucoseMeterTests: XCTestCase {
 		for (index, value) in outputDataArray.enumerated() {
 			XCTAssertEqual(index + 48, value)
 		}
+	}
+
+	func testServiceItems() throws {
+		let bloodGlucose = GATTService.bloodGlucose
+		let intValue: Int = 0x1808
+		XCTAssertEqual(bloodGlucose.rawValue, intValue)
+		let stringValue: String = "0x1808"
+		XCTAssertEqual(bloodGlucose.hexString, stringValue)
+		let cbuuid = CBUUID(string: stringValue)
+		XCTAssertEqual(bloodGlucose.uuid, cbuuid)
 	}
 }

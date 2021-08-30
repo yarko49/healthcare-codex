@@ -747,3 +747,21 @@
 /* Device Detail */
 "DEVICE_DETAIL" = "Device Detail";
 
+/* After Meal */
+"MEAL_TIME_AFTER_MEAL" = "After Meal";
+
+/* Bedtime */
+"MEAL_TIME_BEDTIME" = "Bedtime";
+
+/* Before Meal */
+"MEAL_TIME_BEFORE_MEAL" = "Before Meal";
+
+/* Casual */
+"MEAL_TIME_CASUAL" = "Casual";
+
+/* Fasting */
+"MEAL_TIME_FASTING" = "Fasting";
+
+/* Undefined */
+"MEAL_TIME_UNDEFINED" = "Undefined";
+

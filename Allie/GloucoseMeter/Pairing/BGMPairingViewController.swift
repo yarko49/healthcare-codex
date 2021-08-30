@@ -184,7 +184,7 @@ extension BGMPairingViewController: BGMBluetoothManagerDelegate {
 	}
 
 	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, readyWith characteristic: CBCharacteristic) {
-		manager.writeMessage(peripheral: peripheral, characteristic: characteristic, message: BGMBluetoothManager.Command.numberOfRecords)
+		manager.writeMessage(peripheral: peripheral, characteristic: characteristic, message: GATTCommand.numberOfRecords)
 	}
 
 	// didWriteValueFor: Error Domain=CBATTErrorDomain Code=15 "Encryption is insufficient." UserInfo={NSLocalizedDescription=Encryption is insufficient.}

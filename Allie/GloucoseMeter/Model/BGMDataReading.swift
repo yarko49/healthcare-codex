@@ -12,15 +12,19 @@ struct BGMDataReading: Identifiable, Hashable {
 	var peripheral: CBPeripheral?
 	var measurement: [Int]
 	var context: [Int]
+	var measurementData: Data // Base64 encoded Data
+	var contextData: Data? // Base64 Encoded Data
 
 	var id: UUID? {
 		peripheral?.identifier
 	}
 
-	init(measurement: [Int], context: [Int], peripheral: CBPeripheral? = nil) {
+	init(measurement: [Int], context: [Int], peripheral: CBPeripheral? = nil, measurementData: Data = Data(), contextData: Data? = nil) {
 		self.measurement = measurement
 		self.context = context
 		self.peripheral = peripheral
+		self.measurementData = measurementData
+		self.contextData = contextData
 	}
 }
 
@@ -29,7 +33,7 @@ extension BGMDataReading {
 		(measurement[2] << 8) | measurement[1]
 	}
 
-	var timestamp: Date? {
+	var utcTimestamp: Date? {
 		// First construct the UTC date from base time
 		var components = DateComponents()
 		components.day = measurement[6]
@@ -41,8 +45,7 @@ extension BGMDataReading {
 		components.second = measurement[9]
 		components.timeZone = TimeZone(identifier: "UTC")
 
-		let UTCRecord = Calendar.current.date(from: components)
-		return UTCRecord
+		return Calendar.current.date(from: components)
 	}
 
 	var timezoneOffsetInSeconds: Int {
@@ -54,6 +57,7 @@ extension BGMDataReading {
 	}
 
 	var concentration: Double {
+		// kg/L
 		// Figure out floating point glucose concentration
 		let exp2c: Int = (measurement[13] >> 4) // Isolate the signed 4-bit exponent in MSB
 		let exponent: Int = exp2c > 0x7 ? -((~exp2c & 0b1111) + 1) : exp2c // Decode 2's complement of 4-bit value if negative
@@ -118,14 +122,14 @@ extension BGMDataReading {
 		return meal
 	}
 
-	var mealTime: BGMMealTime {
-		var mealTime: BGMMealTime = .undefined
+	var mealTime: CHBloodGlucoseMealTime {
+		var mealTime: CHBloodGlucoseMealTime = .undefined
 		guard !context.isEmpty else {
 			return mealTime
 		}
 		if context[0] == 2 {
 			let carbID = context[3]
-			mealTime = BGMMealTime(rawValue: carbID) ?? .undefined
+			mealTime = CHBloodGlucoseMealTime(rawValue: carbID) ?? .undefined
 		}
 
 		return mealTime
