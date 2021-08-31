@@ -33,7 +33,7 @@ struct BGMDataRecord: Identifiable, Hashable {
 		peripheral?.identifier
 	}
 
-    // For now just use the device timezone
+	// For now just use the device timezone
 	var timeZone: TimeZone {
 		.current // TimeZone(secondsFromGMT: timezoneOffsetInSeconds) ?? .current
 	}

@@ -104,7 +104,7 @@ extension SettingsViewController: UITableViewDelegate {
 		case .feedback:
 			showFeedback()
 		case .privacyPolicy:
-			showPrivacyPolicySoon()
+			showPrivacyPolicy()
 		case .termsOfService:
 			showTermsOfService()
 		case .support:
@@ -207,26 +207,22 @@ extension SettingsViewController: UITableViewDelegate {
 		navigationController?.show(alertController, sender: self)
 	}
 
-	func showPrivacyPolicySoon() {
-		let title = NSLocalizedString("PRIVACY_POLICY", comment: "Privacy Policy")
-		let message = "It is coming soon"
-		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-		let action = UIAlertAction(title: "OK", style: .default) { _ in
-		}
-		alertController.addAction(action)
-		tabBarController?.show(alertController, sender: self)
-	}
-
 	func showPrivacyPolicy() {
-		let privacyPolicyViewController = HTMLViewerController()
-		privacyPolicyViewController.title = String.privacyPolicy
-		navigationController?.show(privacyPolicyViewController, sender: self)
+		guard let url = URL(string: AppConfig.privacyPolicyURL) else {
+			return
+		}
+		let safariViewController = SFSafariViewController(url: url)
+		safariViewController.delegate = self
+		navigationController?.showDetailViewController(safariViewController, sender: self)
 	}
 
 	func showTermsOfService() {
-		let termsOfServiceViewController = HTMLViewerController()
-		termsOfServiceViewController.title = String.termsOfService
-		navigationController?.show(termsOfServiceViewController, sender: self)
+		guard let url = URL(string: AppConfig.privacyPolicyURL) else {
+			return
+		}
+		let safariViewController = SFSafariViewController(url: url)
+		safariViewController.delegate = self
+		navigationController?.showDetailViewController(safariViewController, sender: self)
 	}
 
 	func showOrganizations() {
@@ -284,4 +280,8 @@ extension SettingsViewController: SettingsFooterViewDelegate {
 	}
 }
 
-extension SettingsViewController: SFSafariViewControllerDelegate {}
+extension SettingsViewController: SFSafariViewControllerDelegate {
+	func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+		controller.dismiss(animated: true, completion: nil)
+	}
+}

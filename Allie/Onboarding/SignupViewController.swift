@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 1/19/21.
 //
 
+import SafariServices
 import UIKit
 
 struct IllustartionItem: Hashable {
@@ -35,6 +36,9 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 		buttonStackView.addArrangedSubview(appleIdButton)
 		buttonStackView.addArrangedSubview(googleSignInButton)
 		buttonStackView.addArrangedSubview(emailSignInButton)
+		textView.translatesAutoresizingMaskIntoConstraints = false
+		textView.delegate = self
+		buttonStackView.addArrangedSubview(textView)
 		buttonStackView.addArrangedSubview(separatorView)
 		buttonStackView.addArrangedSubview(loginFlowButton)
 
@@ -163,6 +167,30 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 		return button
 	}()
 
+	let textView: UITextView = {
+		let view = UITextView(frame: .zero)
+		view.isSelectable = true
+		view.isEditable = false
+		view.isScrollEnabled = false
+		view.textColor = .allieGray
+		view.dataDetectorTypes = [.link]
+		view.font = UIFont.systemFont(ofSize: 14.0)
+		let message = NSLocalizedString("TERMS_OF_SERVICES_AND_PRIVACY_POLICY", comment: "Terms of Service & Privay Policy Message")
+		let mutableAttributedString = NSMutableAttributedString(string: message, attributes: [.foregroundColor: UIColor.allieGray, .font: UIFont.systemFont(ofSize: 14.0)])
+		var range = (message as NSString).range(of: NSLocalizedString("TERMS_OF_SERVICE", comment: "Terms of Service"))
+		if range.location != NSNotFound {
+			mutableAttributedString.addAttribute(.link, value: URL(string: AppConfig.termsOfServiceURL)!, range: range)
+		}
+
+		range = (message as NSString).range(of: NSLocalizedString("PRIVACY_POLICY", comment: "Privacy Policy"))
+		if range.location != NSNotFound {
+			mutableAttributedString.addAttribute(.link, value: URL(string: AppConfig.privacyPolicyURL)!, range: range)
+		}
+		view.attributedText = mutableAttributedString
+		view.textAlignment = .center
+		return view
+	}()
+
 	@IBAction private func authenticateEmail(_ sender: Any) {
 		emailAuthorizationAction?(authorizationFlowType)
 	}
@@ -171,5 +199,19 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 extension SignupViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 		pageControl.currentPage = indexPath.item
+	}
+}
+
+extension SignupViewController: UITextViewDelegate {
+	func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+		let viewController = SFSafariViewController(url: URL)
+		navigationController?.showDetailViewController(viewController, sender: self)
+		return false
+	}
+}
+
+extension SignupViewController: SFSafariViewControllerDelegate {
+	func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+		controller.dismiss(animated: true, completion: nil)
 	}
 }

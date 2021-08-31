@@ -58,10 +58,6 @@ class ProfileEntryViewController: SignupBaseViewController {
 		buttonStackView.addArrangedSubview(heightButton)
 		buttonStackView.addArrangedSubview(weightButton)
 		mainStackView.addArrangedSubview(gendePickerView)
-		pickerStackView.translatesAutoresizingMaskIntoConstraints = false
-		mainStackView.addArrangedSubview(pickerStackView)
-		pickerStackView.addArrangedSubview(heightPickerView)
-		pickerStackView.addArrangedSubview(weightPickerView)
 		heightButton.button.addTarget(self, action: #selector(showHeightPicker), for: .touchUpInside)
 		weightButton.button.addTarget(self, action: #selector(showWeightPicker), for: .touchUpInside)
 
@@ -316,146 +312,42 @@ class ProfileEntryViewController: SignupBaseViewController {
 		if let dob = patient?.birthday {
 			dateOfBirth = dob
 		}
-		fixLabelsInPlace(with: heightPickerView)
-		fixLabelsInPlace(with: weightPickerView)
-		let weightIndex = weightDataInPounds.firstIndex(of: weightInPounds)
-		let feetIndex = heightData[0].firstIndex(of: heightInInches / 12)
-		let inchesIndex = heightData[1].firstIndex(of: heightInInches % 12)
-		heightPickerView.selectRow(feetIndex ?? 2, inComponent: 0, animated: false)
-		heightPickerView.selectRow(inchesIndex ?? 6, inComponent: 1, animated: false)
-		weightPickerView.selectRow(weightIndex ?? 125, inComponent: 0, animated: false)
-		hideAllPicker()
 	}
-
-	lazy var heightPickerView: UIPickerView = {
-		let picker = UIPickerView(frame: .zero)
-		picker.translatesAutoresizingMaskIntoConstraints = false
-		picker.dataSource = self
-		picker.delegate = self
-		return picker
-	}()
-
-	lazy var weightPickerView: UIPickerView = {
-		let picker = UIPickerView(frame: .zero)
-		picker.dataSource = self
-		picker.delegate = self
-		picker.translatesAutoresizingMaskIntoConstraints = false
-		return picker
-	}()
 
 	@IBAction func showHeightPicker() {
 		[firstNameTextField, lastNameTextField, middleNamesTextField].forEach { textField in
 			textField.resignFirstResponder()
 		}
-		weightPickerView.isHidden = true
-		heightPickerView.isHidden = false
+		let viewController = HeightPickerView()
+		viewController.heightInInches = heightInInches
+		viewController.delegate = self
+		let navigationController = UINavigationController(rootViewController: viewController)
+		navigationController.modalPresentationStyle = .overFullScreen
+		navigationController.modalTransitionStyle = .crossDissolve
+		showDetailViewController(navigationController, sender: self)
 	}
 
 	@IBAction func showWeightPicker() {
 		[firstNameTextField, lastNameTextField, middleNamesTextField].forEach { textField in
 			textField.resignFirstResponder()
 		}
-		heightPickerView.isHidden = true
-		weightPickerView.isHidden = false
+		let viewController = WeightPickerView()
+		viewController.weightInPounds = weightInPounds
+		viewController.delegate = self
+		let navigationController = UINavigationController(rootViewController: viewController)
+		navigationController.modalPresentationStyle = .overFullScreen
+		navigationController.modalTransitionStyle = .crossDissolve
+		showDetailViewController(navigationController, sender: self)
 	}
 
 	@IBAction func save(_ sender: Any?) {
 		doneAction?()
-	}
-
-	func hideAllPicker() {
-		heightPickerView.isHidden = true
-		weightPickerView.isHidden = true
-	}
-
-	private let pickerStackView: UIStackView = {
-		let view = UIStackView(frame: .zero)
-		view.axis = .vertical
-		view.spacing = 8.0
-		view.alignment = .fill
-		view.distribution = .fill
-		return view
-	}()
-
-	let heightData = [Array(3 ... 8), Array(0 ... 12)]
-	var weightDataInPounds = Array(25 ... 300)
-
-	private func fixLabelsInPlace(with picker: UIPickerView) {
-		let font = UIFont.systemFont(ofSize: 12.0, weight: .bold)
-		let fontSize: CGFloat = font.pointSize
-		let componentWidth: CGFloat = view.frame.width / CGFloat(picker.numberOfComponents)
-		let yPos = (picker.frame.size.height / 2) - (fontSize / 2)
-
-		if picker == heightPickerView {
-			let label = UILabel(frame: CGRect(x: componentWidth * 0.625, y: yPos, width: componentWidth * 0.4, height: fontSize))
-			label.font = font
-			label.textAlignment = .left
-			label.text = "ft"
-			label.textColor = .black
-			picker.addSubview(label)
-
-			let label2 = UILabel(frame: CGRect(x: componentWidth * 1.6, y: yPos, width: componentWidth * 0.4, height: fontSize))
-			label2.font = font
-			label2.textAlignment = .left
-			label2.text = "in"
-			label2.textColor = .black
-			picker.addSubview(label2)
-		} else if picker == weightPickerView {
-			let label = UILabel(frame: CGRect(x: componentWidth * 0.6, y: yPos, width: componentWidth * 0.4, height: fontSize))
-			label.font = font
-			label.textAlignment = .left
-			label.text = String.lb
-			label.textColor = .black
-			picker.addSubview(label)
-		}
-	}
-}
-
-extension ProfileEntryViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-	func numberOfComponents(in pickerView: UIPickerView) -> Int {
-		if pickerView == heightPickerView {
-			return 2
-		} else {
-			return 1
-		}
-	}
-
-	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-		var data = 0
-		if pickerView == heightPickerView {
-			data = heightData[component].count
-		} else if pickerView == weightPickerView {
-			data = weightDataInPounds.count
-		}
-		return data
-	}
-
-	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-		var rowData: String = ""
-
-		if pickerView == heightPickerView {
-			rowData = "\(heightData[component][row])"
-		} else if pickerView == weightPickerView {
-			rowData = "\(weightDataInPounds[row])"
-		}
-		return rowData
-	}
-
-	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-		if pickerView == weightPickerView {
-			weightInPounds = weightDataInPounds[row]
-		} else if pickerView == heightPickerView {
-			let feet = heightData[0][pickerView.selectedRow(inComponent: 0)]
-			let inches = heightData[1][pickerView.selectedRow(inComponent: 1)]
-			heightInInches = feet * 12 + inches
-		}
 	}
 }
 
 extension ProfileEntryViewController: UITextFieldDelegate {
 	func textFieldDidBeginEditing(_ textField: UITextField) {
 		textField.becomeFirstResponder()
-		hideAllPicker()
 	}
 
 	func textFieldDidEndEditing(_ textField: UITextField) {
@@ -465,5 +357,19 @@ extension ProfileEntryViewController: UITextFieldDelegate {
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		textField.resignFirstResponder()
 		return true
+	}
+}
+
+extension ProfileEntryViewController: WeightPickerViewDelegate {
+	func weightPickerViewDidSave(_ picker: WeightPickerView) {
+		weightInPounds = picker.weightInPounds
+		picker.dismiss(animated: true, completion: nil)
+	}
+}
+
+extension ProfileEntryViewController: HeightPickerViewDelegate {
+	func heightPickerViewDidSave(_ picker: HeightPickerView) {
+		heightInInches = picker.heightInInches
+		picker.dismiss(animated: true, completion: nil)
 	}
 }
