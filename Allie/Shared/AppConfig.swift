@@ -2,6 +2,9 @@ import FirebaseCore
 import Foundation
 
 enum AppConfig {
+	static let privacyPolicyURL = "http://codexhealth.com/privacy.html"
+	static let termsOfServiceURL = "http://codexhealth.com/terms-of-service.html"
+
 	static var environmentName: String {
 		path("Environment", "Environment Name")!
 	}

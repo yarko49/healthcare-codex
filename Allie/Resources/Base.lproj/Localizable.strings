@@ -68,7 +68,8 @@
 
 "WE_WILL_EMAIL_YOU_A_LINK_TO_RESET_YOUR_PASSWORD" = "We will email you a link to \n reset your password";
 
-"BY_REGISTERING_I_ACCEPT_THE_TERMS_OF_SERVICES_AND_PRIVACY_POLICY" = "By registering, I accept the Terms \n of Services and Privacy Policy";
+/* By signing up for an account you agree to our Terms of Service and acknowledge you have read our Privacy Policy. */
+"TERMS_OF_SERVICES_AND_PRIVACY_POLICY" = "By signing up for an account you agree to our\nTerms of Service and acknowledge you have\nread our Privacy Policy.";
 
 "SIGN_UP_FOR_ALFRED_WITH_YOUR_EMAIL" = "Sign up for Allie with your email";
 
@@ -568,7 +569,7 @@
 "ACTIVATE_APPLE_HEALTH" = "Activate\nApple Health";
 
 /* This will allow Allie to compare different measurements to give you the right type of assistance. */
-"ACTIVATION_MESSAGE" = "This will allow Allie to compare different measurements to give you the right type of assistance.";
+"ACTIVATION_MESSAGE" = "This will allow Allie to access and store\nyour Apple Health data and make it\navailable to you in the Allie app";
 
 /* Fast Acting */
 "FAST_ACTING" = "Fast Acting";
@@ -595,7 +596,7 @@
 "CONNECT_PROVIDER.title" = "Connect to your healthcare\nprovider to get the full\nbenefits of Allie";
 
 /* By connected your account to the provider you agree to share your medical data with provider. */
-"PROVIDER_CONSENT.message" = "By connected your account to the provider you agree to share your medical data with provider.";
+"PROVIDER_CONSENT.message" = "By connecting your account to the provider you agree to share your medical data with provider.";
 
 /* Welcome to Allie */
 "WELCOME_TO_ALLIE" = "Welcome to Allie";

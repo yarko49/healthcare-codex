@@ -115,6 +115,7 @@ class SelectProviderViewController: UICollectionViewController {
 		if item.authURL != nil {
 			showProviderDetailView(organization: item)
 			// showAuthentication(organization: item)
+			// showSFAuthentication(organization: item)
 		} else {
 			showProviderDetailView(organization: item)
 		}

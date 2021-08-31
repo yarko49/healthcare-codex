@@ -60,7 +60,6 @@ extension String {
 	static let slide2Title = Languages.tr("SLIDE_2_TITLE")
 	static let slide3Title = Languages.tr("SLIDE_3_TITLE")
 	static let alreadyHaveAccount = Languages.tr("ALREADY_HAVE_ACCOUNT")
-	static let acceptingTSPP = Languages.tr("BY_REGISTERING_I_ACCEPT_THE_TERMS_OF_SERVICES_AND_PRIVACY_POLICY")
 	static let signupmsg = Languages.tr("SIGN_UP_FOR_ALFRED_WITH_YOUR_EMAIL")
 
 	// Sign up

@@ -73,7 +73,7 @@ class HealthViewController: SignupBaseViewController {
 		label.font = UIFont.systemFont(ofSize: 20.0, weight: .regular)
 		label.textColor = .allieGray
 		label.textAlignment = .center
-		label.text = NSLocalizedString("ACTIVATION_MESSAGE", comment: "This will allow Allie to compare different measurements to give you the right type of assistance.")
+		label.text = NSLocalizedString("ACTIVATION_MESSAGE", comment: "This will allow Allie to access and store\nyour Apple Health data and make it\navailable to you in the Allie app")
 		label.numberOfLines = 0
 		return label
 	}()

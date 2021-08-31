@@ -32,7 +32,12 @@ class ConversationsManager: NSObject, ObservableObject {
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
 
 	weak var messagesDelegate: ConversationMessagesDelegate?
-	@Published private(set) var client: TwilioConversationsClient?
+	@Published private(set) var client: TwilioConversationsClient? {
+		didSet {
+			client?.delegate = self
+		}
+	}
+
 	@Published private(set) var conversations: Set<TCHConversation> = []
 	@Published private(set) var messages: [String: [TCHMessage]] = [:] {
 		didSet {
@@ -42,9 +47,7 @@ class ConversationsManager: NSObject, ObservableObject {
 
 	@Published private(set) var codexUsers: [String: CHConversationsUser] = [:]
 	private var conversationTokens: CHConversationsTokens?
-	private var refreshTokenWorkItem: DispatchWorkItem?
 	private var foregroundNotification: AnyCancellable?
-	private var backgroundNotification: AnyCancellable?
 
 	func configureNotifications() {
 		foregroundNotification?.cancel()
@@ -52,12 +55,6 @@ class ConversationsManager: NSObject, ObservableObject {
 			.sink { [weak self] _ in
 				self?.refreshAccessToken(completion: nil)
 			}
-
-		backgroundNotification?.cancel()
-		backgroundNotification = NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)
-			.sink(receiveValue: { [weak self] _ in
-				self?.refreshTokenWorkItem?.cancel()
-			})
 	}
 
 	func refreshAccessToken(completion: AllieResultCompletion<Bool>?) {
@@ -73,16 +70,6 @@ class ConversationsManager: NSObject, ObservableObject {
 					self?.updateToken(token: conversationTokens.tokens.first, completion: completion)
 				} else {
 					self?.login(token: conversationTokens.tokens.first, completion: completion)
-				}
-				self?.refreshTokenWorkItem?.cancel()
-				self?.refreshTokenWorkItem = DispatchWorkItem {
-					guard let strongSelf = self else {
-						return
-					}
-					strongSelf.refreshAccessToken(completion: nil)
-				}
-				if let workItem = self?.refreshTokenWorkItem {
-					DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + .seconds(55), execute: workItem)
 				}
 			}.store(in: &cancellables)
 	}
@@ -220,8 +207,6 @@ class ConversationsManager: NSObject, ObservableObject {
 		client.conversation(withSidOrUniqueName: Constants.uniqueConversationName) { result, conversation in
 			completion(result, conversation)
 		}
-		// let myConversations = client.myConversations()
-		// completion(TCHResult(), client.myConversations()?.first)
 	}
 
 	func join(conversation: TCHConversation, completion: @escaping AllieResultCompletion<Bool>) {
@@ -282,31 +267,20 @@ extension ConversationsManager {
 // - TwilioClient
 extension ConversationsManager: TwilioConversationsClientDelegate {
 	func conversationsClient(_ client: TwilioConversationsClient, connectionStateUpdated state: TCHClientConnectionState) {
-		ALog.trace("connectionStateUpdated:")
+		ALog.info("connectionStateUpdated: \(state.rawValue)")
+		if state == .denied {
+			refreshAccessToken(completion: nil)
+		}
 	}
 
 	func conversationsClientTokenWillExpire(_ client: TwilioConversationsClient) {
 		ALog.info("Access token will expire.")
-		refreshAccessToken { result in
-			switch result {
-			case .success:
-				ALog.info("refreshed token")
-			case .failure(let error):
-				ALog.error("Unable to update the token \(error.localizedDescription)")
-			}
-		}
+		refreshAccessToken(completion: nil)
 	}
 
 	func conversationsClientTokenExpired(_ client: TwilioConversationsClient) {
 		ALog.info("Access token expired.")
-		refreshAccessToken { result in
-			switch result {
-			case .success:
-				ALog.info("refreshed token")
-			case .failure(let error):
-				ALog.error("Unable to update the token \(error.localizedDescription)")
-			}
-		}
+		refreshAccessToken(completion: nil)
 	}
 
 	func conversationsClient(_ client: TwilioConversationsClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus) {
@@ -320,34 +294,22 @@ extension ConversationsManager: TwilioConversationsClientDelegate {
 	}
 
 	func conversationsClient(_ client: TwilioConversationsClient, conversationAdded conversation: TCHConversation) {
-		ALog.trace("conversationAdded:")
+		ALog.info("conversationAdded:")
 		conversations.insert(conversation)
 	}
 
 	func conversationsClient(_ client: TwilioConversationsClient, conversation: TCHConversation, updated: TCHConversationUpdate) {
 		conversations.insert(conversation)
-		ALog.trace("conversation:updated:")
+		ALog.info("conversation:updated:")
 	}
 
 	func conversationsClient(_ client: TwilioConversationsClient, conversation: TCHConversation, synchronizationStatusUpdated status: TCHConversationSynchronizationStatus) {
-		ALog.trace("conversation:synchronizationStatusUpdated:")
+		ALog.info("conversation:synchronizationStatusUpdated:")
 	}
 
 	func conversationsClient(_ client: TwilioConversationsClient, conversationDeleted conversation: TCHConversation) {
-		ALog.trace("conversation:conversationDeleted:")
+		ALog.info("conversation:conversationDeleted:")
 		conversations.remove(conversation)
-	}
-
-	func conversationsClient(_ client: TwilioConversationsClient, conversation: TCHConversation, participantJoined participant: TCHParticipant) {
-		ALog.trace("conversation:participantJoined:")
-	}
-
-	func conversationsClient(_ client: TwilioConversationsClient, conversation: TCHConversation, participant: TCHParticipant, updated: TCHParticipantUpdate) {
-		ALog.trace("conversation:participant:updated:")
-	}
-
-	func conversationsClient(_ client: TwilioConversationsClient, conversation: TCHConversation, participantLeft participant: TCHParticipant) {
-		ALog.trace("conversation:participantLeft:")
 	}
 
 	// Called whenever a conversation we've joined receives a new message
@@ -365,51 +327,7 @@ extension ConversationsManager: TwilioConversationsClientDelegate {
 		}
 	}
 
-	func conversationsClient(_ client: TwilioConversationsClient, conversation: TCHConversation, message: TCHMessage, updated: TCHMessageUpdate) {
-		ALog.trace("conversation:message:updated:")
-	}
-
-	func conversationsClient(_ client: TwilioConversationsClient, conversation: TCHConversation, messageDeleted message: TCHMessage) {
-		ALog.trace("conversation:messageDeleted:")
-	}
-
-	func conversationsClient(_ client: TwilioConversationsClient, errorReceived error: TCHError) {
-		ALog.trace("errorReceived:")
-	}
-
-	func conversationsClient(_ client: TwilioConversationsClient, typingStartedOn conversation: TCHConversation, participant: TCHParticipant) {
-		ALog.trace("typingStartedOn:participant:")
-	}
-
-	func conversationsClient(_ client: TwilioConversationsClient, typingEndedOn conversation: TCHConversation, participant: TCHParticipant) {
-		ALog.trace("typingEndedOn:participant:")
-	}
-
-	func conversationsClient(_ client: TwilioConversationsClient, notificationNewMessageReceivedForConversationSid conversationSid: String, messageIndex: UInt) {
-		ALog.trace("notificationNewMessageReceivedForConversationSid:messageIndex:")
-	}
-
-	func conversationsClient(_ client: TwilioConversationsClient, notificationAddedToConversationWithSid conversationSid: String) {
-		ALog.trace("notificationAddedToConversationWithSid:")
-	}
-
-	func conversationsClient(_ client: TwilioConversationsClient, notificationRemovedFromConversationWithSid conversationSid: String) {
-		ALog.trace("notificationRemovedFromConversationWithSid:")
-	}
-
 	func conversationsClient(_ client: TwilioConversationsClient, notificationUpdatedBadgeCount badgeCount: UInt) {
-		ALog.trace("notificationUpdatedBadgeCount:")
-	}
-
-	func conversationsClient(_ client: TwilioConversationsClient, user: TCHUser, updated: TCHUserUpdate) {
-		ALog.trace("user:updated:")
-	}
-
-	func conversationsClient(_ client: TwilioConversationsClient, userSubscribed user: TCHUser) {
-		ALog.trace("userSubscribed:")
-	}
-
-	func conversationsClient(_ client: TwilioConversationsClient, userUnsubscribed user: TCHUser) {
-		ALog.trace("userUnsubscribed:")
+		ALog.info("notificationUpdatedBadgeCount: \(badgeCount)")
 	}
 }

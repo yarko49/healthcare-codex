@@ -5,11 +5,14 @@
 //  Created by Waqar Malik on 12/17/20.
 //
 
+import Firebase
 import FirebaseDynamicLinks
+import KeychainAccess
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	var window: UIWindow?
+	@Injected(\.keychain) var keychain: Keychain
 
 	lazy var mainCoordinator: MainCoordinator = {
 		MainCoordinator(window: self.window!)
@@ -51,6 +54,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	func sceneWillEnterForeground(_ scene: UIScene) {
 		// Called as the scene transitions from the background to the foreground.
 		// Use this method to undo the changes made on entering the background.
+		Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true, completion: { authTokenResult, error in
+			if let token = AuthenticationToken(result: authTokenResult), error == nil {
+				self.keychain.authenticationToken = token
+			} else if let error = error {
+				ALog.error("Error refreshing token \(error.localizedDescription)")
+			}
+		})
 	}
 
 	func sceneDidEnterBackground(_ scene: UIScene) {
