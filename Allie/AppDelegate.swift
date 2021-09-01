@@ -73,11 +73,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Use this method to release any resources that were specific to the discarded scenes, as they will not return.
 	}
 
-	func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-		ALog.info("url = \(url), options = \(options)")
-		return true
-	}
-
 	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 		ALog.info("didRegisterForRemoteNotificationsWithDeviceToken:")
 		Messaging.messaging().apnsToken = deviceToken
@@ -99,9 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-		Messaging.messaging().appDidReceiveMessage(userInfo)
-		application.applicationIconBadgeNumber += 1
-		AppDelegate.mainCoordinator?.updateBadges(count: application.applicationIconBadgeNumber)
+		process(notificationInfo: userInfo)
 		completionHandler(UIBackgroundFetchResult.newData)
 	}
 
@@ -138,11 +131,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func registerForPushNotifications(application: UIApplication) {
 		UNUserNotificationCenter.current().delegate = self
-		let options: UNAuthorizationOptions = [.alert, .badge, .sound]
+		let options: UNAuthorizationOptions = [.alert, .badge, .sound, .criticalAlert, .carPlay, .announcement]
 		DispatchQueue.main.async {
-			UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, _ in
+			UNUserNotificationCenter.current().requestAuthorization(options: options) { [weak self] granted, _ in
 				if granted {
 					DispatchQueue.main.async {
+						UNUserNotificationCenter.current().delegate = self
 						application.registerForRemoteNotifications()
 					}
 				}
@@ -168,21 +162,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-		let userInfo = response.notification.request.content.userInfo
-		Messaging.messaging().appDidReceiveMessage(userInfo)
-		let application = UIApplication.shared
-		application.applicationIconBadgeNumber += 1
-		AppDelegate.mainCoordinator?.updateBadges(count: application.applicationIconBadgeNumber)
+		process(notificationRequest: response.notification.request)
 		completionHandler()
 	}
 
 	func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-		let userInfo = notification.request.content.userInfo
+		process(notificationRequest: notification.request)
+		completionHandler([.badge, .banner, .sound])
+	}
+
+	func process(notificationRequest: UNNotificationRequest?) {
+		guard let request = notificationRequest else {
+			return
+		}
+
+		let userInfo = request.content.userInfo
+		process(notificationInfo: userInfo)
+	}
+
+	func process(notificationInfo userInfo: [AnyHashable: Any]) {
 		Messaging.messaging().appDidReceiveMessage(userInfo)
 		let application = UIApplication.shared
 		application.applicationIconBadgeNumber += 1
 		AppDelegate.mainCoordinator?.updateBadges(count: application.applicationIconBadgeNumber)
-		completionHandler([.badge, .banner, .sound])
 	}
 }
 

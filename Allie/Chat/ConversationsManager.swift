@@ -7,6 +7,7 @@
 
 import Combine
 import MessageKit
+import OrderedCollections
 import TwilioConversationsClient
 import UIKit
 
@@ -38,8 +39,13 @@ class ConversationsManager: NSObject, ObservableObject {
 		}
 	}
 
-	@Published private(set) var conversations: Set<TCHConversation> = []
-	@Published private(set) var messages: [String: [TCHMessage]] = [:] {
+	@Published private(set) var conversations: Set<TCHConversation> = [] {
+		didSet {
+			ALog.info("did set conversations")
+		}
+	}
+
+	@Published private(set) var messages: [String: OrderedSet<TCHMessage>] = [:] {
 		didSet {
 			getCodexUsers()
 		}
@@ -210,14 +216,15 @@ class ConversationsManager: NSObject, ObservableObject {
 	}
 
 	func join(conversation: TCHConversation, completion: @escaping AllieResultCompletion<Bool>) {
-		conversations.insert(conversation)
 		if conversation.status == .joined {
-			loadPreviousMessages(for: conversation, completion: completion)
+			completion(.success(true))
 		} else {
-			conversation.join(completion: { [weak self] result in
+			conversation.join(completion: { result in
 				ALog.info("Result of conversation join: \(result.resultText ?? "No Result")")
 				if result.isSuccessful {
-					self?.loadPreviousMessages(for: conversation, completion: completion)
+					completion(.success(true))
+				} else if let error = result.error {
+					completion(.failure(error))
 				} else {
 					completion(.failure(ConversationsManagerError.failed("To join conversation")))
 				}
@@ -225,17 +232,77 @@ class ConversationsManager: NSObject, ObservableObject {
 		}
 	}
 
-	func loadPreviousMessages(for conversation: TCHConversation, completion: @escaping AllieResultCompletion<Bool>) {
-		conversation.getLastMessages(withCount: Constants.messagesDownloadPageSize) { [weak self] result, messages in
-			if let messages = messages, result.isSuccessful {
-				self?.messages[conversation.id] = messages
+	func getPreviousMessages(for conversations: [TCHConversation], completion: @escaping AllieResultCompletion<Bool>) {
+		DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+			let group = DispatchGroup()
+			for conversation in conversations {
+				if let lastMessageIndex = conversation.lastMessageIndex {
+					let index = lastMessageIndex.uintValue
+					guard index > 0 else {
+						continue
+					}
+					group.enter()
+					self?.getPreviousMessages(for: conversation, index: index) { result in
+						switch result {
+						case .success(let success):
+							ALog.info("got previous message \(success)")
+						case .failure(let error):
+							ALog.error("error getting previous messages \(error.localizedDescription)")
+						}
+						group.leave()
+					}
+				}
+			}
+
+			group.notify(queue: .main) {
 				completion(.success(true))
-			} else if let error = result.error {
-				completion(.failure(error))
-			} else {
-				completion(.failure(ConversationsManagerError.failed("To Load Previous Messages")))
 			}
 		}
+	}
+
+	func getPreviousMessages(for conversation: TCHConversation, index: UInt, completion: @escaping AllieResultCompletion<Bool>) {
+		conversation.getMessagesBefore(index, withCount: Constants.messagesDownloadPageSize) { [weak self] result, newMessages in
+			if let newMessages = newMessages, !newMessages.isEmpty, result.isSuccessful {
+				DispatchQueue.main.async {
+					let currentMessages = self?.messages[conversation.id] ?? []
+					var newSet = OrderedSet(newMessages)
+					newSet.append(contentsOf: currentMessages)
+					self?.messages[conversation.id] = newSet
+				}
+				if newMessages.count == Constants.messagesDownloadPageSize {
+					let newIndex = max(0, index - Constants.messagesDownloadPageSize)
+					if newIndex > 0 {
+						self?.getPreviousMessages(for: conversation, index: newIndex, completion: completion)
+					} else {
+						completion(.success(true))
+					}
+				} else {
+					completion(.success(true))
+				}
+			} else if let error = result.error {
+				ALog.error("Error Feteching older messages \(error.debugDescription)")
+				completion(.failure(error))
+			} else {
+				completion(.success(true))
+			}
+		}
+	}
+
+	func getLastMessages(for conversation: TCHConversation, completion: @escaping AllieResultCompletion<Bool>) {
+		conversation.getLastMessages(withCount: Constants.messagesDownloadPageSize, completion: { [weak self] result, newMessages in
+			if let newMessages = newMessages, !newMessages.isEmpty, result.isSuccessful {
+				DispatchQueue.main.async {
+					let currentMessages = self?.messages[conversation.id] ?? []
+					var newSet = OrderedSet(newMessages)
+					newSet.append(contentsOf: currentMessages)
+					self?.messages[conversation.id] = newSet
+				}
+				completion(.success(true))
+			} else if let error = result.error {
+				ALog.error("Error Feteching older messages \(error.debugDescription)")
+				completion(.failure(error))
+			}
+		})
 	}
 }
 
@@ -256,7 +323,7 @@ extension ConversationsManager {
 		return message
 	}
 
-	func messages(for conversation: TCHConversation?) -> [TCHMessage]? {
+	func messages(for conversation: TCHConversation?) -> OrderedSet<TCHMessage>? {
 		guard let conversation = conversation else {
 			return nil
 		}
@@ -290,12 +357,22 @@ extension ConversationsManager: TwilioConversationsClientDelegate {
 
 		if let conversations = client.myConversations(), !conversations.isEmpty {
 			self.conversations = Set(conversations)
+			getPreviousMessages(for: conversations) { result in
+				if case .failure(let error) = result {
+					ALog.error("error = \(error.localizedDescription)")
+				}
+			}
 		}
 	}
 
 	func conversationsClient(_ client: TwilioConversationsClient, conversationAdded conversation: TCHConversation) {
 		ALog.info("conversationAdded:")
 		conversations.insert(conversation)
+		getPreviousMessages(for: [conversation]) { result in
+			if case .failure(let error) = result {
+				ALog.error("error = \(error.localizedDescription)")
+			}
+		}
 	}
 
 	func conversationsClient(_ client: TwilioConversationsClient, conversation: TCHConversation, updated: TCHConversationUpdate) {

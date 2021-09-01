@@ -39,6 +39,7 @@ class ConversationViewController: MessagesViewController {
 		cancellables.forEach { cancellable in
 			cancellable.cancel()
 		}
+		conversationsManager?.messagesDelegate = nil
 	}
 
 	override func viewDidLoad() {
@@ -48,17 +49,19 @@ class ConversationViewController: MessagesViewController {
 		configureMessageInputBar()
 		if let conversation = self.conversation {
 			hud.show(in: tabBarController?.view ?? view)
-			conversationsManager?.join(conversation: conversation, completion: { [weak self] result in
-				DispatchQueue.main.async {
-					self?.hud.dismiss(animated: false)
-					switch result {
-					case .failure(let error):
-						ALog.error("\(error)")
-					case .success:
-						self?.messagesCollectionView.reloadData()
+			DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+				self?.conversationsManager?.join(conversation: conversation, completion: { [weak self] result in
+					DispatchQueue.main.async {
+						self?.hud.dismiss(animated: false)
+						switch result {
+						case .failure(let error):
+							ALog.error("\(error)")
+						case .success:
+							self?.messagesCollectionView.reloadData()
+						}
 					}
-				}
-			})
+				})
+			}
 		}
 		conversationsManager?.messagesDelegate = self
 
@@ -181,89 +184,9 @@ extension ConversationViewController: MessagesDisplayDelegate {
 	}
 }
 
-extension ConversationViewController: MessageCellDelegate {
-	func didTapAvatar(in cell: MessageCollectionViewCell) {
-		ALog.trace("Avatar tapped")
-	}
+extension ConversationViewController: MessageCellDelegate {}
 
-	func didTapMessage(in cell: MessageCollectionViewCell) {
-		ALog.trace("Message tapped")
-	}
-
-	func didTapImage(in cell: MessageCollectionViewCell) {
-		ALog.trace("Image tapped")
-	}
-
-	func didTapCellTopLabel(in cell: MessageCollectionViewCell) {
-		ALog.trace("Top cell label tapped")
-	}
-
-	func didTapCellBottomLabel(in cell: MessageCollectionViewCell) {
-		ALog.trace("Bottom cell label tapped")
-	}
-
-	func didTapMessageTopLabel(in cell: MessageCollectionViewCell) {
-		ALog.trace("Top message label tapped")
-	}
-
-	func didTapMessageBottomLabel(in cell: MessageCollectionViewCell) {
-		ALog.trace("Bottom label tapped")
-	}
-
-	func didTapPlayButton(in cell: AudioMessageCell) {
-		ALog.trace("Audio message play tapped")
-	}
-
-	func didStartAudio(in cell: AudioMessageCell) {
-		ALog.trace("Did start playing audio sound")
-	}
-
-	func didPauseAudio(in cell: AudioMessageCell) {
-		ALog.trace("Did pause audio sound")
-	}
-
-	func didStopAudio(in cell: AudioMessageCell) {
-		ALog.trace("Did stop audio sound")
-	}
-
-	func didTapAccessoryView(in cell: MessageCollectionViewCell) {
-		ALog.trace("Accessory view tapped")
-	}
-}
-
-extension ConversationViewController: MessageLabelDelegate {
-	func didSelectAddress(_ addressComponents: [String: String]) {
-		ALog.trace("Address Selected: \(addressComponents)")
-	}
-
-	func didSelectDate(_ date: Date) {
-		ALog.trace("Date Selected: \(date)")
-	}
-
-	func didSelectPhoneNumber(_ phoneNumber: String) {
-		ALog.trace("Phone Number Selected: \(phoneNumber)")
-	}
-
-	func didSelectURL(_ url: URL) {
-		ALog.trace("URL Selected: \(url)")
-	}
-
-	func didSelectTransitInformation(_ transitInformation: [String: String]) {
-		ALog.trace("TransitInformation Selected: \(transitInformation)")
-	}
-
-	func didSelectHashtag(_ hashtag: String) {
-		ALog.trace("Hashtag selected: \(hashtag)")
-	}
-
-	func didSelectMention(_ mention: String) {
-		ALog.trace("Mention selected: \(mention)")
-	}
-
-	func didSelectCustom(_ pattern: String, match: String?) {
-		ALog.trace("Custom data detector patter selected: \(pattern)")
-	}
-}
+extension ConversationViewController: MessageLabelDelegate {}
 
 extension ConversationViewController: InputBarAccessoryViewDelegate {
 	@objc func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
