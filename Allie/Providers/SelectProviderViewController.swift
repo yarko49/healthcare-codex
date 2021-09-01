@@ -5,7 +5,6 @@
 //  Created by Waqar Malik on 6/24/21.
 //
 
-import AuthenticationServices
 import Combine
 import JGProgressHUD
 import SDWebImage
@@ -113,9 +112,7 @@ class SelectProviderViewController: UICollectionViewController {
 		}
 
 		if item.authURL != nil {
-			showProviderDetailView(organization: item)
-			// showAuthentication(organization: item)
-			// showSFAuthentication(organization: item)
+			showAuthenticationView(organization: item)
 		} else {
 			showProviderDetailView(organization: item)
 		}
@@ -155,47 +152,17 @@ class SelectProviderViewController: UICollectionViewController {
 		}
 	}
 
-	func showAuthentication(organization: CHOrganization) {
+	func showAuthenticationView(organization: CHOrganization) {
 		guard let authURL = organization.authURL else {
 			return
 		}
-		let authURLComponents = URLComponents(string: authURL.absoluteString)
-		let authQueryItems = authURLComponents?.queryItems
-		let redirectURL = authQueryItems?.first(where: { item in
-			item.name == "redirect_uri"
-		})?.value ?? ""
-		let tokenKey = authQueryItems?.first(where: { item in
-			item.name == "response_type"
-		})?.value ?? "code"
-		let session = ASWebAuthenticationSession(url: authURL, callbackURLScheme: redirectURL.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)) { [weak self] url, error in
-			guard let callbackURL = url, error == nil else {
-				if let authError = error as? ASWebAuthenticationSessionError, authError.code == .canceledLogin {
-				} else {
-					ALog.error("Error authenticating \(error?.localizedDescription ?? "Unknown Error")")
-				}
-				return
-			}
-			ALog.info("responseURL = \(callbackURL)")
-			let urlComponents = URLComponents(string: callbackURL.absoluteString)
-			let queryItems = urlComponents?.queryItems
-			let token = queryItems?.first(where: { item in
-				item.name == tokenKey
-			})?.value
-			let state = queryItems?.first(where: { item in
-				item.name == "state"
-			})?.value
 
-			if let token = token, let state = state {
-				DispatchQueue.main.async {
-					var updatedOrganization = organization
-					updatedOrganization.authorizationToken = token
-					updatedOrganization.state = state
-					self?.register(organization: organization)
-				}
-			}
-		}
-		session.presentationContextProvider = self
-		session.start()
+		let webViewController = WebAuthenticationViewController()
+		webViewController.url = authURL
+		webViewController.organization = organization
+		webViewController.delegate = self
+		let navController = UINavigationController(rootViewController: webViewController)
+		navigationController?.show(navController, sender: self)
 	}
 
 	private var detailViewModel: ProviderDetailViewModel?
@@ -223,8 +190,13 @@ class SelectProviderViewController: UICollectionViewController {
 				if animated {
 					self?.hud.dismiss()
 				}
-			} receiveValue: { success in
-				ALog.info("Did finish registering \(success)")
+			} receiveValue: { [weak self] _ in
+				guard let strongSelf = self else {
+					return
+				}
+				let updateOrganizations = CHOrganizations(available: strongSelf.organizations.available, registered: [organization])
+				strongSelf.process(organizations: updateOrganizations)
+				NotificationCenter.default.post(name: .didRegisterOrganization, object: nil, userInfo: nil)
 			}.store(in: &cancellables)
 	}
 
@@ -255,8 +227,26 @@ class SelectProviderViewController: UICollectionViewController {
 	}
 }
 
-extension SelectProviderViewController: ASWebAuthenticationPresentationContextProviding {
-	func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-		view.window ?? ASPresentationAnchor()
+extension SelectProviderViewController: WebAuthenticationViewControllerDelegate {
+	func webAuthenticationViewControllerDidCancel(_ controller: WebAuthenticationViewController) {
+		controller.dismiss(animated: true, completion: nil)
+	}
+
+	func webAuthenticationViewController(_ controller: WebAuthenticationViewController, didFinsihWith token: String?, state: String?) {
+		controller.dismiss(animated: true) { [weak self] in
+			guard let token = token, let organization = controller.organization else {
+				return
+			}
+			self?.register(token: token, state: state, organization: organization)
+		}
+	}
+
+	func register(token: String, state: String?, organization: CHOrganization) {
+		var updatedOrganization = organization
+		updatedOrganization.authorizationToken = token
+		if let state = state {
+			updatedOrganization.state = state
+		}
+		register(organization: organization)
 	}
 }

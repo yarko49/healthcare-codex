@@ -766,3 +766,6 @@
 /* Undefined */
 "MEAL_TIME_UNDEFINED" = "Undefined";
 
+/* Authentication */
+"AUTHENTICATION" = "Authentication";
+

@@ -75,6 +75,7 @@ class ConversationListViewController: UICollectionViewController {
 			}
 			return lhd > rhd
 		}
+
 		var snapshot = NSDiffableDataSourceSnapshot<Int, TCHConversation>()
 		snapshot.appendSections([0])
 		snapshot.appendItems(sorted, toSection: 0)
