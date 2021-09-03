@@ -11,25 +11,21 @@ import HealthKit
 
 extension CHOutcome {
 	init?(sample: HKSample, task: OCKHealthKitTask, carePlanId: String) {
+		self.init(taskUUID: task.uuid, taskID: task.id, carePlanID: carePlanId, taskOccurrenceIndex: 0, values: [])
+
 		let linkage = task.healthKitLinkage
 		var values: [CHOutcomeValue] = []
 		if let cumulative = sample as? HKCumulativeQuantitySample {
 			if var value = CHOutcomeValue(quantity: cumulative.sumQuantity, linkage: linkage) {
-				value.kind = cumulative.quantityType.identifier
-				if let insulinReason = cumulative.metadata?[HKMetadataKeyInsulinDeliveryReason] as? Int {
-					value.kind = insulinReason == HKInsulinDeliveryReason.bolus.rawValue ? HKInsulinDeliveryReason.bolus.kind : HKInsulinDeliveryReason.basal.kind
-				}
+				value.kind = kind(metadata: cumulative.metadata, linkage: linkage) ?? cumulative.quantityType.identifier
 				value.createdDate = cumulative.startDate
 				values.append(value)
 			}
 		} else if let discreet = sample as? HKDiscreteQuantitySample {
 			let quantity = discreet.mostRecentQuantity
 			if var value = CHOutcomeValue(quantity: quantity, linkage: linkage) {
-				value.kind = discreet.quantityType.identifier
 				value.index = 0
-				if let insulinReason = sample.metadata?[HKMetadataKeyInsulinDeliveryReason] as? Int {
-					value.kind = insulinReason == HKInsulinDeliveryReason.bolus.rawValue ? HKInsulinDeliveryReason.bolus.kind : HKInsulinDeliveryReason.basal.kind
-				}
+				value.kind = kind(metadata: discreet.metadata, linkage: linkage) ?? discreet.quantityType.identifier
 				value.createdDate = discreet.startDate
 				values.append(value)
 			}
@@ -54,8 +50,7 @@ extension CHOutcome {
 		guard !values.isEmpty else {
 			return nil
 		}
-
-		self.init(taskUUID: task.uuid, taskID: task.id, carePlanID: carePlanId, taskOccurrenceIndex: 0, values: values)
+		self.values = values
 		self.uuid = sample.uuid
 		createdDate = sample.startDate
 		updatedDate = sample.startDate
@@ -87,9 +82,25 @@ extension CHOutcome {
 				return nil
 			}
 		}
+		userInfo?[HKMetadataKeyTimeZone] = TimeZone.current.identifier
+		self.timezone = .current
+	}
 
-		if let timeZoneIdentifier = sample.metadata?[HKMetadataKeyTimeZone] as? String, let timezone = TimeZone(identifier: timeZoneIdentifier) {
-			self.timezone = timezone
+	func kind(metadata: [String: Any]?, linkage: OCKHealthKitLinkage) -> String? {
+		var kind: String?
+
+		if linkage.quantityIdentifier == .insulinDelivery {
+			if let insulinReasonValue = metadata?[HKMetadataKeyInsulinDeliveryReason] as? Int, let insulinReason = HKInsulinDeliveryReason(rawValue: insulinReasonValue) {
+				kind = insulinReason.kind
+			}
+		} else if linkage.quantityIdentifier == .bloodGlucose {
+			if let mealTimeValue = metadata?[CHMetadataKeyBloodGlucoseMealTime] as? Int, let mealTime = CHBloodGlucoseMealTime(rawValue: mealTimeValue) {
+				kind = mealTime.kind
+			} else if let mealTimeValue = metadata?[HKMetadataKeyBloodGlucoseMealTime] as? Int, let mealTime = HKBloodGlucoseMealTime(rawValue: mealTimeValue) {
+				kind = mealTime.kind
+			}
 		}
+
+		return kind
 	}
 }

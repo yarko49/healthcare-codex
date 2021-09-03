@@ -105,13 +105,14 @@ class GeneralizedLogTaskView: OCKView, OCKTaskDisplayable {
 		directionalLayoutMargins = style.dimension.directionalInsets1
 	}
 
-	private func makeItem(withTitle title: String?, detail: String?, canDelete: Bool) -> GeneralizedLogItem {
+	private func makeItem(value: String?, time: String?, context: String?, canDelete: Bool) -> GeneralizedLogItem {
 		let item = GeneralizedLogItem()
 		item.addTarget(self, action: #selector(itemTapped(_:)), for: .touchUpInside)
-		item.titleLabel.text = title
-		item.detailLabel.text = detail
+		item.valueLabel.text = value
+		item.timeLabel.text = time
+		item.contextLabel.text = context ?? " "
 		item.imageView.image = canDelete ? UIImage(systemName: "trash") : UIImage(named: "icon-lock-fill")
-		item.accessibilityLabel = (detail ?? "") + " " + (title ?? "")
+		item.accessibilityLabel = (value ?? "") + " " + (time ?? "") + " " + (context ?? "")
 		item.accessibilityHint = loc("DOUBLE_TAP_TO_REMOVE_EVENT")
 		return item
 	}
@@ -124,26 +125,27 @@ class GeneralizedLogTaskView: OCKView, OCKTaskDisplayable {
 	}
 
 	@discardableResult
-	func updateItem(at index: Int, withTitle title: String?, detail: String?) -> GeneralizedLogItem? {
+	func updateItem(at index: Int, value: String?, time: String?, context: String?) -> GeneralizedLogItem? {
 		guard index < logItemsStackView.arrangedSubviews.count else { return nil }
 		let button = items[index]
-		button.accessibilityLabel = title
-		button.titleLabel.text = title
-		button.detailLabel.text = detail
+		button.accessibilityLabel = (value ?? "") + " " + (time ?? "") + " " + (context ?? "")
+		button.valueLabel.text = value
+		button.timeLabel.text = time
+		button.contextLabel.text = context ?? " "
 		return button
 	}
 
 	@discardableResult
-	func insertItem(withTitle title: String?, detail: String?, at index: Int, animated: Bool, canDelete: Bool) -> GeneralizedLogItem {
-		let button = makeItem(withTitle: title, detail: detail, canDelete: canDelete)
+	func insertItem(value: String?, time: String?, context: String?, at index: Int, animated: Bool, canDelete: Bool) -> GeneralizedLogItem {
+		let button = makeItem(value: value, time: time, context: context, canDelete: canDelete)
 		logItemsStackView.insertArrangedSubview(button, at: index, animated: animated)
 		headerView.shadowView.isHidden = false
 		return button
 	}
 
 	@discardableResult
-	func appendItem(withTitle title: String?, detail: String?, animated: Bool, canDelete: Bool) -> GeneralizedLogItem {
-		let button = makeItem(withTitle: title, detail: detail, canDelete: canDelete)
+	func appendItem(value: String?, time: String?, context: String?, animated: Bool, canDelete: Bool) -> GeneralizedLogItem {
+		let button = makeItem(value: value, time: time, context: context, canDelete: canDelete)
 		logItemsStackView.addArrangedSubview(button, animated: animated)
 		headerView.shadowView.isHidden = false
 		return button
@@ -173,10 +175,10 @@ extension GeneralizedLogTaskView {
 			for (index, outcomeValue) in outcomeValues.enumerated() {
 				let date = outcomeValue.createdDate
 				let dateString = ScheduleUtility.timeFormatter.string(from: date)
-				let title = outcomeValue.insulinLogItem
+				let context = outcomeValue.insulinReason
 				_ = index < items.count ?
-					updateItem(at: index, withTitle: dateString, detail: title) :
-					appendItem(withTitle: dateString, detail: title, animated: animated, canDelete: false)
+					updateItem(at: index, value: outcomeValue.formattedValue, time: dateString, context: context) :
+					appendItem(value: outcomeValue.formattedValue, time: dateString, context: context, animated: animated, canDelete: false)
 			}
 		}
 		trimItems(given: outcomeValues, animated: animated)
@@ -200,16 +202,16 @@ extension GeneralizedLogTaskView {
 			for (index, outcomeValue) in outcomeValues.enumerated() {
 				let date = outcomeValue.createdDate
 				let dateString = ScheduleUtility.timeFormatter.string(from: date)
-				var title: String?
+				var context: String?
 				if linkage?.quantityIdentifier == .insulinDelivery {
-					title = outcomeValue.insulinLogItem
+					context = outcomeValue.insulinReason
 				} else if linkage?.quantityIdentifier == .bloodGlucose {
-					title = outcomeValue.bloodGlucoseItem
-				} else {
-					title = outcomeValue.valueItem
+					context = outcomeValue.bloodGlucoseMealTime
 				}
-				_ = index < items.count ? updateItem(at: index, withTitle: dateString, detail: title) :
-					appendItem(withTitle: dateString, detail: title, animated: animated, canDelete: canDelete)
+
+				_ = index < items.count ?
+					updateItem(at: index, value: outcomeValue.formattedValue, time: dateString, context: context) :
+					appendItem(value: outcomeValue.formattedValue, time: dateString, context: context, animated: animated, canDelete: canDelete)
 			}
 		}
 		trimItems(given: outcomeValues, animated: animated)

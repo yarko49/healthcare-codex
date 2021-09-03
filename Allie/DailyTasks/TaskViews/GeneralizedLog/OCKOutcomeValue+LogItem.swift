@@ -10,23 +10,25 @@ import Foundation
 import HealthKit
 
 extension OCKOutcomeValue {
-	var insulinLogItem: String? {
-		let kind = HKInsulinDeliveryReason(kind: self.kind ?? "")
-		let value = doubleValue ?? 0.0
-		let title = "\(kind?.title ?? "") \(value) " + (units ?? "")
-		return title
+	var formattedValue: String? {
+		if let integerValue = integerValue {
+			return "\(integerValue) " + (units ?? "")
+		} else if let doubleValue = doubleValue {
+			return "\(doubleValue) " + (units ?? "")
+		} else {
+			return nil
+		}
 	}
 
-	var bloodGlucoseItem: String? {
+	var insulinReason: String? {
+		HKInsulinDeliveryReason(kind: kind ?? "")?.title
+	}
+
+	var bloodGlucoseMealTime: String? {
 		let mealTime = CHBloodGlucoseMealTime(kind: kind ?? "")
-		let value = integerValue ?? 0
-		let title = "\(mealTime?.title ?? "") \(value) " + (units ?? "")
-		return title
-	}
-
-	var valueItem: String? {
-		let value = integerValue ?? Int(doubleValue ?? 0)
-		let title = "\(value) " + (units ?? "")
-		return title
+		if mealTime == .undefined {
+			return nil
+		}
+		return mealTime?.title
 	}
 }

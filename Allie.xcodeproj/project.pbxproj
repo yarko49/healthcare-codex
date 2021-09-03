@@ -109,6 +109,9 @@
 		8439C79725FB3650008C5940 /* CodeableConcept+Supported.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439C79625FB3650008C5940 /* CodeableConcept+Supported.swift */; };
 		8439C79C25FB41B7008C5940 /* ObservationComponent+HKQuantitySample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439C79B25FB41B7008C5940 /* ObservationComponent+HKQuantitySample.swift */; };
 		8439C7AA25FB46AF008C5940 /* Device+HKObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439C7A925FB46AF008C5940 /* Device+HKObject.swift */; };
+		8442D31B26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8442D31A26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift */; };
+		8442D31C26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8442D31A26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift */; };
+		8442D31D26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8442D31A26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift */; };
 		84436275264B527B002B475C /* FirebaseInstallations in Frameworks */ = {isa = PBXBuildFile; productRef = 84436274264B527B002B475C /* FirebaseInstallations */; };
 		84436277264B527B002B475C /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 84436276264B527B002B475C /* FirebaseAnalytics */; };
 		84436279264B527B002B475C /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 84436278264B527B002B475C /* FirebaseCrashlytics */; };
@@ -1011,6 +1014,7 @@
 		8439C79625FB3650008C5940 /* CodeableConcept+Supported.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodeableConcept+Supported.swift"; sourceTree = "<group>"; };
 		8439C79B25FB41B7008C5940 /* ObservationComponent+HKQuantitySample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObservationComponent+HKQuantitySample.swift"; sourceTree = "<group>"; };
 		8439C7A925FB46AF008C5940 /* Device+HKObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device+HKObject.swift"; sourceTree = "<group>"; };
+		8442D31A26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKBloodGlucoseMealTime+Kind.swift"; sourceTree = "<group>"; };
 		8446E18C26DF2943001E52BF /* WebAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAuthenticationViewController.swift; sourceTree = "<group>"; };
 		84476615259C29FA00C50C09 /* Allie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Allie.entitlements; path = Allie/Allie.entitlements; sourceTree = "<group>"; };
 		84476619259C2A1F00C50C09 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -1815,6 +1819,7 @@
 				845F189E26324AB1005A601A /* CHSourceRevision.swift */,
 				845F18A026327E23005A601A /* CHSourceRevision+HKSourceRevision.swift */,
 				8497045A26B122B1006E2D51 /* CHBloodGlucoseMealTime.swift */,
+				8442D31A26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1903,9 +1908,9 @@
 				84476720259C2A4E00C50C09 /* APIClient.swift */,
 				84344D42266B378D00DD4A7A /* APIClient+Auth.swift */,
 				84476721259C2A4E00C50C09 /* APIClient+Image.swift */,
-				84A9D89B26AA96BB001E83B2 /* Request+Codex.swift */,
 				84A9D89726AA9589001E83B2 /* WebService+Codex.swift */,
 				84A9D89326AA945F001E83B2 /* WebService+Image.swift */,
+				84A9D89B26AA96BB001E83B2 /* Request+Codex.swift */,
 				8449A662267C5E5400F73D8E /* Model */,
 			);
 			path = API;
@@ -2759,6 +2764,7 @@
 				84897F7B25E0DFDD00ABC715 /* CHOutcomeValue.swift in Sources */,
 				844CB3C5268AE8FE007F05A4 /* ConversationListViewController.swift in Sources */,
 				844F218526B1135E00788DA9 /* BGMDataFlags.swift in Sources */,
+				8442D31B26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift in Sources */,
 				84F47F6526412CAB009CC791 /* JSONDecoder+iso8601.swift in Sources */,
 				84AF4CF326CA0DB800867349 /* Injected.swift in Sources */,
 				84A9D89426AA945F001E83B2 /* WebService+Image.swift in Sources */,
@@ -3059,6 +3065,7 @@
 				847DCC16265871F3004E9C1D /* JSONDecoder+iso8601.swift in Sources */,
 				844CB3C7268AE8FE007F05A4 /* ConversationListViewController.swift in Sources */,
 				844F218726B1135E00788DA9 /* BGMDataFlags.swift in Sources */,
+				8442D31D26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift in Sources */,
 				847DCC17265871F3004E9C1D /* CHAnyPrimitiveValue.swift in Sources */,
 				84AF4CF526CA0DB800867349 /* Injected.swift in Sources */,
 				84A9D89626AA945F001E83B2 /* WebService+Image.swift in Sources */,
@@ -3325,6 +3332,7 @@
 				84F47F6626412E04009CC791 /* JSONDecoder+iso8601.swift in Sources */,
 				844CB3C6268AE8FE007F05A4 /* ConversationListViewController.swift in Sources */,
 				844F218626B1135E00788DA9 /* BGMDataFlags.swift in Sources */,
+				8442D31C26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift in Sources */,
 				84D12247264112DE00990196 /* CHAnyPrimitiveValue.swift in Sources */,
 				84AF4CF426CA0DB800867349 /* Injected.swift in Sources */,
 				84A9D89526AA945F001E83B2 /* WebService+Image.swift in Sources */,
@@ -3909,7 +3917,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.6;
+				MARKETING_VERSION = 0.9.7;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3938,7 +3946,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.6;
+				MARKETING_VERSION = 0.9.7;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
