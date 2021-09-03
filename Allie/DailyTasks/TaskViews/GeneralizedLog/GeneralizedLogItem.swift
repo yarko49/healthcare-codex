@@ -23,12 +23,17 @@ class GeneralizedLogItem: OCKAnimatedButton<OCKStackView> {
 		return imageView
 	}()
 
-	public let titleLabel: OCKLabel = {
+	public let valueLabel: OCKLabel = {
 		let label = OCKLabel(textStyle: .caption1, weight: .regular)
 		return label
 	}()
 
-	public let detailLabel: OCKLabel = {
+	public let timeLabel: OCKLabel = {
+		let label = OCKLabel(textStyle: .caption1, weight: .regular)
+		return label
+	}()
+
+	public let contextLabel: OCKLabel = {
 		let label = OCKLabel(textStyle: .caption1, weight: .regular)
 		return label
 	}()
@@ -39,6 +44,7 @@ class GeneralizedLogItem: OCKAnimatedButton<OCKStackView> {
 		stackView.axis = .horizontal
 		stackView.alignment = .center
 		stackView.distribution = .fill
+		stackView.spacing = 4.0
 		return stackView
 	}()
 
@@ -68,26 +74,27 @@ class GeneralizedLogItem: OCKAnimatedButton<OCKStackView> {
 
 	private func addSubviews() {
 		addSubview(contentStackView)
-		[detailLabel, titleLabel, imageView].forEach { contentStackView.addArrangedSubview($0) }
+		[valueLabel, timeLabel, contextLabel, imageView].forEach { contentStackView.addArrangedSubview($0) }
 	}
 
 	private func constrainSubviews() {
 		[contentStackView].forEach { $0?.translatesAutoresizingMaskIntoConstraints = false }
-		detailLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-		imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+		valueLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+		timeLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+		// imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 		NSLayoutConstraint.activate(contentStackView.constraints(equalTo: self, directions: [.horizontal]) +
 			contentStackView.constraints(equalTo: layoutMarginsGuide, directions: [.vertical]))
 	}
 
 	private func applyTintColor() {
-		detailLabel.textColor = tintColor
+		contextLabel.textColor = tintColor
 	}
 
 	override open func styleDidChange() {
 		super.styleDidChange()
 		let style = self.style()
-		titleLabel.textColor = style.color.label
-		contentStackView.setCustomSpacing(style.dimension.directionalInsets1.top, after: detailLabel)
+		timeLabel.textColor = style.color.label
+		contentStackView.setCustomSpacing(style.dimension.directionalInsets1.top, after: contextLabel)
 		directionalLayoutMargins = style.dimension.directionalInsets1
 	}
 

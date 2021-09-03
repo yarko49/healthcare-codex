@@ -27,7 +27,7 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 	public var effectiveDate: Date
 	public var updatedDate: Date?
 	public let taskOccurrenceIndex: Int
-	public let values: [CHOutcomeValue]
+	public var values: [CHOutcomeValue]
 	public var startDate: Date?
 	public var endDate: Date?
 	public var device: CHDevice?
