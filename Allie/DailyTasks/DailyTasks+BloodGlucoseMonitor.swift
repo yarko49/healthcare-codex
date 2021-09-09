@@ -10,11 +10,8 @@ import UIKit
 
 extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 	func startBluetooth() {
-		healthKitManager.findSequenceNumber()
-			.sink { [weak self] _ in
-				self?.bloodGlucoseMonitor.delegate = self
-				self?.bloodGlucoseMonitor.startMonitoring()
-			}.store(in: &cancellables)
+		bloodGlucoseMonitor.delegate = self
+		bloodGlucoseMonitor.startMonitoring()
 	}
 
 	func bluetoothManager(_ manager: BGMBluetoothManager, didUpdate state: CBManagerState) {
@@ -44,12 +41,15 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, readyWith characteristic: CBCharacteristic) {
 		manager.racpCharacteristic = characteristic
 		if let glucometer = manager.pairedPeripheral, let racp = manager.racpCharacteristic {
-			let sequenceNumber = healthKitManager.lastBGMSequenceNumber
-			var command = GATTCommand.allRecords
-			if sequenceNumber > 0 {
-				command = GATTCommand.recordStart(sequenceNumber: sequenceNumber)
-			}
-			bloodGlucoseMonitor.writeMessage(peripheral: glucometer, characteristic: racp, message: command)
+			let identifier = glucometer.identifier.uuidString
+			healthKitManager.findSequenceNumber(deviceId: identifier)
+				.sink { [weak self] sequenceNumber in
+					var command = GATTCommand.allRecords
+					if sequenceNumber > 0 {
+						command = GATTCommand.recordStart(sequenceNumber: sequenceNumber)
+					}
+					self?.bloodGlucoseMonitor.writeMessage(peripheral: glucometer, characteristic: racp, message: command)
+				}.store(in: &cancellables)
 		}
 	}
 

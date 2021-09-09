@@ -14,6 +14,12 @@ extension CHDevice {
 			return nil
 		}
 
-		self.init(name: device.name, model: nil, udiDeviceIdentifier: nil, firmwareVersion: nil, hardwareVersion: nil, localIdentifier: device.identifier.uuidString, manufacturer: nil, softwareVersion: nil)
+		self.init(name: device.name, manufacturer: nil, model: nil, udiDeviceIdentifier: nil, firmwareVersion: nil, hardwareVersion: nil, localIdentifier: device.identifier.uuidString, softwareVersion: nil)
+	}
+}
+
+extension CHDevice {
+	static var contourNextOne: CHDevice {
+		self.init(name: "CONTOUR™", manufacturer: "Ascensia Diabetes Care", model: "NEXT ONE(US)", udiDeviceIdentifier: nil, firmwareVersion: nil, hardwareVersion: nil, localIdentifier: nil, softwareVersion: nil)
 	}
 }

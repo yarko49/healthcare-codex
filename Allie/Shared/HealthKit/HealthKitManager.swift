@@ -25,7 +25,6 @@ class HealthKitManager {
 
 	@Injected(\.careManager) var careManager: CareManager
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
-	var lastBGMSequenceNumber: Int = 0
 	private var cancellables: Set<AnyCancellable> = []
 
 	typealias SampleCompletion = (Result<[HKSample], Error>) -> Void

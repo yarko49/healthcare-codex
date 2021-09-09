@@ -635,6 +635,12 @@
 		84AF4CFF26CA178600867349 /* HealthKitManager+Injectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF4CFE26CA178600867349 /* HealthKitManager+Injectable.swift */; };
 		84AF4D0026CA178600867349 /* HealthKitManager+Injectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF4CFE26CA178600867349 /* HealthKitManager+Injectable.swift */; };
 		84AF4D0126CA178600867349 /* HealthKitManager+Injectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF4CFE26CA178600867349 /* HealthKitManager+Injectable.swift */; };
+		84B08C0926E884EE00F0FE73 /* CHProvenance+CBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B08C0826E884EE00F0FE73 /* CHProvenance+CBPeripheral.swift */; };
+		84B08C0A26E884EE00F0FE73 /* CHProvenance+CBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B08C0826E884EE00F0FE73 /* CHProvenance+CBPeripheral.swift */; };
+		84B08C0B26E884EE00F0FE73 /* CHProvenance+CBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B08C0826E884EE00F0FE73 /* CHProvenance+CBPeripheral.swift */; };
+		84B22F1826E48CDC0070981C /* CHProvenance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B22F1726E48CDC0070981C /* CHProvenance.swift */; };
+		84B22F1926E48CDC0070981C /* CHProvenance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B22F1726E48CDC0070981C /* CHProvenance.swift */; };
+		84B22F1A26E48CDC0070981C /* CHProvenance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B22F1726E48CDC0070981C /* CHProvenance.swift */; };
 		84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */; };
 		84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */; };
 		84C071F725E31FC20098B508 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C071F625E31FC20098B508 /* AnalyticsManager.swift */; };
@@ -1206,6 +1212,8 @@
 		84AF4CF626CA0E6200867349 /* APIClient+Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIClient+Injectable.swift"; sourceTree = "<group>"; };
 		84AF4CFA26CA104D00867349 /* CareManager+Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+Injectable.swift"; sourceTree = "<group>"; };
 		84AF4CFE26CA178600867349 /* HealthKitManager+Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+Injectable.swift"; sourceTree = "<group>"; };
+		84B08C0826E884EE00F0FE73 /* CHProvenance+CBPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHProvenance+CBPeripheral.swift"; sourceTree = "<group>"; };
+		84B22F1726E48CDC0070981C /* CHProvenance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHProvenance.swift; sourceTree = "<group>"; };
 		84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
 		84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersonNameComponents+ResourceName.swift"; sourceTree = "<group>"; };
 		84C071F625E31FC20098B508 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
@@ -1817,6 +1825,7 @@
 				845F18982632444F005A601A /* CHDevice.swift */,
 				845F189A263245A4005A601A /* CHDevice+HKDevice.swift */,
 				845F189E26324AB1005A601A /* CHSourceRevision.swift */,
+				84B22F1726E48CDC0070981C /* CHProvenance.swift */,
 				845F18A026327E23005A601A /* CHSourceRevision+HKSourceRevision.swift */,
 				8497045A26B122B1006E2D51 /* CHBloodGlucoseMealTime.swift */,
 				8442D31A26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift */,
@@ -2094,6 +2103,7 @@
 				8460E9F826D8839100041126 /* GATTCommand.swift */,
 				847E8A1F26CB13D5006D8820 /* HKDevice+CBPeripheral.swift */,
 				84037C1726CB5B6200C87189 /* CHDevice+CBPeripheral.swift */,
+				84B08C0826E884EE00F0FE73 /* CHProvenance+CBPeripheral.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2839,6 +2849,7 @@
 				84D84AE326994B0E007BE781 /* EntryTaskSectionFooterView.swift in Sources */,
 				84C5180225B7EC5C00D684E5 /* SignupViewController.swift in Sources */,
 				844767ED259C2A4E00C50C09 /* APIRouter.swift in Sources */,
+				84B22F1826E48CDC0070981C /* CHProvenance.swift in Sources */,
 				8447672A259C2A4E00C50C09 /* BalloonMarker.swift in Sources */,
 				8487481E25B3B3D5008C15E2 /* LogginCrashlytics.swift in Sources */,
 				845B4537269B9A0000EC5211 /* HKQuantityTypeIdentifier+Linkage.swift in Sources */,
@@ -2951,6 +2962,7 @@
 				841A77322652348C000913A9 /* OutcomesUploadOperation.swift in Sources */,
 				84E4661025A0453C00A10F8B /* ViewNIBLoading.swift in Sources */,
 				8449F47026D5EB5E009B5F7A /* ConnectedDeviceTableViewCell.swift in Sources */,
+				84B08C0926E884EE00F0FE73 /* CHProvenance+CBPeripheral.swift in Sources */,
 				844767DF259C2A4E00C50C09 /* AppCoordinator.swift in Sources */,
 				845F18992632444F005A601A /* CHDevice.swift in Sources */,
 				84A8F4F826B754FE00A62818 /* ReadWriteLock.swift in Sources */,
@@ -3140,6 +3152,7 @@
 				8439776826BBB6D3002A932E /* CHLink.swift in Sources */,
 				84D84AE526994B0E007BE781 /* EntryTaskSectionFooterView.swift in Sources */,
 				847DCC44265871F3004E9C1D /* BalloonMarker.swift in Sources */,
+				84B22F1A26E48CDC0070981C /* CHProvenance.swift in Sources */,
 				847DCC45265871F3004E9C1D /* LogginCrashlytics.swift in Sources */,
 				847DCC46265871F3004E9C1D /* TodayStatCell.swift in Sources */,
 				847DCC47265871F3004E9C1D /* NavigationSourceType.swift in Sources */,
@@ -3252,6 +3265,7 @@
 				847DCC9E265871F3004E9C1D /* CHDevice.swift in Sources */,
 				84703C5C265B4B510025A50D /* AuthenticationToken.swift in Sources */,
 				8449F47226D5EB5E009B5F7A /* ConnectedDeviceTableViewCell.swift in Sources */,
+				84B08C0B26E884EE00F0FE73 /* CHProvenance+CBPeripheral.swift in Sources */,
 				84261680269A70DD006BD8B0 /* GeneralizedLogTaskController.swift in Sources */,
 				84A8F4FA26B754FE00A62818 /* ReadWriteLock.swift in Sources */,
 				845B4545269BA17B00EC5211 /* OCKOutcomeValue+LogItem.swift in Sources */,
@@ -3407,6 +3421,7 @@
 				8439776726BBB6D3002A932E /* CHLink.swift in Sources */,
 				84D84AE426994B0E007BE781 /* EntryTaskSectionFooterView.swift in Sources */,
 				84D12270264112DE00990196 /* BalloonMarker.swift in Sources */,
+				84B22F1926E48CDC0070981C /* CHProvenance.swift in Sources */,
 				84D12271264112DE00990196 /* LogginCrashlytics.swift in Sources */,
 				84D12273264112DE00990196 /* TodayStatCell.swift in Sources */,
 				84D12274264112DE00990196 /* NavigationSourceType.swift in Sources */,
@@ -3519,6 +3534,7 @@
 				84D122C9264112DE00990196 /* CHDevice.swift in Sources */,
 				84703C5B265B4B510025A50D /* AuthenticationToken.swift in Sources */,
 				8449F47126D5EB5E009B5F7A /* ConnectedDeviceTableViewCell.swift in Sources */,
+				84B08C0A26E884EE00F0FE73 /* CHProvenance+CBPeripheral.swift in Sources */,
 				8426167F269A70DD006BD8B0 /* GeneralizedLogTaskController.swift in Sources */,
 				84A8F4F926B754FE00A62818 /* ReadWriteLock.swift in Sources */,
 				845B4544269BA17B00EC5211 /* OCKOutcomeValue+LogItem.swift in Sources */,
@@ -3917,7 +3933,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.7;
+				MARKETING_VERSION = 0.9.8;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3946,7 +3962,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.7;
+				MARKETING_VERSION = 0.9.8;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -32,6 +32,7 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 	public var endDate: Date?
 	public var device: CHDevice?
 	public var sourceRevision: CHSourceRevision?
+	public var provenance: CHProvenance?
 	public var isBluetoothCollected: Bool
 
 	private enum CodingKeys: String, CodingKey {
@@ -57,7 +58,7 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 		case endDate
 		case device
 		case sourceRevision
-		case sampleSource
+		case provenance
 		case isBluetoothCollected = "bluetoothCollected"
 	}
 
@@ -101,6 +102,7 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 		self.device = try container.decodeIfPresent(CHDevice.self, forKey: .device)
 		self.sourceRevision = try container.decodeIfPresent(CHSourceRevision.self, forKey: .sourceRevision)
 		self.isBluetoothCollected = try container.decodeIfPresent(Bool.self, forKey: .isBluetoothCollected) ?? false
+		self.provenance = try container.decodeIfPresent(CHProvenance.self, forKey: .provenance)
 	}
 
 	public func encode(to encoder: Encoder) throws {
@@ -128,5 +130,6 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 		try container.encodeIfPresent(device, forKey: .device)
 		try container.encodeIfPresent(sourceRevision, forKey: .sourceRevision)
 		try container.encode(isBluetoothCollected, forKey: .isBluetoothCollected)
+		try container.encodeIfPresent(provenance, forKey: .provenance)
 	}
 }
