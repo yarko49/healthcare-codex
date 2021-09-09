@@ -9,12 +9,12 @@ import Foundation
 
 public struct CHDevice: Codable {
 	public var name: String?
+	public var manufacturer: String?
 	public var model: String?
 	public var udiDeviceIdentifier: String?
 	public var firmwareVersion: String?
 	public var hardwareVersion: String?
 	public var localIdentifier: String?
-	public var manufacturer: String?
 	public var softwareVersion: String?
 }
 

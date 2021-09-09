@@ -190,13 +190,15 @@ class SelectProviderViewController: UICollectionViewController {
 				if animated {
 					self?.hud.dismiss()
 				}
-			} receiveValue: { [weak self] _ in
+			} receiveValue: { [weak self] success in
 				guard let strongSelf = self else {
 					return
 				}
-				let updateOrganizations = CHOrganizations(available: strongSelf.organizations.available, registered: [organization])
-				strongSelf.process(organizations: updateOrganizations)
-				NotificationCenter.default.post(name: .didRegisterOrganization, object: nil, userInfo: nil)
+				if success {
+					let updateOrganizations = CHOrganizations(available: strongSelf.organizations.available, registered: [organization])
+					strongSelf.process(organizations: updateOrganizations)
+					NotificationCenter.default.post(name: .didRegisterOrganization, object: nil, userInfo: nil)
+				}
 			}.store(in: &cancellables)
 	}
 
@@ -247,6 +249,6 @@ extension SelectProviderViewController: WebAuthenticationViewControllerDelegate 
 		if let state = state {
 			updatedOrganization.state = state
 		}
-		register(organization: organization)
+		register(organization: updatedOrganization)
 	}
 }

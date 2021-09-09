@@ -17,7 +17,7 @@ extension CHOutcome {
 		var values: [CHOutcomeValue] = []
 		if let cumulative = sample as? HKCumulativeQuantitySample {
 			if var value = CHOutcomeValue(quantity: cumulative.sumQuantity, linkage: linkage) {
-				value.kind = kind(metadata: cumulative.metadata, linkage: linkage) ?? cumulative.quantityType.identifier
+				value.kind = cumulative.kind(linkage: linkage) ?? cumulative.quantityType.identifier
 				value.createdDate = cumulative.startDate
 				values.append(value)
 			}
@@ -25,7 +25,7 @@ extension CHOutcome {
 			let quantity = discreet.mostRecentQuantity
 			if var value = CHOutcomeValue(quantity: quantity, linkage: linkage) {
 				value.index = 0
-				value.kind = kind(metadata: discreet.metadata, linkage: linkage) ?? discreet.quantityType.identifier
+				value.kind = discreet.kind(linkage: linkage) ?? discreet.quantityType.identifier
 				value.createdDate = discreet.startDate
 				values.append(value)
 			}
@@ -60,12 +60,16 @@ extension CHOutcome {
 		if let hkDevice = sample.device {
 			device = CHDevice(device: hkDevice)
 		}
-
 		var metadata = sample.metadata
 		if let userEntered = metadata?[HKMetadataKeyWasUserEntered] as? Bool {
 			self.isBluetoothCollected = !userEntered
 			metadata?.removeValue(forKey: HKMetadataKeyWasUserEntered)
 		}
+		self.provenance = sample.provenance
+		[BGMMetadataKeyDeviceId, BGMMetadataKeyDeviceName, BGMMetadataKeySequenceNumber, BGMMetadataKeyMeasurementRecord, BGMMetadataKeyContextRecord, BGMMetadataKeyBloodSampleType, BGMMetadataKeySampleLocation].forEach { key in
+			metadata?.removeValue(forKey: key)
+		}
+
 		sourceRevision = CHSourceRevision(sourceRevision: sample.sourceRevision)
 		userInfo = metadata?.compactMapValues { anyValue in
 			if let value = anyValue as? String {
@@ -85,22 +89,45 @@ extension CHOutcome {
 		userInfo?[HKMetadataKeyTimeZone] = TimeZone.current.identifier
 		self.timezone = .current
 	}
+}
 
-	func kind(metadata: [String: Any]?, linkage: OCKHealthKitLinkage) -> String? {
+extension HKSample {
+	func kind(linkage: OCKHealthKitLinkage) -> String? {
+		guard let metadata = metadata else {
+			return nil
+		}
 		var kind: String?
 
 		if linkage.quantityIdentifier == .insulinDelivery {
-			if let insulinReasonValue = metadata?[HKMetadataKeyInsulinDeliveryReason] as? Int, let insulinReason = HKInsulinDeliveryReason(rawValue: insulinReasonValue) {
+			if let insulinReasonValue = metadata[HKMetadataKeyInsulinDeliveryReason] as? Int, let insulinReason = HKInsulinDeliveryReason(rawValue: insulinReasonValue) {
 				kind = insulinReason.kind
 			}
 		} else if linkage.quantityIdentifier == .bloodGlucose {
-			if let mealTimeValue = metadata?[CHMetadataKeyBloodGlucoseMealTime] as? Int, let mealTime = CHBloodGlucoseMealTime(rawValue: mealTimeValue) {
+			if let mealTimeValue = metadata[CHMetadataKeyBloodGlucoseMealTime] as? Int, let mealTime = CHBloodGlucoseMealTime(rawValue: mealTimeValue) {
 				kind = mealTime.kind
-			} else if let mealTimeValue = metadata?[HKMetadataKeyBloodGlucoseMealTime] as? Int, let mealTime = HKBloodGlucoseMealTime(rawValue: mealTimeValue) {
+			} else if let mealTimeValue = metadata[HKMetadataKeyBloodGlucoseMealTime] as? Int, let mealTime = HKBloodGlucoseMealTime(rawValue: mealTimeValue) {
 				kind = mealTime.kind
 			}
 		}
 
 		return kind
+	}
+
+	var provenance: CHProvenance? {
+		guard let metadata = metadata else {
+			return nil
+		}
+		guard let identifier = metadata[BGMMetadataKeyDeviceId] as? String else {
+			return nil
+		}
+		var provenance = CHProvenance(id: identifier, type: "bgm", name: nil, address: nil, sequenceNumber: nil, recordData: nil, contextData: nil, sampleType: nil, sampleLocation: nil)
+		provenance.name = metadata[BGMMetadataKeyDeviceName] as? String
+		provenance.sequenceNumber = metadata[BGMMetadataKeySequenceNumber] as? Int
+		provenance.recordData = metadata[BGMMetadataKeyMeasurementRecord] as? String
+		provenance.contextData = metadata[BGMMetadataKeyContextRecord] as? String
+		provenance.sampleType = metadata[BGMMetadataKeyBloodSampleType] as? String
+		provenance.sampleLocation = metadata[BGMMetadataKeySampleLocation] as? String
+
+		return provenance
 	}
 }

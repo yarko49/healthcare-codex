@@ -10,7 +10,7 @@ import Foundation
 import HealthKit
 
 let BGMMetadataKeySequenceNumber = "BGMSequenceNumber"
-let BGMMetadataKeyBloodType = "BGMBloodSampleType"
+let BGMMetadataKeyBloodSampleType = "BGMBloodSampleType"
 let BGMMetadataKeySampleLocation = "BGMSampleLocation"
 let BGMMetadataKeyDeviceName = "BGMDeviceName"
 let BGMMetadataKeyDeviceId = "BGMDeviceId"
@@ -21,7 +21,7 @@ extension BGMDataRecord {
 	var metadata: [String: Any] {
 		var metadata: [String: Any] = [HKMetadataKeyTimeZone: timeZone.identifier,
 		                               BGMMetadataKeySequenceNumber: NSNumber(value: sequence),
-		                               BGMMetadataKeyBloodType: sampleType,
+		                               BGMMetadataKeyBloodSampleType: sampleType,
 		                               BGMMetadataKeySampleLocation: sampleLocation,
 		                               HKMetadataKeyWasUserEntered: NSNumber(value: false)]
 
@@ -67,9 +67,6 @@ extension HealthKitManager {
 			}.sorted { lhs, rhs in
 				lhs.endDate < rhs.endDate
 			}
-			if let sequence = samples.first?.metadata?[BGMMetadataKeySequenceNumber] as? NSNumber {
-				self?.lastBGMSequenceNumber = sequence.intValue
-			}
 			promise(.success(true))
 			self?.healthStore.save(samples, withCompletion: { result, error in
 				if let error = error {
@@ -81,9 +78,9 @@ extension HealthKitManager {
 		}.eraseToAnyPublisher()
 	}
 
-	func findSequenceNumber() -> AnyPublisher<Int, Never> {
+	func findSequenceNumber(deviceId: String) -> AnyPublisher<Int, Never> {
 		Future { [weak self] promise in
-			self?.findSequenceNumber { result in
+			self?.findSequenceNumber(deviceId: deviceId) { result in
 				switch result {
 				case .failure(let error):
 					ALog.error("Sequence Number not found", error: error)
@@ -95,26 +92,32 @@ extension HealthKitManager {
 		}.eraseToAnyPublisher()
 	}
 
-	func findSequenceNumber(completion: @escaping AllieResultCompletion<Int>) {
+	func findSequenceNumber(deviceId: String, completion: @escaping AllieResultCompletion<Int>) {
 		let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false) // StartDate is date when record enetered not the date in the record itself
 		let identifier = HealthKitQuantityType.bloodGlucose.healthKitQuantityType!
-		let query = HKSampleQuery(sampleType: identifier, predicate: nil, limit: 10, sortDescriptors: [sortDescriptor]) { _, results, error in
+		let query = HKSampleQuery(sampleType: identifier, predicate: nil, limit: 20, sortDescriptors: [sortDescriptor]) { _, results, error in
 			if let error = error {
 				completion(.failure(error))
 				return
 			}
 
-			guard let result = results?.first as? HKQuantitySample else {
-				completion(.failure(HealthKitManagerError.dataTypeNotAvailable))
+			let sequenceNumber = results?.compactMap { sample -> Int? in
+				guard let metadata = sample.metadata else {
+					return nil
+				}
+
+				guard let sampleDeviceId = metadata[BGMMetadataKeyDeviceId] as? String, sampleDeviceId == deviceId else {
+					return nil
+				}
+
+				return metadata[BGMMetadataKeySequenceNumber] as? Int
+			}.max()
+
+			guard let sequenceNumber = sequenceNumber else {
+				completion(.failure(AllieError.missing("No Sequence numbers Found")))
 				return
 			}
-
-			guard let sequenceNumber = result.metadata?[BGMMetadataKeySequenceNumber] as? NSNumber else {
-				completion(.failure(HealthKitManagerError.dataTypeNotAvailable))
-				return
-			}
-
-			completion(.success(sequenceNumber.intValue))
+			completion(.success(sequenceNumber))
 		}
 		healthStore.execute(query)
 	}

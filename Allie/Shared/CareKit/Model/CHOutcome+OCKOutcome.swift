@@ -9,6 +9,14 @@ import CareKitStore
 import Foundation
 import HealthKit
 
+let CHOutcomeMetadataKeyCarePlanId = "carePlanId"
+let CHOutcomeMetadataKeyTaskId = "taskId"
+let CHOutcomeMetadataKeyDevice = "device"
+let CHOutcomeMetadataKeyProvenance = "provenance"
+let CHOutcomeMetadataKeySourceRevision = "sourceRevision"
+let CHOutcomeMetadataKeyStartDate = "startDate"
+let CHOutcomeMetadataKeyEndDate = "endDate"
+
 extension OCKOutcome: AnyUserInfoExtensible, AnyItemDeletable {
 	init(outcome: CHOutcome) {
 		let ockOutcomeValues = outcome.values.map { outcomeValue -> OCKOutcomeValue in
@@ -28,25 +36,30 @@ extension OCKOutcome: AnyUserInfoExtensible, AnyItemDeletable {
 		deletedDate = outcome.deletedDate
 		effectiveDate = outcome.effectiveDate
 		updatedDate = outcome.updatedDate
-		setUserInfo(string: outcome.carePlanID, forKey: "carePlanId")
-		setUserInfo(string: outcome.taskID, forKey: "taskId")
+		setUserInfo(string: outcome.carePlanID, forKey: CHOutcomeMetadataKeyCarePlanId)
+		setUserInfo(string: outcome.taskID, forKey: CHOutcomeMetadataKeyTaskId)
 		if let device = outcome.device, let data = try? JSONEncoder().encode(device) {
 			let deviceString = String(data: data, encoding: .utf8)
-			setUserInfo(string: deviceString, forKey: "device")
+			setUserInfo(string: deviceString, forKey: CHOutcomeMetadataKeyDevice)
+		}
+
+		if let provenance = outcome.provenance, let data = try? JSONEncoder().encode(provenance) {
+			let provenanceString = String(data: data, encoding: .utf8)
+			setUserInfo(string: provenanceString, forKey: CHOutcomeMetadataKeyProvenance)
 		}
 
 		if let sourceRevision = outcome.sourceRevision, let data = try? JSONEncoder().encode(sourceRevision) {
 			let sourceRevisionString = String(data: data, encoding: .utf8)
-			setUserInfo(string: sourceRevisionString, forKey: "sourceRevision")
+			setUserInfo(string: sourceRevisionString, forKey: CHOutcomeMetadataKeySourceRevision)
 		}
 		if let date = outcome.startDate {
 			let dateString = DateFormatter.wholeDateRequest.string(from: date)
-			setUserInfo(string: dateString, forKey: "startDate")
+			setUserInfo(string: dateString, forKey: CHOutcomeMetadataKeyStartDate)
 		}
 
 		if let date = outcome.endDate {
 			let dateString = DateFormatter.wholeDateRequest.string(from: date)
-			setUserInfo(string: dateString, forKey: "endDate")
+			setUserInfo(string: dateString, forKey: CHOutcomeMetadataKeyEndDate)
 		}
 
 		setUserInfo(string: String(!outcome.isBluetoothCollected), forKey: HKMetadataKeyWasUserEntered)
@@ -72,18 +85,24 @@ extension CHOutcome {
 		deletedDate = outcome.deletedDate
 		effectiveDate = outcome.effectiveDate
 		updatedDate = outcome.updatedDate
-		if let deviceString = outcome.userInfo?["device"], let data = deviceString.data(using: .utf8), let device = try? JSONDecoder().decode(CHDevice.self, from: data) {
+
+		if let deviceString = outcome.userInfo?[CHOutcomeMetadataKeyDevice], let data = deviceString.data(using: .utf8), let device = try? JSONDecoder().decode(CHDevice.self, from: data) {
 			self.device = device
 		}
-		if let sourceRevisionString = outcome.userInfo?["sourceRevision"], let data = sourceRevisionString.data(using: .utf8), let sourceRevision = try? JSONDecoder().decode(CHSourceRevision.self, from: data) {
+
+		if let provenanceString = outcome.userInfo?[CHOutcomeMetadataKeyProvenance], let data = provenanceString.data(using: .utf8), let provenance = try? JSONDecoder().decode(CHProvenance.self, from: data) {
+			self.provenance = provenance
+		}
+
+		if let sourceRevisionString = outcome.userInfo?[CHOutcomeMetadataKeySourceRevision], let data = sourceRevisionString.data(using: .utf8), let sourceRevision = try? JSONDecoder().decode(CHSourceRevision.self, from: data) {
 			self.sourceRevision = sourceRevision
 		}
 
-		if let dateString = outcome.userInfo?["startDate"] {
+		if let dateString = outcome.userInfo?[CHOutcomeMetadataKeyStartDate] {
 			self.startDate = DateFormatter.wholeDateRequest.date(from: dateString)
 		}
 
-		if let dateString = outcome.userInfo?["endDate"] {
+		if let dateString = outcome.userInfo?[CHOutcomeMetadataKeyEndDate] {
 			self.endDate = DateFormatter.wholeDateRequest.date(from: dateString)
 		}
 		if let userEnteredString = outcome.userInfo?[HKMetadataKeyWasUserEntered] {
