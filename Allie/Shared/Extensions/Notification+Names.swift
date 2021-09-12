@@ -11,8 +11,10 @@ extension Notification.Name {
 	static let patientDidSnychronize = Notification.Name("patientDidSnychronize")
 	static let applicationDidLogout = Notification.Name("applicationDidLogout")
 
-	static let didRegisterOrganization = NSNotification.Name("didRegisterOrganization")
-	static let didUnregisterOrganization = NSNotification.Name("didUnregisterOrganization")
+	static let didRegisterOrganization = Notification.Name("didRegisterOrganization")
+	static let didUnregisterOrganization = Notification.Name("didUnregisterOrganization")
 
-	static let didPairBloodGlucoseMonitor = NSNotification.Name("didPairBloodGlucoseMonitor")
+	static let didPairBloodGlucoseMonitor = Notification.Name("didPairBloodGlucoseMonitor")
+
+	static let didUpdateCarePlan = Notification.Name("didUpdateCarePlan")
 }

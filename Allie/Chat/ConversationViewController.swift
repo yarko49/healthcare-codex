@@ -82,6 +82,7 @@ class ConversationViewController: MessagesViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		UIApplication.shared.applicationIconBadgeNumber = 0
+		UserDefaults.standard.chatNotificationsCount = 0
 		AppDelegate.mainCoordinator?.updateBadges(count: nil)
 		messagesCollectionView.scrollToLastItem()
 	}

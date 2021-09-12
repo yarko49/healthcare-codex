@@ -61,6 +61,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 				ALog.error("Error refreshing token \(error.localizedDescription)")
 			}
 		})
+		mainCoordinator.updateBadges(count: UserDefaults.standard.chatNotificationsCount)
 	}
 
 	func sceneDidEnterBackground(_ scene: UIScene) {

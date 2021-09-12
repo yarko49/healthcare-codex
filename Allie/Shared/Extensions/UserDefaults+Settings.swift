@@ -44,6 +44,7 @@ extension UserDefaults {
 		static let lastObervationUploadDate = "lastObervationUploadDate"
 		static let bloodGlucoseMonitor = "bloodGlucoseMonitor"
 		static let bloodGlucoseMonitorLastSyncDate = "bloodGlucoseMonitorLastSyncDate"
+		static let chatNotificationsCount = "chatNotificationsCount"
 	}
 
 	static func registerDefautlts() {
@@ -198,6 +199,14 @@ extension UserDefaults {
 		}
 		set {
 			setValue(newValue, forKey: Keys.bloodGlucoseMonitorLastSyncDate)
+		}
+	}
+
+	var chatNotificationsCount: Int {
+		get {
+			integer(forKey: Keys.chatNotificationsCount)
+		} set {
+			setValue(newValue, forKey: Keys.chatNotificationsCount)
 		}
 	}
 

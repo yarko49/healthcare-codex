@@ -22,7 +22,8 @@ protocol AllieAPI {
 	func post(carePlanResponse: CHCarePlanResponse) -> AnyPublisher<UInt64, Error>
 	func post(bundle: ModelsR4.Bundle) -> AnyPublisher<ModelsR4.Bundle, Error>
 	func post(patient: CHPatient) -> AnyPublisher<CHCarePlanResponse, Error>
-	func getOutcomes(carePlanId: String, taskId: String, page: String) -> AnyPublisher<CHOutcomeResponse, Error>
+	func getOutcomes(carePlanId: String, taskId: String) -> AnyPublisher<CHOutcomeResponse, Error>
+	func getOutcomes(url: URL) -> AnyPublisher<CHOutcomeResponse, Error>
 	func post(outcomes: [CHOutcome]) -> AnyPublisher<CHCarePlanResponse, Error>
 	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> AnyPublisher<SignedURLResponse, Error>
 	func getData(url: URL) -> AnyPublisher<Data, Error>
@@ -133,8 +134,13 @@ public final class APIClient: AllieAPI {
 		webService.serializable(route: route)
 	}
 
-	func getOutcomes(carePlanId: String, taskId: String, page: String) -> AnyPublisher<CHOutcomeResponse, Error> {
+	func getOutcomes(carePlanId: String, taskId: String) -> AnyPublisher<CHOutcomeResponse, Error> {
 		webService.decodable(route: .getOutcomes(carePlanId: carePlanId, taskId: taskId))
+	}
+
+	func getOutcomes(url: URL) -> AnyPublisher<CHOutcomeResponse, Error> {
+		let request = Request(.GET, url: url)
+		return webService.decodable(request: request)
 	}
 
 	func post(outcomes: [CHOutcome]) -> AnyPublisher<CHCarePlanResponse, Error> {
