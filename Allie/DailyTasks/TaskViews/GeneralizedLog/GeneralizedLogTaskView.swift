@@ -198,7 +198,6 @@ extension GeneralizedLogTaskView {
 		if outcomeValues.isEmpty {
 			clearItems(animated: animated)
 		} else {
-			let canDelete = (outcome as? OCKHealthKitOutcome)?.isOwnedByApp ?? false
 			for (index, outcomeValue) in outcomeValues.enumerated() {
 				let date = outcomeValue.createdDate
 				let dateString = ScheduleUtility.timeFormatter.string(from: date)
@@ -208,10 +207,9 @@ extension GeneralizedLogTaskView {
 				} else if linkage?.quantityIdentifier == .bloodGlucose {
 					context = outcomeValue.bloodGlucoseMealTime
 				}
-
 				_ = index < items.count ?
 					updateItem(at: index, value: outcomeValue.formattedValue, time: dateString, context: context) :
-					appendItem(value: outcomeValue.formattedValue, time: dateString, context: context, animated: animated, canDelete: canDelete)
+					appendItem(value: outcomeValue.formattedValue, time: dateString, context: context, animated: animated, canDelete: outcomeValue.wasUserEntered)
 			}
 		}
 		trimItems(given: outcomeValues, animated: animated)
@@ -254,7 +252,7 @@ extension EntryTaskSectionHeaderView {
 		}
 
 		textLabel.text = event.task.title
-		detailTextLabel.text = ScheduleUtility.scheduleLabel(for: event)
+		detailTextLabel.text = event.task.instructions ?? ScheduleUtility.scheduleLabel(for: event)
 		let quantityIdentifier = (event.task as? OCKHealthKitTask)?.healthKitLinkage.quantityIdentifier
 		if let dataType = quantityIdentifier?.dataType {
 			imageView.image = dataType.image
@@ -270,7 +268,7 @@ extension EntryTaskSectionHeaderView {
 
 		let task = events.first!.task
 		textLabel.text = task.title
-		detailTextLabel.text = ScheduleUtility.scheduleLabel(for: events)
+		detailTextLabel.text = task.instructions ?? ScheduleUtility.scheduleLabel(for: events)
 		if let dataType = (task as? OCKHealthKitTask)?.healthKitLinkage.quantityIdentifier.dataType {
 			imageView.image = dataType.image
 		}

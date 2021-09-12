@@ -21,6 +21,7 @@ extension HKSample {
 				} else if let mealTimeValue = metadata?[CHMetadataKeyBloodGlucoseMealTime] as? Int ?? metadata?[HKMetadataKeyBloodGlucoseMealTime] as? Int, let mealTime = CHBloodGlucoseMealTime(rawValue: mealTimeValue) {
 					value.kind = mealTime.kind
 				}
+				value.wasUserEntered = (cumulative.metadata?[HKMetadataKeyWasUserEntered] as? Bool) ?? false
 				value.createdDate = cumulative.startDate
 				values.append(value)
 			}
@@ -33,6 +34,7 @@ extension HKSample {
 				} else if let mealTimeValue = metadata?[CHMetadataKeyBloodGlucoseMealTime] as? Int ?? metadata?[HKMetadataKeyBloodGlucoseMealTime] as? Int, let mealTime = CHBloodGlucoseMealTime(rawValue: mealTimeValue) {
 					value.kind = mealTime.kind
 				}
+				value.wasUserEntered = (discreet.metadata?[HKMetadataKeyWasUserEntered] as? Bool) ?? false
 				value.createdDate = discreet.startDate
 				values.append(value)
 			}
@@ -45,6 +47,7 @@ extension HKSample {
 				if var value = OCKOutcomeValue(quantity: quantity, linkage: linkage) {
 					value.kind = sample.quantityType.identifier
 					value.createdDate = sample.startDate
+					value.wasUserEntered = (sample.metadata?[HKMetadataKeyWasUserEntered] as? Bool) ?? false
 					values.append(value)
 				}
 			}

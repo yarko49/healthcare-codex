@@ -159,13 +159,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		completionHandler(UIBackgroundFetchResult.newData)
 	}
 
-	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-		process(notificationRequest: response.notification.request)
-		completionHandler()
-	}
-
 	func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-		process(notificationRequest: notification.request)
 		completionHandler([.badge, .banner, .sound])
 	}
 
@@ -180,12 +174,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 	func process(notificationInfo userInfo: [AnyHashable: Any]) {
 		Messaging.messaging().appDidReceiveMessage(userInfo)
-		let application = UIApplication.shared
-		application.applicationIconBadgeNumber += 1
-		AppDelegate.mainCoordinator?.updateBadges(count: application.applicationIconBadgeNumber)
-		let data = try? JSONSerialization.data(withJSONObject: userInfo, options: .prettyPrinted)
-		let string = String(data: data!, encoding: .utf8)
-		ALog.info("Push Notification User Info \(string!)")
+		guard let typeString = userInfo["type"] as? String else {
+			return
+		}
+		if typeString == "chat" {
+			let application = UIApplication.shared
+			let count = UserDefaults.standard.chatNotificationsCount + 1
+			application.applicationIconBadgeNumber = count
+			AppDelegate.mainCoordinator?.updateBadges(count: count)
+			UserDefaults.standard.chatNotificationsCount = count
+		} else if typeString == "careplan" {
+			NotificationCenter.default.post(name: .didUpdateCarePlan, object: nil)
+		}
 	}
 }
 

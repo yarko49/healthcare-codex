@@ -42,6 +42,12 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.reload()
 			}.store(in: &cancellables)
 
+		NotificationCenter.default.publisher(for: .didUpdateCarePlan)
+			.receive(on: RunLoop.main)
+			.sink { [weak self] _ in
+				self?.reload()
+			}.store(in: &cancellables)
+
 		if UserDefaults.standard.bloodGlucoseMonitor == nil {
 			NotificationCenter.default.publisher(for: .didPairBloodGlucoseMonitor)
 				.receive(on: RunLoop.main)

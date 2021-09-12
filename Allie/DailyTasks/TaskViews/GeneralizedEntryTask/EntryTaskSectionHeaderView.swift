@@ -42,6 +42,7 @@ class EntryTaskSectionHeaderView: UICollectionReusableView {
 		stackView.axis = .vertical
 		stackView.distribution = .fill
 		stackView.alignment = .leading
+		stackView.spacing = 4.0
 		return stackView
 	}()
 
@@ -58,6 +59,7 @@ class EntryTaskSectionHeaderView: UICollectionReusableView {
 		label.textAlignment = .center
 		label.font = UIFont.systemFont(ofSize: 12.0, weight: .regular)
 		label.textColor = .allieLighterGray
+		label.numberOfLines = 2
 		return label
 	}()
 

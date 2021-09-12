@@ -649,6 +649,18 @@
 		84B22F1826E48CDC0070981C /* CHProvenance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B22F1726E48CDC0070981C /* CHProvenance.swift */; };
 		84B22F1926E48CDC0070981C /* CHProvenance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B22F1726E48CDC0070981C /* CHProvenance.swift */; };
 		84B22F1A26E48CDC0070981C /* CHProvenance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B22F1726E48CDC0070981C /* CHProvenance.swift */; };
+		84B9739526EDD2230094B35C /* CareManager+Outcomes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9739426EDD2230094B35C /* CareManager+Outcomes.swift */; };
+		84B9739626EDD2230094B35C /* CareManager+Outcomes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9739426EDD2230094B35C /* CareManager+Outcomes.swift */; };
+		84B9739726EDD2230094B35C /* CareManager+Outcomes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9739426EDD2230094B35C /* CareManager+Outcomes.swift */; };
+		84B9739926EDD3020094B35C /* CareManager+Patients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9739826EDD3020094B35C /* CareManager+Patients.swift */; };
+		84B9739A26EDD3020094B35C /* CareManager+Patients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9739826EDD3020094B35C /* CareManager+Patients.swift */; };
+		84B9739B26EDD3020094B35C /* CareManager+Patients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9739826EDD3020094B35C /* CareManager+Patients.swift */; };
+		84B9739D26EDD36E0094B35C /* CareManager+CarePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9739C26EDD36E0094B35C /* CareManager+CarePlan.swift */; };
+		84B9739E26EDD36E0094B35C /* CareManager+CarePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9739C26EDD36E0094B35C /* CareManager+CarePlan.swift */; };
+		84B9739F26EDD36E0094B35C /* CareManager+CarePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9739C26EDD36E0094B35C /* CareManager+CarePlan.swift */; };
+		84B973A126EDD3A10094B35C /* CareManager+Tasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B973A026EDD3A10094B35C /* CareManager+Tasks.swift */; };
+		84B973A226EDD3A10094B35C /* CareManager+Tasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B973A026EDD3A10094B35C /* CareManager+Tasks.swift */; };
+		84B973A326EDD3A10094B35C /* CareManager+Tasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B973A026EDD3A10094B35C /* CareManager+Tasks.swift */; };
 		84BDC6D725A564BA0046EFCF /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */; };
 		84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */; };
 		84C071F725E31FC20098B508 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C071F625E31FC20098B508 /* AnalyticsManager.swift */; };
@@ -1224,6 +1236,10 @@
 		84AF4CFE26CA178600867349 /* HealthKitManager+Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+Injectable.swift"; sourceTree = "<group>"; };
 		84B08C0826E884EE00F0FE73 /* CHProvenance+CBPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHProvenance+CBPeripheral.swift"; sourceTree = "<group>"; };
 		84B22F1726E48CDC0070981C /* CHProvenance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHProvenance.swift; sourceTree = "<group>"; };
+		84B9739426EDD2230094B35C /* CareManager+Outcomes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+Outcomes.swift"; sourceTree = "<group>"; };
+		84B9739826EDD3020094B35C /* CareManager+Patients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+Patients.swift"; sourceTree = "<group>"; };
+		84B9739C26EDD36E0094B35C /* CareManager+CarePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+CarePlan.swift"; sourceTree = "<group>"; };
+		84B973A026EDD3A10094B35C /* CareManager+Tasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+Tasks.swift"; sourceTree = "<group>"; };
 		84BDC6D625A564BA0046EFCF /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
 		84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersonNameComponents+ResourceName.swift"; sourceTree = "<group>"; };
 		84C071F625E31FC20098B508 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
@@ -1464,10 +1480,14 @@
 			children = (
 				84344D3E266AED0C00DD4A7A /* CareManager.swift */,
 				84AF4CFA26CA104D00867349 /* CareManager+Injectable.swift */,
-				84A8F50326B76AE700A62818 /* InflightIdentifiers.swift */,
 				84749FBA26313B4200D7D7A8 /* CareManager+HealthKitSynchronization.swift */,
+				84B9739826EDD3020094B35C /* CareManager+Patients.swift */,
+				84B9739C26EDD36E0094B35C /* CareManager+CarePlan.swift */,
+				84B973A026EDD3A10094B35C /* CareManager+Tasks.swift */,
+				84B9739426EDD2230094B35C /* CareManager+Outcomes.swift */,
 				84C212A02660B3AC000D491B /* CareManager+FeatureContent.swift */,
 				841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */,
+				84A8F50326B76AE700A62818 /* InflightIdentifiers.swift */,
 			);
 			path = CareManager;
 			sourceTree = "<group>";
@@ -2841,6 +2861,7 @@
 				8446E18D26DF2943001E52BF /* WebAuthenticationViewController.swift in Sources */,
 				8408843826883DF8003C3AE2 /* ProviderDetailView.swift in Sources */,
 				8439776226BB9CD1002A932E /* HKUnit+Codex.swift in Sources */,
+				84B973A126EDD3A10094B35C /* CareManager+Tasks.swift in Sources */,
 				84DC75A525ABBAD6003B541C /* CHCarePlan+OCKCarePlan.swift in Sources */,
 				844F06EA25C122DA00D26119 /* Bundle+Version.swift in Sources */,
 				8455B151269A159B006C367C /* GeneralizedLogTaskDetailView.swift in Sources */,
@@ -2894,6 +2915,7 @@
 				845B453B269B9BDC00EC5211 /* HKCategoryTypeIdentifier+Linkage.swift in Sources */,
 				844767A2259C2A4E00C50C09 /* String+Validation.swift in Sources */,
 				8497045B26B122B1006E2D51 /* CHBloodGlucoseMealTime.swift in Sources */,
+				84B9739926EDD3020094B35C /* CareManager+Patients.swift in Sources */,
 				8447678B259C2A4E00C50C09 /* SmartDeviceType.swift in Sources */,
 				8408844026884001003C3AE2 /* Color+Names.swift in Sources */,
 				8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */,
@@ -2949,6 +2971,7 @@
 				84C517F525B7E55F00D684E5 /* BottomButton.swift in Sources */,
 				84F2E9A6269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */,
 				84476796259C2A4E00C50C09 /* TextStyle.swift in Sources */,
+				84B9739526EDD2230094B35C /* CareManager+Outcomes.swift in Sources */,
 				84009048261AA77000FB3968 /* ProfileEntryViewController.swift in Sources */,
 				845FBE8025FC775E00472257 /* ConfigurationError.swift in Sources */,
 				84703C56265B495D0025A50D /* AuthenticationToken.swift in Sources */,
@@ -2998,6 +3021,7 @@
 				8447679E259C2A4E00C50C09 /* DateFormatter+Formatters.swift in Sources */,
 				844F06DF25C113B500D26119 /* UserDefaults+Settings.swift in Sources */,
 				847DF4EB265C7F5100CCC1E9 /* BaseCoordinator.swift in Sources */,
+				84B9739D26EDD36E0094B35C /* CareManager+CarePlan.swift in Sources */,
 				848CD8BC2696CD3D008B675F /* LabeledTextEntryView.swift in Sources */,
 				84476739259C2A4E00C50C09 /* SettingsFooterView.swift in Sources */,
 				844EE87B262D02E0001B2D9E /* UIView+Appearance.swift in Sources */,
@@ -3146,6 +3170,7 @@
 				8446E18F26DF2943001E52BF /* WebAuthenticationViewController.swift in Sources */,
 				847DCC34265871F3004E9C1D /* CHCarePlan+OCKCarePlan.swift in Sources */,
 				8439776426BB9CD1002A932E /* HKUnit+Codex.swift in Sources */,
+				84B973A326EDD3A10094B35C /* CareManager+Tasks.swift in Sources */,
 				847DCC35265871F3004E9C1D /* Bundle+Version.swift in Sources */,
 				847DCC36265871F3004E9C1D /* SettingsViewController.swift in Sources */,
 				8455B153269A159B006C367C /* GeneralizedLogTaskDetailView.swift in Sources */,
@@ -3199,6 +3224,7 @@
 				845B453D269B9BDC00EC5211 /* HKCategoryTypeIdentifier+Linkage.swift in Sources */,
 				847DCC56265871F3004E9C1D /* TextContentDetailViewController.swift in Sources */,
 				847DCC58265871F3004E9C1D /* SimpleTaskViewController.swift in Sources */,
+				84B9739B26EDD3020094B35C /* CareManager+Patients.swift in Sources */,
 				8408844226884001003C3AE2 /* Color+Names.swift in Sources */,
 				8449A666267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				847DCC5A265871F3004E9C1D /* Device+HKObject.swift in Sources */,
@@ -3254,6 +3280,7 @@
 				84F2E9A8269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */,
 				847DCC7E265871F3004E9C1D /* TextStyle.swift in Sources */,
 				847DCC7F265871F3004E9C1D /* ProfileEntryViewController.swift in Sources */,
+				84B9739726EDD2230094B35C /* CareManager+Outcomes.swift in Sources */,
 				847DCC80265871F3004E9C1D /* ConfigurationError.swift in Sources */,
 				847DCC81265871F3004E9C1D /* PersonNameComponents+ResourceName.swift in Sources */,
 				848199B3268996CF00DAB894 /* ProviderDetailViewModel.swift in Sources */,
@@ -3303,6 +3330,7 @@
 				847DF4ED265C7F5100CCC1E9 /* BaseCoordinator.swift in Sources */,
 				847DCCA4265871F3004E9C1D /* SettingsFooterView.swift in Sources */,
 				848CD8BE2696CD3D008B675F /* LabeledTextEntryView.swift in Sources */,
+				84B9739F26EDD36E0094B35C /* CareManager+CarePlan.swift in Sources */,
 				847DCCA6265871F3004E9C1D /* UIView+Appearance.swift in Sources */,
 				847DCCA7265871F3004E9C1D /* HealthKitQuantityType.swift in Sources */,
 				847DCCA8265871F3004E9C1D /* CHTask+OCKHealthKitTask.swift in Sources */,
@@ -3417,6 +3445,7 @@
 				8446E18E26DF2943001E52BF /* WebAuthenticationViewController.swift in Sources */,
 				84D12261264112DE00990196 /* CHCarePlan+OCKCarePlan.swift in Sources */,
 				8439776326BB9CD1002A932E /* HKUnit+Codex.swift in Sources */,
+				84B973A226EDD3A10094B35C /* CareManager+Tasks.swift in Sources */,
 				84D12262264112DE00990196 /* Bundle+Version.swift in Sources */,
 				84D12263264112DE00990196 /* SettingsViewController.swift in Sources */,
 				8455B152269A159B006C367C /* GeneralizedLogTaskDetailView.swift in Sources */,
@@ -3470,6 +3499,7 @@
 				845B453C269B9BDC00EC5211 /* HKCategoryTypeIdentifier+Linkage.swift in Sources */,
 				84D12282264112DE00990196 /* TextContentDetailViewController.swift in Sources */,
 				84D12285264112DE00990196 /* SimpleTaskViewController.swift in Sources */,
+				84B9739A26EDD3020094B35C /* CareManager+Patients.swift in Sources */,
 				8408844126884001003C3AE2 /* Color+Names.swift in Sources */,
 				8449A665267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				84D12287264112DE00990196 /* Device+HKObject.swift in Sources */,
@@ -3525,6 +3555,7 @@
 				84F2E9A7269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */,
 				84D122AC264112DE00990196 /* TextStyle.swift in Sources */,
 				84D122AD264112DE00990196 /* ProfileEntryViewController.swift in Sources */,
+				84B9739626EDD2230094B35C /* CareManager+Outcomes.swift in Sources */,
 				84D122AE264112DE00990196 /* ConfigurationError.swift in Sources */,
 				84D122AF264112DE00990196 /* PersonNameComponents+ResourceName.swift in Sources */,
 				848199B2268996CF00DAB894 /* ProviderDetailViewModel.swift in Sources */,
@@ -3574,6 +3605,7 @@
 				847DF4EC265C7F5100CCC1E9 /* BaseCoordinator.swift in Sources */,
 				84D122CF264112DE00990196 /* SettingsFooterView.swift in Sources */,
 				848CD8BD2696CD3D008B675F /* LabeledTextEntryView.swift in Sources */,
+				84B9739E26EDD36E0094B35C /* CareManager+CarePlan.swift in Sources */,
 				84D122D1264112DE00990196 /* UIView+Appearance.swift in Sources */,
 				84D122D2264112DE00990196 /* HealthKitQuantityType.swift in Sources */,
 				84D122D3264112DE00990196 /* CHTask+OCKHealthKitTask.swift in Sources */,
@@ -3961,7 +3993,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.10;
+				MARKETING_VERSION = 0.9.12;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3990,7 +4022,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.10;
+				MARKETING_VERSION = 0.9.12;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4019,7 +4051,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.10;
+				MARKETING_VERSION = 0.9.12;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4048,7 +4080,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.10;
+				MARKETING_VERSION = 0.9.12;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
