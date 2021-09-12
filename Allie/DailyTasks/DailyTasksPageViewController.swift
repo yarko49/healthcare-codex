@@ -75,7 +75,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		bloodGlucoseMonitor.delegate = self
+		bloodGlucoseMonitor.multicastDelegate.add(self)
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -84,6 +84,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	}
 
 	deinit {
+		bloodGlucoseMonitor.multicastDelegate.remove(self)
 		cancellables.forEach { cancellable in
 			cancellable.cancel()
 		}

@@ -117,7 +117,7 @@ extension HKSample {
 		guard let metadata = metadata else {
 			return nil
 		}
-		guard let identifier = metadata[BGMMetadataKeyDeviceId] as? String else {
+		guard let identifier = metadata[BGMMetadataKeyDeviceName] as? String else {
 			return nil
 		}
 		var provenance = CHProvenance(id: identifier, type: "bgm", name: nil, address: nil, sequenceNumber: nil, recordData: nil, contextData: nil, sampleType: nil, sampleLocation: nil)

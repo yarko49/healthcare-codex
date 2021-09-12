@@ -83,9 +83,14 @@ class BGMPairingViewController: UIViewController {
 		view.addSubview(pageViewController.view)
 		pageViewController.didMove(toParent: self)
 		// pageViewController.isPagingEnabled = false
-		bluetoothManager.delegate = self
+		bluetoothManager.multicastDelegate.add(self)
+
 		bluetoothManager.startMonitoring()
 		configureView()
+	}
+
+	deinit {
+		bluetoothManager.multicastDelegate.remove(self)
 	}
 
 	private func configureView() {
@@ -172,7 +177,7 @@ extension BGMPairingViewController: BGMBluetoothManagerDelegate {
 		}
 	}
 
-	func bluetoothManager(_ manager: BGMBluetoothManager, didFindDevice peripheral: CBPeripheral, rssi: Int) {
+	func bluetoothManager(_ manager: BGMBluetoothManager, didFind peripheral: CBPeripheral, rssi: Int) {
 		manager.peripherals.insert(peripheral)
 		DispatchQueue.main.async { [weak self] in
 			self?.scroll(toPage: 2, direction: .forward, animated: true) { finished in
@@ -184,7 +189,7 @@ extension BGMPairingViewController: BGMBluetoothManagerDelegate {
 	}
 
 	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, readyWith characteristic: CBCharacteristic) {
-		manager.writeMessage(peripheral: peripheral, characteristic: characteristic, message: GATTCommand.numberOfRecords)
+		manager.writeMessage(peripheral: peripheral, characteristic: characteristic, message: GATTCommand.numberOfRecords, isBatched: true)
 	}
 
 	// didWriteValueFor: Error Domain=CBATTErrorDomain Code=15 "Encryption is insufficient." UserInfo={NSLocalizedDescription=Encryption is insufficient.}

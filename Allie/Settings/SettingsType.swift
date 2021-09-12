@@ -16,13 +16,14 @@ enum SettingsType: CustomStringConvertible, CaseIterable {
 	case support
 	case troubleShoot
 	case providers
+	case readings
 
 	var title: String {
 		switch self {
 		case .accountDetails:
 			return String.accountDetails
 		case .myDevices:
-			return String.myDevices
+			return NSLocalizedString("CONNECTED_DEVICES", comment: "Connected Devices")
 		case .notifications:
 			return String.notifications
 		case .systemAuthorization:
@@ -38,7 +39,9 @@ enum SettingsType: CustomStringConvertible, CaseIterable {
 		case .termsOfService:
 			return String.termsOfService
 		case .providers:
-			return NSLocalizedString("ORGANIZATIONS", comment: "Organizations")
+			return NSLocalizedString("HEALTHCARE_PROVIDERS", comment: "Health Providers")
+		case .readings:
+			return "Readings"
 		}
 	}
 

@@ -769,3 +769,6 @@
 /* Authentication */
 "AUTHENTICATION" = "Authentication";
 
+/* Health Providers */
+"HEALTHCARE_PROVIDERS" = "Healthcare Providers";
+

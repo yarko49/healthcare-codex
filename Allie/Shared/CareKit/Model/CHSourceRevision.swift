@@ -21,7 +21,7 @@ extension CHSource {
 }
 
 public struct CHSourceRevision: Codable {
-	public let source: CHSource
+	public let source: CHSource?
 	public let version: String?
 	public let productType: String?
 	public let operationSystemVersion: OperatingSystemVersion

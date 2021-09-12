@@ -29,8 +29,8 @@ struct BGMDataRecord: Identifiable, Hashable {
 	let measurementData: Data
 	let contextData: Data?
 
-	var id: UUID? {
-		peripheral?.identifier
+	var id: Int {
+		sequence
 	}
 
 	// For now just use the device timezone

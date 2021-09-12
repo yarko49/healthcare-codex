@@ -42,11 +42,11 @@ class GlucoseMeterTests: XCTestCase {
 		for (index, value) in readings.enumerated() {
 			let record = dataRecords[index]
 			XCTAssertEqual(record.sequence, value.sequence)
-			XCTAssertEqual(record.timestamp, value.timestamp)
+			XCTAssertEqual(record.utcTimestamp, value.utcTimestamp)
 			XCTAssertEqual(record.timezoneOffsetInSeconds, value.timezoneOffsetInSeconds)
 			XCTAssertEqual(record.glucoseConcentration, value.concentration * 100000)
 			XCTAssertEqual(record.concentrationUnit, value.units)
-			XCTAssertEqual(record.bloodType, value.type)
+			XCTAssertEqual(record.sampleType, value.type)
 			XCTAssertEqual(record.sampleLocation, value.location)
 			XCTAssertEqual(record.mealContext, value.mealContext)
 		}
@@ -82,5 +82,13 @@ class GlucoseMeterTests: XCTestCase {
 		XCTAssertEqual(bloodGlucose.hexString, stringValue)
 		let cbuuid = CBUUID(string: stringValue)
 		XCTAssertEqual(bloodGlucose.uuid, cbuuid)
+	}
+
+	func testPostOutcomeReponse() throws {
+		let data = AllieTests.loadTestData(fileName: "PostOutcomesResponse.json")
+		XCTAssertNotNil(data)
+		let decoder = CHJSONDecoder()
+		let careplanRespone = try decoder.decode(CHCarePlanResponse.self, from: data!)
+		XCTAssertEqual(careplanRespone.outcomes.count, 6)
 	}
 }

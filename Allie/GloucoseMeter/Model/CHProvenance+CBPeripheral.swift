@@ -10,10 +10,10 @@ import Foundation
 
 extension CHProvenance {
 	init?(peripheral: CBPeripheral?) {
-		guard let peripheral = peripheral else {
+		guard let peripheral = peripheral, let name = peripheral.name else {
 			return nil
 		}
 
-		self.init(id: peripheral.identifier.uuidString, type: "bgm", name: peripheral.name, address: nil, sequenceNumber: nil, recordData: nil, contextData: nil, sampleType: nil, sampleLocation: nil)
+		self.init(id: name, type: "bgm", name: peripheral.name, address: nil, sequenceNumber: nil, recordData: nil, contextData: nil, sampleType: nil, sampleLocation: nil)
 	}
 }
