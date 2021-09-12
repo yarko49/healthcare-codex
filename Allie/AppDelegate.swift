@@ -21,7 +21,7 @@ import UserNotifications
 import ZendeskCoreSDK
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 	class var appDelegate: AppDelegate! {
 		UIApplication.shared.delegate as? AppDelegate
 	}
@@ -50,12 +50,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		IQKeyboardManager.shared.enable = true
 		Crashlytics.crashlytics()
 		Self.configureZendesk()
+		UNUserNotificationCenter.current().delegate = self
 		Messaging.messaging().delegate = self
-
-		let notificationOption = launchOptions?[.remoteNotification]
-		if let notification = notificationOption as? [String: AnyObject], notification["aps"] as? [String: AnyObject] != nil {
-			AppDelegate.mainCoordinator?.showMessagesTab()
-		}
+//		let notificationOption = launchOptions?[.remoteNotification]
+//		if let notification = notificationOption as? [String: AnyObject], notification["aps"] as? [String: AnyObject] != nil {
+//			AppDelegate.mainCoordinator?.showMessagesTab()
+//		}
 		return true
 	}
 
@@ -71,31 +71,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Called when the user discards a scene session.
 		// If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
 		// Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-	}
-
-	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-		ALog.info("didRegisterForRemoteNotificationsWithDeviceToken:")
-		Messaging.messaging().apnsToken = deviceToken
-		if let fcmToken = Messaging.messaging().fcmToken {
-			uploadRemoteNofication(token: fcmToken)
-		} else {
-			Messaging.messaging().token { [weak self] newToken, error in
-				guard let token = newToken, error != nil else {
-					ALog.error("Unable to get fcm Token", error: error ?? AllieError.invalid("FCM Token Missing"))
-					return
-				}
-				self?.uploadRemoteNofication(token: token)
-			}
-		}
-	}
-
-	func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-		ALog.error("didFailToRegisterForRemoteNotificationsWithError", error: error)
-	}
-
-	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-		process(notificationInfo: userInfo)
-		completionHandler(UIBackgroundFetchResult.newData)
 	}
 
 	static func configureZendesk() {
@@ -131,12 +106,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func registerForPushNotifications(application: UIApplication) {
 		UNUserNotificationCenter.current().delegate = self
-		let options: UNAuthorizationOptions = [.alert, .badge, .sound, .criticalAlert, .carPlay, .announcement]
+		let options: UNAuthorizationOptions = [.alert, .badge, .sound, .criticalAlert]
 		DispatchQueue.main.async {
-			UNUserNotificationCenter.current().requestAuthorization(options: options) { [weak self] granted, _ in
-				if granted {
+			UNUserNotificationCenter.current().requestAuthorization(options: options) { isGranted, _ in
+				if isGranted {
 					DispatchQueue.main.async {
-						UNUserNotificationCenter.current().delegate = self
 						application.registerForRemoteNotifications()
 					}
 				}
@@ -158,9 +132,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				ALog.info("Token sent to server with result \(result)")
 			})
 	}
-}
 
-extension AppDelegate: UNUserNotificationCenterDelegate {
+	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+		ALog.info("didRegisterForRemoteNotificationsWithDeviceToken:")
+		Messaging.messaging().apnsToken = deviceToken
+		if let fcmToken = Messaging.messaging().fcmToken {
+			uploadRemoteNofication(token: fcmToken)
+		} else {
+			Messaging.messaging().token { [weak self] newToken, error in
+				guard let token = newToken, error != nil else {
+					ALog.error("Unable to get fcm Token", error: error ?? AllieError.invalid("FCM Token Missing"))
+					return
+				}
+				self?.keychain.fcmToken = token
+				self?.uploadRemoteNofication(token: token)
+			}
+		}
+	}
+
+	func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+		ALog.error("didFailToRegisterForRemoteNotificationsWithError", error: error)
+	}
+
+	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+		process(notificationInfo: userInfo)
+		completionHandler(UIBackgroundFetchResult.newData)
+	}
+
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 		process(notificationRequest: response.notification.request)
 		completionHandler()
@@ -185,6 +183,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 		let application = UIApplication.shared
 		application.applicationIconBadgeNumber += 1
 		AppDelegate.mainCoordinator?.updateBadges(count: application.applicationIconBadgeNumber)
+		let data = try? JSONSerialization.data(withJSONObject: userInfo, options: .prettyPrinted)
+		let string = String(data: data!, encoding: .utf8)
+		ALog.info("Push Notification User Info \(string!)")
 	}
 }
 

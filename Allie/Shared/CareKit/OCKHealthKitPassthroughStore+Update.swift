@@ -6,7 +6,9 @@
 //
 
 import CareKitStore
+import Combine
 import Foundation
+import HealthKit
 
 // MARK: - HealthKitTasks
 
@@ -49,5 +51,23 @@ extension OCKHealthKitPassthroughStore {
 				completion?(.success(updatedTasks))
 			}
 		}
+	}
+}
+
+extension OCKHealthKitPassthroughStore {
+	func fetchTasks(quantityIdentifier: HKQuantityTypeIdentifier) -> AnyPublisher<[OCKHealthKitTask], Error> {
+		Future { promise in
+			self.fetchTasks(query: OCKTaskQuery()) { result in
+				switch result {
+				case .failure(let error):
+					promise(.failure(error))
+				case .success(let tasks):
+					let neededTasks = tasks.filter { task in
+						task.healthKitLinkage.quantityIdentifier == quantityIdentifier
+					}
+					promise(.success(neededTasks))
+				}
+			}
+		}.eraseToAnyPublisher()
 	}
 }

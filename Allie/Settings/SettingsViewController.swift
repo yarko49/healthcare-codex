@@ -5,6 +5,7 @@ import MessagingSDK
 import SafariServices
 import SDKConfigurations
 import SupportSDK
+import SwiftUI
 import UIKit
 
 class SettingsViewController: BaseViewController {
@@ -68,7 +69,7 @@ class SettingsViewController: BaseViewController {
 		tableView.delegate = self
 		var snapshot = dataSource.snapshot()
 		snapshot.appendSections([0])
-		let items: [SettingsType] = [.accountDetails, .providers, .myDevices, .systemAuthorization, .feedback, .privacyPolicy, .termsOfService]
+		let items: [SettingsType] = [.accountDetails, .myDevices, .systemAuthorization, .feedback, .privacyPolicy, .termsOfService, .providers, .readings]
 		snapshot.appendItems(items, toSection: 0)
 		dataSource.apply(snapshot, animatingDifferences: false) {
 			ALog.info("Finished Apply Snapshot")
@@ -96,7 +97,7 @@ extension SettingsViewController: UITableViewDelegate {
 		case .accountDetails:
 			showAccountDetails()
 		case .myDevices:
-			showMyDevices()
+			showConnectedDevices()
 		case .notifications:
 			showNotifications()
 		case .systemAuthorization:
@@ -113,6 +114,8 @@ extension SettingsViewController: UITableViewDelegate {
 			showHelpCenter()
 		case .providers:
 			showOrganizations()
+		case .readings:
+			showReadings()
 		}
 	}
 
@@ -153,11 +156,9 @@ extension SettingsViewController: UITableViewDelegate {
 		navigationController?.show(profileEntryViewController, sender: self)
 	}
 
-	func showMyDevices() {
-		let devicesViewController = DevicesSelectionViewController()
-		devicesViewController.controllerViewMode = .settings
-		devicesViewController.title = NSLocalizedString("MY_DEVICES", comment: "My Devices")
-		navigationController?.show(devicesViewController, sender: self)
+	func showConnectedDevices() {
+		let viewController = ConnectedDevicesViewController(style: .grouped)
+		navigationController?.show(viewController, sender: self)
 	}
 
 	func showNotifications() {
@@ -217,7 +218,7 @@ extension SettingsViewController: UITableViewDelegate {
 	}
 
 	func showTermsOfService() {
-		guard let url = URL(string: AppConfig.privacyPolicyURL) else {
+		guard let url = URL(string: AppConfig.termsOfServiceURL) else {
 			return
 		}
 		let safariViewController = SFSafariViewController(url: url)
@@ -229,6 +230,12 @@ extension SettingsViewController: UITableViewDelegate {
 		let selectProviderController = SelectProviderViewController(collectionViewLayout: SelectProviderViewController.layout)
 		selectProviderController.isModel = false
 		navigationController?.show(selectProviderController, sender: self)
+	}
+
+	func showReadings() {
+		let viewController = UIHostingController(rootView: ReadingsListView())
+		viewController.title = SettingsType.readings.title
+		navigationController?.show(viewController, sender: self)
 	}
 }
 

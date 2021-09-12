@@ -639,6 +639,57 @@ extension CareManager {
 			}.store(in: &cancellables)
 	}
 
+	func upload(samples: [HKSample], quantityIdentifier: HKQuantityTypeIdentifier) -> AnyPublisher<[CHOutcome], Error> {
+		guard !samples.isEmpty else {
+			return Fail(error: AllieError.missing("No samples to send"))
+				.eraseToAnyPublisher()
+		}
+		return healthKitStore.fetchTasks(quantityIdentifier: quantityIdentifier)
+			.tryMap { tasks -> OCKHealthKitTask in
+				var unique: [String: OCKHealthKitTask] = [:]
+				tasks.forEach { task in
+					unique[task.id] = task
+				}
+
+				let filteredTasks: [OCKHealthKitTask] = unique.reduce([]) { partialResult, item in
+					var result = partialResult
+					result.append(item.value)
+					return result
+				}
+				guard let first = filteredTasks.first, filteredTasks.count == 1 else {
+					throw AllieError.invalid("More than one task with same HKQuantityTypeIdentifier = \(unique.keys)")
+				}
+				return first
+			}.tryMap { task -> [CHOutcome] in
+				guard let carePlanId = task.carePlanId else {
+					throw AllieError.missing("Care Plan Id Missing")
+				}
+				let outcomes = samples.compactMap { sample in
+					CHOutcome(sample: sample, task: task, carePlanId: carePlanId)
+				}
+
+				return outcomes
+			}.flatMap { outcomes in
+				self.networkAPI.post(outcomes: outcomes)
+					.tryMap { response in
+						response.outcomes
+					}.eraseToAnyPublisher()
+			}.eraseToAnyPublisher()
+	}
+
+	func upload(outcomes: [CHOutcome]) -> AnyPublisher<[CHOutcome], Error> {
+		guard !outcomes.isEmpty else {
+			return Fail(error: AllieError.missing("No Outcomes to send"))
+				.eraseToAnyPublisher()
+		}
+
+		return networkAPI.post(outcomes: outcomes)
+
+			.map { carePlanResponse -> [CHOutcome] in
+				carePlanResponse.outcomes
+			}.eraseToAnyPublisher()
+	}
+
 	func upload(outcome: OCKOutcome, task: OCKTask, carePlanId: String) {
 		let allieOutcome = CHOutcome(outcome: outcome, carePlanID: carePlanId, taskID: task.id)
 		networkAPI.post(outcomes: [allieOutcome])

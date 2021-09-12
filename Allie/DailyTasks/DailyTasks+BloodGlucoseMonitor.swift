@@ -6,11 +6,12 @@
 //
 
 import CoreBluetooth
+import HealthKit
 import UIKit
 
 extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 	func startBluetooth() {
-		bloodGlucoseMonitor.delegate = self
+		bloodGlucoseMonitor.multicastDelegate.add(self)
 		bloodGlucoseMonitor.startMonitoring()
 	}
 
@@ -26,7 +27,7 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 		}
 	}
 
-	func bluetoothManager(_ manager: BGMBluetoothManager, didFindDevice peripheral: CBPeripheral, rssi: Int) {
+	func bluetoothManager(_ manager: BGMBluetoothManager, didFind peripheral: CBPeripheral, rssi: Int) {
 		if let currentDevice = UserDefaults.standard.bloodGlucoseMonitor, peripheral.identifier == currentDevice.uuid {
 			bloodGlucoseMonitor.connect(peripheral: peripheral)
 			return
@@ -40,30 +41,55 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 
 	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, readyWith characteristic: CBCharacteristic) {
 		manager.racpCharacteristic = characteristic
-		if let glucometer = manager.pairedPeripheral, let racp = manager.racpCharacteristic {
-			let identifier = glucometer.identifier.uuidString
+		if let glucometer = manager.pairedPeripheral, let racp = manager.racpCharacteristic, let identifier = glucometer.name {
 			healthKitManager.findSequenceNumber(deviceId: identifier)
 				.sink { [weak self] sequenceNumber in
 					var command = GATTCommand.allRecords
 					if sequenceNumber > 0 {
 						command = GATTCommand.recordStart(sequenceNumber: sequenceNumber)
 					}
-					self?.bloodGlucoseMonitor.writeMessage(peripheral: glucometer, characteristic: racp, message: command)
+					self?.bloodGlucoseMonitor.writeMessage(peripheral: glucometer, characteristic: racp, message: command, isBatched: true)
 				}.store(in: &cancellables)
 		}
 	}
 
-	func bluetoothManager(_ manager: BGMBluetoothManager, didReceive data: [BGMDataReading]) {
-		ALog.info("didReceive data \(data)")
-		healthKitManager.save(readings: data)
+	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, didReceive readings: [BGMDataReading]) {
+		ALog.info("didReceive readings \(readings)")
+		healthKitManager.save(readings: readings, peripheral: peripheral)
 			.sinkOnMain { [weak self] completionResult in
 				if case .failure(let error) = completionResult {
 					ALog.error("Error saving data to health kit \(error.localizedDescription)", error: error)
 					let title = NSLocalizedString("ERROR", comment: "Error")
 					self?.showErrorAlert(title: title, message: error.localizedDescription)
 				}
-			} receiveValue: { result in
-				ALog.info("Health Kit Data saved \(result)")
+			} receiveValue: { [weak self] samples in
+				self?.process(samples: samples, quantityIdentifier: .bloodGlucose)
+			}.store(in: &cancellables)
+	}
+
+	func process(samples: [HKSample], quantityIdentifier: HKQuantityTypeIdentifier) {
+		let uploadEndDate = UserDefaults.standard[lastOutcomesUploadDate: quantityIdentifier.rawValue]
+		let samplesToUpload = samples.filter { sample in
+			sample.startDate <= uploadEndDate
+		}
+
+		careManager.upload(samples: samplesToUpload, quantityIdentifier: quantityIdentifier)
+			.sinkOnMain { completionResult in
+				if case .failure(let error) = completionResult {
+					ALog.error("Error uploading outcomes", error: error)
+				}
+			} receiveValue: { [weak self] outcomes in
+				guard let strongSelf = self else {
+					return
+				}
+				strongSelf.careManager.save(outcomes: outcomes)
+					.sinkOnMain { completionResult in
+						if case .failure(let error) = completionResult {
+							ALog.error("Error saving outcomes", error: error)
+						}
+					} receiveValue: { _ in
+						ALog.info("Saved outcomes")
+					}.store(in: &strongSelf.cancellables)
 			}.store(in: &cancellables)
 	}
 

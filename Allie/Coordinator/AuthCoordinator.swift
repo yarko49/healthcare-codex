@@ -273,7 +273,7 @@ class AuthCoordinator: BaseCoordinator {
 					let okAction = AlertHelper.AlertAction(withTitle: String.ok) {
 						self?.parent?.refreshRemoteConfig(completion: { [weak self] _ in
 							self?.hideHUD()
-							self?.gotoMyDevices()
+							self?.gotoHealthViewController(screenFlowType: .healthKit)
 						})
 					}
 					self?.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
@@ -284,7 +284,7 @@ class AuthCoordinator: BaseCoordinator {
 				}
 				self?.parent?.refreshRemoteConfig(completion: { [weak self] _ in
 					self?.hideHUD()
-					self?.gotoMyDevices()
+					self?.gotoHealthViewController(screenFlowType: .healthKit)
 				})
 			}).store(in: &cancellables)
 	}
@@ -305,14 +305,6 @@ class AuthCoordinator: BaseCoordinator {
 				self?.parent?.gotoMainApp()
 			}
 		}
-	}
-
-	func gotoMyDevices() {
-		let devicesViewController = DevicesSelectionViewController()
-		devicesViewController.nextButtonAction = { [weak self] in
-			self?.gotoHealthViewController(screenFlowType: .healthKit)
-		}
-		navigate(to: devicesViewController, with: .resetStack)
 	}
 
 	func signInWithApple() {

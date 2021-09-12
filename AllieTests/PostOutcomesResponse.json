@@ -1,0 +1,309 @@
+{
+    "outcomes": [
+        {
+            "groupIdentifier": "",
+            "remoteId": "49VCGuWmB62YSBkBS1uB",
+            "id": "",
+            "timezone": {
+                "identifier": "America/Los_Angeles"
+            },
+            "userInfo": {},
+            "createdDate": "2021-08-03T18:21:14Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-08-03T18:21:14Z",
+            "updatedDate": "2021-08-03T18:21:14Z",
+            "android": null,
+            "taskId": "measurements-glucose-levels",
+            "carePlanId": "defaultCarePlan",
+            "provenance": {
+                "type": "bgm",
+                "bgmDeviceName": "Contour7830-2391462",
+                "bgmDeviceId": "Contour7830-2391462",
+                "bgmSequenceNumber": 1,
+                "bgmGlucoseRecordData": "EwEA5QcIAxIVDlz+c7Dx",
+                "bgmGlucoseContext": "AgEAAw=="
+            },
+            "sourceRevision": {
+                "source": null,
+                "version": "",
+                "operationSystemVersion": {
+                    "majorVersion": 4,
+                    "minorVersion": 0,
+                    "patchVersion": 0
+                },
+                "productType": ""
+            },
+            "taskOccurrenceIndex": 0,
+            "values": [
+                {
+                    "groupIdentifier": "",
+                    "id": "",
+                    "userInfo": {},
+                    "createdDate": "2021-09-12T00:13:43Z",
+                    "deletedDate": "9999-01-01T00:00:00Z",
+                    "effectiveDate": "2021-08-03T18:21:14Z",
+                    "updatedDate": "2021-09-12T00:13:43Z",
+                    "kind": "fasting",
+                    "units": "mg/dL",
+                    "value": 115,
+                    "type": "integer"
+                }
+            ],
+            "bluetoothCollected": true
+        },
+        {
+            "groupIdentifier": "",
+            "remoteId": "nXwmEOASQzFKZH9gDEj6",
+            "id": "",
+            "timezone": {
+                "identifier": "America/Los_Angeles"
+            },
+            "userInfo": {},
+            "createdDate": "2021-08-06T01:53:00Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-08-06T01:53:00Z",
+            "updatedDate": "2021-08-06T01:53:00Z",
+            "android": null,
+            "taskId": "measurements-glucose-levels",
+            "carePlanId": "defaultCarePlan",
+            "provenance": {
+                "type": "bgm",
+                "bgmDeviceName": "Contour7830-2391462",
+                "bgmDeviceId": "Contour7830-2391462",
+                "bgmSequenceNumber": 2,
+                "bgmGlucoseRecordData": "AwIA5QcIBgE1AFz+ubDx"
+            },
+            "sourceRevision": {
+                "source": null,
+                "version": "",
+                "operationSystemVersion": {
+                    "majorVersion": 7987541744,
+                    "minorVersion": 6158210224,
+                    "patchVersion": 4359844504
+                },
+                "productType": ""
+            },
+            "taskOccurrenceIndex": 0,
+            "values": [
+                {
+                    "groupIdentifier": "",
+                    "id": "",
+                    "userInfo": {},
+                    "createdDate": "2021-09-12T00:13:43Z",
+                    "deletedDate": "9999-01-01T00:00:00Z",
+                    "effectiveDate": "2021-08-06T01:53:00Z",
+                    "updatedDate": "2021-09-12T00:13:43Z",
+                    "kind": "undefined",
+                    "units": "mg/dL",
+                    "value": 185,
+                    "type": "integer"
+                }
+            ],
+            "bluetoothCollected": true
+        },
+        {
+            "groupIdentifier": "",
+            "remoteId": "CCtUSu4Q2r9tyu2CdcRF",
+            "id": "",
+            "timezone": {
+                "identifier": "America/Los_Angeles"
+            },
+            "userInfo": {},
+            "createdDate": "2021-08-25T05:51:10Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-08-25T05:51:10Z",
+            "updatedDate": "2021-08-25T05:51:10Z",
+            "android": null,
+            "taskId": "measurements-glucose-levels",
+            "carePlanId": "defaultCarePlan",
+            "provenance": {
+                "type": "bgm",
+                "bgmDeviceName": "Contour7830-2391462",
+                "bgmDeviceId": "Contour7830-2391462",
+                "bgmSequenceNumber": 3,
+                "bgmGlucoseRecordData": "AwMA5QcIGQUzClz+o7Dx"
+            },
+            "sourceRevision": {
+                "source": null,
+                "version": "",
+                "operationSystemVersion": {
+                    "majorVersion": 7987541744,
+                    "minorVersion": 6158210224,
+                    "patchVersion": 4359844504
+                },
+                "productType": ""
+            },
+            "taskOccurrenceIndex": 0,
+            "values": [
+                {
+                    "groupIdentifier": "",
+                    "id": "",
+                    "userInfo": {},
+                    "createdDate": "2021-09-12T00:13:43Z",
+                    "deletedDate": "9999-01-01T00:00:00Z",
+                    "effectiveDate": "2021-08-25T05:51:10Z",
+                    "updatedDate": "2021-09-12T00:13:43Z",
+                    "kind": "undefined",
+                    "units": "mg/dL",
+                    "value": 163,
+                    "type": "integer"
+                }
+            ],
+            "bluetoothCollected": true
+        },
+        {
+            "groupIdentifier": "",
+            "remoteId": "wgcvygldD1p0bXKsAmro",
+            "id": "",
+            "timezone": {
+                "identifier": "America/Los_Angeles"
+            },
+            "userInfo": {},
+            "createdDate": "2021-08-27T06:24:50Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-08-27T06:24:50Z",
+            "updatedDate": "2021-08-27T06:24:50Z",
+            "android": null,
+            "taskId": "measurements-glucose-levels",
+            "carePlanId": "defaultCarePlan",
+            "provenance": {
+                "type": "bgm",
+                "bgmDeviceName": "Contour7830-2391462",
+                "bgmDeviceId": "Contour7830-2391462",
+                "bgmSequenceNumber": 4,
+                "bgmGlucoseRecordData": "AwQA5QcIGwYYMlz+orDx"
+            },
+            "sourceRevision": {
+                "source": null,
+                "version": "",
+                "operationSystemVersion": {
+                    "majorVersion": 7987541744,
+                    "minorVersion": 6158210224,
+                    "patchVersion": 4359844504
+                },
+                "productType": ""
+            },
+            "taskOccurrenceIndex": 0,
+            "values": [
+                {
+                    "groupIdentifier": "",
+                    "id": "",
+                    "userInfo": {},
+                    "createdDate": "2021-09-12T00:13:43Z",
+                    "deletedDate": "9999-01-01T00:00:00Z",
+                    "effectiveDate": "2021-08-27T06:24:50Z",
+                    "updatedDate": "2021-09-12T00:13:43Z",
+                    "kind": "undefined",
+                    "units": "mg/dL",
+                    "value": 162,
+                    "type": "integer"
+                }
+            ],
+            "bluetoothCollected": true
+        },
+        {
+            "groupIdentifier": "",
+            "remoteId": "HWAEzwRRMHLeN3dlgDfH",
+            "id": "",
+            "timezone": {
+                "identifier": "America/Los_Angeles"
+            },
+            "userInfo": {},
+            "createdDate": "2021-09-11T02:22:43Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-09-11T02:22:43Z",
+            "updatedDate": "2021-09-11T02:22:43Z",
+            "android": null,
+            "taskId": "measurements-glucose-levels",
+            "carePlanId": "defaultCarePlan",
+            "provenance": {
+                "type": "bgm",
+                "bgmDeviceName": "Contour7830-2391462",
+                "bgmDeviceId": "Contour7830-2391462",
+                "bgmSequenceNumber": 5,
+                "bgmGlucoseRecordData": "EwUA5QcJCwIWK1z+Z7Dx",
+                "bgmGlucoseContext": "AgUAAg=="
+            },
+            "sourceRevision": {
+                "source": null,
+                "version": "",
+                "operationSystemVersion": {
+                    "majorVersion": 7987541744,
+                    "minorVersion": 6158210224,
+                    "patchVersion": 4359844504
+                },
+                "productType": ""
+            },
+            "taskOccurrenceIndex": 0,
+            "values": [
+                {
+                    "groupIdentifier": "",
+                    "id": "",
+                    "userInfo": {},
+                    "createdDate": "2021-09-12T00:13:43Z",
+                    "deletedDate": "9999-01-01T00:00:00Z",
+                    "effectiveDate": "2021-09-11T02:22:43Z",
+                    "updatedDate": "2021-09-12T00:13:43Z",
+                    "kind": "postprandial",
+                    "units": "mg/dL",
+                    "value": 103,
+                    "type": "integer"
+                }
+            ],
+            "bluetoothCollected": true
+        },
+        {
+            "groupIdentifier": "",
+            "remoteId": "YbisuiRhEkttqsn8OKjm",
+            "id": "",
+            "timezone": {
+                "identifier": "America/Los_Angeles"
+            },
+            "userInfo": {},
+            "createdDate": "2021-09-11T02:28:34Z",
+            "deletedDate": "9999-01-01T00:00:00Z",
+            "effectiveDate": "2021-09-11T02:28:34Z",
+            "updatedDate": "2021-09-11T02:28:34Z",
+            "android": null,
+            "taskId": "measurements-glucose-levels",
+            "carePlanId": "defaultCarePlan",
+            "provenance": {
+                "type": "bgm",
+                "bgmDeviceName": "Contour7830-2391462",
+                "bgmDeviceId": "Contour7830-2391462",
+                "bgmSequenceNumber": 6,
+                "bgmGlucoseRecordData": "EwYA5QcJCwIcIlz+ZbDx",
+                "bgmGlucoseContext": "AgYAAw=="
+            },
+            "sourceRevision": {
+                "source": null,
+                "version": "",
+                "operationSystemVersion": {
+                    "majorVersion": 7987541744,
+                    "minorVersion": 6158210224,
+                    "patchVersion": 4359844504
+                },
+                "productType": ""
+            },
+            "taskOccurrenceIndex": 0,
+            "values": [
+                {
+                    "groupIdentifier": "",
+                    "id": "",
+                    "userInfo": {},
+                    "createdDate": "2021-09-12T00:13:43Z",
+                    "deletedDate": "9999-01-01T00:00:00Z",
+                    "effectiveDate": "2021-09-11T02:28:34Z",
+                    "updatedDate": "2021-09-12T00:13:43Z",
+                    "kind": "fasting",
+                    "units": "mg/dL",
+                    "value": 101,
+                    "type": "integer"
+                }
+            ],
+            "bluetoothCollected": true
+        }
+    ],
+    "patients": [],
+    "vectorClock": 13
+}

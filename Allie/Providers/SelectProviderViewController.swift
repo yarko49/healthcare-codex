@@ -46,6 +46,7 @@ class SelectProviderViewController: UICollectionViewController {
 
 		let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, CHOrganization> { [weak self] cell, _, item in
 			var configuration = cell.defaultContentConfiguration()
+			configuration.imageProperties.maximumSize = CGSize(width: 150.0, height: 50.0)
 			SDWebImageManager.shared.loadImage(with: item.imageURL, options: [.scaleDownLargeImages], progress: nil) { image, _, _, _, _, _ in
 				configuration.image = image
 			}
