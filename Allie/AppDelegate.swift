@@ -52,10 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		Self.configureZendesk()
 		UNUserNotificationCenter.current().delegate = self
 		Messaging.messaging().delegate = self
-//		let notificationOption = launchOptions?[.remoteNotification]
-//		if let notification = notificationOption as? [String: AnyObject], notification["aps"] as? [String: AnyObject] != nil {
-//			AppDelegate.mainCoordinator?.showMessagesTab()
-//		}
 		return true
 	}
 
@@ -74,13 +70,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	}
 
 	static func configureZendesk() {
-		CoreLogger.enabled = true
+		CoreLogger.enabled = false
 		CoreLogger.logLevel = .debug
 		Zendesk.initialize(appId: AppConfig.zendeskAppId, clientId: AppConfig.zendeskClientId, zendeskUrl: AppConfig.zendeskURL)
 		Support.initialize(withZendesk: Zendesk.instance)
 		let ident = Identity.createAnonymous()
 		Zendesk.instance?.setIdentity(ident)
-		ALog.info("Zendesk Initialized")
+		ALog.trace("Zendesk Initialized")
 	}
 
 	static func configureZendeskIdentity(name: String? = nil, email: String? = nil) {
@@ -129,12 +125,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 					ALog.error("Failed to uploaded remote notification token", error: error)
 				}
 			}, receiveValue: { result in
-				ALog.info("Token sent to server with result \(result)")
+				ALog.trace("Token sent to server with result \(result)")
 			})
 	}
 
 	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-		ALog.info("didRegisterForRemoteNotificationsWithDeviceToken:")
+		ALog.trace("didRegisterForRemoteNotificationsWithDeviceToken:")
 		Messaging.messaging().apnsToken = deviceToken
 		if let fcmToken = Messaging.messaging().fcmToken {
 			uploadRemoteNofication(token: fcmToken)
@@ -155,30 +151,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	}
 
 	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-		process(notificationInfo: userInfo)
+		ALog.debug("didReceiveRemoteNotification:")
+		if application.applicationState != .active {
+			process(application, notificationInfo: userInfo)
+		}
 		completionHandler(UIBackgroundFetchResult.newData)
 	}
 
+	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+		// Show Tabbar and download messages
+	}
+
 	func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+		ALog.debug("willPresent notification:")
+		process(UIApplication.shared, notificationRequest: notification.request)
 		completionHandler([.badge, .banner, .sound])
 	}
 
-	func process(notificationRequest: UNNotificationRequest?) {
+	func process(_ application: UIApplication, notificationRequest: UNNotificationRequest?) {
 		guard let request = notificationRequest else {
 			return
 		}
 
 		let userInfo = request.content.userInfo
-		process(notificationInfo: userInfo)
+		process(application, notificationInfo: userInfo)
 	}
 
-	func process(notificationInfo userInfo: [AnyHashable: Any]) {
+	func process(_ application: UIApplication, notificationInfo userInfo: [AnyHashable: Any]) {
 		Messaging.messaging().appDidReceiveMessage(userInfo)
 		guard let typeString = userInfo["type"] as? String else {
 			return
 		}
 		if typeString == "chat" {
-			let application = UIApplication.shared
+			ALog.trace("process notificationInfo: applicationState: \(application.applicationState.rawValue)")
 			let count = UserDefaults.standard.chatNotificationsCount + 1
 			application.applicationIconBadgeNumber = count
 			AppDelegate.mainCoordinator?.updateBadges(count: count)
@@ -194,7 +199,7 @@ extension AppDelegate: MessagingDelegate {
 		guard let token = fcmToken else {
 			return
 		}
-		ALog.info("messaging:didReceiveRegistrationToken: \(token)")
+		ALog.trace("messaging:didReceiveRegistrationToken: \(token)")
 		keychain.fcmToken = token
 		uploadRemoteNofication(token: token)
 	}

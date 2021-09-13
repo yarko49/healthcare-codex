@@ -7,10 +7,20 @@ import FirebaseCrashlytics
 import Foundation
 import Logging
 
-var ALog: Logger = {
-	let level = Logger.Level.info // DataContext.shared.remoteConfigManager.remoteLogging.logLevel
-	return LoggingManager.createLogger(level: .info, remoteLevel: level, label: "Logger")
-}()
+private struct LoggingManagerKey: InjectionKey {
+	static var currentValue = LoggingManager.createLogger(label: "Logger")
+}
+
+extension InjectedValues {
+	var log: Logger {
+		get { Self[LoggingManagerKey.self] }
+		set { Self[LoggingManagerKey.self] = newValue }
+	}
+}
+
+var ALog: Logger {
+	LoggingManagerKey.currentValue
+}
 
 extension Logger.Level {
 	var icon: String {
@@ -34,6 +44,35 @@ extension Logger.Level {
 }
 
 enum LoggingManager {
+	static var fileLogLevel: Logger.Level = .debug {
+		didSet {
+			changeLogger(label: ALog.label)
+		}
+	}
+
+	static var consoleLogLevel: Logger.Level = .info {
+		didSet {
+			changeLogger(label: ALog.label)
+		}
+	}
+
+	static var remoteLogLevel: Logger.Level = .info { // remoteConfigManager.remoteLogging.logLevel
+		didSet {
+			changeLogger(label: ALog.label)
+		}
+	}
+
+	static var enableFileLogging: Bool = false {
+		didSet {
+			changeLogger(label: ALog.label)
+		}
+	}
+
+	static var fileLogURL: URL? {
+		let cachesDirectoryURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
+		return cachesDirectoryURL?.appendingPathComponent("Allie.log")
+	}
+
 	static func identify(userId: String?) {
 		guard let userId = userId else {
 			return
@@ -41,21 +80,33 @@ enum LoggingManager {
 		Crashlytics.crashlytics().setUserID(userId)
 	}
 
-	static func createLogger(level: Logger.Level, remoteLevel: Logger.Level, label: String) -> Logger {
+	static func createLogger(label: String, consoleLogLevel: Logger.Level = Self.consoleLogLevel, remoteLevel: Logger.Level = Self.remoteLogLevel, fileLogLevel: Logger.Level = Self.fileLogLevel) -> Logger {
+		var fileLogger: LoggingFile?
+		if Self.enableFileLogging, let fileLogURL = Self.fileLogURL {
+			fileLogger = try? LoggingFile(to: fileLogURL)
+		}
+
 		LoggingSystem.bootstrap { label -> LogHandler in
+			var logHandlers: [LogHandler] = []
+
 			var osLog = LoggingOSLog(label: label, category: ProcessInfo.processInfo.processName)
-			osLog.logLevel = level
+			osLog.logLevel = consoleLogLevel
+			logHandlers.append(osLog)
 			var crashlyticsLogger = LoggingCrashlytics(label: label)
 			crashlyticsLogger.logLevel = remoteLevel
-			return MultiplexLogHandler([osLog, crashlyticsLogger])
+			logHandlers.append(crashlyticsLogger)
+			if let fileLogger = fileLogger {
+				let fileLogHandler = FileLogHandler(label: label, fileLogger: fileLogger)
+				logHandlers.append(fileLogHandler)
+			}
+			return MultiplexLogHandler(logHandlers)
 		}
 		let logger = Logger(label: Bundle.main.bundleIdentifier! + "." + label)
 		return logger
 	}
 
-	static func changeLogger(level: Logger.Level) {
-		let logger = createLogger(level: ALog.logLevel, remoteLevel: level, label: ALog.label)
-		ALog = logger
+	static func changeLogger(label: String) {
+		LoggingManagerKey.currentValue = createLogger(label: label)
 	}
 }
 

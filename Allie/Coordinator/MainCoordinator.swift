@@ -67,6 +67,7 @@ class MainCoordinator: BaseCoordinator {
 	}
 
 	func goToAuth(url: String? = nil) {
+		ALog.debug("goToAuth: \(String(describing: url))")
 		removeCoordinator(ofType: .application)
 		let authCoordinator = AuthCoordinator(parent: self, deepLink: url)
 		addChild(coordinator: authCoordinator)

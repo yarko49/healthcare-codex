@@ -25,8 +25,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		guard let scene = (scene as? UIWindowScene) else {
 			return
 		}
+		ALog.debug("willConnectTo session:")
 		window = UIWindow(windowScene: scene)
-		if let incomingURL = connectionOptions.userActivities.first?.webpageURL {
+		if let incomingURL = connectionOptions.userActivities.first?.webpageURL, incomingURL.absoluteString.range(of: "/auth/action") != nil {
 			handleIncomingURL(incomingURL)
 		} else {
 			mainCoordinator.start()
@@ -43,7 +44,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	func sceneDidBecomeActive(_ scene: UIScene) {
 		// Called when the scene has moved from an inactive state to an active state.
 		// Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+		ALog.debug("sceneDidBecomeActive:")
 		AnalyticsManager.send(event: .session, properties: nil)
+		if UIApplication.shared.applicationState == .inactive, keychain.authenticationToken != nil {
+			Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true, completion: { authTokenResult, error in
+				if let token = AuthenticationToken(result: authTokenResult), error == nil {
+					self.keychain.authenticationToken = token
+				} else if let error = error {
+					ALog.error("Error refreshing token \(error.localizedDescription)")
+				}
+			})
+		}
 	}
 
 	func sceneWillResignActive(_ scene: UIScene) {
@@ -54,25 +65,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	func sceneWillEnterForeground(_ scene: UIScene) {
 		// Called as the scene transitions from the background to the foreground.
 		// Use this method to undo the changes made on entering the background.
-		Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true, completion: { authTokenResult, error in
-			if let token = AuthenticationToken(result: authTokenResult), error == nil {
-				self.keychain.authenticationToken = token
-			} else if let error = error {
-				ALog.error("Error refreshing token \(error.localizedDescription)")
-			}
-		})
-		mainCoordinator.updateBadges(count: UserDefaults.standard.chatNotificationsCount)
+		ALog.debug("sceneWillEnterForeground:")
 	}
 
 	func sceneDidEnterBackground(_ scene: UIScene) {
+		ALog.debug("sceneDidEnterBackground:")
 		// Called as the scene transitions from the foreground to the background.
 		// Use this method to save data, release shared resources, and store enough scene-specific state information
 		// to restore the scene back to its current state.
 	}
 
 	func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-		if let incomingURL = userActivity.webpageURL {
+		// https://devcodexhealth.page.link .../auth/action?
+		// https://qacodexhealth.page.link .../auth/action?
+		// https://prodcodexhealth.page.link .../auth/action?
+		ALog.debug("sceneDidEnterBackground: \(String(describing: userActivity.webpageURL))")
+		if let incomingURL = userActivity.webpageURL, incomingURL.absoluteString.range(of: "/auth/action") != nil {
 			handleIncomingURL(incomingURL)
+		} else {
+			mainCoordinator.start()
 		}
 	}
 
@@ -93,9 +104,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 			ALog.info("No Dynamic Link Url")
 			return
 		}
+		ALog.debug("handleIncomingDynamicLink: \(dynamicLink)")
 		DispatchQueue.main.async { [weak self] in
-			if let coord = (self?.mainCoordinator.childCoordinators[.authentication] as? AuthCoordinator) {
-				coord.verifySendLink(link: url.absoluteString)
+			if let authCoordinator = (self?.mainCoordinator.childCoordinators[.authentication] as? AuthCoordinator) {
+				authCoordinator.verifySendLink(link: url.absoluteString)
 			} else {
 				self?.mainCoordinator.goToAuth(url: url.absoluteString)
 			}
