@@ -74,7 +74,7 @@ class RemoteConfigManager: ObservableObject {
 			let logging = RemoteLogging(dictionary: logging)
 			if logging != remoteLogging {
 				if logging.logLevel != remoteLogging.logLevel {
-					LoggingManager.changeLogger(level: logging.logLevel)
+					LoggingManager.remoteLogLevel = logging.logLevel
 				}
 				remoteLogging = logging
 			}

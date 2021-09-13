@@ -49,6 +49,7 @@ class AuthCoordinator: BaseCoordinator {
 	}
 
 	func gotoSignup(authorizationFlowType type: AuthorizationFlowType = .signUp) {
+		ALog.debug("gotoSignup: \(type)")
 		authorizationFlowType = type
 		let signupViewController = SignupViewController()
 		signupViewController.authorizationFlowType = type
@@ -78,6 +79,7 @@ class AuthCoordinator: BaseCoordinator {
 	}
 
 	func gotoLogin(authorizationFlowType type: AuthorizationFlowType = .signIn) {
+		ALog.debug("gotoLogin: \(type)")
 		authorizationFlowType = type
 		let loginViewController = LoginViewController()
 		loginViewController.authorizationFlowType = type
@@ -107,6 +109,7 @@ class AuthCoordinator: BaseCoordinator {
 	}
 
 	func gotoEmailSignup() {
+		ALog.debug("gotoEmailSignup")
 		let emailSignupViewController = EmailSignupViewController()
 		emailSignupViewController.authorizeWithEmail = { [weak self] email, authorizationFlowType in
 			self?.authorizationFlowType = authorizationFlowType
@@ -148,6 +151,7 @@ class AuthCoordinator: BaseCoordinator {
 	}
 
 	func verifySendLink(link: String) {
+		ALog.debug("verifySendLink: \(link)")
 		if let email = keychain.userEmail {
 			showHUD()
 			if Auth.auth().isSignIn(withEmailLink: link) {
@@ -399,7 +403,7 @@ class AuthCoordinator: BaseCoordinator {
 
 extension AuthCoordinator: ASAuthorizationControllerDelegate {
 	func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-		ALog.info("Hello Apple")
+		ALog.trace("Hello Apple")
 
 		if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
 			guard let nonce = currentNonce else {
@@ -407,7 +411,7 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 				return
 			}
 			guard let appleIDToken = appleIDCredential.identityToken else {
-				ALog.info("Unable to fetch identity token")
+				ALog.error("Unable to fetch identity token")
 				return
 			}
 			guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {

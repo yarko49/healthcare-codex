@@ -312,6 +312,9 @@
 		8475FBDE268C275900A916B6 /* UINavigationController+Transitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8475FBDD268C275900A916B6 /* UINavigationController+Transitions.swift */; };
 		8475FBDF268C275900A916B6 /* UINavigationController+Transitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8475FBDD268C275900A916B6 /* UINavigationController+Transitions.swift */; };
 		8475FBE0268C275900A916B6 /* UINavigationController+Transitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8475FBDD268C275900A916B6 /* UINavigationController+Transitions.swift */; };
+		847641AF26EEB10000039936 /* LoggingFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847641AE26EEB10000039936 /* LoggingFile.swift */; };
+		847641B026EEB10000039936 /* LoggingFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847641AE26EEB10000039936 /* LoggingFile.swift */; };
+		847641B126EEB10000039936 /* LoggingFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847641AE26EEB10000039936 /* LoggingFile.swift */; };
 		8476B0EC261D84A4009516ED /* CHOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8476B0EB261D84A4009516ED /* CHOutcome.swift */; };
 		8476B0F1261D8691009516ED /* CHOutcome+OCKOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8476B0F0261D8691009516ED /* CHOutcome+OCKOutcome.swift */; };
 		847BBE9626DDF39900402B47 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 847BBE9526DDF39900402B47 /* OrderedCollections */; };
@@ -1176,6 +1179,7 @@
 		84703C70265B743A0025A50D /* ButtonLogTaskViewSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLogTaskViewSynchronizer.swift; sourceTree = "<group>"; };
 		84749FBA26313B4200D7D7A8 /* CareManager+HealthKitSynchronization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+HealthKitSynchronization.swift"; sourceTree = "<group>"; };
 		8475FBDD268C275900A916B6 /* UINavigationController+Transitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Transitions.swift"; sourceTree = "<group>"; };
+		847641AE26EEB10000039936 /* LoggingFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoggingFile.swift; path = Allie/Shared/Logging/LoggingFile.swift; sourceTree = SOURCE_ROOT; };
 		8476B0EB261D84A4009516ED /* CHOutcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHOutcome.swift; sourceTree = "<group>"; };
 		8476B0F0261D8691009516ED /* CHOutcome+OCKOutcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHOutcome+OCKOutcome.swift"; sourceTree = "<group>"; };
 		847DCCE1265871F3004E9C1D /* Allie Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Allie Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2067,6 +2071,7 @@
 			isa = PBXGroup;
 			children = (
 				844766FA259C2A4E00C50C09 /* LoggingManager.swift */,
+				847641AE26EEB10000039936 /* LoggingFile.swift */,
 				8487481425B3B2FD008C15E2 /* LoggingOSLog.swift */,
 				8487481D25B3B3D5008C15E2 /* LogginCrashlytics.swift */,
 			);
@@ -2982,6 +2987,7 @@
 				8449A65F267C5C8F00F73D8E /* CHConversationsTokens.swift in Sources */,
 				841A772C2652348C000913A9 /* CHOperation.swift in Sources */,
 				8476B0F1261D8691009516ED /* CHOutcome+OCKOutcome.swift in Sources */,
+				847641AF26EEB10000039936 /* LoggingFile.swift in Sources */,
 				84AF11A326709C770061A9E5 /* ChecklistTaskController.swift in Sources */,
 				84230BE9260801F7008BB83E /* HTMLViewerController.swift in Sources */,
 				844EE890262D30A9001B2D9E /* LoginViewController.swift in Sources */,
@@ -3291,6 +3297,7 @@
 				847DCC83265871F3004E9C1D /* CHOutcome+OCKOutcome.swift in Sources */,
 				847DCC84265871F3004E9C1D /* HTMLViewerController.swift in Sources */,
 				847DCC85265871F3004E9C1D /* LoginViewController.swift in Sources */,
+				847641B126EEB10000039936 /* LoggingFile.swift in Sources */,
 				847DCC86265871F3004E9C1D /* Date+Relative.swift in Sources */,
 				847DCC87265871F3004E9C1D /* CHOutcome.swift in Sources */,
 				847DCC88265871F3004E9C1D /* CHSourceRevision+HKSourceRevision.swift in Sources */,
@@ -3566,6 +3573,7 @@
 				84D122B0264112DE00990196 /* CHOutcome+OCKOutcome.swift in Sources */,
 				84D122B1264112DE00990196 /* HTMLViewerController.swift in Sources */,
 				84D122B3264112DE00990196 /* LoginViewController.swift in Sources */,
+				847641B026EEB10000039936 /* LoggingFile.swift in Sources */,
 				84D122B4264112DE00990196 /* Date+Relative.swift in Sources */,
 				84D122B5264112DE00990196 /* CHOutcome.swift in Sources */,
 				84D122B6264112DE00990196 /* CHSourceRevision+HKSourceRevision.swift in Sources */,
@@ -3993,7 +4001,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.12;
+				MARKETING_VERSION = 0.9.13;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4022,7 +4030,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.12;
+				MARKETING_VERSION = 0.9.13;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -85,19 +85,19 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Allie app wants Bluetooh Access Rights [temp]</string>
+	<string>Allie uses bluetooth to find and connect with smart devices</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Allie app wants to use Bluetooth to read medical data from devices [temp]</string>
+	<string>Allie uses bluetooth to find and connect with smart devices</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Allie app wants Camera Access Rights [temp]</string>
+	<string>Allie needs to access your camera to share photos</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>With Face ID you will be able to sign in securely and automatically.</string>
+	<string>Allie uses Face ID to authenticate you securely and automatically</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>Allie app wants Health Share rights. [temp]</string>
+	<string>Allie needs permissions to read health metrics from Apple Health</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>Allie app wants Health Update rights. [temp]</string>
+	<string>Allie needs permissions to write health metrics into Apple Health</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allie app wants Photo Library Access Rights [temp]</string>
+	<string>Allie needs to access your photo library to share photos</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
