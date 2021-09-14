@@ -27,7 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		guard let scene = (scene as? UIWindowScene) else {
 			return
 		}
-		ALog.info("willConnectTo session: State \(UIApplication.shared.applicationState.rawValue)")
+		ALog.trace("willConnectTo session: State \(UIApplication.shared.applicationState.rawValue)")
 		self.connectionOptions = connectionOptions
 		window = UIWindow(windowScene: scene)
 	}
@@ -43,7 +43,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	func sceneDidBecomeActive(_ scene: UIScene) {
 		// Called when the scene has moved from an inactive state to an active state.
 		// Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-		ALog.info("sceneDidBecomeActive: state = \(UIApplication.shared.applicationState.rawValue)")
+		ALog.trace("sceneDidBecomeActive: state = \(UIApplication.shared.applicationState.rawValue)")
 		if didStartOnce == false {
 			didStartOnce = true
 			if let incomingURL = connectionOptions?.userActivities.first?.webpageURL {
@@ -54,7 +54,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		}
 
 		AnalyticsManager.send(event: .session, properties: nil)
-		if UIApplication.shared.applicationState == .inactive {
+		if UIApplication.shared.applicationState == .inactive || UIApplication.shared.applicationState == .active {
 			let count = UserDefaults.standard.chatNotificationsCount
 			mainCoordinator.updateBadges(count: count)
 			Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true, completion: { authTokenResult, error in
@@ -86,9 +86,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	}
 
 	func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-		// https://devcodexhealth.page.link .../auth/action?
-		// https://qacodexhealth.page.link .../auth/action?
-		// https://prodcodexhealth.page.link .../auth/action?
 		ALog.info("sceneDidEnterBackground: \(String(describing: userActivity.webpageURL))")
 		if let incomingURL = userActivity.webpageURL {
 			handleIncomingURL(incomingURL)
@@ -111,7 +108,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 	func handleIncomingDynamicLink(_ dynamicLink: DynamicLink) {
 		guard let url = dynamicLink.url else {
-			ALog.info("No Dynamic Link Url")
+			ALog.error("No Dynamic Link Url")
 			return
 		}
 		ALog.info("handleIncomingDynamicLink: \(dynamicLink)")
