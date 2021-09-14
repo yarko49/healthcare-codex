@@ -10,8 +10,16 @@ import Combine
 import Foundation
 
 extension CareManager {
-	func postPatient(patient: CHPatient) -> AnyPublisher<CHCarePlanResponse, Error> {
+	func upload(patient: CHPatient) {
 		networkAPI.post(patient: patient)
+			.sink { completionResult in
+				if case .failure(let error) = completionResult {
+					ALog.error("Unable to upload patient", error: error)
+				}
+			} receiveValue: { carePlanResponse in
+				let id = carePlanResponse.patients.first?.id ?? "Unkown Id"
+				ALog.info("Did upload patient \(id)")
+			}.store(in: &cancellables)
 	}
 
 	func syncProcess(patient: CHPatient, queue: DispatchQueue) -> CHPatient {

@@ -14,6 +14,8 @@ import UIKit
 protocol ConversationMessagesDelegate: AnyObject {
 	func conversationsManager(_ manager: ConversationsManager, reloadMessagesFor conversation: TCHConversation)
 	func conversationsManager(_ manager: ConversationsManager, didReceive message: TCHMessage, for conversation: TCHConversation)
+	func conversationsManager(_ manager: ConversationsManager, didStartPreviousMessagesDownload conversations: [TCHConversation])
+	func conversationsManager(_ manager: ConversationsManager, didFinishPreviousMessagesDownload conversations: [TCHConversation])
 }
 
 enum ConversationsManagerError: Error {
@@ -357,9 +359,13 @@ extension ConversationsManager: TwilioConversationsClientDelegate {
 
 		if let conversations = client.myConversations(), !conversations.isEmpty {
 			self.conversations = Set(conversations)
-			getPreviousMessages(for: conversations) { result in
+			messagesDelegate?.conversationsManager(self, didStartPreviousMessagesDownload: conversations)
+			getPreviousMessages(for: conversations) { [weak self] result in
 				if case .failure(let error) = result {
 					ALog.error("error = \(error.localizedDescription)")
+				}
+				if let strongSelf = self {
+					strongSelf.messagesDelegate?.conversationsManager(strongSelf, didFinishPreviousMessagesDownload: conversations)
 				}
 			}
 		}
@@ -368,9 +374,13 @@ extension ConversationsManager: TwilioConversationsClientDelegate {
 	func conversationsClient(_ client: TwilioConversationsClient, conversationAdded conversation: TCHConversation) {
 		ALog.info("conversationAdded:")
 		conversations.insert(conversation)
-		getPreviousMessages(for: [conversation]) { result in
+		messagesDelegate?.conversationsManager(self, didStartPreviousMessagesDownload: [conversation])
+		getPreviousMessages(for: [conversation]) { [weak self] result in
 			if case .failure(let error) = result {
 				ALog.error("error = \(error.localizedDescription)")
+			}
+			if let strongSelf = self {
+				strongSelf.messagesDelegate?.conversationsManager(strongSelf, didFinishPreviousMessagesDownload: [conversation])
 			}
 		}
 	}

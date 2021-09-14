@@ -9,6 +9,8 @@ import UIKit
 
 class ConnectedDevicesViewController: UITableViewController {
 	@Injected(\.bluetoothManager) var bluetoothManager: BGMBluetoothManager
+	@Injected(\.careManager) var careManager: CareManager
+
 	var addBarButtonItem: UIBarButtonItem?
 	var dataSource: UITableViewDiffableDataSource<Int, String>!
 
@@ -33,7 +35,7 @@ class ConnectedDevicesViewController: UITableViewController {
 		super.viewWillAppear(animated)
 		var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
 		snapshot.appendSections([0])
-		if let device = UserDefaults.standard.bloodGlucoseMonitor, let identifier = device.localIdentifier {
+		if let identifier = careManager.patient?.bgmName {
 			snapshot.appendItems([identifier], toSection: 0)
 		}
 		dataSource.apply(snapshot, animatingDifferences: animated) {
@@ -42,7 +44,7 @@ class ConnectedDevicesViewController: UITableViewController {
 	}
 
 	@IBAction func showBluetoothPairFlow(_ sender: UIBarButtonItem?) {
-		guard UserDefaults.standard.bloodGlucoseMonitor == nil else {
+		guard careManager.patient?.bgmName == nil else {
 			showCannotPair()
 			return
 		}
@@ -61,7 +63,7 @@ class ConnectedDevicesViewController: UITableViewController {
 	}
 
 	func showUnpairView() {
-		guard let device = UserDefaults.standard.bloodGlucoseMonitor else {
+		guard let device = careManager.patient?.bgmName else {
 			return
 		}
 		let viewController = BGMDeviceDetailViewController()
@@ -83,7 +85,7 @@ class ConnectedDevicesViewController: UITableViewController {
 		cell.accessoryType = .disclosureIndicator
 		let name = bluetoothManager.peripherals.first { peripheral in
 			peripheral.identifier.uuidString == itemIdentifier
-		}?.name ?? UserDefaults.standard.bloodGlucoseMonitor?.name
+		}?.name ?? careManager.patient?.bgmName
 		cell.textLabel?.attributedText = name?.attributedString(style: .regular17, foregroundColor: UIColor.grey, letterSpacing: -0.41)
 	}
 }

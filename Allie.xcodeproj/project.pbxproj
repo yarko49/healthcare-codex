@@ -4001,7 +4001,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.13;
+				MARKETING_VERSION = 0.9.14;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4030,7 +4030,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.13;
+				MARKETING_VERSION = 0.9.14;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4059,7 +4059,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.12;
+				MARKETING_VERSION = 0.9.14;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4088,7 +4088,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.9.12;
+				MARKETING_VERSION = 0.9.14;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";

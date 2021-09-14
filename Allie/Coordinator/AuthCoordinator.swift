@@ -25,6 +25,7 @@ class AuthCoordinator: BaseCoordinator {
 	}
 
 	init(parent: MainCoordinator?, deepLink: String?) {
+		ALog.info("Auth Coordinator init")
 		super.init(type: .authentication)
 		navigationController = UINavigationController()
 		self.parent = parent
@@ -37,6 +38,7 @@ class AuthCoordinator: BaseCoordinator {
 	}
 
 	override func start() {
+		ALog.info("Auth Coordinator start")
 		gotoSignup()
 	}
 
@@ -49,7 +51,7 @@ class AuthCoordinator: BaseCoordinator {
 	}
 
 	func gotoSignup(authorizationFlowType type: AuthorizationFlowType = .signUp) {
-		ALog.debug("gotoSignup: \(type)")
+		ALog.info("gotoSignup: \(type)")
 		authorizationFlowType = type
 		let signupViewController = SignupViewController()
 		signupViewController.authorizationFlowType = type
@@ -79,7 +81,7 @@ class AuthCoordinator: BaseCoordinator {
 	}
 
 	func gotoLogin(authorizationFlowType type: AuthorizationFlowType = .signIn) {
-		ALog.debug("gotoLogin: \(type)")
+		ALog.info("gotoLogin: \(type)")
 		authorizationFlowType = type
 		let loginViewController = LoginViewController()
 		loginViewController.authorizationFlowType = type
@@ -109,7 +111,7 @@ class AuthCoordinator: BaseCoordinator {
 	}
 
 	func gotoEmailSignup() {
-		ALog.debug("gotoEmailSignup")
+		ALog.info("gotoEmailSignup")
 		let emailSignupViewController = EmailSignupViewController()
 		emailSignupViewController.authorizeWithEmail = { [weak self] email, authorizationFlowType in
 			self?.authorizationFlowType = authorizationFlowType
@@ -151,7 +153,7 @@ class AuthCoordinator: BaseCoordinator {
 	}
 
 	func verifySendLink(link: String) {
-		ALog.debug("verifySendLink: \(link)")
+		ALog.info("verifySendLink: \(link)")
 		if let email = keychain.userEmail {
 			showHUD()
 			if Auth.auth().isSignIn(withEmailLink: link) {
@@ -184,6 +186,7 @@ class AuthCoordinator: BaseCoordinator {
 	}
 
 	func getPatient(email: String?, user: RemoteUser) {
+		ALog.info("getPatient email \(String(describing: email)), remoteUser = \(user)")
 		guard let user = Auth.auth().currentUser else {
 			gotoSignup()
 			return

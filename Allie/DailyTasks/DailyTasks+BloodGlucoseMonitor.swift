@@ -28,7 +28,7 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 	}
 
 	func bluetoothManager(_ manager: BGMBluetoothManager, didFind peripheral: CBPeripheral, rssi: Int) {
-		if let currentDevice = UserDefaults.standard.bloodGlucoseMonitor, peripheral.identifier == currentDevice.uuid {
+		if let currentDevice = careManager.patient?.bgmName, peripheral.name == currentDevice {
 			bloodGlucoseMonitor.connect(peripheral: peripheral)
 			return
 		}
@@ -63,8 +63,25 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 					self?.showErrorAlert(title: title, message: error.localizedDescription)
 				}
 			} receiveValue: { [weak self] samples in
+				self?.updatePatient(manager: manager, peripheral: peripheral)
 				self?.process(samples: samples, quantityIdentifier: .bloodGlucose)
 			}.store(in: &cancellables)
+	}
+
+	func updatePatient(manager: BGMBluetoothManager, peripheral: CBPeripheral) {
+		guard var patient = careManager.patient else {
+			return
+		}
+		let date = Date()
+		let seconds = date.timeIntervalSince1970
+		let milliseconsString = String(seconds * 1000)
+		let dateString = DateFormatter.wholeDateRequest.string(from: date)
+		patient.bgmIdentifier = peripheral.identifier.uuidString
+		patient.bgmName = peripheral.name
+		patient.bgmLastSync = milliseconsString
+		patient.bgmLastSyncDate = dateString
+		careManager.patient = patient
+		careManager.upload(patient: patient)
 	}
 
 	func process(samples: [HKSample], quantityIdentifier: HKQuantityTypeIdentifier) {
@@ -102,7 +119,7 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 		}
 		alertController.addAction(cancelAction)
 		let connectAction = UIAlertAction(title: NSLocalizedString("CONNECT", comment: "Connect"), style: .default) { [weak self] _ in
-			guard UserDefaults.standard.bloodGlucoseMonitor == nil else {
+			guard self?.careManager.patient?.bgmName == nil else {
 				self?.showCannotPair()
 				return
 			}

@@ -1,6 +1,7 @@
 import Firebase
 import FirebaseAuth
 import KeychainAccess
+import MessageUI
 import MessagingSDK
 import SafariServices
 import SDKConfigurations
@@ -73,6 +74,10 @@ class SettingsViewController: BaseViewController {
 		snapshot.appendItems(items, toSection: 0)
 		dataSource.apply(snapshot, animatingDifferences: false) {
 			ALog.info("Finished Apply Snapshot")
+		}
+		if LoggingManager.enableFileLogging {
+			let shareLogsButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(mailLogs))
+			navigationItem.rightBarButtonItem = shareLogsButton
 		}
 	}
 
@@ -237,6 +242,18 @@ extension SettingsViewController: UITableViewDelegate {
 		viewController.title = SettingsType.readings.title
 		navigationController?.show(viewController, sender: self)
 	}
+
+	@IBAction func mailLogs() {
+		guard let url = LoggingManager.fileLogURL, let data = try? Data(contentsOf: url, options: .mappedIfSafe) else {
+			return
+		}
+		let mailComposer = MFMailComposeViewController()
+		mailComposer.mailComposeDelegate = self
+		mailComposer.setSubject("Allie Logs")
+		mailComposer.setMessageBody("Attched Logs", isHTML: false)
+		mailComposer.addAttachmentData(data, mimeType: "text/plain", fileName: "Allie.log")
+		navigationController?.show(mailComposer, sender: self)
+	}
 }
 
 extension SettingsViewController: SettingsFooterViewDelegate {
@@ -290,5 +307,16 @@ extension SettingsViewController: SettingsFooterViewDelegate {
 extension SettingsViewController: SFSafariViewControllerDelegate {
 	func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
 		controller.dismiss(animated: true, completion: nil)
+	}
+}
+
+extension SettingsViewController: MFMailComposeViewControllerDelegate {
+	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+		controller.dismiss(animated: true, completion: nil)
+		if error == nil {
+			if let fileURL = LoggingManager.fileLogURL {
+				try? Data().write(to: fileURL, options: .noFileProtection)
+			}
+		}
 	}
 }

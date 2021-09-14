@@ -121,13 +121,13 @@ class CareManager: NSObject, ObservableObject {
 		NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)
 			.sink { [weak self] _ in
 				self?.startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
-				ALog.info("Did Start the Outcomes Timer")
+				ALog.trace("Did Start the Outcomes Timer")
 			}.store(in: &cancellables)
 
 		NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)
 			.sink { [weak self] _ in
 				self?.cancelUploadOutcomesTimer()
-				ALog.info("Did Cancel the Outcomes Timer")
+				ALog.trace("Did Cancel the Outcomes Timer")
 			}.store(in: &cancellables)
 	}
 
@@ -173,7 +173,7 @@ extension CareManager {
 		queue.async { [weak self] in
 			if let patient = carePlanResponse.patients.first {
 				let thePatient = self?.syncProcess(patient: patient, queue: queue)
-				ALog.debug("patient id \(String(describing: thePatient?.id)), patient uuid = \(String(describing: thePatient?.uuid?.uuidString))")
+				ALog.info("patient id \(String(describing: thePatient?.id)), patient uuid = \(String(describing: thePatient?.uuid?.uuidString))")
 				self?.patient = thePatient
 				if thePatient == nil {
 					result = OCKStoreError.updateFailed(reason: "Unable to update Patient")
@@ -183,7 +183,7 @@ extension CareManager {
 			var theCarePlan: OCKCarePlan?
 			if let carePlan = carePlanResponse.carePlans.first, result == nil {
 				theCarePlan = self?.syncProcess(carePlan: carePlan, patient: self?.patient, queue: queue)
-				ALog.debug("CarePlan id \(String(describing: theCarePlan?.id)), carePlan uuid \(String(describing: theCarePlan?.uuid))")
+				ALog.info("CarePlan id \(String(describing: theCarePlan?.id)), carePlan uuid \(String(describing: theCarePlan?.uuid))")
 				if theCarePlan == nil {
 					result = OCKStoreError.updateFailed(reason: "Unable to ")
 				}
@@ -196,8 +196,7 @@ extension CareManager {
 			let toProcess = carePlanResponse.tasks
 			if result == nil {
 				let processedTasks = self?.syncProcess(tasks: toProcess, carePlan: theCarePlan, queue: queue) ?? ([], [])
-				ALog.debug("Regular tasks saved = \(String(describing: processedTasks.0.count)), HealthKitTasks saved \(String(describing: processedTasks.1.count))")
-
+				ALog.info("Regular tasks saved = \(String(describing: processedTasks.0.count)), HealthKitTasks saved \(String(describing: processedTasks.1.count))")
 				if (processedTasks.0.count + processedTasks.1.count) != toProcess.count {
 					result = OCKStoreError.updateFailed(reason: "Error updating tasks")
 				}
@@ -208,7 +207,7 @@ extension CareManager {
 				if outcomes == nil {
 					result = OCKStoreError.updateFailed(reason: "Outcomes update failed")
 				}
-				ALog.debug("Number out outcomes saved \(String(describing: outcomes?.count))")
+				ALog.trace("Number out outcomes saved \(String(describing: outcomes?.count))")
 			}
 			self?.synchronizeHealthKitOutcomes()
 
@@ -252,16 +251,16 @@ extension CareManager {
 
 extension CareManager: OCKRemoteSynchronizationDelegate {
 	public func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
-		ALog.info("Did Request Synchronization")
+		ALog.trace("Did Request Synchronization")
 	}
 
 	public func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
-		ALog.info("Did Update Progress")
+		ALog.trace("Did Update Progress")
 	}
 }
 
 extension CareManager: OCKResetDelegate {
 	func storeDidReset(_ store: OCKAnyResettableStore) {
-		ALog.info("Store \(store) did reset")
+		ALog.trace("Store \(store) did reset")
 	}
 }

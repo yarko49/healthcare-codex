@@ -21,8 +21,9 @@ class BGMDeviceDetailViewController: UIViewController {
 	}
 
 	@Injected(\.bluetoothManager) var bluetoothManager: BGMBluetoothManager
+	@Injected(\.careManager) var careManager: CareManager
 
-	var device: CHDevice? {
+	var device: String? {
 		didSet {
 			configureView()
 		}
@@ -88,8 +89,8 @@ class BGMDeviceDetailViewController: UIViewController {
 		guard let device = self.device else {
 			return
 		}
-		title = device.name
-		titleLabel.text = device.name
+		title = device
+		titleLabel.text = device
 		subtitleLabel.text = nil
 	}
 
@@ -122,7 +123,14 @@ class BGMDeviceDetailViewController: UIViewController {
 		alertController.addAction(cancelAction)
 		let unpairAction = UIAlertAction(title: NSLocalizedString("UNPAIR", comment: "Unpair"), style: .destructive) { [weak self] _ in
 			self?.bluetoothManager.stopMonitoring()
-			UserDefaults.standard.bloodGlucoseMonitor = nil
+			if var patient = self?.careManager.patient {
+				patient.bgmIdentifier = nil
+				patient.bgmLastSync = nil
+				patient.bgmLastSyncDate = nil
+				patient.bgmName = nil
+				self?.careManager.patient = patient
+				self?.careManager.upload(patient: patient)
+			}
 			self?.navigationController?.popViewController(animated: true)
 		}
 		alertController.addAction(unpairAction)
