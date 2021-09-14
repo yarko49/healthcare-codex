@@ -33,6 +33,7 @@ class BGMPairingViewController: UIViewController {
 	var initialIndex: Int = 0
 	var selectedIdentifier: String?
 	@Injected(\.bluetoothManager) var bluetoothManager: BGMBluetoothManager
+	@Injected(\.careManager) var careManager: CareManager
 
 	var pageViewController: UIPageViewController = {
 		let viewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
@@ -169,7 +170,7 @@ class BGMPairingViewController: UIViewController {
 extension BGMPairingViewController: BGMBluetoothManagerDelegate {
 	func bluetoothManager(_ manager: BGMBluetoothManager, didUpdate state: CBManagerState) {
 		if state == .poweredOn {
-			ALog.info("Bluetooth Active")
+			ALog.trace("Bluetooth Active")
 			bluetoothManager.scanForPeripherals()
 			ALog.info("Starting BLE scan\n")
 		} else {
@@ -197,13 +198,19 @@ extension BGMPairingViewController: BGMBluetoothManagerDelegate {
 		if let error = error {
 			let nsError = error as NSError
 			if nsError.code == 15, nsError.domain == "CBATTErrorDomain" {
+				bluetoothManager.multicastDelegate.remove(self)
 				DispatchQueue.main.async { [weak self] in
 					self?.showFailure()
 				}
 			}
 		} else {
-			let device = CHDevice(peripheral: peripheral)
-			UserDefaults.standard.bloodGlucoseMonitor = device
+			if var patient = careManager.patient {
+				patient.bgmIdentifier = peripheral.identifier.uuidString
+				patient.bgmName = peripheral.name
+				careManager.patient = patient
+				careManager.upload(patient: patient)
+			}
+			bluetoothManager.multicastDelegate.remove(self)
 			bluetoothManager.stopMonitoring()
 			DispatchQueue.main.async { [weak self] in
 				self?.showSuccess()

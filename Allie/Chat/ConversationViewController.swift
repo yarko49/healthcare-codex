@@ -49,7 +49,7 @@ class ConversationViewController: MessagesViewController {
 		configureMessageInputBar()
 		if let conversation = self.conversation {
 			hud.show(in: tabBarController?.view ?? view)
-			DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+			DispatchQueue.global(qos: .background).async { [weak self] in
 				self?.conversationsManager?.join(conversation: conversation, completion: { [weak self] result in
 					DispatchQueue.main.async {
 						self?.hud.dismiss(animated: false)
@@ -83,7 +83,7 @@ class ConversationViewController: MessagesViewController {
 		super.viewDidAppear(animated)
 		UIApplication.shared.applicationIconBadgeNumber = 0
 		UserDefaults.standard.chatNotificationsCount = 0
-		AppDelegate.mainCoordinator?.updateBadges(count: nil)
+		AppDelegate.mainCoordinator?.updateBadges(count: 0)
 		messagesCollectionView.scrollToLastItem()
 	}
 
@@ -119,6 +119,18 @@ class ConversationViewController: MessagesViewController {
 }
 
 extension ConversationViewController: ConversationMessagesDelegate {
+	func conversationsManager(_ manager: ConversationsManager, didStartPreviousMessagesDownload conversations: [TCHConversation]) {
+		DispatchQueue.main.async {
+			self.hud.show(in: self.tabBarController?.view ?? self.navigationController?.view ?? self.view)
+		}
+	}
+
+	func conversationsManager(_ manager: ConversationsManager, didFinishPreviousMessagesDownload conversations: [TCHConversation]) {
+		DispatchQueue.main.async {
+			self.hud.dismiss()
+		}
+	}
+
 	func conversationsManager(_ manager: ConversationsManager, reloadMessagesFor conversation: TCHConversation) {
 		messagesCollectionView.reloadData()
 	}

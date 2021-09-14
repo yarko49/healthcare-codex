@@ -35,8 +35,8 @@ class BGMBluetoothManager: NSObject, ObservableObject {
 	var multicastDelegate: MulticastDelegate<BGMBluetoothManagerDelegate> = .init()
 
 	var services: Set<CBUUID> = [GATTService.bloodGlucose.uuid, GATTService.deviceInformation.uuid]
-	var deviceCharacteristics: Set<CBUUID> = Set([GATTCharacteristic.firmwareRevisionString, .hardwareRevisionsString, .softwareRevisionString, .serialNumberString, .manufacturerNameString, .manufacturerModelNumberString, .timeZone, .systemId].map(\.uuid))
-	var measurementCharacteristics: Set<CBUUID> = Set([GATTCharacteristic.bloodGlucoseMeasurement, .bloodGlucoseMeasurementContext, .recordAccessControlPoint].map(\.uuid))
+	var deviceCharacteristics: Set<CBUUID> = Set(GATTCharacteristic.deviceInfo.map(\.uuid))
+	var measurementCharacteristics: Set<CBUUID> = Set(GATTCharacteristic.bloodGlucoseMeasurements.map(\.uuid))
 	@Published var pairedPeripheral: CBPeripheral?
 	@Published var peripherals: Set<CBPeripheral> = []
 	@Published var racpCharacteristic: CBCharacteristic? // BGM Record Access Control Point
@@ -180,7 +180,7 @@ extension BGMBluetoothManager: CBPeripheralDelegate {
 
 	// For notified characteristics, here's the triggered method when a value comes in from the Peripheral
 	func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-		ALog.info("didUpdateValueForCharacteristic \(characteristic)")
+		ALog.trace("didUpdateValueForCharacteristic \(characteristic.uuid)")
 		if measurementCharacteristics.contains(characteristic.uuid) {
 			processMeasurement(characteristic: characteristic, for: peripheral)
 		} else if deviceCharacteristics.contains(characteristic.uuid) {
@@ -253,26 +253,26 @@ extension BGMBluetoothManager: CBPeripheralDelegate {
 		let valueString = String(data: value, encoding: .utf8)
 
 		switch characteristic.uuid {
-		case GATTCharacteristic.hardwareRevisionsString.uuid:
+		case GATTCharacteristic.hardwareRevisions.uuid:
 			ALog.info("Hardware Revision \(valueString ?? "No hardware revision")")
 			device.hardwareVersion = valueString
-		case GATTCharacteristic.firmwareRevisionString.uuid:
+		case GATTCharacteristic.firmwareRevision.uuid:
 			ALog.info("Firmware Revision \(valueString ?? "No firmware revision")")
 			device.firmwareVersion = valueString
-		case GATTCharacteristic.softwareRevisionString.uuid:
+		case GATTCharacteristic.softwareRevision.uuid:
 			ALog.info("Software Revision \(valueString ?? "No software revision")")
 			device.softwareVersion = valueString
-		case GATTCharacteristic.serialNumberString.uuid:
+		case GATTCharacteristic.manufacturerSerialNumber.uuid:
 			ALog.info("Serial Number \(valueString ?? "No serial number")")
-		case GATTCharacteristic.manufacturerNameString.uuid:
+		case GATTCharacteristic.manufacturerName.uuid:
 			ALog.info("Name \(valueString ?? "No Name")")
 			device.name = valueString
-		case GATTCharacteristic.manufacturerModelNumberString.uuid:
+		case GATTCharacteristic.manufacturerModelNumber.uuid:
 			ALog.info("Model Number \(valueString ?? "No Model Number")")
 			device.model = valueString
 		case GATTCharacteristic.timeZone.uuid:
 			ALog.info("Timezone \(valueString ?? "No Timezone")")
-		case GATTCharacteristic.systemId.uuid:
+		case GATTCharacteristic.manufacturerSystemId.uuid:
 			ALog.info("SystemId \(valueString ?? "No System Id")")
 			device.localIdentifier = valueString
 		default:

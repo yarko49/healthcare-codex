@@ -42,8 +42,6 @@ extension UserDefaults {
 		static let measurementWeightNotificationEnabled = "measurementWeightNotificationEnabled"
 		static let measurementBloodGlucoseNotificationEnabled = "measurementBloodGlucoseNotificationEnabled"
 		static let lastObervationUploadDate = "lastObervationUploadDate"
-		static let bloodGlucoseMonitor = "bloodGlucoseMonitor"
-		static let bloodGlucoseMonitorLastSyncDate = "bloodGlucoseMonitorLastSyncDate"
 		static let chatNotificationsCount = "chatNotificationsCount"
 	}
 
@@ -181,24 +179,6 @@ extension UserDefaults {
 		}
 		set {
 			setValue(newValue, forKey: Self.Keys.lastObervationUploadDate)
-		}
-	}
-
-	var bloodGlucoseMonitor: CHDevice? {
-		get {
-			self[Keys.bloodGlucoseMonitor]
-		}
-		set {
-			self[Keys.bloodGlucoseMonitor] = newValue
-		}
-	}
-
-	var bloodGlucoseMonitorLastSyncDate: Date? {
-		get {
-			object(forKey: Keys.bloodGlucoseMonitorLastSyncDate) as? Date
-		}
-		set {
-			setValue(newValue, forKey: Keys.bloodGlucoseMonitorLastSyncDate)
 		}
 	}
 

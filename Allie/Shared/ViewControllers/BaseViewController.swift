@@ -37,6 +37,6 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 	func populateData() {}
 
 	deinit {
-		ALog.info("\(String(describing: type(of: self))) deinitialized")
+		ALog.trace("\(String(describing: type(of: self))) deinitialized")
 	}
 }

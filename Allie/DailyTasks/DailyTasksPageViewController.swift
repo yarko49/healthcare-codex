@@ -48,7 +48,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.reload()
 			}.store(in: &cancellables)
 
-		if UserDefaults.standard.bloodGlucoseMonitor == nil {
+		if careManager.patient?.bgmName == nil {
 			NotificationCenter.default.publisher(for: .didPairBloodGlucoseMonitor)
 				.receive(on: RunLoop.main)
 				.sink { [weak self] _ in
@@ -73,7 +73,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			DispatchQueue.main.async {
 				self?.reload()
 			}
-			if UserDefaults.standard.bloodGlucoseMonitor != nil {
+			if self?.careManager.patient?.bgmName != nil {
 				self?.startBluetooth()
 			}
 		}

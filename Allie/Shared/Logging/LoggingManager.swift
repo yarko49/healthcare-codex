@@ -44,7 +44,7 @@ extension Logger.Level {
 }
 
 enum LoggingManager {
-	static var fileLogLevel: Logger.Level = .debug {
+	static var fileLogLevel: Logger.Level = .info {
 		didSet {
 			changeLogger(label: ALog.label)
 		}

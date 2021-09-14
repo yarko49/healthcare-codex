@@ -54,7 +54,7 @@ class RemoteConfigManager: ObservableObject {
 					self?.updateProperties()
 					promise(.success(true))
 				@unknown default:
-					ALog.debug("Unknown Status")
+					ALog.info("Unknown Status")
 					promise(.success(false))
 				}
 			}

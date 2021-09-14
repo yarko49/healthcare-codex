@@ -52,6 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		Self.configureZendesk()
 		UNUserNotificationCenter.current().delegate = self
 		Messaging.messaging().delegate = self
+		ALog.info("-----------------------> Start of the App <-----------------------")
 		return true
 	}
 
@@ -151,7 +152,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	}
 
 	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-		ALog.debug("didReceiveRemoteNotification:")
+		ALog.info("didReceiveRemoteNotification:")
 		if application.applicationState != .active {
 			process(application, notificationInfo: userInfo)
 		}
@@ -163,7 +164,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	}
 
 	func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-		ALog.debug("willPresent notification:")
+		ALog.info("willPresent notification:")
 		process(UIApplication.shared, notificationRequest: notification.request)
 		completionHandler([.badge, .banner, .sound])
 	}
@@ -179,6 +180,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 	func process(_ application: UIApplication, notificationInfo userInfo: [AnyHashable: Any]) {
 		Messaging.messaging().appDidReceiveMessage(userInfo)
+		if Auth.auth().currentUser == nil {
+			ALog.info("application:notificationInfo: currentUser == nil")
+		}
 		guard let typeString = userInfo["type"] as? String else {
 			return
 		}

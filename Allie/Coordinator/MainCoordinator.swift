@@ -58,8 +58,10 @@ class MainCoordinator: BaseCoordinator {
 	}
 
 	override func start() {
+		ALog.info("MainCoordinator start")
 		super.start()
 		if Auth.auth().currentUser == nil {
+			ALog.info("MainCoordinator start currentUser == nil")
 			goToAuth()
 		} else {
 			biometricsAuthentication()
@@ -67,7 +69,7 @@ class MainCoordinator: BaseCoordinator {
 	}
 
 	func goToAuth(url: String? = nil) {
-		ALog.debug("goToAuth: \(String(describing: url))")
+		ALog.info("goToAuth: \(String(describing: url))")
 		removeCoordinator(ofType: .application)
 		let authCoordinator = AuthCoordinator(parent: self, deepLink: url)
 		addChild(coordinator: authCoordinator)
@@ -103,11 +105,12 @@ class MainCoordinator: BaseCoordinator {
 		appController?.tabBarController?.selectedIndex = 2
 	}
 
-	func updateBadges(count: Int?) {
+	func updateBadges(count: Int) {
 		let appController = self[.application] as? AppCoordinator
 		let tabbarItem = appController?.tabBarController?.tabBar.items?[2]
 		tabbarItem?.badgeColor = .systemRed
-		tabbarItem?.badgeValue = count == nil ? nil : "\(count ?? 0)"
+		// swiftlint:disable:next empty_count
+		tabbarItem?.badgeValue = count > 0 ? "\(count)" : nil
 	}
 
 	func createPatientIfNeeded() {
@@ -132,6 +135,7 @@ class MainCoordinator: BaseCoordinator {
 	}
 
 	func biometricsAuthentication() {
+		ALog.info("biometricsAuthentication, isBiometricsEnabled \(UserDefaults.standard.isBiometricsEnabled)")
 		guard UserDefaults.standard.isBiometricsEnabled else {
 			goToAuth()
 			return
@@ -148,7 +152,11 @@ class MainCoordinator: BaseCoordinator {
 		})
 		#else
 		let reason = String.authWithBiometrics
-		authenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, _ in
+		authenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, error in
+			ALog.info("authenticationContext, evaluatePolicy success = \(success)")
+			if let error = error {
+				ALog.error("Biometric Authentication Failed \((error as NSError).debugDescription)")
+			}
 			guard success else {
 				DispatchQueue.main.async {
 					self?.goToAuth()
@@ -156,6 +164,7 @@ class MainCoordinator: BaseCoordinator {
 				return
 			}
 			self?.firebaseAuthentication(completion: { success in
+				ALog.info("firebaseAuthentication success = \(success)")
 				DispatchQueue.main.async {
 					if success {
 						self?.createPatientIfNeeded()

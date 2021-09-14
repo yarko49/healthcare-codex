@@ -16,7 +16,7 @@ import UIKit
  */
 public typealias CHPatients = [CHPatient]
 
-public struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyItemDeletable {
+public struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyItemDeletable, AnyUserInfoExtensible {
 	public let id: String
 	public var uuid: UUID?
 	public var name: PersonNameComponents
@@ -217,6 +217,53 @@ public struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyIte
 		case asset
 		case notes
 		case timezone
+	}
+}
+
+extension CHPatient {
+	var bgmIdentifier: String? {
+		get {
+			userInfo?["bgmIdentifier"]
+		}
+		set {
+			setUserInfo(string: newValue, forKey: "bgmIdentifier")
+		}
+	}
+
+	var bgmAddress: String? {
+		get {
+			userInfo?["bgmAddress"]
+		}
+		set {
+			setUserInfo(string: newValue, forKey: "bgmAddress")
+		}
+	}
+
+	var bgmLastSync: String? {
+		get {
+			userInfo?["bgmLastSync"]
+		}
+		set {
+			setUserInfo(string: newValue, forKey: "bgmLastSync")
+		}
+	}
+
+	var bgmLastSyncDate: String? {
+		get {
+			userInfo?["bgmLastSyncDate"]
+		}
+		set {
+			setUserInfo(string: newValue, forKey: "bgmLastSyncDate")
+		}
+	}
+
+	var bgmName: String? {
+		get {
+			userInfo?["bgmName"]
+		}
+		set {
+			setUserInfo(string: newValue, forKey: "bgmName")
+		}
 	}
 }
 
