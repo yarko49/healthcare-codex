@@ -74,11 +74,11 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 		}
 		let date = Date()
 		let seconds = date.timeIntervalSince1970
-		let milliseconsString = String(seconds * 1000)
+		let millisecondsString = String(Int64(seconds * 1000))
 		let dateString = DateFormatter.wholeDateRequest.string(from: date)
 		patient.bgmIdentifier = peripheral.identifier.uuidString
 		patient.bgmName = peripheral.name
-		patient.bgmLastSync = milliseconsString
+		patient.bgmLastSync = millisecondsString
 		patient.bgmLastSyncDate = dateString
 		careManager.patient = patient
 		careManager.upload(patient: patient)
