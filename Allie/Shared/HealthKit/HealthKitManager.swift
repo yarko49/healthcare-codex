@@ -26,6 +26,7 @@ class HealthKitManager {
 	@Injected(\.careManager) var careManager: CareManager
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	private var cancellables: Set<AnyCancellable> = []
+	var sequenceNumbers = BGMSequenceNumbers<Int>()
 
 	typealias SampleCompletion = (Result<[HKSample], Error>) -> Void
 	func authorizeHealthKit(completion: @escaping (Bool, Error?) -> Void) {
@@ -48,7 +49,15 @@ class HealthKitManager {
 
 		let healthKitTypesToWrite: Set<HKSampleType> = [bodyMass, heartRate, bloodPressureSystolic, bloodPressureDiastolic, bloodGloucose, insulinDelivery]
 		let healthKitTypesToRead: Set<HKQuantityType> = [bodyMass, heartRate, restingHeartRate, bloodPressureDiastolic, bloodPressureSystolic, stepCount, bloodGloucose, insulinDelivery]
-		healthStore.requestAuthorization(toShare: healthKitTypesToWrite, read: healthKitTypesToRead) { success, error in
+		healthStore.requestAuthorization(toShare: healthKitTypesToWrite, read: healthKitTypesToRead) { [weak self] success, error in
+			if success {
+				DispatchQueue.global(qos: .background).async {
+					self?.sequenceNumbers.removeAll()
+					self?.fetchAllSequenceNumbers { newValues in
+						self?.sequenceNumbers.formUnion(newValues)
+					}
+				}
+			}
 			completion(success, error)
 		}
 	}

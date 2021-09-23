@@ -15,6 +15,12 @@ extension RemoteLogging {
 	}
 }
 
+extension FileLogging {
+	var logLevel: Logger.Level {
+		Logger.Level(rawValue: minimumLevel) ?? .error
+	}
+}
+
 public struct LoggingCrashlytics: LogHandler {
 	public var metadata: Logger.Metadata = [:] {
 		didSet {

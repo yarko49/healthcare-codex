@@ -30,13 +30,25 @@ class HealthViewController: SignupBaseViewController {
 		                             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 		                             buttonStackView.topAnchor.constraint(equalToSystemSpacingBelow: labekStackView.bottomAnchor, multiplier: 5.0)])
 
-		let imageView = UIImageView(image: UIImage(named: "illustration8"))
-		imageView.translatesAutoresizingMaskIntoConstraints = false
-		buttonStackView.alignment = .center
-		buttonStackView.addArrangedSubview(imageView)
+		[appleHealthImageView, careKitImageView].forEach { view in
+			view.translatesAutoresizingMaskIntoConstraints = false
+			view.clipsToBounds = false
+			view.layer.shadowColor = UIColor(white: 0.0, alpha: 0.1).cgColor
+			view.layer.shadowOffset = CGSize(width: 0.0, height: 10.0)
+			view.layer.shadowRadius = 26.0
+			view.layer.shadowOpacity = 1
+		}
+
+		view.addSubview(appleHealthImageView)
+		NSLayoutConstraint.activate([appleHealthImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -40),
+		                             appleHealthImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -75)])
+
+		view.addSubview(careKitImageView)
+		NSLayoutConstraint.activate([careKitImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -40),
+		                             careKitImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 75)])
 
 		view.addSubview(messageLabel)
-		NSLayoutConstraint.activate([messageLabel.topAnchor.constraint(equalToSystemSpacingBelow: buttonStackView.bottomAnchor, multiplier: 2.0),
+		NSLayoutConstraint.activate([messageLabel.topAnchor.constraint(equalToSystemSpacingBelow: appleHealthImageView.bottomAnchor, multiplier: 5.0),
 		                             messageLabel.widthAnchor.constraint(equalToConstant: buttonWidth),
 		                             messageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
 
@@ -106,6 +118,26 @@ class HealthViewController: SignupBaseViewController {
 		button.layer.borderWidth = 1
 		button.layer.borderColor = UIColor.allieGray.cgColor
 		return button
+	}()
+
+	let appleHealthImageView: UIImageView = {
+		let image = UIImage(named: "AppleHealth")
+		let view = UIImageView(frame: .zero)
+		view.image = image
+		view.contentMode = .scaleAspectFill
+		view.heightAnchor.constraint(equalToConstant: 125.0).isActive = true
+		view.widthAnchor.constraint(equalToConstant: 125.0).isActive = true
+		return view
+	}()
+
+	let careKitImageView: UIImageView = {
+		let image = UIImage(named: "CareKit")
+		let view = UIImageView(frame: .zero)
+		view.image = image
+		view.contentMode = .scaleAspectFill
+		view.heightAnchor.constraint(equalToConstant: 125.0).isActive = true
+		view.widthAnchor.constraint(equalToConstant: 125.0).isActive = true
+		return view
 	}()
 
 	private func configureView() {

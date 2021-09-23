@@ -27,6 +27,7 @@
 		8408844026884001003C3AE2 /* Color+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8408843F26884001003C3AE2 /* Color+Names.swift */; };
 		8408844126884001003C3AE2 /* Color+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8408843F26884001003C3AE2 /* Color+Names.swift */; };
 		8408844226884001003C3AE2 /* Color+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8408843F26884001003C3AE2 /* Color+Names.swift */; };
+		840B75BE26FB99FA00BF2D1A /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840B75BD26FB99FA00BF2D1A /* HealthKit.framework */; };
 		840D1BF1265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */; };
 		840D1BF2265CCAE0000C9DB7 /* HKQuantityTypeIdentifier+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84552C0E265CC687003B55A9 /* HKQuantityTypeIdentifier+Image.swift */; };
 		840D1BF3265CCAE1000C9DB7 /* HKQuantityTypeIdentifier+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84552C0E265CC687003B55A9 /* HKQuantityTypeIdentifier+Image.swift */; };
@@ -247,6 +248,9 @@
 		8455B152269A159B006C367C /* GeneralizedLogTaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455B150269A159B006C367C /* GeneralizedLogTaskDetailView.swift */; };
 		8455B153269A159B006C367C /* GeneralizedLogTaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455B150269A159B006C367C /* GeneralizedLogTaskDetailView.swift */; };
 		845AAC71259C36E900FF8F3F /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 845AAC70259C36E900FF8F3F /* IQKeyboardManagerSwift */; };
+		845AF18426F9B00C001F7707 /* BGMSequenceNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845AF18326F9B00C001F7707 /* BGMSequenceNumbers.swift */; };
+		845AF18526F9B00C001F7707 /* BGMSequenceNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845AF18326F9B00C001F7707 /* BGMSequenceNumbers.swift */; };
+		845AF18626F9B00C001F7707 /* BGMSequenceNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845AF18326F9B00C001F7707 /* BGMSequenceNumbers.swift */; };
 		845B4537269B9A0000EC5211 /* HKQuantityTypeIdentifier+Linkage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845B4536269B9A0000EC5211 /* HKQuantityTypeIdentifier+Linkage.swift */; };
 		845B4538269B9A0000EC5211 /* HKQuantityTypeIdentifier+Linkage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845B4536269B9A0000EC5211 /* HKQuantityTypeIdentifier+Linkage.swift */; };
 		845B4539269B9A0000EC5211 /* HKQuantityTypeIdentifier+Linkage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845B4536269B9A0000EC5211 /* HKQuantityTypeIdentifier+Linkage.swift */; };
@@ -989,6 +993,7 @@
 		8408843726883DF8003C3AE2 /* ProviderDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderDetailView.swift; sourceTree = "<group>"; };
 		8408843B26883F8C003C3AE2 /* FilledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilledButton.swift; sourceTree = "<group>"; };
 		8408843F26884001003C3AE2 /* Color+Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Names.swift"; sourceTree = "<group>"; };
+		840B75BD26FB99FA00BF2D1A /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKCorrelationTypeIdentifier+Image.swift"; sourceTree = "<group>"; };
 		841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHSynchronizedStoreManager.swift; sourceTree = "<group>"; };
 		841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHOutcome+OCKHealthKitOutcome.swift"; sourceTree = "<group>"; };
@@ -1143,6 +1148,7 @@
 		84552C0E265CC687003B55A9 /* HKQuantityTypeIdentifier+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKQuantityTypeIdentifier+Image.swift"; sourceTree = "<group>"; };
 		84555DC126AFC60800C7BA55 /* BGMBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGMBluetoothManager.swift; sourceTree = "<group>"; };
 		8455B150269A159B006C367C /* GeneralizedLogTaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralizedLogTaskDetailView.swift; sourceTree = "<group>"; };
+		845AF18326F9B00C001F7707 /* BGMSequenceNumbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGMSequenceNumbers.swift; sourceTree = "<group>"; };
 		845B4536269B9A0000EC5211 /* HKQuantityTypeIdentifier+Linkage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKQuantityTypeIdentifier+Linkage.swift"; sourceTree = "<group>"; };
 		845B453A269B9BDC00EC5211 /* HKCategoryTypeIdentifier+Linkage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKCategoryTypeIdentifier+Linkage.swift"; sourceTree = "<group>"; };
 		845B453E269B9C1C00EC5211 /* HKCorrelationTypeIdentifier+Linkage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKCorrelationTypeIdentifier+Linkage.swift"; sourceTree = "<group>"; };
@@ -1330,6 +1336,7 @@
 				84436275264B527B002B475C /* FirebaseInstallations in Frameworks */,
 				84A9D88E26AA9286001E83B2 /* WebService in Frameworks */,
 				8431136A262E87F300561329 /* SkyFloatingLabelTextField in Frameworks */,
+				840B75BE26FB99FA00BF2D1A /* HealthKit.framework in Frameworks */,
 				8443627D264B527B002B475C /* FirebaseAuth in Frameworks */,
 				84CEF53426891EFE000C4C56 /* SDWebImageSwiftUI in Frameworks */,
 				844AD614267FC7CB0096A08E /* CareKitFHIR in Frameworks */,
@@ -1436,6 +1443,7 @@
 		3661848D668E4335C90931AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				840B75BD26FB99FA00BF2D1A /* HealthKit.framework */,
 				84F2596E268ACBA00093FCF0 /* CareKit */,
 			);
 			name = Frameworks;
@@ -2142,6 +2150,7 @@
 				844F218426B1135E00788DA9 /* BGMDataFlags.swift */,
 				844F218026B1130600788DA9 /* BGMDataRecord.swift */,
 				8497046626B1278B006E2D51 /* BGMDataReading.swift */,
+				845AF18326F9B00C001F7707 /* BGMSequenceNumbers.swift */,
 				8497045C26B124C2006E2D51 /* BloodGlucoseSampleType.swift */,
 				8449F47F26D73C69009B5F7A /* BLEIdentifiable.swift */,
 				8449F47726D73730009B5F7A /* GATTService.swift */,
@@ -2970,6 +2979,7 @@
 				845F8BA52647B9BD00999091 /* Date+Conversion.swift in Sources */,
 				844767A5259C2A4E00C50C09 /* Data+PrettyPrint.swift in Sources */,
 				84C212A52660C5F4000D491B /* CHOrganizations.swift in Sources */,
+				845AF18426F9B00C001F7707 /* BGMSequenceNumbers.swift in Sources */,
 				848CD8B82696CBF2008B675F /* MultiValueEntryView.swift in Sources */,
 				842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */,
 				845F18A326328255005A601A /* CHOutcome+HKSample.swift in Sources */,
@@ -3280,6 +3290,7 @@
 				847DCC7A265871F3004E9C1D /* Data+PrettyPrint.swift in Sources */,
 				847DCC7B265871F3004E9C1D /* HealthViewController.swift in Sources */,
 				848CD8BA2696CBF2008B675F /* MultiValueEntryView.swift in Sources */,
+				845AF18626F9B00C001F7707 /* BGMSequenceNumbers.swift in Sources */,
 				84C212A72660C5F4000D491B /* CHOrganizations.swift in Sources */,
 				847DCC7C265871F3004E9C1D /* CHOutcome+HKSample.swift in Sources */,
 				847DCC7D265871F3004E9C1D /* BottomButton.swift in Sources */,
@@ -3556,6 +3567,7 @@
 				84D122A8264112DE00990196 /* Data+PrettyPrint.swift in Sources */,
 				84D122A9264112DE00990196 /* HealthViewController.swift in Sources */,
 				848CD8B92696CBF2008B675F /* MultiValueEntryView.swift in Sources */,
+				845AF18526F9B00C001F7707 /* BGMSequenceNumbers.swift in Sources */,
 				84C212A62660C5F4000D491B /* CHOrganizations.swift in Sources */,
 				84D122AA264112DE00990196 /* CHOutcome+HKSample.swift in Sources */,
 				84D122AB264112DE00990196 /* BottomButton.swift in Sources */,
@@ -3839,7 +3851,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3868,7 +3880,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3993,7 +4005,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4022,7 +4034,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4051,7 +4063,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4080,7 +4092,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (

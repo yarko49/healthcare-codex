@@ -75,7 +75,7 @@ class SettingsViewController: BaseViewController {
 		dataSource.apply(snapshot, animatingDifferences: false) {
 			ALog.info("Finished Apply Snapshot")
 		}
-		if LoggingManager.enableFileLogging {
+		if LoggingManager.isFileLogginEnabled {
 			let shareLogsButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(mailLogs))
 			navigationItem.rightBarButtonItem = shareLogsButton
 		}

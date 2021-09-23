@@ -20,6 +20,8 @@ class GeneralizedLogItem: OCKAnimatedButton<OCKStackView> {
 		let imageView = UIImageView()
 		imageView.image = UIImage(named: "icon-lock-fill")
 		imageView.preferredSymbolConfiguration = .init(textStyle: .caption1)
+		imageView.widthAnchor.constraint(equalToConstant: 15.0).isActive = true
+		imageView.heightAnchor.constraint(equalToConstant: 15.0).isActive = true
 		return imageView
 	}()
 
