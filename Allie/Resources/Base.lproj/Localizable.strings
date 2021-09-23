@@ -772,3 +772,9 @@
 /* Health Providers */
 "HEALTHCARE_PROVIDERS" = "Healthcare Providers";
 
+/* We are unable to register with your health care provider at this time. */
+"REGISTRATION_ERROR.message" = "We are unable to register with your health care provider at this time.";
+
+/* Something went wrong! */
+"REGISTRATION_ERROR.title" = "Something went wrong!";
+

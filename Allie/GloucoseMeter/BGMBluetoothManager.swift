@@ -15,7 +15,7 @@ protocol BGMBluetoothManagerDelegate: AnyObject {
 	func bluetoothManager(_ manager: BGMBluetoothManager, didConnect peripheral: CBPeripheral)
 	func bluetoothManager(_ central: BGMBluetoothManager, didFailToConnect peripheral: CBPeripheral, error: Error?)
 	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, readyWith characteristic: CBCharacteristic)
-	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, didReceive readings: [BGMDataReading])
+	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, didReceive readings: [Int: BGMDataReading])
 	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?)
 }
 
@@ -25,7 +25,7 @@ extension BGMBluetoothManagerDelegate {
 	func bluetoothManager(_ manager: BGMBluetoothManager, didConnect peripheral: CBPeripheral) {}
 	func bluetoothManager(_ central: BGMBluetoothManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {}
 	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, readyWith characteristic: CBCharacteristic) {}
-	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, didReceive readings: [BGMDataReading]) {}
+	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, didReceive readings: [Int: BGMDataReading]) {}
 	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {}
 }
 
@@ -44,7 +44,7 @@ class BGMBluetoothManager: NSObject, ObservableObject {
 
 	private var centralManager: CBCentralManager?
 	private var cancellables: Set<AnyCancellable> = []
-	private var batchReadings: [BGMDataReading] = []
+	private var batchReadings: [Int: BGMDataReading] = [:]
 	private var isBatchProcessingEnabled: Bool = false
 	private lazy var currentReading = BGMDataReading(measurement: [], context: [], peripheral: pairedPeripheral)
 
@@ -208,10 +208,10 @@ extension BGMBluetoothManager: CBPeripheralDelegate {
 
 			if (outputArray[0] & 0b10000) == 0 { // No context attached, just do the write
 				if isBatchProcessingEnabled {
-					batchReadings.append(currentReading)
+					batchReadings[currentReading.sequence] = currentReading
 				} else {
 					multicastDelegate.invoke { delegate in
-						delegate?.bluetoothManager(self, peripheral: peripheral, didReceive: [currentReading])
+						delegate?.bluetoothManager(self, peripheral: peripheral, didReceive: [currentReading.sequence: currentReading])
 					}
 				}
 				currentReading = BGMDataReading(measurement: [], context: [], peripheral: peripheral)
@@ -222,10 +222,10 @@ extension BGMBluetoothManager: CBPeripheralDelegate {
 			currentReading.context = outputArray
 			currentReading.contextData = value
 			if isBatchProcessingEnabled {
-				batchReadings.append(currentReading)
+				batchReadings[currentReading.sequence] = currentReading
 			} else {
 				multicastDelegate.invoke { delegate in
-					delegate?.bluetoothManager(self, peripheral: peripheral, didReceive: [currentReading])
+					delegate?.bluetoothManager(self, peripheral: peripheral, didReceive: [currentReading.sequence: currentReading])
 				}
 			}
 			currentReading = BGMDataReading(measurement: [], context: [], peripheral: peripheral) // reset the received tuple

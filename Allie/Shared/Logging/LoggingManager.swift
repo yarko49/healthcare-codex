@@ -62,7 +62,7 @@ enum LoggingManager {
 		}
 	}
 
-	static var enableFileLogging: Bool = false {
+	static var isFileLogginEnabled: Bool = false {
 		didSet {
 			changeLogger(label: ALog.label)
 		}
@@ -82,7 +82,7 @@ enum LoggingManager {
 
 	static func createLogger(label: String, consoleLogLevel: Logger.Level = Self.consoleLogLevel, remoteLevel: Logger.Level = Self.remoteLogLevel, fileLogLevel: Logger.Level = Self.fileLogLevel) -> Logger {
 		var fileLogger: LoggingFile?
-		if Self.enableFileLogging, let fileLogURL = Self.fileLogURL {
+		if Self.isFileLogginEnabled, let fileLogURL = Self.fileLogURL {
 			fileLogger = try? LoggingFile(to: fileLogURL)
 		}
 

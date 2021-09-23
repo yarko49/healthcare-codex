@@ -42,18 +42,22 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, readyWith characteristic: CBCharacteristic) {
 		manager.racpCharacteristic = characteristic
 		if let glucometer = manager.pairedPeripheral, let racp = manager.racpCharacteristic, let identifier = glucometer.name {
-			healthKitManager.findSequenceNumber(deviceId: identifier)
-				.sink { [weak self] sequenceNumber in
-					var command = GATTCommand.allRecords
-					if sequenceNumber > 0 {
-						command = GATTCommand.recordStart(sequenceNumber: sequenceNumber)
-					}
-					self?.bloodGlucoseMonitor.writeMessage(peripheral: glucometer, characteristic: racp, message: command, isBatched: true)
-				}.store(in: &cancellables)
+			healthKitManager.fetchSequenceNumbers(deviceId: identifier) { [weak self] values in
+				guard let strongSelf = self else {
+					return
+				}
+
+				strongSelf.healthKitManager.sequenceNumbers.insert(values: values, forDevice: identifier)
+				var command = GATTCommand.allRecords
+				if let maxSequenceNumber = strongSelf.healthKitManager.sequenceNumbers.max(forDevice: identifier), maxSequenceNumber > 0 {
+					command = GATTCommand.recordStart(sequenceNumber: maxSequenceNumber)
+				}
+				strongSelf.bloodGlucoseMonitor.writeMessage(peripheral: glucometer, characteristic: racp, message: command, isBatched: true)
+			}
 		}
 	}
 
-	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, didReceive readings: [BGMDataReading]) {
+	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, didReceive readings: [Int: BGMDataReading]) {
 		ALog.info("didReceive readings \(readings)")
 		healthKitManager.save(readings: readings, peripheral: peripheral)
 			.sinkOnMain { [weak self] completionResult in

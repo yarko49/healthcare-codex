@@ -37,12 +37,12 @@ class AllReadingsViewModel: ObservableObject {
 }
 
 extension AllReadingsViewModel: BGMBluetoothManagerDelegate {
-	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, didReceive reading: [BGMDataReading]) {
-		let records = reading.map { reading in
+	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, didReceive readings: [Int: BGMDataReading]) {
+		let records = readings.mapValues { reading in
 			BGMDataRecord(reading: reading)
 		}
 		DispatchQueue.main.async {
-			self.records = records
+			self.records = Array(records.values)
 		}
 	}
 }

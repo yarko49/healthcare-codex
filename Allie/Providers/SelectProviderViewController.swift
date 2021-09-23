@@ -187,6 +187,10 @@ class SelectProviderViewController: UICollectionViewController {
 			.sinkOnMain { [weak self] completionResult in
 				if case .failure(let error) = completionResult {
 					ALog.error("Unable to register organization", error: error)
+					let okAction = AlertHelper.AlertAction(withTitle: String.ok)
+					let title = NSLocalizedString("REGISTRATION_ERROR.title", comment: "Something went wrong!")
+					let message = NSLocalizedString("REGISTRATION_ERROR.message", comment: "We are unable to register with your health care provider at this time.")
+					AlertHelper.showAlert(title: title, detailText: message, actions: [okAction])
 				}
 				if animated {
 					self?.hud.dismiss()
