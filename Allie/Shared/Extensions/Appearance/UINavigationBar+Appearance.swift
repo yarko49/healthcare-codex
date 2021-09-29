@@ -10,11 +10,13 @@ import UIKit
 extension UINavigationBar {
 	override class func applyAppearance() {
 		let navBar = UINavigationBar.appearance()
-		navBar.isTranslucent = false
+		let appearance = UINavigationBarAppearance()
+		appearance.configureWithOpaqueBackground()
+		appearance.shadowColor = .clear
+		appearance.shadowImage = UIImage()
+		appearance.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 17.0, weight: .semibold), .foregroundColor: UIColor.allieBlack]
 		navBar.barTintColor = .allieWhite
-		navBar.setBackgroundImage(UIImage(), for: .default)
-		navBar.shadowImage = UIImage()
-		navBar.tintColor = .allieBlack
-		navBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17.0, weight: .semibold), NSAttributedString.Key.foregroundColor: UIColor.allieBlack]
+		navBar.scrollEdgeAppearance = appearance
+		navBar.standardAppearance = appearance
 	}
 }
