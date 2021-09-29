@@ -167,11 +167,15 @@ extension ConversationViewController: MessagesDataSource {
 
 	func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
 		let theMessage = message as? TCHMessage
-		let name = conversationsManager?.participantFriendlyName(identifier: theMessage?.author) ?? message.sender.displayName
+		var name = conversationsManager?.participantFriendlyName(identifier: theMessage?.author) ?? message.sender.displayName
+		if let jobTitle = conversationsManager?.jobTitle(identifier: theMessage?.author) {
+			name += "\n" + jobTitle
+		}
+
 		return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1), .foregroundColor: UIColor.allieGray])
 	}
 
-	func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+	func messageTimestampLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
 		let dateString = formatter.string(from: message.sentDate)
 		return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2), .foregroundColor: UIColor.allieGray])
 	}
@@ -193,7 +197,7 @@ extension ConversationViewController: MessagesDisplayDelegate {
 	}
 
 	func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-		20.0
+		45.0
 	}
 }
 

@@ -23,7 +23,7 @@ struct CHConversationsUser: Codable, Identifiable {
 	let id: String
 	let name: String
 	let accountSID: String?
-	let attributes: String?
+	let attributesString: String?
 	let chatServiceSID: String?
 	let createdDate: Date?
 	let updatedDate: Date?
@@ -35,7 +35,7 @@ struct CHConversationsUser: Codable, Identifiable {
 
 	enum CodingKeys: String, CodingKey {
 		case accountSID = "account_sid"
-		case attributes
+		case attributesString = "attributes"
 		case chatServiceSID = "chat_service_sid"
 		case createdDate = "date_created"
 		case updatedDate = "date_updated"
@@ -46,5 +46,36 @@ struct CHConversationsUser: Codable, Identifiable {
 		case roleSID = "role_sid"
 		case sid
 		case url
+	}
+}
+
+extension CHConversationsUser {
+	var attributes: CHUserAttributes? {
+		guard let attrString = attributesString, let data = attrString.data(using: .utf8) else {
+			return nil
+		}
+		let decoder = JSONDecoder()
+		do {
+			let attributes = try decoder.decode(CHUserAttributes.self, from: data)
+			return attributes
+		} catch {
+			return nil
+		}
+	}
+}
+
+struct CHUserAttributes: Codable, Identifiable {
+	let id: String
+	let role: String?
+	let title: String?
+	let userIdentity: String?
+	let serviceSid: String?
+
+	enum CodingKeys: String, CodingKey {
+		case id = "healthcareProviderTenantId"
+		case role
+		case title
+		case userIdentity
+		case serviceSid
 	}
 }

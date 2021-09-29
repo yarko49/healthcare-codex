@@ -22,7 +22,7 @@ class TimeValueEntryView: UIView {
 		view.axis = .horizontal
 		view.distribution = .fill
 		view.alignment = .fill
-		view.spacing = 22.0
+		view.spacing = 10.0
 		return view
 	}()
 
@@ -30,8 +30,7 @@ class TimeValueEntryView: UIView {
 		let picker = UIDatePicker(frame: .zero)
 		picker.date = Date()
 		picker.preferredDatePickerStyle = .compact
-		picker.datePickerMode = .time
-		picker.widthAnchor.constraint(equalToConstant: 93.6667).isActive = true
+		picker.datePickerMode = .dateAndTime
 		return picker
 	}()
 
@@ -76,7 +75,6 @@ class TimeValueEntryView: UIView {
 		[stackView, datePicker, labelEntry].forEach { view in
 			view.translatesAutoresizingMaskIntoConstraints = false
 		}
-
 		addSubview(stackView)
 		stackView.addArrangedSubview(labelEntry)
 		stackView.addArrangedSubview(datePicker)

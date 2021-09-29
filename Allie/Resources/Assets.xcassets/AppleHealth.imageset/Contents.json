@@ -1,17 +1,16 @@
 {
   "images" : [
     {
-      "filename" : "AppleHealth@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "AppleHealth@2x.png",
+      "filename" : "healthkit@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "AppleHealth@3x.png",
+      "filename" : "healthkit@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

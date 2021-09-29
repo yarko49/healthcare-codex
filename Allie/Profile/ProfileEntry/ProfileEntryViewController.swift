@@ -38,7 +38,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 			bottomButtonOffset = 0.0
 		}
 		configureValidation()
-		[namesStackView, firstNameTextField, lastNameTextField, middleNamesTextField, mainStackView].forEach { view in
+		[namesStackView, firstNameTextField, lastNameTextField, mainStackView].forEach { view in
 			view.translatesAutoresizingMaskIntoConstraints = false
 		}
 		view.addSubview(mainStackView)
@@ -49,7 +49,6 @@ class ProfileEntryViewController: SignupBaseViewController {
 		namesStackView.addArrangedSubview(firstNameTextField)
 		namesStackView.addArrangedSubview(lastNameTextField)
 		mainStackView.addArrangedSubview(namesStackView)
-		mainStackView.addArrangedSubview(middleNamesTextField)
 		if controllerViewMode != .onboarding {
 			mainStackView.addArrangedSubview(emailTextField)
 		}
@@ -70,7 +69,6 @@ class ProfileEntryViewController: SignupBaseViewController {
 		bottomButton.backgroundColor = .allieGray
 		firstNameTextField.addTarget(self, action: #selector(firstNameDidChange(_:)), for: .editingChanged)
 		lastNameTextField.addTarget(self, action: #selector(lastNameDidChange(_:)), for: .editingChanged)
-		middleNamesTextField.addTarget(self, action: #selector(middleNameDidChange(_:)), for: .editingChanged)
 		configureValues()
 	}
 
@@ -91,22 +89,17 @@ class ProfileEntryViewController: SignupBaseViewController {
 
 	@Published var firstName: String = ""
 	@Published var lastName: String = ""
-	@Published var middleName: String = ""
 
 	var name: PersonNameComponents {
 		get {
 			var name = PersonNameComponents()
 			name.familyName = lastName
 			name.givenName = firstName
-			if !middleName.isEmpty {
-				name.middleName = middleName
-			}
 			return name
 		}
 		set {
 			lastName = newValue.familyName ?? ""
 			firstName = newValue.givenName ?? ""
-			middleName = newValue.middleName ?? ""
 		}
 	}
 
@@ -202,20 +195,12 @@ class ProfileEntryViewController: SignupBaseViewController {
 		lastName = sender.text ?? ""
 	}
 
-	@IBAction func middleNameDidChange(_ sender: UITextField) {
-		middleName = sender.text ?? ""
-	}
-
 	let firstNameTextField: SkyFloatingLabelTextField = {
 		createNameTextField(placeholder: NSLocalizedString("FIRST_NAME", comment: "First Name"), isRequired: true)
 	}()
 
 	let lastNameTextField: SkyFloatingLabelTextField = {
 		createNameTextField(placeholder: NSLocalizedString("LAST_NAME", comment: "Last Name"), isRequired: false)
-	}()
-
-	let middleNamesTextField: SkyFloatingLabelTextField = {
-		createNameTextField(placeholder: NSLocalizedString("MIDDLE_NAMES", comment: "Middle Names"))
 	}()
 
 	lazy var emailTextField: SkyFloatingLabelTextField = {
@@ -298,13 +283,10 @@ class ProfileEntryViewController: SignupBaseViewController {
 	func configureValues() {
 		firstNameTextField.delegate = self
 		lastNameTextField.delegate = self
-		middleNamesTextField.delegate = self
 		firstNameTextField.text = patient?.name.givenName
 		lastNameTextField.text = patient?.name.familyName
-		middleNamesTextField.text = patient?.name.middleName
 		firstName = patient?.name.givenName ?? ""
 		lastName = patient?.name.familyName ?? ""
-		middleName = patient?.name.middleName ?? ""
 		emailTextField.text = patient?.profile.email
 		heightInInches = patient?.profile.heightInInches ?? Constants.heightInInches
 		weightInPounds = patient?.profile.weightInPounds ?? Constants.weightInPounds
@@ -315,7 +297,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 	}
 
 	@IBAction func showHeightPicker() {
-		[firstNameTextField, lastNameTextField, middleNamesTextField].forEach { textField in
+		[firstNameTextField, lastNameTextField].forEach { textField in
 			textField.resignFirstResponder()
 		}
 		let viewController = HeightPickerView()
@@ -328,7 +310,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 	}
 
 	@IBAction func showWeightPicker() {
-		[firstNameTextField, lastNameTextField, middleNamesTextField].forEach { textField in
+		[firstNameTextField, lastNameTextField].forEach { textField in
 			textField.resignFirstResponder()
 		}
 		let viewController = WeightPickerView()

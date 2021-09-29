@@ -138,6 +138,18 @@ class ConversationsManager: NSObject, ObservableObject {
 		return codexUsers[id]?.name
 	}
 
+	func jobTitle(identifier: String?) -> String? {
+		guard let id = identifier else {
+			return nil
+		}
+		let attributes = codexUsers[id]?.attributes
+		if let title = attributes?.title?.trimmingCharacters(in: .whitespacesAndNewlines), !title.isEmpty {
+			return title
+		} else {
+			return attributes?.role
+		}
+	}
+
 	func getCodexUsers() {
 		var identifiers: Set<String> = []
 		for (_, value) in messages {

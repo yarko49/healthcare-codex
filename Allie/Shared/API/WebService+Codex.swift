@@ -11,33 +11,38 @@ import WebService
 
 extension WebService {
 	func decodable<T: Decodable>(route: APIRouter, decoder: JSONDecoder = CHJSONDecoder()) -> AnyPublisher<T, Error> {
-		guard let request = try? route.request() else {
-			return Fail(error: URLError(.badURL))
+		do {
+			let request = try route.request()
+			return decodable(request: request, decoder: decoder)
+				.subscribe(on: DispatchQueue.global(qos: .background))
+				.receive(on: DispatchQueue.main)
 				.eraseToAnyPublisher()
+		} catch {
+			return Fail(error: error).eraseToAnyPublisher()
 		}
-		return decodable(request: request, decoder: decoder)
-			.subscribe(on: DispatchQueue.global(qos: .background))
-			.receive(on: DispatchQueue.main)
-			.eraseToAnyPublisher()
 	}
 
 	func serializable(route: APIRouter, options: JSONSerialization.ReadingOptions = .allowFragments) -> AnyPublisher<Any, Error> {
-		guard let request = try? route.request() else {
-			return Fail(error: URLError(.badURL))
+		do {
+			let request = try route.request()
+			return serializable(request: request, options: options)
+				.subscribe(on: DispatchQueue.global(qos: .background))
+				.receive(on: DispatchQueue.main)
+				.eraseToAnyPublisher()
+		} catch {
+			return Fail(error: error)
 				.eraseToAnyPublisher()
 		}
-		return serializable(request: request, options: options)
-			.subscribe(on: DispatchQueue.global(qos: .background))
-			.receive(on: DispatchQueue.main)
-			.eraseToAnyPublisher()
 	}
 
 	func simple(route: APIRouter) -> AnyPublisher<Bool, Error> {
-		guard let request = try? route.request() else {
-			return Fail<Bool, Error>(error: URLError(.badURL))
+		do {
+			let request = try route.request()
+			return simple(request: request)
+		} catch {
+			return Fail<Bool, Error>(error: error)
 				.eraseToAnyPublisher()
 		}
-		return simple(request: request)
 	}
 
 	func simple(request: Request) -> AnyPublisher<Bool, Error> {

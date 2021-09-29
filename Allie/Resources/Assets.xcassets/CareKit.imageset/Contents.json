@@ -1,17 +1,16 @@
 {
   "images" : [
     {
-      "filename" : "CareKit@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "CareKit@2x.png",
+      "filename" : "carekit@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "CareKit@3x.png",
+      "filename" : "carekit@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
