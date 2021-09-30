@@ -9,7 +9,6 @@ import Firebase
 import FirebaseAuth
 import JGProgressHUD
 import KeychainAccess
-import LocalAuthentication
 import UIKit
 
 class MainCoordinator: BaseCoordinator {
@@ -64,7 +63,15 @@ class MainCoordinator: BaseCoordinator {
 			ALog.info("MainCoordinator start currentUser == nil")
 			goToAuth()
 		} else {
-			biometricsAuthentication()
+			firebaseAuthentication(completion: { [weak self] success in
+				DispatchQueue.main.async {
+					if success {
+						self?.createPatientIfNeeded()
+					} else {
+						self?.goToAuth()
+					}
+				}
+			})
 		}
 	}
 
@@ -132,49 +139,6 @@ class MainCoordinator: BaseCoordinator {
 		} else {
 			gotoMainApp()
 		}
-	}
-
-	func biometricsAuthentication() {
-		ALog.info("biometricsAuthentication, isBiometricsEnabled \(UserDefaults.standard.isBiometricsEnabled)")
-		guard UserDefaults.standard.isBiometricsEnabled else {
-			goToAuth()
-			return
-		}
-		#if targetEnvironment(simulator)
-		firebaseAuthentication(completion: { [weak self] success in
-			DispatchQueue.main.async {
-				if success {
-					self?.createPatientIfNeeded()
-				} else {
-					self?.goToAuth()
-				}
-			}
-		})
-		#else
-		let reason = String.authWithBiometrics
-		authenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, error in
-			ALog.info("authenticationContext, evaluatePolicy success = \(success)")
-			if let error = error {
-				ALog.error("Biometric Authentication Failed \((error as NSError).debugDescription)")
-			}
-			guard success else {
-				DispatchQueue.main.async {
-					self?.goToAuth()
-				}
-				return
-			}
-			self?.firebaseAuthentication(completion: { success in
-				ALog.info("firebaseAuthentication success = \(success)")
-				DispatchQueue.main.async {
-					if success {
-						self?.createPatientIfNeeded()
-					} else {
-						self?.goToAuth()
-					}
-				}
-			})
-		}
-		#endif
 	}
 
 	func firebaseAuthentication(completion: @escaping (Bool) -> Void) {

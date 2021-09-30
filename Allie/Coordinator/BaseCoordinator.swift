@@ -9,12 +9,10 @@ import Combine
 import Firebase
 import FirebaseAuth
 import KeychainAccess
-import LocalAuthentication
 import UIKit
 
 class BaseCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDelegate {
 	let type: CoordinatorType
-	lazy var authenticationContext = LAContext()
 	var navigationController: UINavigationController?
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	@Injected(\.careManager) var careManager: CareManager
