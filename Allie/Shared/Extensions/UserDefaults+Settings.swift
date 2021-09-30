@@ -29,8 +29,6 @@ extension UserDefaults {
 extension UserDefaults {
 	enum Keys {
 		static let hasCompletedOnboarding = "HAS_COMPLETED_ONBOARDING"
-		static let isBiometricsEnabled = "IS_BIOMETRICS_ENABLED"
-		static let haveAskedUserForBiometrics = "haveAskedUserForBiometrics"
 		static let hasSmartScale = "hasSmartScale"
 		static let hasSmartBloodPressureCuff = "hasSmartBloodPressureCuff"
 		static let hasSmartWatch = "hasSmartWatch"
@@ -46,8 +44,7 @@ extension UserDefaults {
 	}
 
 	static func registerDefautlts() {
-		let defaults: [String: Any] = [Self.Keys.hasCompletedOnboarding: false,
-		                               Self.Keys.isBiometricsEnabled: false, Self.Keys.haveAskedUserForBiometrics: false]
+		let defaults: [String: Any] = [Self.Keys.hasCompletedOnboarding: false]
 		UserDefaults.standard.register(defaults: defaults)
 	}
 
@@ -57,24 +54,6 @@ extension UserDefaults {
 		}
 		set {
 			set(newValue, forKey: Self.Keys.hasCompletedOnboarding)
-		}
-	}
-
-	var isBiometricsEnabled: Bool {
-		get {
-			bool(forKey: Self.Keys.isBiometricsEnabled)
-		}
-		set {
-			set(newValue, forKey: Self.Keys.isBiometricsEnabled)
-		}
-	}
-
-	var haveAskedUserForBiometrics: Bool {
-		get {
-			bool(forKey: Self.Keys.haveAskedUserForBiometrics)
-		}
-		set {
-			set(newValue, forKey: Self.Keys.haveAskedUserForBiometrics)
 		}
 	}
 
@@ -121,10 +100,6 @@ extension UserDefaults {
 		set {
 			set(newValue, forKey: Self.Keys.hasSmartBloodGlucoseMonitor)
 		}
-	}
-
-	func removeBiometrics() {
-		removeObject(forKey: Self.Keys.isBiometricsEnabled)
 	}
 
 	var vectorClock: UInt64 {

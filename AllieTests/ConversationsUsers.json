@@ -2,17 +2,20 @@
     "users": [
         {
             "account_sid": "AC32127df3d64241d498fd921bcdba8aaa",
-            "attributes": "{\"healthcareProviderTenantId\":\"Demo-Organization-hmbj3\",\"role\":\"patient\"}",
+            "attributes": "{\"healthcareProviderTenantId\":\"Demo-Organization-hmbj3\",\"role\":\"clinician\",\"title\":\"\",\"userIdentity\":\"\",\"serviceSid\":\"\"}",
             "chat_service_sid": "IS7fa99e4de0bb40379acc226f4c703574",
-            "date_created": "2021-07-01T06:11:24Z",
-            "date_updated": "2021-07-22T04:05:40Z",
+            "date_created": "2021-08-31T05:38:12Z",
+            "date_updated": "2021-09-24T20:38:06Z",
             "friendly_name": "Waqar Malik",
-            "identity": "EThiGiMwuWghhXv6Lvepd6YFLZ42",
+            "identity": "tDNokNoekMbywDhe9UOkC6UKf5l1",
             "is_notifiable": false,
             "is_online": false,
+            "links": {
+                "user_conversations": "https://conversations.twilio.com/v1/Services/IS7fa99e4de0bb40379acc226f4c703574/Users/US79feba752cf64446b3d0c1f2588f0529/Conversations"
+            },
             "role_sid": "RL3c661f786e0d4a82ba51763ff9722246",
-            "sid": "US350552cbcd794654b6ff5ee82fe07cb9",
-            "url": "https://conversations.twilio.com/v1/Services/IS7fa99e4de0bb40379acc226f4c703574/Users/US350552cbcd794654b6ff5ee82fe07cb9"
+            "sid": "US79feba752cf64446b3d0c1f2588f0529",
+            "url": "https://conversations.twilio.com/v1/Services/IS7fa99e4de0bb40379acc226f4c703574/Users/US79feba752cf64446b3d0c1f2588f0529"
         }
     ]
 }

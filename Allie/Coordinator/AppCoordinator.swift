@@ -59,10 +59,6 @@ class AppCoordinator: BaseCoordinator {
 	override func start() {
 		super.start()
 
-		if UserDefaults.standard.haveAskedUserForBiometrics == false {
-			enrollWithBiometrics()
-		}
-
 		NotificationCenter.default.publisher(for: .didRegisterOrganization)
 			.sink { [weak self] _ in
 				self?.organizaionRegistraionDidChange()
@@ -80,33 +76,6 @@ class AppCoordinator: BaseCoordinator {
 
 	func hideHUD(animated: Bool = true) {
 		parent?.hideHUD(animated: animated)
-	}
-
-	func evaluateBiometrics() {
-		var theError: NSError?
-		authenticationContext.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &theError)
-		if authenticationContext.biometryType == .none {
-			ALog.error("Error", error: theError)
-			return
-		}
-		ALog.info("\(String(describing: authenticationContext.biometryType.rawValue))")
-	}
-
-	func enrollWithBiometrics() {
-		evaluateBiometrics()
-		UserDefaults.standard.haveAskedUserForBiometrics = true
-		let yesTitle = NSLocalizedString("YES", comment: "Yes")
-		let okAction = AlertHelper.AlertAction(withTitle: yesTitle) {
-			UserDefaults.standard.isBiometricsEnabled = true
-		}
-		let noTitle = NSLocalizedString("NO", comment: "No")
-		let noAction = AlertHelper.AlertAction(withTitle: noTitle) {
-			UserDefaults.standard.isBiometricsEnabled = false
-		}
-		DispatchQueue.main.async {
-			let biometricType = self.authenticationContext.biometryType == .faceID ? String.faceID : String.touchID
-			AlertHelper.showAlert(title: String.automaticSignIn, detailText: String.enroll(biometricType), actions: [okAction, noAction])
-		}
 	}
 
 	func gotoProfileEntryViewController(from screen: NavigationSourceType = .profile) {
