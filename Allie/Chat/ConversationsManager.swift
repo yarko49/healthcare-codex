@@ -200,7 +200,7 @@ class ConversationsManager: NSObject, ObservableObject {
 	}
 
 	func createConversation(uniqueName: String, friendlyName: String?) -> AnyPublisher<TCHConversation, Error> {
-		guard let client = self.client else {
+		guard let client = client else {
 			return Fail(error: ConversationsManagerError.invalidClient).eraseToAnyPublisher()
 		}
 		var options: [String: Any] = [TCHConversationOptionUniqueName: uniqueName]

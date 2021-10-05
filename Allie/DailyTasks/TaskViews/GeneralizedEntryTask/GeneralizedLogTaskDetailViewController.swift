@@ -15,7 +15,7 @@ enum GeneralizedEntryTaskError: Error {
 }
 
 class GeneralizedLogTaskDetailViewController: UIViewController {
-	var saveAction: AllieActionHandler?
+	var healthKitSampleHandler: AllieHealthKitSampleHandler?
 	var cancelAction: AllieActionHandler?
 	var deleteAction: AllieActionHandler?
 
@@ -24,7 +24,8 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		return view
 	}()
 
-	var outcome: OCKAnyOutcome?
+	var outcomeValue: OCKOutcomeValue?
+	var task: OCKHealthKitTask?
 
 	let headerView: EntryTaskSectionHeaderView = {
 		let view = EntryTaskSectionHeaderView(frame: .zero)
@@ -44,8 +45,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		return view
 	}()
 
-	var identifiers: [String] = []
-	var task: OCKHealthKitTask?
+	private(set) var identifiers: [String] = []
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -107,7 +107,6 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		let elements = task?.schedule.elements
 		let targetValue = elements?.first?.targetValues.first
 		let placeholder = targetValue?.integerValue ?? 100
-		let outcomeValue = outcome?.values.first
 		var value: String?
 		if let intValue = outcomeValue?.integerValue {
 			value = "\(intValue)"
@@ -178,71 +177,60 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		for (index, identifier) in self.identifiers.enumerated() {
 			addView(identifier: identifier, at: index)
 		}
-		footerView.deleteButton.isHidden = outcome == nil
-		footerView.saveButton.isHidden = outcome != nil
+		footerView.deleteButton.isHidden = outcomeValue == nil
 	}
 
-	func saveToHealthKit(completion: @escaping AllieResultCompletion<Bool>) {
+	func createHealthKitSample() throws -> HKSample {
 		guard let quantityIdentifier = task?.healthKitLinkage.quantityIdentifier else {
-			completion(.failure(GeneralizedEntryTaskError.missing("Quantity Identifier")))
-			return
+			throw GeneralizedEntryTaskError.missing("Quantity Identifier")
 		}
 
+		let sample: HKSample
 		if quantityIdentifier == .insulinDelivery {
-			saveInsulin(completion: completion)
+			sample = try createInsulinSample()
 		} else if quantityIdentifier == .bloodGlucose {
-			saveBloodGlucose(completion: completion)
+			sample = try createBloodGlucoseSample()
 		} else if quantityIdentifier == .bodyMass {
-			saveBodyMass(completion: completion)
+			sample = try createBodyMassSample()
 		} else if quantityIdentifier == .bloodPressureDiastolic || quantityIdentifier == .bloodPressureSystolic {
-			saveBloodPressure(completion: completion)
+			sample = try createBloodPressureSample()
 		} else {
-			completion(.failure(GeneralizedEntryTaskError.invalid("Quantity Identifier")))
+			throw GeneralizedEntryTaskError.invalid("Quantity Identifier")
 		}
+		return sample
 	}
 
-	func saveInsulin(completion: @escaping AllieResultCompletion<Bool>) {
+	func createInsulinSample() throws -> HKSample {
 		guard let unitView = entryTaskView.entryView(forIdentifier: TimeValueEntryView.reuseIdentifier) as? TimeValueEntryView, let valueString = unitView.value, !valueString.isEmpty else {
-			completion(.failure(GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))))
-			return
+			throw GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))
 		}
+
 		guard let segementedView = entryTaskView.entryView(forIdentifier: SegmentedEntryView.reuseIdentifier) as? SegmentedEntryView else {
-			completion(.failure(GeneralizedEntryTaskError.invalid("Invalid Context")))
-			return
+			throw GeneralizedEntryTaskError.invalid("Invalid Context")
 		}
 
 		guard let value = Double(valueString) else {
-			completion(.failure(GeneralizedEntryTaskError.invalid("Value of invalid type")))
-			return
+			throw GeneralizedEntryTaskError.invalid("Value of invalid type")
 		}
 
 		let date = unitView.date
 		let selectedIndex = segementedView.segementedControl.selectedSegmentIndex
 		let reason: HKInsulinDeliveryReason = selectedIndex == 0 ? .bolus : .basal
 		let sample = HKDiscreteQuantitySample(insulinUnits: value, startDate: date, reason: reason)
-		HKHealthStore().save(sample) { result, error in
-			if let error = error {
-				ALog.error("Unable to save insulin values", error: error)
-				completion(.failure(error))
-			} else {
-				completion(.success(result))
-			}
-		}
+		return sample
 	}
 
-	func saveBloodGlucose(completion: @escaping AllieResultCompletion<Bool>) {
+	func createBloodGlucoseSample() throws -> HKSample {
 		guard let unitView = entryTaskView.entryView(forIdentifier: TimeValueEntryView.reuseIdentifier) as? TimeValueEntryView, let valueString = unitView.value, !valueString.isEmpty else {
-			completion(.failure(GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))))
-			return
+			throw GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))
 		}
+
 		guard let segementedView = entryTaskView.entryView(forIdentifier: SegmentedEntryView.reuseIdentifier) as? SegmentedEntryView else {
-			completion(.failure(GeneralizedEntryTaskError.invalid("Invalid Context")))
-			return
+			throw GeneralizedEntryTaskError.invalid("Invalid Context")
 		}
 
 		guard let value = Double(valueString) else {
-			completion(.failure(GeneralizedEntryTaskError.invalid("Value of invalid type")))
-			return
+			throw GeneralizedEntryTaskError.invalid("Value of invalid type")
 		}
 
 		let date = unitView.date
@@ -260,24 +248,16 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		}
 
 		let sample = HKDiscreteQuantitySample(bloodGlucose: value, startDate: date, mealTime: mealTime)
-		HKHealthStore().save(sample) { result, error in
-			if let error = error {
-				ALog.error("Unable to save blood glucose values", error: error)
-				completion(.failure(error))
-			} else {
-				completion(.success(result))
-			}
-		}
+		return sample
 	}
 
-	func saveBodyMass(completion: @escaping AllieResultCompletion<Bool>) {
+	func createBodyMassSample() throws -> HKSample {
 		guard let unitView = entryTaskView.entryView(forIdentifier: TimeValueEntryView.reuseIdentifier) as? TimeValueEntryView, let valueString = unitView.value, !valueString.isEmpty else {
-			completion(.failure(GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))))
-			return
+			throw GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))
 		}
+
 		guard let value = Double(valueString) else {
-			completion(.failure(GeneralizedEntryTaskError.invalid("Value of invalid type")))
-			return
+			throw GeneralizedEntryTaskError.invalid("Value of invalid type")
 		}
 
 		let quantity = HKQuantity(unit: HealthKitDataType.bodyMass.unit, doubleValue: value)
@@ -287,25 +267,16 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		let quantityType = HKQuantityType.quantityType(forIdentifier: .bodyMass)
 		let date = unitView.date
 		let sample = HKDiscreteQuantitySample(type: quantityType!, quantity: quantity, start: date, end: date, device: HKDevice.local(), metadata: metadata)
-		HKHealthStore().save(sample) { result, error in
-			if let error = error {
-				ALog.error("Unable to save blood glucose values", error: error)
-				completion(.failure(error))
-			} else {
-				completion(.success(result))
-			}
-		}
+		return sample
 	}
 
-	func saveBloodPressure(completion: @escaping AllieResultCompletion<Bool>) {
+	func createBloodPressureSample() throws -> HKSample {
 		guard let view = entryTaskView.entryView(forIdentifier: MultiValueEntryView.reuseIdentifier) as? MultiValueEntryView, let lValueString = view.leadingValue, !lValueString.isEmpty, let tValueString = view.trailingValue, !tValueString.isEmpty else {
-			completion(.failure(GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))))
-			return
+			throw GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))
 		}
 
 		guard let systolic = Double(lValueString), let diastolic = Double(tValueString) else {
-			completion(.failure(GeneralizedEntryTaskError.invalid("Value of invalid type")))
-			return
+			throw GeneralizedEntryTaskError.invalid("Value of invalid type")
 		}
 
 		let startDate = Date()
@@ -323,14 +294,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		var metadata: [String: Any] = [:]
 		metadata[HKMetadataKeyTimeZone] = TimeZone.current.identifier
 		metadata[HKMetadataKeyWasUserEntered] = true
-		HKHealthStore().save(bloodPressureSample) { result, error in
-			if let error = error {
-				ALog.error("Unable to save blood pressure values", error: error)
-				completion(.failure(error))
-			} else {
-				completion(.success(result))
-			}
-		}
+		return bloodPressureSample
 	}
 
 	private func showAlert(title: String?, message: String?, showSettings: Bool) {
@@ -358,26 +322,21 @@ extension GeneralizedLogTaskDetailViewController: EntryTaskSectionHeaderViewDele
 
 extension GeneralizedLogTaskDetailViewController: EntryTaskSectionFooterViewDelegate {
 	func entryTaskSectionFooterViewDidSelectSave(_ view: EntryTaskSectionFooterView) {
-		saveToHealthKit { [weak self] result in
-			DispatchQueue.main.async {
-				switch result {
-				case .failure(let error):
-					let title = NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA", comment: "Error saving data!")
-					var message: String?
-					var showSettings = false
-					switch error {
-					case GeneralizedEntryTaskError.missing(let errorMessage):
-						message = errorMessage
-					default:
-						message = error.localizedDescription
-						showSettings = true
-					}
-					self?.showAlert(title: title, message: message, showSettings: showSettings)
-				case .success(let success):
-					ALog.info("Sample saved \(success)")
-					self?.saveAction?()
-				}
+		do {
+			let sample = try createHealthKitSample()
+			healthKitSampleHandler?(sample)
+		} catch {
+			let title = NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA", comment: "Error saving data!")
+			var message: String?
+			var showSettings = false
+			switch error {
+			case GeneralizedEntryTaskError.missing(let errorMessage):
+				message = errorMessage
+			default:
+				message = error.localizedDescription
+				showSettings = true
 			}
+			showAlert(title: title, message: message, showSettings: showSettings)
 		}
 	}
 

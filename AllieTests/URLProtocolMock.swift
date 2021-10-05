@@ -18,7 +18,7 @@ class URLProtocolMock: URLProtocol {
 	override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
 
 	override func startLoading() {
-		guard let client = self.client else {
+		guard let client = client else {
 			XCTFail("missing client")
 			return
 		}

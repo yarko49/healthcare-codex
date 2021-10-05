@@ -73,7 +73,7 @@ class WebAuthenticationViewController: UIViewController {
 	}
 
 	private func configureView() {
-		guard let url = self.url else {
+		guard let url = url else {
 			return
 		}
 
@@ -103,7 +103,7 @@ extension WebAuthenticationViewController: WKNavigationDelegate {
 			return
 		}
 		// https://patient-ehr.codexhealth.com/?code=<String>&state=2021-09-01T05%3a42%3a27Z
-		if let redirectURI = self.redirectURI, url.absoluteString.hasPrefix(redirectURI) {
+		if let redirectURI = redirectURI, url.absoluteString.hasPrefix(redirectURI) {
 			let authURLComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
 			let authQueryItems = authURLComponents?.queryItems
 			let tokenKey = authQueryItems?.first(where: { item in

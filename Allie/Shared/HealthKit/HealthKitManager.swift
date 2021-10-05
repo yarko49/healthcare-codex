@@ -365,4 +365,43 @@ class HealthKitManager {
 				completion(true)
 			}).store(in: &cancellables)
 	}
+
+	func fetch(uuid: UUID, quantityIdentifier: String, completion: AllieResultCompletion<HKSample>?) {
+		let predicate = HKQuery.predicateForObject(with: uuid)
+		let identifier = HKQuantityTypeIdentifier(rawValue: quantityIdentifier)
+		guard let sampleType = HKSampleType.quantityType(forIdentifier: identifier) else {
+			completion?(.failure(HealthKitManagerError.invalidInput("Invalid quantityIdentifier \(quantityIdentifier)")))
+			return
+		}
+
+		let sampleQuery = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: 1, sortDescriptors: nil) { _, samples, error in
+			if let error = error {
+				completion?(.failure(error))
+			} else if let sample = samples?.first {
+				completion?(.success(sample))
+			} else {
+				completion?(.failure(HealthKitManagerError.notAvailableOnDevice))
+			}
+		}
+		healthStore.execute(sampleQuery)
+	}
+
+	func delete(uuid: UUID, quantityIdentifier: String, completion: AllieResultCompletion<HKSample>?) {
+		fetch(uuid: uuid, quantityIdentifier: quantityIdentifier) { [weak self] result in
+			switch result {
+			case .failure(let error):
+				completion?(.failure(error))
+			case .success(let sample):
+				self?.healthStore.delete(sample) { success, error in
+					if let error = error {
+						completion?(.failure(error))
+					} else if success {
+						completion?(.success(sample))
+					} else {
+						completion?(.failure(HealthKitManagerError.notAvailableOnDevice))
+					}
+				}
+			}
+		}
+	}
 }

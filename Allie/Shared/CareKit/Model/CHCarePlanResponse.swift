@@ -34,13 +34,13 @@ public struct CHCarePlanResponse: Codable {
 
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-		carePlans = try container.decodeIfPresent([CHCarePlan].self, forKey: .carePlans) ?? []
-		patients = try container.decodeIfPresent([CHPatient].self, forKey: .patients) ?? []
-		patients = patients.filter { patient in
+		self.carePlans = try container.decodeIfPresent([CHCarePlan].self, forKey: .carePlans) ?? []
+		self.patients = try container.decodeIfPresent([CHPatient].self, forKey: .patients) ?? []
+		self.patients = patients.filter { patient in
 			!patient.id.isEmpty
 		}
 		let decodedTasks = container.safelyDecodeArray(of: CHTask.self, alternate: CHBasicTask.self, forKey: .tasks)
-		tasks = decodedTasks.0
+		self.tasks = decodedTasks.0
 		if !decodedTasks.1.isEmpty {
 			self.faultyTasks = decodedTasks.1
 		}

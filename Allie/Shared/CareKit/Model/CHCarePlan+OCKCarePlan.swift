@@ -25,7 +25,6 @@ extension OCKCarePlan: AnyItemDeletable {
 	func merged(newCarePlan: OCKCarePlan) -> Self {
 		var existing = self
 		existing.title = newCarePlan.title
-		existing.deletedDate = newCarePlan.deletedDate
 		existing.groupIdentifier = newCarePlan.groupIdentifier
 		existing.tags = newCarePlan.tags
 		existing.userInfo = newCarePlan.userInfo

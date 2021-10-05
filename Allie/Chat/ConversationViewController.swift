@@ -47,7 +47,7 @@ class ConversationViewController: MessagesViewController {
 		title = NSLocalizedString("CHAT", comment: "Chat")
 		configureMessageCollectionView()
 		configureMessageInputBar()
-		if let conversation = self.conversation {
+		if let conversation = conversation {
 			hud.show(in: tabBarController?.view ?? view)
 			DispatchQueue.global(qos: .background).async { [weak self] in
 				self?.conversationsManager?.join(conversation: conversation, completion: { [weak self] result in
@@ -162,16 +162,17 @@ extension ConversationViewController: MessagesDataSource {
 	}
 
 	func cellBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-		NSAttributedString(string: "Read", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.allieGray])
+		NSAttributedString(string: NSLocalizedString("READ", comment: "Read"), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.allieGray])
 	}
 
 	func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
 		let theMessage = message as? TCHMessage
 		var name = conversationsManager?.participantFriendlyName(identifier: theMessage?.author) ?? message.sender.displayName
-		if let jobTitle = conversationsManager?.jobTitle(identifier: theMessage?.author) {
-			name += "\n" + jobTitle
+		if message.sender.senderId != patient?.id {
+			if let jobTitle = conversationsManager?.jobTitle(identifier: theMessage?.author) {
+				name += "\n" + jobTitle
+			}
 		}
-
 		return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1), .foregroundColor: UIColor.allieGray])
 	}
 
@@ -197,7 +198,7 @@ extension ConversationViewController: MessagesDisplayDelegate {
 	}
 
 	func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-		45.0
+		message.sender.senderId == patient?.id ? 20.0 : 40
 	}
 }
 
@@ -207,12 +208,12 @@ extension ConversationViewController: MessageLabelDelegate {}
 
 extension ConversationViewController: InputBarAccessoryViewDelegate {
 	@objc func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-		processInputBar(inputBar, text: text)
+		processInputBar(inputBar, message: text)
 	}
 
-	func processInputBar(_ inputBar: InputBarAccessoryView, text: String) {
+	func processInputBar(_ inputBar: InputBarAccessoryView, message: String) {
 		// Here we can parse for which substrings were autocompleted
-		guard let conversation = self.conversation else {
+		guard let conversation = conversation else {
 			return
 		}
 
@@ -232,14 +233,14 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
 		inputBar.inputTextView.placeholder = NSLocalizedString("SENDING", comment: "Sending...")
 		// Resign first responder for iPad split view
 		inputBar.inputTextView.resignFirstResponder()
-
-		conversationsManager?.send(message: text, for: conversation, completion: { [weak self] result in
+		let updatedMessage = message.trimmingCharacters(in: .whitespacesAndNewlines)
+		conversationsManager?.send(message: updatedMessage, for: conversation, completion: { [weak self] result in
 			DispatchQueue.main.async {
 				inputBar.sendButton.stopAnimating()
 				switch result {
 				case .failure(let error):
 					ALog.error("Error sending message", error: error)
-					inputBar.inputTextView.text = text
+					inputBar.inputTextView.text = updatedMessage
 				case .success(let message):
 					inputBar.inputTextView.placeholder = NSLocalizedString("YOUR_MESSAGE", comment: "Your message")
 					ALog.info("Message Sent, \(message.id)")

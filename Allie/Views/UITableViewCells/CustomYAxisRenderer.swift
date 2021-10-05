@@ -15,7 +15,7 @@ public class CustomYAxisRenderer: YAxisRenderer {
 	public func transformedLimitPositions() -> [CGPoint] {
 		guard
 			let yAxis = axis as? YAxis,
-			let transformer = self.transformer
+			let transformer = transformer
 		else { return [CGPoint]() }
 
 		var positions = [CGPoint]()

@@ -22,6 +22,8 @@ extension HKSample {
 					value.kind = mealTime.kind
 				}
 				value.wasUserEntered = (cumulative.metadata?[HKMetadataKeyWasUserEntered] as? Bool) ?? false
+				value.healthKitUUID = cumulative.uuid
+				value.quantityIdentifier = linkage.quantityIdentifier.rawValue
 				value.createdDate = cumulative.startDate
 				values.append(value)
 			}
@@ -35,6 +37,8 @@ extension HKSample {
 					value.kind = mealTime.kind
 				}
 				value.wasUserEntered = (discreet.metadata?[HKMetadataKeyWasUserEntered] as? Bool) ?? false
+				value.healthKitUUID = discreet.uuid
+				value.quantityIdentifier = linkage.quantityIdentifier.rawValue
 				value.createdDate = discreet.startDate
 				values.append(value)
 			}
@@ -48,6 +52,8 @@ extension HKSample {
 					value.kind = sample.quantityType.identifier
 					value.createdDate = sample.startDate
 					value.wasUserEntered = (sample.metadata?[HKMetadataKeyWasUserEntered] as? Bool) ?? false
+					value.healthKitUUID = sample.uuid
+					value.quantityIdentifier = linkage.quantityIdentifier.rawValue
 					values.append(value)
 				}
 			}

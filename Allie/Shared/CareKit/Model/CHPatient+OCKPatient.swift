@@ -37,7 +37,6 @@ extension OCKPatient: AnyItemDeletable {
 		existing.userInfo = newPatient.userInfo
 		existing.asset = newPatient.asset
 		existing.timezone = newPatient.timezone
-		existing.deletedDate = newPatient.deletedDate
 		return existing
 	}
 }

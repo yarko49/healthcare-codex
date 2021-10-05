@@ -18,4 +18,5 @@ public enum CHGroupIdentifierType: String, Hashable, CaseIterable {
 	case featuredContent = "FEATURED_CONTENT"
 	case link = "LINK"
 	case simple = "SIMPLE"
+	case symptoms = "SYMPTOMS"
 }
