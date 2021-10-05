@@ -140,7 +140,7 @@ public extension UIWindow {
 	}
 
 	func visibleViewController() -> UIViewController? {
-		if let rootViewController: UIViewController = self.rootViewController {
+		if let rootViewController: UIViewController = rootViewController {
 			return UIWindow.getVisibleViewControllerFrom(viewController: rootViewController)
 		}
 		return nil

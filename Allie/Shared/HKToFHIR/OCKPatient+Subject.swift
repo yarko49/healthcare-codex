@@ -16,7 +16,7 @@ extension OCKPatient {
 			subject.identifier = BaseFactory.identifier(system: BaseFactory.healthKitIdentifierSystemKey, value: identifier)
 		}
 
-		if let name = self.name.fullName {
+		if let name = name.fullName {
 			subject.display = FHIRPrimitive<FHIRString>(stringLiteral: name)
 		}
 		return subject
@@ -30,7 +30,7 @@ extension CHPatient {
 			subject.identifier = BaseFactory.identifier(system: BaseFactory.healthKitIdentifierSystemKey, value: identifier)
 		}
 
-		if let name = self.name.fullName {
+		if let name = name.fullName {
 			subject.display = FHIRPrimitive<FHIRString>(stringLiteral: name)
 		}
 		return subject

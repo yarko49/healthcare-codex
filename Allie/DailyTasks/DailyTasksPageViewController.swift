@@ -48,6 +48,16 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.reload()
 			}.store(in: &cancellables)
 
+		NotificationCenter.default.publisher(for: .didModifyHealthKitStore, object: nil)
+			.receive(on: RunLoop.main, options: nil)
+			.sink { [weak self] _ in
+				self?.insertViewsAnimated = false
+				self?.shouldUpdateCarePlan = false
+				self?.reload()
+				self?.shouldUpdateCarePlan = true
+				self?.insertViewsAnimated = true
+			}.store(in: &cancellables)
+
 		if careManager.patient?.bgmName == nil {
 			NotificationCenter.default.publisher(for: .didPairBloodGlucoseMonitor)
 				.receive(on: RunLoop.main)
@@ -105,7 +115,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	}()
 
 	var cancellables: Set<AnyCancellable> = []
-	private var insertViewsAnimated: Bool = false
+	private var insertViewsAnimated: Bool = true
 
 	override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController, prepare listViewController: OCKListViewController, for date: Date) {
 		var query = OCKTaskQuery(for: date)
@@ -198,17 +208,25 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						let viewController = FeaturedContentViewController(task: task)
 						viewController.view.tintColor = .allieLighterGray
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
+
+					case .symptoms:
+						break
 					}
 				}
 			}
 		}
 	}
 
+	var shouldUpdateCarePlan: Bool = true
 	override func reload() {
-		getAndUpdateCarePlans { _ in
-			DispatchQueue.main.async {
-				super.reload()
+		if shouldUpdateCarePlan {
+			getAndUpdateCarePlans { _ in
+				DispatchQueue.main.async {
+					super.reload()
+				}
 			}
+		} else {
+			super.reload()
 		}
 	}
 
@@ -225,10 +243,11 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.hud.dismiss(animated: true)
 				if case .failure(let error) = resultCompletion {
 					let nsError = error as NSError
-					if nsError.code != 401 {
+					if !(nsError.code == 401 || nsError.code == 408) {
 						ALog.error("Unable to fetch care plan", error: error)
 						let okAction = AlertHelper.AlertAction(withTitle: String.ok)
-						AlertHelper.showAlert(title: "Error", detailText: error.localizedDescription, actions: [okAction])
+						let title = NSLocalizedString("ERROR", comment: "Error")
+						AlertHelper.showAlert(title: title, detailText: error.localizedDescription, actions: [okAction])
 					}
 					completion(false)
 				}

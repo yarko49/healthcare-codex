@@ -194,6 +194,7 @@
 /* Reset Password */
 "FAILED_TO_SEND_VERIFICATION_EMAIL_THE_ACCOUNT_MAY_HAVE_BEEN_DELETED_OR_DOES_NOT_EXIST" = "Failed to send verification email, the account may have been deleted or does not exist.";
 
+/* Error */
 "ERROR" = "Error";
 
 /* Profile stats */
@@ -777,4 +778,7 @@
 
 /* Something went wrong! */
 "REGISTRATION_ERROR.title" = "Something went wrong!";
+
+/* Read */
+"READ" = "Read";
 

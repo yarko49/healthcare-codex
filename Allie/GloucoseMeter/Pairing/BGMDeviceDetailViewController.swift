@@ -86,7 +86,7 @@ class BGMDeviceDetailViewController: UIViewController {
 	}()
 
 	private func configureView() {
-		guard let device = self.device else {
+		guard let device = device else {
 			return
 		}
 		title = device

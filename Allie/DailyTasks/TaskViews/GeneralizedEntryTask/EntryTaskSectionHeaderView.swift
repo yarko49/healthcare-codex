@@ -12,7 +12,7 @@ protocol EntryTaskSectionHeaderViewDelegate: AnyObject {
 	func entryTaskSectionHeaderViewDidSelectButton(_ view: EntryTaskSectionHeaderView)
 }
 
-class EntryTaskSectionHeaderView: UICollectionReusableView {
+class EntryTaskSectionHeaderView: UIView {
 	class var height: CGFloat {
 		75.0 + 8.0
 	}

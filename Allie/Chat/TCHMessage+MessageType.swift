@@ -26,6 +26,6 @@ extension TCHMessage: MessageType {
 	}
 
 	public var kind: MessageKind {
-		.text(body ?? "")
+		.text(body?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "")
 	}
 }
