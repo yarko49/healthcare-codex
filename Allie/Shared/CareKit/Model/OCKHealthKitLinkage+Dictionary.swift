@@ -35,8 +35,11 @@ extension OCKHealthKitLinkage {
 		} else if quantityIdentifier == .bloodPressureDiastolic, unitString != HKUnit.millimeterOfMercury().unitString {
 			unitString = "mmHg"
 		}
+
 		if unitString == "lbs" {
 			unitString = "lb"
+		} else if unitString == "bpm" {
+			unitString = "count/min"
 		}
 		let unit = HKUnit(from: unitString)
 		self.init(quantityIdentifier: quantityIdentifier, quantityType: quantityType, unit: unit)

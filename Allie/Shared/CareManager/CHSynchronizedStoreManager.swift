@@ -14,7 +14,7 @@ class CHSynchronizedStoreManager: OCKSynchronizedStoreManager {
 
 	override func outcomeStore(_ store: OCKAnyReadOnlyOutcomeStore, didDeleteOutcomes outcomes: [OCKAnyOutcome]) {
 		super.outcomeStore(store, didDeleteOutcomes: outcomes)
-		careManager.upload(outcomes: outcomes)
+		careManager.upload(anyOutcomes: outcomes)
 	}
 
 	override func outcomeStore(_ store: OCKAnyReadOnlyOutcomeStore, didUpdateOutcomes outcomes: [OCKAnyOutcome]) {

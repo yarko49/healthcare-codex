@@ -1,3 +1,5 @@
+import ChatProvidersSDK
+import ChatSDK
 import Firebase
 import FirebaseAuth
 import KeychainAccess
@@ -195,8 +197,10 @@ extension SettingsViewController: UITableViewDelegate {
 		do {
 			let messagingConfiguration = MessagingConfiguration()
 			let supportEngine = try SupportEngine.engine()
-			let viewController = try Messaging.instance.buildUI(engines: [supportEngine], configs: [messagingConfiguration])
+			let chatEngine = try ChatEngine.engine()
+			let viewController = try Messaging.instance.buildUI(engines: [supportEngine, chatEngine], configs: [messagingConfiguration])
 			navigationController?.show(viewController, sender: self)
+			AppDelegate.mainCoordinator?.updateZendeskBadges(count: 0)
 		} catch {
 			ALog.error("Unable to show support", error: error)
 		}

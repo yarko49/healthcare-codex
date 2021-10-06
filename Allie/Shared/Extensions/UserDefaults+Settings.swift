@@ -41,6 +41,7 @@ extension UserDefaults {
 		static let measurementBloodGlucoseNotificationEnabled = "measurementBloodGlucoseNotificationEnabled"
 		static let lastObervationUploadDate = "lastObervationUploadDate"
 		static let chatNotificationsCount = "chatNotificationsCount"
+		static let zendeskChatNotificationCount = "zendeskChatNotificationCount"
 	}
 
 	static func registerDefautlts() {
@@ -162,6 +163,14 @@ extension UserDefaults {
 			integer(forKey: Keys.chatNotificationsCount)
 		} set {
 			setValue(newValue, forKey: Keys.chatNotificationsCount)
+		}
+	}
+
+	var zendeskChatNotificationCount: Int {
+		get {
+			integer(forKey: Keys.zendeskChatNotificationCount)
+		} set {
+			setValue(newValue, forKey: Keys.zendeskChatNotificationCount)
 		}
 	}
 

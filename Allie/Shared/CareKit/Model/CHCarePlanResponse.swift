@@ -54,3 +54,15 @@ public struct CHCarePlanResponse: Codable {
 		self.vectorClock = try container.decodeIfPresent(UInt64.self, forKey: .vectorClock) ?? 0
 	}
 }
+
+extension CHCarePlanResponse {
+	func tasks(forCarePlanId carePlanId: String) -> CHTasks {
+		let filtered = tasks.filter { task in
+			guard let planId = task.carePlanId else {
+				return false
+			}
+			return carePlanId == planId
+		}
+		return filtered
+	}
+}

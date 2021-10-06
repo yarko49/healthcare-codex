@@ -97,7 +97,7 @@ extension CareManager {
 		ALog.info("\(notification.outcome)")
 	}
 
-	func upload(outcomes: [OCKAnyOutcome]) {
+	func upload(anyOutcomes outcomes: [OCKAnyOutcome]) {
 		guard !outcomes.isEmpty else {
 			return
 		}
@@ -132,27 +132,9 @@ extension CareManager {
 			}
 
 			group.notify(queue: .main) { [weak self] in
-				self?.upload(outcomes: outcomes)
+				self?.upload(outcomes: chOutcomes)
 			}
 		}
-	}
-
-	func upload(outcomes: [CHOutcome]) {
-		guard !outcomes.isEmpty else {
-			return
-		}
-
-		networkAPI.post(outcomes: outcomes)
-			.sink { completion in
-				switch completion {
-				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
-				case .finished:
-					ALog.info("Uploaded the outcome")
-				}
-			} receiveValue: { response in
-				ALog.info("\(response.outcomes)")
-			}.store(in: &cancellables)
 	}
 
 	func upload(samples: [HKSample], quantityIdentifier: HKQuantityTypeIdentifier) -> AnyPublisher<[CHOutcome], Error> {
@@ -196,6 +178,24 @@ extension CareManager {
 	func upload(outcome: OCKOutcome, task: OCKTask, carePlanId: String) {
 		let allieOutcome = CHOutcome(outcome: outcome, carePlanID: carePlanId, taskID: task.id)
 		networkAPI.post(outcomes: [allieOutcome])
+			.sink { completion in
+				switch completion {
+				case .failure(let error):
+					ALog.error("\(error.localizedDescription)")
+				case .finished:
+					ALog.info("Uploaded the outcome")
+				}
+			} receiveValue: { response in
+				ALog.info("\(response.outcomes)")
+			}.store(in: &cancellables)
+	}
+
+	func upload(outcomes: [CHOutcome]) {
+		guard !outcomes.isEmpty else {
+			return
+		}
+
+		networkAPI.post(outcomes: outcomes)
 			.sink { completion in
 				switch completion {
 				case .failure(let error):

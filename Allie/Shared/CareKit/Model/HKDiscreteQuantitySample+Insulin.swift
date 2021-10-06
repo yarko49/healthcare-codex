@@ -15,6 +15,7 @@ extension HKDiscreteQuantitySample {
 		metadata[HKMetadataKeyTimeZone] = TimeZone.current.identifier
 		metadata[HKMetadataKeyWasUserEntered] = true
 		metadata[HKMetadataKeyInsulinDeliveryReason] = NSNumber(value: reason.rawValue)
+		metadata[CHMetadataKeyUpdatedDate] = Date()
 		let quantityType = HKQuantityType.quantityType(forIdentifier: .insulinDelivery)
 		self.init(type: quantityType!, quantity: quantity, start: startDate, end: startDate, device: HKDevice.local(), metadata: metadata)
 	}

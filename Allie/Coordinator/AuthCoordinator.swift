@@ -201,7 +201,7 @@ class AuthCoordinator: BaseCoordinator {
 				}
 			} receiveValue: { [weak self] carePlan in
 				self?.hideHUD()
-				if let patient = carePlan.patients.first {
+				if let patient = carePlan.patients.active.first {
 					self?.alliePatient = patient
 					let ockPatient = OCKPatient(patient: patient)
 					try? self?.careManager.resetAllContents()

@@ -20,7 +20,7 @@ extension CHOutcomeValue {
 		}
 		let doubleValue = quantity.doubleValue(for: unit)
 		switch linkage.quantityIdentifier {
-		case .bloodGlucose, .heartRate, .restingHeartRate, .bloodPressureSystolic, .bloodPressureDiastolic, .stepCount:
+		case .heartRate, .restingHeartRate, .bloodPressureSystolic, .bloodPressureDiastolic, .stepCount:
 			self.init(Int(doubleValue), units: unit.unitString)
 		default:
 			self.init(doubleValue, units: unit.unitString)

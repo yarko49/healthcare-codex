@@ -120,7 +120,7 @@ extension HealthKitManager {
 
 	func fetchAllSequenceNumbers(completion: @escaping (BGMSequenceNumbers<Int>) -> Void) {
 		let identifier = HealthKitQuantityType.bloodGlucose.healthKitQuantityType!
-		let query = HKSampleQuery(sampleType: identifier, predicate: nil, limit: Int.max, sortDescriptors: nil) { _, results, error in
+		let query = HKSampleQuery(sampleType: identifier, predicate: nil, limit: Int(Int32.max), sortDescriptors: nil) { _, results, error in
 			var sequenceNumbers = BGMSequenceNumbers<Int>()
 			if let error = error {
 				ALog.error("could not find sequence number = \(error.localizedDescription)")

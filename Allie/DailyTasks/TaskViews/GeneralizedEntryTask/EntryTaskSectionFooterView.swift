@@ -13,7 +13,7 @@ protocol EntryTaskSectionFooterViewDelegate: AnyObject {
 	func entryTaskSectionFooterViewDidSelectDelete(_ view: EntryTaskSectionFooterView)
 }
 
-class EntryTaskSectionFooterView: UICollectionReusableView {
+class EntryTaskSectionFooterView: UIView {
 	class var height: CGFloat {
 		45.0 + 22.0
 	}

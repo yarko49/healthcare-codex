@@ -171,7 +171,9 @@ extension CareManager {
 		let queue = DispatchQueue.global(qos: .userInitiated)
 		var result: OCKStoreError?
 		queue.async { [weak self] in
-			if let patient = carePlanResponse.patients.first {
+			// There should only be one patient
+			let activePatient = carePlanResponse.patients.active.first
+			if let patient = activePatient {
 				let thePatient = self?.syncProcess(patient: patient, queue: queue)
 				ALog.info("patient id \(String(describing: thePatient?.id)), patient uuid = \(String(describing: thePatient?.uuid?.uuidString))")
 				self?.patient = thePatient
@@ -180,22 +182,22 @@ extension CareManager {
 				}
 			}
 
-			var theCarePlan: OCKCarePlan?
-			if let carePlan = carePlanResponse.carePlans.first, result == nil {
-				theCarePlan = self?.syncProcess(carePlan: carePlan, patient: self?.patient, queue: queue)
-				ALog.info("CarePlan id \(String(describing: theCarePlan?.id)), carePlan uuid \(String(describing: theCarePlan?.uuid))")
-				if theCarePlan == nil {
+			// There should only be one active CarePlan
+			var activeCarePlan: OCKCarePlan?
+			let carePlans = carePlanResponse.carePlans
+			if result == nil {
+				let processedCarePlans = self?.syncProcess(carePlans: carePlans, patient: self?.patient, queue: queue)
+				activeCarePlan = processedCarePlans?.active.first
+				ALog.info("CarePlan id \(String(describing: activeCarePlan?.id)), carePlan uuid \(String(describing: activeCarePlan?.uuid))")
+				if activeCarePlan == nil {
 					result = OCKStoreError.updateFailed(reason: "Unable to ")
 				}
 			}
 
-			let toDelete = carePlanResponse.tasks.filter { task in
-				task.shouldDelete
-			}
-
-			let toProcess = carePlanResponse.tasks
+			let toDelete = carePlanResponse.tasks.deleted
+			let toProcess = carePlanResponse.tasks(forCarePlanId: activeCarePlan?.id ?? "")
 			if result == nil {
-				let processedTasks = self?.syncProcess(tasks: toProcess, carePlan: theCarePlan, queue: queue) ?? ([], [])
+				let processedTasks = self?.syncProcess(tasks: toProcess, carePlan: activeCarePlan, queue: queue) ?? ([], [])
 				ALog.info("Regular tasks saved = \(String(describing: processedTasks.0.count)), HealthKitTasks saved \(String(describing: processedTasks.1.count))")
 				if (processedTasks.0.count + processedTasks.1.count) != toProcess.count {
 					result = OCKStoreError.updateFailed(reason: "Error updating tasks")

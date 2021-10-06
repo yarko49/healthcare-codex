@@ -9,6 +9,8 @@ import CareKitStore
 import Foundation
 import HealthKit
 
+let CHMetadataKeyUpdatedDate = "CHUpdatedDate"
+
 extension CHOutcome {
 	init?(sample: HKSample, task: OCKHealthKitTask, carePlanId: String) {
 		self.init(taskUUID: task.uuid, taskID: task.id, carePlanID: carePlanId, taskOccurrenceIndex: 0, values: [])
@@ -61,6 +63,11 @@ extension CHOutcome {
 			device = CHDevice(device: hkDevice)
 		}
 		var metadata = sample.metadata
+		if let updatedDate = metadata?[CHMetadataKeyUpdatedDate] as? Date {
+			self.updatedDate = updatedDate
+			metadata?.removeValue(forKey: CHMetadataKeyUpdatedDate)
+		}
+
 		if let userEntered = metadata?[HKMetadataKeyWasUserEntered] as? Bool {
 			self.isBluetoothCollected = !userEntered
 			metadata?.removeValue(forKey: HKMetadataKeyWasUserEntered)

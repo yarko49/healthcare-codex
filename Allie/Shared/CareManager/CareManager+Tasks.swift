@@ -38,7 +38,7 @@ extension CareManager {
 					healthKitStore.deleteTask(healthKitTask, callbackQueue: queue) { result in
 						switch result {
 						case .failure(let error):
-							ALog.error("\(error.localizedDescription)")
+							ALog.error("\(error.localizedDescription)", metadata: ["Source": "HealthKitTask Delete"])
 						case .success(let newTask):
 							healthKitTasks.append(newTask)
 						}
@@ -48,7 +48,7 @@ extension CareManager {
 					healthKitStore.addOrUpdate(healthKitTask: healthKitTask, callbackQueue: queue) { result in
 						switch result {
 						case .failure(let error):
-							ALog.error("\(error.localizedDescription)")
+							ALog.error("\(error.localizedDescription)", metadata: ["Source": "HealthKitTask Add Or Update"])
 						case .success(let newTask):
 							healthKitTasks.append(newTask)
 						}

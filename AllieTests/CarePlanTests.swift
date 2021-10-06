@@ -67,4 +67,12 @@ class CarePlanTests: XCTestCase {
 		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
 		XCTAssertNotNil(carePlanResponse.tasks)
 	}
+
+	func testBadCarePlan() throws {
+		let data = AllieTests.loadTestData(fileName: "BadCarePlan.json")
+		XCTAssertNotNil(data)
+		let decoder = CHJSONDecoder()
+		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
+		XCTAssertNotNil(carePlanResponse.tasks)
+	}
 }

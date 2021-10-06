@@ -120,6 +120,14 @@ class MainCoordinator: BaseCoordinator {
 		tabbarItem?.badgeValue = count > 0 ? "\(count)" : nil
 	}
 
+	func updateZendeskBadges(count: Int) {
+		let appController = self[.application] as? AppCoordinator
+		let tabbarItem = appController?.tabBarController?.tabBar.items?[3]
+		tabbarItem?.badgeColor = .systemRed
+		// swiftlint:disable:next empty_count
+		tabbarItem?.badgeValue = count > 0 ? "\(count)" : nil
+	}
+
 	func createPatientIfNeeded() {
 		if let patient = careManager.patient, patient.profile.fhirId == nil {
 			networkAPI.post(patient: patient)
