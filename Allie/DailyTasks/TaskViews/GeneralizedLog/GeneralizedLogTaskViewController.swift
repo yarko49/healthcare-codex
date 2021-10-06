@@ -16,6 +16,7 @@ typealias AllieHealthKitSampleHandler = (HKSample) -> Void
 
 class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTaskController, GeneralizedLogTaskViewSynchronizer> {
 	private var cancellables: Set<AnyCancellable> = []
+	@Injected(\.careManager) var careManager: CareManager
 
 	override public init(controller: GeneralizedLogTaskController, viewSynchronizer: GeneralizedLogTaskViewSynchronizer) {
 		super.init(controller: controller, viewSynchronizer: viewSynchronizer)
@@ -102,6 +103,12 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 						}
 					}
 				}
+
+				let lastOutcomeUplaodDate = UserDefaults.standard[lastOutcomesUploadDate: task.healthKitLinkage.quantityIdentifier.rawValue]
+				if let carePlanId = task.carePlanId, sample.startDate < lastOutcomeUplaodDate, let outcome = CHOutcome(sample: sample, task: task, carePlanId: carePlanId) {
+					self?.careManager.upload(outcomes: [outcome])
+				}
+
 				NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
 				DispatchQueue.main.async {
 					viewController?.dismiss(animated: true, completion: nil)

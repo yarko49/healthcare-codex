@@ -235,7 +235,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 
 		let date = unitView.date
 		let selectedIndex = segementedView.segementedControl.selectedSegmentIndex
-		var mealTime: CHBloodGlucoseMealTime?
+		var mealTime: CHBloodGlucoseMealTime
 		switch selectedIndex {
 		case 0:
 			mealTime = .fasting
@@ -244,7 +244,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		case 2:
 			mealTime = .postprandial
 		default:
-			mealTime = nil
+			mealTime = .undefined
 		}
 
 		let sample = HKDiscreteQuantitySample(bloodGlucose: value, startDate: date, mealTime: mealTime)
@@ -264,6 +264,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		var metadata: [String: Any] = [:]
 		metadata[HKMetadataKeyTimeZone] = TimeZone.current.identifier
 		metadata[HKMetadataKeyWasUserEntered] = true
+		metadata[CHMetadataKeyUpdatedDate] = Date()
 		let quantityType = HKQuantityType.quantityType(forIdentifier: .bodyMass)
 		let date = unitView.date
 		let sample = HKDiscreteQuantitySample(type: quantityType!, quantity: quantity, start: date, end: date, device: HKDevice.local(), metadata: metadata)
@@ -294,6 +295,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		var metadata: [String: Any] = [:]
 		metadata[HKMetadataKeyTimeZone] = TimeZone.current.identifier
 		metadata[HKMetadataKeyWasUserEntered] = true
+		metadata[CHMetadataKeyUpdatedDate] = Date()
 		return bloodPressureSample
 	}
 

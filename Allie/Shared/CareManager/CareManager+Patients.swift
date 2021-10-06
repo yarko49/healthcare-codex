@@ -17,7 +17,7 @@ extension CareManager {
 					ALog.error("Unable to upload patient", error: error)
 				}
 			} receiveValue: { carePlanResponse in
-				let id = carePlanResponse.patients.first?.id ?? "Unkown Id"
+				let id = carePlanResponse.patients.active.first?.id ?? "Unkown Id"
 				ALog.info("Did upload patient \(id)")
 			}.store(in: &cancellables)
 	}

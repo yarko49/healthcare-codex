@@ -20,7 +20,7 @@ extension CareManager {
 				self?.store.addCarePlan(ockCarePlan, callbackQueue: queue, completion: { addResult in
 					switch addResult {
 					case .failure(let error):
-						ALog.error("\(error.localizedDescription)")
+						ALog.error("\(error.localizedDescription)", metadata: ["CareManager": "Add Care Plan"])
 					case .success(let newCarePlan):
 						ockCarePlan = newCarePlan
 					}
@@ -31,7 +31,7 @@ extension CareManager {
 				self?.store.updateCarePlan(merged, callbackQueue: queue, completion: { updateResult in
 					switch updateResult {
 					case .failure(let error):
-						ALog.error("\(error.localizedDescription)")
+						ALog.error("\(error.localizedDescription)", metadata: ["CareManager": "Update Care Plan"])
 					case .success(let newCarePlan):
 						ockCarePlan = newCarePlan
 					}
@@ -57,7 +57,7 @@ extension CareManager {
 			store.process(carePlan: carePlan, callbackQueue: queue) { result in
 				switch result {
 				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
+					ALog.error("\(error.localizedDescription)", metadata: ["CareManager": "Process Care Plan"])
 				case .success(let newCarePlan):
 					storeCarePlans.append(newCarePlan)
 				}

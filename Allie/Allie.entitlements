@@ -26,5 +26,7 @@
 	<array>
 		<string>$(AppIdentifierPrefix)com.codexhealth.Allie</string>
 	</array>
+	<key>com.apple.developer.healthkit.background-delivery</key>
+	<true/>
 </dict>
 </plist>

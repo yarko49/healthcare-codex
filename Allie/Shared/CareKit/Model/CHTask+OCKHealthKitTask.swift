@@ -47,4 +47,15 @@ extension OCKHealthKitTask {
 	}
 }
 
-extension OCKHealthKitTask: AnyTaskExtensible {}
+extension OCKHealthKitTask: AnyTaskExtensible {
+	var isActive: Bool {
+		let date = Date()
+		if effectiveDate > date {
+			return false
+		}
+		if let deletedDate = deletedDate, deletedDate < date {
+			return false
+		}
+		return true
+	}
+}

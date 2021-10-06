@@ -62,7 +62,7 @@ class CareKitStoreTests: XCTestCase {
 				let patients = carePlanResponse.patients
 				XCTAssertNotNil(patients)
 				XCTAssertEqual(patients.count, 1)
-				let patient = patients.first
+				let patient = patients.active.first
 				XCTAssertNotNil(patient)
 				XCTAssertNotNil(patient?.profile.fhirId)
 				expect.fulfill()
@@ -122,7 +122,7 @@ class CareKitStoreTests: XCTestCase {
 		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
 
 		if let carePlan = carePlanRespons {
-			guard let patient = carePlan.patients.first else {
+			guard let patient = carePlan.patients.active.first else {
 				XCTFail("No patients found in careplan")
 				return
 			}
