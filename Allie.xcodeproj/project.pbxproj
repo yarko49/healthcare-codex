@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		84009048261AA77000FB3968 /* ProfileEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84009047261AA77000FB3968 /* ProfileEntryViewController.swift */; };
 		84016C3A2616BED7006D5279 /* DiabetiesCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 84016C392616BED7006D5279 /* DiabetiesCarePlan.json */; };
+		8401F70B270D33F400D1CBED /* HealthKitToCareKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8401F70A270D33F400D1CBED /* HealthKitToCareKitTests.swift */; };
 		84037C1826CB5B6200C87189 /* CHDevice+CBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84037C1726CB5B6200C87189 /* CHDevice+CBPeripheral.swift */; };
 		84037C1926CB5B6200C87189 /* CHDevice+CBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84037C1726CB5B6200C87189 /* CHDevice+CBPeripheral.swift */; };
 		84037C1A26CB5B6200C87189 /* CHDevice+CBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84037C1726CB5B6200C87189 /* CHDevice+CBPeripheral.swift */; };
@@ -39,9 +40,6 @@
 		841418F726BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */; };
 		841418F826BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */; };
 		841418F926BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */; };
-		8415C8AB270C23FF003B675C /* ZendeskChatSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8415C8AA270C23FF003B675C /* ZendeskChatSDK */; };
-		8415C8AD270C2418003B675C /* ZendeskChatSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8415C8AC270C2418003B675C /* ZendeskChatSDK */; };
-		8415C8AF270C2427003B675C /* ZendeskChatSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8415C8AE270C2427003B675C /* ZendeskChatSDK */; };
 		841640A92627D1C3000903AF /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 841640A82627D1C3000903AF /* Colors.xcassets */; };
 		841640C52627D714000903AF /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ConversationViewController.swift */; };
 		841640CA2627D999000903AF /* UITabBar+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C92627D999000903AF /* UITabBar+Appearance.swift */; };
@@ -690,6 +688,8 @@
 		84C212B52664A495000D491B /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C212B32664A495000D491B /* PDFViewController.swift */; };
 		84C212B62664A495000D491B /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C212B32664A495000D491B /* PDFViewController.swift */; };
 		84C22BCB25A5821800D16CFF /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 84C22BCA25A5821800D16CFF /* Logging */; };
+		84C2E001270D8157009168F7 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840B75BD26FB99FA00BF2D1A /* HealthKit.framework */; };
+		84C2E002270D815C009168F7 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840B75BD26FB99FA00BF2D1A /* HealthKit.framework */; };
 		84C39A4E25B172640063D92C /* CHTask+OCKHealthKitTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C39A4D25B172640063D92C /* CHTask+OCKHealthKitTask.swift */; };
 		84C517F525B7E55F00D684E5 /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C517F425B7E55F00D684E5 /* BottomButton.swift */; };
 		84C5180225B7EC5C00D684E5 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5180125B7EC5C00D684E5 /* SignupViewController.swift */; };
@@ -991,6 +991,7 @@
 /* Begin PBXFileReference section */
 		84009047261AA77000FB3968 /* ProfileEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEntryViewController.swift; sourceTree = "<group>"; };
 		84016C392616BED7006D5279 /* DiabetiesCarePlan.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DiabetiesCarePlan.json; sourceTree = "<group>"; };
+		8401F70A270D33F400D1CBED /* HealthKitToCareKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitToCareKitTests.swift; sourceTree = "<group>"; };
 		84037C1726CB5B6200C87189 /* CHDevice+CBPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHDevice+CBPeripheral.swift"; sourceTree = "<group>"; };
 		84037C1D26CB5EA600C87189 /* Keychain+Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keychain+Injectable.swift"; sourceTree = "<group>"; };
 		84037C2126CB67B500C87189 /* BGMBluetoothManager+Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BGMBluetoothManager+Injectable.swift"; sourceTree = "<group>"; };
@@ -1018,7 +1019,6 @@
 		842398D8259C1144006FB3F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		842398DD259C1144006FB3F4 /* AllieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AllieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		842398E1259C1144006FB3F4 /* AllieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllieTests.swift; sourceTree = "<group>"; };
-		842398E3259C1144006FB3F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		842398E8259C1144006FB3F4 /* AllieUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AllieUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		842398EC259C1145006FB3F4 /* AlfredUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlfredUITests.swift; sourceTree = "<group>"; };
 		842398EE259C1145006FB3F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1336,7 +1336,6 @@
 				8487493425B6A594008C15E2 /* JGProgressHUD in Frameworks */,
 				842D018C267C53FF006B708F /* TwilioConversationsClient in Frameworks */,
 				844EE8392629FC4B001B2D9E /* KeychainAccess in Frameworks */,
-				8415C8AB270C23FF003B675C /* ZendeskChatSDK in Frameworks */,
 				844AD616267FC7CB0096A08E /* CareKitStore in Frameworks */,
 				844AD618267FC7CB0096A08E /* CareKitUI in Frameworks */,
 				84436275264B527B002B475C /* FirebaseInstallations in Frameworks */,
@@ -1390,6 +1389,7 @@
 				847DCCB5265871F3004E9C1D /* SkyFloatingLabelTextField in Frameworks */,
 				84A9D89226AA92B4001E83B2 /* WebService in Frameworks */,
 				847DCCB6265871F3004E9C1D /* CareKitFHIR in Frameworks */,
+				84C2E001270D8157009168F7 /* HealthKit.framework in Frameworks */,
 				847DCCB7265871F3004E9C1D /* CareKitStore in Frameworks */,
 				84CEF53826891F39000C4C56 /* SDWebImageSwiftUI in Frameworks */,
 				847DCCB8265871F3004E9C1D /* FirebaseAuth in Frameworks */,
@@ -1397,7 +1397,6 @@
 				844CB3C3268ACF4C007F05A4 /* JGProgressHUD-SwiftUI in Frameworks */,
 				847DCCBA265871F3004E9C1D /* FirebaseDynamicLinks in Frameworks */,
 				84CDAD8326ACC9F000323A5B /* GoogleSignIn in Frameworks */,
-				8415C8AF270C2427003B675C /* ZendeskChatSDK in Frameworks */,
 				847DCCBB265871F3004E9C1D /* CareKitUI in Frameworks */,
 				847DCCBC265871F3004E9C1D /* FirebaseMessaging in Frameworks */,
 				847DCCBD265871F3004E9C1D /* IQKeyboardManagerSwift in Frameworks */,
@@ -1424,6 +1423,7 @@
 				84D122E1264112DE00990196 /* CareKitStore in Frameworks */,
 				84A9D89026AA92A1001E83B2 /* WebService in Frameworks */,
 				84987B49267F0AA200294718 /* TwilioConversationsClient in Frameworks */,
+				84C2E002270D815C009168F7 /* HealthKit.framework in Frameworks */,
 				84D122E3264112DE00990196 /* CareKitUI in Frameworks */,
 				84CEF53626891F2F000C4C56 /* SDWebImageSwiftUI in Frameworks */,
 				84C8C4042677227C0015A258 /* ZendeskSupportSDK in Frameworks */,
@@ -1431,7 +1431,6 @@
 				844CB3C1268ACF3F007F05A4 /* JGProgressHUD-SwiftUI in Frameworks */,
 				84D122E5264112DE00990196 /* IQKeyboardManagerSwift in Frameworks */,
 				84CDAD8126ACC9E600323A5B /* GoogleSignIn in Frameworks */,
-				8415C8AD270C2418003B675C /* ZendeskChatSDK in Frameworks */,
 				84D122E6264112DE00990196 /* FirebaseAnalytics in Frameworks */,
 				84D122E7264112DE00990196 /* FirebaseMessaging in Frameworks */,
 				84D122E8264112DE00990196 /* Charts in Frameworks */,
@@ -1468,6 +1467,27 @@
 				84CF2DA3261AE60B0080293F /* DatePickerView.swift */,
 			);
 			path = ProfileEntry;
+			sourceTree = "<group>";
+		};
+		8401F709270D335300D1CBED /* TestData */ = {
+			isa = PBXGroup;
+			children = (
+				84A85A0126C0CACC000023C2 /* NewCarePlan.json */,
+				8438576A270BF05E007B4FF1 /* BadCarePlan.json */,
+				84D121C1264100BC00990196 /* Outcomes1.json */,
+				84D121C2264100BC00990196 /* Outcomes2.json */,
+				8449A667267C789B00F73D8E /* OutcomesResponse.json */,
+				84C83FCF259C48F200DAEF34 /* SechduleA.json */,
+				84C83FD0259C48F200DAEF34 /* TaskB2.json */,
+				8420C947264EE524005C21DD /* NewTasks.json */,
+				84F47F6A26426136009CC791 /* ActivityTask.json */,
+				84C83FC1259C48F000DAEF34 /* TestImage.png */,
+				84016C392616BED7006D5279 /* DiabetiesCarePlan.json */,
+				8449A66B267C79A500F73D8E /* Organizations.json */,
+				84A9D88A26AA70B5001E83B2 /* ConversationsUsers.json */,
+				8494446626ED808400EB5F89 /* PostOutcomesResponse.json */,
+			);
+			path = TestData;
 			sourceTree = "<group>";
 		};
 		841640C32627D6EB000903AF /* Chat */ = {
@@ -1568,41 +1588,28 @@
 		842398E0259C1144006FB3F4 /* AllieTests */ = {
 			isa = PBXGroup;
 			children = (
+				84C83FCD259C48F100DAEF34 /* Info.plist */,
 				842398E1259C1144006FB3F4 /* AllieTests.swift */,
 				84C83FBE259C48F000DAEF34 /* CarePlanTests.swift */,
-				84A85A0126C0CACC000023C2 /* NewCarePlan.json */,
-				8438576A270BF05E007B4FF1 /* BadCarePlan.json */,
 				84C83FCE259C48F200DAEF34 /* DateFormatterTests.swift */,
-				84C83FCD259C48F100DAEF34 /* Info.plist */,
 				84C83FCC259C48F100DAEF34 /* NoteTests.swift */,
-				84D121C1264100BC00990196 /* Outcomes1.json */,
-				84D121C2264100BC00990196 /* Outcomes2.json */,
 				84D121C5264101EB00990196 /* OutcomesTests.swift */,
-				8449A667267C789B00F73D8E /* OutcomesResponse.json */,
 				84C83FBD259C48EF00DAEF34 /* PatientTests.swift */,
 				84C83FBF259C48F000DAEF34 /* ScheduleTests.swift */,
 				84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */,
-				84C83FCF259C48F200DAEF34 /* SechduleA.json */,
 				84C83FC6259C48F100DAEF34 /* TargetValueTests.swift */,
-				84C83FD0259C48F200DAEF34 /* TaskB2.json */,
-				8420C947264EE524005C21DD /* NewTasks.json */,
 				84C83FC7259C48F100DAEF34 /* TasksTests.swift */,
-				84F47F6A26426136009CC791 /* ActivityTask.json */,
-				84C83FD1259C48F200DAEF34 /* TaskTests.swift */,
-				84C83FC1259C48F000DAEF34 /* TestImage.png */,
 				84C83FD2259C48F200DAEF34 /* URLProtocolMock.swift */,
-				842398E3259C1144006FB3F4 /* Info.plist */,
 				845FBE7625FC71A700472257 /* ObservationsConfigTest.swift */,
 				84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */,
 				849E158E26113ABB00663010 /* AlliePatientTests.swift */,
 				845F189C263246CE005A601A /* DeviceTests.swift */,
-				84016C392616BED7006D5279 /* DiabetiesCarePlan.json */,
 				8449A669267C798500F73D8E /* OraganizationsTests.swift */,
-				8449A66B267C79A500F73D8E /* Organizations.json */,
+				84C83FD1259C48F200DAEF34 /* TaskTests.swift */,
 				844CB3C8268AF4D9007F05A4 /* ConersationsTests.swift */,
-				84A9D88A26AA70B5001E83B2 /* ConversationsUsers.json */,
 				84C83C8826B1D61D006C92E2 /* GlucoseMeterTests.swift */,
-				8494446626ED808400EB5F89 /* PostOutcomesResponse.json */,
+				8401F70A270D33F400D1CBED /* HealthKitToCareKitTests.swift */,
+				8401F709270D335300D1CBED /* TestData */,
 			);
 			path = AllieTests;
 			sourceTree = "<group>";
@@ -2253,7 +2260,6 @@
 				84A9D88D26AA9286001E83B2 /* WebService */,
 				84CDAD7E26ACC9BD00323A5B /* GoogleSignIn */,
 				847BBE9526DDF39900402B47 /* OrderedCollections */,
-				8415C8AA270C23FF003B675C /* ZendeskChatSDK */,
 			);
 			productName = Alfred;
 			productReference = 842398C7259C1144006FB3F4 /* Allie.app */;
@@ -2340,7 +2346,6 @@
 				84A9D89126AA92B4001E83B2 /* WebService */,
 				84CDAD8226ACC9F000323A5B /* GoogleSignIn */,
 				847BBE9726DDF3A800402B47 /* OrderedCollections */,
-				8415C8AE270C2427003B675C /* ZendeskChatSDK */,
 			);
 			productName = Alfred;
 			productReference = 847DCCE1265871F3004E9C1D /* Allie Dev.app */;
@@ -2390,7 +2395,6 @@
 				84A9D88F26AA92A1001E83B2 /* WebService */,
 				84CDAD8026ACC9E600323A5B /* GoogleSignIn */,
 				847BBE9926DDF3B500402B47 /* OrderedCollections */,
-				8415C8AC270C2418003B675C /* ZendeskChatSDK */,
 			);
 			productName = Alfred;
 			productReference = 84D12309264112DE00990196 /* Allie QA.app */;
@@ -2444,7 +2448,6 @@
 				84A9D88C26AA9286001E83B2 /* XCRemoteSwiftPackageReference "WebService" */,
 				84CDAD7D26ACC9BD00323A5B /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				847BBE9426DDF39900402B47 /* XCRemoteSwiftPackageReference "swift-collections" */,
-				8415C8A9270C23FF003B675C /* XCRemoteSwiftPackageReference "chat_sdk_ios" */,
 			);
 			productRefGroup = 842398C8259C1144006FB3F4 /* Products */;
 			projectDirPath = "";
@@ -3092,6 +3095,7 @@
 				84C83FD5259C48F200DAEF34 /* CarePlanTests.swift in Sources */,
 				84C83FDD259C48F200DAEF34 /* TargetValueTests.swift in Sources */,
 				84C83FE8259C48F200DAEF34 /* TaskTests.swift in Sources */,
+				8401F70B270D33F400D1CBED /* HealthKitToCareKitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3865,7 +3869,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3894,7 +3898,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4019,7 +4023,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4048,7 +4052,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4077,7 +4081,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4106,7 +4110,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4186,14 +4190,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		8415C8A9270C23FF003B675C /* XCRemoteSwiftPackageReference "chat_sdk_ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/zendesk/chat_sdk_ios.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
 		842D018A267C53FF006B708F /* XCRemoteSwiftPackageReference "conversations-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twilio/conversations-ios.git";
@@ -4469,21 +4465,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		8415C8AA270C23FF003B675C /* ZendeskChatSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8415C8A9270C23FF003B675C /* XCRemoteSwiftPackageReference "chat_sdk_ios" */;
-			productName = ZendeskChatSDK;
-		};
-		8415C8AC270C2418003B675C /* ZendeskChatSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8415C8A9270C23FF003B675C /* XCRemoteSwiftPackageReference "chat_sdk_ios" */;
-			productName = ZendeskChatSDK;
-		};
-		8415C8AE270C2427003B675C /* ZendeskChatSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8415C8A9270C23FF003B675C /* XCRemoteSwiftPackageReference "chat_sdk_ios" */;
-			productName = ZendeskChatSDK;
-		};
 		842D018B267C53FF006B708F /* TwilioConversationsClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 842D018A267C53FF006B708F /* XCRemoteSwiftPackageReference "conversations-ios" */;

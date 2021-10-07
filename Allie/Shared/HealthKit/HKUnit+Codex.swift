@@ -14,6 +14,6 @@ extension HKUnit {
 			return unitString
 		}
 
-		return NSLocalizedString("INSULIN_UNIT", comment: "Insulin Unit")
+		return NSLocalizedString("INSULIN_UNIT", comment: "Unit")
 	}
 }

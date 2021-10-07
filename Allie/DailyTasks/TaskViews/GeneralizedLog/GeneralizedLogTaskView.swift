@@ -111,7 +111,7 @@ class GeneralizedLogTaskView: OCKView, OCKTaskDisplayable {
 		item.valueLabel.text = value
 		item.timeLabel.text = time
 		item.contextLabel.text = context ?? " "
-		item.imageView.image = canDelete ? UIImage(systemName: "trash") : UIImage(named: "icon-lock-fill")
+		item.imageView.image = canDelete ? UIImage(named: "icon-edit") : UIImage(named: "icon-lock-fill")
 		item.accessibilityLabel = (value ?? "") + " " + (time ?? "") + " " + (context ?? "")
 		item.accessibilityHint = loc("DOUBLE_TAP_TO_REMOVE_EVENT")
 		return item

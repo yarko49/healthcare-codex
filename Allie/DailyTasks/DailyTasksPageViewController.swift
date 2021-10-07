@@ -243,7 +243,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.hud.dismiss(animated: true)
 				if case .failure(let error) = resultCompletion {
 					let nsError = error as NSError
-					if !(nsError.code == 401 || nsError.code == 408) {
+					let codes: Set<Int> = [401, 408, -1001]
+					if !codes.contains(nsError.code) {
 						ALog.error("Unable to fetch care plan", error: error)
 						let okAction = AlertHelper.AlertAction(withTitle: String.ok)
 						let title = NSLocalizedString("ERROR", comment: "Error")

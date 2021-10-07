@@ -668,8 +668,8 @@
 /* Please enter correct value and then save. */
 "HEALTHKIT_ERROR_SAVE_DATA.message" = "Please enter correct value and then save.";
 
-/* Insulin Unit */
-"INSULIN_UNIT" = "Insulin Unit";
+/* Unit */
+"INSULIN_UNIT" = "Unit";
 
 /* Deleting your account is permanent and will remove all content. Are you sure you want to delete your account? */
 "DELETE_ACCOUNT.message" = "Deleting your account is permanent and will remove all content. Are you sure you want to delete your account?";
