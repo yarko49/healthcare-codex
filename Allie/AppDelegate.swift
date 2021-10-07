@@ -5,8 +5,6 @@
 //  Created by Waqar Malik on 12/17/20.
 //
 
-import ChatProvidersSDK
-import ChatSDK
 import Combine
 import Firebase
 import FirebaseAnalytics
@@ -77,7 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		CoreLogger.logLevel = .debug
 		Zendesk.initialize(appId: AppConfig.zendeskAppId, clientId: AppConfig.zendeskClientId, zendeskUrl: AppConfig.zendeskURL)
 		Support.initialize(withZendesk: Zendesk.instance)
-		Chat.initialize(accountKey: AppConfig.zendeskChatAccountKey, appId: AppConfig.zendeskChatAppId)
 		let ident = Identity.createAnonymous()
 		Zendesk.instance?.setIdentity(ident)
 		ALog.trace("Zendesk Initialized")
@@ -135,7 +132,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 		ALog.trace("didRegisterForRemoteNotificationsWithDeviceToken:")
-		Chat.registerPushToken(deviceToken)
 		Messaging.messaging().apnsToken = deviceToken
 		if let fcmToken = Messaging.messaging().fcmToken {
 			uploadRemoteNofication(token: fcmToken)
@@ -147,6 +143,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 				}
 				self?.keychain.fcmToken = token
 				self?.uploadRemoteNofication(token: token)
+			}
+		}
+		if let instance = Zendesk.instance {
+			let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+			let locale = NSLocale.preferredLanguages.first ?? "en-US"
+			ZDKPushProvider(zendesk: instance).register(deviceIdentifier: token, locale: locale) { _, error in
+				if let error = error {
+					ALog.error("Couldn't register device: \(token). Error: \(error)")
+				} else {
+					ALog.info("Successfully registered device: \(token)")
+				}
 			}
 		}
 	}
@@ -165,21 +172,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 		// Show Tabbar and download messages
-		let userInfo = response.notification.request.content.userInfo
-		if Chat.pushNotificationsProvider?.isChatPushNotification(userInfo) ?? false {
-			let pushNotificationData = PushNotificationData.data(for: userInfo)
-			switch pushNotificationData?.type {
-			case .message:
-				let application = UIApplication.shared
-				Chat.didReceiveRemoteNotification(userInfo, in: application)
-			case .chatEnded:
-				break
-			case .none:
-				break
-			case .some:
-				break
-			}
-		}
 		completionHandler()
 	}
 
@@ -209,7 +201,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 			application.applicationIconBadgeNumber = count
 			AppDelegate.mainCoordinator?.updateBadges(count: count)
 			UserDefaults.standard.chatNotificationsCount = count
-		} else if typeString == "zendesk" {
+		} else if typeString == "zendeskSupport" {
 			let count = UserDefaults.standard.zendeskChatNotificationCount + 1
 			AppDelegate.mainCoordinator?.updateZendeskBadges(count: count)
 			UserDefaults.standard.zendeskChatNotificationCount = count

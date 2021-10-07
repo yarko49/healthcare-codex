@@ -92,7 +92,9 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 				reason.title
 			}
 		} else if task?.healthKitLinkage.quantityIdentifier == .bloodGlucose {
-			titles = ["Fasting", "Before Meal", "After Meal"]
+			titles = [CHBloodGlucoseMealTime.fasting, CHBloodGlucoseMealTime.preprandial, CHBloodGlucoseMealTime.postprandial].map { mealTime in
+				mealTime.title
+			}
 		}
 		cell.configure(titles: titles)
 		cell.delegate = self
