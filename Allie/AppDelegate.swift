@@ -135,6 +135,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		Messaging.messaging().apnsToken = deviceToken
 		if let fcmToken = Messaging.messaging().fcmToken {
 			uploadRemoteNofication(token: fcmToken)
+			registerZendesk(token: fcmToken)
 		} else {
 			Messaging.messaging().token { [weak self] newToken, error in
 				guard let token = newToken, error != nil else {
@@ -143,10 +144,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 				}
 				self?.keychain.fcmToken = token
 				self?.uploadRemoteNofication(token: token)
+				self?.registerZendesk(token: token)
 			}
 		}
+	}
+
+	func registerZendesk(token: String) {
 		if let instance = Zendesk.instance {
-			let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
 			let locale = NSLocale.preferredLanguages.first ?? "en-US"
 			ZDKPushProvider(zendesk: instance).register(deviceIdentifier: token, locale: locale) { _, error in
 				if let error = error {

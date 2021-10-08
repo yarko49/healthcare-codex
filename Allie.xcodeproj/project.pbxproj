@@ -10,6 +10,9 @@
 		84009048261AA77000FB3968 /* ProfileEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84009047261AA77000FB3968 /* ProfileEntryViewController.swift */; };
 		84016C3A2616BED7006D5279 /* DiabetiesCarePlan.json in Resources */ = {isa = PBXBuildFile; fileRef = 84016C392616BED7006D5279 /* DiabetiesCarePlan.json */; };
 		8401F70B270D33F400D1CBED /* HealthKitToCareKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8401F70A270D33F400D1CBED /* HealthKitToCareKitTests.swift */; };
+		8401F71D270EA5C300D1CBED /* NumericProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8401F71C270EA5C300D1CBED /* NumericProgressViewController.swift */; };
+		8401F71E270EA5C300D1CBED /* NumericProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8401F71C270EA5C300D1CBED /* NumericProgressViewController.swift */; };
+		8401F71F270EA5C300D1CBED /* NumericProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8401F71C270EA5C300D1CBED /* NumericProgressViewController.swift */; };
 		84037C1826CB5B6200C87189 /* CHDevice+CBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84037C1726CB5B6200C87189 /* CHDevice+CBPeripheral.swift */; };
 		84037C1926CB5B6200C87189 /* CHDevice+CBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84037C1726CB5B6200C87189 /* CHDevice+CBPeripheral.swift */; };
 		84037C1A26CB5B6200C87189 /* CHDevice+CBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84037C1726CB5B6200C87189 /* CHDevice+CBPeripheral.swift */; };
@@ -992,6 +995,7 @@
 		84009047261AA77000FB3968 /* ProfileEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEntryViewController.swift; sourceTree = "<group>"; };
 		84016C392616BED7006D5279 /* DiabetiesCarePlan.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DiabetiesCarePlan.json; sourceTree = "<group>"; };
 		8401F70A270D33F400D1CBED /* HealthKitToCareKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitToCareKitTests.swift; sourceTree = "<group>"; };
+		8401F71C270EA5C300D1CBED /* NumericProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericProgressViewController.swift; sourceTree = "<group>"; };
 		84037C1726CB5B6200C87189 /* CHDevice+CBPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHDevice+CBPeripheral.swift"; sourceTree = "<group>"; };
 		84037C1D26CB5EA600C87189 /* Keychain+Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keychain+Injectable.swift"; sourceTree = "<group>"; };
 		84037C2126CB67B500C87189 /* BGMBluetoothManager+Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BGMBluetoothManager+Injectable.swift"; sourceTree = "<group>"; };
@@ -2117,6 +2121,7 @@
 				84D3F68C264A4BB700241BBB /* ScheduleUtility.swift */,
 				84D3F68F264A4C2800241BBB /* OCKTaskEvents+Extension.swift */,
 				84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */,
+				8401F71C270EA5C300D1CBED /* NumericProgressViewController.swift */,
 			);
 			path = TaskViews;
 			sourceTree = "<group>";
@@ -2806,6 +2811,7 @@
 				84261686269A7111006BD8B0 /* GeneralizedLogTaskViewSynchronizer.swift in Sources */,
 				8494705F2671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */,
 				84AF4CF726CA0E6200867349 /* APIClient+Injectable.swift in Sources */,
+				8401F71D270EA5C300D1CBED /* NumericProgressViewController.swift in Sources */,
 				8447679C259C2A4E00C50C09 /* UIColor+Names.swift in Sources */,
 				844767DD259C2A4E00C50C09 /* MainCoordinator.swift in Sources */,
 				845FBE6925FC6A8E00472257 /* ObservationsConfig.swift in Sources */,
@@ -3118,6 +3124,7 @@
 				847DCBF4265871F3004E9C1D /* UIColor+Names.swift in Sources */,
 				849470612671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */,
 				84AF4CF926CA0E6200867349 /* APIClient+Injectable.swift in Sources */,
+				8401F71F270EA5C300D1CBED /* NumericProgressViewController.swift in Sources */,
 				847DCBF5265871F3004E9C1D /* MainCoordinator.swift in Sources */,
 				847DCBF6265871F3004E9C1D /* ObservationsConfig.swift in Sources */,
 				847DCBF7265871F3004E9C1D /* IllustrationView.swift in Sources */,
@@ -3395,6 +3402,7 @@
 				84D12227264112DE00990196 /* UIColor+Names.swift in Sources */,
 				849470602671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */,
 				84AF4CF826CA0E6200867349 /* APIClient+Injectable.swift in Sources */,
+				8401F71E270EA5C300D1CBED /* NumericProgressViewController.swift in Sources */,
 				84D12228264112DE00990196 /* MainCoordinator.swift in Sources */,
 				84D1222A264112DE00990196 /* ObservationsConfig.swift in Sources */,
 				84D1222B264112DE00990196 /* IllustrationView.swift in Sources */,
@@ -3869,7 +3877,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3898,7 +3906,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4023,7 +4031,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4052,7 +4060,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4081,7 +4089,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4110,7 +4118,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
