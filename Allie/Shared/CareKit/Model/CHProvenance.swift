@@ -30,3 +30,9 @@ public struct CHProvenance: Codable, Identifiable {
 		case sampleLocation = "bgmSampleLocation"
 	}
 }
+
+extension CHProvenance {
+	static var manual: CHProvenance {
+		CHProvenance(id: "", type: "manual", name: nil, address: nil, sequenceNumber: nil, recordData: nil, contextData: nil, sampleType: nil, sampleLocation: nil)
+	}
+}

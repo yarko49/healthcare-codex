@@ -40,7 +40,6 @@ class SegmentedEntryView: UIView {
 		for (index, title) in titles.enumerated() {
 			segementedControl.insertSegment(withTitle: title, at: index, animated: false)
 		}
-		segementedControl.selectedSegmentIndex = 0
 	}
 
 	@available(*, unavailable)

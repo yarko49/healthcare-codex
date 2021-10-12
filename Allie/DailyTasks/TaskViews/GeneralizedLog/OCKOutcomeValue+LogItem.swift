@@ -26,7 +26,7 @@ extension OCKOutcomeValue {
 
 	var bloodGlucoseMealTime: String? {
 		let mealTime = CHBloodGlucoseMealTime(kind: kind ?? "")
-		if mealTime == .undefined {
+		if mealTime == .unknown {
 			return nil
 		}
 		return mealTime?.title

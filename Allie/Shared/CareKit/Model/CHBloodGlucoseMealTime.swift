@@ -11,7 +11,7 @@ import HealthKit
 let CHMetadataKeyBloodGlucoseMealTime = "CHBloodGlucoseMealTime"
 
 enum CHBloodGlucoseMealTime: Int, Hashable, CaseIterable {
-	case undefined
+	case unknown
 	case preprandial
 	case postprandial
 	case fasting
@@ -19,17 +19,18 @@ enum CHBloodGlucoseMealTime: Int, Hashable, CaseIterable {
 	case bedtime
 
 	init?(kind: String) {
-		if kind == "undefined" {
-			self = .undefined
-		} else if kind == "preprandial" {
+		let lower = kind.lowercased()
+		if lower == "unknown" {
+			self = .unknown
+		} else if lower == "preprandial" {
 			self = .preprandial
-		} else if kind == "postprandial" {
+		} else if lower == "postprandial" {
 			self = .postprandial
-		} else if kind == "fasting" {
+		} else if lower == "fasting" {
 			self = .fasting
-		} else if kind == "casual" {
+		} else if lower == "casual" {
 			self = .casual
-		} else if kind == "bedtime" {
+		} else if lower == "bedtime" {
 			self = .bedtime
 		} else {
 			return nil
@@ -40,8 +41,8 @@ enum CHBloodGlucoseMealTime: Int, Hashable, CaseIterable {
 extension CHBloodGlucoseMealTime: CustomStringConvertible {
 	var description: String {
 		switch self {
-		case .undefined:
-			return "Undefined"
+		case .unknown:
+			return "Unknown"
 		case .preprandial:
 			return "Preprandial"
 		case .postprandial:
@@ -63,8 +64,8 @@ extension CHBloodGlucoseMealTime {
 
 	var title: String {
 		switch self {
-		case .undefined:
-			return NSLocalizedString("MEAL_TIME_UNDEFINED", comment: "Undefined")
+		case .unknown:
+			return NSLocalizedString("MEAL_TIME_UNKNOWN", comment: "Unknown")
 		case .preprandial:
 			return NSLocalizedString("MEAL_TIME_BEFORE_MEAL", comment: "Before Meal")
 		case .postprandial:

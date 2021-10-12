@@ -116,6 +116,8 @@ extension OCKStore {
 					self?.addTask(task, callbackQueue: callbackQueue, completion: completion)
 				case .success(let existing):
 					completion?(.success(existing))
+//					existing.merge(new: task)
+//					self?.updateTask(existing, callbackQueue: callbackQueue, completion: completion)
 				}
 			}
 		}

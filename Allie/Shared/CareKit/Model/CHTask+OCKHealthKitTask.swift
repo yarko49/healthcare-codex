@@ -45,6 +45,17 @@ extension OCKHealthKitTask {
 		merged.timezone = newTask.timezone
 		return merged
 	}
+
+	mutating func merge(newTask: OCKHealthKitTask) {
+		title = newTask.title
+		instructions = newTask.instructions
+		impactsAdherence = newTask.impactsAdherence
+		tags = newTask.tags
+		source = newTask.source
+		userInfo = newTask.userInfo
+		asset = newTask.asset
+		notes = newTask.notes
+	}
 }
 
 extension OCKHealthKitTask: AnyTaskExtensible {

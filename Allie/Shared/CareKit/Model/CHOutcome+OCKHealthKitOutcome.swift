@@ -7,6 +7,7 @@
 
 import CareKitStore
 import Foundation
+import HealthKit
 
 extension CHOutcome {
 	init(hkOutcome: OCKHealthKitOutcome, carePlanID: String, taskID: String) {

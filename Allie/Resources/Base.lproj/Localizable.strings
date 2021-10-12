@@ -677,8 +677,8 @@
 /* Delete Account */
 "DELETE_ACCOUNT" = "Delete Account";
 
-/* Deleteing Account */
-"DELETING_ACCOUNT" = "Deleteing Account";
+/* Deleting Account */
+"DELETING_ACCOUNT" = "Deleting Account";
 
 /* Please try to Log Out and Log In again in order to Delete your account */
 "ACCOUNT_DELETION_ERROR.message" = "Please try to Log Out and Log In again in order to Delete your account";
@@ -781,4 +781,7 @@
 
 /* Read */
 "READ" = "Read";
+
+/* Unknown */
+"MEAL_TIME_UNKNOWN" = "Unknown";
 
