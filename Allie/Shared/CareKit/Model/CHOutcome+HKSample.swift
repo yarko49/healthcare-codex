@@ -120,7 +120,11 @@ extension HKSample {
 		return kind
 	}
 
-	var provenance: CHProvenance? {
+	var provenance: CHProvenance {
+		bgmProvenance ?? CHProvenance.manual
+	}
+
+	var bgmProvenance: CHProvenance? {
 		guard let metadata = metadata else {
 			return nil
 		}

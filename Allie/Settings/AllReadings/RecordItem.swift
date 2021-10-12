@@ -28,6 +28,6 @@ struct ReadingItem_Previews: PreviewProvider {
 
 private extension BGMDataRecord {
 	static var dummyRecord: BGMDataRecord {
-		BGMDataRecord(sequence: 0, utcTimestamp: Date(), timezoneOffsetInSeconds: 0, glucoseConcentration: 125.0, concentrationUnit: .kg, sampleType: "Caplliary Blood", sampleLocation: "Finger", mealContext: "Unknown", mealTime: .undefined, peripheral: nil, measurementData: Data(), contextData: nil)
+		BGMDataRecord(sequence: 0, utcTimestamp: Date(), timezoneOffsetInSeconds: 0, glucoseConcentration: 125.0, concentrationUnit: .kg, sampleType: "Caplliary Blood", sampleLocation: "Finger", mealContext: "Unknown", mealTime: .unknown, peripheral: nil, measurementData: Data(), contextData: nil)
 	}
 }

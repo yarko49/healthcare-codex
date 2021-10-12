@@ -123,13 +123,13 @@ extension BGMDataReading {
 	}
 
 	var mealTime: CHBloodGlucoseMealTime {
-		var mealTime: CHBloodGlucoseMealTime = .undefined
+		var mealTime: CHBloodGlucoseMealTime = .unknown
 		guard !context.isEmpty else {
 			return mealTime
 		}
 		if context[0] == 2 {
 			let carbID = context[3]
-			mealTime = CHBloodGlucoseMealTime(rawValue: carbID) ?? .undefined
+			mealTime = CHBloodGlucoseMealTime(rawValue: carbID) ?? .unknown
 		}
 
 		return mealTime

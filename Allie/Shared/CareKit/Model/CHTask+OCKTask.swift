@@ -74,6 +74,25 @@ extension OCKTask {
 		existing.links = new.links
 		return existing
 	}
+
+	mutating func merge(new: OCKTask) {
+		title = new.title
+		instructions = new.instructions
+		impactsAdherence = new.impactsAdherence
+		schedule = new.schedule
+		groupIdentifier = new.groupIdentifier
+		tags = new.tags
+		remoteID = new.remoteID
+		source = new.source
+		userInfo = new.userInfo
+		asset = new.asset
+		notes = new.notes
+		timezone = new.timezone
+		if let carePlanId = new.carePlanId {
+			self.carePlanId = carePlanId
+		}
+		links = new.links
+	}
 }
 
 extension AnyTaskExtensible {

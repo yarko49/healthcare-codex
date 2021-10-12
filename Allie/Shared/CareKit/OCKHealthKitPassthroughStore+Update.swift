@@ -20,6 +20,8 @@ extension OCKHealthKitPassthroughStore {
 				self?.addTask(task, callbackQueue: callbackQueue, completion: completion)
 			case .success(let existing):
 				completion?(.success(existing))
+//				existing.merge(newTask: task)
+//				self?.updateTask(existing, callbackQueue: callbackQueue, completion: completion)
 			}
 		}
 	}

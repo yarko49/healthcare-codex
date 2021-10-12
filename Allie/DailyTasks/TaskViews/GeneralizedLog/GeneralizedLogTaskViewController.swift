@@ -92,40 +92,40 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 			HKHealthStore().save(sample) { [weak self] _, error in
 				if let error = error {
 					ALog.error("Unable to save sample", error: error)
-				} else if let outcome = viewController?.outcomeValue {
-					self?.controller.deleteOutcome(value: outcome) { result in
-						switch result {
-						case .success(let sample):
-							ALog.info("Did delete sample \(sample.uuid)", metadata: nil)
-							NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
-						case .failure(let error):
-							ALog.error("Error deleteting data \(error.localizedDescription)", metadata: nil)
-						}
+				} else {
+					if let outcomeValue = viewController?.outcomeValue {
+						self?.deleteOutcome(value: outcomeValue, task: task, completion: { result in
+							switch result {
+							case .success(let sample):
+								ALog.info("\(sample.uuid) sample was deleted", metadata: nil)
+								NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
+							case .failure(let error):
+								ALog.error("Error deleteting data \(error.localizedDescription)", metadata: nil)
+							}
+						})
 					}
-				}
-
-				let lastOutcomeUplaodDate = UserDefaults.standard[lastOutcomesUploadDate: task.healthKitLinkage.quantityIdentifier.rawValue]
-				if let carePlanId = task.carePlanId, sample.startDate < lastOutcomeUplaodDate, let outcome = CHOutcome(sample: sample, task: task, carePlanId: carePlanId) {
-					self?.careManager.upload(outcomes: [outcome])
-				}
-
-				NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
-				DispatchQueue.main.async {
-					viewController?.dismiss(animated: true, completion: nil)
+					let lastOutcomeUplaodDate = UserDefaults.standard[lastOutcomesUploadDate: task.healthKitLinkage.quantityIdentifier.rawValue]
+					if let carePlanId = task.carePlanId, sample.startDate < lastOutcomeUplaodDate, let outcome = CHOutcome(sample: sample, task: task, carePlanId: carePlanId) {
+						self?.careManager.upload(outcomes: [outcome])
+					}
+					NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
+					DispatchQueue.main.async {
+						viewController?.dismiss(animated: true, completion: nil)
+					}
 				}
 			}
 		}
 
 		viewController.deleteAction = { [weak self, weak viewController] in
-			guard let outcome = viewController?.outcomeValue else {
+			guard let outcomeValue = viewController?.outcomeValue, let task = viewController?.task else {
 				viewController?.dismiss(animated: true, completion: nil)
 				return
 			}
 
-			self?.controller.deleteOutcome(value: outcome) { result in
+			self?.deleteOutcome(value: outcomeValue, task: task, completion: { result in
 				switch result {
 				case .success(let sample):
-					ALog.info("Did delete sample \(sample.uuid)", metadata: nil)
+					ALog.info("\(sample.uuid) sample was deleted", metadata: nil)
 					NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
 				case .failure(let error):
 					ALog.error("Error deleteting data \(error.localizedDescription)", metadata: nil)
@@ -133,7 +133,7 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 				DispatchQueue.main.async {
 					viewController?.dismiss(animated: true, completion: nil)
 				}
-			}
+			})
 		}
 
 		viewController.cancelAction = { [weak viewController] in
@@ -141,5 +141,22 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 		}
 
 		tabBarController?.showDetailViewController(viewController, sender: self)
+	}
+
+	func deleteOutcome(value: OCKOutcomeValue, task: OCKHealthKitTask, completion: @escaping AllieResultCompletion<HKSample>) {
+		controller.deleteOutcome(value: value) { [weak self] result in
+			switch result {
+			case .success(let sample):
+				ALog.info("Did delete sample \(sample.uuid)", metadata: nil)
+				if let carePlanId = task.carePlanId, var chOutcome = CHOutcome(sample: sample, task: task, carePlanId: carePlanId) {
+					chOutcome.deletedDate = Date()
+					self?.careManager.upload(outcomes: [chOutcome])
+				}
+				completion(.success(sample))
+			case .failure(let error):
+				ALog.error("Error deleteting data \(error.localizedDescription)", metadata: nil)
+				completion(.failure(error))
+			}
+		}
 	}
 }

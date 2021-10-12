@@ -91,12 +91,14 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			titles = [HKInsulinDeliveryReason.bolus, HKInsulinDeliveryReason.basal].compactMap { reason in
 				reason.title
 			}
+			cell.configure(titles: titles)
+			cell.segementedControl.selectedSegmentIndex = 0
 		} else if task?.healthKitLinkage.quantityIdentifier == .bloodGlucose {
 			titles = [CHBloodGlucoseMealTime.fasting, CHBloodGlucoseMealTime.preprandial, CHBloodGlucoseMealTime.postprandial].map { mealTime in
 				mealTime.title
 			}
+			cell.configure(titles: titles)
 		}
-		cell.configure(titles: titles)
 		cell.delegate = self
 	}
 
@@ -246,7 +248,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		case 2:
 			mealTime = .postprandial
 		default:
-			mealTime = .undefined
+			mealTime = .unknown
 		}
 
 		let sample = HKDiscreteQuantitySample(bloodGlucose: value, startDate: date, mealTime: mealTime)

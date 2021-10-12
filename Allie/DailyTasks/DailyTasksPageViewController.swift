@@ -32,6 +32,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		disableFutureTasks = true
 		navigationItem.leftBarButtonItem = nil
 		navigationItem.titleView = todayButton
 		todayButton.addTarget(self, action: #selector(gotoToday(_:)), for: .touchDown)
@@ -117,14 +118,6 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	var cancellables: Set<AnyCancellable> = []
 	private var insertViewsAnimated: Bool = true
 
-	override func weekCalendarPageViewController(_ viewController: OCKWeekCalendarPageViewController, didSelectDate date: Date, previousDate: Date) {
-		if date < Date() {
-			super.weekCalendarPageViewController(viewController, didSelectDate: date, previousDate: previousDate)
-		} else {
-			selectDate(Date(), animated: false)
-		}
-	}
-
 	override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController, prepare listViewController: OCKListViewController, for date: Date) {
 		var query = OCKTaskQuery(for: date)
 		query.excludesTasksWithNoEvents = true
@@ -204,8 +197,12 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 							listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
 						}
 					case .numericProgress:
-						let view = NumericProgressTaskView(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
-						listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
+						if #available(iOS 15, *) {
+							// There is a bug in iOS 15, with overlapping cards, so we disable until Apple fixes it
+						} else {
+							let view = NumericProgressTaskView(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+							listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
+						}
 					case .instruction:
 						let viewController = OCKInstructionsTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
 						viewController.view.tintColor = .allieLighterGray
