@@ -53,11 +53,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		NotificationCenter.default.publisher(for: .didModifyHealthKitStore, object: nil)
 			.receive(on: RunLoop.main, options: nil)
 			.sink { [weak self] _ in
-				self?.insertViewsAnimated = false
-				self?.shouldUpdateCarePlan = false
-				self?.reload()
-				self?.shouldUpdateCarePlan = true
-				self?.insertViewsAnimated = true
+				self?.refresh()
 			}.store(in: &cancellables)
 
 		if careManager.patient?.bgmName == nil {
@@ -117,7 +113,6 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	}()
 
 	var cancellables: Set<AnyCancellable> = []
-	private var insertViewsAnimated: Bool = true
 
 	override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController, prepare listViewController: OCKListViewController, for date: Date) {
 		var query = OCKTaskQuery(for: date)
@@ -230,7 +225,17 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		}
 	}
 
-	var shouldUpdateCarePlan: Bool = true
+	func refresh() {
+		insertViewsAnimated = false
+		shouldUpdateCarePlan = false
+		reload()
+		shouldUpdateCarePlan = true
+		insertViewsAnimated = true
+	}
+
+	private var insertViewsAnimated: Bool = true
+	private var shouldUpdateCarePlan: Bool = true
+
 	override func reload() {
 		if shouldUpdateCarePlan {
 			getAndUpdateCarePlans { _ in

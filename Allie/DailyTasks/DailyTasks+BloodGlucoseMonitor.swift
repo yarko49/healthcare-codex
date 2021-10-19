@@ -69,6 +69,7 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 			} receiveValue: { [weak self] samples in
 				self?.updatePatient(manager: manager, peripheral: peripheral)
 				self?.process(samples: samples, quantityIdentifier: .bloodGlucose)
+				NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
 			}.store(in: &cancellables)
 	}
 
