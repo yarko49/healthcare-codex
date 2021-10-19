@@ -209,7 +209,7 @@ extension GeneralizedLogTaskView {
 				}
 				_ = index < items.count ?
 					updateItem(at: index, value: outcomeValue.formattedValue, time: dateString, context: context) :
-					appendItem(value: outcomeValue.formattedValue, time: dateString, context: context, animated: animated, canEdit: outcomeValue.wasUserEntered)
+					appendItem(value: outcomeValue.formattedValue, time: dateString, context: context, animated: animated, canEdit: true)
 			}
 		}
 		trimItems(given: outcomeValues, animated: animated)

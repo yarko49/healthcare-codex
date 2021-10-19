@@ -121,7 +121,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		if task?.healthKitLinkage.quantityIdentifier == .bloodGlucose || task?.healthKitLinkage.quantityIdentifier == .bodyMass {
 			cell.keyboardType = .numberPad
 		}
-
+		cell.canEditValue = outcomeValue?.wasUserEntered ?? true
 		cell.configure(placeHolder: "\(placeholder)", value: value, unitTitle: unit?.displayUnitSting ?? "", date: date, isActive: true)
 	}
 

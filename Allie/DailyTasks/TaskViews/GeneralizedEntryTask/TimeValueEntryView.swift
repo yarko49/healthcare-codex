@@ -38,6 +38,15 @@ class TimeValueEntryView: UIView {
 		labelEntry.textField.text
 	}
 
+	var canEditValue: Bool {
+		get {
+			labelEntry.textField.isEnabled
+		}
+		set {
+			labelEntry.textField.isEnabled = newValue
+		}
+	}
+
 	var date: Date {
 		datePicker.date
 	}
