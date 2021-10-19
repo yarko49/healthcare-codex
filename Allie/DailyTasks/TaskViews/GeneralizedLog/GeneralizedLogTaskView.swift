@@ -224,8 +224,8 @@ extension GeneralizedLogTaskView {
 		}
 	}
 
-	func updateWith(event: OCKAnyEvent?, animated: Bool) {
-		headerView.updateWith(event: event, animated: animated)
+	func updateWith(task: OCKAnyTask?, event: OCKAnyEvent?, animated: Bool) {
+		headerView.updateWith(task: task, event: event, animated: animated)
 		guard let event = event else {
 			clearView(animated: animated)
 			return
@@ -245,15 +245,16 @@ extension GeneralizedLogTaskView: EntryTaskSectionHeaderViewDelegate {
 }
 
 extension EntryTaskSectionHeaderView {
-	func updateWith(event: OCKAnyEvent?, animated: Bool) {
+	func updateWith(task: OCKAnyTask?, event: OCKAnyEvent?, animated: Bool) {
 		guard let event = event else {
 			clearView(animated: animated)
 			return
 		}
 
-		textLabel.text = event.task.title
-		detailTextLabel.text = event.task.instructions ?? ScheduleUtility.scheduleLabel(for: event)
-		let quantityIdentifier = (event.task as? OCKHealthKitTask)?.healthKitLinkage.quantityIdentifier
+		let task = task ?? event.task
+		textLabel.text = task.title
+		detailTextLabel.text = task.instructions ?? ScheduleUtility.scheduleLabel(for: event)
+		let quantityIdentifier = (task as? OCKHealthKitTask)?.healthKitLinkage.quantityIdentifier
 		if let dataType = quantityIdentifier?.dataType {
 			imageView.image = dataType.image
 		}
