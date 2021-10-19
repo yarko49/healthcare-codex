@@ -57,6 +57,15 @@ class TimeValueEntryView: UIView {
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	var keyboardType: UIKeyboardType {
+		get {
+			labelEntry.textField.keyboardType
+		}
+		set {
+			labelEntry.textField.keyboardType = newValue
+		}
+	}
+
 	func configure(placeHolder: String, value: String?, unitTitle: String, date: Date?, isActive: Bool) {
 		datePicker.date = date ?? Date()
 		labelEntry.textField.placeholder = placeHolder

@@ -27,9 +27,9 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 	public var scheduleElements: [CHScheduleElement]
 	public var groupIdentifier: String?
 	public var tags: [String]?
+	public var createdDate: Date
 	public var effectiveDate: Date
 	public var deletedDate: Date?
-	public var createdDate: Date?
 	public var updatedDate: Date?
 	public var source: String?
 	public var userInfo: [String: String]?
@@ -49,7 +49,8 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 		self.title = title
 		self.carePlanId = carePlanUUID
 		self.timezone = TimeZone.current
-		self.effectiveDate = Date()
+		self.createdDate = Calendar.current.startOfDay(for: Date())
+		self.effectiveDate = createdDate
 		self.schedule = schedule
 		self.scheduleElements = []
 	}
@@ -73,10 +74,10 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 
 		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
-		var date = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
-		self.effectiveDate = Calendar.current.startOfDay(for: date)
-		date = try container.decodeIfPresent(Date.self, forKey: .createdDate) ?? Date()
+		var date = try container.decodeIfPresent(Date.self, forKey: .createdDate) ?? Date()
 		self.createdDate = Calendar.current.startOfDay(for: date)
+		date = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? createdDate
+		self.effectiveDate = Calendar.current.startOfDay(for: date)
 		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
 		self.deletedDate = try container.decodeIfPresent(Date.self, forKey: .deletedDate)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)

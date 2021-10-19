@@ -118,6 +118,10 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			value = "\(Int(doubleValue))"
 		}
 		let date = outcomeValue?.createdDate
+		if task?.healthKitLinkage.quantityIdentifier == .bloodGlucose || task?.healthKitLinkage.quantityIdentifier == .bodyMass {
+			cell.keyboardType = .numberPad
+		}
+
 		cell.configure(placeHolder: "\(placeholder)", value: value, unitTitle: unit?.displayUnitSting ?? "", date: date, isActive: true)
 	}
 
@@ -213,8 +217,8 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			throw GeneralizedEntryTaskError.invalid("Invalid Context")
 		}
 
-		guard let value = Double(valueString) else {
-			throw GeneralizedEntryTaskError.invalid("Value of invalid type")
+		guard let value = Double(valueString), value > 0, value < 1000 else {
+			throw GeneralizedEntryTaskError.invalid("Value must be greater than 0 and less than 1000")
 		}
 
 		let date = unitView.date
@@ -233,8 +237,8 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			throw GeneralizedEntryTaskError.invalid("Invalid Context")
 		}
 
-		guard let value = Double(valueString) else {
-			throw GeneralizedEntryTaskError.invalid("Value of invalid type")
+		guard let value = Double(valueString)?.rounded(), value > 0, value < 1000 else {
+			throw GeneralizedEntryTaskError.invalid("Value must be greater than 0 and less than 1000")
 		}
 
 		let date = unitView.date
@@ -260,8 +264,8 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			throw GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))
 		}
 
-		guard let value = Double(valueString) else {
-			throw GeneralizedEntryTaskError.invalid("Value of invalid type")
+		guard let value = Double(valueString)?.rounded(), value > 0, value < 1000 else {
+			throw GeneralizedEntryTaskError.invalid("Value must be greater than 0 and less than 1000")
 		}
 
 		let quantity = HKQuantity(unit: HealthKitDataType.bodyMass.unit, doubleValue: value)
@@ -337,6 +341,8 @@ extension GeneralizedLogTaskDetailViewController: EntryTaskSectionFooterViewDele
 			var showSettings = false
 			switch error {
 			case GeneralizedEntryTaskError.missing(let errorMessage):
+				message = errorMessage
+			case GeneralizedEntryTaskError.invalid(let errorMessage):
 				message = errorMessage
 			default:
 				message = error.localizedDescription

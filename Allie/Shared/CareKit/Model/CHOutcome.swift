@@ -87,7 +87,7 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 		self.taskOccurrenceIndex = try container.decodeIfPresent(Int.self, forKey: .taskOccurrenceIndex) ?? 0
 		self.values = try container.decodeIfPresent([CHOutcomeValue].self, forKey: .values) ?? []
 		self.createdDate = try container.decodeIfPresent(Date.self, forKey: .createdDate) ?? Date()
-		self.effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
+		self.effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? createdDate
 		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
 		self.deletedDate = try container.decodeIfPresent(Date.self, forKey: .deletedDate)
 		self.timezone = (try? container.decode(TimeZone.self, forKey: .timezone)) ?? .current

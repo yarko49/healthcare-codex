@@ -9,7 +9,7 @@ import CareKitStore
 import Foundation
 
 extension CareManager {
-	func syncProcess(tasks: [CHTask], carePlan: OCKCarePlan?, queue: DispatchQueue) -> ([OCKTask], [OCKHealthKitTask]) {
+	func syncProcess(tasks: [CHTask], excludesTasksWithNoEvents: Bool = true, carePlan: OCKCarePlan?, queue: DispatchQueue) -> ([OCKTask], [OCKHealthKitTask]) {
 		let mappedTasks = tasks.map { task -> (CHTask, OCKAnyTask) in
 			if task.healthKitLinkage != nil {
 				var healKitTask = OCKHealthKitTask(task: task)
@@ -70,6 +70,18 @@ extension CareManager {
 		}
 		dispatchGroup.wait()
 		return (storeTasks, healthKitTasks)
+	}
+
+	func syncProcessRegular(tasks: [OCKTask], excludesTasksWithNoEvents: Bool = true, carePlan: OCKCarePlan?, queue: DispatchQueue) -> [OCKTask] {
+		var query = OCKTaskQuery(for: Date())
+		query.excludesTasksWithNoEvents = excludesTasksWithNoEvents
+		return tasks
+	}
+
+	func syncProcessHealthKit(tasks: [OCKHealthKitTask], excludesTasksWithNoEvents: Bool = true, carePlan: OCKCarePlan?, queue: DispatchQueue) -> [OCKHealthKitTask] {
+		var query = OCKTaskQuery(for: Date())
+		query.excludesTasksWithNoEvents = excludesTasksWithNoEvents
+		return tasks
 	}
 
 	func synchronizeOutcomes(carePlanId: String, tasks: [String], completion: @escaping AllieResultCompletion<Bool>) {

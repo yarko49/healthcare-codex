@@ -11,4 +11,8 @@ extension Bundle {
 	var ch_appVersion: String? {
 		object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
 	}
+
+	var ch_buildNumber: String? {
+		object(forInfoDictionaryKey: "CFBundleVersion") as? String
+	}
 }

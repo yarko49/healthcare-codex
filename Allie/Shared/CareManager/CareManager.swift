@@ -53,6 +53,7 @@ class CareManager: NSObject, ObservableObject {
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
 	@Injected(\.keychain) var keychain: Keychain
+	@Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
 
 	private var uploadOperationQueues: [String: OperationQueue] = [:]
 	var inflightUploadIdentifiers = InflightIdentifers()
@@ -81,7 +82,7 @@ class CareManager: NSObject, ObservableObject {
 		}
 		set {
 			keychain.patient = newValue
-			startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
+			startUploadOutcomesTimer(timeInterval: remoteConfig.outcomesUploadTimeInterval)
 			AppDelegate.registerServices(patient: newValue)
 		}
 	}
@@ -95,20 +96,37 @@ class CareManager: NSObject, ObservableObject {
 		}
 	}
 
-	@available(*, unavailable)
 	override required init() {
-		fatalError("init() has not been implemented")
+		super.init()
+		commonInit()
 	}
 
-	init(patient: CHPatient?) {
-		super.init()
+	convenience init(patient: CHPatient?) {
+		self.init()
+		if let patient = patient {
+			self.patient = patient
+		}
+	}
+
+	private func commonInit() {
 		registerForNotifications()
 		registerForConfighanges()
+
+		do {
+			let carePlanResponse = try readCarePlan()
+			tasks = carePlanResponse.tasks.reduce([:]) { partialResult, task in
+				var result = partialResult
+				result[task.id] = task
+				return result
+			}
+			carePlan = carePlanResponse.carePlans.active.first
+		} catch {
+			ALog.error("CarePlan Missing \(error.localizedDescription)")
+		}
 	}
 
 	func registerForConfighanges() {
-		let configManager = RemoteConfigManager.shared
-		configManager.$outcomesUploadTimeInterval
+		remoteConfig.$outcomesUploadTimeInterval
 			.sink { [weak self] timeInterval in
 				if timeInterval > 0 {
 					self?.cancelUploadOutcomesTimer()
@@ -120,7 +138,7 @@ class CareManager: NSObject, ObservableObject {
 	func registerForNotifications() {
 		NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)
 			.sink { [weak self] _ in
-				self?.startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
+				self?.startUploadOutcomesTimer(timeInterval: self?.remoteConfig.outcomesUploadTimeInterval ?? 5)
 				ALog.trace("Did Start the Outcomes Timer")
 			}.store(in: &cancellables)
 
@@ -162,6 +180,9 @@ class CareManager: NSObject, ObservableObject {
 		}
 		try? resetAllContents()
 	}
+
+	private(set) var carePlan: CHCarePlan?
+	private(set) var tasks: [String: CHTask] = [:]
 }
 
 // MARK: - CarePlanResponse
@@ -169,6 +190,13 @@ class CareManager: NSObject, ObservableObject {
 extension CareManager {
 	func process(carePlanResponse: CHCarePlanResponse, forceReset: Bool = false, completion: AllieResultCompletion<[CHTask]>?) {
 		let queue = DispatchQueue.global(qos: .userInitiated)
+		tasks = carePlanResponse.tasks.reduce([:]) { partialResult, task in
+			var result = partialResult
+			result[task.id] = task
+			return result
+		}
+		carePlan = carePlanResponse.carePlans.active.first
+		try? save(carePlanResponse: carePlanResponse)
 		var result: OCKStoreError?
 		queue.async { [weak self] in
 			// There should only be one patient
@@ -246,6 +274,7 @@ extension CareManager {
 	func resetAllContents() throws {
 		try store.reset()
 		try healthKitStore.reset()
+		try resetCarePlan()
 	}
 }
 

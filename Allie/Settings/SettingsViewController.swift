@@ -70,7 +70,7 @@ class SettingsViewController: BaseViewController {
 		tableView.delegate = self
 		var snapshot = dataSource.snapshot()
 		snapshot.appendSections([0])
-		let items: [SettingsType] = [.accountDetails, .myDevices, .systemAuthorization, .feedback, .privacyPolicy, .termsOfService, .providers]
+		let items: [SettingsType] = [.accountDetails, .myDevices, .systemAuthorization, .feedback, .privacyPolicy, .termsOfService, .providers, .logging]
 		snapshot.appendItems(items, toSection: 0)
 		dataSource.apply(snapshot, animatingDifferences: false) {
 			ALog.info("Finished Apply Snapshot")
@@ -121,6 +121,8 @@ extension SettingsViewController: UITableViewDelegate {
 			showOrganizations()
 		case .readings:
 			showReadings()
+		case .logging:
+			showLogging()
 		}
 	}
 
@@ -241,6 +243,12 @@ extension SettingsViewController: UITableViewDelegate {
 	func showReadings() {
 		let viewController = UIHostingController(rootView: ReadingsListView())
 		viewController.title = SettingsType.readings.title
+		navigationController?.show(viewController, sender: self)
+	}
+
+	func showLogging() {
+		let viewController = FileLoggingViewController()
+		viewController.title = SettingsType.logging.title
 		navigationController?.show(viewController, sender: self)
 	}
 

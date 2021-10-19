@@ -28,33 +28,46 @@ extension OCKHealthKitTask {
 		self.carePlanId = task.carePlanId
 	}
 
-	func merged(newTask: OCKHealthKitTask) -> Self {
+	func updated(new: CHTask) -> OCKHealthKitTask {
+		var updated = self
+		updated.instructions = new.instructions
+		updated.impactsAdherence = new.impactsAdherence
+		updated.tags = new.tags
+		updated.source = new.source
+		updated.userInfo = new.userInfo
+		updated.asset = new.asset
+		updated.notes = new.notes
+
+		return updated
+	}
+
+	func merged(new: OCKHealthKitTask) -> Self {
 		var merged = self
-		merged.healthKitLinkage = newTask.healthKitLinkage
-		merged.title = newTask.title
-		merged.instructions = newTask.instructions
-		merged.impactsAdherence = newTask.impactsAdherence
-		merged.schedule = newTask.schedule
-		merged.groupIdentifier = newTask.groupIdentifier
-		merged.tags = newTask.tags
-		merged.remoteID = newTask.remoteID
-		merged.source = newTask.source
-		merged.userInfo = newTask.userInfo
-		merged.asset = newTask.asset
-		merged.notes = newTask.notes
-		merged.timezone = newTask.timezone
+		merged.healthKitLinkage = new.healthKitLinkage
+		merged.title = new.title
+		merged.instructions = new.instructions
+		merged.impactsAdherence = new.impactsAdherence
+		merged.schedule = new.schedule
+		merged.groupIdentifier = new.groupIdentifier
+		merged.tags = new.tags
+		merged.remoteID = new.remoteID
+		merged.source = new.source
+		merged.userInfo = new.userInfo
+		merged.asset = new.asset
+		merged.notes = new.notes
+		merged.timezone = new.timezone
 		return merged
 	}
 
-	mutating func merge(newTask: OCKHealthKitTask) {
-		title = newTask.title
-		instructions = newTask.instructions
-		impactsAdherence = newTask.impactsAdherence
-		tags = newTask.tags
-		source = newTask.source
-		userInfo = newTask.userInfo
-		asset = newTask.asset
-		notes = newTask.notes
+	mutating func merge(new: OCKHealthKitTask) {
+		title = new.title
+		instructions = new.instructions
+		impactsAdherence = new.impactsAdherence
+		tags = new.tags
+		source = new.source
+		userInfo = new.userInfo
+		asset = new.asset
+		notes = new.notes
 	}
 }
 

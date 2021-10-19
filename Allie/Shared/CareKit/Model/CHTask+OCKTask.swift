@@ -36,13 +36,14 @@ extension OCKTask {
 		self.impactsAdherence = task.impactsAdherence
 		self.groupIdentifier = task.groupIdentifier
 		self.tags = task.tags
+		if let date = createdDate {
+			if date > task.createdDate {
+				self.createdDate = task.createdDate
+			}
+		} else {
+			self.createdDate = task.createdDate
+		}
 		self.effectiveDate = task.effectiveDate
-		if let date = task.createdDate {
-			self.createdDate = date
-		}
-		if let date = task.deletedDate, task.shouldDelete {
-			self.deletedDate = date
-		}
 		self.updatedDate = task.updatedDate
 		self.remoteID = task.remoteId
 		self.source = task.source
@@ -54,8 +55,22 @@ extension OCKTask {
 		self.links = task.links
 	}
 
+	func updated(new: CHTask) -> OCKTask {
+		var updated = self
+		updated.instructions = new.instructions
+		updated.impactsAdherence = new.impactsAdherence
+		updated.tags = new.tags
+		updated.source = new.source
+		updated.userInfo = new.userInfo
+		updated.asset = new.asset
+		updated.notes = new.notes
+		updated.links = new.links
+		return updated
+	}
+
 	func merged(new: OCKTask) -> Self {
 		var existing = self
+		existing.deletedDate = nil
 		existing.title = new.title
 		existing.instructions = new.instructions
 		existing.impactsAdherence = new.impactsAdherence
@@ -92,6 +107,7 @@ extension OCKTask {
 			self.carePlanId = carePlanId
 		}
 		links = new.links
+		deletedDate = nil
 	}
 }
 
