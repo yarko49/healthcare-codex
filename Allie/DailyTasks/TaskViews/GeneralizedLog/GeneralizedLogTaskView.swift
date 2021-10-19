@@ -105,13 +105,13 @@ class GeneralizedLogTaskView: OCKView, OCKTaskDisplayable {
 		directionalLayoutMargins = style.dimension.directionalInsets1
 	}
 
-	private func makeItem(value: String?, time: String?, context: String?, canDelete: Bool) -> GeneralizedLogItem {
+	private func makeItem(value: String?, time: String?, context: String?, canEdit: Bool) -> GeneralizedLogItem {
 		let item = GeneralizedLogItem()
 		item.addTarget(self, action: #selector(itemTapped(_:)), for: .touchUpInside)
 		item.valueLabel.text = value
 		item.timeLabel.text = time
 		item.contextLabel.text = context ?? " "
-		item.imageView.image = canDelete ? UIImage(named: "icon-edit") : UIImage(named: "icon-lock-fill")
+		item.imageView.image = canEdit ? UIImage(named: "icon-edit") : UIImage(named: "icon-lock-fill")
 		item.accessibilityLabel = (value ?? "") + " " + (time ?? "") + " " + (context ?? "")
 		item.accessibilityHint = loc("DOUBLE_TAP_TO_REMOVE_EVENT")
 		return item
@@ -136,16 +136,16 @@ class GeneralizedLogTaskView: OCKView, OCKTaskDisplayable {
 	}
 
 	@discardableResult
-	func insertItem(value: String?, time: String?, context: String?, at index: Int, animated: Bool, canDelete: Bool) -> GeneralizedLogItem {
-		let button = makeItem(value: value, time: time, context: context, canDelete: canDelete)
+	func insertItem(value: String?, time: String?, context: String?, at index: Int, animated: Bool, canEdit: Bool) -> GeneralizedLogItem {
+		let button = makeItem(value: value, time: time, context: context, canEdit: canEdit)
 		logItemsStackView.insertArrangedSubview(button, at: index, animated: animated)
 		headerView.shadowView.isHidden = false
 		return button
 	}
 
 	@discardableResult
-	func appendItem(value: String?, time: String?, context: String?, animated: Bool, canDelete: Bool) -> GeneralizedLogItem {
-		let button = makeItem(value: value, time: time, context: context, canDelete: canDelete)
+	func appendItem(value: String?, time: String?, context: String?, animated: Bool, canEdit: Bool) -> GeneralizedLogItem {
+		let button = makeItem(value: value, time: time, context: context, canEdit: canEdit)
 		logItemsStackView.addArrangedSubview(button, animated: animated)
 		headerView.shadowView.isHidden = false
 		return button
@@ -178,7 +178,7 @@ extension GeneralizedLogTaskView {
 				let context = outcomeValue.insulinReason
 				_ = index < items.count ?
 					updateItem(at: index, value: outcomeValue.formattedValue, time: dateString, context: context) :
-					appendItem(value: outcomeValue.formattedValue, time: dateString, context: context, animated: animated, canDelete: false)
+					appendItem(value: outcomeValue.formattedValue, time: dateString, context: context, animated: animated, canEdit: false)
 			}
 		}
 		trimItems(given: outcomeValues, animated: animated)
@@ -209,7 +209,7 @@ extension GeneralizedLogTaskView {
 				}
 				_ = index < items.count ?
 					updateItem(at: index, value: outcomeValue.formattedValue, time: dateString, context: context) :
-					appendItem(value: outcomeValue.formattedValue, time: dateString, context: context, animated: animated, canDelete: outcomeValue.wasUserEntered)
+					appendItem(value: outcomeValue.formattedValue, time: dateString, context: context, animated: animated, canEdit: outcomeValue.wasUserEntered)
 			}
 		}
 		trimItems(given: outcomeValues, animated: animated)

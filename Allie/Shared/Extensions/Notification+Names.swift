@@ -17,5 +17,4 @@ extension Notification.Name {
 	static let didPairBloodGlucoseMonitor = Notification.Name("didPairBloodGlucoseMonitor")
 
 	static let didUpdateCarePlan = Notification.Name("didUpdateCarePlan")
-	static let didModifyHealthKitStore = Notification.Name("didModifyHealthKitStore")
 }
