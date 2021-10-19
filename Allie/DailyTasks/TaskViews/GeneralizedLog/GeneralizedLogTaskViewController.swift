@@ -98,7 +98,6 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 							switch result {
 							case .success(let sample):
 								ALog.info("\(sample.uuid) sample was deleted", metadata: nil)
-								NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
 							case .failure(let error):
 								ALog.error("Error deleteting data \(error.localizedDescription)", metadata: nil)
 							}
@@ -108,7 +107,6 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 					if let carePlanId = task.carePlanId, sample.startDate < lastOutcomeUplaodDate, let outcome = CHOutcome(sample: sample, task: task, carePlanId: carePlanId) {
 						self?.careManager.upload(outcomes: [outcome])
 					}
-					NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
 					DispatchQueue.main.async {
 						viewController?.dismiss(animated: true, completion: nil)
 					}
@@ -126,7 +124,6 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 				switch result {
 				case .success(let sample):
 					ALog.info("\(sample.uuid) sample was deleted", metadata: nil)
-					NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
 				case .failure(let error):
 					ALog.error("Error deleteting data \(error.localizedDescription)", metadata: nil)
 				}

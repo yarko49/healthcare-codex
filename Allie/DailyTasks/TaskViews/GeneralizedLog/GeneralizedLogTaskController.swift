@@ -40,7 +40,6 @@ class GeneralizedLogTaskController: OCKTaskController {
 			case .failure(let error):
 				completion?(.failure(error))
 			case .success:
-				NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
 				var newOutcome = outcome
 				newOutcome.values.remove(at: index)
 				completion?(.success(newOutcome))
