@@ -67,10 +67,6 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 			}
 
 			let value = outcome.values[index]
-
-			if !value.wasUserEntered {
-				return
-			}
 			didSelectOutcome(value: value, eventIndexPath: eventIndexPath, sender: sender)
 		} catch {
 			if delegate == nil {
