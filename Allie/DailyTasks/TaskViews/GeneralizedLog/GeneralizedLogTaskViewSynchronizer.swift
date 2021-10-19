@@ -12,7 +12,7 @@ import Foundation
 class GeneralizedLogTaskViewSynchronizer: OCKTaskViewSynchronizerProtocol {
 	typealias View = GeneralizedLogTaskView
 	var task: OCKAnyTask?
-    
+
 	// Instantiate the custom view.
 	func makeView() -> GeneralizedLogTaskView {
 		GeneralizedLogTaskView()
