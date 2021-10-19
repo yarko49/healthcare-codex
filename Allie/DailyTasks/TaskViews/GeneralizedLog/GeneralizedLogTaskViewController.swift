@@ -32,6 +32,7 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 
 	public init(task: OCKAnyTask, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
 		let synchronizer = GeneralizedLogTaskViewSynchronizer()
+		synchronizer.task = task
 		super.init(viewSynchronizer: synchronizer, task: task, eventQuery: eventQuery, storeManager: storeManager)
 	}
 

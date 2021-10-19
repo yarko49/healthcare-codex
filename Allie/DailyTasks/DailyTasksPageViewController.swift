@@ -180,14 +180,14 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 					case .logInsulin:
 						let viewController = GeneralizedLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
 						viewController.view.tintColor = .allieGray
-						viewController.controller.fetchAndObserveEvents(forTaskIDs: [task.id], eventQuery: eventQuery)
+						viewController.controller.fetchAndObserveEvents(forTasks: [task], eventQuery: eventQuery)
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .labeledValue:
 						if (task as? OCKHealthKitTask)?.healthKitLinkage != nil {
 							let viewController = GeneralizedLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
 							viewController.view.tintColor = .allieGray
-							viewController.controller.fetchAndObserveEvents(forTaskIDs: [task.id], eventQuery: eventQuery)
+							viewController.controller.fetchAndObserveEvents(forTasks: [task], eventQuery: eventQuery)
 							listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 						} else {
 							let view = LabeledValueTaskView(task: task, eventQuery: eventQuery, storeManager: self.storeManager)

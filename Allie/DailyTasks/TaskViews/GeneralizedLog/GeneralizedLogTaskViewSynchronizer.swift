@@ -11,13 +11,14 @@ import Foundation
 
 class GeneralizedLogTaskViewSynchronizer: OCKTaskViewSynchronizerProtocol {
 	typealias View = GeneralizedLogTaskView
-
+	var task: OCKAnyTask?
+    
 	// Instantiate the custom view.
 	func makeView() -> GeneralizedLogTaskView {
 		GeneralizedLogTaskView()
 	}
 
 	func updateView(_ view: GeneralizedLogTaskView, context: OCKSynchronizationContext<OCKTaskEvents>) {
-		view.updateWith(event: context.viewModel.first?.first, animated: context.animated)
+		view.updateWith(task: task, event: context.viewModel.first?.first, animated: context.animated)
 	}
 }
