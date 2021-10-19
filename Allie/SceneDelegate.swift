@@ -79,6 +79,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		if Auth.auth().currentUser != nil {
 			mainCoordinator.refreshRemoteConfig(completion: nil)
 		}
+		mainCoordinator.appCoordinator?.gotoToday()
 	}
 
 	func sceneDidEnterBackground(_ scene: UIScene) {
