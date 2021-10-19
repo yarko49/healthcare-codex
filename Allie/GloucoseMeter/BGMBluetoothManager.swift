@@ -34,8 +34,7 @@ class BGMBluetoothManager: NSObject, ObservableObject {
 	// swiftlint:disable:next weak_delegate
 	var multicastDelegate: MulticastDelegate<BGMBluetoothManagerDelegate> = .init()
 
-	var services: Set<CBUUID> = [GATTService.bloodGlucose.uuid, GATTService.deviceInformation.uuid]
-	var deviceCharacteristics: Set<CBUUID> = Set(GATTCharacteristic.deviceInfo.map(\.uuid))
+	var services: Set<CBUUID> = [GATTService.bloodGlucose.uuid]
 	var measurementCharacteristics: Set<CBUUID> = Set(GATTCharacteristic.bloodGlucoseMeasurements.map(\.uuid))
 	@Published var pairedPeripheral: CBPeripheral?
 	@Published var peripherals: Set<CBPeripheral> = []
@@ -156,11 +155,10 @@ extension BGMBluetoothManager: CBPeripheralDelegate {
 			return
 		}
 
-		let supportedCharacteristics = deviceCharacteristics.union(measurementCharacteristics)
 		// Set notifications for glucose measurement and context
 		// 0x2a18 is glucose measurement, 0x2a34 is context, 0x2a52 is RACP
 		for characteristic in characteristics {
-			if supportedCharacteristics.contains(characteristic.uuid) {
+			if measurementCharacteristics.contains(characteristic.uuid) {
 				peripheral.setNotifyValue(true, for: characteristic)
 			}
 
@@ -180,11 +178,9 @@ extension BGMBluetoothManager: CBPeripheralDelegate {
 
 	// For notified characteristics, here's the triggered method when a value comes in from the Peripheral
 	func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-		ALog.trace("didUpdateValueForCharacteristic \(characteristic.uuid)")
+		ALog.info("didUpdateValueForCharacteristic \(characteristic.uuid)")
 		if measurementCharacteristics.contains(characteristic.uuid) {
 			processMeasurement(characteristic: characteristic, for: peripheral)
-		} else if deviceCharacteristics.contains(characteristic.uuid) {
-			processDevice(characteristic: characteristic, for: peripheral)
 		}
 	}
 
@@ -231,6 +227,7 @@ extension BGMBluetoothManager: CBPeripheralDelegate {
 			currentReading = BGMDataReading(measurement: [], context: [], peripheral: peripheral) // reset the received tuple
 
 		case GATTCharacteristic.recordAccessControlPoint.uuid:
+			isBatchProcessingEnabled = false
 			guard !batchReadings.isEmpty else {
 				return
 			}
@@ -238,45 +235,9 @@ extension BGMBluetoothManager: CBPeripheralDelegate {
 				delegate?.bluetoothManager(self, peripheral: peripheral, didReceive: batchReadings)
 			}
 			batchReadings.removeAll()
-			isBatchProcessingEnabled = false
 
 		default:
 			ALog.info("Unknown characteristic uuid received = \(characteristic.uuid)")
-		}
-	}
-
-	private func processDevice(characteristic: CBCharacteristic, for peripheral: CBPeripheral) {
-		guard let value = characteristic.value else {
-			return
-		}
-		ALog.info("process device info data Value \(value)")
-		let valueString = String(data: value, encoding: .utf8)
-
-		switch characteristic.uuid {
-		case GATTCharacteristic.hardwareRevisions.uuid:
-			ALog.info("Hardware Revision \(valueString ?? "No hardware revision")")
-			device.hardwareVersion = valueString
-		case GATTCharacteristic.firmwareRevision.uuid:
-			ALog.info("Firmware Revision \(valueString ?? "No firmware revision")")
-			device.firmwareVersion = valueString
-		case GATTCharacteristic.softwareRevision.uuid:
-			ALog.info("Software Revision \(valueString ?? "No software revision")")
-			device.softwareVersion = valueString
-		case GATTCharacteristic.manufacturerSerialNumber.uuid:
-			ALog.info("Serial Number \(valueString ?? "No serial number")")
-		case GATTCharacteristic.manufacturerName.uuid:
-			ALog.info("Name \(valueString ?? "No Name")")
-			device.name = valueString
-		case GATTCharacteristic.manufacturerModelNumber.uuid:
-			ALog.info("Model Number \(valueString ?? "No Model Number")")
-			device.model = valueString
-		case GATTCharacteristic.timeZone.uuid:
-			ALog.info("Timezone \(valueString ?? "No Timezone")")
-		case GATTCharacteristic.manufacturerSystemId.uuid:
-			ALog.info("SystemId \(valueString ?? "No System Id")")
-			device.localIdentifier = valueString
-		default:
-			break
 		}
 	}
 }

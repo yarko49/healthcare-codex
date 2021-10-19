@@ -20,6 +20,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	@Injected(\.bluetoothManager) var bloodGlucoseMonitor: BGMBluetoothManager
+	@Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
 
 	var timerInterval: TimeInterval = 60 * 10
 	let hud: JGProgressHUD = {
@@ -74,7 +75,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.reload()
 			}).store(in: &cancellables)
 
-		careManager.startUploadOutcomesTimer(timeInterval: RemoteConfigManager.shared.outcomesUploadTimeInterval)
+		careManager.startUploadOutcomesTimer(timeInterval: remoteConfig.outcomesUploadTimeInterval)
 		healthKitManager.authorizeHealthKit { [weak self] success, error in
 			if let error = error {
 				ALog.error("Unable to authorize the HealthKit", error: error)
@@ -145,9 +146,17 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 					return left.priority < right.priority
 				}
 
-				for task in sorted {
-					guard let identifier = task.groupIdentifier, let taskType = CHGroupIdentifierType(rawValue: identifier) else {
+				for storeTask in sorted {
+					guard let identifier = storeTask.groupIdentifier, let taskType = CHGroupIdentifierType(rawValue: identifier) else {
 						continue
+					}
+					var task = storeTask
+					if let chTask = self.careManager.tasks[task.id] {
+						if let ockTask = task as? OCKTask {
+							task = ockTask.updated(new: chTask)
+						} else if let hkTask = task as? OCKHealthKitTask {
+							task = hkTask.updated(new: chTask)
+						}
 					}
 					let eventQuery = OCKEventQuery(for: date)
 					switch taskType {

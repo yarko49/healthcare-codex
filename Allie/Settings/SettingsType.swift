@@ -17,6 +17,7 @@ enum SettingsType: CustomStringConvertible, CaseIterable {
 	case troubleShoot
 	case providers
 	case readings
+	case logging
 
 	var title: String {
 		switch self {
@@ -42,6 +43,8 @@ enum SettingsType: CustomStringConvertible, CaseIterable {
 			return NSLocalizedString("HEALTHCARE_PROVIDERS", comment: "Health Providers")
 		case .readings:
 			return "Readings"
+		case .logging:
+			return "File Logging"
 		}
 	}
 

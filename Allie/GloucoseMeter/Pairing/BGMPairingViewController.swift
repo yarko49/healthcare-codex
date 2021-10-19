@@ -170,7 +170,7 @@ class BGMPairingViewController: UIViewController {
 extension BGMPairingViewController: BGMBluetoothManagerDelegate {
 	func bluetoothManager(_ manager: BGMBluetoothManager, didUpdate state: CBManagerState) {
 		if state == .poweredOn {
-			ALog.trace("Bluetooth Active")
+			ALog.info("Bluetooth Active")
 			bluetoothManager.scanForPeripherals()
 			ALog.info("Starting BLE scan\n")
 		} else {

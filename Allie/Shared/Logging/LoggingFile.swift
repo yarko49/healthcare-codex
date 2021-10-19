@@ -33,6 +33,7 @@ struct FileHandlerOutputStream: TextOutputStream {
 public struct LoggingFile {
 	let stream: TextOutputStream
 	private var localFile: URL
+	static var isEnabled: Bool = false
 
 	public init(to localFile: URL) throws {
 		self.stream = try FileHandlerOutputStream(localFile: localFile)
@@ -87,6 +88,9 @@ public struct FileLogHandler: LogHandler {
 
 	// swiftlint:disable:next function_parameter_count
 	public func log(level: Logger.Level, message: Logger.Message, metadata: Logger.Metadata?, source: String, file: String, function: String, line: UInt) {
+		guard LoggingFile.isEnabled else {
+			return
+		}
 		let prettyMetadata = metadata?.isEmpty ?? true
 			? self.prettyMetadata
 			: prettify(self.metadata.merging(metadata!, uniquingKeysWith: { _, new in new }))

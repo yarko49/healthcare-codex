@@ -23,9 +23,8 @@ public struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyIte
 	public var sex: OCKBiologicalSex?
 	public var birthday: Date?
 	public var allergies: [String]?
-
+	public var createdDate: Date
 	public var effectiveDate: Date
-	public var createdDate: Date?
 	public var updatedDate: Date?
 	public var deletedDate: Date?
 
@@ -115,7 +114,8 @@ public struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyIte
 		self.id = id
 		self.name = name
 		self.timezone = TimeZone.current
-		self.effectiveDate = Calendar.current.startOfDay(for: Date())
+		self.createdDate = Calendar.current.startOfDay(for: Date())
+		self.effectiveDate = createdDate
 	}
 
 	public init(from decoder: Decoder) throws {
@@ -127,9 +127,8 @@ public struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyIte
 		self.sex = try container.decodeIfPresent(OCKBiologicalSex.self, forKey: .sex)
 		self.birthday = try container.decodeIfPresent(Date.self, forKey: .birthday)
 		self.allergies = try container.decodeIfPresent([String].self, forKey: .allergies)
-
-		self.effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Calendar.current.startOfDay(for: Date())
-		self.createdDate = try container.decodeIfPresent(Date.self, forKey: .createdDate)
+		self.createdDate = try container.decodeIfPresent(Date.self, forKey: .createdDate) ?? Calendar.current.startOfDay(for: Date())
+		self.effectiveDate = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? createdDate
 		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
 		self.deletedDate = try container.decodeIfPresent(Date.self, forKey: .deletedDate)
 		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)
@@ -182,9 +181,8 @@ public struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyIte
 		try container.encodeIfPresent(sex, forKey: .sex)
 		try container.encodeIfPresent(birthday, forKey: .birthday)
 		try container.encodeIfPresent(allergies, forKey: .allergies)
-
-		try container.encode(effectiveDate, forKey: .effectiveDate)
 		try container.encodeIfPresent(createdDate, forKey: .createdDate)
+		try container.encode(effectiveDate, forKey: .effectiveDate)
 		try container.encodeIfPresent(updatedDate, forKey: .updatedDate)
 		try container.encodeIfPresent(deletedDate, forKey: .deletedDate)
 		try container.encodeIfPresent(groupIdentifier, forKey: .groupIdentifier)

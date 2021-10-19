@@ -32,9 +32,15 @@ extension OCKOutcome: AnyUserInfoExtensible, AnyItemDeletable {
 		tags = outcome.tags
 		timezone = outcome.timezone
 		userInfo = outcome.userInfo
-		createdDate = outcome.createdDate
-		deletedDate = outcome.deletedDate
+		if let date = createdDate {
+			if date > outcome.createdDate {
+				self.createdDate = outcome.createdDate
+			}
+		} else {
+			self.createdDate = outcome.createdDate
+		}
 		effectiveDate = outcome.effectiveDate
+		deletedDate = outcome.deletedDate
 		updatedDate = outcome.updatedDate
 		setUserInfo(string: outcome.carePlanID, forKey: CHOutcomeMetadataKeyCarePlanId)
 		setUserInfo(string: outcome.taskID, forKey: CHOutcomeMetadataKeyTaskId)

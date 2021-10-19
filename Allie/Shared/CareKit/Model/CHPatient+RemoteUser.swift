@@ -29,8 +29,8 @@ extension OCKPatient {
 			nameComponents = name
 		}
 		self.init(id: identifier, name: nameComponents)
-		createdDate = Date()
-		updatedDate = Date()
+		createdDate = Calendar.current.startOfDay(for: Date())
+		updatedDate = createdDate
 		timezone = .current
 	}
 }
@@ -49,9 +49,9 @@ extension CHPatient {
 		profile.phoneNumber = user?.phoneNumber
 		profile.deviceManufacturer = "Apple"
 		profile.deviceSoftwareVersion = UIDevice.current.systemVersion
-		createdDate = Date()
-		updatedDate = Date()
-		effectiveDate = Date()
+		createdDate = Calendar.current.startOfDay(for: Date())
+		updatedDate = createdDate
+		effectiveDate = createdDate
 		timezone = .current
 	}
 }

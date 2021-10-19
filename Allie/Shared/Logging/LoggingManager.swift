@@ -7,20 +7,7 @@ import FirebaseCrashlytics
 import Foundation
 import Logging
 
-private struct LoggingManagerKey: InjectionKey {
-	static var currentValue = LoggingManager.createLogger(label: "Logger")
-}
-
-extension InjectedValues {
-	var log: Logger {
-		get { Self[LoggingManagerKey.self] }
-		set { Self[LoggingManagerKey.self] = newValue }
-	}
-}
-
-var ALog: Logger {
-	LoggingManagerKey.currentValue
-}
+var ALog: Logger = LoggingManager.createLogger(label: "Logger")
 
 extension Logger.Level {
 	var icon: String {
@@ -44,12 +31,6 @@ extension Logger.Level {
 }
 
 enum LoggingManager {
-	static var fileLogLevel: Logger.Level = .info {
-		didSet {
-			changeLogger(label: ALog.label)
-		}
-	}
-
 	static var consoleLogLevel: Logger.Level = .info {
 		didSet {
 			changeLogger(label: ALog.label)
@@ -62,9 +43,12 @@ enum LoggingManager {
 		}
 	}
 
-	static var isFileLogginEnabled: Bool = false {
-		didSet {
-			changeLogger(label: ALog.label)
+	static var isFileLogginEnabled: Bool {
+		get {
+			LoggingFile.isEnabled
+		}
+		set {
+			LoggingFile.isEnabled = newValue
 		}
 	}
 
@@ -80,9 +64,9 @@ enum LoggingManager {
 		Crashlytics.crashlytics().setUserID(userId)
 	}
 
-	static func createLogger(label: String, consoleLogLevel: Logger.Level = Self.consoleLogLevel, remoteLevel: Logger.Level = Self.remoteLogLevel, fileLogLevel: Logger.Level = Self.fileLogLevel) -> Logger {
+	static func createLogger(label: String, consoleLogLevel: Logger.Level = Self.consoleLogLevel, remoteLevel: Logger.Level = Self.remoteLogLevel) -> Logger {
 		var fileLogger: LoggingFile?
-		if Self.isFileLogginEnabled, let fileLogURL = Self.fileLogURL {
+		if let fileLogURL = Self.fileLogURL {
 			fileLogger = try? LoggingFile(to: fileLogURL)
 		}
 
@@ -106,7 +90,7 @@ enum LoggingManager {
 	}
 
 	static func changeLogger(label: String) {
-		LoggingManagerKey.currentValue = createLogger(label: label)
+		ALog = createLogger(label: label)
 	}
 }
 

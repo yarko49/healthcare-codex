@@ -16,9 +16,18 @@ extension OCKCarePlan: AnyItemDeletable {
 		self.source = carePlan.source
 		self.userInfo = carePlan.userInfo
 		self.asset = carePlan.asset
-		self.effectiveDate = carePlan.effectiveDate
+		if let date = createdDate {
+			if date > carePlan.createdDate {
+				self.createdDate = carePlan.createdDate
+			}
+		} else {
+			self.createdDate = carePlan.createdDate
+		}
+
+		if effectiveDate > carePlan.effectiveDate {
+			self.effectiveDate = carePlan.effectiveDate
+		}
 		self.deletedDate = carePlan.deletedDate
-		self.createdDate = carePlan.createdDate
 		self.updatedDate = carePlan.updatedDate
 	}
 
@@ -32,6 +41,8 @@ extension OCKCarePlan: AnyItemDeletable {
 		existing.asset = newCarePlan.asset
 		existing.notes = newCarePlan.notes
 		existing.timezone = newCarePlan.timezone
+		existing.createdDate = newCarePlan.createdDate
+		existing.effectiveDate = newCarePlan.effectiveDate
 		return existing
 	}
 }

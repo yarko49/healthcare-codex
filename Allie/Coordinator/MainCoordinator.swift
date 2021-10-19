@@ -20,6 +20,8 @@ class MainCoordinator: BaseCoordinator {
 		return view
 	}()
 
+	@Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
+
 	override public var rootViewController: UIViewController? {
 		navigationController
 	}
@@ -204,11 +206,33 @@ class MainCoordinator: BaseCoordinator {
 	}
 
 	func refreshRemoteConfig(completion: AllieBoolActionHandler?) {
-		RemoteConfigManager.shared.refresh()
+		remoteConfig.refresh()
 			.receive(on: DispatchQueue.main)
-			.sink { refreshResult in
+			.sink { [weak self] refreshResult in
 				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
+				DispatchQueue.main.async {
+					self?.showUpgradeAlertIfNeede()
+				}
 				completion?(refreshResult)
 			}.store(in: &cancellables)
+	}
+
+	func showUpgradeAlertIfNeede() {
+		let current = ApplicationVersion.current!
+		let supportedVersion = remoteConfig.minimumSupportedVersion
+		guard supportedVersion.version > current else {
+			return
+		}
+		let title = NSLocalizedString("UPDATE_REQUIRED", comment: "Update Required")
+		let controller = UIAlertController(title: title, message: supportedVersion.message, preferredStyle: .alert)
+		let action = UIAlertAction(title: "Go to store", style: .default) { _ in
+			if let url = URL(string: "https://apps.apple.com/us/app/allie-your-wellness-app/id1553634187") {
+				UIApplication.shared.open(url, options: [:]) { success in
+					ALog.info("Did open store \(success)")
+				}
+			}
+		}
+		controller.addAction(action)
+		window.rootViewController?.showDetailViewController(controller, sender: self)
 	}
 }

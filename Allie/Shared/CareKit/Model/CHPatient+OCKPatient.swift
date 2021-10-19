@@ -14,6 +14,13 @@ extension OCKPatient: AnyItemDeletable {
 		self.sex = patient.sex
 		self.birthday = patient.birthday
 		self.allergies = patient.allergies
+		if let date = createdDate {
+			if date > patient.createdDate {
+				self.createdDate = patient.createdDate
+			}
+		} else {
+			self.createdDate = patient.createdDate
+		}
 		self.effectiveDate = patient.effectiveDate
 		self.deletedDate = patient.deletedDate
 		self.groupIdentifier = patient.groupIdentifier

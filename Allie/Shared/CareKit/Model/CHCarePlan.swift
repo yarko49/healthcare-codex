@@ -16,14 +16,14 @@ public struct CHCarePlan: Codable, Identifiable, AnyItemDeletable {
 	public var title: String
 	public var patientId: String?
 	public var timezone: TimeZone
+	public var createdDate: Date
 	public var effectiveDate: Date
 	public var deletedDate: Date?
+	public var updatedDate: Date?
 	public var asset: String?
 	public var tags: [String]?
 	public var source: String?
 	public var userInfo: [String: String]?
-	public var createdDate: Date?
-	public var updatedDate: Date?
 
 	var remoteId: String {
 		id
@@ -36,16 +36,16 @@ public struct CHCarePlan: Codable, Identifiable, AnyItemDeletable {
 		case patientId
 		case groupIdentifier
 		case timezone
+		case createdDate
 		case effectiveDate
 		case deletedDate
+		case updatedDate
 		case asset
 		case tags
 		case source
 		case userInfo
 		case notes
 		case tasks
-		case createdDate
-		case updatedDate
 	}
 
 	public init(from decoder: Decoder) throws {
@@ -55,15 +55,16 @@ public struct CHCarePlan: Codable, Identifiable, AnyItemDeletable {
 		self.title = try container.decode(String.self, forKey: .title)
 		self.patientId = try container.decodeIfPresent(String.self, forKey: .patientId)
 		self.timezone = (try? container.decode(TimeZone.self, forKey: .timezone)) ?? .current
-		let date = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? Date()
+		var date = try container.decodeIfPresent(Date.self, forKey: .createdDate) ?? Date()
+		self.createdDate = Calendar.current.startOfDay(for: date)
+		date = try container.decodeIfPresent(Date.self, forKey: .effectiveDate) ?? createdDate
+		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
 		self.effectiveDate = Calendar.current.startOfDay(for: date)
 		self.deletedDate = try container.decodeIfPresent(Date.self, forKey: .deletedDate)
 		self.asset = try container.decodeIfPresent(String.self, forKey: .asset)
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
-		self.createdDate = try container.decodeIfPresent(Date.self, forKey: .createdDate)
-		self.updatedDate = try container.decodeIfPresent(Date.self, forKey: .updatedDate)
 	}
 
 	public func encode(to encoder: Encoder) throws {

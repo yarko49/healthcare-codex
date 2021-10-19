@@ -40,6 +40,18 @@ class AllieTests: XCTestCase {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 	}
 
+	func testVersionNumber() throws {
+		let version = ApplicationVersion.current
+		let date = Date()
+		let message = "There is a new version of app is available, please update!"
+		let supportedVersion = SupportedVersionConfig(version: version!, date: date, message: message)
+
+		let encoder = JSONEncoder()
+		encoder.dateEncodingStrategy = .rfc3339
+		let data = try encoder.encode(supportedVersion)
+		try data.write(to: URL(fileURLWithPath: "/tmp/SupportedVersion.json"))
+	}
+
 	func testDecodeCarePlan() throws {
 		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)

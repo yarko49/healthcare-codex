@@ -9,13 +9,13 @@ import FirebaseCrashlytics
 import Foundation
 import Logging
 
-extension RemoteLogging {
+extension RemoteLoggingConfig {
 	var logLevel: Logger.Level {
 		Logger.Level(rawValue: minimumLevel) ?? .error
 	}
 }
 
-extension FileLogging {
+extension FileLoggingConfig {
 	var logLevel: Logger.Level {
 		Logger.Level(rawValue: minimumLevel) ?? .error
 	}
