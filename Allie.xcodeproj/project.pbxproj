@@ -37,6 +37,15 @@
 		840D1BF3265CCAE1000C9DB7 /* HKQuantityTypeIdentifier+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84552C0E265CC687003B55A9 /* HKQuantityTypeIdentifier+Image.swift */; };
 		840D1BF4265CCAE4000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */; };
 		840D1BF5265CCAE4000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */; };
+		840D699B271E977000473045 /* SimpleTaskViewSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D699A271E977000473045 /* SimpleTaskViewSynchronizer.swift */; };
+		840D699C271E977000473045 /* SimpleTaskViewSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D699A271E977000473045 /* SimpleTaskViewSynchronizer.swift */; };
+		840D699D271E977000473045 /* SimpleTaskViewSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D699A271E977000473045 /* SimpleTaskViewSynchronizer.swift */; };
+		840D69A0271E985F00473045 /* SimpleTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D699F271E985F00473045 /* SimpleTaskView.swift */; };
+		840D69A1271E985F00473045 /* SimpleTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D699F271E985F00473045 /* SimpleTaskView.swift */; };
+		840D69A2271E985F00473045 /* SimpleTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D699F271E985F00473045 /* SimpleTaskView.swift */; };
+		840D69A4271E98DC00473045 /* SimpleTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D69A3271E98DC00473045 /* SimpleTaskController.swift */; };
+		840D69A5271E98DC00473045 /* SimpleTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D69A3271E98DC00473045 /* SimpleTaskController.swift */; };
+		840D69A6271E98DC00473045 /* SimpleTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D69A3271E98DC00473045 /* SimpleTaskController.swift */; };
 		841418F326BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */; };
 		841418F426BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */; };
 		841418F526BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */; };
@@ -1032,6 +1041,9 @@
 		8408843F26884001003C3AE2 /* Color+Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Names.swift"; sourceTree = "<group>"; };
 		840B75BD26FB99FA00BF2D1A /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		840D1BF0265CC78C000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKCorrelationTypeIdentifier+Image.swift"; sourceTree = "<group>"; };
+		840D699A271E977000473045 /* SimpleTaskViewSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTaskViewSynchronizer.swift; sourceTree = "<group>"; };
+		840D699F271E985F00473045 /* SimpleTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTaskView.swift; sourceTree = "<group>"; };
+		840D69A3271E98DC00473045 /* SimpleTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTaskController.swift; sourceTree = "<group>"; };
 		841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHSynchronizedStoreManager.swift; sourceTree = "<group>"; };
 		841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHOutcome+OCKHealthKitOutcome.swift"; sourceTree = "<group>"; };
 		841640A82627D1C3000903AF /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -1530,6 +1542,17 @@
 				8494446626ED808400EB5F89 /* PostOutcomesResponse.json */,
 			);
 			path = TestData;
+			sourceTree = "<group>";
+		};
+		840D699E271E984C00473045 /* SimpleTask */ = {
+			isa = PBXGroup;
+			children = (
+				840D699F271E985F00473045 /* SimpleTaskView.swift */,
+				840D699A271E977000473045 /* SimpleTaskViewSynchronizer.swift */,
+				84C1060025E763EC00B126ED /* SimpleTaskViewController.swift */,
+				840D69A3271E98DC00473045 /* SimpleTaskController.swift */,
+			);
+			path = SimpleTask;
 			sourceTree = "<group>";
 		};
 		841640C32627D6EB000903AF /* Chat */ = {
@@ -2167,7 +2190,7 @@
 				84261678269A7098006BD8B0 /* GeneralizedLog */,
 				848994CA26941D620057C6C4 /* GeneralizedEntryTask */,
 				8487482F25B3E622008C15E2 /* FeaturedContentViewController.swift */,
-				84C1060025E763EC00B126ED /* SimpleTaskViewController.swift */,
+				840D699E271E984C00473045 /* SimpleTask */,
 				84703C6F265B73C10025A50D /* ButtonLog */,
 				84703C66265B71E80025A50D /* Grid */,
 				84703C65265B71D70025A50D /* Checklist */,
@@ -2941,6 +2964,7 @@
 				84261682269A70F6006BD8B0 /* GeneralizedLogTaskViewController.swift in Sources */,
 				84A9D89C26AA96BB001E83B2 /* Request+Codex.swift in Sources */,
 				84D1128D26D45232000BA718 /* BGMPairingItem.swift in Sources */,
+				840D699B271E977000473045 /* SimpleTaskViewSynchronizer.swift in Sources */,
 				844767A6259C2A4E00C50C09 /* Sequence+Sum.swift in Sources */,
 				84AF4CEF26CA0D4D00867349 /* InjectedValues.swift in Sources */,
 				8449F47826D73730009B5F7A /* GATTService.swift in Sources */,
@@ -3041,6 +3065,7 @@
 				8439C79C25FB41B7008C5940 /* ObservationComponent+HKQuantitySample.swift in Sources */,
 				849F362125B9161300FC2D1B /* TitledTextField.swift in Sources */,
 				8447673B259C2A4E00C50C09 /* TextfieldView.swift in Sources */,
+				840D69A0271E985F00473045 /* SimpleTaskView.swift in Sources */,
 				8460E9F926D8839100041126 /* GATTCommand.swift in Sources */,
 				8449A65B267C58D300F73D8E /* ConversationsManager.swift in Sources */,
 				84897F7F25E0E1E400ABC715 /* CHOutcomeValue+OCKOutcomeValue.swift in Sources */,
@@ -3131,6 +3156,7 @@
 				84476739259C2A4E00C50C09 /* SettingsFooterView.swift in Sources */,
 				844EE87B262D02E0001B2D9E /* UIView+Appearance.swift in Sources */,
 				844767D3259C2A4E00C50C09 /* HealthKitQuantityType.swift in Sources */,
+				840D69A4271E98DC00473045 /* SimpleTaskController.swift in Sources */,
 				846E0A7D26A5455700DC4743 /* OCKOutcome+LogItem.swift in Sources */,
 				84C39A4E25B172640063D92C /* CHTask+OCKHealthKitTask.swift in Sources */,
 				8487483025B3E622008C15E2 /* FeaturedContentViewController.swift in Sources */,
@@ -3263,6 +3289,7 @@
 				84A9D89E26AA96BB001E83B2 /* Request+Codex.swift in Sources */,
 				84D1128F26D45232000BA718 /* BGMPairingItem.swift in Sources */,
 				847DCC2A265871F3004E9C1D /* CHTask.swift in Sources */,
+				840D699D271E977000473045 /* SimpleTaskViewSynchronizer.swift in Sources */,
 				84AF4CF126CA0D4D00867349 /* InjectedValues.swift in Sources */,
 				8449F47A26D73730009B5F7A /* GATTService.swift in Sources */,
 				84CEF52D2688675A000C4C56 /* TCHParticipant+SenderType.swift in Sources */,
@@ -3363,6 +3390,7 @@
 				847DCC65265871F3004E9C1D /* TitledTextField.swift in Sources */,
 				847DCC66265871F3004E9C1D /* TextfieldView.swift in Sources */,
 				8449A65D267C58D300F73D8E /* ConversationsManager.swift in Sources */,
+				840D69A2271E985F00473045 /* SimpleTaskView.swift in Sources */,
 				8460E9FB26D8855500041126 /* GATTCommand.swift in Sources */,
 				847DCC67265871F3004E9C1D /* CHOutcomeValue+OCKOutcomeValue.swift in Sources */,
 				847DCC68265871F3004E9C1D /* ProfileChartView.swift in Sources */,
@@ -3453,6 +3481,7 @@
 				847DCCA7265871F3004E9C1D /* HealthKitQuantityType.swift in Sources */,
 				847DCCA8265871F3004E9C1D /* CHTask+OCKHealthKitTask.swift in Sources */,
 				846E0A7F26A5455700DC4743 /* OCKOutcome+LogItem.swift in Sources */,
+				840D69A6271E98DC00473045 /* SimpleTaskController.swift in Sources */,
 				840D1BF3265CCAE1000C9DB7 /* HKQuantityTypeIdentifier+Image.swift in Sources */,
 				847DCCA9265871F3004E9C1D /* FeaturedContentViewController.swift in Sources */,
 				847DCCAB265871F3004E9C1D /* NotificationSettingsController.swift in Sources */,
@@ -3550,6 +3579,7 @@
 				84A9D89D26AA96BB001E83B2 /* Request+Codex.swift in Sources */,
 				84D1128E26D45232000BA718 /* BGMPairingItem.swift in Sources */,
 				84D12258264112DE00990196 /* CHTask.swift in Sources */,
+				840D699C271E977000473045 /* SimpleTaskViewSynchronizer.swift in Sources */,
 				84AF4CF026CA0D4D00867349 /* InjectedValues.swift in Sources */,
 				8449F47926D73730009B5F7A /* GATTService.swift in Sources */,
 				84CEF52C2688675A000C4C56 /* TCHParticipant+SenderType.swift in Sources */,
@@ -3650,6 +3680,7 @@
 				84D12292264112DE00990196 /* TitledTextField.swift in Sources */,
 				84D12293264112DE00990196 /* TextfieldView.swift in Sources */,
 				8449A65C267C58D300F73D8E /* ConversationsManager.swift in Sources */,
+				840D69A1271E985F00473045 /* SimpleTaskView.swift in Sources */,
 				8460E9FA26D8855400041126 /* GATTCommand.swift in Sources */,
 				84D12294264112DE00990196 /* CHOutcomeValue+OCKOutcomeValue.swift in Sources */,
 				84D12295264112DE00990196 /* ProfileChartView.swift in Sources */,
@@ -3740,6 +3771,7 @@
 				84D122D2264112DE00990196 /* HealthKitQuantityType.swift in Sources */,
 				84D122D3264112DE00990196 /* CHTask+OCKHealthKitTask.swift in Sources */,
 				846E0A7E26A5455700DC4743 /* OCKOutcome+LogItem.swift in Sources */,
+				840D69A5271E98DC00473045 /* SimpleTaskController.swift in Sources */,
 				840D1BF2265CCAE0000C9DB7 /* HKQuantityTypeIdentifier+Image.swift in Sources */,
 				84D122D4264112DE00990196 /* FeaturedContentViewController.swift in Sources */,
 				84D122D6264112DE00990196 /* NotificationSettingsController.swift in Sources */,
@@ -3961,7 +3993,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3990,7 +4022,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4115,7 +4147,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4144,7 +4176,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4173,7 +4205,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4202,7 +4234,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
