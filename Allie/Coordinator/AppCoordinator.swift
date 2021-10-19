@@ -78,6 +78,14 @@ class AppCoordinator: BaseCoordinator {
 		parent?.hideHUD(animated: animated)
 	}
 
+	func gotoToday() {
+		guard let todayViewController = todayNavController?.topViewController as? DailyTasksPageViewController else {
+			return
+		}
+
+		todayViewController.gotoToday(self)
+	}
+
 	func gotoProfileEntryViewController(from screen: NavigationSourceType = .profile) {
 		let viewController = ProfileEntryViewController()
 		let alliePatient = careManager.patient

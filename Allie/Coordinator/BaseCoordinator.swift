@@ -28,6 +28,14 @@ class BaseCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 
 	func start() {}
 
+	var appCoordinator: AppCoordinator? {
+		childCoordinators[.application] as? AppCoordinator
+	}
+
+	var authCoordinator: AuthCoordinator? {
+		childCoordinators[.authentication] as? AuthCoordinator
+	}
+
 	init(type: CoordinatorType) {
 		self.type = type
 	}
