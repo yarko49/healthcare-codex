@@ -10,7 +10,7 @@ import CareKitUI
 import CoreLocation
 import Foundation
 
-public enum CHLinkType: String, Codable {
+enum CHLinkType: String, Codable {
 	case appStore
 	case call
 	case email
@@ -20,20 +20,20 @@ public enum CHLinkType: String, Codable {
 	case website
 }
 
-public struct CHLink: Codable {
-	public let type: CHLinkType
-	public let title: String
-	public let appStore: String?
-	public let call: String?
-	public let email: String?
-	public let latitude: String?
-	public let longitude: String?
-	public let message: String?
-	public let url: URL?
-	public let website: String?
-	public let symbol: String?
+struct CHLink: Codable {
+	let type: CHLinkType
+	let title: String
+	let appStore: String?
+	let call: String?
+	let email: String?
+	let latitude: String?
+	let longitude: String?
+	let message: String?
+	let url: URL?
+	let website: String?
+	let symbol: String?
 
-	public var location: CLLocationCoordinate2D? {
+	var location: CLLocationCoordinate2D? {
 		guard let lat = CLLocationDegrees(latitude ?? ""), let long = CLLocationDegrees(longitude ?? "") else {
 			return nil
 		}
@@ -55,7 +55,7 @@ public struct CHLink: Codable {
 	}
 }
 
-public extension CHLink {
+extension CHLink {
 	var linkItem: LinkItem? {
 		switch type {
 		case .appStore:

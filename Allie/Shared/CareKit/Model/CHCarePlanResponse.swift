@@ -8,15 +8,15 @@
 import CareKitStore
 import Foundation
 
-public struct CHCarePlanResponse: Codable {
-	public var carePlans: [CHCarePlan]
-	public var patients: [CHPatient]
-	public var tasks: [CHTask]
-	public var faultyTasks: [CHBasicTask]?
-	public var outcomes: [CHOutcome]
-	public var vectorClock: UInt64
+struct CHCarePlanResponse: Codable {
+	var carePlans: [CHCarePlan]
+	var patients: [CHPatient]
+	var tasks: [CHTask]
+	var faultyTasks: [CHBasicTask]?
+	var outcomes: [CHOutcome]
+	var vectorClock: UInt64
 
-	public init(carePlans: [CHCarePlan] = [], patients: [CHPatient] = [], tasks: [CHTask] = [], outcomes: [CHOutcome] = [], vectorClock: UInt64 = 0) {
+	init(carePlans: [CHCarePlan] = [], patients: [CHPatient] = [], tasks: [CHTask] = [], outcomes: [CHOutcome] = [], vectorClock: UInt64 = 0) {
 		self.carePlans = carePlans
 		self.tasks = tasks
 		self.vectorClock = vectorClock
@@ -32,7 +32,7 @@ public struct CHCarePlanResponse: Codable {
 		case vectorClock
 	}
 
-	public init(from decoder: Decoder) throws {
+	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.carePlans = try container.decodeIfPresent([CHCarePlan].self, forKey: .carePlans) ?? []
 		self.patients = try container.decodeIfPresent([CHPatient].self, forKey: .patients) ?? []

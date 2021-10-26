@@ -70,8 +70,13 @@ extension CareManager {
 					let operation = OutcomesUploadOperation(task: task, chunkSize: Constants.maximumUploadOutcomesPerCall, callbackQueue: callbackQueue) { operationResult in
 						switch operationResult {
 						case .failure(let error):
-							ALog.error("Uploading outcomes \(error.localizedDescription)", error: error)
+							ALog.error("Uploading outcomes", error: error)
 						case .success(let outcomes):
+							do {
+								_ = try self?.dbInsert(outcomes: outcomes)
+							} catch {
+								ALog.error("Saving outcomes", error: error)
+							}
 							ALog.trace("Uploaded \(outcomes.count) outcomes")
 						}
 						_ = self?.inflightUploadIdentifiers.remove(identifier)
@@ -129,7 +134,7 @@ extension CareManager {
 				continue
 			}
 			let taskOucomes = taskSamples.compactMap { sample in
-				CHOutcome(sample: sample, task: task, carePlanId: carePlanId)
+				outcome(sample: sample, deletedSample: nil, task: task, carePlanId: carePlanId)
 			}
 			if taskOucomes.isEmpty {
 				continue

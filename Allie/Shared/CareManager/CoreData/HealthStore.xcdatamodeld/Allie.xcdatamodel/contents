@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19461" systemVersion="21A559" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="MappedOutcome" representedClassName="MappedOutcome" syncable="YES" codeGenerationType="class">
+        <attribute name="createdDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="deletedDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="remoteId" attributeType="String"/>
+        <attribute name="sampleId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="taskId" attributeType="String"/>
+        <attribute name="updatedDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="value" attributeType="Binary"/>
+    </entity>
+    <elements>
+        <element name="MappedOutcome" positionX="-63" positionY="-18" width="128" height="149"/>
+    </elements>
+</model>

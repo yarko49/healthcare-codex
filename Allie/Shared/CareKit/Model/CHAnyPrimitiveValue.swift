@@ -7,29 +7,29 @@
 
 import Foundation
 
-public struct CHAnyPrimitiveValue: Codable {
+struct CHAnyPrimitiveValue: Codable {
 	private var int: Int?
 	private var string: String?
 	private var bool: Bool?
 	private var double: Double?
 
-	public init(_ int: Int) {
+	init(_ int: Int) {
 		self.int = int
 	}
 
-	public init(_ string: String) {
+	init(_ string: String) {
 		self.string = string
 	}
 
-	public init(_ bool: Bool) {
+	init(_ bool: Bool) {
 		self.bool = bool
 	}
 
-	public init(_ double: Double) {
+	init(_ double: Double) {
 		self.double = double
 	}
 
-	public init(from decoder: Decoder) throws {
+	init(from decoder: Decoder) throws {
 		if let int = try? decoder.singleValueContainer().decode(Int.self) {
 			self.int = int
 			return
@@ -50,7 +50,7 @@ public struct CHAnyPrimitiveValue: Codable {
 		}
 	}
 
-	public func encode(to encoder: Encoder) throws {
+	func encode(to encoder: Encoder) throws {
 		var container = encoder.singleValueContainer()
 
 		if let anyValue = value {
@@ -77,11 +77,11 @@ public struct CHAnyPrimitiveValue: Codable {
 		try container.encodeNil()
 	}
 
-	public var value: Any? {
+	var value: Any? {
 		int ?? string ?? bool ?? double
 	}
 
-	public var stringValue: String? {
+	var stringValue: String? {
 		if let stringValue = string {
 			return stringValue
 		} else if let boolValue = bool {

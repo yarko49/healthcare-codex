@@ -8,19 +8,19 @@
 import CareKitStore
 import Foundation
 
-public struct CHScheduleElement: Codable {
-	public var start: Date
-	public var end: Date?
-	public var weekly: Bool
-	public var daily: Bool
-	public var interval: TimeInterval // Seconds
-	public var custom: Bool
-	public var text: String?
-	public var targetValues: [OCKOutcomeValue]?
-	public var duration: TimeInterval // Seconds
-	public var hour: Int
-	public var minutes: Int
-	public var weekday: Int
+struct CHScheduleElement: Codable {
+	var start: Date
+	var end: Date?
+	var weekly: Bool
+	var daily: Bool
+	var interval: TimeInterval // Seconds
+	var custom: Bool
+	var text: String?
+	var targetValues: [OCKOutcomeValue]?
+	var duration: TimeInterval // Seconds
+	var hour: Int
+	var minutes: Int
+	var weekday: Int
 
 	private enum CodingKeys: String, CodingKey {
 		case start
@@ -37,7 +37,7 @@ public struct CHScheduleElement: Codable {
 		case hour
 	}
 
-	public init(from decoder: Decoder) throws {
+	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		let startDate = (try? container.decodeIfPresent(Date.self, forKey: .start)) ?? Date()
 		self.start = Calendar.current.startOfDay(for: startDate)
@@ -62,7 +62,7 @@ public struct CHScheduleElement: Codable {
 		}
 	}
 
-	public func encode(to encoder: Encoder) throws {
+	func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(start, forKey: .start)
 		try container.encodeIfPresent(end, forKey: .end)

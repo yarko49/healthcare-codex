@@ -9,42 +9,42 @@ import CareKitStore
 import Foundation
 import HealthKit
 
-public typealias CHTasks = [CHTask]
+typealias CHTasks = [CHTask]
 
-public struct CHBasicTask: Codable {
-	public var id: String?
-	public var title: String?
-	public var carePlanId: String?
+struct CHBasicTask: Codable {
+	var id: String?
+	var title: String?
+	var carePlanId: String?
 }
 
-public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable {
-	public var carePlanId: String?
-	public var id: String
-	public var carePlanUUID: UUID?
-	public var title: String?
-	public var instructions: String?
-	public var impactsAdherence: Bool = true
-	public var scheduleElements: [CHScheduleElement]
-	public var groupIdentifier: String?
-	public var tags: [String]?
-	public var createdDate: Date
-	public var effectiveDate: Date
-	public var deletedDate: Date?
-	public var updatedDate: Date?
-	public var source: String?
-	public var userInfo: [String: String]?
-	public var asset: String?
-	public var notes: [OCKNote]?
-	public var timezone: TimeZone
-	public var healthKitLinkage: OCKHealthKitLinkage?
-	public var schedule: OCKSchedule
-	public var links: [CHLink]?
+struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable {
+	var carePlanId: String?
+	var id: String
+	var carePlanUUID: UUID?
+	var title: String?
+	var instructions: String?
+	var impactsAdherence: Bool = true
+	var scheduleElements: [CHScheduleElement]
+	var groupIdentifier: String?
+	var tags: [String]?
+	var createdDate: Date
+	var effectiveDate: Date
+	var deletedDate: Date?
+	var updatedDate: Date?
+	var source: String?
+	var userInfo: [String: String]?
+	var asset: String?
+	var notes: [OCKNote]?
+	var timezone: TimeZone
+	var healthKitLinkage: OCKHealthKitLinkage?
+	var schedule: OCKSchedule
+	var links: [CHLink]?
 
 	var remoteId: String {
 		id
 	}
 
-	public init(id: String, title: String?, carePlanUUID: String?, schedule: OCKSchedule) {
+	init(id: String, title: String?, carePlanUUID: String?, schedule: OCKSchedule) {
 		self.id = id
 		self.title = title
 		self.carePlanId = carePlanUUID
@@ -55,7 +55,7 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 		self.scheduleElements = []
 	}
 
-	public init(from decoder: Decoder) throws {
+	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.carePlanId = try container.decodeIfPresent(String.self, forKey: .carePlanId)
 		self.id = try container.decode(String.self, forKey: .id)
@@ -102,7 +102,7 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 		self.links = try container.decodeIfPresent([CHLink].self, forKey: .links)
 	}
 
-	public func encode(to encoder: Encoder) throws {
+	func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encodeIfPresent(carePlanId, forKey: .carePlanId)
 		try container.encode(id, forKey: .id)

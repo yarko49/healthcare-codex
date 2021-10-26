@@ -11,24 +11,37 @@ import HealthKit
 
 extension OCKOutcomeValue {
 	var formattedValue: String? {
+		let numberFormatter = NumberFormatter.valueFormatter
 		if let integerValue = integerValue {
-			return "\(integerValue) " + (units ?? "")
+			let number = NSNumber(value: integerValue)
+			let value = numberFormatter.string(from: number) ?? "\(integerValue)"
+			return value + " " + (units ?? "")
 		} else if let doubleValue = doubleValue {
-			return "\(doubleValue) " + (units ?? "")
+			let number = NSNumber(value: doubleValue)
+			let value = numberFormatter.string(from: number) ?? "\(doubleValue)"
+			return value + " " + (units ?? "")
 		} else {
 			return nil
 		}
 	}
 
-	var insulinReason: String? {
-		HKInsulinDeliveryReason(kind: kind ?? "")?.title
+	var insulinDeliveryReason: HKInsulinDeliveryReason? {
+		HKInsulinDeliveryReason(kind: kind ?? "")
 	}
 
-	var bloodGlucoseMealTime: String? {
-		let mealTime = CHBloodGlucoseMealTime(kind: kind ?? "")
+	var insulinReasonTitle: String? {
+		insulinDeliveryReason?.title
+	}
+
+	var bloodGlucoseMealTimeTitle: String? {
+		let mealTime = bloodGlucoseMealTime
 		if mealTime == .unknown {
 			return nil
 		}
 		return mealTime?.title
+	}
+
+	var bloodGlucoseMealTime: CHBloodGlucoseMealTime? {
+		CHBloodGlucoseMealTime(kind: kind ?? "")
 	}
 }

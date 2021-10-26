@@ -17,6 +17,12 @@ let CHOutcomeMetadataKeySourceRevision = "sourceRevision"
 let CHOutcomeMetadataKeyStartDate = "startDate"
 let CHOutcomeMetadataKeyEndDate = "endDate"
 
+let CHMetadataKeyUpdatedDate = "CHUpdatedDate"
+let CHMetadataKeyHealthKitSampleUUID = "CHHealthKitSampleUUID"
+let CHMetadataKeyCarehKitTaskUUID = "CHCarehKitTaskUUID"
+let CHMetadataKeyHealthKitQuantityIdentifier = "CHHealthKitQuantityIdentifier"
+let CHMetadataKeyCarePlanUUID = "CHCarePlanUUID"
+
 extension OCKOutcome: AnyUserInfoExtensible, AnyItemDeletable {
 	init(outcome: CHOutcome) {
 		let ockOutcomeValues = outcome.values.map { outcomeValue -> OCKOutcomeValue in
@@ -25,7 +31,7 @@ extension OCKOutcome: AnyUserInfoExtensible, AnyItemDeletable {
 		self.init(taskUUID: outcome.taskUUID, taskOccurrenceIndex: outcome.taskOccurrenceIndex, values: ockOutcomeValues)
 		groupIdentifier = outcome.groupIdentifier
 		uuid = outcome.uuid
-		remoteID = outcome.remoteID
+		remoteID = outcome.remoteId
 		notes = outcome.notes
 		asset = outcome.asset
 		source = outcome.source
@@ -42,8 +48,8 @@ extension OCKOutcome: AnyUserInfoExtensible, AnyItemDeletable {
 		effectiveDate = outcome.effectiveDate
 		deletedDate = outcome.deletedDate
 		updatedDate = outcome.updatedDate
-		setUserInfo(string: outcome.carePlanID, forKey: CHOutcomeMetadataKeyCarePlanId)
-		setUserInfo(string: outcome.taskID, forKey: CHOutcomeMetadataKeyTaskId)
+		setUserInfo(string: outcome.carePlanId, forKey: CHOutcomeMetadataKeyCarePlanId)
+		setUserInfo(string: outcome.taskId, forKey: CHOutcomeMetadataKeyTaskId)
 		if let device = outcome.device, let data = try? JSONEncoder().encode(device) {
 			let deviceString = String(data: data, encoding: .utf8)
 			setUserInfo(string: deviceString, forKey: CHOutcomeMetadataKeyDevice)
@@ -69,6 +75,47 @@ extension OCKOutcome: AnyUserInfoExtensible, AnyItemDeletable {
 		}
 
 		setUserInfo(string: String(!outcome.isBluetoothCollected), forKey: HKMetadataKeyWasUserEntered)
+		self.healthKitSampleUUID = outcome.healthKit?.sampleUUID
+		if let identifier = outcome.healthKit?.quantityIdentifier {
+			self.healthKitQuantityIdentifier = HKQuantityTypeIdentifier(rawValue: identifier)
+		}
+		self.carePlanUUID = outcome.carePlanUUID
+	}
+
+	var healthKitSampleUUID: UUID? {
+		get {
+			guard let value = userInfo(forKey: CHMetadataKeyHealthKitSampleUUID, excludeEmptyString: true) else {
+				return nil
+			}
+			return UUID(uuidString: value)
+		}
+		set {
+			setUserInfo(string: newValue?.uuidString, forKey: CHMetadataKeyHealthKitSampleUUID)
+		}
+	}
+
+	var healthKitQuantityIdentifier: HKQuantityTypeIdentifier? {
+		get {
+			guard let value = userInfo(forKey: CHMetadataKeyHealthKitQuantityIdentifier, excludeEmptyString: true) else {
+				return nil
+			}
+			return HKQuantityTypeIdentifier(rawValue: value)
+		}
+		set {
+			setUserInfo(string: newValue?.rawValue, forKey: CHMetadataKeyHealthKitQuantityIdentifier)
+		}
+	}
+
+	var carePlanUUID: UUID? {
+		get {
+			guard let value = userInfo(forKey: CHMetadataKeyHealthKitSampleUUID, excludeEmptyString: true) else {
+				return nil
+			}
+			return UUID(uuidString: value)
+		}
+		set {
+			setUserInfo(string: newValue?.uuidString, forKey: CHMetadataKeyHealthKitSampleUUID)
+		}
 	}
 }
 
@@ -79,7 +126,7 @@ extension CHOutcome {
 		}
 		self.init(taskUUID: outcome.taskUUID, taskID: taskID, carePlanID: carePlanID, taskOccurrenceIndex: outcome.taskOccurrenceIndex, values: values)
 		groupIdentifier = outcome.groupIdentifier
-		remoteID = outcome.remoteID
+		remoteId = outcome.remoteID
 		uuid = outcome.uuid
 		notes = outcome.notes
 		asset = outcome.asset
@@ -114,6 +161,24 @@ extension CHOutcome {
 		if let userEnteredString = outcome.userInfo?[HKMetadataKeyWasUserEntered] {
 			self.isBluetoothCollected = !(Bool(userEnteredString) ?? false)
 		}
+
+		setHealthKit(sampleUUID: outcome.healthKitSampleUUID, quantityIdentifier: outcome.healthKitQuantityIdentifier)
+	}
+}
+
+extension CHOutcome {
+	mutating func setHealthKit(sampleUUID: UUID?, quantityIdentifier: HKQuantityTypeIdentifier?) {
+		guard let uuid = sampleUUID, let identifier = quantityIdentifier else {
+			return
+		}
+		healthKit = HealthKit(quantityIdentifier: identifier.rawValue, sampleUUID: uuid)
+	}
+
+	mutating func setHealthKit(sampleUUID: UUID?, quantityIdentifier: String?) {
+		guard let identifier = quantityIdentifier else {
+			return
+		}
+		setHealthKit(sampleUUID: sampleUUID, quantityIdentifier: HKQuantityTypeIdentifier(rawValue: identifier))
 	}
 }
 

@@ -8,6 +8,7 @@
 import CareKit
 import CareKitStore
 import Combine
+import CoreData
 import Foundation
 import HealthKit
 
@@ -15,7 +16,7 @@ extension CareManager {
 	func syncCreateOrUpdate(outcome: CHOutcome, queue: DispatchQueue) -> OCKOutcome {
 		var ockOutcome = OCKOutcome(outcome: outcome)
 		var query = OCKOutcomeQuery()
-		if let remoteId = outcome.remoteID {
+		if let remoteId = outcome.remoteId {
 			query.remoteIDs = [remoteId]
 		}
 
@@ -132,7 +133,11 @@ extension CareManager {
 			}
 
 			group.notify(queue: .main) { [weak self] in
-				self?.upload(outcomes: chOutcomes)
+				self?.upload(outcomes: chOutcomes, completion: { result in
+					if case .failure(let error) = result {
+						ALog.error("\(error.localizedDescription)", error: error)
+					}
+				})
 			}
 		}
 	}
@@ -158,12 +163,12 @@ extension CareManager {
 					throw AllieError.invalid("More than one task with same HKQuantityTypeIdentifier = \(unique.keys)")
 				}
 				return first
-			}.tryMap { task -> [CHOutcome] in
+			}.tryMap { [weak self] task -> [CHOutcome] in
 				guard let carePlanId = task.carePlanId else {
 					throw AllieError.missing("Care Plan Id Missing")
 				}
 				let outcomes = samples.compactMap { sample in
-					CHOutcome(sample: sample, task: task, carePlanId: carePlanId)
+					self?.outcome(sample: sample, deletedSample: nil, task: task, carePlanId: carePlanId)
 				}
 
 				return outcomes
@@ -185,26 +190,36 @@ extension CareManager {
 				case .finished:
 					ALog.info("Uploaded the outcome")
 				}
-			} receiveValue: { response in
-				ALog.info("\(response.outcomes)")
+			} receiveValue: { [weak self] response in
+				do {
+					_ = try self?.dbInsert(outcomes: response.outcomes)
+				} catch {
+					ALog.error("\((error as NSError).debugDescription)", error: error)
+				}
 			}.store(in: &cancellables)
 	}
 
-	func upload(outcomes: [CHOutcome]) {
+	func upload(outcomes: [CHOutcome], completion: @escaping AllieResultCompletion<[CHOutcome]>) {
 		guard !outcomes.isEmpty else {
+			completion(.success([]))
 			return
 		}
-
 		networkAPI.post(outcomes: outcomes)
-			.sink { completion in
-				switch completion {
-				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
-				case .finished:
-					ALog.info("Uploaded the outcome")
+			.sink { completionResult in
+				if case .failure(let error) = completionResult {
+					completion(.failure(error))
 				}
-			} receiveValue: { response in
-				ALog.info("\(response.outcomes)")
+			} receiveValue: { [weak self] response in
+				guard let strongSelf = self else {
+					return
+				}
+				do {
+					_ = try strongSelf.dbInsert(outcomes: response.outcomes)
+					completion(.success(response.outcomes))
+				} catch {
+					ALog.error("\((error as NSError).debugDescription)", error: error)
+					completion(.failure(error))
+				}
 			}.store(in: &cancellables)
 	}
 
@@ -222,16 +237,14 @@ extension CareManager {
 	}
 
 	func save(outcomes: [CHOutcome], completion: @escaping AllieResultCompletion<[OCKOutcome]>) {
-		let ockOutomes = outcomes.compactMap { outcome -> OCKOutcome? in
-			OCKOutcome(outcome: outcome)
-		}
-		store.addOutcomes(ockOutomes, callbackQueue: .main) { result in
-			switch result {
-			case .success(let outcomes):
-				completion(.success(outcomes))
-			case .failure(let error):
-				completion(.failure(error))
+		do {
+			_ = try dbInsert(outcomes: outcomes)
+			let ockOutomes = outcomes.compactMap { outcome -> OCKOutcome? in
+				OCKOutcome(outcome: outcome)
 			}
+			completion(.success(ockOutomes))
+		} catch {
+			completion(.failure(error))
 		}
 	}
 
@@ -304,5 +317,92 @@ extension CareManager {
 					}
 				}
 			}.store(in: &cancellables)
+	}
+
+	func outcome(sample: HKSample, deletedSample: HKSample?, task: OCKHealthKitTask, carePlanId: String) -> CHOutcome? {
+		var outcome = CHOutcome(sample: sample, task: task, carePlanId: carePlanId)
+		if let deleted = deletedSample, let existing = try? dbFindFirstOutcome(sample: deleted) {
+			outcome?.remoteId = existing.remoteId
+			outcome?.updatedDate = Date()
+		}
+		return outcome
+	}
+}
+
+// CoreData
+extension CareManager {
+	func dbFindFirstOutcome(uuid: UUID) throws -> CHOutcome? {
+		try dbFindFirst(uuid: uuid)?.outcome
+	}
+
+	func dbFindFirst(uuid: UUID) throws -> MappedOutcome? {
+		try MappedOutcome.findFirst(inContext: dbStore.managedObjectContext, uuid: uuid)
+	}
+
+	func dbFindFirstOutcome(sample: HKSample) throws -> CHOutcome? {
+		try dbFindFirstOutcome(sampleId: sample.uuid)
+	}
+
+	func dbFindFirstOutcome(sampleId: UUID) throws -> CHOutcome? {
+		try dbFindFirst(sampleId: sampleId)?.outcome
+	}
+
+	func dbFindFirst(sampleId: UUID) throws -> MappedOutcome? {
+		try MappedOutcome.findFirst(inContext: dbStore.managedObjectContext, sampleId: sampleId)
+	}
+
+	func dbInsert(outcomes: [CHOutcome]) throws -> [MappedOutcome] {
+		let result = outcomes.compactMap { outcome in
+			try? dbInsert(outcome: outcome, shouldSave: false)
+		}
+		dbStore.saveContext()
+		return result
+	}
+
+	@discardableResult
+	func dbInsert(outcome: CHOutcome, shouldSave: Bool = true) throws -> MappedOutcome? {
+		var mappedOutcome = try MappedOutcome.findFirst(inContext: dbStore.managedObjectContext, uuid: outcome.uuid)
+		if mappedOutcome != nil {
+			mappedOutcome?.outcome = outcome
+			mappedOutcome?.createdDate = outcome.createdDate
+			mappedOutcome?.remoteId = outcome.remoteId
+			mappedOutcome?.deletedDate = outcome.deletedDate
+			mappedOutcome?.updatedDate = outcome.updatedDate
+		} else {
+			mappedOutcome = MappedOutcome(outcome: outcome, insertInto: dbStore.managedObjectContext)
+		}
+		if shouldSave {
+			dbStore.saveContext()
+		}
+		return mappedOutcome
+	}
+
+	func dbDeleteFirst(outcome: CHOutcome) throws {
+		if let existing = try MappedOutcome.findFirst(inContext: dbStore.managedObjectContext, uuid: outcome.uuid) {
+			dbStore.managedObjectContext.delete(existing)
+			dbStore.saveContext()
+		}
+	}
+
+	func dbDeleteFirst(uuid: UUID) throws -> CHOutcome? {
+		guard let outcome = try MappedOutcome.findFirst(inContext: dbStore.managedObjectContext, uuid: uuid) else {
+			throw AllieError.missing("Could not find outcome")
+		}
+		dbStore.managedObjectContext.delete(outcome)
+		dbStore.saveContext()
+		return outcome.outcome
+	}
+
+	func dbDeleteFirst(sample: HKSample) throws -> CHOutcome? {
+		try dbDeleteFirst(sampleId: sample.uuid)
+	}
+
+	func dbDeleteFirst(sampleId: UUID) throws -> CHOutcome? {
+		guard let outcome = try MappedOutcome.findFirst(inContext: dbStore.managedObjectContext, sampleId: sampleId) else {
+			throw AllieError.missing("Could not find outcome")
+		}
+		dbStore.managedObjectContext.delete(outcome)
+		dbStore.saveContext()
+		return outcome.outcome
 	}
 }

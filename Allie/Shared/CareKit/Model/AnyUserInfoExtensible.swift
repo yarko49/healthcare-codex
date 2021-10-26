@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol AnyUserInfoExtensible {
+protocol AnyUserInfoExtensible {
 	var userInfo: [String: String]? { get set }
 	mutating func setUserInfo(string: String?, forKey key: String)
 	func userInfo(forKey key: String, excludeEmptyString: Bool) -> String?
@@ -17,7 +17,7 @@ public protocol AnyUserInfoExtensible {
 	func getInt(forKey key: String) -> Int
 }
 
-public extension AnyUserInfoExtensible {
+extension AnyUserInfoExtensible {
 	mutating func setUserInfo(string: String?, forKey key: String) {
 		var info = userInfo ?? [:]
 		if let value = string {

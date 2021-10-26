@@ -16,7 +16,7 @@ extension CHOutcome {
 		}
 		self.init(taskUUID: hkOutcome.taskUUID, taskID: taskID, carePlanID: carePlanID, taskOccurrenceIndex: hkOutcome.taskOccurrenceIndex, values: values)
 		groupIdentifier = hkOutcome.groupIdentifier
-		remoteID = hkOutcome.remoteID
+		remoteId = hkOutcome.remoteID
 		notes = hkOutcome.notes
 	}
 }

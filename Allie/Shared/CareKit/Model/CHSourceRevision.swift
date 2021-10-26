@@ -8,9 +8,9 @@
 import Foundation
 import HealthKit
 
-public struct CHSource: Codable {
-	public let name: String
-	public let bundleIdentifier: String
+struct CHSource: Codable {
+	let name: String
+	let bundleIdentifier: String
 }
 
 extension CHSource {
@@ -20,11 +20,11 @@ extension CHSource {
 	}
 }
 
-public struct CHSourceRevision: Codable {
-	public let source: CHSource?
-	public let version: String?
-	public let productType: String?
-	public let operationSystemVersion: OperatingSystemVersion
+struct CHSourceRevision: Codable {
+	let source: CHSource?
+	let version: String?
+	let productType: String?
+	let operationSystemVersion: OperatingSystemVersion
 }
 
 extension OperatingSystemVersion: Codable {

@@ -7,18 +7,18 @@
 
 import Foundation
 
-public struct CHDevice: Codable {
-	public var name: String?
-	public var manufacturer: String?
-	public var model: String?
-	public var udiDeviceIdentifier: String?
-	public var firmwareVersion: String?
-	public var hardwareVersion: String?
-	public var localIdentifier: String?
-	public var softwareVersion: String?
+struct CHDevice: Codable {
+	var name: String?
+	var manufacturer: String?
+	var model: String?
+	var udiDeviceIdentifier: String?
+	var firmwareVersion: String?
+	var hardwareVersion: String?
+	var localIdentifier: String?
+	var softwareVersion: String?
 }
 
-public extension CHDevice {
+extension CHDevice {
 	var uuid: UUID? {
 		guard let identifier = localIdentifier else {
 			return nil

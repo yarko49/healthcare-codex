@@ -50,7 +50,7 @@ extension OCKScheduleElement {
 	}
 }
 
-public extension OCKScheduleElement {
+extension OCKScheduleElement {
 	static func dailyAtTime(hour: Int, minutes: Int, start: Date, end: Date?, text: String?, duration: OCKScheduleElement.Duration = .hours(1), targetValues: [OCKOutcomeValue] = []) -> OCKScheduleElement {
 		let interval = DateComponents(day: 1)
 		let startTime = Calendar.current.date(bySettingHour: hour, minute: minutes, second: 0, of: start)!

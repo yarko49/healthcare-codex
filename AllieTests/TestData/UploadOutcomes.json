@@ -1,0 +1,63 @@
+[
+    {
+        "values": [
+            {
+                "createdDate": "2021-10-22T06:40:00Z",
+                "units": "mg\/dL",
+                "kind": "postprandial",
+                "type": "double",
+                "value": 130,
+                "index": 0
+            }
+        ],
+        "carePlanId": "defaultCarePlan",
+        "taskId": "measurements-glucose-levels",
+        "deletedDate": "2021-10-22T06:43:25Z",
+        "carePlanLocalId": null,
+        "taskLocalId": "EF353036-277C-424F-B531-21B345152BAB",
+        "updatedDate": "2021-10-22T06:41:39Z",
+        "taskOccurrenceIndex": 0,
+        "bluetoothCollected": false,
+        "userInfo": {
+            "HKBloodGlucoseMealTime": "2",
+            "CHBloodGlucoseMealTime": "2",
+            "HKTimeZone": "America\/Los_Angeles"
+        },
+        "endDate": "2021-10-22T06:40:00Z",
+        "id": "BF80AFB1-CE3D-4B35-A93E-AED0344340E0",
+        "provenance": {
+            "bgmDeviceId": "",
+            "type": "manual"
+        },
+        "createdDate": "2021-10-22T06:40:00Z",
+        "sourceRevision": {
+            "productType": "iPhone14,3",
+            "operationSystemVersion": {
+                "majorVersion": 15,
+                "minorVersion": 0,
+                "patchVersion": 0
+            },
+            "source": {
+                "name": "Allie Dev",
+                "bundleIdentifier": "com.codexhealth.allie.dev"
+            },
+            "version": "2"
+        },
+        "timezone": {
+            "identifier": "America\/Los_Angeles"
+        },
+        "startDate": "2021-10-22T06:40:00Z",
+        "effectiveDate": "2021-08-05T07:00:00Z",
+        "device": {
+            "softwareVersion": "15.0",
+            "manufacturer": "Apple Inc.",
+            "model": "iPhone",
+            "name": "iPhone",
+            "hardwareVersion": "iPhone14,3"
+        },
+        "healthKit": {
+            "sampleUUID": "BF80AFB1-CE3D-4B35-A93E-AED0344340E0",
+            "quantityIdentifier": "HKQuantityTypeIdentifierBloodGlucose"
+        }
+    }
+]

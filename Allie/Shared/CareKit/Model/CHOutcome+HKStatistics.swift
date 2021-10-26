@@ -29,8 +29,9 @@ extension CHOutcome {
 		self.uuid = UUID()
 		createdDate = statistics.startDate
 		updatedDate = statistics.startDate
-		effectiveDate = statistics.startDate
+		effectiveDate = task.effectiveDate
 		startDate = statistics.startDate
 		endDate = statistics.endDate
+		setHealthKit(sampleUUID: UUID(), quantityIdentifier: linkage.quantityIdentifier)
 	}
 }

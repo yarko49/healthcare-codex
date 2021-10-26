@@ -8,7 +8,7 @@
 import Foundation
 import HealthKit
 
-public extension CHSourceRevision {
+extension CHSourceRevision {
 	init(sourceRevision: HKSourceRevision) {
 		source = CHSource(source: sourceRevision.source)
 		version = sourceRevision.version

@@ -9,8 +9,6 @@ import CareKitStore
 import Foundation
 import HealthKit
 
-let CHMetadataKeyUpdatedDate = "CHUpdatedDate"
-
 extension CHOutcome {
 	init?(sample: HKSample, task: OCKHealthKitTask, carePlanId: String) {
 		self.init(taskUUID: task.uuid, taskID: task.id, carePlanID: carePlanId, taskOccurrenceIndex: 0, values: [])
@@ -56,7 +54,7 @@ extension CHOutcome {
 		self.uuid = sample.uuid
 		createdDate = sample.startDate
 		updatedDate = sample.startDate
-		effectiveDate = sample.startDate
+		effectiveDate = task.effectiveDate
 		startDate = sample.startDate
 		endDate = sample.endDate
 		if let hkDevice = sample.device {
@@ -94,6 +92,7 @@ extension CHOutcome {
 			}
 		}
 		userInfo?[HKMetadataKeyTimeZone] = TimeZone.current.identifier
+		setHealthKit(sampleUUID: sample.uuid, quantityIdentifier: linkage.quantityIdentifier)
 		self.timezone = .current
 	}
 }

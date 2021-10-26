@@ -8,7 +8,7 @@
 import CareKitStore
 import Foundation
 
-public extension OCKOutcomeValueUnderlyingType {
+extension OCKOutcomeValueUnderlyingType {
 	func isEqual(rhs: OCKOutcomeValueUnderlyingType) -> Bool {
 		if let lvalue = self as? Int, let rvalue = rhs as? Int {
 			return lvalue == rvalue
@@ -27,37 +27,37 @@ public extension OCKOutcomeValueUnderlyingType {
 	}
 }
 
-public struct CHOutcomeValue: Codable, Equatable {
-	public static func == (lhs: CHOutcomeValue, rhs: CHOutcomeValue) -> Bool {
+struct CHOutcomeValue: Codable, Equatable {
+	static func == (lhs: CHOutcomeValue, rhs: CHOutcomeValue) -> Bool {
 		lhs.hasSameValueAs(rhs) &&
 			lhs.type == rhs.type &&
 			lhs.kind == rhs.kind
 	}
 
-	public var index: Int = 0
+	var index: Int = 0
 
-	public var value: OCKOutcomeValueUnderlyingType
+	var value: OCKOutcomeValueUnderlyingType
 
 	/// The value was entered by user
-	public var wasUserEntered: Bool = false
+	var wasUserEntered: Bool = false
 
 	/// UUID unique id of the object in healthKtt
-	public var healthKitUUID: UUID?
+	var healthKitUUID: UUID?
 
 	/// A HealthKitQuantityIdentifier that describes the outcome's data type.
-	public var quantityIdentifier: String?
+	var quantityIdentifier: String?
 
 	/// An optional property that can be used to specify what kind of value this is (e.g. blood pressure, qualitative stress, weight)
-	public var kind: String?
+	var kind: String?
 
 	/// The units for this measurement.
-	public var units: String?
+	var units: String?
 
 	/// The date that this value was created.
-	public var createdDate = Date()
+	var createdDate = Date()
 
 	/// Holds information about the type of this value.
-	public var type: OCKOutcomeValueType {
+	var type: OCKOutcomeValueType {
 		if value is Int { return .integer }
 		if value is Double { return .double }
 		if value is Bool { return .boolean }
@@ -67,7 +67,7 @@ public struct CHOutcomeValue: Codable, Equatable {
 		fatalError("Unknown type!")
 	}
 
-	public var description: String {
+	var description: String {
 		switch type {
 		// swiftlint:disable:next force_cast
 		case .integer: return "\(value as! Int)"
@@ -98,7 +98,7 @@ public struct CHOutcomeValue: Codable, Equatable {
 
 	// The value as an `NSNumber`. This property can be useful when comparing outcome values with an underlying
 	// type of Bool, Double, or Int against one another.
-	public var numberValue: NSNumber? {
+	var numberValue: NSNumber? {
 		switch type {
 		case .boolean: return NSNumber(value: booleanValue!)
 		case .double: return NSNumber(value: doubleValue!)
@@ -107,29 +107,29 @@ public struct CHOutcomeValue: Codable, Equatable {
 		}
 	}
 
-	public init(_ value: OCKOutcomeValueUnderlyingType, units: String? = nil) {
+	init(_ value: OCKOutcomeValueUnderlyingType, units: String? = nil) {
 		self.value = value
 		self.units = units
 	}
 
-	public var integerValue: Int? { value as? Int }
+	var integerValue: Int? { value as? Int }
 
 	/// The underlying value as a floating point number.
-	public var doubleValue: Double? { value as? Double }
+	var doubleValue: Double? { value as? Double }
 
 	/// The underlying value as a boolean.
-	public var booleanValue: Bool? { value as? Bool }
+	var booleanValue: Bool? { value as? Bool }
 
 	/// The underlying value as text.
-	public var stringValue: String? { value as? String }
+	var stringValue: String? { value as? String }
 
 	/// The underlying value as binary data.
-	public var dataValue: Data? { value as? Data }
+	var dataValue: Data? { value as? Data }
 
 	/// The underlying value as a date.
-	public var dateValue: Date? { value as? Date }
+	var dateValue: Date? { value as? Date }
 
-	public init(from decoder: Decoder) throws {
+	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.index = try container.decodeIfPresent(Int.self, forKey: .index) ?? 0
 		self.units = try container.decodeIfPresent(String.self, forKey: .units)
@@ -153,7 +153,7 @@ public struct CHOutcomeValue: Codable, Equatable {
 		}
 	}
 
-	public func encode(to encoder: Encoder) throws {
+	func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(index, forKey: .index)
 		try container.encodeIfPresent(units, forKey: .units)

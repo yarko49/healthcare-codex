@@ -8,6 +8,7 @@
 import CareKit
 import CareKitStore
 import Combine
+import CoreData
 import KeychainAccess
 import UIKit
 
@@ -183,6 +184,10 @@ class CareManager: NSObject, ObservableObject {
 
 	private(set) var carePlan: CHCarePlan?
 	private(set) var tasks: [String: CHTask] = [:]
+
+	private(set) lazy var dbStore: CoreDataManager = {
+		CoreDataManager(modelName: "HealthStore")
+	}()
 }
 
 // MARK: - CarePlanResponse
@@ -275,6 +280,7 @@ extension CareManager {
 		try store.reset()
 		try healthKitStore.reset()
 		try resetCarePlan()
+		dbStore.resetAllRecords(in: "MappedOutcome")
 	}
 }
 

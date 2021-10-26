@@ -5,6 +5,7 @@
 
 import CareKitStore
 import Combine
+import CoreData
 import Firebase
 import FirebaseAuth
 import JGProgressHUD
