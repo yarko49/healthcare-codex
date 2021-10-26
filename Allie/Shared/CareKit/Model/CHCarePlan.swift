@@ -8,22 +8,22 @@
 import CareKitStore
 import Foundation
 
-public typealias CHCarePlans = [CHCarePlan]
+typealias CHCarePlans = [CHCarePlan]
 
-public struct CHCarePlan: Codable, Identifiable, AnyItemDeletable {
-	public var id: String
-	public var uuid: UUID?
-	public var title: String
-	public var patientId: String?
-	public var timezone: TimeZone
-	public var createdDate: Date
-	public var effectiveDate: Date
-	public var deletedDate: Date?
-	public var updatedDate: Date?
-	public var asset: String?
-	public var tags: [String]?
-	public var source: String?
-	public var userInfo: [String: String]?
+struct CHCarePlan: Codable, Identifiable, AnyItemDeletable {
+	var id: String
+	var uuid: UUID?
+	var title: String
+	var patientId: String?
+	var timezone: TimeZone
+	var createdDate: Date
+	var effectiveDate: Date
+	var deletedDate: Date?
+	var updatedDate: Date?
+	var asset: String?
+	var tags: [String]?
+	var source: String?
+	var userInfo: [String: String]?
 
 	var remoteId: String {
 		id
@@ -48,7 +48,7 @@ public struct CHCarePlan: Codable, Identifiable, AnyItemDeletable {
 		case tasks
 	}
 
-	public init(from decoder: Decoder) throws {
+	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.id = try container.decode(String.self, forKey: .id)
 		self.uuid = try container.decodeIfPresent(UUID.self, forKey: .uuid)
@@ -67,7 +67,7 @@ public struct CHCarePlan: Codable, Identifiable, AnyItemDeletable {
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
 	}
 
-	public func encode(to encoder: Encoder) throws {
+	func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(id, forKey: .id)
 		try container.encodeIfPresent(uuid, forKey: .uuid)

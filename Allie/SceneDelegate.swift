@@ -75,7 +75,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	func sceneWillEnterForeground(_ scene: UIScene) {
 		// Called as the scene transitions from the background to the foreground.
 		// Use this method to undo the changes made on entering the background.
-		ALog.info("sceneWillEnterForeground:")
+		ALog.trace("sceneWillEnterForeground:")
 		if Auth.auth().currentUser != nil {
 			mainCoordinator.refreshRemoteConfig(completion: nil)
 		}
@@ -83,14 +83,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	}
 
 	func sceneDidEnterBackground(_ scene: UIScene) {
-		ALog.info("sceneDidEnterBackground:")
+		ALog.trace("sceneDidEnterBackground:")
 		// Called as the scene transitions from the foreground to the background.
 		// Use this method to save data, release shared resources, and store enough scene-specific state information
 		// to restore the scene back to its current state.
+		mainCoordinator.careManager.dbStore.saveContext()
 	}
 
 	func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-		ALog.info("sceneDidEnterBackground: \(String(describing: userActivity.webpageURL))")
+		ALog.trace("sceneDidEnterBackground: \(String(describing: userActivity.webpageURL))")
 		if let incomingURL = userActivity.webpageURL {
 			handleIncomingURL(incomingURL)
 		} else {

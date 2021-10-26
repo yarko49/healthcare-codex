@@ -387,19 +387,37 @@ class HealthKitManager {
 	}
 
 	func delete(uuid: UUID, quantityIdentifier: String, completion: AllieResultCompletion<HKSample>?) {
-		fetch(uuid: uuid, quantityIdentifier: quantityIdentifier) { [weak self] result in
-			switch result {
-			case .failure(let error):
-				completion?(.failure(error))
-			case .success(let sample):
-				self?.healthStore.delete(sample) { success, error in
-					if let error = error {
-						completion?(.failure(error))
-					} else if success {
-						completion?(.success(sample))
-					} else {
-						completion?(.failure(HealthKitManagerError.notAvailableOnDevice))
+		DispatchQueue.main.async { [weak self] in
+			self?.fetch(uuid: uuid, quantityIdentifier: quantityIdentifier) { [weak self] result in
+				switch result {
+				case .failure(let error):
+					completion?(.failure(error))
+				case .success(let sample):
+					self?.healthStore.delete(sample) { success, error in
+						if let error = error {
+							completion?(.failure(error))
+						} else if success {
+							NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
+							completion?(.success(sample))
+						} else {
+							completion?(.failure(HealthKitManagerError.notAvailableOnDevice))
+						}
 					}
+				}
+			}
+		}
+	}
+
+	func save(sample: HKSample, completion: @escaping AllieResultCompletion<HKSample>) {
+		DispatchQueue.main.async { [weak self] in
+			self?.healthStore.save(sample) { success, error in
+				if let error = error {
+					completion(.failure(error))
+				} else if success == false {
+					completion(.failure(AllieError.forbidden("Unable to save sample")))
+				} else {
+					NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
+					completion(.success(sample))
 				}
 			}
 		}

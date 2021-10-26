@@ -27,6 +27,14 @@ class AllieTests: XCTestCase {
 		return data
 	}
 
+	static func loadTestData(fileName: String, withExtension: String) throws -> Data {
+		guard let url = Bundle(for: AllieTests.self).url(forResource: fileName, withExtension: withExtension) else {
+			throw AllieError.missing("File does not exist")
+		}
+		let data = try Data(contentsOf: url)
+		return data
+	}
+
 	override func setUpWithError() throws {
 		// Put setup code here. This method is called before the invocation of each test method in the class.
 		let config = URLSessionConfiguration.ephemeral

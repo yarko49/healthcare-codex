@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum CHGroupIdentifierType: String, Hashable, CaseIterable {
+enum CHGroupIdentifierType: String, Hashable, CaseIterable {
 	case labeledValue = "LABELED_VALUE"
 	case numericProgress = "NUMERIC_PROGRESS"
 	case grid = "GRID"

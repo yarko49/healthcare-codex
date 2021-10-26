@@ -104,6 +104,7 @@ extension HealthKitManager {
 						let keys = Set(samples.keys)
 						self?.sequenceNumbers.insert(values: keys, forDevice: name)
 						promise(.success(values))
+						NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
 					}
 				})
 			}

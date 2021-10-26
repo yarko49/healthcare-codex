@@ -175,7 +175,7 @@ extension GeneralizedLogTaskView {
 			for (index, outcomeValue) in outcomeValues.enumerated() {
 				let date = outcomeValue.createdDate
 				let dateString = ScheduleUtility.timeFormatter.string(from: date)
-				let context = outcomeValue.insulinReason
+				let context = outcomeValue.insulinReasonTitle
 				_ = index < items.count ?
 					updateItem(at: index, value: outcomeValue.formattedValue, time: dateString, context: context) :
 					appendItem(value: outcomeValue.formattedValue, time: dateString, context: context, animated: animated, canEdit: false)
@@ -203,9 +203,9 @@ extension GeneralizedLogTaskView {
 				let dateString = ScheduleUtility.timeFormatter.string(from: date)
 				var context: String?
 				if linkage?.quantityIdentifier == .insulinDelivery {
-					context = outcomeValue.insulinReason
+					context = outcomeValue.insulinReasonTitle
 				} else if linkage?.quantityIdentifier == .bloodGlucose {
-					context = outcomeValue.bloodGlucoseMealTime
+					context = outcomeValue.bloodGlucoseMealTimeTitle
 				}
 				_ = index < items.count ?
 					updateItem(at: index, value: outcomeValue.formattedValue, time: dateString, context: context) :

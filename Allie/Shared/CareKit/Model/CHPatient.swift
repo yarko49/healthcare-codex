@@ -14,60 +14,60 @@ import UIKit
                                           |
  client <---pull-patient-resource--- cloud-endpoint
  */
-public typealias CHPatients = [CHPatient]
+typealias CHPatients = [CHPatient]
 
-public struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyItemDeletable, AnyUserInfoExtensible {
-	public let id: String
-	public var uuid: UUID?
-	public var name: PersonNameComponents
-	public var sex: OCKBiologicalSex?
-	public var birthday: Date?
-	public var allergies: [String]?
-	public var createdDate: Date
-	public var effectiveDate: Date
-	public var updatedDate: Date?
-	public var deletedDate: Date?
+struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyItemDeletable, AnyUserInfoExtensible {
+	let id: String
+	var uuid: UUID?
+	var name: PersonNameComponents
+	var sex: OCKBiologicalSex?
+	var birthday: Date?
+	var allergies: [String]?
+	var createdDate: Date
+	var effectiveDate: Date
+	var updatedDate: Date?
+	var deletedDate: Date?
 
-	public var groupIdentifier: String? // shared, active, inactive
-	public var tags: [String]?
-	public var remoteId: String?
-	public var source: String?
-	public var userInfo: [String: String]?
-	public var asset: String?
-	public var timezone: TimeZone
-	public var notes: [OCKNote]?
-	public var profile = CHProfile()
+	var groupIdentifier: String? // shared, active, inactive
+	var tags: [String]?
+	var remoteId: String?
+	var source: String?
+	var userInfo: [String: String]?
+	var asset: String?
+	var timezone: TimeZone
+	var notes: [OCKNote]?
+	var profile = CHProfile()
 
-	public var age: Int? {
+	var age: Int? {
 		guard let birthday = birthday else {
 			return nil
 		}
 		return Calendar.current.dateComponents(Set([.year]), from: birthday, to: Date()).year
 	}
 
-	public var remoteID: String? {
+	var remoteID: String? {
 		remoteId
 	}
 
-	public struct CHProfile: Codable, Hashable {
-		public var email: String?
-		public var patientId: String?
-		public var userId: String?
-		public var phoneNumber: String?
-		public var deviceManufacturer: String?
-		public var deviceSoftwareVersion: String?
-		public var fhirId: String?
-		public var heightInInches: Int?
-		public var weightInPounds: Int?
-		public var isMeasurementBloodPressureEnabled: Bool = false
-		public var isMeasurementHeartRateEnabled: Bool = false
-		public var isMeasurementRestingHeartRateEnabled: Bool = false
-		public var isMeasurementStepsEnabled: Bool = false
-		public var isMeasurementWeightEnabled: Bool = false
-		public var areNotificationsEnabled: Bool = false
-		public var isSignUpCompleted: Bool = false
+	struct CHProfile: Codable, Hashable {
+		var email: String?
+		var patientId: String?
+		var userId: String?
+		var phoneNumber: String?
+		var deviceManufacturer: String?
+		var deviceSoftwareVersion: String?
+		var fhirId: String?
+		var heightInInches: Int?
+		var weightInPounds: Int?
+		var isMeasurementBloodPressureEnabled: Bool = false
+		var isMeasurementHeartRateEnabled: Bool = false
+		var isMeasurementRestingHeartRateEnabled: Bool = false
+		var isMeasurementStepsEnabled: Bool = false
+		var isMeasurementWeightEnabled: Bool = false
+		var areNotificationsEnabled: Bool = false
+		var isSignUpCompleted: Bool = false
 
-		public var weightInKilograms: Double? {
+		var weightInKilograms: Double? {
 			guard let lbs = weightInPounds else {
 				return nil
 			}
@@ -75,7 +75,7 @@ public struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyIte
 			return Double(lbs) * 0.4535924
 		}
 
-		public var heightInCentimeters: Double? {
+		var heightInCentimeters: Double? {
 			guard let inches = heightInInches else {
 				return nil
 			}
@@ -83,7 +83,7 @@ public struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyIte
 			return Double(inches) * 2.54
 		}
 
-		public var fhirUUID: UUID? {
+		var fhirUUID: UUID? {
 			guard let fireIdString = fhirId else {
 				return nil
 			}
@@ -118,7 +118,7 @@ public struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyIte
 		self.effectiveDate = createdDate
 	}
 
-	public init(from decoder: Decoder) throws {
+	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
 		self.id = try container.decode(String.self, forKey: .id)
@@ -173,7 +173,7 @@ public struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyIte
 		}
 	}
 
-	public func encode(to encoder: Encoder) throws {
+	func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(id, forKey: .id)
 		try container.encodeIfPresent(uuid, forKey: .uuid)

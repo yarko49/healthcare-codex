@@ -27,6 +27,7 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 	var chunkSize: Int
 	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
+	@Injected(\.careManager) var careManager: CareManager
 
 	init(task: OCKHealthKitTask, chunkSize: Int, callbackQueue: DispatchQueue, completion: ((Result<[CHOutcome], Error>) -> Void)? = nil) {
 		self.task = task
@@ -117,7 +118,7 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 		}
 
 		let taskOucomes: [CHOutcome] = samples.compactMap { sample in
-			CHOutcome(sample: sample, task: task, carePlanId: carePlanId)
+			careManager.outcome(sample: sample, deletedSample: nil, task: task, carePlanId: carePlanId)
 		}
 
 		guard taskOucomes.count == samples.count else {

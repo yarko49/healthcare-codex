@@ -19,7 +19,7 @@ extension HKSample {
 				if let insulinReason = cumulative.metadata?[HKMetadataKeyInsulinDeliveryReason] as? Int {
 					value.kind = insulinReason == HKInsulinDeliveryReason.bolus.rawValue ? HKInsulinDeliveryReason.bolus.kind : HKInsulinDeliveryReason.basal.kind
 				} else if let mealTimeValue = metadata?[CHMetadataKeyBloodGlucoseMealTime] as? Int ?? metadata?[HKMetadataKeyBloodGlucoseMealTime] as? Int, let mealTime = CHBloodGlucoseMealTime(rawValue: mealTimeValue) {
-					value.kind = mealTime.kind.uppercased()
+					value.kind = mealTime.kind
 				}
 				value.wasUserEntered = (cumulative.metadata?[HKMetadataKeyWasUserEntered] as? Bool) ?? false
 				value.healthKitUUID = cumulative.uuid
@@ -34,7 +34,7 @@ extension HKSample {
 				if let insulinReason = metadata?[HKMetadataKeyInsulinDeliveryReason] as? Int {
 					value.kind = insulinReason == HKInsulinDeliveryReason.bolus.rawValue ? HKInsulinDeliveryReason.bolus.kind : HKInsulinDeliveryReason.basal.kind
 				} else if let mealTimeValue = metadata?[CHMetadataKeyBloodGlucoseMealTime] as? Int ?? metadata?[HKMetadataKeyBloodGlucoseMealTime] as? Int, let mealTime = CHBloodGlucoseMealTime(rawValue: mealTimeValue) {
-					value.kind = mealTime.kind.uppercased()
+					value.kind = mealTime.kind
 				}
 				value.wasUserEntered = (discreet.metadata?[HKMetadataKeyWasUserEntered] as? Bool) ?? false
 				value.healthKitUUID = discreet.uuid

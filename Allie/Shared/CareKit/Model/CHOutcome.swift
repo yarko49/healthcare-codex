@@ -9,39 +9,47 @@ import CareKitStore
 import Foundation
 import HealthKit
 
-public struct CHOutcome: Codable, AnyItemDeletable {
-	public let taskID: String
-	public let carePlanID: String
-	public var uuid: UUID
-	public var taskUUID: UUID
-	public var groupIdentifier: String?
-	public var remoteID: String?
-	public var notes: [OCKNote]?
-	public var asset: String?
-	public var source: String?
-	public var tags: [String]?
-	public var timezone: TimeZone
-	public var userInfo: [String: String]?
-	public var createdDate: Date
-	public var deletedDate: Date?
-	public var effectiveDate: Date
-	public var updatedDate: Date?
-	public let taskOccurrenceIndex: Int
-	public var values: [CHOutcomeValue]
-	public var startDate: Date?
-	public var endDate: Date?
-	public var device: CHDevice?
-	public var sourceRevision: CHSourceRevision?
-	public var provenance: CHProvenance?
-	public var isBluetoothCollected: Bool
+struct CHOutcome: Codable, Identifiable, AnyItemDeletable, AnyUserInfoExtensible {
+	var uuid: UUID
+	let taskUUID: UUID
+	let taskId: String
+	let carePlanId: String
+	var carePlanUUID: UUID?
+	var groupIdentifier: String?
+	var remoteId: String?
+	var notes: [OCKNote]?
+	var asset: String?
+	var source: String?
+	var tags: [String]?
+	var timezone: TimeZone
+	var userInfo: [String: String]?
+	var createdDate: Date
+	var deletedDate: Date?
+	var effectiveDate: Date
+	var updatedDate: Date?
+	let taskOccurrenceIndex: Int
+	var values: [CHOutcomeValue]
+	var startDate: Date?
+	var endDate: Date?
+	var device: CHDevice?
+	var sourceRevision: CHSourceRevision?
+	var provenance: CHProvenance?
+	var isBluetoothCollected: Bool
+	var healthKit: HealthKit?
+
+	struct HealthKit: Codable {
+		var quantityIdentifier: String
+		var sampleUUID: UUID
+	}
 
 	private enum CodingKeys: String, CodingKey {
-		case uuid
-		case taskUUID
-		case taskID = "taskId"
-		case carePlanID = "carePlanId"
+		case uuid = "id"
+		case taskId
+		case taskUUID = "taskLocalId"
+		case carePlanId
+		case carePlanUUID = "carePlanLocalId"
 		case groupIdentifier
-		case remoteID = "remoteId"
+		case remoteId
 		case notes
 		case asset
 		case source
@@ -60,15 +68,16 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 		case sourceRevision
 		case provenance
 		case isBluetoothCollected = "bluetoothCollected"
+		case healthKit
 	}
 
-	public var id: String { taskUUID.uuidString + "_\(taskOccurrenceIndex)" }
+	var id: String { taskUUID.uuidString + "_\(taskOccurrenceIndex)" }
 
-	public init(taskUUID: UUID, taskID: String, carePlanID: String, taskOccurrenceIndex: Int, values: [CHOutcomeValue]) {
+	init(taskUUID: UUID, taskID: String, carePlanID: String, taskOccurrenceIndex: Int, values: [CHOutcomeValue]) {
 		self.uuid = UUID()
 		self.taskUUID = taskUUID
-		self.taskID = taskID
-		self.carePlanID = carePlanID
+		self.taskId = taskID
+		self.carePlanId = carePlanID
 		self.taskOccurrenceIndex = taskOccurrenceIndex
 		self.values = values
 		self.createdDate = Date()
@@ -77,13 +86,16 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 		self.isBluetoothCollected = false
 	}
 
-	public init(from decoder: Decoder) throws {
+	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.uuid = try container.decodeIfPresent(UUID.self, forKey: .uuid) ?? UUID()
 		self.taskUUID = try container.decodeIfPresent(UUID.self, forKey: .taskUUID) ?? UUID()
-		self.remoteID = try container.decodeIfPresent(String.self, forKey: .remoteID) ?? ""
-		self.taskID = try container.decodeIfPresent(String.self, forKey: .taskID) ?? ""
-		self.carePlanID = try container.decodeIfPresent(String.self, forKey: .carePlanID) ?? ""
+		self.remoteId = try container.decodeIfPresent(String.self, forKey: .remoteId)
+		self.taskId = try container.decodeIfPresent(String.self, forKey: .taskId) ?? ""
+		self.carePlanId = try container.decodeIfPresent(String.self, forKey: .carePlanId) ?? ""
+		if let uuidString = try container.decodeIfPresent(String.self, forKey: .carePlanUUID), let uuid = UUID(uuidString: uuidString) {
+			self.carePlanUUID = uuid
+		}
 		self.taskOccurrenceIndex = try container.decodeIfPresent(Int.self, forKey: .taskOccurrenceIndex) ?? 0
 		self.values = try container.decodeIfPresent([CHOutcomeValue].self, forKey: .values) ?? []
 		self.createdDate = try container.decodeIfPresent(Date.self, forKey: .createdDate) ?? Date()
@@ -103,16 +115,18 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 		self.sourceRevision = try container.decodeIfPresent(CHSourceRevision.self, forKey: .sourceRevision)
 		self.isBluetoothCollected = try container.decodeIfPresent(Bool.self, forKey: .isBluetoothCollected) ?? false
 		self.provenance = try container.decodeIfPresent(CHProvenance.self, forKey: .provenance)
+		self.healthKit = try container.decodeIfPresent(HealthKit.self, forKey: .healthKit)
 	}
 
-	public func encode(to encoder: Encoder) throws {
+	func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(uuid, forKey: .uuid)
 		try container.encode(taskUUID, forKey: .taskUUID)
-		try container.encode(taskID, forKey: .taskID)
-		try container.encode(carePlanID, forKey: .carePlanID)
+		try container.encode(taskId, forKey: .taskId)
+		try container.encode(carePlanId, forKey: .carePlanId)
+		try container.encode(carePlanUUID, forKey: .carePlanUUID)
 		try container.encodeIfPresent(groupIdentifier, forKey: .groupIdentifier)
-		try container.encodeIfPresent(remoteID, forKey: .remoteID)
+		try container.encodeIfPresent(remoteId, forKey: .remoteId)
 		try container.encodeIfPresent(notes, forKey: .notes)
 		try container.encodeIfPresent(asset, forKey: .asset)
 		try container.encodeIfPresent(source, forKey: .source)
@@ -131,5 +145,6 @@ public struct CHOutcome: Codable, AnyItemDeletable {
 		try container.encodeIfPresent(sourceRevision, forKey: .sourceRevision)
 		try container.encode(isBluetoothCollected, forKey: .isBluetoothCollected)
 		try container.encodeIfPresent(provenance, forKey: .provenance)
+		try container.encodeIfPresent(healthKit, forKey: .healthKit)
 	}
 }
