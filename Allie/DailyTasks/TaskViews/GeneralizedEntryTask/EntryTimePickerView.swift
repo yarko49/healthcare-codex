@@ -1,5 +1,5 @@
 //
-//  TimeValueEntryView.swift
+//  EntryTimePickerView.swift
 //  Allie
 //
 //  Created by Waqar Malik on 7/7/21.
@@ -8,7 +8,7 @@
 import CareKitUI
 import UIKit
 
-class TimeValueEntryView: UIView {
+class EntryTimePickerView: UIView {
 	class var height: CGFloat {
 		45.0
 	}
@@ -51,8 +51,8 @@ class TimeValueEntryView: UIView {
 		datePicker.date
 	}
 
-	let labelEntry: LabeledTextEntryView = {
-		let view = LabeledTextEntryView(frame: .zero)
+	let labelEntry: EntryLabeledTextEntryView = {
+		let view = EntryLabeledTextEntryView(frame: .zero)
 		return view
 	}()
 

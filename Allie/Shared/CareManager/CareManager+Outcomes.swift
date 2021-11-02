@@ -122,10 +122,10 @@ extension CareManager {
 						return
 					}
 					if let theOutcome = hkOutcome {
-						let chOutcome = CHOutcome(hkOutcome: theOutcome, carePlanID: carePlanId, taskID: task.id)
+						let chOutcome = CHOutcome(hkOutcome: theOutcome, carePlanID: carePlanId, task: task)
 						chOutcomes.append(chOutcome)
 					} else if let theOutcome = ockOutcome {
-						let chOutcome = CHOutcome(outcome: theOutcome, carePlanID: carePlanId, taskID: task.id)
+						let chOutcome = CHOutcome(outcome: theOutcome, carePlanID: carePlanId, task: task)
 						chOutcomes.append(chOutcome)
 					}
 				}
@@ -181,7 +181,7 @@ extension CareManager {
 	}
 
 	func upload(outcome: OCKOutcome, task: OCKTask, carePlanId: String) {
-		let allieOutcome = CHOutcome(outcome: outcome, carePlanID: carePlanId, taskID: task.id)
+		let allieOutcome = CHOutcome(outcome: outcome, carePlanID: carePlanId, task: task)
 		networkAPI.post(outcomes: [allieOutcome])
 			.sink { completion in
 				switch completion {
@@ -352,10 +352,18 @@ extension CareManager {
 	}
 
 	func dbInsert(outcomes: [CHOutcome]) throws -> [MappedOutcome] {
-		let result = outcomes.compactMap { outcome in
-			try? dbInsert(outcome: outcome, shouldSave: false)
+		let result = outcomes.compactMap { outcome -> MappedOutcome? in
+			do {
+				let result = try dbInsert(outcome: outcome, shouldSave: false)
+				return result
+			} catch {
+				ALog.error("unable to insert outcome \(outcome)")
+				return nil
+			}
 		}
-		dbStore.saveContext()
+		if !result.isEmpty {
+			dbStore.saveContext()
+		}
 		return result
 	}
 

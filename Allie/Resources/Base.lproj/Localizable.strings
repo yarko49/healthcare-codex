@@ -146,14 +146,17 @@
 
 "INVALID_OPTION" = "Invalid option";
 
+/* Please select gender */
 "PLEASE_SELECT_GENDER" = "Please select gender";
 
 "FIELDS_CANNOT_BE_EMPTY" = "Fields cannot be empty";
 
 "INVALID_INPUT" = "invalid input";
 
+/* Select your smart Devices */
 "SELECT_DEVICES" = "Select your smart Devices";
 
+/* This allows Allie to collect your daily health data automatically,making it easy to track your health and provide the best care for you. We will always keep your data private and secure. */
 "SELECT_DEVICES_MESSAGE" = "This allows Allie to collect your daily health data automatically,making it easy to track your health and provide the best care for you. We will always keep your data private and secure.";
 
 "IMPORT_DATA" = "Activate Apple Health to import & export data that can help you track your healthier you.";
@@ -787,4 +790,46 @@
 
 /* Update Required */
 "UPDATE_REQUIRED" = "Update Required";
+
+/* Instructions */
+"INSTRUCTIONS" = "Instructions";
+
+/* Mild */
+"SYMPTOM_MILD" = "Mild";
+
+/* Moderate */
+"SYMPTOM_MODERATE" = "Moderate";
+
+/* Severe */
+"SYMPTOM_SEVERE" = "Severe";
+
+/* Select... */
+"SELECT" = "Select...";
+
+/* Select a Symptom */
+"SELECT_A_SYMPTOM" = "Select a Symptom";
+
+/* Error saving outcome! */
+"ERROR_SAVING_OUTCOME" = "Error saving outcome!";
+
+/* Invalid Context */
+"INVALID_CONTEXT" = "Invalid Context";
+
+/* Quantity Identifier */
+"INVALID_QUANTITY_IDENTIFIER" = "Invalid quantity identifier";
+
+/* Value of invalid type */
+"INVALID_VALUE_TYPE" = "Value of invalid type";
+
+/* Severity not selected */
+"SEVERITY_MISSING" = "Severity not selected";
+
+/* Task not supported */
+"TASK_NOT_SUPPORTED" = "Task not supported";
+
+/* Value missing */
+"VALUE_MISSING" = "Value missing";
+
+/* Value must be greater than 0 and less than 1000 */
+"VALUE_RANGE_INVALID" = "Value must be greater than 0 and less than 1000";
 

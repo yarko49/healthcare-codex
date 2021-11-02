@@ -9,7 +9,7 @@ import CareKit
 import CareKitUI
 import UIKit
 
-class GeneralizedLogItem: OCKAnimatedButton<OCKStackView> {
+class TaskLogItem: OCKAnimatedButton<OCKStackView> {
 	private enum Constants {
 		static let spacing: CGFloat = 3
 	}

@@ -52,21 +52,26 @@ class GeneralizedLogTaskDetailView: OCKStackView {
 			contentStackView.removeArrangedSubview(cell)
 		}
 		if cell == nil {
-			if identifier == SegmentedEntryView.reuseIdentifier {
-				cell = SegmentedEntryView(frame: .zero)
-				cell?.heightAnchor.constraint(equalToConstant: SegmentedEntryView.height).isActive = true
+			if identifier == EntrySegmentedView.reuseIdentifier {
+				cell = EntrySegmentedView(frame: .zero)
+				cell?.heightAnchor.constraint(equalToConstant: EntrySegmentedView.height).isActive = true
 				cell?.translatesAutoresizingMaskIntoConstraints = false
-				entryViews[SegmentedEntryView.reuseIdentifier] = cell
-			} else if identifier == TimeValueEntryView.reuseIdentifier {
-				cell = TimeValueEntryView(frame: .zero)
-				cell?.heightAnchor.constraint(equalToConstant: TimeValueEntryView.height).isActive = true
+				entryViews[EntrySegmentedView.reuseIdentifier] = cell
+			} else if identifier == EntryTimePickerView.reuseIdentifier {
+				cell = EntryTimePickerView(frame: .zero)
+				cell?.heightAnchor.constraint(equalToConstant: EntryTimePickerView.height).isActive = true
 				cell?.translatesAutoresizingMaskIntoConstraints = false
-				entryViews[TimeValueEntryView.reuseIdentifier] = cell
-			} else if identifier == MultiValueEntryView.reuseIdentifier {
-				cell = MultiValueEntryView(frame: .zero)
-				cell?.heightAnchor.constraint(equalToConstant: MultiValueEntryView.height).isActive = true
+				entryViews[EntryTimePickerView.reuseIdentifier] = cell
+			} else if identifier == EntryMultiValueEntryView.reuseIdentifier {
+				cell = EntryMultiValueEntryView(frame: .zero)
+				cell?.heightAnchor.constraint(equalToConstant: EntryMultiValueEntryView.height).isActive = true
 				cell?.translatesAutoresizingMaskIntoConstraints = false
-				entryViews[MultiValueEntryView.reuseIdentifier] = cell
+				entryViews[EntryMultiValueEntryView.reuseIdentifier] = cell
+			} else if identifier == EntryListPickerView.reuseIdentifier {
+				cell = EntryListPickerView(frame: .zero)
+				cell?.heightAnchor.constraint(equalToConstant: EntryListPickerView.height).isActive = true
+				cell?.translatesAutoresizingMaskIntoConstraints = false
+				entryViews[EntryListPickerView.reuseIdentifier] = cell
 			}
 		}
 		contentStackView.insertArrangedSubview(cell!, at: index)

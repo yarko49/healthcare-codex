@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol SegmentedEntryViewDelegate: AnyObject {
-	func segmentedEntryView(_ view: SegmentedEntryView, didSelectItem index: Int)
+protocol EntrySegmentedViewDelegate: AnyObject {
+	func segmentedEntryView(_ view: EntrySegmentedView, didSelectItem index: Int)
 }
 
-class SegmentedEntryView: UIView {
+class EntrySegmentedView: UIView {
 	class var height: CGFloat {
 		45.0
 	}
@@ -20,7 +20,22 @@ class SegmentedEntryView: UIView {
 		String(describing: self)
 	}
 
-	weak var delegate: SegmentedEntryViewDelegate?
+	weak var delegate: EntrySegmentedViewDelegate?
+	var selectedIndex: Int {
+		get {
+			segementedControl.selectedSegmentIndex
+		}
+		set {
+			segementedControl.selectedSegmentIndex = newValue
+		}
+	}
+
+	var selectedTitle: String? {
+		guard selectedIndex >= 0, selectedIndex < segementedControl.numberOfSegments else {
+			return nil
+		}
+		return segementedControl.titleForSegment(at: selectedIndex)
+	}
 
 	let segementedControl: UISegmentedControl = {
 		let view = UISegmentedControl(frame: .zero)

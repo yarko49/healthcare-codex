@@ -19,7 +19,7 @@ extension OCKHealthKitTask {
 		self.groupIdentifier = task.groupIdentifier
 		self.tags = task.tags
 		self.effectiveDate = task.effectiveDate
-		self.remoteID = task.remoteId
+		self.remoteID = task.remoteID
 		self.source = task.source
 		self.userInfo = task.userInfo
 		self.asset = task.asset

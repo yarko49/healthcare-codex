@@ -20,6 +20,13 @@ class EntryTaskSectionFooterView: UIView {
 
 	weak var delegate: EntryTaskSectionFooterViewDelegate?
 
+	var isSaveButtonEnabled: Bool = true {
+		didSet {
+			saveButton.backgroundColor = isSaveButtonEnabled ? .allieGray : .allieLightGray
+			saveButton.isEnabled = isSaveButtonEnabled
+		}
+	}
+
 	let stackView: UIStackView = {
 		let view = UIStackView(frame: .zero)
 		view.axis = .horizontal

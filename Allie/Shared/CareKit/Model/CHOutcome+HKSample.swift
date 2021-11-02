@@ -52,6 +52,7 @@ extension CHOutcome {
 		}
 		self.values = values
 		self.uuid = sample.uuid
+		groupIdentifier = task.groupIdentifier
 		createdDate = sample.startDate
 		updatedDate = sample.startDate
 		effectiveDate = task.effectiveDate

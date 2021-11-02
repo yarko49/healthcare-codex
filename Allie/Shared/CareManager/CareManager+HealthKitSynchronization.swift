@@ -65,6 +65,13 @@ extension CareManager {
 					if let contains = self?.inflightUploadIdentifiers.contains(identifier), contains {
 						continue
 					}
+					if let chTask = self?.tasks[task.id], let deletedDate = chTask.deletedDate {
+						let startDate = UserDefaults.standard[lastOutcomesUploadDate: identifier.rawValue]
+						if !deletedDate.shouldShow(for: startDate) {
+							continue
+						}
+					}
+
 					self?.inflightUploadIdentifiers.insert(identifier)
 					group.enter()
 					let operation = OutcomesUploadOperation(task: task, chunkSize: Constants.maximumUploadOutcomesPerCall, callbackQueue: callbackQueue) { operationResult in

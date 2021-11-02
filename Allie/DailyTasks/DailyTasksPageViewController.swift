@@ -126,14 +126,17 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				ALog.error("Fetching tasks for carePlans", error: error)
 			case .success(let tasks):
 				let filtered = tasks.filter { task in
-					if let ockTask = task as? OCKTask {
-						return !ockTask.shouldDelete
+					if let chTask = self.careManager.tasks[task.id] {
+						return chTask.shouldShow(for: date)
+					} else if let ockTask = task as? OCKTask {
+						return ockTask.shouldShow(for: date)
 					} else if let hkTask = task as? OCKHealthKitTask, let deletedDate = hkTask.deletedDate {
-						return !(deletedDate <= Date())
+						return deletedDate.shouldShow(for: date)
 					} else {
 						return true
 					}
 				}
+
 				let sorted = filtered.sorted { lhs, rhs in
 					guard let left = lhs as? AnyTaskExtensible, let right = rhs as? AnyTaskExtensible else {
 						return false
@@ -218,7 +221,10 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .symptoms:
-						break
+						let viewController = SymptomsLogViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						viewController.view.tintColor = .allieGray
+						viewController.controller.fetchAndObserveEvents(forTasks: [task], eventQuery: eventQuery)
+						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 					}
 				}
 			}

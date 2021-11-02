@@ -1,0 +1,38 @@
+[
+    {
+        "id": "97DD2D84-792B-4922-9290-E1CA0780666A",
+        "provenance": {
+            "bgmDeviceId": "",
+            "bgmSequenceNumber": 0,
+            "type": "",
+            "bgmDeviceName": "",
+            "bgmGlucoseRecordData": ""
+        },
+        "remoteId": "MkUPgJBbeaiLHJTILrMH",
+        "createdDate": "2021-10-29T00:22:55Z",
+        "updatedDate": "2021-10-29T00:22:55Z",
+        "taskOccurrenceIndex": 12,
+        "values": [
+            {
+                "createdDate": "2021-10-28T07:00:00Z",
+                "units": "",
+                "kind": "mild",
+                "type": "text",
+                "value": "Something worse",
+                "index": 0
+            }
+        ],
+        "carePlanId": "defaultCarePlan",
+        "taskLocalId": "28091A40-E1C8-47C6-A8E3-A79273907742",
+        "taskId": "something-bad",
+        "groupIdentifier": "SYMPTOMS",
+        "deletedDate": "9998-12-31T17:00:00Z",
+        "timezone": {
+            "identifier": "America\/Los_Angeles"
+        },
+        "carePlanLocalId": null,
+        "effectiveDate": "2021-10-29T00:22:55Z",
+        "userInfo": {},
+        "bluetoothCollected": false
+    }
+]

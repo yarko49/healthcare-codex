@@ -1,5 +1,5 @@
 //
-//  MultiValueEntryView.swift
+//  EntryMultiValueEntryView.swift
 //  Allie
 //
 //  Created by Waqar Malik on 7/7/21.
@@ -8,7 +8,7 @@
 import CareKitUI
 import UIKit
 
-class MultiValueEntryView: UIView {
+class EntryMultiValueEntryView: UIView {
 	class var height: CGFloat {
 		48.0
 	}
@@ -21,8 +21,8 @@ class MultiValueEntryView: UIView {
 		leadingEntryView.textField.text
 	}
 
-	let leadingEntryView: LabeledTextEntryView = {
-		let view = LabeledTextEntryView(frame: .zero)
+	let leadingEntryView: EntryLabeledTextEntryView = {
+		let view = EntryLabeledTextEntryView(frame: .zero)
 		view.textField.placeholder = "120"
 		view.textLabel.text = "mmHg"
 		return view
@@ -32,8 +32,8 @@ class MultiValueEntryView: UIView {
 		trailingEntryView.textField.text
 	}
 
-	let trailingEntryView: LabeledTextEntryView = {
-		let view = LabeledTextEntryView(frame: .zero)
+	let trailingEntryView: EntryLabeledTextEntryView = {
+		let view = EntryLabeledTextEntryView(frame: .zero)
 		view.textField.placeholder = "80"
 		view.textLabel.text = "mmHg"
 		return view

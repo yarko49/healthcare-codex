@@ -27,7 +27,7 @@ class TaskTests: XCTestCase {
 		XCTAssertNotNil(testData)
 		let task = try decoder.decode(CHTask.self, from: testData!)
 		XCTAssertEqual(task.id, "XXXX-SOME-UUID-ZZZZ")
-		XCTAssertEqual(task.remoteId, "XXXX-SOME-UUID-ZZZZ")
+		XCTAssertEqual(task.remoteID, "XXXX-SOME-UUID-ZZZZ")
 		XCTAssertEqual(task.title, "custom-3x-daily-finite-grid")
 		XCTAssertNotNil(task.scheduleElements)
 		XCTAssertEqual(task.scheduleElements.count, 1)

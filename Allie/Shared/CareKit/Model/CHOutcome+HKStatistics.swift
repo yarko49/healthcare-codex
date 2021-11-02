@@ -32,6 +32,7 @@ extension CHOutcome {
 		effectiveDate = task.effectiveDate
 		startDate = statistics.startDate
 		endDate = statistics.endDate
+		groupIdentifier = task.groupIdentifier
 		setHealthKit(sampleUUID: UUID(), quantityIdentifier: linkage.quantityIdentifier)
 	}
 }

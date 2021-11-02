@@ -12,6 +12,7 @@ import UIKit
 
 class ButtonLogTaskViewController: OCKTaskViewController<OCKButtonLogTaskController, ButtonLogTaskViewSynchronizer> {
 	var task: OCKTask?
+	var eventQuery = OCKEventQuery(for: Date())
 
 	override public init(controller: OCKButtonLogTaskController, viewSynchronizer: ButtonLogTaskViewSynchronizer) {
 		super.init(controller: controller, viewSynchronizer: viewSynchronizer)
@@ -19,19 +20,23 @@ class ButtonLogTaskViewController: OCKTaskViewController<OCKButtonLogTaskControl
 
 	override public init(viewSynchronizer: ButtonLogTaskViewSynchronizer, task: OCKAnyTask, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
 		self.task = task as? OCKTask
+		self.eventQuery = eventQuery
 		super.init(viewSynchronizer: viewSynchronizer, task: task, eventQuery: eventQuery, storeManager: storeManager)
 	}
 
 	override public init(viewSynchronizer: ButtonLogTaskViewSynchronizer, taskID: String, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
+		self.eventQuery = eventQuery
 		super.init(viewSynchronizer: viewSynchronizer, taskID: taskID, eventQuery: eventQuery, storeManager: storeManager)
 	}
 
 	public init(task: OCKAnyTask, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
 		self.task = task as? OCKTask
+		self.eventQuery = eventQuery
 		super.init(viewSynchronizer: .init(), task: task, eventQuery: eventQuery, storeManager: storeManager)
 	}
 
 	public init(taskID: String, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
+		self.eventQuery = eventQuery
 		super.init(viewSynchronizer: .init(), taskID: taskID, eventQuery: eventQuery, storeManager: storeManager)
 	}
 

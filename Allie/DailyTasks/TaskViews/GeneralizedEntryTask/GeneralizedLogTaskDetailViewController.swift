@@ -6,6 +6,7 @@
 //
 
 import CareKitStore
+import Combine
 import HealthKit
 import UIKit
 
@@ -16,6 +17,8 @@ enum GeneralizedEntryTaskError: Error {
 
 class GeneralizedLogTaskDetailViewController: UIViewController {
 	var healthKitSampleHandler: AllieHealthKitSampleHandler?
+	var outcomeValueHandler: AllieOutcomeValueHandler?
+
 	var cancelAction: AllieActionHandler?
 	var deleteAction: AllieActionHandler?
 
@@ -26,16 +29,25 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 
 	var outcome: CHOutcome?
 	var outcomeValue: OCKOutcomeValue?
-	var task: OCKHealthKitTask?
+	var outcomeIndex: Int?
+	var anyTask: OCKAnyTask?
+	var queryDate = Date()
+	var task: OCKTask? {
+		anyTask as? OCKTask
+	}
 
-	let headerView: EntryTaskSectionHeaderView = {
-		let view = EntryTaskSectionHeaderView(frame: .zero)
+	var healthKitTask: OCKHealthKitTask? {
+		anyTask as? OCKHealthKitTask
+	}
+
+	let headerView: TaskHeaderView = {
+		let view = TaskHeaderView(frame: .zero)
 		view.button.setImage(UIImage(systemName: "multiply"), for: .normal)
 		view.button.backgroundColor = .allieLighterGray
 		view.textLabel.text = "Insulin"
 		view.detailTextLabel.text = "Instructions"
 		view.imageView.image = UIImage(named: "icon-insulin")
-		view.heightAnchor.constraint(equalToConstant: EntryTaskSectionHeaderView.height).isActive = true
+		view.heightAnchor.constraint(equalToConstant: TaskHeaderView.height).isActive = true
 		return view
 	}()
 
@@ -49,6 +61,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 	private(set) var identifiers: [String] = []
 
 	private(set) lazy var numberFormatter = NumberFormatter.valueFormatter
+	private var cancellables: Set<AnyCancellable> = []
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -65,32 +78,44 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		footerView.translatesAutoresizingMaskIntoConstraints = false
 		footerView.delegate = self
 		entryTaskView.insertArrangedSubview(footerView, at: count)
-		configureView(task: task)
+		if let healthKitTask = healthKitTask {
+			configureView(healthKitTask: healthKitTask)
+		} else {
+			configureView(task: task)
+		}
+
+		registerSymptomPublisher()
+		if let exstingValue = outcomeValue?.stringValue, task?.groupIdentifierType == .symptoms {
+			selectedOutcome = exstingValue
+		}
 	}
 
 	private func addView(identifier: String, at index: Int) {
-		if identifier == SegmentedEntryView.reuseIdentifier {
-			let cell = entryTaskView.dequeueCell(identifier: identifier, at: index) as? SegmentedEntryView
+		if identifier == EntrySegmentedView.reuseIdentifier {
+			let cell = entryTaskView.dequeueCell(identifier: identifier, at: index) as? EntrySegmentedView
 			configure(segementedEntryView: cell)
-		} else if identifier == TimeValueEntryView.reuseIdentifier {
-			let cell = entryTaskView.dequeueCell(identifier: identifier, at: index) as? TimeValueEntryView
+		} else if identifier == EntryTimePickerView.reuseIdentifier {
+			let cell = entryTaskView.dequeueCell(identifier: identifier, at: index) as? EntryTimePickerView
 			configure(timeValueEntryView: cell)
-		} else if identifier == MultiValueEntryView.reuseIdentifier {
-			let cell = entryTaskView.dequeueCell(identifier: identifier, at: index) as? MultiValueEntryView
-			if task?.healthKitLinkage.quantityIdentifier == .bloodPressureDiastolic || task?.healthKitLinkage.quantityIdentifier == .bloodPressureSystolic {
+		} else if identifier == EntryMultiValueEntryView.reuseIdentifier {
+			let cell = entryTaskView.dequeueCell(identifier: identifier, at: index) as? EntryMultiValueEntryView
+			if healthKitTask?.healthKitLinkage.quantityIdentifier == .bloodPressureDiastolic || healthKitTask?.healthKitLinkage.quantityIdentifier == .bloodPressureSystolic {
 				configure(bloodPressureEntryView: cell)
 			} else {
 				configure(multiValueEntryView: cell)
 			}
+		} else if identifier == EntryListPickerView.reuseIdentifier {
+			let cell = entryTaskView.dequeueCell(identifier: identifier, at: index) as? EntryListPickerView
+			configure(listPickerView: cell)
 		}
 	}
 
-	private func configure(segementedEntryView cell: SegmentedEntryView?) {
+	private func configure(segementedEntryView cell: EntrySegmentedView?) {
 		guard let cell = cell else {
 			return
 		}
 		var titles: [String] = []
-		if task?.healthKitLinkage.quantityIdentifier == .insulinDelivery {
+		if healthKitTask?.healthKitLinkage.quantityIdentifier == .insulinDelivery {
 			let reasons = [HKInsulinDeliveryReason.bolus, HKInsulinDeliveryReason.basal]
 			titles = reasons.compactMap { reason in
 				reason.title
@@ -101,26 +126,31 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 				selectedIndex = index
 			}
 			cell.segementedControl.selectedSegmentIndex = selectedIndex
-		} else if task?.healthKitLinkage.quantityIdentifier == .bloodGlucose {
+		} else if healthKitTask?.healthKitLinkage.quantityIdentifier == .bloodGlucose {
 			let mealTimes = [CHBloodGlucoseMealTime.fasting, CHBloodGlucoseMealTime.preprandial, CHBloodGlucoseMealTime.postprandial]
 			titles = mealTimes.map { mealTime in
 				mealTime.title
 			}
 			cell.configure(titles: titles)
 			if let mealTime = outcomeValue?.bloodGlucoseMealTime, let index = mealTimes.firstIndex(of: mealTime) {
-				cell.segementedControl.selectedSegmentIndex = index
+				cell.selectedIndex = index
+			}
+		} else if let titles = task?.groupIdentifierType?.segmentTitles {
+			cell.configure(titles: titles)
+			if let value = outcomeValue?.kind, let severityType = CHOutcomeValueSeverityType(rawValue: value), let index = titles.firstIndex(of: severityType.title) {
+				cell.selectedIndex = index
 			}
 		}
 		cell.delegate = self
 	}
 
-	private func configure(timeValueEntryView cell: TimeValueEntryView?) {
+	private func configure(timeValueEntryView cell: EntryTimePickerView?) {
 		guard let cell = cell else {
 			return
 		}
 		cell.translatesAutoresizingMaskIntoConstraints = false
-		let unit = task?.healthKitLinkage.unit
-		let elements = task?.schedule.elements
+		let unit = healthKitTask?.healthKitLinkage.unit
+		let elements = healthKitTask?.schedule.elements
 		let targetValue = elements?.first?.targetValues.first
 		let placeholder = targetValue?.integerValue ?? 100
 		var value: String?
@@ -129,8 +159,8 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		} else if let doubleValue = outcomeValue?.doubleValue {
 			value = numberFormatter.string(from: NSNumber(value: doubleValue))
 		}
-		let date = outcomeValue?.createdDate ?? Date()
-		if task?.healthKitLinkage.quantityIdentifier == .bloodGlucose || task?.healthKitLinkage.quantityIdentifier == .bodyMass {
+		let date = outcomeValue?.createdDate ?? queryDate.byUpdatingTimeToNow
+		if healthKitTask?.healthKitLinkage.quantityIdentifier == .bloodGlucose || healthKitTask?.healthKitLinkage.quantityIdentifier == .bodyMass {
 			cell.keyboardType = .numberPad
 		}
 		cell.canEditValue = outcomeValue?.wasUserEntered ?? true
@@ -138,10 +168,10 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		cell.configure(placeHolder: placeHolderString, value: value, unitTitle: unit?.displayUnitSting ?? "", date: date, isActive: true)
 	}
 
-	private func configure(multiValueEntryView cell: MultiValueEntryView?) {
+	private func configure(multiValueEntryView cell: EntryMultiValueEntryView?) {
 		cell?.translatesAutoresizingMaskIntoConstraints = false
-		cell?.heightAnchor.constraint(equalToConstant: MultiValueEntryView.height).isActive = true
-		guard let targetValues = task?.schedule.elements.first?.targetValues else {
+		cell?.heightAnchor.constraint(equalToConstant: EntryMultiValueEntryView.height).isActive = true
+		guard let targetValues = healthKitTask?.schedule.elements.first?.targetValues else {
 			return
 		}
 		cell?.leadingEntryView.isHidden = true
@@ -162,10 +192,10 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		}
 	}
 
-	private func configure(bloodPressureEntryView cell: MultiValueEntryView?) {
+	private func configure(bloodPressureEntryView cell: EntryMultiValueEntryView?) {
 		cell?.translatesAutoresizingMaskIntoConstraints = false
-		cell?.heightAnchor.constraint(equalToConstant: MultiValueEntryView.height).isActive = true
-		guard let targetValues = task?.schedule.elements.first?.targetValues else {
+		cell?.heightAnchor.constraint(equalToConstant: EntryMultiValueEntryView.height).isActive = true
+		guard let targetValues = healthKitTask?.schedule.elements.first?.targetValues else {
 			return
 		}
 		cell?.leadingEntryView.isHidden = false
@@ -185,7 +215,54 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		}
 	}
 
-	private func configureView(task: OCKHealthKitTask?) {
+	@Published private var selectedOutcome: String? {
+		didSet {
+			let listPickerView = entryTaskView.entryView(forIdentifier: EntryListPickerView.reuseIdentifier) as? EntryListPickerView
+			listPickerView?.selectedValue = selectedOutcome
+		}
+	}
+
+	private func configure(listPickerView cell: EntryListPickerView?) {
+		cell?.delegate = self
+		cell?.selectedValue = selectedOutcome ?? outcomeValue?.stringValue ?? NSLocalizedString("SELECT", comment: "Select")
+	}
+
+	private func registerSymptomPublisher() {
+		guard let identifier = task?.groupIdentifierType, identifier == .symptoms else {
+			return
+		}
+		$selectedOutcome.map { value -> Bool in
+			guard let value = value else {
+				return false
+			}
+			return !value.isEmpty
+		}
+		.map { [weak self] enabled -> Bool in
+			guard self?.outcomeValue == nil else {
+				return true
+			}
+			return enabled
+		}
+		.assign(to: \.isSaveButtonEnabled, on: footerView)
+		.store(in: &cancellables)
+	}
+
+	private func configureView(task: OCKTask?) {
+		headerView.textLabel.text = task?.title
+		headerView.detailTextLabel.text = task?.instructions
+		headerView.imageView.image = task?.groupIdentifierType?.icon
+
+		guard let identifierType = task?.groupIdentifierType, let identifiers = identifierType.taskViews else {
+			return
+		}
+		self.identifiers = identifiers
+		for (index, identifier) in self.identifiers.enumerated() {
+			addView(identifier: identifier, at: index)
+		}
+		footerView.deleteButton.isHidden = outcomeValue == nil
+	}
+
+	private func configureView(healthKitTask task: OCKHealthKitTask?) {
 		headerView.textLabel.text = task?.title
 		headerView.detailTextLabel.text = task?.instructions
 		let dataType = task?.healthKitLinkage.quantityIdentifier.dataType
@@ -202,8 +279,8 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 	}
 
 	func createHealthKitSample() throws -> HKSample {
-		guard let quantityIdentifier = task?.healthKitLinkage.quantityIdentifier else {
-			throw GeneralizedEntryTaskError.missing("Quantity Identifier")
+		guard let quantityIdentifier = healthKitTask?.healthKitLinkage.quantityIdentifier else {
+			throw GeneralizedEntryTaskError.missing(NSLocalizedString("INVALID_QUANTITY_IDENTIFIER", comment: "Quantity Identifier"))
 		}
 
 		let sample: HKSample
@@ -216,22 +293,22 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		} else if quantityIdentifier == .bloodPressureDiastolic || quantityIdentifier == .bloodPressureSystolic {
 			sample = try createBloodPressureSample()
 		} else {
-			throw GeneralizedEntryTaskError.invalid("Quantity Identifier")
+			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("INVALID_QUANTITY_IDENTIFIER", comment: "Quantity Identifier"))
 		}
 		return sample
 	}
 
 	func createInsulinSample() throws -> HKSample {
-		guard let unitView = entryTaskView.entryView(forIdentifier: TimeValueEntryView.reuseIdentifier) as? TimeValueEntryView, let valueString = unitView.value, !valueString.isEmpty else {
+		guard let unitView = entryTaskView.entryView(forIdentifier: EntryTimePickerView.reuseIdentifier) as? EntryTimePickerView, let valueString = unitView.value, !valueString.isEmpty else {
 			throw GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))
 		}
 
-		guard let segementedView = entryTaskView.entryView(forIdentifier: SegmentedEntryView.reuseIdentifier) as? SegmentedEntryView else {
-			throw GeneralizedEntryTaskError.invalid("Invalid Context")
+		guard let segementedView = entryTaskView.entryView(forIdentifier: EntrySegmentedView.reuseIdentifier) as? EntrySegmentedView else {
+			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("INVALID_CONTEXT", comment: "Invalid Context"))
 		}
 
 		guard let value = numberFormatter.number(from: valueString)?.doubleValue, value > 0, value < 1000 else {
-			throw GeneralizedEntryTaskError.invalid("Value must be greater than 0 and less than 1000")
+			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("VALUE_RANGE_INVALID", comment: "Value must be greater than 0 and less than 1000"))
 		}
 
 		let date = unitView.date
@@ -242,16 +319,16 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 	}
 
 	func createBloodGlucoseSample() throws -> HKSample {
-		guard let unitView = entryTaskView.entryView(forIdentifier: TimeValueEntryView.reuseIdentifier) as? TimeValueEntryView, let valueString = unitView.value, !valueString.isEmpty else {
+		guard let unitView = entryTaskView.entryView(forIdentifier: EntryTimePickerView.reuseIdentifier) as? EntryTimePickerView, let valueString = unitView.value, !valueString.isEmpty else {
 			throw GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))
 		}
 
-		guard let segementedView = entryTaskView.entryView(forIdentifier: SegmentedEntryView.reuseIdentifier) as? SegmentedEntryView else {
-			throw GeneralizedEntryTaskError.invalid("Invalid Context")
+		guard let segementedView = entryTaskView.entryView(forIdentifier: EntrySegmentedView.reuseIdentifier) as? EntrySegmentedView else {
+			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("INVALID_CONTEXT", comment: "Invalid Context"))
 		}
 
 		guard let value = numberFormatter.number(from: valueString)?.intValue, value > 0, value < 1000 else {
-			throw GeneralizedEntryTaskError.invalid("Value must be greater than 0 and less than 1000")
+			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("VALUE_RANGE_INVALID", comment: "Value must be greater than 0 and less than 1000"))
 		}
 
 		let date = unitView.date
@@ -273,12 +350,12 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 	}
 
 	func createBodyMassSample() throws -> HKSample {
-		guard let unitView = entryTaskView.entryView(forIdentifier: TimeValueEntryView.reuseIdentifier) as? TimeValueEntryView, let valueString = unitView.value, !valueString.isEmpty else {
+		guard let unitView = entryTaskView.entryView(forIdentifier: EntryTimePickerView.reuseIdentifier) as? EntryTimePickerView, let valueString = unitView.value, !valueString.isEmpty else {
 			throw GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))
 		}
 
 		guard let value = numberFormatter.number(from: valueString)?.intValue, value > 0, value < 1000 else {
-			throw GeneralizedEntryTaskError.invalid("Value must be greater than 0 and less than 1000")
+			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("VALUE_RANGE_INVALID", comment: "Value must be greater than 0 and less than 1000"))
 		}
 
 		let quantity = HKQuantity(unit: HealthKitDataType.bodyMass.unit, doubleValue: Double(value))
@@ -293,15 +370,15 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 	}
 
 	func createBloodPressureSample() throws -> HKSample {
-		guard let view = entryTaskView.entryView(forIdentifier: MultiValueEntryView.reuseIdentifier) as? MultiValueEntryView, let lValueString = view.leadingValue, !lValueString.isEmpty, let tValueString = view.trailingValue, !tValueString.isEmpty else {
+		guard let view = entryTaskView.entryView(forIdentifier: EntryMultiValueEntryView.reuseIdentifier) as? EntryMultiValueEntryView, let lValueString = view.leadingValue, !lValueString.isEmpty, let tValueString = view.trailingValue, !tValueString.isEmpty else {
 			throw GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))
 		}
 
 		guard let systolic = numberFormatter.number(from: lValueString)?.intValue, let diastolic = numberFormatter.number(from: tValueString)?.intValue else {
-			throw GeneralizedEntryTaskError.invalid("Value of invalid type")
+			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("INVALID_VALUE_TYPE", comment: "Value of invalid type"))
 		}
 
-		let startDate = Date()
+		let startDate = outcomeValue?.createdDate ?? queryDate.byUpdatingTimeToNow
 		let endDate = startDate
 		let systolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureSystolic)!
 		let systolicQuantity = HKQuantity(unit: HKUnit.millimeterOfMercury(), doubleValue: Double(systolic))
@@ -335,16 +412,57 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		}
 		show(controller, sender: self)
 	}
-}
 
-extension GeneralizedLogTaskDetailViewController: EntryTaskSectionHeaderViewDelegate {
-	func entryTaskSectionHeaderViewDidSelectButton(_ view: EntryTaskSectionHeaderView) {
-		cancelAction?()
+	private func showSymptolSelectionAlert() {
+		guard let element = task?.schedule.elements.first else {
+			return
+		}
+		let titles = element.targetValues.compactMap { value in
+			value.stringValue
+		}
+		guard !titles.isEmpty else {
+			return
+		}
+		let title = NSLocalizedString("SELECT_A_SYMPTOM", comment: "Select a Symptom")
+		let actionSheet = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
+		for title in titles {
+			let alertAction = UIAlertAction(title: title, style: .default) { action in
+				self.selectedOutcome = action.title
+			}
+			actionSheet.addAction(alertAction)
+		}
+
+		let cancelAction = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"), style: .cancel) { _ in
+		}
+		actionSheet.addAction(cancelAction)
+
+		show(actionSheet, sender: self)
 	}
-}
 
-extension GeneralizedLogTaskDetailViewController: EntryTaskSectionFooterViewDelegate {
-	func entryTaskSectionFooterViewDidSelectSave(_ view: EntryTaskSectionFooterView) {
+	private func createOutcomeValue() throws -> OCKOutcomeValue {
+		guard let taskType = task?.groupIdentifierType, taskType == .symptoms else {
+			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("TASK_NOT_SUPPORTED", comment: "Task not supported"))
+		}
+		guard let value = selectedOutcome, !value.isEmpty else {
+			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("VALUE_MISSING", comment: "Value missing"))
+		}
+
+		guard let segementedView = entryTaskView.entryView(forIdentifier: EntrySegmentedView.reuseIdentifier) as? EntrySegmentedView else {
+			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("INVALID_CONTEXT", comment: "Invalid Context"))
+		}
+
+		guard let selectedTitle = segementedView.selectedTitle, let severityType = CHOutcomeValueSeverityType(title: selectedTitle) else {
+			throw GeneralizedEntryTaskError.missing(NSLocalizedString("SEVERITY_MISSING", comment: "Severity not selected"))
+		}
+
+		var newOutcomeValue = OCKOutcomeValue(value, units: nil)
+		newOutcomeValue.kind = severityType.rawValue
+		newOutcomeValue.wasUserEntered = true
+		newOutcomeValue.createdDate = outcomeValue?.createdDate ?? queryDate.byUpdatingTimeToNow
+		return newOutcomeValue
+	}
+
+	private func saveHealthKit() {
 		do {
 			let sample = try createHealthKitSample()
 			healthKitSampleHandler?(sample)
@@ -365,11 +483,54 @@ extension GeneralizedLogTaskDetailViewController: EntryTaskSectionFooterViewDele
 		}
 	}
 
+	func saveOutcomeValue() {
+		do {
+			let outcomeValue = try createOutcomeValue()
+			outcomeValueHandler?(outcomeValue)
+		} catch {
+			let title = NSLocalizedString("ERROR_SAVING_OUTCOME", comment: "Error saving outcome!")
+			var message: String?
+			var showSettings = false
+			switch error {
+			case GeneralizedEntryTaskError.missing(let errorMessage):
+				message = errorMessage
+			case GeneralizedEntryTaskError.invalid(let errorMessage):
+				message = errorMessage
+			default:
+				message = error.localizedDescription
+				showSettings = true
+			}
+			showAlert(title: title, message: message, showSettings: showSettings)
+		}
+	}
+}
+
+extension GeneralizedLogTaskDetailViewController: TaskHeaderViewDelegate {
+	func taskHeaderViewDidSelectButton(_ view: TaskHeaderView) {
+		cancelAction?()
+	}
+}
+
+extension GeneralizedLogTaskDetailViewController: EntryTaskSectionFooterViewDelegate {
+	func entryTaskSectionFooterViewDidSelectSave(_ view: EntryTaskSectionFooterView) {
+		if healthKitTask != nil {
+			saveHealthKit()
+		} else if task != nil {
+			saveOutcomeValue()
+		}
+	}
+
 	func entryTaskSectionFooterViewDidSelectDelete(_ view: EntryTaskSectionFooterView) {
 		deleteAction?()
 	}
 }
 
-extension GeneralizedLogTaskDetailViewController: SegmentedEntryViewDelegate {
-	func segmentedEntryView(_ view: SegmentedEntryView, didSelectItem index: Int) {}
+extension GeneralizedLogTaskDetailViewController: EntrySegmentedViewDelegate {
+	func segmentedEntryView(_ view: EntrySegmentedView, didSelectItem index: Int) {}
+}
+
+extension GeneralizedLogTaskDetailViewController: EntryListPickerViewDelegate {
+	func entryListPickerViewDidSelectShow(_ view: EntryListPickerView) {
+		showSymptolSelectionAlert()
+	}
 }

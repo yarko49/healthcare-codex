@@ -18,7 +18,7 @@ typealias CHPatients = [CHPatient]
 
 struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyItemDeletable, AnyUserInfoExtensible {
 	let id: String
-	var uuid: UUID?
+	var uuid = UUID()
 	var name: PersonNameComponents
 	var sex: OCKBiologicalSex?
 	var birthday: Date?
@@ -122,7 +122,7 @@ struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyItemDeleta
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
 		self.id = try container.decode(String.self, forKey: .id)
-		self.uuid = try container.decodeIfPresent(UUID.self, forKey: .uuid)
+		self.uuid = try container.decodeIfPresent(UUID.self, forKey: .uuid) ?? UUID()
 		self.name = try container.decode(PersonNameComponents.self, forKey: .name)
 		self.sex = try container.decodeIfPresent(OCKBiologicalSex.self, forKey: .sex)
 		self.birthday = try container.decodeIfPresent(Date.self, forKey: .birthday)

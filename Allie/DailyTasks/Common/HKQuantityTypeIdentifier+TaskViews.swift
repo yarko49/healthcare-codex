@@ -12,11 +12,11 @@ extension HKQuantityTypeIdentifier {
 	var taskViews: [String]? {
 		switch self {
 		case .bodyMass:
-			return [TimeValueEntryView.reuseIdentifier]
+			return [EntryTimePickerView.reuseIdentifier]
 		case .insulinDelivery, .bloodGlucose:
-			return [TimeValueEntryView.reuseIdentifier, SegmentedEntryView.reuseIdentifier]
+			return [EntryTimePickerView.reuseIdentifier, EntrySegmentedView.reuseIdentifier]
 		case .bloodPressureSystolic, .bloodPressureDiastolic:
-			return [MultiValueEntryView.reuseIdentifier]
+			return [EntryMultiValueEntryView.reuseIdentifier]
 		default:
 			return nil
 		}

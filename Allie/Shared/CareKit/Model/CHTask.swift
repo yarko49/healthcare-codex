@@ -17,7 +17,8 @@ struct CHBasicTask: Codable {
 	var carePlanId: String?
 }
 
-struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable {
+struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable, OCKAnyTask {
+	var uuid = UUID()
 	var carePlanId: String?
 	var id: String
 	var carePlanUUID: UUID?
@@ -40,7 +41,7 @@ struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable {
 	var schedule: OCKSchedule
 	var links: [CHLink]?
 
-	var remoteId: String {
+	var remoteID: String? {
 		id
 	}
 
@@ -55,8 +56,16 @@ struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable {
 		self.scheduleElements = []
 	}
 
+	public func belongs(to plan: OCKAnyCarePlan) -> Bool {
+		guard let plan = plan as? CHCarePlan else {
+			return false
+		}
+		return carePlanUUID == plan.uuid
+	}
+
 	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
+		self.uuid = try container.decodeIfPresent(UUID.self, forKey: .uuid) ?? UUID()
 		self.carePlanId = try container.decodeIfPresent(String.self, forKey: .carePlanId)
 		self.id = try container.decode(String.self, forKey: .id)
 		self.carePlanUUID = try container.decodeIfPresent(UUID.self, forKey: .carePlanUUID)
@@ -104,6 +113,7 @@ struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable {
 
 	func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encode(uuid, forKey: .uuid)
 		try container.encodeIfPresent(carePlanId, forKey: .carePlanId)
 		try container.encode(id, forKey: .id)
 		try container.encodeIfPresent(carePlanUUID, forKey: .carePlanUUID)
@@ -126,6 +136,7 @@ struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable {
 	}
 
 	private enum CodingKeys: String, CodingKey {
+		case uuid
 		case carePlanId
 		case id = "remoteId"
 		case carePlanUUID
