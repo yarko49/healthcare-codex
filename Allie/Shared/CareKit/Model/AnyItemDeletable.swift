@@ -11,6 +11,8 @@ import Foundation
 public protocol AnyItemDeletable {
 	var deletedDate: Date? { get set }
 	var effectiveDate: Date { get set }
+	var shouldDelete: Bool { get }
+	func shouldShow(for date: Date) -> Bool
 }
 
 public extension AnyItemDeletable {
@@ -20,6 +22,13 @@ public extension AnyItemDeletable {
 		}
 
 		return date <= Date()
+	}
+
+	func shouldShow(for date: Date) -> Bool {
+		guard let deletedDate = deletedDate else {
+			return true
+		}
+		return deletedDate.shouldShow(for: date)
 	}
 
 	var isActive: Bool {
@@ -45,5 +54,15 @@ extension Array where Element: AnyItemDeletable {
 		filter { element in
 			element.shouldDelete
 		}
+	}
+}
+
+extension Date {
+	func shouldShow(for date: Date) -> Bool {
+		if Calendar.current.isDate(self, inSameDayAs: date) {
+			return false
+		}
+
+		return self > date
 	}
 }

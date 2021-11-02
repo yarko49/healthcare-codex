@@ -23,6 +23,15 @@ let CHMetadataKeyCarehKitTaskUUID = "CHCarehKitTaskUUID"
 let CHMetadataKeyHealthKitQuantityIdentifier = "CHHealthKitQuantityIdentifier"
 let CHMetadataKeyCarePlanUUID = "CHCarePlanUUID"
 
+extension OCKAnyOutcome {
+	var groupIdentifierType: CHGroupIdentifierType? {
+		guard let groupIdentifier = groupIdentifier else {
+			return nil
+		}
+		return CHGroupIdentifierType(rawValue: groupIdentifier)
+	}
+}
+
 extension OCKOutcome: AnyUserInfoExtensible, AnyItemDeletable {
 	init(outcome: CHOutcome) {
 		let ockOutcomeValues = outcome.values.map { outcomeValue -> OCKOutcomeValue in
@@ -120,12 +129,12 @@ extension OCKOutcome: AnyUserInfoExtensible, AnyItemDeletable {
 }
 
 extension CHOutcome {
-	init(outcome: OCKOutcome, carePlanID: String, taskID: String) {
+	init(outcome: OCKOutcome, carePlanID: String, task: OCKAnyTask) {
 		let values = outcome.values.map { outcome in
 			CHOutcomeValue(ockOutcomeValue: outcome)
 		}
-		self.init(taskUUID: outcome.taskUUID, taskID: taskID, carePlanID: carePlanID, taskOccurrenceIndex: outcome.taskOccurrenceIndex, values: values)
-		groupIdentifier = outcome.groupIdentifier
+		self.init(taskUUID: outcome.taskUUID, taskID: task.id, carePlanID: carePlanID, taskOccurrenceIndex: outcome.taskOccurrenceIndex, values: values)
+		groupIdentifier = task.groupIdentifier
 		remoteId = outcome.remoteID
 		uuid = outcome.uuid
 		notes = outcome.notes

@@ -24,7 +24,14 @@ protocol AnyTaskExtensible: AnyUserInfoExtensible {
 	var links: [CHLink]? { get set }
 }
 
-extension OCKAnyTask {}
+extension OCKAnyTask {
+	var groupIdentifierType: CHGroupIdentifierType? {
+		guard let groupIdentifier = groupIdentifier else {
+			return nil
+		}
+		return CHGroupIdentifierType(rawValue: groupIdentifier)
+	}
+}
 
 extension OCKTask: AnyTaskExtensible, AnyItemDeletable {}
 
@@ -45,7 +52,7 @@ extension OCKTask {
 		}
 		self.effectiveDate = task.effectiveDate
 		self.updatedDate = task.updatedDate
-		self.remoteID = task.remoteId
+		self.remoteID = task.remoteID
 		self.source = task.source
 		self.userInfo = task.userInfo
 		self.asset = task.asset

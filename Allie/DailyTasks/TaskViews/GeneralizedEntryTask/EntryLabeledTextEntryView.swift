@@ -1,5 +1,5 @@
 //
-//  LabeledTextEntryView.swift
+//  EntryLabeledTextEntryView.swift
 //  Allie
 //
 //  Created by Waqar Malik on 7/7/21.
@@ -8,7 +8,7 @@
 import CareKitUI
 import UIKit
 
-class LabeledTextEntryView: UIView {
+class EntryLabeledTextEntryView: UIView {
 	let stackView: OCKStackView = {
 		let view = OCKStackView()
 		view.axis = .horizontal

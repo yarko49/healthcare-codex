@@ -12,16 +12,19 @@ import UIKit
 
 class SimpleTaskViewController: OCKTaskViewController<SimpleTaskController, SimpleTaskViewSynchronizer> {
 	var task: OCKTask?
+	var eventQuery = OCKEventQuery(for: Date())
 
 	override init(controller: SimpleTaskController, viewSynchronizer: SimpleTaskViewSynchronizer) {
 		super.init(controller: controller, viewSynchronizer: viewSynchronizer)
 	}
 
 	override init(viewSynchronizer: SimpleTaskViewSynchronizer, task: OCKAnyTask, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
+		self.eventQuery = eventQuery
 		super.init(viewSynchronizer: viewSynchronizer, task: task, eventQuery: eventQuery, storeManager: storeManager)
 	}
 
 	override init(viewSynchronizer: SimpleTaskViewSynchronizer, taskID: String, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
+		self.eventQuery = eventQuery
 		super.init(viewSynchronizer: viewSynchronizer, taskID: taskID, eventQuery: eventQuery, storeManager: storeManager)
 	}
 
@@ -29,10 +32,12 @@ class SimpleTaskViewController: OCKTaskViewController<SimpleTaskController, Simp
 		self.task = task as? OCKTask
 		let synchronizer = SimpleTaskViewSynchronizer()
 		synchronizer.task = task
+		self.eventQuery = eventQuery
 		super.init(viewSynchronizer: synchronizer, task: task, eventQuery: eventQuery, storeManager: storeManager)
 	}
 
 	init(taskID: String, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
+		self.eventQuery = eventQuery
 		super.init(viewSynchronizer: .init(), taskID: taskID, eventQuery: eventQuery, storeManager: storeManager)
 	}
 

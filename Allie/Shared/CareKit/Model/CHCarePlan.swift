@@ -10,10 +10,13 @@ import Foundation
 
 typealias CHCarePlans = [CHCarePlan]
 
-struct CHCarePlan: Codable, Identifiable, AnyItemDeletable {
+struct CHCarePlan: Codable, Identifiable, AnyItemDeletable, OCKAnyCarePlan {
+	/// The UUID of the patient to whom this care plan belongs.
+	var patientUUID: UUID?
 	var id: String
 	var uuid: UUID?
 	var title: String
+	var groupIdentifier: String?
 	var patientId: String?
 	var timezone: TimeZone
 	var createdDate: Date
@@ -24,8 +27,8 @@ struct CHCarePlan: Codable, Identifiable, AnyItemDeletable {
 	var tags: [String]?
 	var source: String?
 	var userInfo: [String: String]?
-
-	var remoteId: String {
+	var notes: [OCKNote]?
+	var remoteID: String? {
 		id
 	}
 
@@ -65,6 +68,8 @@ struct CHCarePlan: Codable, Identifiable, AnyItemDeletable {
 		self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
 		self.source = try container.decodeIfPresent(String.self, forKey: .source)
 		self.userInfo = try container.decodeIfPresent([String: String].self, forKey: .userInfo)
+		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)
+		self.notes = try container.decodeIfPresent([OCKNote].self, forKey: .notes)
 	}
 
 	func encode(to encoder: Encoder) throws {
@@ -82,5 +87,14 @@ struct CHCarePlan: Codable, Identifiable, AnyItemDeletable {
 		try container.encodeIfPresent(userInfo, forKey: .userInfo)
 		try container.encodeIfPresent(createdDate, forKey: .createdDate)
 		try container.encodeIfPresent(updatedDate, forKey: .updatedDate)
+		try container.encodeIfPresent(groupIdentifier, forKey: .groupIdentifier)
+		try container.encodeIfPresent(notes, forKey: .notes)
+	}
+
+	public func belongs(to patient: OCKAnyPatient) -> Bool {
+		guard let other = patient as? CHPatient else {
+			return false
+		}
+		return patientUUID == other.uuid
 	}
 }

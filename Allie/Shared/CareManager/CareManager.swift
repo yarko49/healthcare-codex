@@ -26,12 +26,12 @@ class CareManager: NSObject, ObservableObject {
 	private(set) lazy var healthKitStore: OCKHealthKitPassthroughStore = {
 		let healthKitStore = OCKHealthKitPassthroughStore(store: store)
 		healthKitStore.samplesToOutcomesValueMapper = { samples, task in
-			var outcomes: [OCKOutcomeValue] = []
+			var outcomeValues: [OCKOutcomeValue] = []
 			samples.forEach { sample in
 				let values = sample.outcomeValues(task: task)
-				outcomes.append(contentsOf: values)
+				outcomeValues.append(contentsOf: values)
 			}
-			return outcomes
+			return outcomeValues
 		}
 		return healthKitStore
 	}()
@@ -208,7 +208,7 @@ extension CareManager {
 			let activePatient = carePlanResponse.patients.active.first
 			if let patient = activePatient {
 				let thePatient = self?.syncProcess(patient: patient, queue: queue)
-				ALog.info("patient id \(String(describing: thePatient?.id)), patient uuid = \(String(describing: thePatient?.uuid?.uuidString))")
+				ALog.info("patient id \(String(describing: thePatient?.id)), patient uuid = \(String(describing: thePatient?.uuid.uuidString))")
 				self?.patient = thePatient
 				if thePatient == nil {
 					result = OCKStoreError.updateFailed(reason: "Unable to update Patient")

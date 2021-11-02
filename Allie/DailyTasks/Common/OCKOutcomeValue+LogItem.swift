@@ -44,4 +44,12 @@ extension OCKOutcomeValue {
 	var bloodGlucoseMealTime: CHBloodGlucoseMealTime? {
 		CHBloodGlucoseMealTime(kind: kind ?? "")
 	}
+
+	var symptomTitle: String? {
+		guard let kind = kind, let severityType = CHOutcomeValueSeverityType(rawValue: kind) else {
+			return nil
+		}
+
+		return (stringValue ?? "") + " " + severityType.title
+	}
 }

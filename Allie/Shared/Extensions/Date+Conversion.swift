@@ -31,4 +31,13 @@ extension Date {
 		// 4) Finally, create a date using the seconds offset since 1970 for the local date.
 		return Date(timeIntervalSince1970: timezoneEpochOffset)
 	}
+
+	var byUpdatingTimeToNow: Date {
+		let components = Calendar.current.dateComponents([.year, .month, .day], from: self)
+		var nowComponents = Calendar.current.dateComponents(in: .current, from: Date())
+		nowComponents.day = components.day
+		nowComponents.month = components.month
+		nowComponents.year = components.year
+		return nowComponents.date ?? Date()
+	}
 }

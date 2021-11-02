@@ -13,32 +13,38 @@ import HealthKit
 import UIKit
 
 typealias AllieHealthKitSampleHandler = (HKSample) -> Void
+typealias AllieOutcomeValueHandler = (OCKOutcomeValue) -> Void
 
 class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTaskController, GeneralizedLogTaskViewSynchronizer> {
 	private var cancellables: Set<AnyCancellable> = []
 	@Injected(\.careManager) var careManager: CareManager
 	@Injected(\.healthKitManager) var healthKitStore: HealthKitManager
+	var eventQuery = OCKEventQuery(for: Date())
 
 	override public init(controller: GeneralizedLogTaskController, viewSynchronizer: GeneralizedLogTaskViewSynchronizer) {
 		super.init(controller: controller, viewSynchronizer: viewSynchronizer)
 	}
 
 	override public init(viewSynchronizer: GeneralizedLogTaskViewSynchronizer, task: OCKAnyTask, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
+		self.eventQuery = eventQuery
 		super.init(viewSynchronizer: viewSynchronizer, task: task, eventQuery: eventQuery, storeManager: storeManager)
 	}
 
 	override public init(viewSynchronizer: GeneralizedLogTaskViewSynchronizer, taskID: String, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
+		self.eventQuery = eventQuery
 		super.init(viewSynchronizer: viewSynchronizer, taskID: taskID, eventQuery: eventQuery, storeManager: storeManager)
 	}
 
 	public init(task: OCKAnyTask, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
 		let synchronizer = GeneralizedLogTaskViewSynchronizer()
 		synchronizer.task = task
+		self.eventQuery = eventQuery
 		super.init(viewSynchronizer: synchronizer, task: task, eventQuery: eventQuery, storeManager: storeManager)
 	}
 
 	public init(taskID: String, eventQuery: OCKEventQuery, storeManager: OCKSynchronizedStoreManager) {
 		let synchronizer = GeneralizedLogTaskViewSynchronizer()
+		self.eventQuery = eventQuery
 		super.init(viewSynchronizer: synchronizer, taskID: taskID, eventQuery: eventQuery, storeManager: storeManager)
 	}
 
@@ -83,7 +89,8 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 			return
 		}
 		let viewController = GeneralizedLogTaskDetailViewController()
-		viewController.task = task
+		viewController.queryDate = eventQuery.dateInterval.start
+		viewController.anyTask = task
 		viewController.outcomeValue = value
 		if let uuid = value?.healthKitUUID {
 			viewController.outcome = try? careManager.dbFindFirstOutcome(sampleId: uuid)
@@ -132,7 +139,7 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 		}
 
 		viewController.deleteAction = { [weak self, weak viewController] in
-			guard let outcomeValue = viewController?.outcomeValue, let task = viewController?.task else {
+			guard let outcomeValue = viewController?.outcomeValue, let task = viewController?.healthKitTask else {
 				viewController?.dismiss(animated: true, completion: nil)
 				return
 			}

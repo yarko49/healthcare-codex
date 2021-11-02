@@ -8,11 +8,11 @@
 import CareKitUI
 import UIKit
 
-protocol EntryTaskSectionHeaderViewDelegate: AnyObject {
-	func entryTaskSectionHeaderViewDidSelectButton(_ view: EntryTaskSectionHeaderView)
+protocol TaskHeaderViewDelegate: AnyObject {
+	func taskHeaderViewDidSelectButton(_ view: TaskHeaderView)
 }
 
-class EntryTaskSectionHeaderView: UIView {
+class TaskHeaderView: UIView {
 	class var height: CGFloat {
 		75.0 + 8.0
 	}
@@ -22,7 +22,7 @@ class EntryTaskSectionHeaderView: UIView {
 		commonInit()
 	}
 
-	weak var delegate: EntryTaskSectionHeaderViewDelegate?
+	weak var delegate: TaskHeaderViewDelegate?
 
 	@available(*, unavailable)
 	required init?(coder: NSCoder) {
@@ -109,6 +109,6 @@ class EntryTaskSectionHeaderView: UIView {
 	}
 
 	@objc func buttonAction(_ sender: Any?) {
-		delegate?.entryTaskSectionHeaderViewDidSelectButton(self)
+		delegate?.taskHeaderViewDidSelectButton(self)
 	}
 }

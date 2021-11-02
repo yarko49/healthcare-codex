@@ -9,10 +9,11 @@
 import CoreData
 import XCTest
 
-class SQLiteTests: XCTestCase {
+class CoreDataTests: XCTestCase {
 	@Injected(\.careManager) var careManger: CareManager
 	var uploadedOutcomes: [CHOutcome] = []
 	var downlaodedOutcomes: [CHOutcome] = []
+	var symptomsUploaded: [CHOutcome] = []
 
 	override func setUpWithError() throws {
 		// Put setup code here. This method is called before the invocation of each test method in the class.
@@ -21,6 +22,9 @@ class SQLiteTests: XCTestCase {
 
 		let upaloded = try AllieTests.loadTestData(fileName: "UploadOutcomes", withExtension: "json")
 		uploadedOutcomes = try CHJSONDecoder().decode([CHOutcome].self, from: upaloded)
+
+		let symptom = try AllieTests.loadTestData(fileName: "SymptomOutcomeUploaded", withExtension: "json")
+		symptomsUploaded = try CHJSONDecoder().decode([CHOutcome].self, from: symptom)
 	}
 
 	override func tearDownWithError() throws {
@@ -116,6 +120,32 @@ class SQLiteTests: XCTestCase {
 
 		XCTAssertEqual(outcome!.uuid, first!.uuid)
 		XCTAssertEqual(outcome!.healthKit?.sampleUUID, first!.healthKit?.sampleUUID)
+		XCTAssertEqual(outcome!.remoteId, first!.remoteId)
+		XCTAssertEqual(outcome!.taskId, first!.taskId)
+		XCTAssertEqual(outcome!.createdDate, first!.createdDate)
+		XCTAssertEqual(outcome!.updatedDate, first!.updatedDate)
+	}
+
+	func testReadSymptomUploaded() throws {
+		let first = symptomsUploaded.first
+		XCTAssertNotNil(first)
+		let result = try careManger.dbInsert(outcome: first!)
+		XCTAssertNotNil(result)
+		XCTAssertNotNil(result!.uuid)
+		XCTAssertNil(result!.sampleId)
+		XCTAssertNotNil(result!.createdDate)
+		XCTAssertNotNil(result!.updatedDate)
+		XCTAssertNotNil(result!.remoteId)
+		XCTAssertNotNil(result!.taskId)
+		XCTAssertNotNil(result!.value)
+		XCTAssertNotEqual(result!.remoteId, "")
+
+		let uuid = first?.uuid
+		XCTAssertNotNil(uuid)
+		let outcome = try careManger.dbFindFirstOutcome(uuid: uuid!)
+		XCTAssertNotNil(outcome)
+
+		XCTAssertEqual(outcome!.uuid, first!.uuid)
 		XCTAssertEqual(outcome!.remoteId, first!.remoteId)
 		XCTAssertEqual(outcome!.taskId, first!.taskId)
 		XCTAssertEqual(outcome!.createdDate, first!.createdDate)
