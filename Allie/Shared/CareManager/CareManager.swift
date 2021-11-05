@@ -36,11 +36,11 @@ class CareManager: NSObject, ObservableObject {
 		return healthKitStore
 	}()
 
-	private(set) lazy var synchronizedStoreManager: CHSynchronizedStoreManager = {
+	private(set) lazy var synchronizedStoreManager: OCKSynchronizedStoreManager = {
 		let coordinator = OCKStoreCoordinator()
 		coordinator.attach(eventStore: healthKitStore)
 		coordinator.attach(store: store)
-		let manager = CHSynchronizedStoreManager(wrapping: coordinator)
+		let manager = OCKSynchronizedStoreManager(wrapping: coordinator)
 		return manager
 	}()
 

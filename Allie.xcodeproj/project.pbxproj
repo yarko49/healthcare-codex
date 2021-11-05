@@ -52,9 +52,6 @@
 		840D69A4271E98DC00473045 /* SimpleTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D69A3271E98DC00473045 /* SimpleTaskController.swift */; };
 		840D69A5271E98DC00473045 /* SimpleTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D69A3271E98DC00473045 /* SimpleTaskController.swift */; };
 		840D69A6271E98DC00473045 /* SimpleTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D69A3271E98DC00473045 /* SimpleTaskController.swift */; };
-		841418F326BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */; };
-		841418F426BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */; };
-		841418F526BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */; };
 		841418F726BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */; };
 		841418F826BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */; };
 		841418F926BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */; };
@@ -1103,7 +1100,6 @@
 		840D699A271E977000473045 /* SimpleTaskViewSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTaskViewSynchronizer.swift; sourceTree = "<group>"; };
 		840D699F271E985F00473045 /* SimpleTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTaskView.swift; sourceTree = "<group>"; };
 		840D69A3271E98DC00473045 /* SimpleTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTaskController.swift; sourceTree = "<group>"; };
-		841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHSynchronizedStoreManager.swift; sourceTree = "<group>"; };
 		841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHOutcome+OCKHealthKitOutcome.swift"; sourceTree = "<group>"; };
 		841640A82627D1C3000903AF /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		841640C42627D714000903AF /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
@@ -1686,7 +1682,6 @@
 				84B973A026EDD3A10094B35C /* CareManager+Tasks.swift */,
 				84B9739426EDD2230094B35C /* CareManager+Outcomes.swift */,
 				84C212A02660B3AC000D491B /* CareManager+FeatureContent.swift */,
-				841418F226BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift */,
 				84A8F50326B76AE700A62818 /* InflightIdentifiers.swift */,
 				840BC7422723CB0400C7EE7E /* CoreData */,
 			);
@@ -3309,7 +3304,6 @@
 				84476731259C2A4E00C50C09 /* EmailSignInButton.swift in Sources */,
 				845FBE9725FC87D700472257 /* ObservationFactory.swift in Sources */,
 				84D84ADF269945B3007BE781 /* TaskHeaderView.swift in Sources */,
-				841418F326BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3653,7 +3647,6 @@
 				8497045F26B124C2006E2D51 /* BloodGlucoseSampleType.swift in Sources */,
 				847DCCAF265871F3004E9C1D /* ObservationFactory.swift in Sources */,
 				84D84AE1269945B3007BE781 /* TaskHeaderView.swift in Sources */,
-				841418F526BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3961,7 +3954,6 @@
 				8497045E26B124C2006E2D51 /* BloodGlucoseSampleType.swift in Sources */,
 				84D122DA264112DE00990196 /* ObservationFactory.swift in Sources */,
 				84D84AE0269945B3007BE781 /* TaskHeaderView.swift in Sources */,
-				841418F426BD0D4B006FD6DE /* CHSynchronizedStoreManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4173,7 +4165,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4202,7 +4194,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4327,7 +4319,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4356,7 +4348,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4385,7 +4377,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4414,7 +4406,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
