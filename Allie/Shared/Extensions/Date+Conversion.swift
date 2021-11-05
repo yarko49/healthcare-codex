@@ -33,11 +33,20 @@ extension Date {
 	}
 
 	var byUpdatingTimeToNow: Date {
-		let components = Calendar.current.dateComponents([.year, .month, .day], from: self)
-		var nowComponents = Calendar.current.dateComponents(in: .current, from: Date())
-		nowComponents.day = components.day
-		nowComponents.month = components.month
-		nowComponents.year = components.year
-		return nowComponents.date ?? Date()
+		dateByMatching(matchingTime: Date())
+	}
+
+	static func dateByMatching(date: Date, matchingTime toDate: Date) -> Date {
+		let calendar = Calendar.current
+		let days = calendar.dateComponents([.day], from: toDate, to: date)
+		let updatedDate = calendar.date(byAdding: .day, value: days.day!, to: toDate)
+		return updatedDate ?? date
+	}
+
+	func dateByMatching(matchingTime toDate: Date) -> Date {
+		let calendar = Calendar.current
+		let days = calendar.dateComponents([.day], from: toDate, to: self)
+		let updatedDate = calendar.date(byAdding: .day, value: days.day!, to: toDate)
+		return updatedDate ?? self
 	}
 }

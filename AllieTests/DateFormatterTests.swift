@@ -44,4 +44,17 @@ class DateFormatterTests: XCTestCase {
 		ALog.info("\(startOfday)")
 		ALog.info("\(String(describing: weekAgo))")
 	}
+
+	func testOlderDate() throws {
+		let today = Date()
+		ALog.info("\(today)")
+		let startOfday = Calendar.current.startOfDay(for: today)
+		let date = Calendar.current.date(byAdding: .day, value: -1, to: startOfday)!
+		let updateDate = Date.dateByMatching(date: date, matchingTime: today)
+		ALog.info("\(updateDate)")
+		let newDate = date.dateByMatching(matchingTime: today)
+		ALog.info("\(newDate)")
+		let another = date.byUpdatingTimeToNow
+		ALog.info("\(another)")
+	}
 }

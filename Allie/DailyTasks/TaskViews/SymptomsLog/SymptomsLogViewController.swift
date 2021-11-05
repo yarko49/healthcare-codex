@@ -167,6 +167,8 @@ class SymptomsLogViewController: OCKTaskViewController<SymptomsLogTaskController
 				ockOutcome.values = [newOutcomeValue]
 				var chOutcome = CHOutcome(outcome: ockOutcome, carePlanID: carePlanId, task: task)
 				chOutcome.remoteId = nil
+				chOutcome.createdDate = newOutcomeValue.createdDate
+				chOutcome.effectiveDate = newOutcomeValue.createdDate
 				strongSelf.careManager.upload(outcomes: [chOutcome]) { uploadResult in
 					switch uploadResult {
 					case .failure(let error):
@@ -195,6 +197,8 @@ class SymptomsLogViewController: OCKTaskViewController<SymptomsLogTaskController
 				chOutcome.deletedDate = Date()
 				if let existing = try? strongSelf.careManager.dbFindFirstOutcome(uuid: outcome.uuid) {
 					chOutcome.remoteId = existing.remoteId
+					chOutcome.createdDate = existing.createdDate
+					chOutcome.effectiveDate = existing.effectiveDate
 				}
 
 				strongSelf.careManager.upload(outcomes: [chOutcome]) { uploadResult in
@@ -232,6 +236,8 @@ class SymptomsLogViewController: OCKTaskViewController<SymptomsLogTaskController
 				updated.values = [value]
 				var chOutcome = CHOutcome(outcome: updated, carePlanID: carePlanId, task: task)
 				chOutcome.updatedDate = Date()
+				chOutcome.createdDate = value.createdDate
+				chOutcome.effectiveDate = value.createdDate
 				if let existing = try? strongSelf.careManager.dbFindFirstOutcome(uuid: outcome.uuid) {
 					chOutcome.remoteId = existing.remoteId
 				}
