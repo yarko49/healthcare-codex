@@ -159,8 +159,8 @@ class SelectProviderViewController: UICollectionViewController {
 		}
 
 		let webViewController = WebAuthenticationViewController()
-		webViewController.url = authURL
-		webViewController.organization = organization
+		webViewController.authURL = authURL
+		webViewController.cloudEntity = organization
 		webViewController.delegate = self
 		let navController = UINavigationController(rootViewController: webViewController)
 		navigationController?.show(navController, sender: self)
@@ -241,7 +241,7 @@ extension SelectProviderViewController: WebAuthenticationViewControllerDelegate 
 
 	func webAuthenticationViewController(_ controller: WebAuthenticationViewController, didFinsihWith token: String?, state: String?) {
 		controller.dismiss(animated: true) { [weak self] in
-			guard let token = token, let organization = controller.organization else {
+			guard let token = token, let organization = controller.cloudEntity as? CHOrganization else {
 				return
 			}
 			self?.register(token: token, state: state, organization: organization)

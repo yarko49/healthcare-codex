@@ -39,10 +39,10 @@ struct CHCarePlanResponse: Codable {
 		self.patients = patients.filter { patient in
 			!patient.id.isEmpty
 		}
-		let decodedTasks = container.safelyDecodeArray(of: CHTask.self, alternate: CHBasicTask.self, forKey: .tasks)
-		self.tasks = decodedTasks.0
-		if !decodedTasks.1.isEmpty {
-			self.faultyTasks = decodedTasks.1
+		let (validTasks, faultyTasks) = container.safelyDecodeArray(of: CHTask.self, alternate: CHBasicTask.self, forKey: .tasks)
+		self.tasks = validTasks
+		if !faultyTasks.isEmpty {
+			self.faultyTasks = faultyTasks
 		}
 		self.tasks = tasks.filter { task in
 			if task.groupIdentifier == "LINK", task.links == nil {

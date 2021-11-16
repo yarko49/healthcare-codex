@@ -307,13 +307,23 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("INVALID_CONTEXT", comment: "Invalid Context"))
 		}
 
-		guard let value = numberFormatter.number(from: valueString)?.doubleValue, value > 0, value < 1000 else {
-			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("VALUE_RANGE_INVALID", comment: "Value must be greater than 0 and less than 1000"))
+		guard let value = numberFormatter.number(from: valueString)?.doubleValue else {
+			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("VALUE_NOT_VALID", comment: "Value is not a valid."))
+		}
+
+		let selectedIndex = segementedView.segementedControl.selectedSegmentIndex
+		let reason: HKInsulinDeliveryReason = selectedIndex == 0 ? .bolus : .basal
+		let valueRange = reason.valueRange
+		guard value > valueRange.lowerBound, value <= valueRange.upperBound else {
+			let message = NSLocalizedString("VALUE_RANGE_INVALID_VALUES_GREATER", comment: "Value must be greater than") +
+				" \(Int(valueRange.lowerBound)) " +
+				NSLocalizedString("VALUE_RANGE_INVALID_VALUES_LESS", comment: "and less than or equal to") +
+				" \(Int(valueRange.upperBound))."
+
+			throw GeneralizedEntryTaskError.invalid(message)
 		}
 
 		let date = unitView.date
-		let selectedIndex = segementedView.segementedControl.selectedSegmentIndex
-		let reason: HKInsulinDeliveryReason = selectedIndex == 0 ? .bolus : .basal
 		let sample = HKDiscreteQuantitySample(insulinUnits: value, startDate: date, reason: reason)
 		return sample
 	}
@@ -327,7 +337,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("INVALID_CONTEXT", comment: "Invalid Context"))
 		}
 
-		guard let value = numberFormatter.number(from: valueString)?.intValue, value > 0, value < 1000 else {
+		guard let value = numberFormatter.number(from: valueString)?.intValue else {
 			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("VALUE_RANGE_INVALID", comment: "Value must be greater than 0 and less than 1000"))
 		}
 
@@ -343,6 +353,10 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			mealTime = .postprandial
 		default:
 			mealTime = .unknown
+		}
+		let valueRange = mealTime.valueRange
+		guard value > valueRange.lowerBound, value <= valueRange.upperBound else {
+			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("VALUE_RANGE_INVALID", comment: "Value must be greater than \(valueRange.lowerBound) and less than or equal to \(valueRange.upperBound)"))
 		}
 
 		let sample = HKDiscreteQuantitySample(bloodGlucose: Double(value), startDate: date, mealTime: mealTime)

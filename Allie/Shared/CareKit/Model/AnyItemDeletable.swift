@@ -12,7 +12,7 @@ public protocol AnyItemDeletable {
 	var deletedDate: Date? { get set }
 	var effectiveDate: Date { get set }
 	var shouldDelete: Bool { get }
-	func shouldShow(for date: Date) -> Bool
+	func isDeleted(for date: Date) -> Bool
 }
 
 public extension AnyItemDeletable {
@@ -24,11 +24,11 @@ public extension AnyItemDeletable {
 		return date <= Date()
 	}
 
-	func shouldShow(for date: Date) -> Bool {
+	func isDeleted(for date: Date) -> Bool {
 		guard let deletedDate = deletedDate else {
-			return true
+			return false
 		}
-		return deletedDate.shouldShow(for: date)
+		return !deletedDate.shouldShow(for: date)
 	}
 
 	var isActive: Bool {

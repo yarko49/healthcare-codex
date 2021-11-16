@@ -40,6 +40,9 @@ enum APIRouter {
 	case getOutcomes(carePlanId: String, taskId: String)
 	case getFeatureContent(carePlanId: String, taskId: String, asset: String)
 	case postNotificationToken(String)
+	case integrations
+	case postIntegration(CHCloudDevice)
+	case deleteIntegration(CHCloudDevice)
 
 	var method: Request.Method {
 		switch self {
@@ -71,6 +74,12 @@ enum APIRouter {
 			return .GET
 		case .postNotificationToken:
 			return .POST
+		case .integrations:
+			return .GET
+		case .postIntegration:
+			return .POST
+		case .deleteIntegration:
+			return .DELETE
 		}
 	}
 
@@ -101,6 +110,12 @@ enum APIRouter {
 			path += "/carePlan/\(carePlanId)/task/\(taskId)/asset/\(asset)"
 		case .postNotificationToken:
 			path += "/notifications/token"
+		case .integrations:
+			path += "/integrations"
+		case .postIntegration(let cloudDevice):
+			path += "/integration/\(cloudDevice.id)"
+		case .deleteIntegration(let cloudDevice):
+			path += "/integration/\(cloudDevice.id)"
 		}
 
 		return path
@@ -109,6 +124,8 @@ enum APIRouter {
 	var encoding: Request.ParameterEncoding {
 		switch method {
 		case .POST:
+			return .json
+		case .DELETE:
 			return .json
 		default:
 			return .percent
@@ -143,6 +160,8 @@ enum APIRouter {
 		case .postNotificationToken(let token):
 			let tokenRequest: [String: String] = ["timestamp": DateFormatter.wholeDateRequest.string(from: Date()), "token": token]
 			data = try? encoder.encode(tokenRequest)
+		case .postIntegration(let integraion):
+			data = try? encoder.encode(integraion)
 		default:
 			data = nil
 		}
@@ -192,6 +211,8 @@ enum APIRouter {
 			break
 		case .postNotificationToken:
 			break
+		case .integrations, .postIntegration, .deleteIntegration:
+			break
 		}
 		return headers
 	}
@@ -213,6 +234,8 @@ enum APIRouter {
 		case .getFeatureContent:
 			return nil
 		case .postNotificationToken:
+			return nil
+		case .integrations, .postIntegration, .deleteIntegration:
 			return nil
 		}
 	}

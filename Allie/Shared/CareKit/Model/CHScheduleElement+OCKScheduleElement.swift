@@ -17,8 +17,25 @@ extension CHScheduleElement {
 		OCKScheduleElement(scheduleElement: self)
 	}
 
+	var ockDuration: OCKScheduleElement.Duration {
+		guard duration > 0 else {
+			return .allDay
+		}
+		return .seconds(duration)
+	}
+
 	var ockSchedule: OCKSchedule {
-		OCKSchedule(composing: [ockSchduleElement])
+		if weekly {
+			return OCKSchedule.weeklyAtTime(weekday: weekday + 1, hours: hour, minutes: minutes, start: start, end: end, targetValues: ockOutcomeValues, text: text, duration: ockDuration)
+		} else if daily {
+			return OCKSchedule.dailyAtTime(hour: hour, minutes: minutes, start: start, end: end, text: text, duration: ockDuration, targetValues: ockOutcomeValues)
+		} else {
+			return OCKSchedule(composing: [ockSchduleElement])
+		}
+	}
+
+	var displayText: String {
+		text ?? NSLocalizedString("ANYTIME", comment: "Anytime")
 	}
 }
 
@@ -32,10 +49,9 @@ extension OCKScheduleElement {
 		} else {
 			startTime = Calendar.current.date(bySettingHour: scheduleElement.hour, minute: scheduleElement.minutes, second: 0, of: scheduleElement.start)!
 		}
-		let text = scheduleElement.text ?? NSLocalizedString("ANYTIME", comment: "Anytime")
 		// let defaultDuration: OCKScheduleElement.Duration = scheduleElement.hour > 0 ? .hours(1) : .allDay
 		let duration: OCKScheduleElement.Duration = (scheduleElement.duration > 0) ? .seconds(scheduleElement.duration) : .allDay
-		self.init(start: startTime, end: scheduleElement.end, interval: interval, text: text, targetValues: scheduleElement.targetValues ?? [], duration: duration)
+		self.init(start: startTime, end: scheduleElement.end, interval: interval, text: scheduleElement.displayText, targetValues: scheduleElement.ockOutcomeValues, duration: duration)
 	}
 
 	func merged(new: OCKScheduleElement) -> Self {
@@ -47,23 +63,5 @@ extension OCKScheduleElement {
 		existing.text = new.text
 
 		return existing
-	}
-}
-
-extension OCKScheduleElement {
-	static func dailyAtTime(hour: Int, minutes: Int, start: Date, end: Date?, text: String?, duration: OCKScheduleElement.Duration = .hours(1), targetValues: [OCKOutcomeValue] = []) -> OCKScheduleElement {
-		let interval = DateComponents(day: 1)
-		let startTime = Calendar.current.date(bySettingHour: hour, minute: minutes, second: 0, of: start)!
-		let element = OCKScheduleElement(start: startTime, end: end, interval: interval, text: text, targetValues: targetValues, duration: duration)
-		return element
-	}
-
-	// swiftlint:disable:next function_parameter_count
-	static func weeklyAtTime(weekday: Int, hours: Int, minutes: Int, start: Date, end: Date?, targetValues: [OCKOutcomeValue], text: String?, duration: OCKScheduleElement.Duration = .hours(1)) -> OCKScheduleElement {
-		let interval = DateComponents(weekOfYear: 1)
-		var startTime = Calendar.current.date(bySetting: .weekday, value: weekday, of: start)!
-		startTime = Calendar.current.date(bySettingHour: hours, minute: minutes, second: 0, of: startTime)!
-		let element = OCKScheduleElement(start: startTime, end: end, interval: interval, text: text, targetValues: targetValues, duration: duration)
-		return element
 	}
 }

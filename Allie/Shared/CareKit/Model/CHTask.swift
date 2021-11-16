@@ -40,9 +40,14 @@ struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable, O
 	var healthKitLinkage: OCKHealthKitLinkage?
 	var schedule: OCKSchedule
 	var links: [CHLink]?
+	var isHidden: Bool
 
 	var remoteID: String? {
 		id
+	}
+
+	var category: String? {
+		userInfo?["category"]
 	}
 
 	init(id: String, title: String?, carePlanUUID: String?, schedule: OCKSchedule) {
@@ -54,6 +59,7 @@ struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable, O
 		self.effectiveDate = createdDate
 		self.schedule = schedule
 		self.scheduleElements = []
+		self.isHidden = false
 	}
 
 	public func belongs(to plan: OCKAnyCarePlan) -> Bool {
@@ -66,6 +72,7 @@ struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable, O
 	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.uuid = try container.decodeIfPresent(UUID.self, forKey: .uuid) ?? UUID()
+		self.isHidden = try container.decodeIfPresent(Bool.self, forKey: .isHidden) ?? false
 		self.carePlanId = try container.decodeIfPresent(String.self, forKey: .carePlanId)
 		self.id = try container.decode(String.self, forKey: .id)
 		self.carePlanUUID = try container.decodeIfPresent(UUID.self, forKey: .carePlanUUID)
@@ -77,8 +84,12 @@ struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable, O
 		} else if let elements = try? container.decodeIfPresent([CHScheduleElement].self, forKey: .scheduleElements) {
 			self.scheduleElements = elements
 		} else {
-			let context = DecodingError.Context(codingPath: [CodingKeys.scheduleElements], debugDescription: "Missing Schedule id = \(id), id = \(String(describing: id)), title = \(String(describing: title))")
-			throw DecodingError.valueNotFound([CHScheduleElement].self, context)
+			if isHidden {
+				self.scheduleElements = []
+			} else {
+				let context = DecodingError.Context(codingPath: [CodingKeys.scheduleElements], debugDescription: "Missing Schedule id = \(id), id = \(String(describing: id)), title = \(String(describing: title))")
+				throw DecodingError.valueNotFound([CHScheduleElement].self, context)
+			}
 		}
 
 		self.groupIdentifier = try container.decodeIfPresent(String.self, forKey: .groupIdentifier)
@@ -98,10 +109,11 @@ struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable, O
 			self.notes = notes
 		}
 		self.timezone = (try? container.decode(TimeZone.self, forKey: .timezone)) ?? .current
-		let ockElements = scheduleElements.map { element -> OCKScheduleElement in
-			OCKScheduleElement(scheduleElement: element)
+		let schedules = scheduleElements.map { element -> OCKSchedule in
+			element.ockSchedule
 		}
-		self.schedule = OCKSchedule(composing: ockElements)
+		self.schedule = OCKSchedule(composing: schedules)
+
 		if let linkage = try container.decodeIfPresent([String: String].self, forKey: .healthKitLinkage) {
 			self.healthKitLinkage = OCKHealthKitLinkage(linkage: linkage)
 			if asset == nil || asset == "" {
@@ -133,6 +145,7 @@ struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable, O
 		try container.encode(timezone, forKey: .timezone)
 		try container.encodeIfPresent(healthKitLinkage, forKey: .healthKitLinkage)
 		try container.encodeIfPresent(links, forKey: .links)
+		try container.encodeIfPresent(isHidden, forKey: .isHidden)
 	}
 
 	private enum CodingKeys: String, CodingKey {
@@ -157,5 +170,6 @@ struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable, O
 		case timezone
 		case healthKitLinkage
 		case links
+		case isHidden = "hidden"
 	}
 }

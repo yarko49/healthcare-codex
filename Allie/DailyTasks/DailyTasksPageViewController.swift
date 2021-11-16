@@ -127,9 +127,9 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			case .success(let tasks):
 				let filtered = tasks.filter { task in
 					if let chTask = self.careManager.tasks[task.id] {
-						return chTask.shouldShow(for: date)
+						return !chTask.isDeleted(for: date) && task.schedule.exists(onDay: date)
 					} else if let ockTask = task as? OCKTask {
-						return ockTask.shouldShow(for: date)
+						return !ockTask.isDeleted(for: date) && task.schedule.exists(onDay: date)
 					} else if let hkTask = task as? OCKHealthKitTask, let deletedDate = hkTask.deletedDate {
 						return deletedDate.shouldShow(for: date)
 					} else {
@@ -225,6 +225,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						viewController.view.tintColor = .allieGray
 						viewController.controller.fetchAndObserveEvents(forTasks: [task], eventQuery: eventQuery)
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
+					case .dexcom:
+						break
 					}
 				}
 			}

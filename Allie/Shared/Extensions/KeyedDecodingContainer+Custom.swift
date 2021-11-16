@@ -32,9 +32,9 @@ public extension KeyedDecodingContainer {
 				elements.append(try container.decode(T.self))
 			} catch {
 				if let decodingError = error as? DecodingError {
-					ALog.error("\(#function): skipping one element: \(decodingError)")
+					ALog.error("\(#function): skipping one element: ", error: decodingError)
 				} else {
-					ALog.error("\(#function): skipping one element: \(error)")
+					ALog.error("\(#function): skipping one element: ", error: error)
 				}
 				if let item = try? container.decode(A.self) {
 					alternates.append(item)

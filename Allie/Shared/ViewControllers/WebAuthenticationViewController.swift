@@ -35,23 +35,23 @@ class WebAuthenticationViewController: UIViewController {
 		activityIndicatorView.startAnimating()
 	}
 
-	var url: URL? {
+	var authURL: URL? {
 		didSet {
-			extractRedirectURL(url: url)
+			redirectURI = authURL?.extractRedirectURI
 		}
 	}
 
-	var organization: CHOrganization?
 	var redirectURI: String?
+	var cloudEntity: CloudEntityType?
 
 	let webView: WKWebView = {
 		let preferences = WKPreferences()
-		preferences.javaScriptCanOpenWindowsAutomatically = false
+		preferences.javaScriptCanOpenWindowsAutomatically = true
 		preferences.isFraudulentWebsiteWarningEnabled = true
 		let configuration = WKWebViewConfiguration()
 		configuration.preferences = preferences
 		let view = WKWebView(frame: .zero, configuration: configuration)
-		view.allowsBackForwardNavigationGestures = false
+		view.allowsBackForwardNavigationGestures = true
 		view.allowsLinkPreview = false
 		return view
 	}()
@@ -73,7 +73,7 @@ class WebAuthenticationViewController: UIViewController {
 	}
 
 	private func configureView() {
-		guard let url = url else {
+		guard let url = authURL else {
 			return
 		}
 
@@ -81,20 +81,28 @@ class WebAuthenticationViewController: UIViewController {
 		webView.load(urlRuquest)
 	}
 
-	private func extractRedirectURL(url: URL?) {
-		guard let url = url else {
-			return
-		}
-		let authURLComponents = URLComponents(string: url.absoluteString)
-		let authQueryItems = authURLComponents?.queryItems
-		let redirectURI = authQueryItems?.first(where: { item in
-			item.name == "redirect_uri"
-		})?.value
-		self.redirectURI = redirectURI
-	}
+	var popupWebView: WKWebView?
 }
 
-extension WebAuthenticationViewController: WKUIDelegate {}
+extension WebAuthenticationViewController: WKUIDelegate {
+	func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+		popupWebView = WKWebView(frame: view.bounds, configuration: configuration)
+		popupWebView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+		// Hack to fool Google Login
+		popupWebView?.customUserAgent = "Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko)"
+		popupWebView?.navigationDelegate = self
+		popupWebView?.uiDelegate = self
+		view.addSubview(popupWebView!)
+		return popupWebView!
+	}
+
+	func webViewDidClose(_ webView: WKWebView) {
+		if webView == popupWebView {
+			popupWebView?.removeFromSuperview()
+			popupWebView = nil
+		}
+	}
+}
 
 extension WebAuthenticationViewController: WKNavigationDelegate {
 	func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {

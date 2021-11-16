@@ -28,6 +28,9 @@ protocol AllieAPI {
 	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> AnyPublisher<SignedURLResponse, Error>
 	func getData(url: URL) -> AnyPublisher<Data, Error>
 	func uploadRemoteNotification(token: String) -> AnyPublisher<Bool, Error>
+	func getCloudDevices() -> AnyPublisher<CHCloudDevices, Error>
+	func postIntegrate(cloudDevice: CHCloudDevice) -> AnyPublisher<Bool, Error>
+	func deleteIntegration(cloudDevice: CHCloudDevice) -> AnyPublisher<Bool, Error>
 
 	func loadImage(urlString: String) -> AnyPublisher<UIImage, Error>
 	func loadImage(url: URL) -> AnyPublisher<UIImage, Error>
@@ -158,6 +161,18 @@ public final class APIClient: AllieAPI {
 	}
 
 	func uploadRemoteNotification(token: String) -> AnyPublisher<Bool, Error> {
-		webService.simple(route: APIRouter.postNotificationToken(token))
+		webService.simple(route: .postNotificationToken(token))
+	}
+
+	func getCloudDevices() -> AnyPublisher<CHCloudDevices, Error> {
+		webService.decodable(route: .integrations)
+	}
+
+	func postIntegrate(cloudDevice: CHCloudDevice) -> AnyPublisher<Bool, Error> {
+		webService.simple(route: .postIntegration(cloudDevice))
+	}
+
+	func deleteIntegration(cloudDevice: CHCloudDevice) -> AnyPublisher<Bool, Error> {
+		webService.simple(route: .deleteIntegration(cloudDevice))
 	}
 }

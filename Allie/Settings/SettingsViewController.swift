@@ -164,7 +164,7 @@ extension SettingsViewController: UITableViewDelegate {
 	}
 
 	func showConnectedDevices() {
-		let viewController = ConnectedDevicesViewController(style: .grouped)
+		let viewController = ConnectedDevicesViewController(style: .plain)
 		navigationController?.show(viewController, sender: self)
 	}
 
