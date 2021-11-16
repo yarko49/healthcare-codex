@@ -39,4 +39,15 @@ extension HKInsulinDeliveryReason {
 			return ""
 		}
 	}
+
+	var valueRange: ClosedRange<Double> {
+		switch self {
+		case .basal:
+			return 0.0 ... 300
+		case .bolus:
+			return 0.0 ... 150
+		@unknown default:
+			return 0.0 ... 300
+		}
+	}
 }

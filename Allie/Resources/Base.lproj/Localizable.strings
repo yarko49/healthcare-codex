@@ -833,3 +833,27 @@
 /* Value must be greater than 0 and less than 1000 */
 "VALUE_RANGE_INVALID" = "Value must be greater than 0 and less than 1000";
 
+/* Bluetooth Devices */
+"BLUETOOTH_DEVICES" = "Bluetooth Devices";
+
+/* Cloud Devices */
+"CLOUD_DEVICES" = "Cloud Devices";
+
+/* We are unable to register with your health care device at this time. */
+"REGISTRATION_ERROR_DEVICE.message" = "We are unable to register with your health care device at this time.";
+
+/* Are you sure you want to disconnect */
+"DISCONNECT.message" = "Are you sure you want to disconnect";
+
+/* Disconnect */
+"DISCONNECT" = "Disconnect";
+
+/* Value must be greater than */
+"VALUE_RANGE_INVALID_VALUES_GREATER" = "Value must be greater than";
+
+/* and less than or equal to */
+"VALUE_RANGE_INVALID_VALUES_LESS" = "and less than or equal to";
+
+/* Value is not a valid. */
+"VALUE_NOT_VALID" = "Value is not a valid.";
+

@@ -9,18 +9,18 @@ import CareKitStore
 import Foundation
 
 struct CHScheduleElement: Codable {
-	var start: Date
-	var end: Date?
-	var weekly: Bool
-	var daily: Bool
-	var interval: TimeInterval // Seconds
-	var custom: Bool
+	var start: Date // Start
+	var end: Date? // End
+	var weekly: Bool // Is it a weekly schedule
+	var daily: Bool // is it a daily schedule
+	var interval: TimeInterval // Seconds for custom
+	var custom: Bool // is it a custom schedule
 	var text: String?
 	var targetValues: [OCKOutcomeValue]?
-	var duration: TimeInterval // Seconds
-	var hour: Int
-	var minutes: Int
-	var weekday: Int
+	var duration: TimeInterval // Seconds how long
+	var hour: Int // Start hour
+	var minutes: Int // Start minute
+	var weekday: Int // if weekly then which day 0 index 0 == sunday
 
 	private enum CodingKeys: String, CodingKey {
 		case start

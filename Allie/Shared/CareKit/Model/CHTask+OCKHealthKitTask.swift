@@ -83,3 +83,9 @@ extension OCKHealthKitTask: AnyTaskExtensible {
 		return true
 	}
 }
+
+extension CHTask {
+	var healthKitTask: OCKHealthKitTask? {
+		anyTask as? OCKHealthKitTask
+	}
+}

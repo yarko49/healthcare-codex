@@ -19,4 +19,5 @@ enum CHGroupIdentifierType: String, Hashable, CaseIterable {
 	case link = "LINK"
 	case simple = "SIMPLE"
 	case symptoms = "SYMPTOMS"
+	case dexcom = "INTEGRATION_DEXCOM"
 }

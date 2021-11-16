@@ -66,6 +66,12 @@
 		841A77332652348C000913A9 /* OutcomesUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A77232652348C000913A9 /* OutcomesUploadOperation.swift */; };
 		841E9B8825F60112001192DD /* CHAnyPrimitiveValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841E9B8725F60112001192DD /* CHAnyPrimitiveValue.swift */; };
 		8420C948264EE524005C21DD /* NewTasks.json in Resources */ = {isa = PBXBuildFile; fileRef = 8420C947264EE524005C21DD /* NewTasks.json */; };
+		8422DEAF2735043B00B9A5C4 /* ConnectedDevicesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422DEAE2735043B00B9A5C4 /* ConnectedDevicesCell.swift */; };
+		8422DEB02735043B00B9A5C4 /* ConnectedDevicesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422DEAE2735043B00B9A5C4 /* ConnectedDevicesCell.swift */; };
+		8422DEB12735043B00B9A5C4 /* ConnectedDevicesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422DEAE2735043B00B9A5C4 /* ConnectedDevicesCell.swift */; };
+		8422DEB327350A4400B9A5C4 /* CloudEntityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422DEB227350A4400B9A5C4 /* CloudEntityType.swift */; };
+		8422DEB427350A4400B9A5C4 /* CloudEntityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422DEB227350A4400B9A5C4 /* CloudEntityType.swift */; };
+		8422DEB527350A4400B9A5C4 /* CloudEntityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422DEB227350A4400B9A5C4 /* CloudEntityType.swift */; };
 		84230BE72607FA79008BB83E /* NotificationSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BE62607FA79008BB83E /* NotificationSettingsController.swift */; };
 		84230BE9260801F7008BB83E /* HTMLViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230BE8260801F7008BB83E /* HTMLViewerController.swift */; };
 		8423225F2717E1FB008B50F0 /* RemoteLoggingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423225E2717E1FB008B50F0 /* RemoteLoggingConfig.swift */; };
@@ -612,6 +618,9 @@
 		8482203426ED2B1800DDD77A /* ConnectedDevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8482203226ED2B1800DDD77A /* ConnectedDevicesViewController.swift */; };
 		8482203526ED2B1800DDD77A /* ConnectedDevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8482203226ED2B1800DDD77A /* ConnectedDevicesViewController.swift */; };
 		84867D4725A99016002EE695 /* IllustrationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */; };
+		848723EA2734E98800F0D4CA /* ConnectedDevicesSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848723E92734E98800F0D4CA /* ConnectedDevicesSectionHeaderView.swift */; };
+		848723EB2734E98800F0D4CA /* ConnectedDevicesSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848723E92734E98800F0D4CA /* ConnectedDevicesSectionHeaderView.swift */; };
+		848723EC2734E98800F0D4CA /* ConnectedDevicesSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848723E92734E98800F0D4CA /* ConnectedDevicesSectionHeaderView.swift */; };
 		84873BA225CA7765004195BB /* OCKStore+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84873BA125CA7765004195BB /* OCKStore+Update.swift */; };
 		84873BAA25CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84873BA925CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift */; };
 		8487481525B3B2FD008C15E2 /* LoggingOSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8487481425B3B2FD008C15E2 /* LoggingOSLog.swift */; };
@@ -754,6 +763,8 @@
 		84B973A126EDD3A10094B35C /* CareManager+Tasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B973A026EDD3A10094B35C /* CareManager+Tasks.swift */; };
 		84B973A226EDD3A10094B35C /* CareManager+Tasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B973A026EDD3A10094B35C /* CareManager+Tasks.swift */; };
 		84B973A326EDD3A10094B35C /* CareManager+Tasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B973A026EDD3A10094B35C /* CareManager+Tasks.swift */; };
+		84BA7E00273A371C0019B966 /* CloudDevices.json in Resources */ = {isa = PBXBuildFile; fileRef = 84BA7DFF273A371C0019B966 /* CloudDevices.json */; };
+		84BA7E02273A37580019B966 /* CloudDevicesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA7E01273A37580019B966 /* CloudDevicesTests.swift */; };
 		84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */; };
 		84C071F725E31FC20098B508 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C071F625E31FC20098B508 /* AnalyticsManager.swift */; };
 		84C105F925E75F2000B126ED /* UIViewController+DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C105F825E75F2000B126ED /* UIViewController+DetailView.swift */; };
@@ -1024,6 +1035,9 @@
 		84D84AE526994B0E007BE781 /* EntryTaskSectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D84AE226994B0E007BE781 /* EntryTaskSectionFooterView.swift */; };
 		84DC75A525ABBAD6003B541C /* CHCarePlan+OCKCarePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC75A425ABBAD6003B541C /* CHCarePlan+OCKCarePlan.swift */; };
 		84DC75AA25AC0F33003B541C /* ScheduleElementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */; };
+		84DF46E2273A4BBA006185B4 /* URL+RedirectURI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF46E1273A4BBA006185B4 /* URL+RedirectURI.swift */; };
+		84DF46E3273A4C1A006185B4 /* URL+RedirectURI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF46E1273A4BBA006185B4 /* URL+RedirectURI.swift */; };
+		84DF46E4273A4C1B006185B4 /* URL+RedirectURI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF46E1273A4BBA006185B4 /* URL+RedirectURI.swift */; };
 		84E0624825C7C2E7008142C6 /* SettingsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A4259C2A4E00C50C09 /* SettingsType.swift */; };
 		84E18CE226818706009AFBF3 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 84E18CE126818706009AFBF3 /* MessageKit */; };
 		84E18CE42681872A009AFBF3 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 84E18CE32681872A009AFBF3 /* MessageKit */; };
@@ -1051,6 +1065,9 @@
 		84EDA195265786120049323C /* CHOutcome+HKStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDA194265786120049323C /* CHOutcome+HKStatistics.swift */; };
 		84EDA196265786120049323C /* CHOutcome+HKStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDA194265786120049323C /* CHOutcome+HKStatistics.swift */; };
 		84EDA19B265A0A240049323C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84EDA199265A0A240049323C /* GoogleService-Info.plist */; };
+		84F00CF82731148B008A087E /* CHCloudDevices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F00CF72731148B008A087E /* CHCloudDevices.swift */; };
+		84F00CF92731148B008A087E /* CHCloudDevices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F00CF72731148B008A087E /* CHCloudDevices.swift */; };
+		84F00CFA2731148B008A087E /* CHCloudDevices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F00CF72731148B008A087E /* CHCloudDevices.swift */; };
 		84F2E9A6269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F2E9A5269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift */; };
 		84F2E9A7269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F2E9A5269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift */; };
 		84F2E9A8269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F2E9A5269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift */; };
@@ -1110,6 +1127,8 @@
 		841A77232652348C000913A9 /* OutcomesUploadOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutcomesUploadOperation.swift; sourceTree = "<group>"; };
 		841E9B8725F60112001192DD /* CHAnyPrimitiveValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHAnyPrimitiveValue.swift; sourceTree = "<group>"; };
 		8420C947264EE524005C21DD /* NewTasks.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NewTasks.json; sourceTree = "<group>"; };
+		8422DEAE2735043B00B9A5C4 /* ConnectedDevicesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedDevicesCell.swift; sourceTree = "<group>"; };
+		8422DEB227350A4400B9A5C4 /* CloudEntityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudEntityType.swift; sourceTree = "<group>"; };
 		84230BE62607FA79008BB83E /* NotificationSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsController.swift; sourceTree = "<group>"; };
 		84230BE8260801F7008BB83E /* HTMLViewerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLViewerController.swift; sourceTree = "<group>"; };
 		8423225E2717E1FB008B50F0 /* RemoteLoggingConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLoggingConfig.swift; sourceTree = "<group>"; };
@@ -1323,6 +1342,7 @@
 		848199B0268996CF00DAB894 /* ProviderDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderDetailViewModel.swift; sourceTree = "<group>"; };
 		8482203226ED2B1800DDD77A /* ConnectedDevicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedDevicesViewController.swift; sourceTree = "<group>"; };
 		84867D4625A99016002EE695 /* IllustrationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustrationCollectionViewCell.swift; sourceTree = "<group>"; };
+		848723E92734E98800F0D4CA /* ConnectedDevicesSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedDevicesSectionHeaderView.swift; sourceTree = "<group>"; };
 		84873BA125CA7765004195BB /* OCKStore+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKStore+Update.swift"; sourceTree = "<group>"; };
 		84873BA925CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKHealthKitPassthroughStore+Update.swift"; sourceTree = "<group>"; };
 		8487481425B3B2FD008C15E2 /* LoggingOSLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingOSLog.swift; sourceTree = "<group>"; };
@@ -1378,6 +1398,8 @@
 		84B9739826EDD3020094B35C /* CareManager+Patients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+Patients.swift"; sourceTree = "<group>"; };
 		84B9739C26EDD36E0094B35C /* CareManager+CarePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+CarePlan.swift"; sourceTree = "<group>"; };
 		84B973A026EDD3A10094B35C /* CareManager+Tasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+Tasks.swift"; sourceTree = "<group>"; };
+		84BA7DFF273A371C0019B966 /* CloudDevices.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CloudDevices.json; sourceTree = "<group>"; };
+		84BA7E01273A37580019B966 /* CloudDevicesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudDevicesTests.swift; sourceTree = "<group>"; };
 		84BDC72025AB88790046EFCF /* PersonNameComponents+ResourceName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersonNameComponents+ResourceName.swift"; sourceTree = "<group>"; };
 		84C071F625E31FC20098B508 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		84C105F825E75F2000B126ED /* UIViewController+DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+DetailView.swift"; sourceTree = "<group>"; };
@@ -1434,6 +1456,7 @@
 		84D84AE226994B0E007BE781 /* EntryTaskSectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTaskSectionFooterView.swift; sourceTree = "<group>"; };
 		84DC75A425ABBAD6003B541C /* CHCarePlan+OCKCarePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHCarePlan+OCKCarePlan.swift"; sourceTree = "<group>"; };
 		84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleElementTests.swift; sourceTree = "<group>"; };
+		84DF46E1273A4BBA006185B4 /* URL+RedirectURI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+RedirectURI.swift"; sourceTree = "<group>"; };
 		84E18CE726818830009AFBF3 /* TCHConversation+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TCHConversation+Identifiable.swift"; sourceTree = "<group>"; };
 		84E18CEB268188DD009AFBF3 /* TCHMessage+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TCHMessage+Identifiable.swift"; sourceTree = "<group>"; };
 		84E4660125A040F100A10F8B /* ViewIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIdentifiable.swift; sourceTree = "<group>"; };
@@ -1446,6 +1469,7 @@
 		84EDA194265786120049323C /* CHOutcome+HKStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHOutcome+HKStatistics.swift"; sourceTree = "<group>"; };
 		84EDA198265A0A240049323C /* Environment.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Environment.xcconfig; sourceTree = "<group>"; };
 		84EDA199265A0A240049323C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		84F00CF72731148B008A087E /* CHCloudDevices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHCloudDevices.swift; sourceTree = "<group>"; };
 		84F2596E268ACBA00093FCF0 /* CareKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CareKit; path = ../CareKit; sourceTree = "<group>"; };
 		84F2E9A5269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKQuantityTypeIdentifier+TaskViews.swift"; sourceTree = "<group>"; };
 		84F47F6426412CAB009CC791 /* JSONDecoder+iso8601.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+iso8601.swift"; sourceTree = "<group>"; };
@@ -1617,6 +1641,7 @@
 				84CD36802721370200BD93BC /* DownlaodedOutcomes.json */,
 				84CD367F2721370200BD93BC /* UploadOutcomes.json */,
 				845292EA272BD5E700472264 /* SymptomOutcomeUploaded.json */,
+				84BA7DFF273A371C0019B966 /* CloudDevices.json */,
 			);
 			path = TestData;
 			sourceTree = "<group>";
@@ -1778,6 +1803,7 @@
 				84C83C8826B1D61D006C92E2 /* GlucoseMeterTests.swift */,
 				8401F70A270D33F400D1CBED /* HealthKitToCareKitTests.swift */,
 				84CD36832721371E00BD93BC /* CoreDataTests.swift */,
+				84BA7E01273A37580019B966 /* CloudDevicesTests.swift */,
 				8401F709270D335300D1CBED /* TestData */,
 			);
 			path = AllieTests;
@@ -1904,6 +1930,8 @@
 				84476680259C2A4E00C50C09 /* SettingsViewController.swift */,
 				844766A4259C2A4E00C50C09 /* SettingsType.swift */,
 				8482203226ED2B1800DDD77A /* ConnectedDevicesViewController.swift */,
+				848723E92734E98800F0D4CA /* ConnectedDevicesSectionHeaderView.swift */,
+				8422DEAE2735043B00B9A5C4 /* ConnectedDevicesCell.swift */,
 				84230BE62607FA79008BB83E /* NotificationSettingsController.swift */,
 				846F97902716A2720094735E /* FileLoggingViewController.swift */,
 				84A9E25326E9C91900D3096F /* AllReadings */,
@@ -2152,6 +2180,7 @@
 				8447671D259C2A4E00C50C09 /* BaseViewController.swift */,
 				84230BE8260801F7008BB83E /* HTMLViewerController.swift */,
 				84C212B32664A495000D491B /* PDFViewController.swift */,
+				8446E18C26DF2943001E52BF /* WebAuthenticationViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -2192,6 +2221,8 @@
 				84C212A42660C5F4000D491B /* CHOrganizations.swift */,
 				8449A65E267C5C8F00F73D8E /* CHConversationsTokens.swift */,
 				84A9D88626AA51D0001E83B2 /* CHConversationsUsers.swift */,
+				84F00CF72731148B008A087E /* CHCloudDevices.swift */,
+				8422DEB227350A4400B9A5C4 /* CloudEntityType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2236,6 +2267,7 @@
 				8423226E2717F894008B50F0 /* OperatingSystemVersion+Comparable.swift */,
 				84D625B0265F5B8E00B5A973 /* Appearance */,
 				8475FBDD268C275900A916B6 /* UINavigationController+Transitions.swift */,
+				84DF46E1273A4BBA006185B4 /* URL+RedirectURI.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2401,7 +2433,6 @@
 				8408843726883DF8003C3AE2 /* ProviderDetailView.swift */,
 				848199B0268996CF00DAB894 /* ProviderDetailViewModel.swift */,
 				8408843B26883F8C003C3AE2 /* FilledButton.swift */,
-				8446E18C26DF2943001E52BF /* WebAuthenticationViewController.swift */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -2428,7 +2459,6 @@
 				842398C4259C1144006FB3F4 /* Frameworks */,
 				842398C5259C1144006FB3F4 /* Resources */,
 				848E1620259C3FC300412E2B /* Crashlytics */,
-				84436282264B5412002B475C /* Crashlytics */,
 			);
 			buildRules = (
 			);
@@ -2513,7 +2543,6 @@
 				847DCBF2265871F3004E9C1D /* Sources */,
 				847DCCB0265871F3004E9C1D /* Frameworks */,
 				847DCCC9265871F3004E9C1D /* Resources */,
-				847DCCDA265871F3004E9C1D /* Crashlytics */,
 				847DCCDD265871F3004E9C1D /* Crashlytics */,
 			);
 			buildRules = (
@@ -2562,7 +2591,6 @@
 				84D12224264112DE00990196 /* Sources */,
 				84D122DB264112DE00990196 /* Frameworks */,
 				84D122F2264112DE00990196 /* Resources */,
-				84D12303264112DE00990196 /* Crashlytics */,
 				84436283264B546F002B475C /* Crashlytics */,
 			);
 			buildRules = (
@@ -2705,6 +2733,7 @@
 				84F47F6B26426136009CC791 /* ActivityTask.json in Resources */,
 				84016C3A2616BED7006D5279 /* DiabetiesCarePlan.json in Resources */,
 				84CD36822721370200BD93BC /* DownlaodedOutcomes.json in Resources */,
+				84BA7E00273A371C0019B966 /* CloudDevices.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2810,27 +2839,9 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftformat >/dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
 		};
-		84436282264B5412002B475C /* Crashlytics */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = Crashlytics;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${BUILD_DIR%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\n";
-		};
 		84436283264B546F002B475C /* Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -2843,9 +2854,9 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${BUILD_DIR%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\n";
+			shellScript = "\"${BUILD_DIR%%Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
 		847DCBF1265871F3004E9C1D /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2865,29 +2876,9 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		847DCCDA265871F3004E9C1D /* Crashlytics */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH} OR ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
-				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
-			);
-			name = Crashlytics;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${BUILD_DIR%%Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
-		};
 		847DCCDD265871F3004E9C1D /* Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -2899,9 +2890,9 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${BUILD_DIR%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\n";
+			shellScript = "\"${BUILD_DIR%%Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
 		848E161F259C3F8600412E2B /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2923,7 +2914,7 @@
 		};
 		848E1620259C3FC300412E2B /* Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -2937,7 +2928,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${BUILD_DIR%%Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
@@ -2977,26 +2968,6 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		84D12303264112DE00990196 /* Crashlytics */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH} OR ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
-				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
-			);
-			name = Crashlytics;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${BUILD_DIR%%Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -3007,6 +2978,7 @@
 				842F966A26915C8D0041237F /* CHParticipant.swift in Sources */,
 				84D1128926D451FC000BA718 /* BGMPairingViewModel.swift in Sources */,
 				84AF11A126707C9B0061A9E5 /* GridTaskController.swift in Sources */,
+				84DF46E2273A4BBA006185B4 /* URL+RedirectURI.swift in Sources */,
 				84703C71265B743A0025A50D /* ButtonLogTaskViewSynchronizer.swift in Sources */,
 				84261686269A7111006BD8B0 /* GeneralizedLogTaskViewSynchronizer.swift in Sources */,
 				8494705F2671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */,
@@ -3033,6 +3005,7 @@
 				84E0624825C7C2E7008142C6 /* SettingsType.swift in Sources */,
 				8423226B2717EFA1008B50F0 /* ApplicationVersion.swift in Sources */,
 				84342FD025A8276C00B3EF5B /* DailyTasksPageViewController.swift in Sources */,
+				84F00CF82731148B008A087E /* CHCloudDevices.swift in Sources */,
 				84476749259C2A4E00C50C09 /* AppleHealthView.swift in Sources */,
 				84FE91422650EFFE00D681DF /* OCKHeaderView+Update.swift in Sources */,
 				842F906F25AE8D8A007421A6 /* CHGroupIdentifierType.swift in Sources */,
@@ -3105,6 +3078,7 @@
 				8446E18D26DF2943001E52BF /* WebAuthenticationViewController.swift in Sources */,
 				8408843826883DF8003C3AE2 /* ProviderDetailView.swift in Sources */,
 				8439776226BB9CD1002A932E /* HKUnit+Codex.swift in Sources */,
+				8422DEB327350A4400B9A5C4 /* CloudEntityType.swift in Sources */,
 				84B973A126EDD3A10094B35C /* CareManager+Tasks.swift in Sources */,
 				84DC75A525ABBAD6003B541C /* CHCarePlan+OCKCarePlan.swift in Sources */,
 				844F06EA25C122DA00D26119 /* Bundle+Version.swift in Sources */,
@@ -3247,6 +3221,7 @@
 				841A772C2652348C000913A9 /* CHOperation.swift in Sources */,
 				8476B0F1261D8691009516ED /* CHOutcome+OCKOutcome.swift in Sources */,
 				847641AF26EEB10000039936 /* LoggingFile.swift in Sources */,
+				8422DEAF2735043B00B9A5C4 /* ConnectedDevicesCell.swift in Sources */,
 				84AF11A326709C770061A9E5 /* ChecklistTaskController.swift in Sources */,
 				84230BE9260801F7008BB83E /* HTMLViewerController.swift in Sources */,
 				847A466C2728F2CD007BE113 /* SymptomsLogTaskController.swift in Sources */,
@@ -3261,6 +3236,7 @@
 				84EDA18D26577DF30049323C /* TaskLogItem.swift in Sources */,
 				848CD8B02696CB2A008B675F /* EntrySegmentedView.swift in Sources */,
 				844767EF259C2A4E00C50C09 /* APIClient+Image.swift in Sources */,
+				848723EA2734E98800F0D4CA /* ConnectedDevicesSectionHeaderView.swift in Sources */,
 				849F378F25BA7F2200FC2D1B /* AuthorizationFlowType.swift in Sources */,
 				8482203326ED2B1800DDD77A /* ConnectedDevicesViewController.swift in Sources */,
 				845F189B263245A4005A601A /* CHDevice+HKDevice.swift in Sources */,
@@ -3312,6 +3288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84D121C6264101EB00990196 /* OutcomesTests.swift in Sources */,
+				84BA7E02273A37580019B966 /* CloudDevicesTests.swift in Sources */,
 				84C83FE3259C48F200DAEF34 /* NoteTests.swift in Sources */,
 				84A6316F2601B6B5000922F3 /* CareKitStoreTests.swift in Sources */,
 				842398E2259C1144006FB3F4 /* AllieTests.swift in Sources */,
@@ -3350,6 +3327,7 @@
 				842F966C26915C8D0041237F /* CHParticipant.swift in Sources */,
 				84D1128B26D451FC000BA718 /* BGMPairingViewModel.swift in Sources */,
 				84703C73265B743A0025A50D /* ButtonLogTaskViewSynchronizer.swift in Sources */,
+				84DF46E4273A4C1B006185B4 /* URL+RedirectURI.swift in Sources */,
 				84261688269A7111006BD8B0 /* GeneralizedLogTaskViewSynchronizer.swift in Sources */,
 				847DCBF4265871F3004E9C1D /* UIColor+Names.swift in Sources */,
 				849470612671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */,
@@ -3376,6 +3354,7 @@
 				847DCC05265871F3004E9C1D /* AppleHealthView.swift in Sources */,
 				8423226D2717EFA1008B50F0 /* ApplicationVersion.swift in Sources */,
 				849470572671C385000A77A7 /* ChecklistTaskController.swift in Sources */,
+				84F00CFA2731148B008A087E /* CHCloudDevices.swift in Sources */,
 				847DCC06265871F3004E9C1D /* OCKHeaderView+Update.swift in Sources */,
 				847DCC07265871F3004E9C1D /* CHGroupIdentifierType.swift in Sources */,
 				847DCC08265871F3004E9C1D /* NSLayoutConstraint+Extensions.swift in Sources */,
@@ -3448,6 +3427,7 @@
 				847DCC34265871F3004E9C1D /* CHCarePlan+OCKCarePlan.swift in Sources */,
 				8439776426BB9CD1002A932E /* HKUnit+Codex.swift in Sources */,
 				84B973A326EDD3A10094B35C /* CareManager+Tasks.swift in Sources */,
+				8422DEB527350A4400B9A5C4 /* CloudEntityType.swift in Sources */,
 				847DCC35265871F3004E9C1D /* Bundle+Version.swift in Sources */,
 				847DCC36265871F3004E9C1D /* SettingsViewController.swift in Sources */,
 				8455B153269A159B006C367C /* GeneralizedLogTaskDetailView.swift in Sources */,
@@ -3590,6 +3570,7 @@
 				847DCC84265871F3004E9C1D /* HTMLViewerController.swift in Sources */,
 				847DCC85265871F3004E9C1D /* LoginViewController.swift in Sources */,
 				847641B126EEB10000039936 /* LoggingFile.swift in Sources */,
+				8422DEB12735043B00B9A5C4 /* ConnectedDevicesCell.swift in Sources */,
 				847DCC86265871F3004E9C1D /* Date+Relative.swift in Sources */,
 				847DCC87265871F3004E9C1D /* CHOutcome.swift in Sources */,
 				847A466E2728F2CD007BE113 /* SymptomsLogTaskController.swift in Sources */,
@@ -3604,6 +3585,7 @@
 				848CD8B22696CB2A008B675F /* EntrySegmentedView.swift in Sources */,
 				847DCC90265871F3004E9C1D /* CHDevice+HKDevice.swift in Sources */,
 				847DCC91265871F3004E9C1D /* AlertHelper.swift in Sources */,
+				848723EC2734E98800F0D4CA /* ConnectedDevicesSectionHeaderView.swift in Sources */,
 				8482203526ED2B1800DDD77A /* ConnectedDevicesViewController.swift in Sources */,
 				847DCC92265871F3004E9C1D /* GridTaskViewController.swift in Sources */,
 				847DCC93265871F3004E9C1D /* SeparatorView.swift in Sources */,
@@ -3657,6 +3639,7 @@
 				842F966B26915C8D0041237F /* CHParticipant.swift in Sources */,
 				84D1128A26D451FC000BA718 /* BGMPairingViewModel.swift in Sources */,
 				84703C72265B743A0025A50D /* ButtonLogTaskViewSynchronizer.swift in Sources */,
+				84DF46E3273A4C1A006185B4 /* URL+RedirectURI.swift in Sources */,
 				84261687269A7111006BD8B0 /* GeneralizedLogTaskViewSynchronizer.swift in Sources */,
 				84D12227264112DE00990196 /* UIColor+Names.swift in Sources */,
 				849470602671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */,
@@ -3683,6 +3666,7 @@
 				84D12239264112DE00990196 /* AppleHealthView.swift in Sources */,
 				8423226C2717EFA1008B50F0 /* ApplicationVersion.swift in Sources */,
 				849470562671C384000A77A7 /* ChecklistTaskController.swift in Sources */,
+				84F00CF92731148B008A087E /* CHCloudDevices.swift in Sources */,
 				84FE91432650EFFE00D681DF /* OCKHeaderView+Update.swift in Sources */,
 				84D1223A264112DE00990196 /* CHGroupIdentifierType.swift in Sources */,
 				846B5EBB2648B287003046EF /* NSLayoutConstraint+Extensions.swift in Sources */,
@@ -3755,6 +3739,7 @@
 				84D12261264112DE00990196 /* CHCarePlan+OCKCarePlan.swift in Sources */,
 				8439776326BB9CD1002A932E /* HKUnit+Codex.swift in Sources */,
 				84B973A226EDD3A10094B35C /* CareManager+Tasks.swift in Sources */,
+				8422DEB427350A4400B9A5C4 /* CloudEntityType.swift in Sources */,
 				84D12262264112DE00990196 /* Bundle+Version.swift in Sources */,
 				84D12263264112DE00990196 /* SettingsViewController.swift in Sources */,
 				8455B152269A159B006C367C /* GeneralizedLogTaskDetailView.swift in Sources */,
@@ -3897,6 +3882,7 @@
 				84D122B1264112DE00990196 /* HTMLViewerController.swift in Sources */,
 				84D122B3264112DE00990196 /* LoginViewController.swift in Sources */,
 				847641B026EEB10000039936 /* LoggingFile.swift in Sources */,
+				8422DEB02735043B00B9A5C4 /* ConnectedDevicesCell.swift in Sources */,
 				84D122B4264112DE00990196 /* Date+Relative.swift in Sources */,
 				84D122B5264112DE00990196 /* CHOutcome.swift in Sources */,
 				847A466D2728F2CD007BE113 /* SymptomsLogTaskController.swift in Sources */,
@@ -3911,6 +3897,7 @@
 				848CD8B12696CB2A008B675F /* EntrySegmentedView.swift in Sources */,
 				84D122BE264112DE00990196 /* CHDevice+HKDevice.swift in Sources */,
 				84D122C0264112DE00990196 /* AlertHelper.swift in Sources */,
+				848723EB2734E98800F0D4CA /* ConnectedDevicesSectionHeaderView.swift in Sources */,
 				8482203426ED2B1800DDD77A /* ConnectedDevicesViewController.swift in Sources */,
 				84D122C1264112DE00990196 /* GridTaskViewController.swift in Sources */,
 				84D122C2264112DE00990196 /* SeparatorView.swift in Sources */,
@@ -4165,7 +4152,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4173,7 +4160,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4194,7 +4181,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4202,7 +4189,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4319,7 +4306,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4327,7 +4314,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4348,7 +4335,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4356,7 +4343,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4377,7 +4364,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4385,7 +4372,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4406,7 +4393,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4414,7 +4401,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4539,7 +4526,7 @@
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.5.6;
+				minimumVersion = 6.5.8;
 			};
 		};
 		84700A82259C331B0083E2AA /* XCRemoteSwiftPackageReference "Charts" */ = {

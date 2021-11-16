@@ -78,4 +78,8 @@ extension CHBloodGlucoseMealTime {
 			return NSLocalizedString("MEAL_TIME_BEDTIME", comment: "Bedtime")
 		}
 	}
+
+	var valueRange: ClosedRange<Int> {
+		0 ... 999
+	}
 }

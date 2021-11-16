@@ -1,0 +1,23 @@
+{
+  "devices": [
+    {
+      "authUrl": "https://sandbox-api.dexcom.com/v2/oauth2/login?access_type=offline&client_id=1Ml6gXAQGLrtNslfLCfaeCHViZcmBFMl&redirect_uri=https%3A%2F%2Fdexcom.codexhealth.com&response_type=code&scope=offline_access&state=state",
+      "description": "Dexcom CGM Cloud Integration",
+      "id": "dexcom",
+      "image": "https://www.dexcom.com/sites/dexcom.com/files/media-asset-downloads/Dexcom_Registered.jpg",
+      "title": "Dexcom CGM"
+    },
+    {
+      "authUrl": "https://api.fitbit.com/oauth2/authorize?access_type=offline&client_id=23BMYM&redirect_uri=https%3A%2F%2Ffitbit.codexhealth.com&response_type=code&scope=activity&state=state",
+      "description": "Fitbit Cloud Integration",
+      "id": "fitbit",
+      "image": "https://www.fitbit.com/global/content/dam/fitbit/global/marketing-pages/activity-index/static/favicon-32x32.png",
+      "title": "Fitbit"
+    }
+  ],
+  "registrations": {
+    "devices": [
+      "dexcom"
+    ]
+  }
+}

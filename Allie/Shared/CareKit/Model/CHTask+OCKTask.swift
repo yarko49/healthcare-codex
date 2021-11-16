@@ -260,7 +260,11 @@ extension AnyTaskExtensible where Self: OCKAnyTask {
 }
 
 extension CHTask {
-	var ockTask: OCKAnyTask {
-		healthKitLinkage != nil ? OCKHealthKitTask(task: self) : OCKTask(task: self)
+	var ockTask: OCKTask? {
+		anyTask as? OCKTask
 	}
+    
+    var anyTask: OCKAnyTask? {
+        healthKitLinkage != nil ? OCKHealthKitTask(task: self) : OCKTask(task: self)
+    }
 }
