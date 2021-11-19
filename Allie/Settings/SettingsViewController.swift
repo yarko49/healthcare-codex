@@ -149,7 +149,7 @@ extension SettingsViewController: UITableViewDelegate {
 					if case .failure(let error) = result {
 						ALog.error("\(error.localizedDescription)")
 						let okAction = AlertHelper.AlertAction(withTitle: String.ok)
-						AlertHelper.showAlert(title: String.error, detailText: error.localizedDescription, actions: [okAction])
+						AlertHelper.showAlert(title: String.error, detailText: error.localizedDescription, actions: [okAction], from: self?.tabBarController)
 					}
 					strongSelf.hud.dismiss()
 					strongSelf.navigationController?.popViewController(animated: true)

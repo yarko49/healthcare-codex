@@ -30,6 +30,7 @@ class AuthCoordinator: BaseCoordinator {
 		navigationController = UINavigationController()
 		self.parent = parent
 		parent?.window.rootViewController = SplashViewController()
+
 		if let link = deepLink {
 			verifySendLink(link: link)
 		} else {
@@ -129,7 +130,7 @@ class AuthCoordinator: BaseCoordinator {
 		Auth.auth().sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings) { [weak self] error in
 			if let error = error {
 				ALog.error("Send signin Link", error: error)
-				AlertHelper.showAlert(title: String.error, detailText: String.failedSendLink, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
+				AlertHelper.showAlert(title: String.error, detailText: String.failedSendLink, actions: [AlertHelper.AlertAction(withTitle: String.ok)], from: self?.parent?.window.visibleViewController)
 				return
 			}
 
@@ -158,6 +159,9 @@ class AuthCoordinator: BaseCoordinator {
 			showHUD()
 			if Auth.auth().isSignIn(withEmailLink: link) {
 				Auth.auth().signIn(withEmail: email, link: link) { [weak self] authResult, error in
+					DispatchQueue.main.async {
+						self?.hideHUD()
+					}
 					if error == nil {
 						self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { _ in
 							DispatchQueue.main.async {
@@ -174,13 +178,13 @@ class AuthCoordinator: BaseCoordinator {
 						})
 					} else {
 						DispatchQueue.main.async {
-							AlertHelper.showAlert(title: error?.localizedDescription, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
+							AlertHelper.showAlert(title: error?.localizedDescription, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)], from: self?.parent?.window.visibleViewController)
 						}
 					}
 				}
 			}
 		} else {
-			AlertHelper.showAlert(title: String.error, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
+			AlertHelper.showAlert(title: String.error, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)], from: parent?.window.visibleViewController)
 			start()
 		}
 	}
@@ -376,13 +380,13 @@ class AuthCoordinator: BaseCoordinator {
 		if let error = error {
 			ALog.error(error: error)
 			hideHUD()
-			AlertHelper.showAlert(title: String.error, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
+			AlertHelper.showAlert(title: String.error, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)], from: parent?.window.visibleViewController)
 		} else if let authDataResult = authDataResult {
 			authDataResult.user.getIDTokenResult { [weak self] tokenResult, error in
 				self?.hideHUD()
 				if let error = error {
 					ALog.info("\(error.localizedDescription)")
-					AlertHelper.showAlert(title: String.error, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
+					AlertHelper.showAlert(title: String.error, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)], from: self?.parent?.window.visibleViewController)
 					completion(false)
 				} else if tokenResult?.token != nil {
 					self?.keychain.userEmail = Auth.auth().currentUser?.email

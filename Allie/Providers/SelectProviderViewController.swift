@@ -190,7 +190,7 @@ class SelectProviderViewController: UICollectionViewController {
 					let okAction = AlertHelper.AlertAction(withTitle: String.ok)
 					let title = NSLocalizedString("REGISTRATION_ERROR.title", comment: "Something went wrong!")
 					let message = NSLocalizedString("REGISTRATION_ERROR.message", comment: "We are unable to register with your health care provider at this time.")
-					AlertHelper.showAlert(title: title, detailText: message, actions: [okAction])
+					AlertHelper.showAlert(title: title, detailText: message, actions: [okAction], from: self?.navigationController)
 				}
 				if animated {
 					self?.hud.dismiss()

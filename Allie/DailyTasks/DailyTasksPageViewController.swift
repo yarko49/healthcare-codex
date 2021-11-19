@@ -274,7 +274,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						ALog.error("Unable to fetch care plan", error: error)
 						let okAction = AlertHelper.AlertAction(withTitle: String.ok)
 						let title = NSLocalizedString("ERROR", comment: "Error")
-						AlertHelper.showAlert(title: title, detailText: error.localizedDescription, actions: [okAction])
+						AlertHelper.showAlert(title: title, detailText: error.localizedDescription, actions: [okAction], from: self?.tabBarController)
 					}
 					completion(false)
 				}

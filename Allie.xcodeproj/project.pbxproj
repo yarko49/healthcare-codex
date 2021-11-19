@@ -56,7 +56,7 @@
 		841418F826BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */; };
 		841418F926BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */; };
 		841640A92627D1C3000903AF /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 841640A82627D1C3000903AF /* Colors.xcassets */; };
-		841640C52627D714000903AF /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ConversationViewController.swift */; };
+		841640C52627D714000903AF /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ChatViewController.swift */; };
 		841640CA2627D999000903AF /* UITabBar+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C92627D999000903AF /* UITabBar+Appearance.swift */; };
 		841640D82627F478000903AF /* UICollectionView+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640D72627F478000903AF /* UICollectionView+Appearance.swift */; };
 		8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */; };
@@ -274,9 +274,6 @@
 		844CB3BF268ACF22007F05A4 /* JGProgressHUD-SwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 844CB3BE268ACF22007F05A4 /* JGProgressHUD-SwiftUI */; };
 		844CB3C1268ACF3F007F05A4 /* JGProgressHUD-SwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 844CB3C0268ACF3F007F05A4 /* JGProgressHUD-SwiftUI */; };
 		844CB3C3268ACF4C007F05A4 /* JGProgressHUD-SwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 844CB3C2268ACF4C007F05A4 /* JGProgressHUD-SwiftUI */; };
-		844CB3C5268AE8FE007F05A4 /* ConversationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CB3C4268AE8FE007F05A4 /* ConversationListViewController.swift */; };
-		844CB3C6268AE8FE007F05A4 /* ConversationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CB3C4268AE8FE007F05A4 /* ConversationListViewController.swift */; };
-		844CB3C7268AE8FE007F05A4 /* ConversationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CB3C4268AE8FE007F05A4 /* ConversationListViewController.swift */; };
 		844CB3C9268AF4D9007F05A4 /* ConersationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CB3C8268AF4D9007F05A4 /* ConersationsTests.swift */; };
 		844DD5E2264F76EC0039DB20 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 844DD5E0264F76EC0039DB20 /* GoogleService-Info.plist */; };
 		844DD5E4264F7B240039DB20 /* TaskErrorDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844DD5E3264F7B240039DB20 /* TaskErrorDisplayViewController.swift */; };
@@ -444,7 +441,7 @@
 		847DCC0D265871F3004E9C1D /* Notification+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8437270B25F8989C005B2C5C /* Notification+Names.swift */; };
 		847DCC0F265871F3004E9C1D /* AnyUserInfoExtensible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2BFD0260460D30064DB08 /* AnyUserInfoExtensible.swift */; };
 		847DCC10265871F3004E9C1D /* KeyedDecodingContainer+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766ED259C2A4E00C50C09 /* KeyedDecodingContainer+Custom.swift */; };
-		847DCC11265871F3004E9C1D /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ConversationViewController.swift */; };
+		847DCC11265871F3004E9C1D /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ChatViewController.swift */; };
 		847DCC12265871F3004E9C1D /* OCKPatient+Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845FBEA925FC97B200472257 /* OCKPatient+Subject.swift */; };
 		847DCC13265871F3004E9C1D /* HKDataUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */; };
 		847DCC14265871F3004E9C1D /* CodeableConcept+Supported.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439C79625FB3650008C5940 /* CodeableConcept+Supported.swift */; };
@@ -874,7 +871,7 @@
 		84D1223F264112DE00990196 /* Notification+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8437270B25F8989C005B2C5C /* Notification+Names.swift */; };
 		84D12240264112DE00990196 /* AnyUserInfoExtensible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2BFD0260460D30064DB08 /* AnyUserInfoExtensible.swift */; };
 		84D12241264112DE00990196 /* KeyedDecodingContainer+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766ED259C2A4E00C50C09 /* KeyedDecodingContainer+Custom.swift */; };
-		84D12242264112DE00990196 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ConversationViewController.swift */; };
+		84D12242264112DE00990196 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841640C42627D714000903AF /* ChatViewController.swift */; };
 		84D12243264112DE00990196 /* OCKPatient+Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845FBEA925FC97B200472257 /* OCKPatient+Subject.swift */; };
 		84D12244264112DE00990196 /* HKDataUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476665259C2A4E00C50C09 /* HKDataUploadViewController.swift */; };
 		84D12245264112DE00990196 /* CodeableConcept+Supported.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439C79625FB3650008C5940 /* CodeableConcept+Supported.swift */; };
@@ -1038,10 +1035,10 @@
 		84DF46E2273A4BBA006185B4 /* URL+RedirectURI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF46E1273A4BBA006185B4 /* URL+RedirectURI.swift */; };
 		84DF46E3273A4C1A006185B4 /* URL+RedirectURI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF46E1273A4BBA006185B4 /* URL+RedirectURI.swift */; };
 		84DF46E4273A4C1B006185B4 /* URL+RedirectURI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF46E1273A4BBA006185B4 /* URL+RedirectURI.swift */; };
+		84E04DAF2744D43D00CAC16E /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 84E04DAE2744D43D00CAC16E /* MessageKit */; };
+		84E04DB12744D44300CAC16E /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 84E04DB02744D44300CAC16E /* MessageKit */; };
+		84E04DB32744D44900CAC16E /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 84E04DB22744D44900CAC16E /* MessageKit */; };
 		84E0624825C7C2E7008142C6 /* SettingsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A4259C2A4E00C50C09 /* SettingsType.swift */; };
-		84E18CE226818706009AFBF3 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 84E18CE126818706009AFBF3 /* MessageKit */; };
-		84E18CE42681872A009AFBF3 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 84E18CE32681872A009AFBF3 /* MessageKit */; };
-		84E18CE626818737009AFBF3 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 84E18CE526818737009AFBF3 /* MessageKit */; };
 		84E18CE826818830009AFBF3 /* TCHConversation+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E18CE726818830009AFBF3 /* TCHConversation+Identifiable.swift */; };
 		84E18CE926818830009AFBF3 /* TCHConversation+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E18CE726818830009AFBF3 /* TCHConversation+Identifiable.swift */; };
 		84E18CEA26818830009AFBF3 /* TCHConversation+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E18CE726818830009AFBF3 /* TCHConversation+Identifiable.swift */; };
@@ -1119,7 +1116,7 @@
 		840D69A3271E98DC00473045 /* SimpleTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTaskController.swift; sourceTree = "<group>"; };
 		841418F626BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHOutcome+OCKHealthKitOutcome.swift"; sourceTree = "<group>"; };
 		841640A82627D1C3000903AF /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
-		841640C42627D714000903AF /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		841640C42627D714000903AF /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		841640C92627D999000903AF /* UITabBar+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar+Appearance.swift"; sourceTree = "<group>"; };
 		841640D72627F478000903AF /* UICollectionView+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Appearance.swift"; sourceTree = "<group>"; };
 		8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextContentDetailViewController.swift; sourceTree = "<group>"; };
@@ -1262,7 +1259,6 @@
 		8449F47726D73730009B5F7A /* GATTService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GATTService.swift; sourceTree = "<group>"; };
 		8449F47B26D73804009B5F7A /* GATTCharacteristic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GATTCharacteristic.swift; sourceTree = "<group>"; };
 		8449F47F26D73C69009B5F7A /* BLEIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEIdentifiable.swift; sourceTree = "<group>"; };
-		844CB3C4268AE8FE007F05A4 /* ConversationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListViewController.swift; sourceTree = "<group>"; };
 		844CB3C8268AF4D9007F05A4 /* ConersationsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConersationsTests.swift; sourceTree = "<group>"; };
 		844DD5DA264F76CE0039DB20 /* EnvironmentDev.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = EnvironmentDev.xcconfig; sourceTree = "<group>"; };
 		844DD5DB264F76CE0039DB20 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -1457,6 +1453,7 @@
 		84DC75A425ABBAD6003B541C /* CHCarePlan+OCKCarePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHCarePlan+OCKCarePlan.swift"; sourceTree = "<group>"; };
 		84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleElementTests.swift; sourceTree = "<group>"; };
 		84DF46E1273A4BBA006185B4 /* URL+RedirectURI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+RedirectURI.swift"; sourceTree = "<group>"; };
+		84E04DAD2744D3E700CAC16E /* MessageKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MessageKit; path = ../MessageKit; sourceTree = "<group>"; };
 		84E18CE726818830009AFBF3 /* TCHConversation+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TCHConversation+Identifiable.swift"; sourceTree = "<group>"; };
 		84E18CEB268188DD009AFBF3 /* TCHMessage+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TCHMessage+Identifiable.swift"; sourceTree = "<group>"; };
 		84E4660125A040F100A10F8B /* ViewIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIdentifiable.swift; sourceTree = "<group>"; };
@@ -1499,13 +1496,13 @@
 				844AD614267FC7CB0096A08E /* CareKitFHIR in Frameworks */,
 				8443627F264B527B002B475C /* FirebaseDynamicLinks in Frameworks */,
 				844CB3BF268ACF22007F05A4 /* JGProgressHUD-SwiftUI in Frameworks */,
-				84E18CE226818706009AFBF3 /* MessageKit in Frameworks */,
 				84CDAD7F26ACC9BD00323A5B /* GoogleSignIn in Frameworks */,
 				8443627B264B527B002B475C /* FirebaseMessaging in Frameworks */,
 				845AAC71259C36E900FF8F3F /* IQKeyboardManagerSwift in Frameworks */,
 				84700A84259C331B0083E2AA /* Charts in Frameworks */,
 				84436281264B527B002B475C /* FirebaseRemoteConfig in Frameworks */,
 				843372E2264F9B20005BED99 /* SDWebImage in Frameworks */,
+				84E04DB32744D44900CAC16E /* MessageKit in Frameworks */,
 				84C22BCB25A5821800D16CFF /* Logging in Frameworks */,
 				84436279264B527B002B475C /* FirebaseCrashlytics in Frameworks */,
 				84436277264B527B002B475C /* FirebaseAnalytics in Frameworks */,
@@ -1535,7 +1532,6 @@
 				847DCCB1265871F3004E9C1D /* CareKit in Frameworks */,
 				847DCCB2265871F3004E9C1D /* JGProgressHUD in Frameworks */,
 				847DCCB3265871F3004E9C1D /* KeychainAccess in Frameworks */,
-				84E18CE626818737009AFBF3 /* MessageKit in Frameworks */,
 				847DCCB4265871F3004E9C1D /* FirebaseInstallations in Frameworks */,
 				84C8C4062677228A0015A258 /* ZendeskSupportSDK in Frameworks */,
 				847DCCB5265871F3004E9C1D /* SkyFloatingLabelTextField in Frameworks */,
@@ -1554,6 +1550,7 @@
 				847DCCBD265871F3004E9C1D /* IQKeyboardManagerSwift in Frameworks */,
 				847DCCBE265871F3004E9C1D /* Charts in Frameworks */,
 				847DCCBF265871F3004E9C1D /* FirebaseRemoteConfig in Frameworks */,
+				84E04DAF2744D43D00CAC16E /* MessageKit in Frameworks */,
 				847DCCC3265871F3004E9C1D /* SDWebImage in Frameworks */,
 				847DCCC4265871F3004E9C1D /* Logging in Frameworks */,
 				847DCCC6265871F3004E9C1D /* FirebaseCrashlytics in Frameworks */,
@@ -1569,7 +1566,6 @@
 				84D122DC264112DE00990196 /* CareKit in Frameworks */,
 				84D122DD264112DE00990196 /* JGProgressHUD in Frameworks */,
 				84D122DE264112DE00990196 /* KeychainAccess in Frameworks */,
-				84E18CE42681872A009AFBF3 /* MessageKit in Frameworks */,
 				84D122DF264112DE00990196 /* SkyFloatingLabelTextField in Frameworks */,
 				84D122E0264112DE00990196 /* CareKitFHIR in Frameworks */,
 				84D122E1264112DE00990196 /* CareKitStore in Frameworks */,
@@ -1588,6 +1584,7 @@
 				84D122E8264112DE00990196 /* Charts in Frameworks */,
 				84D122EB264112DE00990196 /* FirebaseDynamicLinks in Frameworks */,
 				84987B4B267F0AA700294718 /* FirebaseInstallations in Frameworks */,
+				84E04DB12744D44300CAC16E /* MessageKit in Frameworks */,
 				84D122ED264112DE00990196 /* FirebaseAuth in Frameworks */,
 				84D122EE264112DE00990196 /* Logging in Frameworks */,
 				84D122EF264112DE00990196 /* FirebaseCrashlytics in Frameworks */,
@@ -1602,6 +1599,7 @@
 		3661848D668E4335C90931AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84E04DAD2744D3E700CAC16E /* MessageKit */,
 				840B75BD26FB99FA00BF2D1A /* HealthKit.framework */,
 				84F2596E268ACBA00093FCF0 /* CareKit */,
 			);
@@ -1673,8 +1671,7 @@
 		841640C32627D6EB000903AF /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				844CB3C4268AE8FE007F05A4 /* ConversationListViewController.swift */,
-				841640C42627D714000903AF /* ConversationViewController.swift */,
+				841640C42627D714000903AF /* ChatViewController.swift */,
 				8449A65A267C58D300F73D8E /* ConversationsManager.swift */,
 				84E18CE726818830009AFBF3 /* TCHConversation+Identifiable.swift */,
 				84E18CEB268188DD009AFBF3 /* TCHMessage+Identifiable.swift */,
@@ -2486,12 +2483,12 @@
 				844AD613267FC7CB0096A08E /* CareKitFHIR */,
 				844AD615267FC7CB0096A08E /* CareKitStore */,
 				844AD617267FC7CB0096A08E /* CareKitUI */,
-				84E18CE126818706009AFBF3 /* MessageKit */,
 				84CEF53326891EFE000C4C56 /* SDWebImageSwiftUI */,
 				844CB3BE268ACF22007F05A4 /* JGProgressHUD-SwiftUI */,
 				84A9D88D26AA9286001E83B2 /* WebService */,
 				84CDAD7E26ACC9BD00323A5B /* GoogleSignIn */,
 				847BBE9526DDF39900402B47 /* OrderedCollections */,
+				84E04DB22744D44900CAC16E /* MessageKit */,
 			);
 			productName = Alfred;
 			productReference = 842398C7259C1144006FB3F4 /* Allie.app */;
@@ -2571,12 +2568,12 @@
 				847DCBED265871F3004E9C1D /* SDWebImage */,
 				84C8C4052677228A0015A258 /* ZendeskSupportSDK */,
 				84987B4C267F0AB000294718 /* TwilioConversationsClient */,
-				84E18CE526818737009AFBF3 /* MessageKit */,
 				84CEF53726891F39000C4C56 /* SDWebImageSwiftUI */,
 				844CB3C2268ACF4C007F05A4 /* JGProgressHUD-SwiftUI */,
 				84A9D89126AA92B4001E83B2 /* WebService */,
 				84CDAD8226ACC9F000323A5B /* GoogleSignIn */,
 				847BBE9726DDF3A800402B47 /* OrderedCollections */,
+				84E04DAE2744D43D00CAC16E /* MessageKit */,
 			);
 			productName = Alfred;
 			productReference = 847DCCE1265871F3004E9C1D /* Allie Dev.app */;
@@ -2619,12 +2616,12 @@
 				84C8C4032677227C0015A258 /* ZendeskSupportSDK */,
 				84987B48267F0AA200294718 /* TwilioConversationsClient */,
 				84987B4A267F0AA700294718 /* FirebaseInstallations */,
-				84E18CE32681872A009AFBF3 /* MessageKit */,
 				84CEF53526891F2F000C4C56 /* SDWebImageSwiftUI */,
 				844CB3C0268ACF3F007F05A4 /* JGProgressHUD-SwiftUI */,
 				84A9D88F26AA92A1001E83B2 /* WebService */,
 				84CDAD8026ACC9E600323A5B /* GoogleSignIn */,
 				847BBE9926DDF3B500402B47 /* OrderedCollections */,
+				84E04DB02744D44300CAC16E /* MessageKit */,
 			);
 			productName = Alfred;
 			productReference = 84D12309264112DE00990196 /* Allie QA.app */;
@@ -2672,7 +2669,6 @@
 				843372E0264F9B20005BED99 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				84C8C400267714950015A258 /* XCRemoteSwiftPackageReference "support_sdk_ios" */,
 				842D018A267C53FF006B708F /* XCRemoteSwiftPackageReference "conversations-ios" */,
-				84E18CE026818705009AFBF3 /* XCRemoteSwiftPackageReference "MessageKit" */,
 				84CEF53226891EFE000C4C56 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				844CB3BD268ACF22007F05A4 /* XCRemoteSwiftPackageReference "JGProgressHUD-SwiftUI" */,
 				84A9D88C26AA9286001E83B2 /* XCRemoteSwiftPackageReference "WebService" */,
@@ -3022,13 +3018,12 @@
 				84D2BFD1260460D30064DB08 /* AnyUserInfoExtensible.swift in Sources */,
 				844767C6259C2A4E00C50C09 /* KeyedDecodingContainer+Custom.swift in Sources */,
 				84A9202B26858DE300A52412 /* ConnectProviderViewController.swift in Sources */,
-				841640C52627D714000903AF /* ConversationViewController.swift in Sources */,
+				841640C52627D714000903AF /* ChatViewController.swift in Sources */,
 				845FBEAA25FC97B200472257 /* OCKPatient+Subject.swift in Sources */,
 				843F514C272A7E6800E801DE /* CHOutcomeValueSeverityType.swift in Sources */,
 				8447675E259C2A4E00C50C09 /* HKDataUploadViewController.swift in Sources */,
 				8439C79725FB3650008C5940 /* CodeableConcept+Supported.swift in Sources */,
 				84897F7B25E0DFDD00ABC715 /* CHOutcomeValue.swift in Sources */,
-				844CB3C5268AE8FE007F05A4 /* ConversationListViewController.swift in Sources */,
 				844F218526B1135E00788DA9 /* BGMDataFlags.swift in Sources */,
 				8442D31B26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift in Sources */,
 				84F47F6526412CAB009CC791 /* JSONDecoder+iso8601.swift in Sources */,
@@ -3369,7 +3364,7 @@
 				847DCC0F265871F3004E9C1D /* AnyUserInfoExtensible.swift in Sources */,
 				84A8F50626B76AE700A62818 /* InflightIdentifiers.swift in Sources */,
 				847DCC10265871F3004E9C1D /* KeyedDecodingContainer+Custom.swift in Sources */,
-				847DCC11265871F3004E9C1D /* ConversationViewController.swift in Sources */,
+				847DCC11265871F3004E9C1D /* ChatViewController.swift in Sources */,
 				84A9202D26858DE300A52412 /* ConnectProviderViewController.swift in Sources */,
 				847DCC12265871F3004E9C1D /* OCKPatient+Subject.swift in Sources */,
 				847DCC13265871F3004E9C1D /* HKDataUploadViewController.swift in Sources */,
@@ -3377,7 +3372,6 @@
 				847DCC14265871F3004E9C1D /* CodeableConcept+Supported.swift in Sources */,
 				847DCC15265871F3004E9C1D /* CHOutcomeValue.swift in Sources */,
 				847DCC16265871F3004E9C1D /* JSONDecoder+iso8601.swift in Sources */,
-				844CB3C7268AE8FE007F05A4 /* ConversationListViewController.swift in Sources */,
 				844F218726B1135E00788DA9 /* BGMDataFlags.swift in Sources */,
 				8442D31D26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift in Sources */,
 				847DCC17265871F3004E9C1D /* CHAnyPrimitiveValue.swift in Sources */,
@@ -3681,7 +3675,7 @@
 				84D12240264112DE00990196 /* AnyUserInfoExtensible.swift in Sources */,
 				84A8F50526B76AE700A62818 /* InflightIdentifiers.swift in Sources */,
 				84D12241264112DE00990196 /* KeyedDecodingContainer+Custom.swift in Sources */,
-				84D12242264112DE00990196 /* ConversationViewController.swift in Sources */,
+				84D12242264112DE00990196 /* ChatViewController.swift in Sources */,
 				84A9202C26858DE300A52412 /* ConnectProviderViewController.swift in Sources */,
 				84D12243264112DE00990196 /* OCKPatient+Subject.swift in Sources */,
 				84D12244264112DE00990196 /* HKDataUploadViewController.swift in Sources */,
@@ -3689,7 +3683,6 @@
 				84D12245264112DE00990196 /* CodeableConcept+Supported.swift in Sources */,
 				84D12246264112DE00990196 /* CHOutcomeValue.swift in Sources */,
 				84F47F6626412E04009CC791 /* JSONDecoder+iso8601.swift in Sources */,
-				844CB3C6268AE8FE007F05A4 /* ConversationListViewController.swift in Sources */,
 				844F218626B1135E00788DA9 /* BGMDataFlags.swift in Sources */,
 				8442D31C26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift in Sources */,
 				84D12247264112DE00990196 /* CHAnyPrimitiveValue.swift in Sources */,
@@ -4152,7 +4145,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4181,7 +4174,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4306,7 +4299,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4335,7 +4328,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4364,7 +4357,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4393,7 +4386,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4735,14 +4728,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.0.0;
-			};
-		};
-		84E18CE026818705009AFBF3 /* XCRemoteSwiftPackageReference "MessageKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MessageKit/MessageKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.6.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -5119,19 +5104,16 @@
 			package = 84D12220264112DE00990196 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */;
 			productName = SkyFloatingLabelTextField;
 		};
-		84E18CE126818706009AFBF3 /* MessageKit */ = {
+		84E04DAE2744D43D00CAC16E /* MessageKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84E18CE026818705009AFBF3 /* XCRemoteSwiftPackageReference "MessageKit" */;
 			productName = MessageKit;
 		};
-		84E18CE32681872A009AFBF3 /* MessageKit */ = {
+		84E04DB02744D44300CAC16E /* MessageKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84E18CE026818705009AFBF3 /* XCRemoteSwiftPackageReference "MessageKit" */;
 			productName = MessageKit;
 		};
-		84E18CE526818737009AFBF3 /* MessageKit */ = {
+		84E04DB22744D44900CAC16E /* MessageKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 84E18CE026818705009AFBF3 /* XCRemoteSwiftPackageReference "MessageKit" */;
 			productName = MessageKit;
 		};
 /* End XCSwiftPackageProductDependency section */

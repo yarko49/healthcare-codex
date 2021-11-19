@@ -214,7 +214,7 @@ class ConnectedDevicesViewController: UITableViewController {
 					let okAction = AlertHelper.AlertAction(withTitle: String.ok)
 					let title = NSLocalizedString("REGISTRATION_ERROR.title", comment: "Something went wrong!")
 					let message = NSLocalizedString("REGISTRATION_ERROR_DEVICE.message", comment: "We are unable to register with your health care device at this time.")
-					AlertHelper.showAlert(title: title, detailText: message, actions: [okAction])
+					AlertHelper.showAlert(title: title, detailText: message, actions: [okAction], from: self?.navigationController)
 				}
 				self?.hud.dismiss()
 			} receiveValue: { [weak self] success in

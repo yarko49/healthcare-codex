@@ -263,8 +263,8 @@ extension CHTask {
 	var ockTask: OCKTask? {
 		anyTask as? OCKTask
 	}
-    
-    var anyTask: OCKAnyTask? {
-        healthKitLinkage != nil ? OCKHealthKitTask(task: self) : OCKTask(task: self)
-    }
+
+	var anyTask: OCKAnyTask? {
+		healthKitLinkage != nil ? OCKHealthKitTask(task: self) : OCKTask(task: self)
+	}
 }
