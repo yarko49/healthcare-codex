@@ -12,9 +12,16 @@ import MessageKit
 import TwilioConversationsClient
 import UIKit
 
-class ConversationViewController: MessagesViewController {
-	weak var conversation: TCHConversation?
-	weak var conversationsManager: ConversationsManager?
+class ChatViewController: MessagesViewController {
+	var conversation: TCHConversation? {
+		conversationManager.conversation
+	}
+
+	let conversationManager: ConversationsManager = {
+		let manager = ConversationsManager()
+		return manager
+	}()
+
 	private var cancellables: Set<AnyCancellable> = []
 	@Injected(\.careManager) var careManager: CareManager
 
@@ -39,7 +46,7 @@ class ConversationViewController: MessagesViewController {
 		cancellables.forEach { cancellable in
 			cancellable.cancel()
 		}
-		conversationsManager?.messagesDelegate = nil
+		conversationManager.messagesDelegate = nil
 	}
 
 	override func viewDidLoad() {
@@ -47,25 +54,10 @@ class ConversationViewController: MessagesViewController {
 		title = NSLocalizedString("CHAT", comment: "Chat")
 		configureMessageCollectionView()
 		configureMessageInputBar()
-		if let conversation = conversation {
-			hud.show(in: tabBarController?.view ?? view)
-			DispatchQueue.global(qos: .background).async { [weak self] in
-				self?.conversationsManager?.join(conversation: conversation, completion: { [weak self] result in
-					DispatchQueue.main.async {
-						self?.hud.dismiss(animated: false)
-						switch result {
-						case .failure(let error):
-							ALog.error("\(error)")
-						case .success:
-							self?.messagesCollectionView.reloadData()
-						}
-					}
-				})
-			}
-		}
-		conversationsManager?.messagesDelegate = self
+		subscribeToConversation()
 
-		conversationsManager?.$codexUsers
+		conversationManager.messagesDelegate = self
+		conversationManager.$codexUsers
 			.receive(on: DispatchQueue.main)
 			.sink(receiveValue: { _ in
 				self.messagesCollectionView.reloadData()
@@ -77,6 +69,42 @@ class ConversationViewController: MessagesViewController {
 			layout.setMessageOutgoingMessageTopLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 5, right: 8)))
 			layout.setMessageIncomingMessageTopLabelAlignment(LabelAlignment(textAlignment: .left, textInsets: UIEdgeInsets(top: 0, left: 8, bottom: 5, right: 0)))
 		}
+		configureTokens()
+	}
+
+	func configureTokens() {
+		hud.show(in: tabBarController?.view ?? view)
+		conversationManager.refreshAccessToken { [weak self] result in
+			DispatchQueue.main.async {
+				self?.hud.dismiss(animated: false)
+				switch result {
+				case .failure(let error):
+					self?.showError(message: error.localizedDescription)
+				case .success:
+					self?.messagesCollectionView.reloadData()
+				}
+			}
+		}
+		conversationManager.configureNotifications()
+	}
+
+	func subscribeToConversation() {
+		conversationManager.$conversation
+			.receive(on: RunLoop.main, options: nil)
+			.sink { [weak self] updated in
+				guard let conversation = updated else {
+					return
+				}
+				self?.conversationManager.join(conversation: conversation, completion: { result in
+					self?.hud.dismiss(animated: false)
+					switch result {
+					case .failure(let error):
+						ALog.error("\(error)")
+					case .success:
+						self?.messagesCollectionView.reloadData()
+					}
+				})
+			}.store(in: &cancellables)
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -88,6 +116,7 @@ class ConversationViewController: MessagesViewController {
 	}
 
 	func configureMessageCollectionView() {
+		additionalBottomInset = 16.0
 		messagesCollectionView.messagesDataSource = self
 		messagesCollectionView.messagesLayoutDelegate = self
 		messagesCollectionView.messagesDisplayDelegate = self
@@ -102,10 +131,7 @@ class ConversationViewController: MessagesViewController {
 		messageInputBar.delegate = self
 		messageInputBar.inputTextView.tintColor = .allieGray
 		messageInputBar.sendButton.setTitleColor(.allieGray, for: .normal)
-		messageInputBar.sendButton.setTitleColor(
-			UIColor.allieGray.withAlphaComponent(0.3),
-			for: .highlighted
-		)
+		messageInputBar.sendButton.setTitleColor(UIColor.allieGray.withAlphaComponent(0.3), for: .highlighted)
 	}
 
 	func isLastSectionVisible(messageList: [TCHMessage]) -> Bool {
@@ -116,9 +142,17 @@ class ConversationViewController: MessagesViewController {
 
 		return messagesCollectionView.indexPathsForVisibleItems.contains(lastIndexPath)
 	}
+
+	func showError(message: String?) {
+		let controller = UIAlertController(title: NSLocalizedString("ERROR", comment: "Error"), message: message, preferredStyle: .alert)
+		let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .default) { _ in
+		}
+		controller.addAction(okAction)
+		navigationController?.showDetailViewController(controller, sender: self)
+	}
 }
 
-extension ConversationViewController: ConversationMessagesDelegate {
+extension ChatViewController: ConversationMessagesDelegate {
 	func conversationsManager(_ manager: ConversationsManager, didStartPreviousMessagesDownload conversations: [TCHConversation]) {
 		DispatchQueue.main.async {
 			self.hud.show(in: self.tabBarController?.view ?? self.navigationController?.view ?? self.view)
@@ -141,17 +175,17 @@ extension ConversationViewController: ConversationMessagesDelegate {
 	}
 }
 
-extension ConversationViewController: MessagesDataSource {
+extension ChatViewController: MessagesDataSource {
 	func currentSender() -> SenderType {
 		careManager.patient ?? CHParticipant(name: "Patient")
 	}
 
 	func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
-		conversationsManager?.message(for: conversation, at: indexPath) ?? TCHMessage()
+		conversationManager.message(for: conversation, at: indexPath) ?? TCHMessage()
 	}
 
 	func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
-		conversationsManager?.numberOfMessages(for: conversation) ?? 0
+		conversationManager.numberOfMessages(for: conversation)
 	}
 
 	func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
@@ -167,9 +201,9 @@ extension ConversationViewController: MessagesDataSource {
 
 	func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
 		let theMessage = message as? TCHMessage
-		var name = conversationsManager?.participantFriendlyName(identifier: theMessage?.author) ?? message.sender.displayName
+		var name = conversationManager.participantFriendlyName(identifier: theMessage?.author) ?? message.sender.displayName
 		if message.sender.senderId != patient?.id {
-			if let jobTitle = conversationsManager?.jobTitle(identifier: theMessage?.author) {
+			if let jobTitle = conversationManager.jobTitle(identifier: theMessage?.author) {
 				name += "\n" + jobTitle
 			}
 		}
@@ -182,9 +216,9 @@ extension ConversationViewController: MessagesDataSource {
 	}
 }
 
-extension ConversationViewController: MessagesLayoutDelegate {}
+extension ChatViewController: MessagesLayoutDelegate {}
 
-extension ConversationViewController: MessagesDisplayDelegate {
+extension ChatViewController: MessagesDisplayDelegate {
 	func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
 		message.sender.senderId == patient?.id ? .allieChatDark : .allieChatLight
 	}
@@ -202,11 +236,11 @@ extension ConversationViewController: MessagesDisplayDelegate {
 	}
 }
 
-extension ConversationViewController: MessageCellDelegate {}
+extension ChatViewController: MessageCellDelegate {}
 
-extension ConversationViewController: MessageLabelDelegate {}
+extension ChatViewController: MessageLabelDelegate {}
 
-extension ConversationViewController: InputBarAccessoryViewDelegate {
+extension ChatViewController: InputBarAccessoryViewDelegate {
 	@objc func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
 		processInputBar(inputBar, message: text)
 	}
@@ -234,7 +268,7 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
 		// Resign first responder for iPad split view
 		inputBar.inputTextView.resignFirstResponder()
 		let updatedMessage = message.trimmingCharacters(in: .whitespacesAndNewlines)
-		conversationsManager?.send(message: updatedMessage, for: conversation, completion: { [weak self] result in
+		conversationManager.send(message: updatedMessage, for: conversation, completion: { [weak self] result in
 			DispatchQueue.main.async {
 				inputBar.sendButton.stopAnimating()
 				switch result {

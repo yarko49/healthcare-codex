@@ -139,7 +139,7 @@ class MainCoordinator: BaseCoordinator {
 					switch completion {
 					case .failure(let error):
 						ALog.error("\(error.localizedDescription)")
-						AlertHelper.showAlert(title: String.error, detailText: String.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
+						AlertHelper.showAlert(title: String.error, detailText: String.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)], from: self?.window.visibleViewController)
 					case .finished:
 						break
 					}
@@ -234,6 +234,6 @@ class MainCoordinator: BaseCoordinator {
 			}
 		}
 		controller.addAction(action)
-		window.rootViewController?.showDetailViewController(controller, sender: self)
+		window.visibleViewController?.showDetailViewController(controller, sender: self)
 	}
 }

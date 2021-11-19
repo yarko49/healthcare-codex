@@ -208,8 +208,8 @@ class AppCoordinator: BaseCoordinator {
 		return navigationController
 	}
 
-	class var conversationsListViewController: ConversationListViewController {
-		let controller = ConversationListViewController(collectionViewLayout: ConversationListViewController.layout)
+	class var conversationsListViewController: ChatViewController {
+		let controller = ChatViewController()
 		let title = NSLocalizedString("CHAT", comment: "Chat")
 		controller.title = title
 		return controller

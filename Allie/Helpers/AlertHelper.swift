@@ -13,7 +13,7 @@ class AlertHelper {
 		}
 	}
 
-	static func showAlert(title: String?, detailText: String?, actions: [AlertAction], style: UIAlertController.Style = .alert, fillProportionally: Bool = false, from viewController: UIViewController? = UIApplication.shared.windows.first?.visibleViewController()) {
+	static func showAlert(title: String?, detailText: String?, actions: [AlertAction], style: UIAlertController.Style = .alert, fillProportionally: Bool = false, from viewController: UIViewController?) {
 		let alertController = UIAlertController(title: title, message: detailText, preferredStyle: style)
 		actions.forEach { alertAction in
 			let action = UIAlertAction(title: alertAction.title, style: alertAction.style, handler: { _ in
@@ -24,7 +24,7 @@ class AlertHelper {
 		present(alertController, from: viewController)
 	}
 
-	static func present(_ modalViewController: UIViewController?, from viewController: UIViewController? = UIApplication.shared.windows.first?.visibleViewController()) {
+	static func present(_ modalViewController: UIViewController?, from viewController: UIViewController? = UIApplication.shared.windows.first?.visibleViewController) {
 		guard let modalViewController = modalViewController else { return }
 		modalViewController.modalTransitionStyle = .crossDissolve
 		modalViewController.modalPresentationStyle = .overFullScreen

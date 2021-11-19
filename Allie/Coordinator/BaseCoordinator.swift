@@ -66,7 +66,7 @@ class BaseCoordinator: NSObject, Coordinable, UIViewControllerTransitioningDeleg
 				switch completion {
 				case .failure(let error):
 					ALog.error("\(error.localizedDescription)")
-					AlertHelper.showAlert(title: String.error, detailText: String.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)])
+					AlertHelper.showAlert(title: String.error, detailText: String.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)], from: self.navigationController)
 				case .finished:
 					break
 				}

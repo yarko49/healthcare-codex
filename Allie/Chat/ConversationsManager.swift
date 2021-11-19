@@ -41,12 +41,9 @@ class ConversationsManager: NSObject, ObservableObject {
 		}
 	}
 
-	@Published private(set) var conversations: Set<TCHConversation> = [] {
-		didSet {
-			ALog.info("did set conversations")
-		}
-	}
-
+	// we keep track of all converstations but we expect only on conversation
+	@Published private(set) var allConversations: Set<TCHConversation> = []
+	@Published private(set) var conversation: TCHConversation?
 	@Published private(set) var messages: [String: OrderedSet<TCHMessage>] = [:] {
 		didSet {
 			getCodexUsers()
@@ -334,6 +331,15 @@ extension ConversationsManager {
 			return nil
 		}
 		let message = messages[conversation.id]?[indexPath.section]
+		if let messageIndex = message?.index {
+			conversation.advanceLastReadMessageIndex(messageIndex) { result, count in
+				if let error = result.error {
+					ALog.error("Unable to advance last read message index \(messageIndex)", error: error)
+				} else {
+					ALog.trace("unread message count. \(count)")
+				}
+			}
+		}
 		return message
 	}
 
@@ -370,7 +376,8 @@ extension ConversationsManager: TwilioConversationsClientDelegate {
 		}
 
 		if let conversations = client.myConversations(), !conversations.isEmpty {
-			self.conversations = Set(conversations)
+			allConversations = Set(conversations)
+			conversation = conversations.first
 			messagesDelegate?.conversationsManager(self, didStartPreviousMessagesDownload: conversations)
 			getPreviousMessages(for: conversations) { [weak self] result in
 				if case .failure(let error) = result {
@@ -385,7 +392,8 @@ extension ConversationsManager: TwilioConversationsClientDelegate {
 
 	func conversationsClient(_ client: TwilioConversationsClient, conversationAdded conversation: TCHConversation) {
 		ALog.info("conversationAdded:")
-		conversations.insert(conversation)
+		allConversations.insert(conversation)
+		self.conversation = conversation
 		messagesDelegate?.conversationsManager(self, didStartPreviousMessagesDownload: [conversation])
 		getPreviousMessages(for: [conversation]) { [weak self] result in
 			if case .failure(let error) = result {
@@ -398,7 +406,8 @@ extension ConversationsManager: TwilioConversationsClientDelegate {
 	}
 
 	func conversationsClient(_ client: TwilioConversationsClient, conversation: TCHConversation, updated: TCHConversationUpdate) {
-		conversations.insert(conversation)
+		allConversations.insert(conversation)
+		self.conversation = conversation
 		ALog.info("conversation:updated:")
 	}
 
@@ -408,7 +417,8 @@ extension ConversationsManager: TwilioConversationsClientDelegate {
 
 	func conversationsClient(_ client: TwilioConversationsClient, conversationDeleted conversation: TCHConversation) {
 		ALog.info("conversation:conversationDeleted:")
-		conversations.remove(conversation)
+		allConversations.removeAll()
+		self.conversation = nil
 	}
 
 	// Called whenever a conversation we've joined receives a new message

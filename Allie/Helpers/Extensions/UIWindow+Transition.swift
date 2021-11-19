@@ -139,7 +139,7 @@ public extension UIWindow {
 		}
 	}
 
-	func visibleViewController() -> UIViewController? {
+	var visibleViewController: UIViewController? {
 		if let rootViewController: UIViewController = rootViewController {
 			return UIWindow.getVisibleViewControllerFrom(viewController: rootViewController)
 		}
@@ -147,10 +147,10 @@ public extension UIWindow {
 	}
 
 	class func getVisibleViewControllerFrom(viewController: UIViewController) -> UIViewController {
-		if let navigationController = viewController as? UINavigationController {
-			return UIWindow.getVisibleViewControllerFrom(viewController: navigationController.visibleViewController!)
-		} else if let tabBarController = viewController as? UITabBarController {
-			return UIWindow.getVisibleViewControllerFrom(viewController: tabBarController.selectedViewController!)
+		if let navigationController = viewController as? UINavigationController, let visibleViewController = navigationController.visibleViewController {
+			return UIWindow.getVisibleViewControllerFrom(viewController: visibleViewController)
+		} else if let tabBarController = viewController as? UITabBarController, let selectedViewController = tabBarController.selectedViewController {
+			return UIWindow.getVisibleViewControllerFrom(viewController: selectedViewController)
 		} else if let presentedViewController = viewController.presentedViewController, let presentedViewController2 = presentedViewController.presentedViewController {
 			return UIWindow.getVisibleViewControllerFrom(viewController: presentedViewController2)
 		} else {
@@ -159,7 +159,9 @@ public extension UIWindow {
 	}
 
 	static var keyWindow: UIWindow? {
-		UIApplication.shared.windows.filter(\.isKeyWindow).first
+		UIApplication.shared.windows.first { window in
+			window.isKeyWindow
+		}
 	}
 }
 
