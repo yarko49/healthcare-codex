@@ -51,4 +51,9 @@ extension PersonNameComponents {
 
 		return names.isEmpty ? nil : names.joined(separator: " ")
 	}
+    
+    var preferredName: String? {
+        return nickname ?? fullName
+    }
+    
 }

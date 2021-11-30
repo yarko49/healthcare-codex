@@ -344,6 +344,8 @@
 
 "VERSION" = "Version %@";
 
+"PREFERRED_NAME" = "Preferred Name";
+
 "FIRST_NAME" = "First Name";
 
 "LAST_NAME" = "Last Name";

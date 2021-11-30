@@ -38,7 +38,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 			bottomButtonOffset = 0.0
 		}
 		configureValidation()
-		[namesStackView, firstNameTextField, lastNameTextField, mainStackView].forEach { view in
+		[namesStackView, preferredNameTextField, mainStackView].forEach { view in
 			view.translatesAutoresizingMaskIntoConstraints = false
 		}
 		view.addSubview(mainStackView)
@@ -46,8 +46,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 		NSLayoutConstraint.activate([mainStackView.topAnchor.constraint(equalToSystemSpacingBelow: viewTopAnchor, multiplier: viewTopOffset),
 		                             mainStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: mainStackView.trailingAnchor, multiplier: 2.0)])
-		namesStackView.addArrangedSubview(firstNameTextField)
-		namesStackView.addArrangedSubview(lastNameTextField)
+		namesStackView.addArrangedSubview(preferredNameTextField)
 		mainStackView.addArrangedSubview(namesStackView)
 		if controllerViewMode != .onboarding {
 			mainStackView.addArrangedSubview(emailTextField)
@@ -67,13 +66,12 @@ class ProfileEntryViewController: SignupBaseViewController {
 		bottomButton.addTarget(self, action: #selector(save(_:)), for: .touchUpInside)
 		bottomButton.setTitle(doneButtonTitle, for: .normal)
 		bottomButton.backgroundColor = .allieGray
-		firstNameTextField.addTarget(self, action: #selector(firstNameDidChange(_:)), for: .editingChanged)
-		lastNameTextField.addTarget(self, action: #selector(lastNameDidChange(_:)), for: .editingChanged)
+		preferredNameTextField.addTarget(self, action: #selector(preferredNameDidChange(_:)), for: .editingChanged)
 		configureValues()
 	}
 
 	private func configureValidation() {
-		validName
+		validPreferredName
 			.receive(on: RunLoop.main)
 			.assign(to: \.isEnabled, on: bottomButton)
 			.store(in: &cancellables)
@@ -87,45 +85,27 @@ class ProfileEntryViewController: SignupBaseViewController {
 
 	var doneButtonTitle: String? = NSLocalizedString("NEXT", comment: "Next")
 
-	@Published var firstName: String = ""
-	@Published var lastName: String = ""
+    @Published var preferredName: String = ""
 
 	var name: PersonNameComponents {
 		get {
 			var name = PersonNameComponents()
-			name.familyName = lastName
-			name.givenName = firstName
+            name.nickname = preferredName
 			return name
 		}
 		set {
-			lastName = newValue.familyName ?? ""
-			firstName = newValue.givenName ?? ""
+            preferredName = newValue.preferredName ?? ""
 		}
 	}
 
-	var validName: AnyPublisher<Bool, Never> {
-		validFirstName.combineLatest(validLastName) { validFirstName, validLastName in
-			validFirstName && validLastName
-		}.eraseToAnyPublisher()
-	}
-
-	var validFirstName: AnyPublisher<Bool, Never> {
-		$firstName
-			.debounce(for: 0.2, scheduler: RunLoop.main)
-			.removeDuplicates()
-			.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-			.map { $0.count > 1 ? true : false }
-			.eraseToAnyPublisher()
-	}
-
-	var validLastName: AnyPublisher<Bool, Never> {
-		$lastName
-			.debounce(for: 0.2, scheduler: RunLoop.main)
-			.removeDuplicates()
-			.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-			.map { $0.count > 1 ? true : false }
-			.eraseToAnyPublisher()
-	}
+    var validPreferredName: AnyPublisher<Bool, Never> {
+        $preferredName
+            .debounce(for: 0.2, scheduler: RunLoop.main)
+            .removeDuplicates()
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .map { $0.count > 1 ? true : false }
+            .eraseToAnyPublisher()
+    }
 
 	var heightInInches: Int = Constants.heightInInches {
 		didSet {
@@ -187,22 +167,14 @@ class ProfileEntryViewController: SignupBaseViewController {
 		return view
 	}()
 
-	@IBAction func firstNameDidChange(_ sender: UITextField) {
-		firstName = sender.text ?? ""
+	@IBAction func preferredNameDidChange(_ sender: UITextField) {
+		preferredName = sender.text ?? ""
 	}
 
-	@IBAction func lastNameDidChange(_ sender: UITextField) {
-		lastName = sender.text ?? ""
-	}
-
-	let firstNameTextField: SkyFloatingLabelTextField = {
-		createNameTextField(placeholder: NSLocalizedString("FIRST_NAME", comment: "First Name"), isRequired: true)
-	}()
-
-	let lastNameTextField: SkyFloatingLabelTextField = {
-		createNameTextField(placeholder: NSLocalizedString("LAST_NAME", comment: "Last Name"), isRequired: false)
-	}()
-
+    let preferredNameTextField: SkyFloatingLabelTextField = {
+        createNameTextField(placeholder: NSLocalizedString("PREFERRED_NAME", comment: "Preferred Name"), isRequired: true)
+    }()
+    
 	lazy var emailTextField: SkyFloatingLabelTextField = {
 		let textField = SkyFloatingLabelTextField(frame: .zero)
 		textField.translatesAutoresizingMaskIntoConstraints = false
@@ -281,12 +253,9 @@ class ProfileEntryViewController: SignupBaseViewController {
 	}()
 
 	func configureValues() {
-		firstNameTextField.delegate = self
-		lastNameTextField.delegate = self
-		firstNameTextField.text = patient?.name.givenName
-		lastNameTextField.text = patient?.name.familyName
-		firstName = patient?.name.givenName ?? ""
-		lastName = patient?.name.familyName ?? ""
+		preferredNameTextField.delegate = self
+        preferredNameTextField.text = patient?.name.preferredName
+        preferredName = patient?.name.preferredName ?? ""
 		emailTextField.text = patient?.profile.email
 		heightInInches = patient?.profile.heightInInches ?? Constants.heightInInches
 		weightInPounds = patient?.profile.weightInPounds ?? Constants.weightInPounds
@@ -297,10 +266,9 @@ class ProfileEntryViewController: SignupBaseViewController {
 	}
 
 	@IBAction func showHeightPicker() {
-		[firstNameTextField, lastNameTextField].forEach { textField in
-			textField.resignFirstResponder()
-		}
-		let viewController = HeightPickerView()
+        preferredNameTextField.resignFirstResponder()
+
+        let viewController = HeightPickerView()
 		viewController.heightInInches = heightInInches
 		viewController.delegate = self
 		let navigationController = UINavigationController(rootViewController: viewController)
@@ -310,9 +278,8 @@ class ProfileEntryViewController: SignupBaseViewController {
 	}
 
 	@IBAction func showWeightPicker() {
-		[firstNameTextField, lastNameTextField].forEach { textField in
-			textField.resignFirstResponder()
-		}
+        preferredNameTextField.resignFirstResponder()
+        
 		let viewController = WeightPickerView()
 		viewController.weightInPounds = weightInPounds
 		viewController.delegate = self
