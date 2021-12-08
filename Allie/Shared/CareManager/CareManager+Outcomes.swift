@@ -168,7 +168,7 @@ extension CareManager {
 					throw AllieError.missing("Care Plan Id Missing")
 				}
 				let outcomes = samples.compactMap { sample in
-					self?.outcome(sample: sample, deletedSample: nil, task: task, carePlanId: carePlanId)
+					self?.fetchOutcome(sample: sample, deletedSample: nil, task: task, carePlanId: carePlanId)
 				}
 
 				return outcomes
@@ -319,13 +319,24 @@ extension CareManager {
 			}.store(in: &cancellables)
 	}
 
-	func outcome(sample: HKSample, deletedSample: HKSample?, task: OCKHealthKitTask, carePlanId: String) -> CHOutcome? {
+	func fetchOutcome(sample: HKSample, deletedSample: HKSample?, task: OCKHealthKitTask, carePlanId: String) -> CHOutcome? {
 		var outcome = CHOutcome(sample: sample, task: task, carePlanId: carePlanId)
 		if let deleted = deletedSample, let existing = try? dbFindFirstOutcome(sample: deleted) {
 			outcome?.remoteId = existing.remoteId
 			outcome?.updatedDate = Date()
 		}
 		return outcome
+	}
+
+	func fetchOutcomes(taskId: UUID, startDate: Date, endDate: Date, callbackQueue: DispatchQueue, completion: @escaping (Result<[OCKOutcome], OCKStoreError>) -> Void) {
+		fetchOutcomes(taskIds: [taskId], startDate: startDate, endDate: endDate, callbackQueue: callbackQueue, completion: completion)
+	}
+
+	func fetchOutcomes(taskIds: [UUID], startDate: Date, endDate: Date, callbackQueue: DispatchQueue, completion: @escaping (Result<[OCKOutcome], OCKStoreError>) -> Void) {
+		let dateInterval = DateInterval(start: startDate, end: endDate)
+		var query = OCKOutcomeQuery(dateInterval: dateInterval)
+		query.taskUUIDs = taskIds
+		store.fetchOutcomes(query: query, callbackQueue: callbackQueue, completion: completion)
 	}
 }
 

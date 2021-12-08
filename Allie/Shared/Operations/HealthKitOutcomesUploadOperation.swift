@@ -1,5 +1,5 @@
 //
-//  OutcomesUploadOperation.swift
+//  HealthKitOutcomesUploadOperation.swift
 //  Allie
 //
 //  Created by Waqar Malik on 5/16/21.
@@ -10,31 +10,13 @@ import Combine
 import Foundation
 import HealthKit
 
-protocol OutcomesResultProvider {
-	var outcomes: [CHOutcome]? { get }
-}
-
-enum OutcomeUploadError: Error {
-	case missing(String)
-	case query(String)
-}
-
-class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
-	var outcomes: [CHOutcome]?
-	var error: Error?
-	var completionHandler: ((Result<[CHOutcome], Error>) -> Void)?
+class HealthKitOutcomesUploadOperation: OutcomesUploadOperation {
 	var task: OCKHealthKitTask
-	var chunkSize: Int
 	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
-	@Injected(\.networkAPI) var networkAPI: AllieAPI
-	@Injected(\.careManager) var careManager: CareManager
 
 	init(task: OCKHealthKitTask, chunkSize: Int, callbackQueue: DispatchQueue, completion: ((Result<[CHOutcome], Error>) -> Void)? = nil) {
 		self.task = task
-		self.chunkSize = chunkSize
-		super.init()
-		self.callbackQueue = callbackQueue
-		self.completionHandler = completion
+		super.init(chunkSize: chunkSize, callbackQueue: callbackQueue, completion: completion)
 	}
 
 	private func queryHealthKit(quantityType: HKQuantityType, completion: AllieResultCompletion<[HKSample]>) {}
@@ -52,7 +34,7 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 			complete()
 			return
 		}
-		let startDate = UserDefaults.standard[lastOutcomesUploadDate: linkage.quantityIdentifier.rawValue]
+		let startDate = UserDefaults.standard[healthKitOutcomesUploadDate: linkage.quantityIdentifier.rawValue]
 		let endDate = Date()
 		if linkage.quantityIdentifier == .bloodPressureSystolic || linkage.quantityIdentifier == .bloodPressureDiastolic {
 			healthKitManager.bloodPressure(startDate: startDate, endDate: endDate, options: []) { [weak self] queryResult in
@@ -74,7 +56,7 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 						case .success(let outcomes):
 							self?.outcomes = outcomes
 							if !outcomes.isEmpty {
-								UserDefaults.standard[lastOutcomesUploadDate: linkage.quantityIdentifier.rawValue] = endDate
+								UserDefaults.standard[healthKitOutcomesUploadDate: linkage.quantityIdentifier.rawValue] = endDate
 							}
 						}
 						strongSelf.complete()
@@ -101,7 +83,7 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 						case .success(let outcomes):
 							self?.outcomes = outcomes
 							if !outcomes.isEmpty {
-								UserDefaults.standard[lastOutcomesUploadDate: linkage.quantityIdentifier.rawValue] = endDate
+								UserDefaults.standard[healthKitOutcomesUploadDate: linkage.quantityIdentifier.rawValue] = endDate
 							}
 						}
 						strongSelf.complete()
@@ -118,7 +100,7 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 		}
 
 		let taskOucomes: [CHOutcome] = samples.compactMap { sample in
-			careManager.outcome(sample: sample, deletedSample: nil, task: task, carePlanId: carePlanId)
+			careManager.fetchOutcome(sample: sample, deletedSample: nil, task: task, carePlanId: carePlanId)
 		}
 
 		guard taskOucomes.count == samples.count else {
@@ -145,57 +127,5 @@ class OutcomesUploadOperation: AsynchronousOperation, OutcomesResultProvider {
 		}
 
 		upload(outcomes: taskOucomes, completion: completion)
-	}
-
-	private func upload(outcomes: [CHOutcome], completion: @escaping AllieResultCompletion<[CHOutcome]>) {
-		guard !outcomes.isEmpty else {
-			completion(.success([]))
-			return
-		}
-		let chunkedOutcomes = outcomes.chunked(into: chunkSize)
-		let group = DispatchGroup()
-		var errors: [Error] = []
-		var uploaded: [CHOutcome] = []
-		for chunkOutcome in chunkedOutcomes {
-			group.enter()
-			networkAPI.post(outcomes: chunkOutcome)
-				.sink { completionResult in
-					switch completionResult {
-					case .failure(let error):
-						errors.append(error)
-						group.leave()
-					case .finished:
-						break
-					}
-				} receiveValue: { carePlanResponse in
-					uploaded.append(contentsOf: carePlanResponse.outcomes)
-					group.leave()
-				}.store(in: &cancellables)
-		}
-
-		group.notify(queue: callbackQueue) {
-			if !uploaded.isEmpty, errors.isEmpty {
-				completion(.success(uploaded))
-			} else {
-				completion(.failure(AllieError.compound(errors)))
-			}
-		}
-	}
-
-	private func complete() {
-		guard let handler = completionHandler else {
-			finish()
-			return
-		}
-		callbackQueue.async { [weak self] in
-			if let results = self?.outcomes, self?.error == nil {
-				handler(.success(results))
-			} else if let error = self?.error {
-				handler(.failure(error))
-			} else {
-				handler(.failure(URLError(.badServerResponse)))
-			}
-		}
-		finish()
 	}
 }

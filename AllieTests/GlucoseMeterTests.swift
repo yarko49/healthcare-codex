@@ -76,9 +76,9 @@ class GlucoseMeterTests: XCTestCase {
 
 	func testServiceItems() throws {
 		let bloodGlucose = GATTService.bloodGlucose
-		let intValue: Int = 0x1808
+		let intValue = 0x1808
 		XCTAssertEqual(bloodGlucose.rawValue, intValue)
-		let stringValue: String = "0x1808"
+		let stringValue = "0x1808"
 		XCTAssertEqual(bloodGlucose.hexString, stringValue)
 		let cbuuid = CBUUID(string: stringValue)
 		XCTAssertEqual(bloodGlucose.uuid, cbuuid)
@@ -90,5 +90,26 @@ class GlucoseMeterTests: XCTestCase {
 		let decoder = CHJSONDecoder()
 		let careplanRespone = try decoder.decode(CHCarePlanResponse.self, from: data!)
 		XCTAssertEqual(careplanRespone.outcomes.count, 6)
+	}
+
+	func testGloucoseData() throws {
+		let value = "A7YA5QcMAQo2DggAcLDx"
+		// let value = "Aw4A5QcKEwQkMFz+jLDx"
+		let data = Data(base64Encoded: value)
+		XCTAssertNotNil(data)
+		let valueArray = [UInt8](data!)
+		let outputArray = valueArray.map { byte in
+			Int(byte)
+		}
+		XCTAssertFalse(outputArray.isEmpty)
+		ALog.info("\(outputArray)")
+		let currentReading = BGMDataReading(measurement: outputArray, context: [], peripheral: nil, measurementData: data!, contextData: nil)
+		ALog.info("Sequence Number \(currentReading.sequence)")
+		ALog.info("utcTimeStamp \(currentReading.utcTimestamp)")
+		ALog.info("Timezone Offset in Seconds \(currentReading.timezoneOffsetInSeconds)")
+		ALog.info("Concentration \(currentReading.concentration)")
+		ALog.info("Units \(currentReading.units)")
+		ALog.info("Location \(currentReading.location)")
+		ALog.info("Type of Measurement \(currentReading.type)")
 	}
 }

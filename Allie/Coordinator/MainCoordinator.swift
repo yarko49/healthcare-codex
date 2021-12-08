@@ -174,11 +174,11 @@ class MainCoordinator: BaseCoordinator {
 	}
 
 	func syncHealthKitData() {
-		let lastUploadDate = UserDefaults.standard.lastObervationUploadDate
+		let lastUploadDate = UserDefaults.lastObervationUploadDate
 		let endDate = Date()
 		healthKitManager.syncData(startDate: lastUploadDate, endDate: endDate, options: []) { success in
 			if success {
-				UserDefaults.standard.lastObervationUploadDate = endDate
+				UserDefaults.lastObervationUploadDate = endDate
 			}
 		}
 	}

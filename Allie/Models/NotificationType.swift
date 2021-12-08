@@ -33,29 +33,29 @@ enum NotificationType: String, CaseIterable, Hashable {
 		get {
 			switch self {
 			case .activity:
-				return UserDefaults.standard.isMeasurementStepsNotificationEnabled
+				return UserDefaults.isMeasurementStepsNotificationEnabled
 			case .bloodPressure:
-				return UserDefaults.standard.isMeasurementBloodPressureNotificationEnabled
+				return UserDefaults.isMeasurementBloodPressureNotificationEnabled
 			case .weightIn:
-				return UserDefaults.standard.isMeasurementWeightNotificationEnabled
+				return UserDefaults.isMeasurementWeightNotificationEnabled
 			case .survey:
 				return false
 			case .glucose:
-				return UserDefaults.standard.isMeasurementBloodGlucoseNotificationEnabled
+				return UserDefaults.isMeasurementBloodGlucoseNotificationEnabled
 			}
 		}
 		set {
 			switch self {
 			case .activity:
-				UserDefaults.standard.isMeasurementStepsNotificationEnabled = newValue
+				UserDefaults.isMeasurementStepsNotificationEnabled = newValue
 			case .bloodPressure:
-				UserDefaults.standard.isMeasurementBloodPressureNotificationEnabled = newValue
+				UserDefaults.isMeasurementBloodPressureNotificationEnabled = newValue
 			case .weightIn:
-				UserDefaults.standard.isMeasurementWeightNotificationEnabled = newValue
+				UserDefaults.isMeasurementWeightNotificationEnabled = newValue
 			case .survey:
 				break
 			case .glucose:
-				UserDefaults.standard.isMeasurementBloodGlucoseNotificationEnabled = newValue
+				UserDefaults.isMeasurementBloodGlucoseNotificationEnabled = newValue
 			}
 		}
 	}

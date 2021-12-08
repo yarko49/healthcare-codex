@@ -107,8 +107,8 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 						strongSelf.controller.deleteOutcome(value: outcomeValue) { result in
 							switch result {
 							case .success(let deletedSample):
-								let lastOutcomeUplaodDate = UserDefaults.standard[lastOutcomesUploadDate: task.healthKitLinkage.quantityIdentifier.rawValue]
-								if let carePlanId = task.carePlanId, newSample.startDate < lastOutcomeUplaodDate, let outcome = strongSelf.careManager.outcome(sample: newSample, deletedSample: deletedSample, task: task, carePlanId: carePlanId) {
+								let lastOutcomeUplaodDate = UserDefaults.standard[healthKitOutcomesUploadDate: task.healthKitLinkage.quantityIdentifier.rawValue]
+								if let carePlanId = task.carePlanId, newSample.startDate < lastOutcomeUplaodDate, let outcome = strongSelf.careManager.fetchOutcome(sample: newSample, deletedSample: deletedSample, task: task, carePlanId: carePlanId) {
 									strongSelf.careManager.upload(outcomes: [outcome]) { result in
 										if case .failure(let error) = result {
 											ALog.error("unable to upload outcome", error: error)
@@ -120,8 +120,8 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 							}
 						}
 					} else {
-						let lastOutcomeUplaodDate = UserDefaults.standard[lastOutcomesUploadDate: task.healthKitLinkage.quantityIdentifier.rawValue]
-						if let carePlanId = task.carePlanId, newSample.startDate < lastOutcomeUplaodDate, let outcome = strongSelf.careManager.outcome(sample: newSample, deletedSample: nil, task: task, carePlanId: carePlanId) {
+						let lastOutcomeUplaodDate = UserDefaults.standard[healthKitOutcomesUploadDate: task.healthKitLinkage.quantityIdentifier.rawValue]
+						if let carePlanId = task.carePlanId, newSample.startDate < lastOutcomeUplaodDate, let outcome = strongSelf.careManager.fetchOutcome(sample: newSample, deletedSample: nil, task: task, carePlanId: carePlanId) {
 							strongSelf.careManager.upload(outcomes: [outcome]) { result in
 								if case .failure(let error) = result {
 									ALog.error("unable to upload outcome", error: error)
@@ -172,7 +172,7 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 				do {
 					var outcome: CHOutcome?
 					if let carePlanId = task.carePlanId {
-						outcome = self?.careManager.outcome(sample: sample, deletedSample: sample, task: task, carePlanId: carePlanId)
+						outcome = self?.careManager.fetchOutcome(sample: sample, deletedSample: sample, task: task, carePlanId: carePlanId)
 					} else {
 						outcome = try self?.careManager.dbFindFirstOutcome(sample: sample)
 					}

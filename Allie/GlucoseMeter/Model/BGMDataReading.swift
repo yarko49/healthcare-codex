@@ -12,8 +12,8 @@ struct BGMDataReading: Identifiable, Hashable {
 	var peripheral: CBPeripheral?
 	var measurement: [Int]
 	var context: [Int]
-	var measurementData: Data // Base64 encoded Data
-	var contextData: Data? // Base64 Encoded Data
+	var measurementData: Data // Data Encoding ascii
+	var contextData: Data? // Data Encoding ascii
 
 	var id: UUID? {
 		peripheral?.identifier
@@ -98,7 +98,7 @@ extension BGMDataReading {
 	// These are the standard meal encodings from Bluetooth Glucose Service GATT
 	var mealContext: String {
 		// check for meal context present
-		var meal: String = ""
+		var meal = ""
 		guard !context.isEmpty else {
 			return meal
 		}

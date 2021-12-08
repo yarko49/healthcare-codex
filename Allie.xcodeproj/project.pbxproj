@@ -62,8 +62,8 @@
 		8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */; };
 		841A772C2652348C000913A9 /* CHOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A77202652348C000913A9 /* CHOperation.swift */; };
 		841A772D2652348C000913A9 /* CHOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A77202652348C000913A9 /* CHOperation.swift */; };
-		841A77322652348C000913A9 /* OutcomesUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A77232652348C000913A9 /* OutcomesUploadOperation.swift */; };
-		841A77332652348C000913A9 /* OutcomesUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A77232652348C000913A9 /* OutcomesUploadOperation.swift */; };
+		841A77322652348C000913A9 /* HealthKitOutcomesUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A77232652348C000913A9 /* HealthKitOutcomesUploadOperation.swift */; };
+		841A77332652348C000913A9 /* HealthKitOutcomesUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A77232652348C000913A9 /* HealthKitOutcomesUploadOperation.swift */; };
 		841E9B8825F60112001192DD /* CHAnyPrimitiveValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841E9B8725F60112001192DD /* CHAnyPrimitiveValue.swift */; };
 		8420C948264EE524005C21DD /* NewTasks.json in Resources */ = {isa = PBXBuildFile; fileRef = 8420C947264EE524005C21DD /* NewTasks.json */; };
 		8422DEAF2735043B00B9A5C4 /* ConnectedDevicesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422DEAE2735043B00B9A5C4 /* ConnectedDevicesCell.swift */; };
@@ -194,7 +194,6 @@
 		84476770259C2A4E00C50C09 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476680259C2A4E00C50C09 /* SettingsViewController.swift */; };
 		8447677F259C2A4E00C50C09 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476698259C2A4E00C50C09 /* ProfileViewController.swift */; };
 		84476784259C2A4E00C50C09 /* StatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447669F259C2A4E00C50C09 /* StatModel.swift */; };
-		8447678B259C2A4E00C50C09 /* SmartDeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A6259C2A4E00C50C09 /* SmartDeviceType.swift */; };
 		84476790259C2A4E00C50C09 /* NavigationSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766AB259C2A4E00C50C09 /* NavigationSourceType.swift */; };
 		84476792259C2A4E00C50C09 /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766AD259C2A4E00C50C09 /* NotificationType.swift */; };
 		84476795259C2A4E00C50C09 /* SearchParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766B0259C2A4E00C50C09 /* SearchParameter.swift */; };
@@ -310,6 +309,15 @@
 		8455B151269A159B006C367C /* GeneralizedLogTaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455B150269A159B006C367C /* GeneralizedLogTaskDetailView.swift */; };
 		8455B152269A159B006C367C /* GeneralizedLogTaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455B150269A159B006C367C /* GeneralizedLogTaskDetailView.swift */; };
 		8455B153269A159B006C367C /* GeneralizedLogTaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455B150269A159B006C367C /* GeneralizedLogTaskDetailView.swift */; };
+		8456DEC92754BBB100D5958B /* CareManager+OutcomeSynchronization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456DEC82754BBB100D5958B /* CareManager+OutcomeSynchronization.swift */; };
+		8456DECA2754BFAD00D5958B /* CareManager+OutcomeSynchronization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456DEC82754BBB100D5958B /* CareManager+OutcomeSynchronization.swift */; };
+		8456DECB2754BFAD00D5958B /* CareManager+OutcomeSynchronization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456DEC82754BBB100D5958B /* CareManager+OutcomeSynchronization.swift */; };
+		8456DECD2754C18500D5958B /* CareKitOutcomesUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456DECC2754C18500D5958B /* CareKitOutcomesUploadOperation.swift */; };
+		8456DECE2754C18500D5958B /* CareKitOutcomesUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456DECC2754C18500D5958B /* CareKitOutcomesUploadOperation.swift */; };
+		8456DECF2754C18500D5958B /* CareKitOutcomesUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456DECC2754C18500D5958B /* CareKitOutcomesUploadOperation.swift */; };
+		8456DED12754C98400D5958B /* OutcomeUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456DED02754C98400D5958B /* OutcomeUploadOperation.swift */; };
+		8456DED22754C98400D5958B /* OutcomeUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456DED02754C98400D5958B /* OutcomeUploadOperation.swift */; };
+		8456DED32754C98400D5958B /* OutcomeUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456DED02754C98400D5958B /* OutcomeUploadOperation.swift */; };
 		845AAC71259C36E900FF8F3F /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 845AAC70259C36E900FF8F3F /* IQKeyboardManagerSwift */; };
 		845AF18426F9B00C001F7707 /* BGMSequenceNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845AF18326F9B00C001F7707 /* BGMSequenceNumbers.swift */; };
 		845AF18526F9B00C001F7707 /* BGMSequenceNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845AF18326F9B00C001F7707 /* BGMSequenceNumbers.swift */; };
@@ -493,7 +501,6 @@
 		847DCC52265871F3004E9C1D /* CHOutcome+HKStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDA194265786120049323C /* CHOutcome+HKStatistics.swift */; };
 		847DCC53265871F3004E9C1D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447671D259C2A4E00C50C09 /* BaseViewController.swift */; };
 		847DCC54265871F3004E9C1D /* String+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766C1259C2A4E00C50C09 /* String+Validation.swift */; };
-		847DCC55265871F3004E9C1D /* SmartDeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A6259C2A4E00C50C09 /* SmartDeviceType.swift */; };
 		847DCC56265871F3004E9C1D /* TextContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */; };
 		847DCC58265871F3004E9C1D /* SimpleTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1060025E763EC00B126ED /* SimpleTaskViewController.swift */; };
 		847DCC5A265871F3004E9C1D /* Device+HKObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439C7A925FB46AF008C5940 /* Device+HKObject.swift */; };
@@ -553,7 +560,7 @@
 		847DCC96265871F3004E9C1D /* String+Capitalizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F8BA12647618300999091 /* String+Capitalizing.swift */; };
 		847DCC97265871F3004E9C1D /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF2DA1261ACAA30080293F /* ButtonView.swift */; };
 		847DCC98265871F3004E9C1D /* CustomYAxisRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476622259C2A4E00C50C09 /* CustomYAxisRenderer.swift */; };
-		847DCC99265871F3004E9C1D /* OutcomesUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A77232652348C000913A9 /* OutcomesUploadOperation.swift */; };
+		847DCC99265871F3004E9C1D /* HealthKitOutcomesUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A77232652348C000913A9 /* HealthKitOutcomesUploadOperation.swift */; };
 		847DCC9A265871F3004E9C1D /* ViewNIBLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E4660F25A0453C00A10F8B /* ViewNIBLoading.swift */; };
 		847DCC9D265871F3004E9C1D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447670D259C2A4E00C50C09 /* AppCoordinator.swift */; };
 		847DCC9E265871F3004E9C1D /* CHDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F18982632444F005A601A /* CHDevice.swift */; };
@@ -727,6 +734,12 @@
 		84A9E25F26E9CDA500D3096F /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9E25C26E9CDA500D3096F /* MulticastDelegate.swift */; };
 		84AF11A126707C9B0061A9E5 /* GridTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF11A026707C9B0061A9E5 /* GridTaskController.swift */; };
 		84AF11A326709C770061A9E5 /* ChecklistTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF11A226709C770061A9E5 /* ChecklistTaskController.swift */; };
+		84AF3B572750BE7300E414C1 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF3B562750BE7300E414C1 /* UserDefault.swift */; };
+		84AF3B582750BE7300E414C1 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF3B562750BE7300E414C1 /* UserDefault.swift */; };
+		84AF3B592750BE7300E414C1 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF3B562750BE7300E414C1 /* UserDefault.swift */; };
+		84AF3B5B27521A7000E414C1 /* KeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF3B5A27521A7000E414C1 /* KeychainStorage.swift */; };
+		84AF3B5C27521A7000E414C1 /* KeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF3B5A27521A7000E414C1 /* KeychainStorage.swift */; };
+		84AF3B5D27521A7000E414C1 /* KeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF3B5A27521A7000E414C1 /* KeychainStorage.swift */; };
 		84AF4CEF26CA0D4D00867349 /* InjectedValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF4CEE26CA0D4D00867349 /* InjectedValues.swift */; };
 		84AF4CF026CA0D4D00867349 /* InjectedValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF4CEE26CA0D4D00867349 /* InjectedValues.swift */; };
 		84AF4CF126CA0D4D00867349 /* InjectedValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF4CEE26CA0D4D00867349 /* InjectedValues.swift */; };
@@ -916,7 +929,6 @@
 		84D1227B264112DE00990196 /* UIWindow+Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766BC259C2A4E00C50C09 /* UIWindow+Transition.swift */; };
 		84D1227F264112DE00990196 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447671D259C2A4E00C50C09 /* BaseViewController.swift */; };
 		84D12280264112DE00990196 /* String+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766C1259C2A4E00C50C09 /* String+Validation.swift */; };
-		84D12281264112DE00990196 /* SmartDeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844766A6259C2A4E00C50C09 /* SmartDeviceType.swift */; };
 		84D12282264112DE00990196 /* TextContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */; };
 		84D12285264112DE00990196 /* SimpleTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1060025E763EC00B126ED /* SimpleTaskViewController.swift */; };
 		84D12287264112DE00990196 /* Device+HKObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8439C7A925FB46AF008C5940 /* Device+HKObject.swift */; };
@@ -1121,7 +1133,7 @@
 		841640D72627F478000903AF /* UICollectionView+Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Appearance.swift"; sourceTree = "<group>"; };
 		8419CF0A25CE42EB005F9617 /* TextContentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextContentDetailViewController.swift; sourceTree = "<group>"; };
 		841A77202652348C000913A9 /* CHOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHOperation.swift; sourceTree = "<group>"; };
-		841A77232652348C000913A9 /* OutcomesUploadOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutcomesUploadOperation.swift; sourceTree = "<group>"; };
+		841A77232652348C000913A9 /* HealthKitOutcomesUploadOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthKitOutcomesUploadOperation.swift; sourceTree = "<group>"; };
 		841E9B8725F60112001192DD /* CHAnyPrimitiveValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHAnyPrimitiveValue.swift; sourceTree = "<group>"; };
 		8420C947264EE524005C21DD /* NewTasks.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NewTasks.json; sourceTree = "<group>"; };
 		8422DEAE2735043B00B9A5C4 /* ConnectedDevicesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedDevicesCell.swift; sourceTree = "<group>"; };
@@ -1198,7 +1210,6 @@
 		84476698259C2A4E00C50C09 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		8447669F259C2A4E00C50C09 /* StatModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatModel.swift; sourceTree = "<group>"; };
 		844766A4259C2A4E00C50C09 /* SettingsType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsType.swift; sourceTree = "<group>"; };
-		844766A6259C2A4E00C50C09 /* SmartDeviceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartDeviceType.swift; sourceTree = "<group>"; };
 		844766AB259C2A4E00C50C09 /* NavigationSourceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationSourceType.swift; sourceTree = "<group>"; };
 		844766AD259C2A4E00C50C09 /* NotificationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
 		844766B0259C2A4E00C50C09 /* SearchParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchParameter.swift; sourceTree = "<group>"; };
@@ -1282,6 +1293,9 @@
 		84552C0E265CC687003B55A9 /* HKQuantityTypeIdentifier+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKQuantityTypeIdentifier+Image.swift"; sourceTree = "<group>"; };
 		84555DC126AFC60800C7BA55 /* BGMBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGMBluetoothManager.swift; sourceTree = "<group>"; };
 		8455B150269A159B006C367C /* GeneralizedLogTaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralizedLogTaskDetailView.swift; sourceTree = "<group>"; };
+		8456DEC82754BBB100D5958B /* CareManager+OutcomeSynchronization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+OutcomeSynchronization.swift"; sourceTree = "<group>"; };
+		8456DECC2754C18500D5958B /* CareKitOutcomesUploadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareKitOutcomesUploadOperation.swift; sourceTree = "<group>"; };
+		8456DED02754C98400D5958B /* OutcomeUploadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutcomeUploadOperation.swift; sourceTree = "<group>"; };
 		845AF18326F9B00C001F7707 /* BGMSequenceNumbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGMSequenceNumbers.swift; sourceTree = "<group>"; };
 		845B4536269B9A0000EC5211 /* HKQuantityTypeIdentifier+Linkage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKQuantityTypeIdentifier+Linkage.swift"; sourceTree = "<group>"; };
 		845B453A269B9BDC00EC5211 /* HKCategoryTypeIdentifier+Linkage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKCategoryTypeIdentifier+Linkage.swift"; sourceTree = "<group>"; };
@@ -1383,6 +1397,8 @@
 		84A9E25C26E9CDA500D3096F /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		84AF11A026707C9B0061A9E5 /* GridTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridTaskController.swift; sourceTree = "<group>"; };
 		84AF11A226709C770061A9E5 /* ChecklistTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistTaskController.swift; sourceTree = "<group>"; };
+		84AF3B562750BE7300E414C1 /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
+		84AF3B5A27521A7000E414C1 /* KeychainStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStorage.swift; sourceTree = "<group>"; };
 		84AF4CEE26CA0D4D00867349 /* InjectedValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedValues.swift; sourceTree = "<group>"; };
 		84AF4CF226CA0DB800867349 /* Injected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injected.swift; sourceTree = "<group>"; };
 		84AF4CF626CA0E6200867349 /* APIClient+Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIClient+Injectable.swift"; sourceTree = "<group>"; };
@@ -1687,7 +1703,9 @@
 			isa = PBXGroup;
 			children = (
 				841A77202652348C000913A9 /* CHOperation.swift */,
-				841A77232652348C000913A9 /* OutcomesUploadOperation.swift */,
+				8456DED02754C98400D5958B /* OutcomeUploadOperation.swift */,
+				841A77232652348C000913A9 /* HealthKitOutcomesUploadOperation.swift */,
+				8456DECC2754C18500D5958B /* CareKitOutcomesUploadOperation.swift */,
 			);
 			path = Operations;
 			sourceTree = "<group>";
@@ -1698,6 +1716,7 @@
 				84344D3E266AED0C00DD4A7A /* CareManager.swift */,
 				84AF4CFA26CA104D00867349 /* CareManager+Injectable.swift */,
 				84749FBA26313B4200D7D7A8 /* CareManager+HealthKitSynchronization.swift */,
+				8456DEC82754BBB100D5958B /* CareManager+OutcomeSynchronization.swift */,
 				8450848E271AA93A0014764A /* CareManager+Persistance.swift */,
 				84B9739826EDD3020094B35C /* CareManager+Patients.swift */,
 				84B9739C26EDD36E0094B35C /* CareManager+CarePlan.swift */,
@@ -1969,7 +1988,6 @@
 			isa = PBXGroup;
 			children = (
 				8447669F259C2A4E00C50C09 /* StatModel.swift */,
-				844766A6259C2A4E00C50C09 /* SmartDeviceType.swift */,
 				844766AD259C2A4E00C50C09 /* NotificationType.swift */,
 				844766AB259C2A4E00C50C09 /* NavigationSourceType.swift */,
 				844766B0259C2A4E00C50C09 /* SearchParameter.swift */,
@@ -2017,6 +2035,7 @@
 		844766C7259C2A4E00C50C09 /* Keychain */ = {
 			isa = PBXGroup;
 			children = (
+				84AF3B5A27521A7000E414C1 /* KeychainStorage.swift */,
 				84703C57265B4B350025A50D /* Keychain+Access.swift */,
 				84037C1D26CB5EA600C87189 /* Keychain+Injectable.swift */,
 				84703C55265B495D0025A50D /* AuthenticationToken.swift */,
@@ -2248,6 +2267,7 @@
 				844766ED259C2A4E00C50C09 /* KeyedDecodingContainer+Custom.swift */,
 				844766BD259C2A4E00C50C09 /* DateFormatter+Formatters.swift */,
 				84EBACEA2724FB2700B354B4 /* NumberFormatter+Formatters.swift */,
+				84AF3B562750BE7300E414C1 /* UserDefault.swift */,
 				844F06DE25C113B500D26119 /* UserDefaults+Settings.swift */,
 				844F06E925C122DA00D26119 /* Bundle+Version.swift */,
 				8437270B25F8989C005B2C5C /* Notification+Names.swift */,
@@ -2978,11 +2998,13 @@
 				84703C71265B743A0025A50D /* ButtonLogTaskViewSynchronizer.swift in Sources */,
 				84261686269A7111006BD8B0 /* GeneralizedLogTaskViewSynchronizer.swift in Sources */,
 				8494705F2671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */,
+				84AF3B572750BE7300E414C1 /* UserDefault.swift in Sources */,
 				84AF4CF726CA0E6200867349 /* APIClient+Injectable.swift in Sources */,
 				8401F71D270EA5C300D1CBED /* NumericProgressViewController.swift in Sources */,
 				8447679C259C2A4E00C50C09 /* UIColor+Names.swift in Sources */,
 				844767DD259C2A4E00C50C09 /* MainCoordinator.swift in Sources */,
 				845FBE6925FC6A8E00472257 /* ObservationsConfig.swift in Sources */,
+				8456DED12754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */,
 				84C212A12660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
 				84476725259C2A4E00C50C09 /* StatCell.swift in Sources */,
@@ -3064,6 +3086,7 @@
 				844767CF259C2A4E00C50C09 /* CHTask.swift in Sources */,
 				84CEF52726886586000C4C56 /* TCHMessage+MessageType.swift in Sources */,
 				84703C62265B6DA80025A50D /* ChecklistTaskViewSynchronizer.swift in Sources */,
+				8456DEC92754BBB100D5958B /* CareManager+OutcomeSynchronization.swift in Sources */,
 				844F218926B114AF00788DA9 /* HealthKitManager+GlucoseMeter.swift in Sources */,
 				84D112A126D4719C000BA718 /* BGMPairingItem+AttributedText.swift in Sources */,
 				842F908E25AEB56D007421A6 /* CHPatient+RemoteUser.swift in Sources */,
@@ -3135,7 +3158,6 @@
 				844767A2259C2A4E00C50C09 /* String+Validation.swift in Sources */,
 				8497045B26B122B1006E2D51 /* CHBloodGlucoseMealTime.swift in Sources */,
 				84B9739926EDD3020094B35C /* CareManager+Patients.swift in Sources */,
-				8447678B259C2A4E00C50C09 /* SmartDeviceType.swift in Sources */,
 				8408844026884001003C3AE2 /* Color+Names.swift in Sources */,
 				8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */,
 				8449A664267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
@@ -3148,6 +3170,7 @@
 				8447679F259C2A4E00C50C09 /* Collection+Average.swift in Sources */,
 				845FBE8A25FC77E900472257 /* BaseFactory.swift in Sources */,
 				84D2F52C2723B2DF00E7753F /* NSFetchRequestResult+Fetch.swift in Sources */,
+				84AF3B5B27521A7000E414C1 /* KeychainStorage.swift in Sources */,
 				84A9D89826AA9589001E83B2 /* WebService+Codex.swift in Sources */,
 				84344D3F266AED0C00DD4A7A /* CareManager.swift in Sources */,
 				8447677F259C2A4E00C50C09 /* ProfileViewController.swift in Sources */,
@@ -3214,6 +3237,7 @@
 				84BDC72125AB88790046EFCF /* PersonNameComponents+ResourceName.swift in Sources */,
 				8449A65F267C5C8F00F73D8E /* CHConversationsTokens.swift in Sources */,
 				841A772C2652348C000913A9 /* CHOperation.swift in Sources */,
+				8456DECD2754C18500D5958B /* CareKitOutcomesUploadOperation.swift in Sources */,
 				8476B0F1261D8691009516ED /* CHOutcome+OCKOutcome.swift in Sources */,
 				847641AF26EEB10000039936 /* LoggingFile.swift in Sources */,
 				8422DEAF2735043B00B9A5C4 /* ConnectedDevicesCell.swift in Sources */,
@@ -3244,7 +3268,7 @@
 				845F8BA22647618300999091 /* String+Capitalizing.swift in Sources */,
 				84CF2DA2261ACAA30080293F /* ButtonView.swift in Sources */,
 				8447672B259C2A4E00C50C09 /* CustomYAxisRenderer.swift in Sources */,
-				841A77322652348C000913A9 /* OutcomesUploadOperation.swift in Sources */,
+				841A77322652348C000913A9 /* HealthKitOutcomesUploadOperation.swift in Sources */,
 				84E4661025A0453C00A10F8B /* ViewNIBLoading.swift in Sources */,
 				84B08C0926E884EE00F0FE73 /* CHProvenance+CBPeripheral.swift in Sources */,
 				844767DF259C2A4E00C50C09 /* AppCoordinator.swift in Sources */,
@@ -3326,11 +3350,13 @@
 				84261688269A7111006BD8B0 /* GeneralizedLogTaskViewSynchronizer.swift in Sources */,
 				847DCBF4265871F3004E9C1D /* UIColor+Names.swift in Sources */,
 				849470612671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */,
+				84AF3B592750BE7300E414C1 /* UserDefault.swift in Sources */,
 				84AF4CF926CA0E6200867349 /* APIClient+Injectable.swift in Sources */,
 				8401F71F270EA5C300D1CBED /* NumericProgressViewController.swift in Sources */,
 				847DCBF5265871F3004E9C1D /* MainCoordinator.swift in Sources */,
 				847DCBF6265871F3004E9C1D /* ObservationsConfig.swift in Sources */,
 				847DCBF7265871F3004E9C1D /* IllustrationView.swift in Sources */,
+				8456DED32754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C212A32660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
 				847DCBF8265871F3004E9C1D /* StatCell.swift in Sources */,
 				847DCBF9265871F3004E9C1D /* IllustrationCollectionViewCell.swift in Sources */,
@@ -3412,6 +3438,7 @@
 				84CEF52926886586000C4C56 /* TCHMessage+MessageType.swift in Sources */,
 				847DCC2C265871F3004E9C1D /* CHPatient+RemoteUser.swift in Sources */,
 				844F218B26B114AF00788DA9 /* HealthKitManager+GlucoseMeter.swift in Sources */,
+				8456DECB2754BFAD00D5958B /* CareManager+OutcomeSynchronization.swift in Sources */,
 				84D112A326D4719C000BA718 /* BGMPairingItem+AttributedText.swift in Sources */,
 				847DCC2D265871F3004E9C1D /* HKInsulinDeliveryReason+Display.swift in Sources */,
 				847DCC2F265871F3004E9C1D /* Double+Rounding.swift in Sources */,
@@ -3477,7 +3504,6 @@
 				84037C1A26CB5B6200C87189 /* CHDevice+CBPeripheral.swift in Sources */,
 				847DCC53265871F3004E9C1D /* BaseViewController.swift in Sources */,
 				847DCC54265871F3004E9C1D /* String+Validation.swift in Sources */,
-				847DCC55265871F3004E9C1D /* SmartDeviceType.swift in Sources */,
 				845B453D269B9BDC00EC5211 /* HKCategoryTypeIdentifier+Linkage.swift in Sources */,
 				847DCC56265871F3004E9C1D /* TextContentDetailViewController.swift in Sources */,
 				847DCC58265871F3004E9C1D /* SimpleTaskViewController.swift in Sources */,
@@ -3496,6 +3522,7 @@
 				84A9D89A26AA9589001E83B2 /* WebService+Codex.swift in Sources */,
 				84344D41266AED0C00DD4A7A /* CareManager.swift in Sources */,
 				84D2F52E2723B2DF00E7753F /* NSFetchRequestResult+Fetch.swift in Sources */,
+				84AF3B5D27521A7000E414C1 /* KeychainStorage.swift in Sources */,
 				842322652717E22E008B50F0 /* RemoteLoggingConfig.swift in Sources */,
 				847DCC5F265871F3004E9C1D /* CHCarePlan.swift in Sources */,
 				847DCC60265871F3004E9C1D /* UICollectionView+Appearance.swift in Sources */,
@@ -3562,6 +3589,7 @@
 				8449A661267C5C8F00F73D8E /* CHConversationsTokens.swift in Sources */,
 				847DCC83265871F3004E9C1D /* CHOutcome+OCKOutcome.swift in Sources */,
 				847DCC84265871F3004E9C1D /* HTMLViewerController.swift in Sources */,
+				8456DECF2754C18500D5958B /* CareKitOutcomesUploadOperation.swift in Sources */,
 				847DCC85265871F3004E9C1D /* LoginViewController.swift in Sources */,
 				847641B126EEB10000039936 /* LoggingFile.swift in Sources */,
 				8422DEB12735043B00B9A5C4 /* ConnectedDevicesCell.swift in Sources */,
@@ -3589,7 +3617,7 @@
 				847DCC97265871F3004E9C1D /* ButtonView.swift in Sources */,
 				843004CD26B773550004CB3E /* Mutex.swift in Sources */,
 				847DCC98265871F3004E9C1D /* CustomYAxisRenderer.swift in Sources */,
-				847DCC99265871F3004E9C1D /* OutcomesUploadOperation.swift in Sources */,
+				847DCC99265871F3004E9C1D /* HealthKitOutcomesUploadOperation.swift in Sources */,
 				847DCC9A265871F3004E9C1D /* ViewNIBLoading.swift in Sources */,
 				847DCC9D265871F3004E9C1D /* AppCoordinator.swift in Sources */,
 				847DCC9E265871F3004E9C1D /* CHDevice.swift in Sources */,
@@ -3637,11 +3665,13 @@
 				84261687269A7111006BD8B0 /* GeneralizedLogTaskViewSynchronizer.swift in Sources */,
 				84D12227264112DE00990196 /* UIColor+Names.swift in Sources */,
 				849470602671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */,
+				84AF3B582750BE7300E414C1 /* UserDefault.swift in Sources */,
 				84AF4CF826CA0E6200867349 /* APIClient+Injectable.swift in Sources */,
 				8401F71E270EA5C300D1CBED /* NumericProgressViewController.swift in Sources */,
 				84D12228264112DE00990196 /* MainCoordinator.swift in Sources */,
 				84D1222A264112DE00990196 /* ObservationsConfig.swift in Sources */,
 				84D1222B264112DE00990196 /* IllustrationView.swift in Sources */,
+				8456DED22754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C212A22660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
 				84D1222C264112DE00990196 /* StatCell.swift in Sources */,
 				84D1222D264112DE00990196 /* IllustrationCollectionViewCell.swift in Sources */,
@@ -3723,6 +3753,7 @@
 				84CEF52826886586000C4C56 /* TCHMessage+MessageType.swift in Sources */,
 				84D1225B264112DE00990196 /* CHPatient+RemoteUser.swift in Sources */,
 				844F218A26B114AF00788DA9 /* HealthKitManager+GlucoseMeter.swift in Sources */,
+				8456DECA2754BFAD00D5958B /* CareManager+OutcomeSynchronization.swift in Sources */,
 				84D112A226D4719C000BA718 /* BGMPairingItem+AttributedText.swift in Sources */,
 				84EDA19326577F3B0049323C /* HKInsulinDeliveryReason+Display.swift in Sources */,
 				84D1225D264112DE00990196 /* Double+Rounding.swift in Sources */,
@@ -3788,7 +3819,6 @@
 				84037C1926CB5B6200C87189 /* CHDevice+CBPeripheral.swift in Sources */,
 				84D1227F264112DE00990196 /* BaseViewController.swift in Sources */,
 				84D12280264112DE00990196 /* String+Validation.swift in Sources */,
-				84D12281264112DE00990196 /* SmartDeviceType.swift in Sources */,
 				845B453C269B9BDC00EC5211 /* HKCategoryTypeIdentifier+Linkage.swift in Sources */,
 				84D12282264112DE00990196 /* TextContentDetailViewController.swift in Sources */,
 				84D12285264112DE00990196 /* SimpleTaskViewController.swift in Sources */,
@@ -3807,6 +3837,7 @@
 				84A9D89926AA9589001E83B2 /* WebService+Codex.swift in Sources */,
 				84344D40266AED0C00DD4A7A /* CareManager.swift in Sources */,
 				84D2F52D2723B2DF00E7753F /* NSFetchRequestResult+Fetch.swift in Sources */,
+				84AF3B5C27521A7000E414C1 /* KeychainStorage.swift in Sources */,
 				842322642717E22D008B50F0 /* RemoteLoggingConfig.swift in Sources */,
 				84D1228C264112DE00990196 /* CHCarePlan.swift in Sources */,
 				84D1228D264112DE00990196 /* UICollectionView+Appearance.swift in Sources */,
@@ -3873,6 +3904,7 @@
 				8449A660267C5C8F00F73D8E /* CHConversationsTokens.swift in Sources */,
 				84D122B0264112DE00990196 /* CHOutcome+OCKOutcome.swift in Sources */,
 				84D122B1264112DE00990196 /* HTMLViewerController.swift in Sources */,
+				8456DECE2754C18500D5958B /* CareKitOutcomesUploadOperation.swift in Sources */,
 				84D122B3264112DE00990196 /* LoginViewController.swift in Sources */,
 				847641B026EEB10000039936 /* LoggingFile.swift in Sources */,
 				8422DEB02735043B00B9A5C4 /* ConnectedDevicesCell.swift in Sources */,
@@ -3900,7 +3932,7 @@
 				84D122C4264112DE00990196 /* ButtonView.swift in Sources */,
 				843004CC26B773550004CB3E /* Mutex.swift in Sources */,
 				84D122C5264112DE00990196 /* CustomYAxisRenderer.swift in Sources */,
-				841A77332652348C000913A9 /* OutcomesUploadOperation.swift in Sources */,
+				841A77332652348C000913A9 /* HealthKitOutcomesUploadOperation.swift in Sources */,
 				84D122C6264112DE00990196 /* ViewNIBLoading.swift in Sources */,
 				84D122C8264112DE00990196 /* AppCoordinator.swift in Sources */,
 				84D122C9264112DE00990196 /* CHDevice.swift in Sources */,
@@ -4145,7 +4177,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4153,7 +4185,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.6;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4174,7 +4206,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4182,7 +4214,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.6;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4299,7 +4331,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4307,7 +4339,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.6;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4328,7 +4360,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4336,7 +4368,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.6;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4357,7 +4389,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4365,7 +4397,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.6;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4386,7 +4418,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4394,7 +4426,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.6;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";

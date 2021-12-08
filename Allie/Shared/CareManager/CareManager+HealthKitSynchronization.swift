@@ -62,19 +62,19 @@ extension CareManager {
 					if identifier == .stepCount, let stepCountUploadEnabled = self?.remoteConfig.stepCountUploadEnabled, !stepCountUploadEnabled {
 						continue
 					}
-					if let contains = self?.inflightUploadIdentifiers.contains(identifier), contains {
+					if let contains = self?.hkInflightUploadIdentifiers.contains(identifier), contains {
 						continue
 					}
 					if let chTask = self?.tasks[task.id], let deletedDate = chTask.deletedDate {
-						let startDate = UserDefaults.standard[lastOutcomesUploadDate: identifier.rawValue]
+						let startDate = UserDefaults.standard[healthKitOutcomesUploadDate: identifier.rawValue]
 						if !deletedDate.shouldShow(for: startDate) {
 							continue
 						}
 					}
 
-					self?.inflightUploadIdentifiers.insert(identifier)
+					self?.hkInflightUploadIdentifiers.insert(identifier)
 					group.enter()
-					let operation = OutcomesUploadOperation(task: task, chunkSize: Constants.maximumUploadOutcomesPerCall, callbackQueue: callbackQueue) { operationResult in
+					let operation = HealthKitOutcomesUploadOperation(task: task, chunkSize: Constants.maximumUploadOutcomesPerCall, callbackQueue: callbackQueue) { operationResult in
 						switch operationResult {
 						case .failure(let error):
 							ALog.error("Uploading outcomes", error: error)
@@ -86,7 +86,7 @@ extension CareManager {
 							}
 							ALog.trace("Uploaded \(outcomes.count) outcomes")
 						}
-						_ = self?.inflightUploadIdentifiers.remove(identifier)
+						_ = self?.hkInflightUploadIdentifiers.remove(identifier)
 						group.leave()
 					}
 					self?[uploadOperationQueue: task.healthKitLinkage.quantityIdentifier.rawValue].addOperation(operation)
@@ -104,7 +104,7 @@ extension CareManager {
 		let endDate = Date()
 		for task in tasks {
 			let linkage = task.healthKitLinkage
-			let startDate = UserDefaults.standard[lastOutcomesUploadDate: linkage.quantityIdentifier.rawValue]
+			let startDate = UserDefaults.standard[healthKitOutcomesUploadDate: linkage.quantityIdentifier.rawValue]
 			if let quantityType = HKObjectType.quantityType(forIdentifier: linkage.quantityIdentifier) {
 				group.enter()
 				healthKitManager.samples(for: quantityType, startDate: startDate, endDate: endDate, options: []) { result in
@@ -141,7 +141,7 @@ extension CareManager {
 				continue
 			}
 			let taskOucomes = taskSamples.compactMap { sample in
-				outcome(sample: sample, deletedSample: nil, task: task, carePlanId: carePlanId)
+				fetchOutcome(sample: sample, deletedSample: nil, task: task, carePlanId: carePlanId)
 			}
 			if taskOucomes.isEmpty {
 				continue
@@ -151,7 +151,7 @@ extension CareManager {
 				switch result {
 				case .success(let uploadedOutcomes):
 					self?.process(outcomes: uploadedOutcomes, completion: nil)
-					UserDefaults.standard[lastOutcomesUploadDate: linkage.quantityIdentifier.rawValue] = endDate
+					UserDefaults.standard[healthKitOutcomesUploadDate: linkage.quantityIdentifier.rawValue] = endDate
 				case .failure(let error):
 					ALog.error("Unable to upload outcomes for identifier \(linkage.quantityIdentifier)", error: error)
 				}

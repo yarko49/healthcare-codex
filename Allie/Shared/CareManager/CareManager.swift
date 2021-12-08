@@ -9,6 +9,7 @@ import CareKit
 import CareKitStore
 import Combine
 import CoreData
+import HealthKit
 import KeychainAccess
 import UIKit
 
@@ -57,7 +58,10 @@ class CareManager: NSObject, ObservableObject {
 	@Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
 
 	private var uploadOperationQueues: [String: OperationQueue] = [:]
-	var inflightUploadIdentifiers = InflightIdentifers()
+	var hkInflightUploadIdentifiers = InflightIdentifers<HKQuantityTypeIdentifier>()
+	var inflightUploadIdentifiers = InflightIdentifers<String>()
+	var outcomeUploadInProgress: Bool = false
+
 	subscript(uploadOperationQueue identifier: String) -> OperationQueue {
 		get {
 			guard let queue = uploadOperationQueues[identifier] else {
@@ -90,10 +94,10 @@ class CareManager: NSObject, ObservableObject {
 
 	var vectorClock: UInt64 {
 		get {
-			UserDefaults.standard.vectorClock
+			UserDefaults.vectorClock
 		}
 		set {
-			UserDefaults.standard.vectorClock = newValue
+			UserDefaults.vectorClock = newValue
 		}
 	}
 
@@ -160,7 +164,7 @@ class CareManager: NSObject, ObservableObject {
 			.autoconnect()
 			.sink(receiveValue: { [weak self] _ in
 				ALog.trace("Upload timer fired")
-				self?.synchronizeHealthKitOutcomes()
+				self?.synchronizeOutcomes()
 			})
 	}
 
@@ -185,9 +189,7 @@ class CareManager: NSObject, ObservableObject {
 	private(set) var carePlan: CHCarePlan?
 	private(set) var tasks: [String: CHTask] = [:]
 
-	private(set) lazy var dbStore: CoreDataManager = {
-		CoreDataManager(modelName: "HealthStore")
-	}()
+	private(set) lazy var dbStore: CoreDataManager = .init(modelName: "HealthStore")
 }
 
 // MARK: - CarePlanResponse
@@ -244,7 +246,7 @@ extension CareManager {
 				}
 				ALog.trace("Number out outcomes saved \(String(describing: outcomes?.count))")
 			}
-			self?.synchronizeHealthKitOutcomes()
+			self?.synchronizeOutcomes()
 
 			if let error = result {
 				completion?(.failure(error))
@@ -256,6 +258,11 @@ extension CareManager {
 
 	func register(organization: CHOrganization) -> AnyPublisher<Bool, Never> {
 		networkAPI.registerOrganization(organization: organization)
+	}
+
+	func synchronizeOutcomes() {
+		synchronizeHealthKitOutcomes()
+		synchronizeCareKitOutcomes()
 	}
 }
 
