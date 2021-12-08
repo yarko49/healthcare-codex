@@ -195,13 +195,9 @@ class ProfileEntryViewController: SignupBaseViewController {
 		lastName = sender.text ?? ""
 	}
 
-	let firstNameTextField: SkyFloatingLabelTextField = {
-		createNameTextField(placeholder: NSLocalizedString("FIRST_NAME", comment: "First Name"), isRequired: true)
-	}()
+	let firstNameTextField: SkyFloatingLabelTextField = createNameTextField(placeholder: NSLocalizedString("FIRST_NAME", comment: "First Name"), isRequired: true)
 
-	let lastNameTextField: SkyFloatingLabelTextField = {
-		createNameTextField(placeholder: NSLocalizedString("LAST_NAME", comment: "Last Name"), isRequired: false)
-	}()
+	let lastNameTextField: SkyFloatingLabelTextField = createNameTextField(placeholder: NSLocalizedString("LAST_NAME", comment: "Last Name"), isRequired: false)
 
 	lazy var emailTextField: SkyFloatingLabelTextField = {
 		let textField = SkyFloatingLabelTextField(frame: .zero)

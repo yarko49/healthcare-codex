@@ -25,9 +25,7 @@ class CoreDataManager {
 		return container
 	}()
 
-	lazy var managedObjectContext: NSManagedObjectContext = {
-		self.persistentContainer.viewContext
-	}()
+	lazy var managedObjectContext: NSManagedObjectContext = self.persistentContainer.viewContext
 
 	func saveContext() {
 		guard managedObjectContext.hasChanges else {

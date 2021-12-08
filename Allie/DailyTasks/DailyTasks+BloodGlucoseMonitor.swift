@@ -89,7 +89,7 @@ extension DailyTasksPageViewController: BGMBluetoothManagerDelegate {
 	}
 
 	func process(samples: [HKSample], quantityIdentifier: HKQuantityTypeIdentifier) {
-		let uploadEndDate = UserDefaults.standard[lastOutcomesUploadDate: quantityIdentifier.rawValue]
+		let uploadEndDate = UserDefaults.standard[healthKitOutcomesUploadDate: quantityIdentifier.rawValue]
 		let samplesToUpload = samples.filter { sample in
 			sample.startDate <= uploadEndDate
 		}

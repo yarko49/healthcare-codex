@@ -44,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		applyAppearance()
-		UserDefaults.registerDefautlts()
 		FirebaseConfiguration.shared.setLoggerLevel(.min)
 		FirebaseApp.configure()
 		IQKeyboardManager.shared.enable = true
@@ -201,14 +200,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		}
 		if typeString == "chat" {
 			ALog.trace("process notificationInfo: applicationState: \(application.applicationState.rawValue)")
-			let count = UserDefaults.standard.chatNotificationsCount + 1
+			let count = UserDefaults.chatNotificationsCount + 1
 			application.applicationIconBadgeNumber = count
 			AppDelegate.mainCoordinator?.updateBadges(count: count)
-			UserDefaults.standard.chatNotificationsCount = count
+			UserDefaults.chatNotificationsCount = count
 		} else if typeString == "zendeskSupport" {
-			let count = UserDefaults.standard.zendeskChatNotificationCount + 1
+			let count = UserDefaults.zendeskChatNotificationCount + 1
 			AppDelegate.mainCoordinator?.updateZendeskBadges(count: count)
-			UserDefaults.standard.zendeskChatNotificationCount = count
+			UserDefaults.zendeskChatNotificationCount = count
 		} else if typeString == "careplan" {
 			NotificationCenter.default.post(name: .didUpdateCarePlan, object: nil)
 		}

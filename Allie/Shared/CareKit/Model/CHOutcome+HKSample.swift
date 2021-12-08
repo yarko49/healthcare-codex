@@ -33,7 +33,7 @@ extension CHOutcome {
 			let samples: [HKQuantitySample] = corrolation.objects.compactMap { sample in
 				sample as? HKQuantitySample
 			}
-			var index: Int = 0
+			var index = 0
 			for sample in samples {
 				let quantity = sample.quantity
 				if var value = CHOutcomeValue(quantity: quantity, linkage: linkage) {

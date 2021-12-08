@@ -14,9 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	var window: UIWindow?
 	@Injected(\.keychain) var keychain: Keychain
 
-	lazy var mainCoordinator: MainCoordinator = {
-		MainCoordinator(window: self.window!)
-	}()
+	lazy var mainCoordinator: MainCoordinator = .init(window: self.window!)
 
 	private var connectionOptions: UIScene.ConnectionOptions?
 
@@ -55,7 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 		AnalyticsManager.send(event: .session, properties: nil)
 		if UIApplication.shared.applicationState == .inactive || UIApplication.shared.applicationState == .active {
-			let count = UserDefaults.standard.chatNotificationsCount
+			let count = UserDefaults.chatNotificationsCount
 			mainCoordinator.updateBadges(count: count)
 			Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true, completion: { authTokenResult, error in
 				if let token = AuthenticationToken(result: authTokenResult), error == nil {

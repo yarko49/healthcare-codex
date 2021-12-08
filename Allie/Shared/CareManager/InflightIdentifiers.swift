@@ -8,24 +8,24 @@
 import Foundation
 import HealthKit
 
-struct InflightIdentifers {
+struct InflightIdentifers<IdentifierType: Hashable> {
 	private let lock = ReadWriteLock()
-	private var identifiers: Set<HKQuantityTypeIdentifier> = []
+	private var identifiers: Set<IdentifierType> = []
 
-	mutating func insert(_ newMember: HKQuantityTypeIdentifier) {
+	mutating func insert(_ newMember: IdentifierType) {
 		lock.writeLock()
 		identifiers.insert(newMember)
 		lock.unlock()
 	}
 
-	mutating func remove(_ member: HKQuantityTypeIdentifier) -> HKQuantityTypeIdentifier? {
+	mutating func remove(_ member: IdentifierType) -> IdentifierType? {
 		lock.writeLock()
 		let value = identifiers.remove(member)
 		lock.unlock()
 		return value
 	}
 
-	func contains(_ member: HKQuantityTypeIdentifier) -> Bool {
+	func contains(_ member: IdentifierType) -> Bool {
 		lock.readLock()
 		let contains = identifiers.contains(member)
 		lock.unlock()

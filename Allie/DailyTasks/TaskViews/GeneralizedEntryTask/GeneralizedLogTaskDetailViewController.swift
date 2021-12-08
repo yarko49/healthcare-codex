@@ -121,7 +121,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 				reason.title
 			}
 			cell.configure(titles: titles)
-			var selectedIndex: Int = 0
+			var selectedIndex = 0
 			if let reason = outcomeValue?.insulinDeliveryReason, let index = reasons.firstIndex(of: reason) {
 				selectedIndex = index
 			}

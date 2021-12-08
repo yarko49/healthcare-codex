@@ -194,7 +194,6 @@ extension BGMBluetoothManager: CBPeripheralDelegate {
 		let outputArray = valueArray.map { byte in
 			Int(byte)
 		}
-
 		switch characteristic.uuid {
 		case GATTCharacteristic.bloodGlucoseMeasurement.uuid:
 			// Glucose measurement value

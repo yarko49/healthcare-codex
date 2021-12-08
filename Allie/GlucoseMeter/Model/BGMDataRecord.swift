@@ -26,8 +26,8 @@ struct BGMDataRecord: Identifiable, Hashable {
 	let mealTime: CHBloodGlucoseMealTime
 	let peripheral: CBPeripheral?
 
-	let measurementData: Data
-	let contextData: Data?
+	let measurementData: Data // Data Encoding ascii
+	let contextData: Data? // Data Encoding ascii
 
 	var id: Int {
 		sequence
