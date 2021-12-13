@@ -1077,6 +1077,14 @@
 		84FE91402650E55B00D681DF /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE913E2650E55B00D681DF /* GradientView.swift */; };
 		84FE91422650EFFE00D681DF /* OCKHeaderView+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */; };
 		84FE91432650EFFE00D681DF /* OCKHeaderView+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */; };
+		BF07F50227583CDF00F0C5D0 /* ProfileEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF07F50127583CDF00F0C5D0 /* ProfileEntryViewModel.swift */; };
+		BF07F50327594F1D00F0C5D0 /* ProfileEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF07F50127583CDF00F0C5D0 /* ProfileEntryViewModel.swift */; };
+		BF07F50427594F1D00F0C5D0 /* ProfileEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF07F50127583CDF00F0C5D0 /* ProfileEntryViewModel.swift */; };
+		BF07F50627594FC700F0C5D0 /* UpdateProfileEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF07F50527594FC700F0C5D0 /* UpdateProfileEntryViewModel.swift */; };
+		BF07F50827594FDB00F0C5D0 /* SignupProfileEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF07F50727594FDB00F0C5D0 /* SignupProfileEntryViewModel.swift */; };
+		BF07F50A27595D5200F0C5D0 /* ProfileEntry2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF07F50927595D5200F0C5D0 /* ProfileEntry2ViewController.swift */; };
+		BF07F50B27595D6200F0C5D0 /* ProfileEntry2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF07F50927595D5200F0C5D0 /* ProfileEntry2ViewController.swift */; };
+		BF07F50C27595D6200F0C5D0 /* ProfileEntry2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF07F50927595D5200F0C5D0 /* ProfileEntry2ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1474,6 +1482,10 @@
 		84F47F6A26426136009CC791 /* ActivityTask.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ActivityTask.json; sourceTree = "<group>"; };
 		84FE913E2650E55B00D681DF /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKHeaderView+Update.swift"; sourceTree = "<group>"; };
+		BF07F50127583CDF00F0C5D0 /* ProfileEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEntryViewModel.swift; sourceTree = "<group>"; };
+		BF07F50527594FC700F0C5D0 /* UpdateProfileEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileEntryViewModel.swift; sourceTree = "<group>"; };
+		BF07F50727594FDB00F0C5D0 /* SignupProfileEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupProfileEntryViewModel.swift; sourceTree = "<group>"; };
+		BF07F50927595D5200F0C5D0 /* ProfileEntry2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEntry2ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1610,11 +1622,15 @@
 			isa = PBXGroup;
 			children = (
 				84009047261AA77000FB3968 /* ProfileEntryViewController.swift */,
+				BF07F50127583CDF00F0C5D0 /* ProfileEntryViewModel.swift */,
+				BF07F50527594FC700F0C5D0 /* UpdateProfileEntryViewModel.swift */,
+				BF07F50727594FDB00F0C5D0 /* SignupProfileEntryViewModel.swift */,
 				84A6363B26DCBC2100F5FFBB /* WeightPickerView.swift */,
 				84A6363F26DCC39D00F5FFBB /* HeightPickerView.swift */,
 				84CF2D9D261AC5D40080293F /* GenderPickerView.swift */,
 				84CF2DA1261ACAA30080293F /* ButtonView.swift */,
 				84CF2DA3261AE60B0080293F /* DatePickerView.swift */,
+				BF07F50927595D5200F0C5D0 /* ProfileEntry2ViewController.swift */,
 			);
 			path = ProfileEntry;
 			sourceTree = "<group>";
@@ -2975,6 +2991,7 @@
 				84D1128926D451FC000BA718 /* BGMPairingViewModel.swift in Sources */,
 				84AF11A126707C9B0061A9E5 /* GridTaskController.swift in Sources */,
 				84DF46E2273A4BBA006185B4 /* URL+RedirectURI.swift in Sources */,
+				BF07F50A27595D5200F0C5D0 /* ProfileEntry2ViewController.swift in Sources */,
 				84703C71265B743A0025A50D /* ButtonLogTaskViewSynchronizer.swift in Sources */,
 				84261686269A7111006BD8B0 /* GeneralizedLogTaskViewSynchronizer.swift in Sources */,
 				8494705F2671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */,
@@ -3121,6 +3138,7 @@
 				844F218126B1130600788DA9 /* BGMDataRecord.swift in Sources */,
 				84476790259C2A4E00C50C09 /* NavigationSourceType.swift in Sources */,
 				845FBE8525FC777C00472257 /* ConversionError.swift in Sources */,
+				BF07F50627594FC700F0C5D0 /* UpdateProfileEntryViewModel.swift in Sources */,
 				84C212B42664A495000D491B /* PDFViewController.swift in Sources */,
 				844767F1259C2A4E00C50C09 /* AppConfig.swift in Sources */,
 				841640CA2627D999000903AF /* UITabBar+Appearance.swift in Sources */,
@@ -3168,6 +3186,7 @@
 				8460E9F926D8839100041126 /* GATTCommand.swift in Sources */,
 				8449A65B267C58D300F73D8E /* ConversationsManager.swift in Sources */,
 				84897F7F25E0E1E400ABC715 /* CHOutcomeValue+OCKOutcomeValue.swift in Sources */,
+				BF07F50827594FDB00F0C5D0 /* SignupProfileEntryViewModel.swift in Sources */,
 				847A46742728F4D5007BE113 /* TaskView.swift in Sources */,
 				84476743259C2A4E00C50C09 /* ProfileChartView.swift in Sources */,
 				84703C6C265B727C0025A50D /* GridTaskViewSynchronizer.swift in Sources */,
@@ -3181,6 +3200,7 @@
 				84C93C5F2616B7ED00C5E33E /* Date+FHIR.swift in Sources */,
 				8475FBDE268C275900A916B6 /* UINavigationController+Transitions.swift in Sources */,
 				8449F47C26D73804009B5F7A /* GATTCharacteristic.swift in Sources */,
+				BF07F50227583CDF00F0C5D0 /* ProfileEntryViewModel.swift in Sources */,
 				8487481525B3B2FD008C15E2 /* LoggingOSLog.swift in Sources */,
 				84CF2D9E261AC5D40080293F /* GenderPickerView.swift in Sources */,
 				849F37A125BA8CF300FC2D1B /* ScreenFlowType.swift in Sources */,
@@ -3503,6 +3523,7 @@
 				849470592671C389000A77A7 /* GridTaskController.swift in Sources */,
 				84A6364226DCC39D00F5FFBB /* HeightPickerView.swift in Sources */,
 				847DCC62265871F3004E9C1D /* Languages.swift in Sources */,
+				BF07F50C27595D6200F0C5D0 /* ProfileEntry2ViewController.swift in Sources */,
 				84E18CEE268188DD009AFBF3 /* TCHMessage+Identifiable.swift in Sources */,
 				846F97972716A3330094735E /* RemoteConfigManager+Injectable.swift in Sources */,
 				847DCC63265871F3004E9C1D /* ProfileHelper.swift in Sources */,
@@ -3529,6 +3550,7 @@
 				8475FBE0268C275900A916B6 /* UINavigationController+Transitions.swift in Sources */,
 				847DCC71265871F3004E9C1D /* LoggingOSLog.swift in Sources */,
 				8449F47E26D73804009B5F7A /* GATTCharacteristic.swift in Sources */,
+				BF07F50427594F1D00F0C5D0 /* ProfileEntryViewModel.swift in Sources */,
 				847DCC73265871F3004E9C1D /* GenderPickerView.swift in Sources */,
 				847DCC74265871F3004E9C1D /* ScreenFlowType.swift in Sources */,
 				84703C5A265B4B350025A50D /* Keychain+Access.swift in Sources */,
@@ -3814,6 +3836,7 @@
 				849470582671C388000A77A7 /* GridTaskController.swift in Sources */,
 				84A6364126DCC39D00F5FFBB /* HeightPickerView.swift in Sources */,
 				84D1228F264112DE00990196 /* Languages.swift in Sources */,
+				BF07F50B27595D6200F0C5D0 /* ProfileEntry2ViewController.swift in Sources */,
 				84E18CED268188DD009AFBF3 /* TCHMessage+Identifiable.swift in Sources */,
 				846F97962716A3330094735E /* RemoteConfigManager+Injectable.swift in Sources */,
 				84D12290264112DE00990196 /* ProfileHelper.swift in Sources */,
@@ -3840,6 +3863,7 @@
 				8475FBDF268C275900A916B6 /* UINavigationController+Transitions.swift in Sources */,
 				84D122A0264112DE00990196 /* LoggingOSLog.swift in Sources */,
 				8449F47D26D73804009B5F7A /* GATTCharacteristic.swift in Sources */,
+				BF07F50327594F1D00F0C5D0 /* ProfileEntryViewModel.swift in Sources */,
 				84D122A2264112DE00990196 /* GenderPickerView.swift in Sources */,
 				84D122A4264112DE00990196 /* ScreenFlowType.swift in Sources */,
 				84703C59265B4B350025A50D /* Keychain+Access.swift in Sources */,

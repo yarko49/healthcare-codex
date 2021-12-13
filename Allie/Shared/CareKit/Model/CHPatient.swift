@@ -121,7 +121,6 @@ struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyItemDeleta
 	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 
-		self.id = try container.decode(String.self, forKey: .id)
 		self.uuid = try container.decodeIfPresent(UUID.self, forKey: .uuid) ?? UUID()
 		self.name = try container.decode(PersonNameComponents.self, forKey: .name)
 		self.sex = try container.decodeIfPresent(OCKBiologicalSex.self, forKey: .sex)
@@ -171,6 +170,13 @@ struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyItemDeleta
 		if remoteId == nil {
 			self.remoteId = profile.userId ?? profile.patientId ?? profile.fhirId
 		}
+        
+        if let id = try? container.decode(String.self, forKey: .id), id.isEmpty == false {
+            self.id = id
+        }
+        else {
+            self.id = self.remoteId ?? ""
+        }
 	}
 
 	func encode(to encoder: Encoder) throws {
