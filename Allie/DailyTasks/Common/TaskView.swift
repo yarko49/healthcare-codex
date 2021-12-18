@@ -220,7 +220,7 @@ extension TaskView {
                     let diastolicValue: OCKOutcomeValue = outcomeValues[outcomeValueIndex + 1]
                     
                     context = systolicValue.symptomTitle
-                    formattedValue = String.init(format: "%d/%d", systolicValue.integerValue ?? 0, diastolicValue.integerValue ?? 0)
+                    formattedValue = String.init(format: "%d/%d,", systolicValue.integerValue ?? 0, diastolicValue.integerValue ?? 0)
                     outcomeValueIndex = outcomeValueIndex + 1
                 }
                 
