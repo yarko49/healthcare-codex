@@ -1089,6 +1089,9 @@
 		84FE91402650E55B00D681DF /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE913E2650E55B00D681DF /* GradientView.swift */; };
 		84FE91422650EFFE00D681DF /* OCKHeaderView+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */; };
 		84FE91432650EFFE00D681DF /* OCKHeaderView+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */; };
+		BF23FAC82767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF23FAC72767FCC700649610 /* EntryTimePickerNoValueView.swift */; };
+		BF23FAC92767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF23FAC72767FCC700649610 /* EntryTimePickerNoValueView.swift */; };
+		BF23FACA2767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF23FAC72767FCC700649610 /* EntryTimePickerNoValueView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1490,6 +1493,7 @@
 		84F47F6A26426136009CC791 /* ActivityTask.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ActivityTask.json; sourceTree = "<group>"; };
 		84FE913E2650E55B00D681DF /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKHeaderView+Update.swift"; sourceTree = "<group>"; };
+		BF23FAC72767FCC700649610 /* EntryTimePickerNoValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTimePickerNoValueView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2380,6 +2384,7 @@
 				8455B150269A159B006C367C /* GeneralizedLogTaskDetailView.swift */,
 				848CD8AF2696CB2A008B675F /* EntrySegmentedView.swift */,
 				848CD8B32696CBA1008B675F /* EntryTimePickerView.swift */,
+				BF23FAC72767FCC700649610 /* EntryTimePickerNoValueView.swift */,
 				848CD8B72696CBF2008B675F /* EntryMultiValueEntryView.swift */,
 				848CD8BB2696CD3D008B675F /* EntryLabeledTextEntryView.swift */,
 				843F5147272922A300E801DE /* EntryListPickerView.swift */,
@@ -3007,6 +3012,7 @@
 				8456DED12754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */,
 				84C212A12660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
+				BF23FAC82767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */,
 				84476725259C2A4E00C50C09 /* StatCell.swift in Sources */,
 				84867D4725A99016002EE695 /* IllustrationCollectionViewCell.swift in Sources */,
 				8447674C259C2A4E00C50C09 /* SplashViewController.swift in Sources */,
@@ -3359,6 +3365,7 @@
 				8456DED32754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C212A32660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
 				847DCBF8265871F3004E9C1D /* StatCell.swift in Sources */,
+				BF23FACA2767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */,
 				847DCBF9265871F3004E9C1D /* IllustrationCollectionViewCell.swift in Sources */,
 				847DCBFA265871F3004E9C1D /* SplashViewController.swift in Sources */,
 				847DCBFB265871F3004E9C1D /* DatePickerView.swift in Sources */,
@@ -3674,6 +3681,7 @@
 				8456DED22754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C212A22660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
 				84D1222C264112DE00990196 /* StatCell.swift in Sources */,
+				BF23FAC92767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */,
 				84D1222D264112DE00990196 /* IllustrationCollectionViewCell.swift in Sources */,
 				84D1222E264112DE00990196 /* SplashViewController.swift in Sources */,
 				84D1222F264112DE00990196 /* DatePickerView.swift in Sources */,
