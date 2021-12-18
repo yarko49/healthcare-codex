@@ -97,6 +97,9 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		} else if identifier == EntryTimePickerView.reuseIdentifier {
 			let cell = entryTaskView.dequeueCell(identifier: identifier, at: index) as? EntryTimePickerView
 			configure(timeValueEntryView: cell)
+        } else if identifier == EntryTimePickerNoValueView.reuseIdentifier {
+            let cell = entryTaskView.dequeueCell(identifier: identifier, at: index) as? EntryTimePickerNoValueView
+            configure(timeNoValueEntryView: cell)
 		} else if identifier == EntryMultiValueEntryView.reuseIdentifier {
 			let cell = entryTaskView.dequeueCell(identifier: identifier, at: index) as? EntryMultiValueEntryView
 			if healthKitTask?.healthKitLinkage.quantityIdentifier == .bloodPressureDiastolic || healthKitTask?.healthKitLinkage.quantityIdentifier == .bloodPressureSystolic {
@@ -167,6 +170,15 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		let placeHolderString = numberFormatter.string(from: NSNumber(value: placeholder)) ?? "\(placeholder)"
 		cell.configure(placeHolder: placeHolderString, value: value, unitTitle: unit?.displayUnitSting ?? "", date: date, isActive: true)
 	}
+    
+    private func configure(timeNoValueEntryView cell: EntryTimePickerNoValueView?) {
+        guard let cell = cell else {
+            return
+        }
+        cell.translatesAutoresizingMaskIntoConstraints = false
+        let date = outcomeValue?.createdDate ?? queryDate.byUpdatingTimeToNow
+        cell.configure(date: date, isActive: true)
+    }
 
 	private func configure(multiValueEntryView cell: EntryMultiValueEntryView?) {
 		cell?.translatesAutoresizingMaskIntoConstraints = false
@@ -391,24 +403,29 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		guard let systolic = numberFormatter.number(from: lValueString)?.intValue, let diastolic = numberFormatter.number(from: tValueString)?.intValue else {
 			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("INVALID_VALUE_TYPE", comment: "Value of invalid type"))
 		}
+        
+        guard let unitView = entryTaskView.entryView(forIdentifier: EntryTimePickerNoValueView.reuseIdentifier) as? EntryTimePickerNoValueView else {
+            throw GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Internal Error: wrong view type."))
+        }
 
-		let startDate = outcomeValue?.createdDate ?? queryDate.byUpdatingTimeToNow
+        let startDate = unitView.date
 		let endDate = startDate
 		let systolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureSystolic)!
 		let systolicQuantity = HKQuantity(unit: HKUnit.millimeterOfMercury(), doubleValue: Double(systolic))
-		let systolicSample = HKDiscreteQuantitySample(type: systolicType, quantity: systolicQuantity, start: startDate, end: endDate)
+		let systolicSample = HKQuantitySample(type: systolicType, quantity: systolicQuantity, start: startDate, end: endDate)
 		let diastolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureDiastolic)!
 		let diastolicQuantity = HKQuantity(unit: HKUnit.millimeterOfMercury(), doubleValue: Double(diastolic))
-		let diastolicSample = HKDiscreteQuantitySample(type: diastolicType, quantity: diastolicQuantity, start: startDate, end: endDate)
+		let diastolicSample = HKQuantitySample(type: diastolicType, quantity: diastolicQuantity, start: startDate, end: endDate)
 		let bloodPressureCorrelationType = HKCorrelationType.correlationType(forIdentifier: .bloodPressure)!
 		let bloodPressureCorrelation = Set<HKSample>(arrayLiteral: systolicSample, diastolicSample)
-		let bloodPressureSample = HKCorrelation(type: bloodPressureCorrelationType, start: startDate, end: endDate, objects: bloodPressureCorrelation)
 
 		var metadata: [String: Any] = [:]
 		metadata[HKMetadataKeyTimeZone] = TimeZone.current.identifier
 		metadata[HKMetadataKeyWasUserEntered] = true
 		metadata[CHMetadataKeyUpdatedDate] = Date()
-		return bloodPressureSample
+
+        let bloodPressureSample = HKCorrelation(type: bloodPressureCorrelationType, start: startDate, end: endDate, objects: bloodPressureCorrelation, metadata: metadata)
+        return bloodPressureSample
 	}
 
 	private func showAlert(title: String?, message: String?, showSettings: Bool) {

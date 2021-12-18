@@ -16,7 +16,7 @@ extension HKQuantityTypeIdentifier {
 		case .insulinDelivery, .bloodGlucose:
 			return [EntryTimePickerView.reuseIdentifier, EntrySegmentedView.reuseIdentifier]
 		case .bloodPressureSystolic, .bloodPressureDiastolic:
-			return [EntryMultiValueEntryView.reuseIdentifier]
+			return [EntryMultiValueEntryView.reuseIdentifier, EntryTimePickerNoValueView.reuseIdentifier]
 		default:
 			return nil
 		}

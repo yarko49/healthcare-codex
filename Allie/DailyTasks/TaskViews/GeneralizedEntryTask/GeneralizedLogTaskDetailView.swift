@@ -62,6 +62,11 @@ class GeneralizedLogTaskDetailView: OCKStackView {
 				cell?.heightAnchor.constraint(equalToConstant: EntryTimePickerView.height).isActive = true
 				cell?.translatesAutoresizingMaskIntoConstraints = false
 				entryViews[EntryTimePickerView.reuseIdentifier] = cell
+            } else if identifier == EntryTimePickerNoValueView.reuseIdentifier {
+                cell = EntryTimePickerNoValueView(frame: .zero)
+                cell?.heightAnchor.constraint(equalToConstant: EntryTimePickerNoValueView.height).isActive = true
+                cell?.translatesAutoresizingMaskIntoConstraints = false
+                entryViews[EntryTimePickerNoValueView.reuseIdentifier] = cell
 			} else if identifier == EntryMultiValueEntryView.reuseIdentifier {
 				cell = EntryMultiValueEntryView(frame: .zero)
 				cell?.heightAnchor.constraint(equalToConstant: EntryMultiValueEntryView.height).isActive = true
