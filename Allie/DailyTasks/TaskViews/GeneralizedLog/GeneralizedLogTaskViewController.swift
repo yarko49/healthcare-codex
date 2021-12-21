@@ -49,7 +49,7 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 	}
 
 	override open func didSelectTaskView(_ taskView: UIView & OCKTaskDisplayable, eventIndexPath: IndexPath) {
-		didSelectOutcome(value: nil, eventIndexPath: eventIndexPath, sender: nil)
+		didSelectOutcome(values: [], eventIndexPath: eventIndexPath, sender: nil)
 	}
 
 	override open func taskView(_ taskView: UIView & OCKTaskDisplayable, didCreateOutcomeValueAt index: Int, eventIndexPath: IndexPath, sender: Any?) {
@@ -68,6 +68,21 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 
 	override func taskView(_ taskView: UIView & OCKTaskDisplayable, didSelectOutcomeValueAt index: Int, eventIndexPath: IndexPath, sender: Any?) {
 		do {
+            _ = try controller.validatedViewModel()
+            let event = try controller.validatedEvent(forIndexPath: eventIndexPath)
+            
+            guard let outcome = event.outcome else {
+                throw AllieError.missing("No Outcome")
+            }
+            
+            guard index < outcome.recordsCount else {
+                throw AllieError.missing("No Outcome Value for Event at index \(index)")
+            }
+            
+            let values = outcome.getValuesForRecord(at: index)
+            didSelectOutcome(values: values, eventIndexPath: eventIndexPath, sender: sender)
+            
+            /*
 			_ = try controller.validatedViewModel()
 			let event = try controller.validatedEvent(forIndexPath: eventIndexPath)
 			guard let outcome = event.outcome, index < outcome.values.count else {
@@ -76,6 +91,7 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 
 			let value = outcome.values[index]
 			didSelectOutcome(value: value, eventIndexPath: eventIndexPath, sender: sender)
+             */
 		} catch {
 			if delegate == nil {
 				ALog.error("A task error occurred, but no delegate was set to forward it to!", error: error)
@@ -84,14 +100,15 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 		}
 	}
 
-	func didSelectOutcome(value: OCKOutcomeValue?, eventIndexPath: IndexPath, sender: Any?) {
+	func didSelectOutcome(values: [OCKOutcomeValue], eventIndexPath: IndexPath, sender: Any?) {
 		guard let event = controller.eventFor(indexPath: eventIndexPath), let task = event.task as? OCKHealthKitTask else {
 			return
 		}
+        let value = values.first
 		let viewController = GeneralizedLogTaskDetailViewController()
 		viewController.queryDate = eventQuery.dateInterval.start
 		viewController.anyTask = task
-		viewController.outcomeValue = value
+		viewController.outcomeValues = values
 		if let uuid = value?.healthKitUUID {
 			viewController.outcome = try? careManager.dbFindFirstOutcome(sampleId: uuid)
 		}
@@ -103,7 +120,7 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 			strongSelf.healthKitStore.save(sample: newSample, completion: { result in
 				switch result {
 				case .success:
-					if let outcomeValue = viewController?.outcomeValue {
+                    if let outcomeValue = viewController?.outcomeValues.first {
 						strongSelf.controller.deleteOutcome(value: outcomeValue) { result in
 							switch result {
 							case .success(let deletedSample):
@@ -139,7 +156,7 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 		}
 
 		viewController.deleteAction = { [weak self, weak viewController] in
-			guard let outcomeValue = viewController?.outcomeValue, let task = viewController?.healthKitTask else {
+            guard let outcomeValue = viewController?.outcomeValues.first, let task = viewController?.healthKitTask else {
 				viewController?.dismiss(animated: true, completion: nil)
 				return
 			}
