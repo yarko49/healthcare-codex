@@ -1092,6 +1092,9 @@
 		BF23FAC82767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF23FAC72767FCC700649610 /* EntryTimePickerNoValueView.swift */; };
 		BF23FAC92767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF23FAC72767FCC700649610 /* EntryTimePickerNoValueView.swift */; };
 		BF23FACA2767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF23FAC72767FCC700649610 /* EntryTimePickerNoValueView.swift */; };
+		BF760E37276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF760E36276DE48600439D46 /* OCKOutcome+BloodPressure.swift */; };
+		BF760E38276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF760E36276DE48600439D46 /* OCKOutcome+BloodPressure.swift */; };
+		BF760E39276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF760E36276DE48600439D46 /* OCKOutcome+BloodPressure.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1494,6 +1497,7 @@
 		84FE913E2650E55B00D681DF /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKHeaderView+Update.swift"; sourceTree = "<group>"; };
 		BF23FAC72767FCC700649610 /* EntryTimePickerNoValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTimePickerNoValueView.swift; sourceTree = "<group>"; };
+		BF760E36276DE48600439D46 /* OCKOutcome+BloodPressure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKOutcome+BloodPressure.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2121,6 +2125,7 @@
 				8442D31A26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift */,
 				84EDA18C26577DF30049323C /* HKDiscreteQuantitySample+Insulin.swift */,
 				84A8085D269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift */,
+				BF760E36276DE48600439D46 /* OCKOutcome+BloodPressure.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3214,6 +3219,7 @@
 				84CF2D9E261AC5D40080293F /* GenderPickerView.swift in Sources */,
 				849F37A125BA8CF300FC2D1B /* ScreenFlowType.swift in Sources */,
 				84E4660225A040F100A10F8B /* ViewIdentifiable.swift in Sources */,
+				BF760E37276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */,
 				845F8B9F26470B2A00999091 /* OCKHealthKitLinkage+Dictionary.swift in Sources */,
 				84C212B0266491A0000D491B /* FileManager+Documents.swift in Sources */,
 				8423225F2717E1FB008B50F0 /* RemoteLoggingConfig.swift in Sources */,
@@ -3567,6 +3573,7 @@
 				847DCC74265871F3004E9C1D /* ScreenFlowType.swift in Sources */,
 				84703C5A265B4B350025A50D /* Keychain+Access.swift in Sources */,
 				847DCC75265871F3004E9C1D /* ViewIdentifiable.swift in Sources */,
+				BF760E39276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */,
 				847DCC76265871F3004E9C1D /* OCKHealthKitLinkage+Dictionary.swift in Sources */,
 				84C212B2266491A0000D491B /* FileManager+Documents.swift in Sources */,
 				847DCC78265871F3004E9C1D /* HKQuantitySample+Metadata.swift in Sources */,
@@ -3883,6 +3890,7 @@
 				84D122A4264112DE00990196 /* ScreenFlowType.swift in Sources */,
 				84703C59265B4B350025A50D /* Keychain+Access.swift in Sources */,
 				84D122A5264112DE00990196 /* ViewIdentifiable.swift in Sources */,
+				BF760E38276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */,
 				845F8BA026470B2A00999091 /* OCKHealthKitLinkage+Dictionary.swift in Sources */,
 				84C212B1266491A0000D491B /* FileManager+Documents.swift in Sources */,
 				84D122A7264112DE00990196 /* HKQuantitySample+Metadata.swift in Sources */,

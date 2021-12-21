@@ -77,7 +77,7 @@ class SymptomsLogViewController: OCKTaskViewController<SymptomsLogTaskController
 		let viewController = GeneralizedLogTaskDetailViewController()
 		viewController.queryDate = eventQuery.dateInterval.start
 		viewController.anyTask = task
-		viewController.outcomeValue = value
+        viewController.outcomeValues = (value != nil) ? [value!] : []
 		viewController.outcomeIndex = index
 		viewController.modalPresentationStyle = .overFullScreen
 
@@ -115,7 +115,7 @@ class SymptomsLogViewController: OCKTaskViewController<SymptomsLogTaskController
 			guard let strongSelf = self, let carePlanId = task.carePlanId else {
 				return
 			}
-			if let index = index, let ockOutcome = outcome as? OCKOutcome, viewController?.outcomeValue != nil {
+            if let index = index, let ockOutcome = outcome as? OCKOutcome, viewController?.outcomeValues.count != 0 {
 				strongSelf.update(value: newOutcomeValue, for: ockOutcome, at: index, eventIndexPath: eventIndexPath, task: task) { updateResult in
 					switch updateResult {
 					case .failure(let error):
