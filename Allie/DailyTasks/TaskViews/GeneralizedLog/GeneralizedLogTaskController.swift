@@ -92,20 +92,25 @@ class GeneralizedLogTaskController: OCKTaskController {
 			}
 		}
 	}
-
+    
 	func deleteOutcome(value: OCKOutcomeValue, completion: AllieResultCompletion<HKSample>?) {
 		guard let uuid = value.healthKitUUID, let identifier = value.quantityIdentifier else {
 			completion?(.failure(AllieError.invalid("Invalid outcome value")))
 			return
 		}
 
-		healthKitManager.delete(uuid: uuid, quantityIdentifier: identifier) { result in
-			switch result {
-			case .failure(let error):
-				completion?(.failure(error))
-			case .success(let sample):
-				completion?(.success(sample))
-			}
-		}
+        if identifier == HKQuantityTypeIdentifier.bloodPressureSystolic.rawValue ||
+            identifier == HKQuantityTypeIdentifier.bloodPressureDiastolic.rawValue {
+            
+            guard let bloodPressureType = HKCorrelationType.correlationType(forIdentifier: .bloodPressure) else {
+                completion?(.failure(HealthKitManagerError.invalidInput("Invalid quantityIdentifier")))
+                return
+            }
+            healthKitManager.deleteCorrelationSample(uuid: uuid, sampleType: bloodPressureType, completion: completion)
+        }
+        else {
+            healthKitManager.delete(uuid: uuid, quantityIdentifier: identifier, completion: completion)
+        }
 	}
+
 }
