@@ -43,7 +43,8 @@ extension HKSample {
                 values.append(value)
                 
                 if let diastolicDoubleValue = metadata?[CHMetadataKeyBPDiastolicValue] as? Double,
-                   let startTimestamp = metadata?[CHOutcomeMetadataKeyStartDate] as? TimeInterval {
+                   let startTimestamp = metadata?[CHOutcomeMetadataKeyStartDate] as? TimeInterval,
+                   let correlationSampleUuid = metadata?[CHMetadataKeyBPCorrelationSampleUUID] as? String {
                     var diastolicValue = value
                     diastolicValue.updateValue(newValue: Int(diastolicDoubleValue),
                                                newQuantityIdentifier: HKQuantityTypeIdentifier.bloodPressureDiastolic.rawValue,
@@ -53,6 +54,10 @@ extension HKSample {
                                       newKind: HKQuantityTypeIdentifier.bloodPressureSystolic.rawValue)
                     diastolicValue.createdDate = Date(timeIntervalSince1970: startTimestamp)
                     value.createdDate = Date(timeIntervalSince1970: startTimestamp)
+                    
+                    value.healthKitUUID = UUID(uuidString: correlationSampleUuid)
+                    diastolicValue.healthKitUUID = value.healthKitUUID
+                    
                     values = [value, diastolicValue]
                 }
 			}
