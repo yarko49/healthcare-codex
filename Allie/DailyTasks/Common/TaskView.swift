@@ -8,6 +8,7 @@
 import CareKitStore
 import CareKitUI
 import UIKit
+import HealthKit
 
 struct CardBuilder: OCKCardable {
 	let cardView: UIView
@@ -203,21 +204,41 @@ extension TaskView {
 		if outcomeValues.isEmpty {
 			clearItems(animated: animated)
 		} else {
-			for (index, outcomeValue) in outcomeValues.enumerated() {
-				let date = outcomeValue.createdDate
-				let dateString = ScheduleUtility.timeFormatter.string(from: date)
-				var context: String?
-				if linkage?.quantityIdentifier == .insulinDelivery {
-					context = outcomeValue.insulinReasonTitle
-				} else if linkage?.quantityIdentifier == .bloodGlucose {
-					context = outcomeValue.bloodGlucoseMealTimeTitle
-				} else {
-					context = outcomeValue.symptomTitle
-				}
-				_ = index < items.count ?
-					updateItem(at: index, value: outcomeValue.formattedValue, time: dateString, context: context) :
-					appendItem(value: outcomeValue.formattedValue, time: dateString, context: context, animated: animated, canEdit: true)
-			}
+            var itemIndex: Int = 0
+            var outcomeValueIndex: Int = 0
+            
+            while outcomeValueIndex < outcomeValues.count {
+                let outcomeValue = outcomeValues[outcomeValueIndex]
+                let date = outcomeValue.createdDate
+                let dateString = ScheduleUtility.timeFormatter.string(from: date)
+                var formattedValue = outcomeValue.formattedValue
+                var context: String?
+
+                if linkage?.quantityIdentifier == .bloodPressureDiastolic {
+                    // Fetch 2 values (systolic, diastolic)
+                    let systolicValue: OCKOutcomeValue = outcomeValues[outcomeValueIndex]
+                    let diastolicValue: OCKOutcomeValue = outcomeValues[outcomeValueIndex + 1]
+                    
+                    context = systolicValue.symptomTitle
+                    formattedValue = String.init(format: "%d/%d,", systolicValue.integerValue ?? 0, diastolicValue.integerValue ?? 0)
+                    outcomeValueIndex = outcomeValueIndex + 1
+                }
+                
+                if linkage?.quantityIdentifier == .insulinDelivery {
+                    context = outcomeValue.insulinReasonTitle
+                } else if linkage?.quantityIdentifier == .bloodGlucose {
+                    context = outcomeValue.bloodGlucoseMealTimeTitle
+                } else {
+                    context = outcomeValue.symptomTitle
+                }
+
+                _ = itemIndex < items.count ?
+                    updateItem(at: itemIndex, value: formattedValue, time: dateString, context: context) :
+                    appendItem(value: formattedValue, time: dateString, context: context, animated: animated, canEdit: true)
+                
+                outcomeValueIndex = outcomeValueIndex + 1
+                itemIndex = itemIndex + 1
+            }
 		}
 		trimItems(given: outcomeValues, animated: animated)
 	}

@@ -28,7 +28,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 	}()
 
 	var outcome: CHOutcome?
-	var outcomeValue: OCKOutcomeValue?
+	var outcomeValues: [OCKOutcomeValue] = []
 	var outcomeIndex: Int?
 	var anyTask: OCKAnyTask?
 	var queryDate = Date()
@@ -85,7 +85,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		}
 
 		registerSymptomPublisher()
-		if let exstingValue = outcomeValue?.stringValue, task?.groupIdentifierType == .symptoms {
+        if let exstingValue = outcomeValues.first?.stringValue, task?.groupIdentifierType == .symptoms {
 			selectedOutcome = exstingValue
 		}
 	}
@@ -97,6 +97,9 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		} else if identifier == EntryTimePickerView.reuseIdentifier {
 			let cell = entryTaskView.dequeueCell(identifier: identifier, at: index) as? EntryTimePickerView
 			configure(timeValueEntryView: cell)
+        } else if identifier == EntryTimePickerNoValueView.reuseIdentifier {
+            let cell = entryTaskView.dequeueCell(identifier: identifier, at: index) as? EntryTimePickerNoValueView
+            configure(timeNoValueEntryView: cell)
 		} else if identifier == EntryMultiValueEntryView.reuseIdentifier {
 			let cell = entryTaskView.dequeueCell(identifier: identifier, at: index) as? EntryMultiValueEntryView
 			if healthKitTask?.healthKitLinkage.quantityIdentifier == .bloodPressureDiastolic || healthKitTask?.healthKitLinkage.quantityIdentifier == .bloodPressureSystolic {
@@ -114,6 +117,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		guard let cell = cell else {
 			return
 		}
+        let outcomeValue = outcomeValues.first
 		var titles: [String] = []
 		if healthKitTask?.healthKitLinkage.quantityIdentifier == .insulinDelivery {
 			let reasons = [HKInsulinDeliveryReason.bolus, HKInsulinDeliveryReason.basal]
@@ -149,6 +153,8 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			return
 		}
 		cell.translatesAutoresizingMaskIntoConstraints = false
+        
+        let outcomeValue = outcomeValues.first
 		let unit = healthKitTask?.healthKitLinkage.unit
 		let elements = healthKitTask?.schedule.elements
 		let targetValue = elements?.first?.targetValues.first
@@ -167,6 +173,17 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		let placeHolderString = numberFormatter.string(from: NSNumber(value: placeholder)) ?? "\(placeholder)"
 		cell.configure(placeHolder: placeHolderString, value: value, unitTitle: unit?.displayUnitSting ?? "", date: date, isActive: true)
 	}
+    
+    private func configure(timeNoValueEntryView cell: EntryTimePickerNoValueView?) {
+        guard let cell = cell else {
+            return
+        }
+        cell.translatesAutoresizingMaskIntoConstraints = false
+        
+        let outcomeValue = outcomeValues.first
+        let date = outcomeValue?.createdDate ?? queryDate.byUpdatingTimeToNow
+        cell.configure(date: date, isActive: true)
+    }
 
 	private func configure(multiValueEntryView cell: EntryMultiValueEntryView?) {
 		cell?.translatesAutoresizingMaskIntoConstraints = false
@@ -200,6 +217,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		}
 		cell?.leadingEntryView.isHidden = false
 		cell?.trailingEntryView.isHidden = false
+        
 		if targetValues[0].kind == "systolic" {
 			cell?.leadingEntryView.textField.placeholder = numberFormatter.string(from: NSNumber(value: targetValues[0].integerValue ?? 0))
 			cell?.leadingEntryView.textLabel.text = targetValues[0].units
@@ -213,6 +231,21 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			cell?.trailingEntryView.textField.placeholder = numberFormatter.string(from: NSNumber(value: targetValues[0].integerValue ?? 0))
 			cell?.trailingEntryView.textLabel.text = targetValues[0].units
 		}
+        
+        if let firstOutcomeValue = self.outcomeValues.first,
+           let secondOutcomeValue = self.outcomeValues.last,
+           let firstValue = firstOutcomeValue.integerValue,
+           let secondValue = secondOutcomeValue.integerValue {
+            if firstOutcomeValue.quantityIdentifier == HKQuantityTypeIdentifier.bloodPressureSystolic.rawValue {
+                cell?.leadingEntryView.textField.text = numberFormatter.string(from: NSNumber(value: firstValue))
+                cell?.trailingEntryView.textField.text = numberFormatter.string(from: NSNumber(value: secondValue))
+            }
+            else {
+                cell?.leadingEntryView.textField.text = numberFormatter.string(from: NSNumber(value: secondValue))
+                cell?.trailingEntryView.textField.text = numberFormatter.string(from: NSNumber(value: firstValue))
+            }
+        }
+           
 	}
 
 	@Published private var selectedOutcome: String? {
@@ -223,6 +256,8 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 	}
 
 	private func configure(listPickerView cell: EntryListPickerView?) {
+        let outcomeValue = outcomeValues.first
+        
 		cell?.delegate = self
 		cell?.selectedValue = selectedOutcome ?? outcomeValue?.stringValue ?? NSLocalizedString("SELECT", comment: "Select")
 	}
@@ -238,7 +273,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			return !value.isEmpty
 		}
 		.map { [weak self] enabled -> Bool in
-			guard self?.outcomeValue == nil else {
+            guard self?.outcomeValues.count == 0 else {
 				return true
 			}
 			return enabled
@@ -259,7 +294,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		for (index, identifier) in self.identifiers.enumerated() {
 			addView(identifier: identifier, at: index)
 		}
-		footerView.deleteButton.isHidden = outcomeValue == nil
+        footerView.deleteButton.isHidden = outcomeValues.count == 0
 	}
 
 	private func configureView(healthKitTask task: OCKHealthKitTask?) {
@@ -275,7 +310,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		for (index, identifier) in self.identifiers.enumerated() {
 			addView(identifier: identifier, at: index)
 		}
-		footerView.deleteButton.isHidden = outcomeValue == nil
+        footerView.deleteButton.isHidden = outcomeValues.count == 0
 	}
 
 	func createHealthKitSample() throws -> HKSample {
@@ -388,27 +423,40 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			throw GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))
 		}
 
-		guard let systolic = numberFormatter.number(from: lValueString)?.intValue, let diastolic = numberFormatter.number(from: tValueString)?.intValue else {
+		guard let systolic = numberFormatter.number(from: lValueString)?.intValue,
+              let diastolic = numberFormatter.number(from: tValueString)?.intValue else {
 			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("INVALID_VALUE_TYPE", comment: "Value of invalid type"))
 		}
+        
+        guard systolic >= 50, systolic <= 250 else {
+            throw GeneralizedEntryTaskError.invalid(NSLocalizedString("BLOODPRESSURE_SYSTOLIC_VALUE_RANGE_INVALID", comment: "Systolic value must be greater than 50 and less than 250"))
+        }
+        guard diastolic >= 25, diastolic <= 200 else {
+            throw GeneralizedEntryTaskError.invalid(NSLocalizedString("BLOODPRESSURE_DIASTOLIC_VALUE_RANGE_INVALID", comment: "Diastolic value must be greater than 25 and less than 200"))
+        }
+        
+        guard let unitView = entryTaskView.entryView(forIdentifier: EntryTimePickerNoValueView.reuseIdentifier) as? EntryTimePickerNoValueView else {
+            throw GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Internal Error: wrong view type."))
+        }
 
-		let startDate = outcomeValue?.createdDate ?? queryDate.byUpdatingTimeToNow
+        let startDate = unitView.date
 		let endDate = startDate
 		let systolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureSystolic)!
 		let systolicQuantity = HKQuantity(unit: HKUnit.millimeterOfMercury(), doubleValue: Double(systolic))
-		let systolicSample = HKDiscreteQuantitySample(type: systolicType, quantity: systolicQuantity, start: startDate, end: endDate)
+		let systolicSample = HKQuantitySample(type: systolicType, quantity: systolicQuantity, start: startDate, end: endDate)
 		let diastolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureDiastolic)!
 		let diastolicQuantity = HKQuantity(unit: HKUnit.millimeterOfMercury(), doubleValue: Double(diastolic))
-		let diastolicSample = HKDiscreteQuantitySample(type: diastolicType, quantity: diastolicQuantity, start: startDate, end: endDate)
+		let diastolicSample = HKQuantitySample(type: diastolicType, quantity: diastolicQuantity, start: startDate, end: endDate)
 		let bloodPressureCorrelationType = HKCorrelationType.correlationType(forIdentifier: .bloodPressure)!
 		let bloodPressureCorrelation = Set<HKSample>(arrayLiteral: systolicSample, diastolicSample)
-		let bloodPressureSample = HKCorrelation(type: bloodPressureCorrelationType, start: startDate, end: endDate, objects: bloodPressureCorrelation)
 
 		var metadata: [String: Any] = [:]
 		metadata[HKMetadataKeyTimeZone] = TimeZone.current.identifier
 		metadata[HKMetadataKeyWasUserEntered] = true
 		metadata[CHMetadataKeyUpdatedDate] = Date()
-		return bloodPressureSample
+
+        let bloodPressureSample = HKCorrelation(type: bloodPressureCorrelationType, start: startDate, end: endDate, objects: bloodPressureCorrelation, metadata: metadata)
+        return bloodPressureSample
 	}
 
 	private func showAlert(title: String?, message: String?, showSettings: Bool) {
@@ -472,7 +520,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		var newOutcomeValue = OCKOutcomeValue(value, units: nil)
 		newOutcomeValue.kind = severityType.rawValue
 		newOutcomeValue.wasUserEntered = true
-		newOutcomeValue.createdDate = outcomeValue?.createdDate ?? queryDate.byUpdatingTimeToNow
+        newOutcomeValue.createdDate = outcomeValues.first?.createdDate ?? queryDate.byUpdatingTimeToNow
 		return newOutcomeValue
 	}
 

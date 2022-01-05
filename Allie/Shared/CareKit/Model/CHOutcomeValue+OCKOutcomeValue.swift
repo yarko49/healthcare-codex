@@ -14,6 +14,14 @@ extension OCKOutcomeValue {
 		self.createdDate = outcomeValue.createdDate
 		self.kind = outcomeValue.kind
 	}
+    
+    mutating func updateValue(newValue: OCKOutcomeValueUnderlyingType,
+                              newQuantityIdentifier: String?,
+                              newKind: String?) {
+        self.value = newValue
+        self.quantityIdentifier = newQuantityIdentifier ?? self.quantityIdentifier
+        self.kind = newKind ?? self.kind
+    }
 }
 
 extension CHOutcomeValue {

@@ -22,6 +22,9 @@ let CHMetadataKeyHealthKitSampleUUID = "CHHealthKitSampleUUID"
 let CHMetadataKeyCarehKitTaskUUID = "CHCarehKitTaskUUID"
 let CHMetadataKeyHealthKitQuantityIdentifier = "CHHealthKitQuantityIdentifier"
 let CHMetadataKeyCarePlanUUID = "CHCarePlanUUID"
+let CHMetadataKeyBPSystolicValue = "systolicValue"
+let CHMetadataKeyBPDiastolicValue = "diastolicValue"
+let CHMetadataKeyBPCorrelationSampleUUID = "correlationSampleUUID"
 
 extension OCKAnyOutcome {
 	var groupIdentifierType: CHGroupIdentifierType? {

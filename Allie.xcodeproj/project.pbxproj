@@ -1089,6 +1089,12 @@
 		84FE91402650E55B00D681DF /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE913E2650E55B00D681DF /* GradientView.swift */; };
 		84FE91422650EFFE00D681DF /* OCKHeaderView+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */; };
 		84FE91432650EFFE00D681DF /* OCKHeaderView+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */; };
+		BF23FAC82767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF23FAC72767FCC700649610 /* EntryTimePickerNoValueView.swift */; };
+		BF23FAC92767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF23FAC72767FCC700649610 /* EntryTimePickerNoValueView.swift */; };
+		BF23FACA2767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF23FAC72767FCC700649610 /* EntryTimePickerNoValueView.swift */; };
+		BF760E37276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF760E36276DE48600439D46 /* OCKOutcome+BloodPressure.swift */; };
+		BF760E38276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF760E36276DE48600439D46 /* OCKOutcome+BloodPressure.swift */; };
+		BF760E39276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF760E36276DE48600439D46 /* OCKOutcome+BloodPressure.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1490,6 +1496,8 @@
 		84F47F6A26426136009CC791 /* ActivityTask.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ActivityTask.json; sourceTree = "<group>"; };
 		84FE913E2650E55B00D681DF /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		84FE91412650EFFE00D681DF /* OCKHeaderView+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKHeaderView+Update.swift"; sourceTree = "<group>"; };
+		BF23FAC72767FCC700649610 /* EntryTimePickerNoValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTimePickerNoValueView.swift; sourceTree = "<group>"; };
+		BF760E36276DE48600439D46 /* OCKOutcome+BloodPressure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKOutcome+BloodPressure.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2117,6 +2125,7 @@
 				8442D31A26E1B27A0016A203 /* HKBloodGlucoseMealTime+Kind.swift */,
 				84EDA18C26577DF30049323C /* HKDiscreteQuantitySample+Insulin.swift */,
 				84A8085D269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift */,
+				BF760E36276DE48600439D46 /* OCKOutcome+BloodPressure.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2380,6 +2389,7 @@
 				8455B150269A159B006C367C /* GeneralizedLogTaskDetailView.swift */,
 				848CD8AF2696CB2A008B675F /* EntrySegmentedView.swift */,
 				848CD8B32696CBA1008B675F /* EntryTimePickerView.swift */,
+				BF23FAC72767FCC700649610 /* EntryTimePickerNoValueView.swift */,
 				848CD8B72696CBF2008B675F /* EntryMultiValueEntryView.swift */,
 				848CD8BB2696CD3D008B675F /* EntryLabeledTextEntryView.swift */,
 				843F5147272922A300E801DE /* EntryListPickerView.swift */,
@@ -2872,7 +2882,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "\"${BUILD_DIR%%Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+			shellScript = "if [[ $(arch) == 'i386' ]]; then\n    \"${BUILD_DIR%%Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\nfi\n";
 		};
 		847DCBF1265871F3004E9C1D /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2908,7 +2918,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "\"${BUILD_DIR%%Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+			shellScript = "if [[ $(arch) == 'i386' ]]; then\n    \"${BUILD_DIR%%Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\nfi\n";
 		};
 		848E161F259C3F8600412E2B /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2946,7 +2956,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "\"${BUILD_DIR%%Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+			shellScript = "if [[ $(arch) == 'i386' ]]; then\n    \"${BUILD_DIR%%Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\nfi\n";
 		};
 		84C0D02626B8FB8F004A9827 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3007,6 +3017,7 @@
 				8456DED12754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */,
 				84C212A12660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
+				BF23FAC82767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */,
 				84476725259C2A4E00C50C09 /* StatCell.swift in Sources */,
 				84867D4725A99016002EE695 /* IllustrationCollectionViewCell.swift in Sources */,
 				8447674C259C2A4E00C50C09 /* SplashViewController.swift in Sources */,
@@ -3208,6 +3219,7 @@
 				84CF2D9E261AC5D40080293F /* GenderPickerView.swift in Sources */,
 				849F37A125BA8CF300FC2D1B /* ScreenFlowType.swift in Sources */,
 				84E4660225A040F100A10F8B /* ViewIdentifiable.swift in Sources */,
+				BF760E37276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */,
 				845F8B9F26470B2A00999091 /* OCKHealthKitLinkage+Dictionary.swift in Sources */,
 				84C212B0266491A0000D491B /* FileManager+Documents.swift in Sources */,
 				8423225F2717E1FB008B50F0 /* RemoteLoggingConfig.swift in Sources */,
@@ -3359,6 +3371,7 @@
 				8456DED32754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C212A32660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
 				847DCBF8265871F3004E9C1D /* StatCell.swift in Sources */,
+				BF23FACA2767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */,
 				847DCBF9265871F3004E9C1D /* IllustrationCollectionViewCell.swift in Sources */,
 				847DCBFA265871F3004E9C1D /* SplashViewController.swift in Sources */,
 				847DCBFB265871F3004E9C1D /* DatePickerView.swift in Sources */,
@@ -3560,6 +3573,7 @@
 				847DCC74265871F3004E9C1D /* ScreenFlowType.swift in Sources */,
 				84703C5A265B4B350025A50D /* Keychain+Access.swift in Sources */,
 				847DCC75265871F3004E9C1D /* ViewIdentifiable.swift in Sources */,
+				BF760E39276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */,
 				847DCC76265871F3004E9C1D /* OCKHealthKitLinkage+Dictionary.swift in Sources */,
 				84C212B2266491A0000D491B /* FileManager+Documents.swift in Sources */,
 				847DCC78265871F3004E9C1D /* HKQuantitySample+Metadata.swift in Sources */,
@@ -3674,6 +3688,7 @@
 				8456DED22754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C212A22660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
 				84D1222C264112DE00990196 /* StatCell.swift in Sources */,
+				BF23FAC92767FCC700649610 /* EntryTimePickerNoValueView.swift in Sources */,
 				84D1222D264112DE00990196 /* IllustrationCollectionViewCell.swift in Sources */,
 				84D1222E264112DE00990196 /* SplashViewController.swift in Sources */,
 				84D1222F264112DE00990196 /* DatePickerView.swift in Sources */,
@@ -3875,6 +3890,7 @@
 				84D122A4264112DE00990196 /* ScreenFlowType.swift in Sources */,
 				84703C59265B4B350025A50D /* Keychain+Access.swift in Sources */,
 				84D122A5264112DE00990196 /* ViewIdentifiable.swift in Sources */,
+				BF760E38276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */,
 				845F8BA026470B2A00999091 /* OCKHealthKitLinkage+Dictionary.swift in Sources */,
 				84C212B1266491A0000D491B /* FileManager+Documents.swift in Sources */,
 				84D122A7264112DE00990196 /* HKQuantitySample+Metadata.swift in Sources */,
@@ -4177,7 +4193,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4185,7 +4201,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.6;
+				MARKETING_VERSION = 1.1.0;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4206,7 +4222,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4214,7 +4230,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.6;
+				MARKETING_VERSION = 1.1.0;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4331,7 +4347,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4339,7 +4355,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.6;
+				MARKETING_VERSION = 1.1.0;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4360,7 +4376,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4368,7 +4384,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.6;
+				MARKETING_VERSION = 1.1.0;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4389,7 +4405,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4397,7 +4413,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.6;
+				MARKETING_VERSION = 1.1.0;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4418,7 +4434,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4426,7 +4442,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.6;
+				MARKETING_VERSION = 1.1.0;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";

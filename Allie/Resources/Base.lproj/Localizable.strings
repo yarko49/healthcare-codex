@@ -833,6 +833,12 @@
 /* Value must be greater than 0 and less than 1000 */
 "VALUE_RANGE_INVALID" = "Value must be greater than 0 and less than 1000";
 
+/* Systolic value must be greater than 50 and less than 250 */
+"BLOODPRESSURE_SYSTOLIC_VALUE_RANGE_INVALID" = "Systolic value must be greater than 50 and less than 250";
+
+/* Diastolic value must be greater than 25 and less than 200 */
+"BLOODPRESSURE_DIASTOLIC_VALUE_RANGE_INVALID" = "Diastolic value must be greater than 25 and less than 200";
+
 /* Bluetooth Devices */
 "BLUETOOTH_DEVICES" = "Bluetooth Devices";
 
