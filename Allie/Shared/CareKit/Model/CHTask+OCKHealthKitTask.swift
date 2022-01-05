@@ -37,6 +37,9 @@ extension OCKHealthKitTask {
 		updated.userInfo = new.userInfo
 		updated.asset = new.asset
 		updated.notes = new.notes
+		updated.schedule = new.schedule
+		updated.groupIdentifier = new.groupIdentifier
+		updated.carePlanId = new.carePlanId
 
 		return updated
 	}
@@ -56,6 +59,8 @@ extension OCKHealthKitTask {
 		merged.asset = new.asset
 		merged.notes = new.notes
 		merged.timezone = new.timezone
+		merged.carePlanId = new.carePlanId
+
 		return merged
 	}
 
@@ -68,6 +73,7 @@ extension OCKHealthKitTask {
 		userInfo = new.userInfo
 		asset = new.asset
 		notes = new.notes
+		carePlanId = carePlanId
 	}
 }
 

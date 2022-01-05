@@ -57,6 +57,21 @@ extension CareManager {
 		return updatePatient
 	}
 
+	func process(patient: CHPatient) async throws -> CHPatient {
+		var updatePatient = patient
+		let ockPatient = OCKPatient(patient: patient)
+		do {
+			let existingPatient = try await store.fetchPatient(withID: updatePatient.id)
+			let updated = existingPatient.merged(newPatient: ockPatient)
+			let newPatient = try await store.updatePatient(updated)
+			updatePatient.uuid = newPatient.uuid
+		} catch {
+			let newPatient = try await store.addPatient(ockPatient)
+			updatePatient.uuid = newPatient.uuid
+		}
+		return updatePatient
+	}
+
 	func loadPatient(completion: OCKResultClosure<OCKPatient>?) {
 		store.fetchPatients { result in
 			switch result {

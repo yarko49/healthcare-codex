@@ -12,95 +12,71 @@ import UIKit
 
 extension CareManager {
 	func image(task: OCKAnyTask & AnyTaskExtensible, completion: @escaping AllieResultCompletion<UIImage>) {
-		guard let patientId = patient?.id, let carePlanId = task.carePlanId, let asset = task.asset else {
-			completion(.failure(URLError(.unsupportedURL)))
-			return
-		}
-		let taskId = task.id
-		let key = patientId + carePlanId + taskId + asset
-		if let image = SDImageCache.shared.imageFromDiskCache(forKey: key) {
-			completion(.success(image))
-		} else {
-			networkAPI.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
-				.sink { completionResult in
-					if case .failure(let error) = completionResult {
-						completion(.failure(error))
-					}
-				} receiveValue: { [weak self] value in
-					self?.image(key: key, url: value.signedURL, completion: completion)
-				}.store(in: &cancellables)
+		Task {
+			do {
+				let image = try await image(task: task)
+				completion(.success(image))
+			} catch {
+				completion(.failure(error))
+			}
 		}
 	}
 
-	func image(key: String, url: URL, completion: @escaping AllieResultCompletion<UIImage>) {
-		networkAPI.loadImage(url: url)
-			.sink(receiveCompletion: { result in
-				if case .failure(let error) = result {
-					completion(.failure(error))
-				}
-			}, receiveValue: { image in
-				SDImageCache.shared.store(image, forKey: key, toDisk: true) {
-					completion(.success(image))
-				}
-			}).store(in: &cancellables)
+	func image(task: OCKAnyTask & AnyTaskExtensible) async throws -> UIImage {
+		let taskId = task.id
+		guard let patientId = patient?.id, let chTask = tasks[taskId], let carePlanId = chTask.carePlanId, let asset = task.asset else {
+			throw URLError(.unsupportedURL)
+		}
+		let key = patientId + carePlanId + taskId + asset
+		if let image = SDImageCache.shared.imageFromDiskCache(forKey: key) {
+			return image
+		} else {
+			let value = try await networkAPI.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
+			return try await image(key: key, url: value.signedURL)
+		}
+	}
+
+	func image(key: String, url: URL) async throws -> UIImage {
+		let image = try await networkAPI.loadImage(url: url)
+		return await SDImageCache.shared.store(image: image, forKey: key, toDisk: true) ?? image
 	}
 
 	func pdfData(task: OCKAnyTask & AnyTaskExtensible, completion: @escaping AllieResultCompletion<URL>) {
-		guard let patientId = patient?.id, let carePlanId = task.carePlanId, let asset = task.featuredContentDetailViewAsset else {
-			completion(.failure(URLError(.unsupportedURL)))
-			return
+		Task {
+			do {
+				let url = try await pdfData(task: task)
+				completion(.success(url))
+			} catch {
+				completion(.failure(error))
+			}
 		}
+	}
+
+	func pdfData(task: OCKAnyTask & AnyTaskExtensible) async throws -> URL {
 		let taskId = task.id
+		guard let patientId = patient?.id, let chTask = tasks[taskId], let carePlanId = chTask.carePlanId, let asset = task.featuredContentDetailViewAsset else {
+			throw URLError(.unsupportedURL)
+		}
 		guard let url = FileManager.default.documentsFileURL(patientId: patientId, carePlanId: carePlanId, taskId: taskId, name: asset) else {
-			completion(.failure(URLError(.fileDoesNotExist)))
-			return
+			throw URLError(.fileDoesNotExist)
 		}
 
 		if FileManager.default.fileExists(atPath: url.path) {
-			completion(.success(url))
+			return url
 		} else {
-			networkAPI.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
-				.sink { completionResult in
-					if case .failure(let error) = completionResult {
-						completion(.failure(error))
-					}
-				} receiveValue: { [weak self] value in
-					self?.savePDFData(from: value.signedURL, to: url, completion: completion)
-				}.store(in: &cancellables)
+			let value = try await networkAPI.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
+			let newURL = try await savePDFData(from: value.signedURL, to: url)
+			return newURL
 		}
 	}
 
-	func savePDFData(from: URL, to: URL, completion: @escaping AllieResultCompletion<URL>) {
-		networkAPI.getData(url: from)
-			.sink { completionResult in
-				if case .failure(let error) = completionResult {
-					completion(.failure(error))
-				}
-			} receiveValue: { data in
-				do {
-					let directoryPath = to.deletingLastPathComponent()
-					if !FileManager.default.fileExists(atPath: directoryPath.path) {
-						try FileManager.default.createDirectory(at: directoryPath, withIntermediateDirectories: true, attributes: nil)
-					}
-					try data.write(to: to, options: .atomicWrite)
-					completion(.success(to))
-				} catch {
-					completion(.failure(error))
-				}
-			}.store(in: &cancellables)
+	func savePDFData(from: URL, to: URL) async throws -> URL {
+		let data = try await networkAPI.getData(url: from)
+		let directoryPath = to.deletingLastPathComponent()
+		if !FileManager.default.fileExists(atPath: directoryPath.path) {
+			try FileManager.default.createDirectory(at: directoryPath, withIntermediateDirectories: true, attributes: nil)
+		}
+		try data.write(to: to, options: .atomicWrite)
+		return to
 	}
-
-	/*
-	    networkService.request(.login(username: username, password: password))
-	    .flatMap { token in
-	    networkService.request(.playlists(token))
-	    }.flatMap { playlists in
-	    let playlist = playlists.first
-	    networkService.request(.songs(for: playlist.id))
-	    }.sink(receiveCompletion: {  _ in
-	    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-	    }, receiveValue: { songs in
-	    self.configure(with: songs)
-	    }
-	 */
 }

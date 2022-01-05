@@ -218,25 +218,20 @@ extension CareManager {
 			}
 
 			// There should only be one active CarePlan
-			var activeCarePlan: OCKCarePlan?
 			let carePlans = carePlanResponse.carePlans
-			if result == nil {
-				let processedCarePlans = self?.syncProcess(carePlans: carePlans, patient: self?.patient, queue: queue)
-				activeCarePlan = processedCarePlans?.active.first
-				ALog.info("CarePlan id \(String(describing: activeCarePlan?.id)), carePlan uuid \(String(describing: activeCarePlan?.uuid))")
-				if activeCarePlan == nil {
-					result = OCKStoreError.updateFailed(reason: "Unable to ")
-				}
+			let processedCarePlans = self?.syncProcess(carePlans: carePlans, patient: self?.patient, queue: queue)
+			let activeCarePlan = processedCarePlans?.active.first
+			ALog.info("CarePlan id \(String(describing: activeCarePlan?.id)), carePlan uuid \(String(describing: activeCarePlan?.uuid))")
+			if activeCarePlan == nil {
+				result = OCKStoreError.updateFailed(reason: "Unable to ")
 			}
 
 			let toDelete = carePlanResponse.tasks.deleted
 			let toProcess = carePlanResponse.tasks(forCarePlanId: activeCarePlan?.id ?? "")
-			if result == nil {
-				let processedTasks = self?.syncProcess(tasks: toProcess, carePlan: activeCarePlan, queue: queue) ?? ([], [])
-				ALog.info("Regular tasks saved = \(String(describing: processedTasks.0.count)), HealthKitTasks saved \(String(describing: processedTasks.1.count))")
-				if (processedTasks.0.count + processedTasks.1.count) != toProcess.count {
-					result = OCKStoreError.updateFailed(reason: "Error updating tasks")
-				}
+			let processedTasks = self?.syncProcess(tasks: toProcess, carePlan: activeCarePlan, queue: queue) ?? ([], [])
+			ALog.info("Regular tasks saved = \(String(describing: processedTasks.0.count)), HealthKitTasks saved \(String(describing: processedTasks.1.count))")
+			if (processedTasks.0.count + processedTasks.1.count) != toProcess.count {
+				result = OCKStoreError.updateFailed(reason: "Error updating tasks")
 			}
 
 			if !carePlanResponse.outcomes.isEmpty, result == nil {
@@ -254,6 +249,67 @@ extension CareManager {
 				completion?(.success(toDelete))
 			}
 		}
+	}
+
+	func process(carePlanResponse: CHCarePlanResponse, forceReset: Bool = false) async throws -> CHCarePlanResponse {
+		var updateCarePlanResponse = CHCarePlanResponse()
+		tasks = carePlanResponse.tasks.reduce([:]) { partialResult, task in
+			var result = partialResult
+			result[task.id] = task
+			return result
+		}
+
+		carePlan = carePlanResponse.carePlans.active.first
+		try save(carePlanResponse: carePlanResponse)
+		let activePatient = carePlanResponse.patients.active.first
+		if let patient = activePatient {
+			do {
+				let thePatient = try await process(patient: patient)
+				ALog.info("patient id \(String(describing: thePatient.id)), patient uuid = \(String(describing: thePatient.uuid.uuidString))")
+				self.patient = thePatient
+				updateCarePlanResponse.patients.append(thePatient)
+			} catch {
+				ALog.error("Error Procesing patient \(patient.id)", error: error)
+			}
+		}
+
+		// There should only be one active CarePlan
+		var activeCarePlan: CHCarePlan?
+		let carePlans = carePlanResponse.carePlans
+		if !carePlans.isEmpty {
+			do {
+				let processedCarePlans = try await process(carePlans: carePlans, patient: patient)
+				activeCarePlan = processedCarePlans.active.first
+				updateCarePlanResponse.carePlans.append(contentsOf: processedCarePlans)
+				ALog.info("CarePlan id \(String(describing: activeCarePlan?.id)), carePlan uuid \(String(describing: activeCarePlan?.uuid))")
+			} catch {
+				ALog.error("Error Procesing carePlans \(String(describing: activeCarePlan?.id))", error: error)
+			}
+		}
+
+		let toProcess = carePlanResponse.tasks(forCarePlanId: activeCarePlan?.id ?? "")
+		if !toProcess.isEmpty {
+			do {
+				let processedTasks = try await process(tasks: toProcess, carePlan: activeCarePlan)
+				ALog.info("Tasks saved = \(String(describing: processedTasks.count))")
+				updateCarePlanResponse.tasks.append(contentsOf: processedTasks)
+			} catch {
+				ALog.error("Error Procesing tasks", error: error)
+			}
+		}
+		let toDelete = carePlanResponse.tasks.deleted
+		if !toDelete.isEmpty {
+			do {
+				let processedTasks = try await process(tasks: toProcess, carePlan: activeCarePlan)
+				updateCarePlanResponse.tasks.append(contentsOf: processedTasks)
+				ALog.info("Tasks deleted = \(String(describing: processedTasks.count))")
+			} catch {
+				ALog.error("Error Procesing tasks", error: error)
+			}
+		}
+
+		try save(carePlanResponse: updateCarePlanResponse)
+		return updateCarePlanResponse
 	}
 
 	func register(organization: CHOrganization) -> AnyPublisher<Bool, Never> {

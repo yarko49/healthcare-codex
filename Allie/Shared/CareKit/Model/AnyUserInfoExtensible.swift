@@ -22,10 +22,10 @@ extension AnyUserInfoExtensible {
 		var info = userInfo ?? [:]
 		if let value = string {
 			info[key] = value
-			userInfo = info
 		} else {
-			userInfo?.removeValue(forKey: key)
+			info.removeValue(forKey: key)
 		}
+		userInfo = info
 	}
 
 	func userInfo(forKey key: String, excludeEmptyString: Bool = true) -> String? {

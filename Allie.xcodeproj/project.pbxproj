@@ -761,6 +761,7 @@
 		84B22F1826E48CDC0070981C /* CHProvenance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B22F1726E48CDC0070981C /* CHProvenance.swift */; };
 		84B22F1926E48CDC0070981C /* CHProvenance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B22F1726E48CDC0070981C /* CHProvenance.swift */; };
 		84B22F1A26E48CDC0070981C /* CHProvenance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B22F1726E48CDC0070981C /* CHProvenance.swift */; };
+		84B4FCE0277192E0005A8D62 /* Actos.json in Resources */ = {isa = PBXBuildFile; fileRef = 84B4FCDF277192E0005A8D62 /* Actos.json */; };
 		84B9739526EDD2230094B35C /* CareManager+Outcomes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9739426EDD2230094B35C /* CareManager+Outcomes.swift */; };
 		84B9739626EDD2230094B35C /* CareManager+Outcomes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9739426EDD2230094B35C /* CareManager+Outcomes.swift */; };
 		84B9739726EDD2230094B35C /* CareManager+Outcomes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9739426EDD2230094B35C /* CareManager+Outcomes.swift */; };
@@ -1042,6 +1043,9 @@
 		84D84AE326994B0E007BE781 /* EntryTaskSectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D84AE226994B0E007BE781 /* EntryTaskSectionFooterView.swift */; };
 		84D84AE426994B0E007BE781 /* EntryTaskSectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D84AE226994B0E007BE781 /* EntryTaskSectionFooterView.swift */; };
 		84D84AE526994B0E007BE781 /* EntryTaskSectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D84AE226994B0E007BE781 /* EntryTaskSectionFooterView.swift */; };
+		84DC16FD2774F92700076EAE /* SDWebImage+Concurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC16FC2774F92700076EAE /* SDWebImage+Concurrency.swift */; };
+		84DC16FE2774F92700076EAE /* SDWebImage+Concurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC16FC2774F92700076EAE /* SDWebImage+Concurrency.swift */; };
+		84DC16FF2774F92700076EAE /* SDWebImage+Concurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC16FC2774F92700076EAE /* SDWebImage+Concurrency.swift */; };
 		84DC75A525ABBAD6003B541C /* CHCarePlan+OCKCarePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC75A425ABBAD6003B541C /* CHCarePlan+OCKCarePlan.swift */; };
 		84DC75AA25AC0F33003B541C /* ScheduleElementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */; };
 		84DF46E2273A4BBA006185B4 /* URL+RedirectURI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DF46E1273A4BBA006185B4 /* URL+RedirectURI.swift */; };
@@ -1412,6 +1416,7 @@
 		84AF4CFE26CA178600867349 /* HealthKitManager+Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+Injectable.swift"; sourceTree = "<group>"; };
 		84B08C0826E884EE00F0FE73 /* CHProvenance+CBPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHProvenance+CBPeripheral.swift"; sourceTree = "<group>"; };
 		84B22F1726E48CDC0070981C /* CHProvenance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHProvenance.swift; sourceTree = "<group>"; };
+		84B4FCDF277192E0005A8D62 /* Actos.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Actos.json; sourceTree = "<group>"; };
 		84B9739426EDD2230094B35C /* CareManager+Outcomes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+Outcomes.swift"; sourceTree = "<group>"; };
 		84B9739826EDD3020094B35C /* CareManager+Patients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+Patients.swift"; sourceTree = "<group>"; };
 		84B9739C26EDD36E0094B35C /* CareManager+CarePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+CarePlan.swift"; sourceTree = "<group>"; };
@@ -1472,6 +1477,7 @@
 		84D3F68F264A4C2800241BBB /* OCKTaskEvents+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKTaskEvents+Extension.swift"; sourceTree = "<group>"; };
 		84D84ADE269945B3007BE781 /* TaskHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskHeaderView.swift; sourceTree = "<group>"; };
 		84D84AE226994B0E007BE781 /* EntryTaskSectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTaskSectionFooterView.swift; sourceTree = "<group>"; };
+		84DC16FC2774F92700076EAE /* SDWebImage+Concurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SDWebImage+Concurrency.swift"; sourceTree = "<group>"; };
 		84DC75A425ABBAD6003B541C /* CHCarePlan+OCKCarePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHCarePlan+OCKCarePlan.swift"; sourceTree = "<group>"; };
 		84DC75A925AC0F33003B541C /* ScheduleElementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleElementTests.swift; sourceTree = "<group>"; };
 		84DF46E1273A4BBA006185B4 /* URL+RedirectURI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+RedirectURI.swift"; sourceTree = "<group>"; };
@@ -1664,6 +1670,7 @@
 				84CD367F2721370200BD93BC /* UploadOutcomes.json */,
 				845292EA272BD5E700472264 /* SymptomOutcomeUploaded.json */,
 				84BA7DFF273A371C0019B966 /* CloudDevices.json */,
+				84B4FCDF277192E0005A8D62 /* Actos.json */,
 			);
 			path = TestData;
 			sourceTree = "<group>";
@@ -2294,6 +2301,7 @@
 				84D625B0265F5B8E00B5A973 /* Appearance */,
 				8475FBDD268C275900A916B6 /* UINavigationController+Transitions.swift */,
 				84DF46E1273A4BBA006185B4 /* URL+RedirectURI.swift */,
+				84DC16FC2774F92700076EAE /* SDWebImage+Concurrency.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2749,6 +2757,7 @@
 				8449A66C267C79A500F73D8E /* Organizations.json in Resources */,
 				8494446726ED808400EB5F89 /* PostOutcomesResponse.json in Resources */,
 				8438576B270BF05E007B4FF1 /* BadCarePlan.json in Resources */,
+				84B4FCE0277192E0005A8D62 /* Actos.json in Resources */,
 				84A85A0226C0CACC000023C2 /* NewCarePlan.json in Resources */,
 				8449A668267C789B00F73D8E /* OutcomesResponse.json in Resources */,
 				84C83FD8259C48F200DAEF34 /* TestImage.png in Resources */,
@@ -2863,7 +2872,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftformat >/dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+			shellScript = "export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH\nif which swiftformat >/dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat $PATH\"\nfi\n";
 		};
 		84436283264B546F002B475C /* Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2900,7 +2909,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint $PATH\"\nfi\n";
 		};
 		847DCCDD265871F3004E9C1D /* Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3130,6 +3139,7 @@
 				84CEF52326886484000C4C56 /* CHPatient+SenderType.swift in Sources */,
 				84E6DA4526C641A4006847FE /* DailyTasks+BloodGlucoseMonitor.swift in Sources */,
 				84A8085E269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift in Sources */,
+				84DC16FD2774F92700076EAE /* SDWebImage+Concurrency.swift in Sources */,
 				84552C0F265CC687003B55A9 /* HKQuantityTypeIdentifier+Image.swift in Sources */,
 				84E18CE826818830009AFBF3 /* TCHConversation+Identifiable.swift in Sources */,
 				844767D5259C2A4E00C50C09 /* HealthKitManager.swift in Sources */,
@@ -3484,6 +3494,7 @@
 				84E6DA4726C641A4006847FE /* DailyTasks+BloodGlucoseMonitor.swift in Sources */,
 				84CEF52526886484000C4C56 /* CHPatient+SenderType.swift in Sources */,
 				84A80860269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift in Sources */,
+				84DC16FF2774F92700076EAE /* SDWebImage+Concurrency.swift in Sources */,
 				847DCC3D265871F3004E9C1D /* SignupBaseViewController.swift in Sources */,
 				84E18CEA26818830009AFBF3 /* TCHConversation+Identifiable.swift in Sources */,
 				847DCC3E265871F3004E9C1D /* SceneDelegate.swift in Sources */,
@@ -3801,6 +3812,7 @@
 				84E6DA4626C641A4006847FE /* DailyTasks+BloodGlucoseMonitor.swift in Sources */,
 				84CEF52426886484000C4C56 /* CHPatient+SenderType.swift in Sources */,
 				84A8085F269BDAE20012028C /* HKDiscreteQuantitySample+BloodGlucose.swift in Sources */,
+				84DC16FE2774F92700076EAE /* SDWebImage+Concurrency.swift in Sources */,
 				84D12269264112DE00990196 /* SignupBaseViewController.swift in Sources */,
 				84E18CE926818830009AFBF3 /* TCHConversation+Identifiable.swift in Sources */,
 				84D1226A264112DE00990196 /* SceneDelegate.swift in Sources */,
@@ -4193,7 +4205,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4222,7 +4234,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4347,7 +4359,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4376,7 +4388,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4405,7 +4417,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4434,7 +4446,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4671,7 +4683,7 @@
 			repositoryURL = "https://github.com/wmalloc/WebService.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.0;
+				minimumVersion = 0.2.1;
 			};
 		};
 		84C22BC925A5821700D16CFF /* XCRemoteSwiftPackageReference "swift-log" */ = {

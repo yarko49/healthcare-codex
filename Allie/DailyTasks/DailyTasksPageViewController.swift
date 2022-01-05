@@ -145,61 +145,63 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				}
 
 				for storeTask in sorted {
-					guard let identifier = storeTask.groupIdentifier, let taskType = CHGroupIdentifierType(rawValue: identifier) else {
-						continue
-					}
-					var task = storeTask
-					if let chTask = self.careManager.tasks[task.id] {
-						if let ockTask = task as? OCKTask {
-							task = ockTask.updated(new: chTask)
-						} else if let hkTask = task as? OCKHealthKitTask {
-							task = hkTask.updated(new: chTask)
+					var updatedTask = storeTask
+					if let chTask = self.careManager.tasks[updatedTask.id] {
+						if let ockTask = updatedTask as? OCKTask {
+							updatedTask = ockTask.updated(new: chTask)
+						} else if let hkTask = updatedTask as? OCKHealthKitTask {
+							updatedTask = hkTask.updated(new: chTask)
 						}
 					}
+
+					guard let taskType = updatedTask.groupIdentifierType else {
+						continue
+					}
+
 					let eventQuery = OCKEventQuery(for: date)
 					switch taskType {
 					case .simple:
-						let viewController = SimpleTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						let viewController = SimpleTaskViewController(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 						viewController.view.tintColor = .allieLighterGray
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .link:
-						guard let ockTask = task as? OCKTask, let linkItems = ockTask.linkItems, !linkItems.isEmpty else {
+						guard let ockTask = updatedTask as? OCKTask, let linkItems = ockTask.linkItems, !linkItems.isEmpty else {
 							continue
 						}
-						let view = LinkView(title: Text(task.title ?? NSLocalizedString("LINKS", comment: "Links")), links: linkItems)
+						let view = LinkView(title: Text(updatedTask.title ?? NSLocalizedString("LINKS", comment: "Links")), links: linkItems)
 							.accentColor(Color(.allieLighterGray))
 						listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
 
 					case .checklist:
-						let viewController = ChecklistTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						let viewController = ChecklistTaskViewController(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 						viewController.view.tintColor = .allieLighterGray
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .grid:
-						let viewController = GridTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						let viewController = GridTaskViewController(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 						viewController.view.tintColor = .allieLighterGray
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .log:
-						let viewController = ButtonLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						let viewController = ButtonLogTaskViewController(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 						viewController.view.tintColor = .allieGray
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .logInsulin:
-						let viewController = GeneralizedLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						let viewController = GeneralizedLogTaskViewController(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 						viewController.view.tintColor = .allieGray
-						viewController.controller.fetchAndObserveEvents(forTasks: [task], eventQuery: eventQuery)
+						viewController.controller.fetchAndObserveEvents(forTasks: [updatedTask], eventQuery: eventQuery)
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .labeledValue:
-						if (task as? OCKHealthKitTask)?.healthKitLinkage != nil {
-							let viewController = GeneralizedLogTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						if (updatedTask as? OCKHealthKitTask)?.healthKitLinkage != nil {
+							let viewController = GeneralizedLogTaskViewController(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 							viewController.view.tintColor = .allieGray
-							viewController.controller.fetchAndObserveEvents(forTasks: [task], eventQuery: eventQuery)
+							viewController.controller.fetchAndObserveEvents(forTasks: [updatedTask], eventQuery: eventQuery)
 							listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 						} else {
-							let view = LabeledValueTaskView(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+							let view = LabeledValueTaskView(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 								.accentColor(Color(.allieGray))
 							listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
 						}
@@ -207,23 +209,23 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						if #available(iOS 15, *) {
 							// There is a bug in iOS 15, with overlapping cards, so we disable until Apple fixes it
 						} else {
-							let view = NumericProgressTaskView(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+							let view = NumericProgressTaskView(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 							listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
 						}
 					case .instruction:
-						let viewController = OCKInstructionsTaskViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						let viewController = OCKInstructionsTaskViewController(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 						viewController.view.tintColor = .allieLighterGray
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .featuredContent:
-						let viewController = FeaturedContentViewController(task: task)
+						let viewController = FeaturedContentViewController(task: updatedTask)
 						viewController.view.tintColor = .allieLighterGray
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
 					case .symptoms:
-						let viewController = SymptomsLogViewController(task: task, eventQuery: eventQuery, storeManager: self.storeManager)
+						let viewController = SymptomsLogViewController(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 						viewController.view.tintColor = .allieGray
-						viewController.controller.fetchAndObserveEvents(forTasks: [task], eventQuery: eventQuery)
+						viewController.controller.fetchAndObserveEvents(forTasks: [updatedTask], eventQuery: eventQuery)
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 					case .dexcom:
 						break
@@ -263,11 +265,21 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		}
 		isRefreshingCarePlan = true
 		hud.show(in: tabBarController?.view ?? view, animated: true)
-		networkAPI.getCarePlan(option: .carePlan)
-			.sink { [weak self] resultCompletion in
-				self?.isRefreshingCarePlan = false
-				self?.hud.dismiss(animated: true)
-				if case .failure(let error) = resultCompletion {
+		Task {
+			do {
+				let carePlanResponse = try await networkAPI.getCarePlan(option: .carePlan)
+				if let tasks = carePlanResponse.faultyTasks, !tasks.isEmpty {
+					self.showError(tasks: tasks)
+					return
+				}
+				_ = try await careManager.process(carePlanResponse: carePlanResponse)
+				self.isRefreshingCarePlan = false
+				self.hud.dismiss(animated: true)
+				completion(true)
+			} catch {
+				DispatchQueue.main.async { [weak self] in
+					self?.isRefreshingCarePlan = false
+					self?.hud.dismiss(animated: true)
 					let nsError = error as NSError
 					let codes: Set<Int> = [401, 408, -1001]
 					if !codes.contains(nsError.code) {
@@ -278,22 +290,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 					}
 					completion(false)
 				}
-			} receiveValue: { [weak self] value in
-				if let tasks = value.faultyTasks, !tasks.isEmpty {
-					self?.showError(tasks: tasks)
-				}
-				self?.careManager.process(carePlanResponse: value, forceReset: false) { result in
-					switch result {
-					case .failure(let error):
-						ALog.error("Unable to update the careplan data", error: error)
-						completion(false)
-					case .success:
-						ALog.info("added the care plan")
-						completion(true)
-					}
-					self?.isRefreshingCarePlan = false
-				}
-			}.store(in: &cancellables)
+			}
+		}
 	}
 
 	func showError(tasks: [CHBasicTask]) {

@@ -33,4 +33,22 @@ public extension WebService {
 			.receive(on: DispatchQueue.main)
 			.eraseToAnyPublisher()
 	}
+
+	func loadImage(url: URL) async throws -> UIImage {
+		var request = Request(.GET, url: url)
+		request = request.setHeaderValue(Request.ContentType.jpeg, forName: Request.Header.contentType)
+		let urlRequest = try request.urlRequest()
+		let result: (data: Data, response: URLResponse)
+
+		if #available(iOS 15, *) {
+			result = try await session.data(for: urlRequest, delegate: nil)
+		} else {
+			result = try await session.data(for: urlRequest)
+		}
+		let validData = try result.data.ws_validate(result.response).ws_validateNotEmptyData()
+		guard let image = UIImage(data: validData) else {
+			throw URLError(.cannotDecodeContentData)
+		}
+		return image
+	}
 }

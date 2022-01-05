@@ -13,7 +13,18 @@ extension APIClient {
 		webService.loadImage(urlString: urlString)
 	}
 
+	func loadImage(urlString: String) async throws -> UIImage {
+		guard let url = URL(string: urlString) else {
+			throw URLError(.badURL)
+		}
+		return try await loadImage(url: url)
+	}
+
 	func loadImage(url: URL) -> AnyPublisher<UIImage, Error> {
 		webService.loadImage(url: url)
+	}
+
+	func loadImage(url: URL) async throws -> UIImage {
+		try await webService.loadImage(url: url)
 	}
 }

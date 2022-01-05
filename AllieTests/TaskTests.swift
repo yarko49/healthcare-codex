@@ -9,6 +9,7 @@
 import CareKitStore
 import XCTest
 
+// swiftlint:disable:next type_body_length
 class TaskTests: XCTestCase {
 	var testData: Data!
 

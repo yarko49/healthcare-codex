@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 extension CareManager {
 	func save(carePlanResponse: CHCarePlanResponse) throws {
 		let encoder = JSONEncoder()

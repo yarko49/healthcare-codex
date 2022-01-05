@@ -1,0 +1,52 @@
+{
+    "groupIdentifier": "GRID",
+    "remoteId": "medications-actos",
+    "id": "",
+    "timezone": {},
+    "userInfo": {
+        "category": "medications",
+        "priority": "0"
+    },
+    "createdDate": "2021-08-05T18:53:41Z",
+    "deletedDate": "9999-01-01T00:00:00Z",
+    "effectiveDate": "2021-08-05T18:53:41Z",
+    "updatedDate": "2021-12-21T04:20:48Z",
+    "title": "Actos",
+    "schedules": [
+        {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "targetValues": [
+                {
+                    "groupIdentifier": "",
+                    "id": "",
+                    "kind": "dosage",
+                    "units": "mg",
+                    "value": 0,
+                    "type": "double"
+                }
+            ],
+            "start": "2021-12-21T04:20:37.713Z"
+        },
+        {
+            "custom": false,
+            "daily": true,
+            "weekly": false,
+            "targetValues": [
+                {
+                    "groupIdentifier": "",
+                    "id": "",
+                    "kind": "dosage",
+                    "units": "mg",
+                    "value": 0,
+                    "type": "double"
+                }
+            ],
+            "start": "2021-12-21T04:20:37.713Z"
+        }
+    ],
+    "carePlanId": "defaultCarePlan",
+    "instructions": "Monitoring daily Actos dosage",
+    "impactsAdherence": true
+}

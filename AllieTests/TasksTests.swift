@@ -6,6 +6,7 @@
 //
 
 @testable import Allie
+import CareKitStore
 import HealthKit
 import XCTest
 
@@ -53,5 +54,19 @@ class TasksTests: XCTestCase {
 		} catch {
 			XCTFail("Unable to decode the data")
 		}
+	}
+
+	func testActosTask() throws {
+		let tasksData = AllieTests.loadTestData(fileName: "Actos.json")
+		XCTAssertNotNil(tasksData)
+		let decoder = CHJSONDecoder()
+		let task = try decoder.decode(CHTask.self, from: tasksData!)
+		XCTAssertNotNil(task, "Missing faulty tasks")
+		ALog.info("\(String(describing: task.id))")
+		ALog.info("\(String(describing: task.groupIdentifier))")
+
+		let ockTask = OCKTask(task: task)
+		XCTAssertEqual("GRID", ockTask.groupIdentifier)
+		XCTAssertEqual(task.scheduleElements.count, 2)
 	}
 }

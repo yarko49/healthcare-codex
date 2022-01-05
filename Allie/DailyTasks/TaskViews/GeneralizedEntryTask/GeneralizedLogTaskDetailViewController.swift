@@ -15,6 +15,7 @@ enum GeneralizedEntryTaskError: Error {
 	case invalid(String)
 }
 
+// swiftlint:disable type_body_length
 class GeneralizedLogTaskDetailViewController: UIViewController {
 	var healthKitSampleHandler: AllieHealthKitSampleHandler?
 	var outcomeValueHandler: AllieOutcomeValueHandler?

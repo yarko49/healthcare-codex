@@ -426,9 +426,9 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 				return
 			}
 			let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-			Auth.auth().signIn(with: credential) { [weak self] authResult, error in
-				self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { [weak self] _ in
-					if let user = authResult?.user {
+			Auth.auth().signIn(with: credential) { [weak self] tokenAuthResult, error in
+				self?.getFirebaseAuthTokenResult(authDataResult: tokenAuthResult, error: error, completion: { [weak self] _ in
+					if let user = tokenAuthResult?.user {
 						var alliePatient = CHPatient(user: user)
 						if let name = appleIDCredential.fullName {
 							alliePatient?.name = name
@@ -438,7 +438,7 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
 						}
 						self?.alliePatient = alliePatient
 					}
-					self?.checkIfUserExists(email: appleIDCredential.email, user: authResult)
+					self?.checkIfUserExists(email: appleIDCredential.email, user: tokenAuthResult)
 				})
 			}
 		}

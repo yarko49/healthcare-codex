@@ -64,6 +64,9 @@ extension OCKTask {
 
 	func updated(new: CHTask) -> OCKTask {
 		var updated = self
+		if let carePlanId = new.carePlanId {
+			updated.carePlanId = carePlanId
+		}
 		updated.instructions = new.instructions
 		updated.impactsAdherence = new.impactsAdherence
 		updated.tags = new.tags
@@ -72,11 +75,15 @@ extension OCKTask {
 		updated.asset = new.asset
 		updated.notes = new.notes
 		updated.links = new.links
+		updated.schedule = new.schedule
+		updated.groupIdentifier = new.groupIdentifier
+
 		return updated
 	}
 
 	func merged(new: OCKTask) -> Self {
 		var existing = self
+		existing.carePlanId = carePlanId
 		existing.deletedDate = nil
 		existing.title = new.title
 		existing.instructions = new.instructions

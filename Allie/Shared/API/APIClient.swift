@@ -18,22 +18,33 @@ protocol AllieAPI {
 	func getOrganizations() -> AnyPublisher<CHOrganizations, Never>
 	func getConservationsTokens() -> AnyPublisher<CHConversationsTokens, Error>
 	func postConservationsUsers(organizationId: String, users: [String]) -> AnyPublisher<CHConversationsUsers, Error>
+
+	func getCarePlan(option: CarePlanResponseType) async throws -> CHCarePlanResponse
 	func getCarePlan(option: CarePlanResponseType) -> AnyPublisher<CHCarePlanResponse, Error>
+
 	func post(carePlanResponse: CHCarePlanResponse) -> AnyPublisher<UInt64, Error>
 	func post(bundle: ModelsR4.Bundle) -> AnyPublisher<ModelsR4.Bundle, Error>
 	func post(patient: CHPatient) -> AnyPublisher<CHCarePlanResponse, Error>
 	func getOutcomes(carePlanId: String, taskId: String) -> AnyPublisher<CHOutcomeResponse, Error>
 	func getOutcomes(url: URL) -> AnyPublisher<CHOutcomeResponse, Error>
 	func post(outcomes: [CHOutcome]) -> AnyPublisher<CHCarePlanResponse, Error>
+
 	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> AnyPublisher<SignedURLResponse, Error>
+	func getFeatureContent(carePlanId: String, taskId: String, asset: String) async throws -> SignedURLResponse
+
 	func getData(url: URL) -> AnyPublisher<Data, Error>
+	func getData(url: URL) async throws -> Data
+
 	func uploadRemoteNotification(token: String) -> AnyPublisher<Bool, Error>
 	func getCloudDevices() -> AnyPublisher<CHCloudDevices, Error>
 	func postIntegrate(cloudDevice: CHCloudDevice) -> AnyPublisher<Bool, Error>
 	func deleteIntegration(cloudDevice: CHCloudDevice) -> AnyPublisher<Bool, Error>
 
 	func loadImage(urlString: String) -> AnyPublisher<UIImage, Error>
+	func loadImage(urlString: String) async throws -> UIImage
+
 	func loadImage(url: URL) -> AnyPublisher<UIImage, Error>
+	func loadImage(url: URL) async throws -> UIImage
 }
 
 public final class APIClient: AllieAPI {
@@ -114,6 +125,12 @@ public final class APIClient: AllieAPI {
 		webService.decodable(route: .postConversationsUsers(organizationId, users))
 	}
 
+	func getCarePlan(option: CarePlanResponseType) async throws -> CHCarePlanResponse {
+		let route = APIRouter.getCarePlan(option: option)
+		let request = try route.request()
+		return try await webService.decodable(request: request)
+	}
+
 	func getCarePlan(option: CarePlanResponseType = .carePlan) -> AnyPublisher<CHCarePlanResponse, Error> {
 		let route = APIRouter.getCarePlan(option: option)
 		return webService.decodable(route: route)
@@ -156,8 +173,18 @@ public final class APIClient: AllieAPI {
 		return webService.decodable(route: route)
 	}
 
+	func getFeatureContent(carePlanId: String, taskId: String, asset: String) async throws -> SignedURLResponse {
+		let route = APIRouter.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
+		let request = try route.request()
+		return try await webService.decodable(request: request)
+	}
+
 	func getData(url: URL) -> AnyPublisher<Data, Error> {
 		webService.data(request: Request(.GET, url: url))
+	}
+
+	func getData(url: URL) async throws -> Data {
+		try await webService.data(request: Request(.GET, url: url))
 	}
 
 	func uploadRemoteNotification(token: String) -> AnyPublisher<Bool, Error> {

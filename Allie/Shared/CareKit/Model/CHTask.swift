@@ -109,10 +109,10 @@ struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable, O
 			self.notes = notes
 		}
 		self.timezone = (try? container.decode(TimeZone.self, forKey: .timezone)) ?? .current
-		let schedules = scheduleElements.map { element -> OCKSchedule in
-			element.ockSchedule
+		let elements = scheduleElements.map { element -> OCKScheduleElement in
+			element.ockSchduleElement
 		}
-		self.schedule = OCKSchedule(composing: schedules)
+		self.schedule = OCKSchedule(composing: elements)
 
 		if let linkage = try container.decodeIfPresent([String: String].self, forKey: .healthKitLinkage) {
 			self.healthKitLinkage = OCKHealthKitLinkage(linkage: linkage)
