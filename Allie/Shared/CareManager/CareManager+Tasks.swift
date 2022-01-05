@@ -9,69 +9,6 @@ import CareKitStore
 import Foundation
 
 extension CareManager {
-	func syncProcess(tasks: [CHTask], excludesTasksWithNoEvents: Bool = true, carePlan: OCKCarePlan?, queue: DispatchQueue) -> ([OCKTask], [OCKHealthKitTask]) {
-		let mappedTasks = tasks.map { task -> (CHTask, OCKAnyTask) in
-			if task.healthKitLinkage != nil {
-				var healKitTask = OCKHealthKitTask(task: task)
-				healKitTask.carePlanUUID = carePlan?.uuid
-				if healKitTask.carePlanId == nil {
-					healKitTask.carePlanId = carePlan?.id
-				}
-				return (task, healKitTask)
-			} else {
-				var ockTask = OCKTask(task: task)
-				ockTask.carePlanUUID = carePlan?.uuid
-				if ockTask.carePlanId == nil {
-					ockTask.carePlanId = carePlan?.id
-				}
-				return (task, ockTask)
-			}
-		}
-
-		var healthKitTasks: [OCKHealthKitTask] = []
-		var storeTasks: [OCKTask] = []
-		let dispatchGroup = DispatchGroup()
-		for (task, anyTask) in mappedTasks {
-			if let healthKitTask = anyTask as? OCKHealthKitTask {
-				dispatchGroup.enter()
-				if task.shouldDelete {
-					healthKitStore.deleteTask(healthKitTask, callbackQueue: queue) { result in
-						switch result {
-						case .failure(let error):
-							ALog.error("\(error.localizedDescription)", metadata: ["Source": "HealthKitTask Delete"])
-						case .success(let newTask):
-							healthKitTasks.append(newTask)
-						}
-						dispatchGroup.leave()
-					}
-				} else {
-					healthKitStore.addOrUpdate(healthKitTask: healthKitTask, callbackQueue: queue) { result in
-						switch result {
-						case .failure(let error):
-							ALog.error("\(error.localizedDescription)", metadata: ["Source": "HealthKitTask Add Or Update"])
-						case .success(let newTask):
-							healthKitTasks.append(newTask)
-						}
-						dispatchGroup.leave()
-					}
-				}
-			} else if let ockTask = anyTask as? OCKTask {
-				dispatchGroup.enter()
-				store.process(task: ockTask, callbackQueue: queue) { result in
-					switch result {
-					case .failure(let error):
-						ALog.error("\(error.localizedDescription)")
-					case .success(let newTask):
-						storeTasks.append(newTask)
-					}
-					dispatchGroup.leave()
-				}
-			}
-		}
-		dispatchGroup.wait()
-		return (storeTasks, healthKitTasks)
-	}
-
 	func process(healthKitTask: OCKHealthKitTask, shouldDelete: Bool = false) async throws -> OCKHealthKitTask {
 		do {
 			let existingTask = try await healthKitStore.fetchTask(withID: healthKitTask.id)

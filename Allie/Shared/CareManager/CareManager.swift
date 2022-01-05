@@ -195,62 +195,6 @@ class CareManager: NSObject, ObservableObject {
 // MARK: - CarePlanResponse
 
 extension CareManager {
-	func process(carePlanResponse: CHCarePlanResponse, forceReset: Bool = false, completion: AllieResultCompletion<[CHTask]>?) {
-		let queue = DispatchQueue.global(qos: .userInitiated)
-		tasks = carePlanResponse.tasks.reduce([:]) { partialResult, task in
-			var result = partialResult
-			result[task.id] = task
-			return result
-		}
-		carePlan = carePlanResponse.carePlans.active.first
-		try? save(carePlanResponse: carePlanResponse)
-		var result: OCKStoreError?
-		queue.async { [weak self] in
-			// There should only be one patient
-			let activePatient = carePlanResponse.patients.active.first
-			if let patient = activePatient {
-				let thePatient = self?.syncProcess(patient: patient, queue: queue)
-				ALog.info("patient id \(String(describing: thePatient?.id)), patient uuid = \(String(describing: thePatient?.uuid.uuidString))")
-				self?.patient = thePatient
-				if thePatient == nil {
-					result = OCKStoreError.updateFailed(reason: "Unable to update Patient")
-				}
-			}
-
-			// There should only be one active CarePlan
-			let carePlans = carePlanResponse.carePlans
-			let processedCarePlans = self?.syncProcess(carePlans: carePlans, patient: self?.patient, queue: queue)
-			let activeCarePlan = processedCarePlans?.active.first
-			ALog.info("CarePlan id \(String(describing: activeCarePlan?.id)), carePlan uuid \(String(describing: activeCarePlan?.uuid))")
-			if activeCarePlan == nil {
-				result = OCKStoreError.updateFailed(reason: "Unable to ")
-			}
-
-			let toDelete = carePlanResponse.tasks.deleted
-			let toProcess = carePlanResponse.tasks(forCarePlanId: activeCarePlan?.id ?? "")
-			let processedTasks = self?.syncProcess(tasks: toProcess, carePlan: activeCarePlan, queue: queue) ?? ([], [])
-			ALog.info("Regular tasks saved = \(String(describing: processedTasks.0.count)), HealthKitTasks saved \(String(describing: processedTasks.1.count))")
-			if (processedTasks.0.count + processedTasks.1.count) != toProcess.count {
-				result = OCKStoreError.updateFailed(reason: "Error updating tasks")
-			}
-
-			if !carePlanResponse.outcomes.isEmpty, result == nil {
-				let outcomes = self?.syncCreateOrUpdate(outcomes: carePlanResponse.outcomes, queue: queue)
-				if outcomes == nil {
-					result = OCKStoreError.updateFailed(reason: "Outcomes update failed")
-				}
-				ALog.trace("Number out outcomes saved \(String(describing: outcomes?.count))")
-			}
-			self?.synchronizeOutcomes()
-
-			if let error = result {
-				completion?(.failure(error))
-			} else {
-				completion?(.success(toDelete))
-			}
-		}
-	}
-
 	func process(carePlanResponse: CHCarePlanResponse, forceReset: Bool = false) async throws -> CHCarePlanResponse {
 		var updateCarePlanResponse = CHCarePlanResponse()
 		tasks = carePlanResponse.tasks.reduce([:]) { partialResult, task in

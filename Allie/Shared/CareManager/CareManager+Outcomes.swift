@@ -13,69 +13,6 @@ import Foundation
 import HealthKit
 
 extension CareManager {
-	func syncCreateOrUpdate(outcome: CHOutcome, queue: DispatchQueue) -> OCKOutcome {
-		var ockOutcome = OCKOutcome(outcome: outcome)
-		var query = OCKOutcomeQuery()
-		if let remoteId = outcome.remoteId {
-			query.remoteIDs = [remoteId]
-		}
-
-		let dispatchGroup = DispatchGroup()
-		dispatchGroup.enter()
-		store.fetchOutcome(query: query, callbackQueue: queue) { [weak self] result in
-			switch result {
-			case .failure(let error):
-				ALog.error("\(error.localizedDescription)")
-				self?.store.addOutcome(ockOutcome, callbackQueue: queue, completion: { addResult in
-					switch addResult {
-					case .failure(let error):
-						ALog.error("\(error.localizedDescription)")
-					case .success(let newOutcome):
-						ockOutcome = newOutcome
-					}
-					dispatchGroup.leave()
-				})
-			case .success(let existingOutcome):
-				let merged = existingOutcome.merged(newOutcome: ockOutcome)
-				self?.store.updateOutcome(merged, callbackQueue: queue, completion: { updateResult in
-					switch updateResult {
-					case .failure(let error):
-						ALog.error("\(error.localizedDescription)")
-					case .success(let newOutcome):
-						ockOutcome = newOutcome
-					}
-					dispatchGroup.leave()
-				})
-			}
-		}
-
-		dispatchGroup.wait()
-		return ockOutcome
-	}
-
-	func syncCreateOrUpdate(outcomes: [CHOutcome], queue: DispatchQueue) -> [OCKOutcome] {
-		let mapped = outcomes.map { outcome -> OCKOutcome in
-			OCKOutcome(outcome: outcome)
-		}
-
-		var storeOutcomes: [OCKOutcome] = []
-		let dispatchGroup = DispatchGroup()
-		for outcome in mapped {
-			dispatchGroup.enter()
-			store.process(outcome: outcome, callbackQueue: queue) { result in
-				switch result {
-				case .failure(let error):
-					ALog.error("\(error.localizedDescription)")
-				case .success(let newOutcome):
-					storeOutcomes.append(newOutcome)
-				}
-				dispatchGroup.leave()
-			}
-		}
-		dispatchGroup.wait()
-		return storeOutcomes
-	}
-
 	func processOutcome(notification: OCKOutcomeNotification) {
 		guard let outcome = notification.outcome as? OCKOutcome else {
 			return

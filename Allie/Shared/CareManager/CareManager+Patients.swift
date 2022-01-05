@@ -22,41 +22,6 @@ extension CareManager {
 			}.store(in: &cancellables)
 	}
 
-	func syncProcess(patient: CHPatient, queue: DispatchQueue) -> CHPatient {
-		var updatePatient = patient
-		let ockPatient = OCKPatient(patient: patient)
-		let dispatchGroup = DispatchGroup()
-		dispatchGroup.enter()
-		store.fetchPatient(withID: updatePatient.id, callbackQueue: queue) { [weak self] fetchResult in
-			switch fetchResult {
-			case .failure:
-				self?.store.addPatient(ockPatient, callbackQueue: queue) { addResult in
-					switch addResult {
-					case .failure(let error):
-						ALog.error("\(error.localizedDescription)")
-					case .success(let newPatient):
-						updatePatient.uuid = newPatient.uuid
-					}
-					dispatchGroup.leave()
-				}
-			case .success(let existingPatient):
-				let updated = existingPatient.merged(newPatient: ockPatient)
-				self?.store.updatePatient(updated, callbackQueue: queue) { updateResult in
-					switch updateResult {
-					case .failure(let error):
-						ALog.error("\(error.localizedDescription)")
-					case .success(let newPatient):
-						updatePatient.uuid = newPatient.uuid
-					}
-					dispatchGroup.leave()
-				}
-			}
-		}
-
-		dispatchGroup.wait()
-		return updatePatient
-	}
-
 	func process(patient: CHPatient) async throws -> CHPatient {
 		var updatePatient = patient
 		let ockPatient = OCKPatient(patient: patient)
