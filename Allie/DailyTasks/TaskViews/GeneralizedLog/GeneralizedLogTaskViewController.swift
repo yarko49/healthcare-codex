@@ -68,19 +68,19 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 
 	override func taskView(_ taskView: UIView & OCKTaskDisplayable, didSelectOutcomeValueAt index: Int, eventIndexPath: IndexPath, sender: Any?) {
 		do {
-            _ = try controller.validatedViewModel()
-            let event = try controller.validatedEvent(forIndexPath: eventIndexPath)
-            
-            guard let outcome = event.outcome else {
-                throw AllieError.missing("No Outcome")
-            }
-            
-            guard index < outcome.recordsCount else {
-                throw AllieError.missing("No Outcome Value for Event at index \(index)")
-            }
-            
-            let values = outcome.getValuesForRecord(at: index)
-            didSelectOutcome(values: values, eventIndexPath: eventIndexPath, sender: sender)
+			_ = try controller.validatedViewModel()
+			let event = try controller.validatedEvent(forIndexPath: eventIndexPath)
+
+			guard let outcome = event.outcome else {
+				throw AllieError.missing("No Outcome")
+			}
+
+			guard index < outcome.recordsCount else {
+				throw AllieError.missing("No Outcome Value for Event at index \(index)")
+			}
+
+			let values = outcome.getValuesForRecord(at: index)
+			didSelectOutcome(values: values, eventIndexPath: eventIndexPath, sender: sender)
 		} catch {
 			if delegate == nil {
 				ALog.error("A task error occurred, but no delegate was set to forward it to!", error: error)
@@ -93,7 +93,7 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 		guard let event = controller.eventFor(indexPath: eventIndexPath), let task = event.task as? OCKHealthKitTask else {
 			return
 		}
-        let value = values.first
+		let value = values.first
 		let viewController = GeneralizedLogTaskDetailViewController()
 		viewController.queryDate = eventQuery.dateInterval.start
 		viewController.anyTask = task
@@ -102,7 +102,7 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 			viewController.outcome = try? careManager.dbFindFirstOutcome(sampleId: uuid)
 		}
 		viewController.modalPresentationStyle = .overFullScreen
-        
+
 		viewController.healthKitSampleHandler = { [weak viewController, weak self] newSample in
 			guard let strongSelf = self else {
 				return
@@ -110,29 +110,25 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 			strongSelf.healthKitStore.save(sample: newSample, completion: { result in
 				switch result {
 				case .success:
-                    if let outcomeValue = viewController?.outcomeValues.first {
-                        strongSelf.controller.deleteOutcome(value: outcomeValue) { [weak self] result in
-                            switch result {
-                            case .success(let deletedSample):
-                                let lastOutcomeUplaodDate = UserDefaults.standard[healthKitOutcomesUploadDate: task.healthKitLinkage.quantityIdentifier.rawValue]
-                                if let carePlanId = task.carePlanId,
-                                    newSample.startDate < lastOutcomeUplaodDate,
-                                    let outcome = self?.careManager.fetchOutcome(sample: newSample, deletedSample: deletedSample, task: task, carePlanId: carePlanId) {
-                                    self?.careManager.upload(outcomes: [outcome]) { result in
-                                        if case .failure(let error) = result {
-                                            ALog.error("unable to upload outcome", error: error)
-                                        }
-                                    }
-                                }
-                            case .failure(let error):
-                                ALog.error("Error deleteting data", error: error)
-                            }
-                        }
+					if let outcomeValue = viewController?.outcomeValues.first {
+						strongSelf.controller.deleteOutcome(value: outcomeValue) { [weak self] result in
+							switch result {
+							case .success(let deletedSample):
+								let lastOutcomeUplaodDate = UserDefaults.standard[healthKitOutcomesUploadDate: task.healthKitLinkage.quantityIdentifier.rawValue]
+								if let carePlanId = task.carePlanId, newSample.startDate < lastOutcomeUplaodDate, let outcome = self?.careManager.fetchOutcome(sample: newSample, deletedSample: deletedSample, task: task, carePlanId: carePlanId) {
+									self?.careManager.upload(outcomes: [outcome]) { result in
+										if case .failure(let error) = result {
+											ALog.error("unable to upload outcome", error: error)
+										}
+									}
+								}
+							case .failure(let error):
+								ALog.error("Error deleteting data", error: error)
+							}
+						}
 					} else {
 						let lastOutcomeUploadDate = UserDefaults.standard[healthKitOutcomesUploadDate: task.healthKitLinkage.quantityIdentifier.rawValue]
-						if let carePlanId = task.carePlanId,
-                            newSample.startDate < lastOutcomeUploadDate,
-                            let outcome = strongSelf.careManager.fetchOutcome(sample: newSample, deletedSample: nil, task: task, carePlanId: carePlanId) {
+						if let carePlanId = task.carePlanId, newSample.startDate < lastOutcomeUploadDate, let outcome = strongSelf.careManager.fetchOutcome(sample: newSample, deletedSample: nil, task: task, carePlanId: carePlanId) {
 							strongSelf.careManager.upload(outcomes: [outcome]) { result in
 								if case .failure(let error) = result {
 									ALog.error("unable to upload outcome", error: error)
@@ -150,7 +146,7 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 		}
 
 		viewController.deleteAction = { [weak self, weak viewController] in
-            guard let outcomeValue = viewController?.outcomeValues.first, let task = viewController?.healthKitTask else {
+			guard let outcomeValue = viewController?.outcomeValues.first, let task = viewController?.healthKitTask else {
 				viewController?.dismiss(animated: true, completion: nil)
 				return
 			}

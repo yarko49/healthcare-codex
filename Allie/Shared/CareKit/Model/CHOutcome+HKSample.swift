@@ -11,7 +11,7 @@ import HealthKit
 
 extension CHOutcome {
 	init?(sample: HKSample, task: OCKHealthKitTask, carePlanId: String) {
-        self.init(taskUUID: task.uuid, taskID: task.id, carePlanID: carePlanId, taskOccurrenceIndex: 0, values: [])
+		self.init(taskUUID: task.uuid, taskID: task.id, carePlanID: carePlanId, taskOccurrenceIndex: 0, values: [])
 
 		let linkage = task.healthKitLinkage
 		var values: [CHOutcomeValue] = []

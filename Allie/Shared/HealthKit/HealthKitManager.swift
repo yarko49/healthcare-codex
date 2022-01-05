@@ -385,22 +385,20 @@ class HealthKitManager {
 		}
 		healthStore.execute(sampleQuery)
 	}
-    
-    func fetchCorrelationSample(uuid: UUID, sampleType: HKCorrelationType, completion: AllieResultCompletion<HKSample>?) {
-        let predicate = HKCorrelationQuery.predicateForObject(with: uuid)
-        let query = HKCorrelationQuery(type: sampleType,
-                                       predicate: predicate,
-                                       samplePredicates: [:]) { _, results, error in
-            if let error = error {
-                completion?(.failure(error))
-            } else if let sample = results?.first {
-                completion?(.success(sample))
-            } else {
-                completion?(.failure(HealthKitManagerError.notAvailableOnDevice))
-            }
-        }
-        healthStore.execute(query)
-    }
+
+	func fetchCorrelationSample(uuid: UUID, sampleType: HKCorrelationType, completion: AllieResultCompletion<HKSample>?) {
+		let predicate = HKCorrelationQuery.predicateForObject(with: uuid)
+		let query = HKCorrelationQuery(type: sampleType, predicate: predicate, samplePredicates: [:]) { _, results, error in
+			if let error = error {
+				completion?(.failure(error))
+			} else if let sample = results?.first {
+				completion?(.success(sample))
+			} else {
+				completion?(.failure(HealthKitManagerError.notAvailableOnDevice))
+			}
+		}
+		healthStore.execute(query)
+	}
 
 	func delete(uuid: UUID, quantityIdentifier: String, completion: AllieResultCompletion<HKSample>?) {
 		DispatchQueue.main.async { [weak self] in
@@ -409,39 +407,37 @@ class HealthKitManager {
 				case .failure(let error):
 					completion?(.failure(error))
 				case .success(let sample):
-                    self?.delete(sample: sample, completion: completion)
+					self?.delete(sample: sample, completion: completion)
 				}
 			}
 		}
 	}
-    
-    func deleteCorrelationSample(uuid: UUID, sampleType: HKCorrelationType, completion: AllieResultCompletion<HKSample>?) {
-        DispatchQueue.main.async { [weak self] in
-            self?.fetchCorrelationSample(uuid: uuid,
-                                         sampleType: sampleType,
-                                         completion: { [weak self] result in
-                switch result {
-                case .failure(let error):
-                    completion?(.failure(error))
-                case .success(let sample):
-                    self?.delete(sample: sample, completion: completion)
-                }
-            })
-        }
-    }
-    
-    func delete(sample: HKSample, completion: AllieResultCompletion<HKSample>?) {
-        self.healthStore.delete(sample) { success, error in
-            if let error = error {
-                completion?(.failure(error))
-            } else if success {
-                NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
-                completion?(.success(sample))
-            } else {
-                completion?(.failure(HealthKitManagerError.notAvailableOnDevice))
-            }
-        }
-    }
+
+	func deleteCorrelationSample(uuid: UUID, sampleType: HKCorrelationType, completion: AllieResultCompletion<HKSample>?) {
+		DispatchQueue.main.async { [weak self] in
+			self?.fetchCorrelationSample(uuid: uuid, sampleType: sampleType, completion: { [weak self] result in
+				switch result {
+				case .failure(let error):
+					completion?(.failure(error))
+				case .success(let sample):
+					self?.delete(sample: sample, completion: completion)
+				}
+			})
+		}
+	}
+
+	func delete(sample: HKSample, completion: AllieResultCompletion<HKSample>?) {
+		healthStore.delete(sample) { success, error in
+			if let error = error {
+				completion?(.failure(error))
+			} else if success {
+				NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
+				completion?(.success(sample))
+			} else {
+				completion?(.failure(HealthKitManagerError.notAvailableOnDevice))
+			}
+		}
+	}
 
 	func save(sample: HKSample, completion: @escaping AllieResultCompletion<HKSample>) {
 		DispatchQueue.main.async { [weak self] in

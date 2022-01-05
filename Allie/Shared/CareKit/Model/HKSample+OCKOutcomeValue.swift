@@ -35,31 +35,25 @@ extension HKSample {
 					value.kind = insulinReason == HKInsulinDeliveryReason.bolus.rawValue ? HKInsulinDeliveryReason.bolus.kind : HKInsulinDeliveryReason.basal.kind
 				} else if let mealTimeValue = metadata?[CHMetadataKeyBloodGlucoseMealTime] as? Int ?? metadata?[HKMetadataKeyBloodGlucoseMealTime] as? Int, let mealTime = CHBloodGlucoseMealTime(rawValue: mealTimeValue) {
 					value.kind = mealTime.kind
-                }
-                value.wasUserEntered = (discreet.metadata?[HKMetadataKeyWasUserEntered] as? Bool) ?? false
+				}
+				value.wasUserEntered = (discreet.metadata?[HKMetadataKeyWasUserEntered] as? Bool) ?? false
 				value.healthKitUUID = discreet.uuid
 				value.quantityIdentifier = linkage.quantityIdentifier.rawValue
 				value.createdDate = discreet.startDate
-                values.append(value)
-                
-                if let diastolicDoubleValue = metadata?[CHMetadataKeyBPDiastolicValue] as? Double,
-                   let startTimestamp = metadata?[CHOutcomeMetadataKeyStartDate] as? TimeInterval,
-                   let correlationSampleUuid = metadata?[CHMetadataKeyBPCorrelationSampleUUID] as? String {
-                    var diastolicValue = value
-                    diastolicValue.updateValue(newValue: Int(diastolicDoubleValue),
-                                               newQuantityIdentifier: HKQuantityTypeIdentifier.bloodPressureDiastolic.rawValue,
-                                               newKind: HKQuantityTypeIdentifier.bloodPressureDiastolic.rawValue)
-                    value.updateValue(newValue: value.value,
-                                      newQuantityIdentifier: HKQuantityTypeIdentifier.bloodPressureSystolic.rawValue,
-                                      newKind: HKQuantityTypeIdentifier.bloodPressureSystolic.rawValue)
-                    diastolicValue.createdDate = Date(timeIntervalSince1970: startTimestamp)
-                    value.createdDate = Date(timeIntervalSince1970: startTimestamp)
-                    
-                    value.healthKitUUID = UUID(uuidString: correlationSampleUuid)
-                    diastolicValue.healthKitUUID = value.healthKitUUID
-                    
-                    values = [value, diastolicValue]
-                }
+				values.append(value)
+
+				if let diastolicDoubleValue = metadata?[CHMetadataKeyBPDiastolicValue] as? Double, let startTimestamp = metadata?[CHOutcomeMetadataKeyStartDate] as? TimeInterval, let correlationSampleUuid = metadata?[CHMetadataKeyBPCorrelationSampleUUID] as? String {
+					var diastolicValue = value
+					diastolicValue.updateValue(newValue: Int(diastolicDoubleValue), newQuantityIdentifier: HKQuantityTypeIdentifier.bloodPressureDiastolic.rawValue, newKind: HKQuantityTypeIdentifier.bloodPressureDiastolic.rawValue)
+					value.updateValue(newValue: value.value, newQuantityIdentifier: HKQuantityTypeIdentifier.bloodPressureSystolic.rawValue, newKind: HKQuantityTypeIdentifier.bloodPressureSystolic.rawValue)
+					diastolicValue.createdDate = Date(timeIntervalSince1970: startTimestamp)
+					value.createdDate = Date(timeIntervalSince1970: startTimestamp)
+
+					value.healthKitUUID = UUID(uuidString: correlationSampleUuid)
+					diastolicValue.healthKitUUID = value.healthKitUUID
+
+					values = [value, diastolicValue]
+				}
 			}
 		} else if let corrolation = self as? HKCorrelation {
 			let samples: [HKQuantitySample] = corrolation.objects.compactMap { sample in
