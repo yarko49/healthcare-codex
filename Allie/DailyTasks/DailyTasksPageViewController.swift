@@ -274,7 +274,9 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				}
 				_ = try await careManager.process(carePlanResponse: carePlanResponse)
 				self.isRefreshingCarePlan = false
-				self.hud.dismiss(animated: true)
+				DispatchQueue.main.async {
+					self.hud.dismiss(animated: true)
+				}
 				completion(true)
 			} catch {
 				DispatchQueue.main.async { [weak self] in

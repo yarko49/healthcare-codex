@@ -128,7 +128,7 @@ public final class APIClient: AllieAPI {
 	func getCarePlan(option: CarePlanResponseType) async throws -> CHCarePlanResponse {
 		let route = APIRouter.getCarePlan(option: option)
 		let request = try route.request()
-		return try await webService.decodable(request: request)
+		return try await webService.decodable(request: request, decoder: CHJSONDecoder())
 	}
 
 	func getCarePlan(option: CarePlanResponseType = .carePlan) -> AnyPublisher<CHCarePlanResponse, Error> {
@@ -176,7 +176,7 @@ public final class APIClient: AllieAPI {
 	func getFeatureContent(carePlanId: String, taskId: String, asset: String) async throws -> SignedURLResponse {
 		let route = APIRouter.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
 		let request = try route.request()
-		return try await webService.decodable(request: request)
+		return try await webService.decodable(request: request, decoder: CHJSONDecoder())
 	}
 
 	func getData(url: URL) -> AnyPublisher<Data, Error> {

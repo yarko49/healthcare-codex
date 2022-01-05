@@ -261,7 +261,7 @@ extension CareManager {
 
 		carePlan = carePlanResponse.carePlans.active.first
 		try save(carePlanResponse: carePlanResponse)
-		let activePatient = carePlanResponse.patients.active.first
+		var activePatient = carePlanResponse.patients.active.first
 		if let patient = activePatient {
 			do {
 				let thePatient = try await process(patient: patient)
@@ -269,6 +269,7 @@ extension CareManager {
 				self.patient = thePatient
 				updateCarePlanResponse.patients.append(thePatient)
 			} catch {
+				activePatient = nil
 				ALog.error("Error Procesing patient \(patient.id)", error: error)
 			}
 		}

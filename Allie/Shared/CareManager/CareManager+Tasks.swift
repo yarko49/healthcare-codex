@@ -84,7 +84,7 @@ extension CareManager {
 				return newTask
 			}
 		} catch {
-			let newTask = try await healthKitStore.updateTask(healthKitTask)
+			let newTask = try await healthKitStore.addTask(healthKitTask)
 			return newTask
 		}
 	}
@@ -101,7 +101,7 @@ extension CareManager {
 				return newTask
 			}
 		} catch {
-			let newTask = try await store.updateTask(task)
+			let newTask = try await store.addTask(task)
 			return newTask
 		}
 	}
@@ -132,7 +132,7 @@ extension CareManager {
 				let updated = try await process(task: task, excludesTasksWithNoEvents: excludesTasksWithNoEvents, carePlan: carePlan)
 				updateTasks.append(updated)
 			} catch {
-				ALog.error("Unable to update the task \n")
+				ALog.error("Unable to update the task \(error as NSError)\n")
 			}
 		}
 		return updateTasks
