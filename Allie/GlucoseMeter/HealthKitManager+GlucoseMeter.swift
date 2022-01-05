@@ -96,18 +96,16 @@ extension HealthKitManager {
 					lhs.endDate < rhs.endDate
 				}
 
-			DispatchQueue.main.async {
-				self?.healthStore.save(values, withCompletion: { _, error in
-					if let error = error {
-						promise(.failure(error))
-					} else {
-						let keys = Set(samples.keys)
-						self?.sequenceNumbers.insert(values: keys, forDevice: name)
-						promise(.success(values))
-						NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
-					}
-				})
-			}
+			self?.healthStore.save(values, withCompletion: { _, error in
+				if let error = error {
+					promise(.failure(error))
+				} else {
+					let keys = Set(samples.keys)
+					self?.sequenceNumbers.insert(values: keys, forDevice: name)
+					promise(.success(values))
+					NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
+				}
+			})
 		}.eraseToAnyPublisher()
 	}
 

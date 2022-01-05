@@ -9,6 +9,17 @@ import Combine
 import CoreBluetooth
 import Foundation
 
+private struct BGMBluetoothManagerKey: InjectionKey {
+    static var currentValue = BGMBluetoothManager()
+}
+
+extension InjectedValues {
+    var bluetoothManager: BGMBluetoothManager {
+        get { Self[BGMBluetoothManagerKey.self] }
+        set { Self[BGMBluetoothManagerKey.self] = newValue }
+    }
+}
+
 protocol BGMBluetoothManagerDelegate: AnyObject {
 	func bluetoothManager(_ manager: BGMBluetoothManager, didUpdate state: CBManagerState)
 	func bluetoothManager(_ manager: BGMBluetoothManager, didFind peripheral: CBPeripheral, rssi: Int)
