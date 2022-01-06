@@ -206,12 +206,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 							listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
 						}
 					case .numericProgress:
-						if #available(iOS 15, *) {
-							// There is a bug in iOS 15, with overlapping cards, so we disable until Apple fixes it
-						} else {
-							let view = NumericProgressTaskView(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
-							listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
-						}
+                        let view = NumericProgressTaskView(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
+                        listViewController.appendViewController(view.iOS15FormattedHostingController(), animated: self.insertViewsAnimated)
 					case .instruction:
 						let viewController = OCKInstructionsTaskViewController(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 						viewController.view.tintColor = .allieLighterGray
@@ -314,4 +310,17 @@ private extension View {
 		viewController.view.backgroundColor = .clear
 		return viewController
 	}
+    
+    func iOS15FormattedHostingController() -> UIHostingController<Self> {
+        let viewController = HostingController(rootView: self)
+        viewController.view.backgroundColor = .clear
+        return viewController
+    }
+}
+
+final class HostingController<Content: View>: UIHostingController<Content> {
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        view.setNeedsUpdateConstraints()
+    }
 }
