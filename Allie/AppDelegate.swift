@@ -73,15 +73,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		CoreLogger.enabled = false
 		CoreLogger.logLevel = .debug
 		Zendesk.initialize(appId: AppConfig.zendeskAppId, clientId: AppConfig.zendeskClientId, zendeskUrl: AppConfig.zendeskURL)
-		Support.initialize(withZendesk: Zendesk.instance)
-		let ident = Identity.createAnonymous()
-		Zendesk.instance?.setIdentity(ident)
 		ALog.trace("Zendesk Initialized")
 	}
 
 	static func configureZendeskIdentity(name: String? = nil, email: String? = nil) {
 		let identity = Identity.createAnonymous(name: name, email: email)
 		Zendesk.instance?.setIdentity(identity)
+        Support.initialize(withZendesk: Zendesk.instance)
+        ALog.trace("Zendesk Identity configured \(name ?? ""), \(email ?? "")")
 	}
 
 	static func registerServices(patient: CHPatient?) {
