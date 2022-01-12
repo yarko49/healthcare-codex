@@ -79,8 +79,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	static func configureZendeskIdentity(name: String? = nil, email: String? = nil) {
 		let identity = Identity.createAnonymous(name: name, email: email)
 		Zendesk.instance?.setIdentity(identity)
-        Support.initialize(withZendesk: Zendesk.instance)
-        ALog.trace("Zendesk Identity configured \(name ?? ""), \(email ?? "")")
+		Support.initialize(withZendesk: Zendesk.instance)
+		ALog.trace("Zendesk Identity configured \(name ?? ""), \(email ?? "")")
 	}
 
 	static func registerServices(patient: CHPatient?) {
