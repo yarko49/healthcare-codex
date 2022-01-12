@@ -2163,8 +2163,8 @@
 				845B4536269B9A0000EC5211 /* HKQuantityTypeIdentifier+Linkage.swift */,
 				845B453A269B9BDC00EC5211 /* HKCategoryTypeIdentifier+Linkage.swift */,
 				845B453E269B9C1C00EC5211 /* HKCorrelationTypeIdentifier+Linkage.swift */,
-				8439776126BB9CD0002A932E /* HKUnit+Codex.swift */,
 				846F978027169EA80094735E /* HKDiscreteQuantitySample+Copying.swift */,
+				8439776126BB9CD0002A932E /* HKUnit+Codex.swift */,
 			);
 			path = HealthKit;
 			sourceTree = "<group>";

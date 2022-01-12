@@ -8,7 +8,7 @@
 import Foundation
 
 import Logging
-import os
+import os.log
 
 public struct LoggingOSLog: LogHandler {
 	public var logLevel: Logging.Logger.Level = .info
