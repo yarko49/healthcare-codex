@@ -112,6 +112,7 @@ class ChatViewController: MessagesViewController {
 		UIApplication.shared.applicationIconBadgeNumber = 0
 		UserDefaults.chatNotificationsCount = 0
 		AppDelegate.mainCoordinator?.updateBadges(count: 0)
+        AppDelegate.setAppIconBadge()
 		messagesCollectionView.scrollToLastItem()
 	}
 

@@ -18,4 +18,6 @@ extension Notification.Name {
 
 	static let didUpdateCarePlan = Notification.Name("didUpdateCarePlan")
 	static let didModifyHealthKitStore = Notification.Name("didModifyHealthKitStore")
+
+    static let didReceiveZendDeskNotification = Notification.Name("didReceiveZendNotification")
 }

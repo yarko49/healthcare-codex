@@ -5,7 +5,7 @@
 
 import Foundation
 
-enum SettingsType: CustomStringConvertible, CaseIterable {
+enum SettingsType: CustomStringConvertible, CaseIterable, Hashable {
 	case accountDetails
 	case myDevices
 	case notifications
