@@ -200,7 +200,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		if typeString == "chat" {
 			ALog.trace("process notificationInfo: applicationState: \(application.applicationState.rawValue)")
 			let count = UserDefaults.chatNotificationsCount + 1
-			application.applicationIconBadgeNumber = count
 			AppDelegate.mainCoordinator?.updateBadges(count: count)
 			UserDefaults.chatNotificationsCount = count
 		} else if typeString == "zendeskSupport" {
@@ -210,7 +209,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		} else if typeString == "careplan" {
 			NotificationCenter.default.post(name: .didUpdateCarePlan, object: nil)
 		}
+        AppDelegate.setAppIconBadge()
 	}
+
+    public static func setAppIconBadge() {
+        let totalBadgeCount = UserDefaults.chatNotificationsCount + UserDefaults.zendeskChatNotificationCount
+        UIApplication.shared.applicationIconBadgeNumber = totalBadgeCount
+        NotificationCenter.default.post(name: .didReceiveZendDeskNotification, object: nil)
+    }
 }
 
 extension AppDelegate: MessagingDelegate {

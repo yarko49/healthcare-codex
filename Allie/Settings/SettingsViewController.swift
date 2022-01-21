@@ -35,6 +35,7 @@ class SettingsViewController: BaseViewController {
 	var dataSource: UITableViewDiffableDataSource<Int, SettingsType>!
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	@Injected(\.keychain) var keychain: Keychain
+    var availableUpdateZendDisk: Bool = false
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -61,7 +62,18 @@ class SettingsViewController: BaseViewController {
 			let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.reuseIdentifier, for: indexPath)
 			cell.tintColor = .allieGray
 			cell.layoutMargins = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
-			cell.accessoryType = .disclosureIndicator
+            if type == .feedback {
+                cell.accessoryType = .disclosureIndicator
+                let zendBadgeCount = UserDefaults.zendeskChatNotificationCount
+                if zendBadgeCount == 0 {
+                    cell.accessoryView = nil
+                } else {
+                    cell.setTableViewCellBadge(badgeCount: UserDefaults.zendeskChatNotificationCount)
+                }
+            } else {
+                cell.accessoryType = .disclosureIndicator
+                cell.accessoryView = nil
+            }
 			cell.textLabel?.attributedText = type.title.attributedString(style: .regular17, foregroundColor: .allieGray, letterSpacing: -0.41)
 			return cell
 		})
@@ -85,6 +97,45 @@ class SettingsViewController: BaseViewController {
 		super.viewDidAppear(animated)
 		AnalyticsManager.send(event: .pageView, properties: [.name: "SettingsView"])
 	}
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if availableUpdateZendDisk {
+            getZendDeskUnReadTicket()
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(didUpdateFeedBackCell), name: .didReceiveZendDeskNotification, object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc func didUpdateFeedBackCell() {
+        let indexPathForFeedback = IndexPath(row: 3, section: 0)
+        guard let identifier = dataSource.itemIdentifier(for: indexPathForFeedback) else {
+            return
+        }
+        var newSnapShot = dataSource.snapshot()
+        newSnapShot.reloadItems([identifier])
+        dataSource.apply(newSnapShot)
+    }
+
+    func getZendDeskUnReadTicket() {
+        ZDKRequestProvider().getUpdatesForDevice { [unowned self] in
+            if let updates = $0, updates.hasUpdatedRequests() {
+                updateBadges(count: updates.totalUpdates)
+            } else {
+                updateBadges(count: 0)
+            }
+        }
+    }
+
+    func updateBadges(count: Int) {
+        UserDefaults.zendeskChatNotificationCount = count
+        AppDelegate.mainCoordinator?.updateZendeskBadges(count: count)
+        AppDelegate.setAppIconBadge()
+        didUpdateFeedBackCell()
+    }
 }
 
 // MARK: - UITableViewDataSource & UITableViewDelegate
@@ -108,6 +159,7 @@ extension SettingsViewController: UITableViewDelegate {
 		case .systemAuthorization:
 			showSystemAuthorization()
 		case .feedback:
+            availableUpdateZendDisk = true
 			showFeedback()
 		case .privacyPolicy:
 			showPrivacyPolicy()
@@ -181,6 +233,7 @@ extension SettingsViewController: UITableViewDelegate {
 
 	func showFeedback() {
 		let requestListController = RequestUi.buildRequestList(with: [])
+        requestListController.hidesBottomBarWhenPushed = true
 		navigationController?.show(requestListController, sender: self)
 	}
 
@@ -328,4 +381,20 @@ extension SettingsViewController: MFMailComposeViewControllerDelegate {
 			}
 		}
 	}
+}
+
+extension UITableViewCell {
+    func setTableViewCellBadge(badgeCount: Int) {
+        let size: CGFloat = 26
+        let digits: CGFloat = CGFloat("\(badgeCount)".count)
+        let width = max(size, 0.7 * size * digits)
+        let badgeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: size))
+        badgeLabel.text = "\(badgeCount)"
+        badgeLabel.layer.cornerRadius = size / 2.0
+        badgeLabel.layer.masksToBounds = true
+        badgeLabel.textAlignment = .center
+        badgeLabel.backgroundColor = .red
+        badgeLabel.textColor = .white
+        accessoryView = badgeLabel
+    }
 }

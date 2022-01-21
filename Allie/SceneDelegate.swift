@@ -55,6 +55,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		if UIApplication.shared.applicationState == .inactive || UIApplication.shared.applicationState == .active {
 			let count = UserDefaults.chatNotificationsCount
 			mainCoordinator.updateBadges(count: count)
+            let zendCount = UserDefaults.zendeskChatNotificationCount
+            mainCoordinator.updateZendeskBadges(count: zendCount)
 			Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true, completion: { authTokenResult, error in
 				if let token = AuthenticationToken(result: authTokenResult), error == nil {
 					self.keychain.authenticationToken = token
