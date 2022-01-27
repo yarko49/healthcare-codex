@@ -43,7 +43,8 @@ class AppCoordinator: BaseCoordinator {
 			}
 			chatController = controller
 		} else {
-			todayController = Self.dailyTasksController
+//			todayController = Self.dailyTasksController
+            todayController = Self.newDailyTasksController
 			chatController = Self.conversationsListViewController
 		}
 		self.todayNavController = Self.todayNavController(rootViewController: todayController)
@@ -151,6 +152,7 @@ class AppCoordinator: BaseCoordinator {
 			conversationsNavController?.setViewControllers([chatController], animated: true)
 		} else {
 			let todayViewController = Self.dailyTasksController
+//            let todayViewController = Self.newDailyTasksController
 			todayNavController?.setViewControllers([todayViewController], animated: true)
 			DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) { [weak todayViewController] in
 				todayViewController?.reload()
@@ -181,6 +183,11 @@ class AppCoordinator: BaseCoordinator {
 		controller.title = title
 		return controller
 	}
+
+    class var newDailyTasksController: NewDailyTasksPageViewController {
+        let controller = NewDailyTasksPageViewController()
+        return controller
+    }
 
 	class func todayNavController(rootViewController controller: UIViewController) -> UINavigationController {
 		let navigationController = UINavigationController(rootViewController: controller)

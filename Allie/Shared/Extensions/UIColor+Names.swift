@@ -146,3 +146,15 @@ extension UIColor {
 		self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: CGFloat(alpha) / 255.0)
 	}
 }
+
+extension UIColor {
+    static let mainBlue = UIColor(hex: "#546DF1")
+    static let mainLightBlue = UIColor(hex: "72BDF3")
+    static let mainRed = UIColor(hex: "#FF6B6B")
+    static let mainLightRed = UIColor(hex: "F4C3B9")
+    static let mainGreen = UIColor(hex: "#A2D4C0")
+    static let mainLightGreen = UIColor(hex: "#CFFFEB")
+    static let mainDarkGreen = UIColor(hex: "#2B5B48")
+    static let mainGray = UIColor(hex: "#323232")
+    static let mainLightGray = UIColor(hex: "#CDCDCD")
+}

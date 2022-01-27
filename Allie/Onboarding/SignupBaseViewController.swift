@@ -7,13 +7,16 @@
 
 import AuthenticationServices
 import UIKit
+import Combine
 
 enum ControllerViewMode {
 	case onboarding
 	case settings
 }
 
-class SignupBaseViewController: BaseViewController {
+class SignupBaseViewController: UIViewController {
+    var cancellables: Set<AnyCancellable> = []
+
 	deinit {
 		cancellables.forEach { cancellable in
 			cancellable.cancel()
@@ -85,6 +88,7 @@ class SignupBaseViewController: BaseViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        view.backgroundColor = .white
 		if controllerViewMode == .onboarding {
 			[labekStackView, titleLabel, subtitleLabel].forEach { view in
 				view.translatesAutoresizingMaskIntoConstraints = false
