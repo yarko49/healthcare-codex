@@ -37,7 +37,7 @@ class NewDailyTasksPageViewController: BaseViewController {
         let item = NSCollectionLayoutItem(layoutSize: size)
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
         section.interGroupSpacing = 0
         let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                       heightDimension: .absolute(0))
@@ -47,10 +47,13 @@ class NewDailyTasksPageViewController: BaseViewController {
         section.boundarySupplementaryItems = [sectionHeader]
         let layout = UICollectionViewCompositionalLayout(section: section)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .mainBackground
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(RiseSleepCell.self, forCellWithReuseIdentifier: RiseSleepCell.cellID)
-        collectionView.register(HealthCell.self, forCellWithReuseIdentifier: HealthCell.cellID)
+        collectionView.register(HealthFilledCell.self, forCellWithReuseIdentifier: HealthFilledCell.cellID)
+        collectionView.register(HealthEmptyCell.self, forCellWithReuseIdentifier: HealthEmptyCell.cellID)
+        collectionView.register(HealthAddCell.self, forCellWithReuseIdentifier: HealthAddCell.cellID)
+        collectionView.register(HealthLastCell.self, forCellWithReuseIdentifier: HealthLastCell.cellID)
         return collectionView
     }()
 
@@ -88,45 +91,50 @@ class NewDailyTasksPageViewController: BaseViewController {
  // MARK: - Collection View Delegate & Data Source
 extension NewDailyTasksPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // swiftlint:disable force_cast
         if indexPath.row == 0 {
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: RiseSleepCell.cellID, for: indexPath) as! RiseSleepCell
             cell.cellType = .rise
             return cell
         } else if indexPath.row == 1 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthCell.cellID, for: indexPath) as! HealthCell
-            cell.configureCell(cellType: .glucose, index: 1, isEmpty: false)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthFilledCell.cellID, for: indexPath) as! HealthFilledCell
+            cell.configureCell(cellType: .glucose)
             return cell
         } else if indexPath.row == 2 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthCell.cellID, for: indexPath) as! HealthCell
-            cell.configureCell(cellType: .insulin, index: 2, isEmpty: false)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthFilledCell.cellID, for: indexPath) as! HealthFilledCell
+            cell.configureCell(cellType: .insulin)
             return cell
         } else if indexPath.row == 3 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthCell.cellID, for: indexPath) as! HealthCell
-            cell.configureCell(cellType: .glucose, index: 3, isEmpty: true)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
+            cell.configureCell(cellType: .glucose)
             return cell
         } else if indexPath.row == 4 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthCell.cellID, for: indexPath) as! HealthCell
-            cell.configureCell(cellType: .insulin, index: 4, isEmpty: true)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
+            cell.configureCell(cellType: .insulin)
             return cell
         } else if indexPath.row == 5 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthCell.cellID, for: indexPath) as! HealthCell
-            cell.configureCell(cellType: .add, index: 5, isEmpty: false)
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: HealthAddCell.cellID, for: indexPath) as! HealthAddCell
             return cell
         } else if indexPath.row == 6 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthCell.cellID, for: indexPath) as! HealthCell
-            cell.configureCell(cellType: .aspirin, index: 6, isEmpty: false)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthFilledCell.cellID, for: indexPath) as! HealthFilledCell
+            cell.configureCell(cellType: .asprin)
             return cell
-        } else {
+        } else if indexPath.row == 7 {
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: RiseSleepCell.cellID, for: indexPath) as! RiseSleepCell
             cell.cellType = .sleep
             return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthLastCell.cellID, for: indexPath) as! HealthLastCell
+            return cell
         }
+        // swiftlint:enable force_cast
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return 9
     }
 }
 

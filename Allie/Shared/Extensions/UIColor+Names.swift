@@ -157,4 +157,5 @@ extension UIColor {
     static let mainDarkGreen = UIColor(hex: "#2B5B48")
     static let mainGray = UIColor(hex: "#323232")
     static let mainLightGray = UIColor(hex: "#CDCDCD")
+    static let mainBackground = UIColor(hex: "#F7FBFF")
 }

@@ -16,9 +16,18 @@
 		25737B2D27A1E6F7006357E7 /* RiseSleepCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25737B2C27A1E6F7006357E7 /* RiseSleepCell.swift */; };
 		25737B2E27A1E6F7006357E7 /* RiseSleepCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25737B2C27A1E6F7006357E7 /* RiseSleepCell.swift */; };
 		25737B2F27A1E6F7006357E7 /* RiseSleepCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25737B2C27A1E6F7006357E7 /* RiseSleepCell.swift */; };
-		25737B3127A1EFA0006357E7 /* HealthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25737B3027A1EFA0006357E7 /* HealthCell.swift */; };
-		25737B3227A1EFA0006357E7 /* HealthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25737B3027A1EFA0006357E7 /* HealthCell.swift */; };
-		25737B3327A1EFA0006357E7 /* HealthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25737B3027A1EFA0006357E7 /* HealthCell.swift */; };
+		25737B3127A1EFA0006357E7 /* HealthFilledCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25737B3027A1EFA0006357E7 /* HealthFilledCell.swift */; };
+		25737B3227A1EFA0006357E7 /* HealthFilledCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25737B3027A1EFA0006357E7 /* HealthFilledCell.swift */; };
+		25737B3327A1EFA0006357E7 /* HealthFilledCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25737B3027A1EFA0006357E7 /* HealthFilledCell.swift */; };
+		25764B0D27A2818B0032B365 /* HealthEmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25764B0C27A2818B0032B365 /* HealthEmptyCell.swift */; };
+		25764B0E27A2818B0032B365 /* HealthEmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25764B0C27A2818B0032B365 /* HealthEmptyCell.swift */; };
+		25764B0F27A2818B0032B365 /* HealthEmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25764B0C27A2818B0032B365 /* HealthEmptyCell.swift */; };
+		25764B1127A2888B0032B365 /* HealthAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25764B1027A2888B0032B365 /* HealthAddCell.swift */; };
+		25764B1227A2888B0032B365 /* HealthAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25764B1027A2888B0032B365 /* HealthAddCell.swift */; };
+		25764B1327A2888B0032B365 /* HealthAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25764B1027A2888B0032B365 /* HealthAddCell.swift */; };
+		258DC4AA27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */; };
+		258DC4AB27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */; };
+		258DC4AC27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */; };
 		47892DA327857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
 		47892DA427857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
 		47892DA527857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
@@ -1137,7 +1146,10 @@
 		25155059279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDailyTasksPageViewController.swift; sourceTree = "<group>"; };
 		2515505E27A00E4400C40BC5 /* DailyTaskTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTaskTopView.swift; sourceTree = "<group>"; };
 		25737B2C27A1E6F7006357E7 /* RiseSleepCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiseSleepCell.swift; sourceTree = "<group>"; };
-		25737B3027A1EFA0006357E7 /* HealthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCell.swift; sourceTree = "<group>"; };
+		25737B3027A1EFA0006357E7 /* HealthFilledCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthFilledCell.swift; sourceTree = "<group>"; };
+		25764B0C27A2818B0032B365 /* HealthEmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthEmptyCell.swift; sourceTree = "<group>"; };
+		25764B1027A2888B0032B365 /* HealthAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthAddCell.swift; sourceTree = "<group>"; };
+		258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthLastCell.swift; sourceTree = "<group>"; };
 		47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+Samples.swift"; sourceTree = "<group>"; };
 		47892DA627857CD000BC7827 /* HealthKitManager+Steps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+Steps.swift"; sourceTree = "<group>"; };
 		47892DAA27857D8400BC7827 /* HealthKitManager+BloodPressure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+BloodPressure.swift"; sourceTree = "<group>"; };
@@ -1660,7 +1672,10 @@
 			isa = PBXGroup;
 			children = (
 				25737B2C27A1E6F7006357E7 /* RiseSleepCell.swift */,
-				25737B3027A1EFA0006357E7 /* HealthCell.swift */,
+				25737B3027A1EFA0006357E7 /* HealthFilledCell.swift */,
+				25764B0C27A2818B0032B365 /* HealthEmptyCell.swift */,
+				25764B1027A2888B0032B365 /* HealthAddCell.swift */,
+				258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -3064,7 +3079,7 @@
 				8447679C259C2A4E00C50C09 /* UIColor+Names.swift in Sources */,
 				844767DD259C2A4E00C50C09 /* MainCoordinator.swift in Sources */,
 				845FBE6925FC6A8E00472257 /* ObservationsConfig.swift in Sources */,
-				25737B3127A1EFA0006357E7 /* HealthCell.swift in Sources */,
+				25737B3127A1EFA0006357E7 /* HealthFilledCell.swift in Sources */,
 				8456DED12754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */,
 				84C212A12660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
@@ -3275,6 +3290,7 @@
 				84E4660225A040F100A10F8B /* ViewIdentifiable.swift in Sources */,
 				BF760E37276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */,
 				845F8B9F26470B2A00999091 /* OCKHealthKitLinkage+Dictionary.swift in Sources */,
+				25764B0D27A2818B0032B365 /* HealthEmptyCell.swift in Sources */,
 				84C212B0266491A0000D491B /* FileManager+Documents.swift in Sources */,
 				8423225F2717E1FB008B50F0 /* RemoteLoggingConfig.swift in Sources */,
 				2515505A279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift in Sources */,
@@ -3299,6 +3315,7 @@
 				845FBE8025FC775E00472257 /* ConfigurationError.swift in Sources */,
 				84703C56265B495D0025A50D /* AuthenticationToken.swift in Sources */,
 				84D1129126D45724000BA718 /* BGMPairingViewController.swift in Sources */,
+				258DC4AA27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */,
 				847E8A2026CB13D5006D8820 /* HKDevice+CBPeripheral.swift in Sources */,
 				843F5148272922A300E801DE /* EntryListPickerView.swift in Sources */,
 				848199B1268996CF00DAB894 /* ProviderDetailViewModel.swift in Sources */,
@@ -3365,6 +3382,7 @@
 				844767E2259C2A4E00C50C09 /* CHJSONDecoder.swift in Sources */,
 				845FBE8F25FC7C9200472257 /* DeviceFactory.swift in Sources */,
 				84476731259C2A4E00C50C09 /* EmailSignInButton.swift in Sources */,
+				25764B1127A2888B0032B365 /* HealthAddCell.swift in Sources */,
 				845FBE9725FC87D700472257 /* ObservationFactory.swift in Sources */,
 				84D84ADF269945B3007BE781 /* TaskHeaderView.swift in Sources */,
 			);
@@ -3424,7 +3442,7 @@
 				847DCBF5265871F3004E9C1D /* MainCoordinator.swift in Sources */,
 				847DCBF6265871F3004E9C1D /* ObservationsConfig.swift in Sources */,
 				847DCBF7265871F3004E9C1D /* IllustrationView.swift in Sources */,
-				25737B3327A1EFA0006357E7 /* HealthCell.swift in Sources */,
+				25737B3327A1EFA0006357E7 /* HealthFilledCell.swift in Sources */,
 				8456DED32754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C212A32660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
 				847DCBF8265871F3004E9C1D /* StatCell.swift in Sources */,
@@ -3635,6 +3653,7 @@
 				847DCC75265871F3004E9C1D /* ViewIdentifiable.swift in Sources */,
 				BF760E39276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */,
 				847DCC76265871F3004E9C1D /* OCKHealthKitLinkage+Dictionary.swift in Sources */,
+				25764B0F27A2818B0032B365 /* HealthEmptyCell.swift in Sources */,
 				84C212B2266491A0000D491B /* FileManager+Documents.swift in Sources */,
 				847DCC78265871F3004E9C1D /* HKQuantitySample+Metadata.swift in Sources */,
 				2515505C279FEDB800C40BC5 /* NewDailyTasksPageViewController.swift in Sources */,
@@ -3659,6 +3678,7 @@
 				848199B3268996CF00DAB894 /* ProviderDetailViewModel.swift in Sources */,
 				84D1129326D45724000BA718 /* BGMPairingViewController.swift in Sources */,
 				847E8A2226CB13D5006D8820 /* HKDevice+CBPeripheral.swift in Sources */,
+				258DC4AC27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */,
 				842322632717E228008B50F0 /* FileLoggingConfig.swift in Sources */,
 				843F514A272922A300E801DE /* EntryListPickerView.swift in Sources */,
 				847DCC82265871F3004E9C1D /* CHOperation.swift in Sources */,
@@ -3725,6 +3745,7 @@
 				847DCCAD265871F3004E9C1D /* DeviceFactory.swift in Sources */,
 				847DCCAE265871F3004E9C1D /* EmailSignInButton.swift in Sources */,
 				8497045F26B124C2006E2D51 /* BloodGlucoseSampleType.swift in Sources */,
+				25764B1327A2888B0032B365 /* HealthAddCell.swift in Sources */,
 				847DCCAF265871F3004E9C1D /* ObservationFactory.swift in Sources */,
 				84D84AE1269945B3007BE781 /* TaskHeaderView.swift in Sources */,
 			);
@@ -3747,7 +3768,7 @@
 				84D12228264112DE00990196 /* MainCoordinator.swift in Sources */,
 				84D1222A264112DE00990196 /* ObservationsConfig.swift in Sources */,
 				84D1222B264112DE00990196 /* IllustrationView.swift in Sources */,
-				25737B3227A1EFA0006357E7 /* HealthCell.swift in Sources */,
+				25737B3227A1EFA0006357E7 /* HealthFilledCell.swift in Sources */,
 				8456DED22754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C212A22660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
 				84D1222C264112DE00990196 /* StatCell.swift in Sources */,
@@ -3958,6 +3979,7 @@
 				84D122A5264112DE00990196 /* ViewIdentifiable.swift in Sources */,
 				BF760E38276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */,
 				845F8BA026470B2A00999091 /* OCKHealthKitLinkage+Dictionary.swift in Sources */,
+				25764B0E27A2818B0032B365 /* HealthEmptyCell.swift in Sources */,
 				84C212B1266491A0000D491B /* FileManager+Documents.swift in Sources */,
 				84D122A7264112DE00990196 /* HKQuantitySample+Metadata.swift in Sources */,
 				2515505B279FEDB600C40BC5 /* NewDailyTasksPageViewController.swift in Sources */,
@@ -3982,6 +4004,7 @@
 				848199B2268996CF00DAB894 /* ProviderDetailViewModel.swift in Sources */,
 				84D1129226D45724000BA718 /* BGMPairingViewController.swift in Sources */,
 				847E8A2126CB13D5006D8820 /* HKDevice+CBPeripheral.swift in Sources */,
+				258DC4AB27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */,
 				842322622717E228008B50F0 /* FileLoggingConfig.swift in Sources */,
 				843F5149272922A300E801DE /* EntryListPickerView.swift in Sources */,
 				841A772D2652348C000913A9 /* CHOperation.swift in Sources */,
@@ -4048,6 +4071,7 @@
 				84D122D8264112DE00990196 /* DeviceFactory.swift in Sources */,
 				84D122D9264112DE00990196 /* EmailSignInButton.swift in Sources */,
 				8497045E26B124C2006E2D51 /* BloodGlucoseSampleType.swift in Sources */,
+				25764B1227A2888B0032B365 /* HealthAddCell.swift in Sources */,
 				84D122DA264112DE00990196 /* ObservationFactory.swift in Sources */,
 				84D84AE0269945B3007BE781 /* TaskHeaderView.swift in Sources */,
 			);

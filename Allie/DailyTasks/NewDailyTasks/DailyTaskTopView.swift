@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol DailyTaskTopViewDelegate {
+protocol DailyTaskTopViewDelegate: AnyObject {
     func onClickTodayButton()
 }
 
 class DailyTaskTopView: UIView {
 
-    var delegate: DailyTaskTopViewDelegate?
+    weak var delegate: DailyTaskTopViewDelegate?
 
     private var wholeStackView: UIStackView = {
         let wholeStackView = UIStackView()

@@ -55,7 +55,7 @@ class RiseSleepCell: UICollectionViewCell {
         self.contentView.addSubview(imageView)
         self.contentView.addSubview(title)
         imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 34).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 24).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 24).isActive = true
         imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true

@@ -10,17 +10,18 @@ import UIKit
 enum HealthType {
     case glucose
     case insulin
-    case aspirin
-    case add
+    case asprin
 }
 
-class HealthCell: UICollectionViewCell {
+class HealthFilledCell: UICollectionViewCell {
 
-    static let cellID: String = "HealthCell"
+    static let cellID: String = "HealthFilledCell"
 
     private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = 14.0
+        imageView.clipsToBounds = true
         return imageView
     }()
 
@@ -38,14 +39,6 @@ class HealthCell: UICollectionViewCell {
         subTitle.font = .systemFont(ofSize: 14)
         subTitle.textColor = .mainGray
         return subTitle
-    }()
-
-    private var container: UIView = {
-        let container = UIView()
-        container.translatesAutoresizingMaskIntoConstraints = false
-        container.backgroundColor = .white
-        container.layer.cornerRadius = 8.0
-        return container
     }()
 
     var topDash: UIView = {
@@ -97,53 +90,37 @@ class HealthCell: UICollectionViewCell {
         contentView.addSubview(contentStack)
         stepStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         stepStack.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        stepStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        stepStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30).isActive = true
         contentStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         contentStack.leadingAnchor.constraint(equalTo: stepStack.trailingAnchor, constant: 20).isActive = true
         stepStack.addArrangedSubview(topDash)
         topDash.widthAnchor.constraint(equalToConstant: 1.0).isActive = true
-        topDash.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        topDash.heightAnchor.constraint(equalToConstant: 30).isActive = true
         stepStack.addArrangedSubview(imageView)
         imageView.widthAnchor.constraint(equalToConstant: 28.0).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 28.0).isActive = true
         stepStack.addArrangedSubview(bottomDash)
         bottomDash.widthAnchor.constraint(equalToConstant: 1.0).isActive = true
-        bottomDash.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        bottomDash.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
         contentStack.addArrangedSubview(title)
         contentStack.addArrangedSubview(subTitle)
     }
 
-    func configureCell(cellType: HealthType, index: Int, isEmpty: Bool) {
+    func configureCell(cellType: HealthType) {
         switch cellType {
         case .glucose:
-            imageView.image = UIImage(systemName: "heart.circle")
-            imageView.tintColor = .mainRed
+            imageView.image = #imageLiteral(resourceName: "icon-blood-glucose.pdf")
             title.text = "Blood Glucose"
-            if isEmpty {
-                subTitle.text = "Log reading"
-            } else {
-                subTitle.text = "08:50, 205.6 mg/dL, Fasting"
-            }
+            subTitle.text = "08:50, 205.6 mg/dL, Fasting"
         case .insulin:
-            imageView.image = UIImage(systemName: "heart.circle")
-            imageView.tintColor = .mainLightRed
+            imageView.image = #imageLiteral(resourceName: "icon-insulin.pdf")
             title.text = "Insulin"
-            if isEmpty {
-                subTitle.text = "Log reading"
-            } else {
-                subTitle.text = "08:50, 12u"
-            }
-        case .aspirin:
-            imageView.image = UIImage(systemName: "heart.circle")
-            imageView.tintColor = .mainLightBlue
-            title.text = "Aspirin 5mg"
+            subTitle.text = "08:50, 12u"
+        case .asprin:
+            imageView.image = #imageLiteral(resourceName: "icon-symptoms.pdf")
+            title.text = "Asprin 5mg"
             subTitle.text = "Due this afternoon"
-        case .add:
-            imageView.image = UIImage(systemName: "heart.circle")
-            imageView.tintColor = .mainGray
-            title.isHidden = true
-            subTitle.text = "Log something else"
         }
     }
 }
