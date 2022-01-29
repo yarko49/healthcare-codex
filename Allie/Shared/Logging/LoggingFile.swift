@@ -99,10 +99,10 @@ public struct FileLogHandler: LogHandler {
 			return
 		}
 		let prettyMetadata = metadata?.isEmpty ?? true
-			? self.prettyMetadata
+			? prettyMetadata
 			: prettify(self.metadata.merging(metadata!, uniquingKeysWith: { _, new in new }))
 
-		var stream = self.stream
+		var stream = stream
 		stream.write("\(timestamp()) \(level) \(label) :\(prettyMetadata.map { " \($0)" } ?? "") \(message)\n")
 	}
 

@@ -43,7 +43,7 @@ public class CustomYAxisRenderer: YAxisRenderer {
 		if yAxis.limitLines.count > 1 {
 			let limitPositions = transformedLimitPositions()
 
-			let viewPortHandler = self.viewPortHandler
+			let viewPortHandler = viewPortHandler
 
 			var width = viewPortHandler.contentBottom - viewPortHandler.contentTop
 			if limitPositions.count > 1 {

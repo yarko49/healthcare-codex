@@ -37,6 +37,20 @@ extension CareManager {
 		return updatePatient
 	}
 
+	func loadPatient() async throws -> OCKPatient {
+		let patients = try await store.fetchPatients(query: OCKPatientQuery(for: Date()))
+		let sorted = patients.sorted { lhs, rhs in
+			guard let ldate = lhs.updatedDate, let rdate = rhs.updatedDate else {
+				return false
+			}
+			return ldate < rdate
+		}
+		guard let lastItem = sorted.last else {
+			throw OCKStoreError.fetchFailed(reason: "No patients in the store")
+		}
+		return lastItem
+	}
+
 	func loadPatient(completion: OCKResultClosure<OCKPatient>?) {
 		store.fetchPatients { result in
 			switch result {
@@ -58,48 +72,18 @@ extension CareManager {
 		}
 	}
 
-	func findPatient(identifier: String) -> Future<OCKPatient, Error> {
-		Future { [weak self] promise in
-			self?.store.fetchPatient(withID: identifier, callbackQueue: .main) { result in
-				switch result {
-				case .failure(let error):
-					promise(.failure(error))
-				case .success(let anyPatient):
-					let patient = anyPatient as OCKPatient
-					promise(.success(patient))
-				}
-			}
-		}
+	func findPatient(identifier: String) async throws -> OCKPatient {
+		try await store.fetchPatient(withID: identifier)
 	}
 
-	func findPatient(identifier: String, completion: OCKResultClosure<OCKPatient>?) {
-		store.fetchPatient(withID: identifier, callbackQueue: .main) { result in
-			switch result {
-			case .failure(let error):
-				completion?(.failure(error))
-			case .success(let patient):
-				let ockPatient = patient as OCKPatient
-				completion?(.success(ockPatient))
-			}
+	func findOrCreate(user: RemoteUser) async throws -> OCKPatient {
+		do {
+			let patient = try await findPatient(identifier: user.uid)
+			return patient
+		} catch {
+			let patient = try OCKPatient(remoteUser: user)
+			return try await store.addPatient(patient)
 		}
-	}
-
-	func findOrCreate(user: RemoteUser, completion: OCKResultClosure<OCKPatient>?) {
-		findPatient(identifier: user.uid)
-			.sink { [weak self] completionResult in
-				switch completionResult {
-				case .failure:
-					guard let patient = OCKPatient(user: user) else {
-						completion?(.failure(.addFailed(reason: "Invalid Input")))
-						return
-					}
-					self?.store.addPatient(patient, completion: completion)
-				case .finished:
-					break
-				}
-			} receiveValue: { patient in
-				completion?(.success(patient))
-			}.store(in: &cancellables)
 	}
 
 	func process(patient: OCKPatient, completion: OCKResultClosure<OCKPatient>?) {

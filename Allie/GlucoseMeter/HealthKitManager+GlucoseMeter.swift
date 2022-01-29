@@ -5,6 +5,8 @@
 //  Created by Waqar Malik on 7/27/21.
 //
 
+import AscensiaKit
+import BluetoothService
 import Combine
 import CoreBluetooth
 import Foundation
@@ -18,7 +20,7 @@ let BGMMetadataKeyDeviceId = "BGMDeviceId"
 let BGMMetadataKeyMeasurementRecord = "BMGMeasurementRecord"
 let BGMMetadataKeyContextRecord = "BGMContextRecord"
 
-extension BGMDataRecord {
+extension AKBloodGlucoseRecord {
 	var metadata: [String: Any] {
 		var metadata: [String: Any] = [HKMetadataKeyTimeZone: timeZone.identifier,
 		                               BGMMetadataKeySequenceNumber: NSNumber(value: sequence),
@@ -53,15 +55,15 @@ extension BGMDataRecord {
 }
 
 extension HealthKitManager {
-	func save(readings: [Int: BGMDataReading], peripheral: CBPeripheral) -> AnyPublisher<[HKSample], Error> {
-		let records: [Int: BGMDataRecord] = readings.mapValues { reading in
+	func save(readings: [Int: AKBloodGlucoseReading], peripheral: Peripheral) -> AnyPublisher<[HKSample], Error> {
+		let records: [Int: AKBloodGlucoseRecord] = readings.mapValues { reading in
 			ALog.info("\(reading.measurement) \(reading.context)")
-			return BGMDataRecord(reading: reading)
+			return AKBloodGlucoseRecord(reading: reading)
 		}
 		return save(records: records, peripheral: peripheral)
 	}
 
-	func save(records: [Int: BGMDataRecord], peripheral: CBPeripheral) -> AnyPublisher<[HKSample], Error> {
+	func save(records: [Int: AKBloodGlucoseRecord], peripheral: Peripheral) -> AnyPublisher<[HKSample], Error> {
 		Future { [weak self] promise in
 			guard let strongSelf = self else {
 				promise(.failure(AllieError.invalid("Self does not exist")))
@@ -73,7 +75,7 @@ extension HealthKitManager {
 				return
 			}
 
-			let recordsToAdd: [Int: BGMDataRecord] = records.filter { (key: Int, _: BGMDataRecord) in
+			let recordsToAdd: [Int: AKBloodGlucoseRecord] = records.filter { (key: Int, _: AKBloodGlucoseRecord) in
 				!strongSelf.sequenceNumbers.contains(number: key, forDevice: name)
 			}
 
@@ -109,12 +111,53 @@ extension HealthKitManager {
 		}.eraseToAnyPublisher()
 	}
 
-	func maxSequenceNumber(deviceId: String) -> AnyPublisher<Int, Never> {
-		Future { [weak self] promise in
-			self?.maxSequenceNumber(deviceId: deviceId) { sequnceNumber in
-				promise(.success(sequnceNumber))
+	func save(readings: [Int: AKBloodGlucoseReading], peripheral: Peripheral) async throws -> [HKSample] {
+		let records: [Int: AKBloodGlucoseRecord] = readings.mapValues { reading in
+			ALog.info("\(reading.measurement) \(reading.context)")
+			return AKBloodGlucoseRecord(reading: reading)
+		}
+		return try await save(records: records, peripheral: peripheral)
+	}
+
+	func save(records: [Int: AKBloodGlucoseRecord], peripheral: Peripheral) async throws -> [HKSample] {
+		guard let name = peripheral.name else {
+			throw AllieError.missing("device name")
+		}
+
+		let recordsToAdd: [Int: AKBloodGlucoseRecord] = records.filter { (key: Int, _: AKBloodGlucoseRecord) in
+			!sequenceNumbers.contains(number: key, forDevice: name)
+		}
+
+		guard !recordsToAdd.isEmpty else {
+			return []
+		}
+
+		let samples: [Int: HKQuantitySample] = recordsToAdd.mapValues { record in
+			record.quantitySample
+		}
+
+		guard !samples.isEmpty else {
+			return []
+		}
+
+		let values = Array(samples.values)
+			.sorted { lhs, rhs in
+				lhs.endDate < rhs.endDate
 			}
-		}.eraseToAnyPublisher()
+
+		try await healthStore.save(values)
+		let keys: Set<Int> = Set(samples.keys)
+		sequenceNumbers.insert(values: keys, forDevice: name)
+		NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
+		return values
+	}
+
+	func fetchAllSequenceNumbers() async -> BGMSequenceNumbers<Int> {
+		await withCheckedContinuation { [unowned self] checkedContinuation in
+			fetchAllSequenceNumbers { result in
+				checkedContinuation.resume(returning: result)
+			}
+		}
 	}
 
 	func fetchAllSequenceNumbers(completion: @escaping (BGMSequenceNumbers<Int>) -> Void) {
@@ -136,6 +179,27 @@ extension HealthKitManager {
 			completion(sequenceNumbers)
 		}
 		healthStore.execute(query)
+	}
+
+	func fetchSequenceNumbers(deviceId: String) async -> Set<Int> {
+		await withCheckedContinuation { [unowned self] checkedContinuation in
+			self.fetchSequenceNumbers(deviceId: deviceId) { sequenceNumbers in
+				checkedContinuation.resume(returning: sequenceNumbers)
+			}
+		}
+	}
+
+	func maxSequenceNumber(deviceId: String) async -> Int {
+		let sequenceNumbers = await fetchSequenceNumbers(deviceId: deviceId)
+		return sequenceNumbers.max() ?? 0
+	}
+
+	func maxSequenceNumber(deviceId: String) -> AnyPublisher<Int, Never> {
+		Future { [weak self] promise in
+			self?.maxSequenceNumber(deviceId: deviceId) { sequnceNumber in
+				promise(.success(sequnceNumber))
+			}
+		}.eraseToAnyPublisher()
 	}
 
 	func fetchSequenceNumbers(deviceId: String, completion: @escaping (Set<Int>) -> Void) {

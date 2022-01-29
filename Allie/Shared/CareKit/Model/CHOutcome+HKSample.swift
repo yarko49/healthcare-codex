@@ -37,7 +37,13 @@ extension CHOutcome {
 			for sample in samples {
 				let quantity = sample.quantity
 				if var value = CHOutcomeValue(quantity: quantity, linkage: linkage) {
-					value.kind = sample.quantityType.identifier
+					if sample.quantityType.identifier == HKQuantityTypeIdentifier.bloodPressureSystolic.rawValue {
+						value.kind = "systolic"
+					} else if sample.quantityType.identifier == HKQuantityTypeIdentifier.bloodPressureDiastolic.rawValue {
+						value.kind = "diastolic"
+					} else {
+						value.kind = sample.quantityType.identifier
+					}
 					value.index = index
 					value.createdDate = sample.startDate
 					index += 1

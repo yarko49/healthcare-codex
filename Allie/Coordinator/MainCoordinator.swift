@@ -4,6 +4,8 @@
 //
 
 import CareKitStore
+import CodexFoundation
+import CodexModel
 import Combine
 import CoreData
 import Firebase
@@ -96,7 +98,7 @@ class MainCoordinator: BaseCoordinator {
 			}.store(in: &cancellables)
 	}
 
-	func showMainApp(organizations: CHOrganizations) {
+	func showMainApp(organizations: CMOrganizations) {
 		removeCoordinator(ofType: .application)
 		let appCoordinator = AppCoordinator(parent: self, organizations: organizations)
 		addChild(coordinator: appCoordinator)
@@ -105,10 +107,10 @@ class MainCoordinator: BaseCoordinator {
 		transitionOptions.direction = .fade
 		window.setRootViewController(rootViewController, options: transitionOptions)
 		AppDelegate.registerServices(patient: careManager.patient)
-        let count = UserDefaults.chatNotificationsCount
-        updateBadges(count: count)
-        let zendCount = UserDefaults.zendeskChatNotificationCount
-        updateZendeskBadges(count: zendCount)
+		let count = UserDefaults.chatNotificationsCount
+		updateBadges(count: count)
+		let zendCount = UserDefaults.zendeskChatNotificationCount
+		updateZendeskBadges(count: zendCount)
 		#if !targetEnvironment(simulator)
 		AppDelegate.appDelegate?.registerForPushNotifications(application: UIApplication.shared)
 		#endif

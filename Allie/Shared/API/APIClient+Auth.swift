@@ -11,6 +11,17 @@ import FirebaseAuth
 import Foundation
 
 extension APIClient {
+	func firebaseAuthenticationToken() async throws -> AuthenticationToken {
+		guard let currentUser = Auth.auth().currentUser else {
+			throw AllieError.missing("User not logged in")
+		}
+		let result = try await currentUser.getIDTokenResult(forcingRefresh: false)
+		guard let token = AuthenticationToken(result: result) else {
+			throw URLError(.userCancelledAuthentication)
+		}
+		return token
+	}
+
 	func firebaseAuthenticationToken() -> Future<AuthenticationToken, Error> {
 		Future { promise in
 			guard let currentUser = Auth.auth().currentUser else {

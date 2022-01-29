@@ -29,7 +29,7 @@ enum HealthKitDataType: String, CaseIterable, Hashable {
 		case .stepCount:
 			return NSLocalizedString("STEP_COUNT", comment: "Step Count")
 		case .bloodPressure:
-			return NSLocalizedString("BLOOD_PRESSURE", comment: "BLOOD_PRESSURE")
+			return NSLocalizedString("BLOOD_PRESSURE", comment: "Blood Pressure")
 		case .bloodGlucose:
 			return NSLocalizedString("BLOOD_GLUCOSE", comment: "Blood Glucose")
 		case .insulinDelivery:

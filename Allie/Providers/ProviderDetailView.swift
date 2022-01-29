@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 6/26/21.
 //
 
+import CodexModel
 import JGProgressHUD_SwiftUI
 import SDWebImageSwiftUI
 import SwiftUI
@@ -72,7 +73,7 @@ struct ProviderDetailViewBody: View {
 
 struct ProviderDetailView_Previews: PreviewProvider {
 	static var previews: some View {
-		let viewModel = ProviderDetailViewModel(organization: CHOrganization(id: "Demo Organization"))
+		let viewModel = ProviderDetailViewModel(organization: CMOrganization(id: "Demo Organization"))
 		return ProviderDetailView(viewModel: viewModel)
 	}
 }

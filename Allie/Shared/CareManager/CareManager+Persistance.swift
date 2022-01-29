@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 10/15/21.
 //
 
+import CodexFoundation
 import Foundation
 
 extension CareManager {
@@ -25,7 +26,7 @@ extension CareManager {
 		}
 		docmentsDirectory.appendPathComponent("CarePlanResponse.json")
 		let data = try Data(contentsOf: docmentsDirectory, options: .mappedIfSafe)
-		let carePlanResponse = try CHJSONDecoder().decode(CHCarePlanResponse.self, from: data)
+		let carePlanResponse = try CHFJSONDecoder().decode(CHCarePlanResponse.self, from: data)
 		return carePlanResponse
 	}
 

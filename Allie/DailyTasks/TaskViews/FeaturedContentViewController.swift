@@ -8,6 +8,7 @@
 import CareKit
 import CareKitStore
 import CareKitUI
+import CodexFoundation
 import JGProgressHUD
 import SDWebImage
 import UIKit

@@ -7,6 +7,8 @@
 
 import CareKit
 import CareKitStore
+import CodexFoundation
+import CodexModel
 import Combine
 import CoreData
 import HealthKit
@@ -257,7 +259,7 @@ extension CareManager {
 		return updateCarePlanResponse
 	}
 
-	func register(organization: CHOrganization) -> AnyPublisher<Bool, Never> {
+	func register(organization: CMOrganization) -> AnyPublisher<Bool, Never> {
 		networkAPI.registerOrganization(organization: organization)
 	}
 

@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 8/16/21.
 //
 
+import CodexFoundation
 import Foundation
 import KeychainAccess
 

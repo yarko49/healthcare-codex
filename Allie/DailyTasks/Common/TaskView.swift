@@ -88,7 +88,7 @@ class TaskView: OCKView, OCKTaskDisplayable {
 
 	override func styleDidChange() {
 		super.styleDidChange()
-		let style = self.style()
+		let style = style()
 		let cardBuilder = CardBuilder(cardView: self, contentView: contentView)
 		cardBuilder.enableCardStyling(true, style: style)
 		directionalLayoutMargins = style.dimension.directionalInsets1

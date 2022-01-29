@@ -5,7 +5,8 @@
 //  Created by Waqar Malik on 12/16/20.
 //
 
-import Firebase
+import CodexFoundation
+import CodexModel
 import Foundation
 import KeychainAccess
 import ModelsR4
@@ -27,8 +28,8 @@ enum APIRouter {
 	}
 
 	case organizations
-	case registerOrganization(CHOrganization)
-	case unregisterOrganization(CHOrganization)
+	case registerOrganization(CMOrganization)
+	case unregisterOrganization(CMOrganization)
 	case conversationsTokens
 	case postConversationsUsers(String, [String])
 	case getCarePlan(option: CarePlanResponseType)
@@ -41,8 +42,8 @@ enum APIRouter {
 	case getFeatureContent(carePlanId: String, taskId: String, asset: String)
 	case postNotificationToken(String)
 	case integrations
-	case postIntegration(CHCloudDevice)
-	case deleteIntegration(CHCloudDevice)
+	case postIntegration(CMCloudDevice)
+	case deleteIntegration(CMCloudDevice)
 
 	var method: Request.Method {
 		switch self {

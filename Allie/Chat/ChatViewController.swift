@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 4/14/21.
 //
 
+import CodexFoundation
 import Combine
 import InputBarAccessoryView
 import JGProgressHUD
@@ -23,10 +24,9 @@ class ChatViewController: MessagesViewController {
 	}()
 
 	private var cancellables: Set<AnyCancellable> = []
-	@Injected(\.careManager) var careManager: CareManager
 
 	var patient: CHPatient? {
-		careManager.patient
+		conversationManager.careManager.patient
 	}
 
 	private let hud: JGProgressHUD = {
@@ -112,8 +112,14 @@ class ChatViewController: MessagesViewController {
 		UIApplication.shared.applicationIconBadgeNumber = 0
 		UserDefaults.chatNotificationsCount = 0
 		AppDelegate.mainCoordinator?.updateBadges(count: 0)
-        AppDelegate.setAppIconBadge()
+		AppDelegate.setAppIconBadge()
 		messagesCollectionView.scrollToLastItem()
+		conversationManager.readMessagesQueue.isSuspended = false
+	}
+
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		conversationManager.readMessagesQueue.isSuspended = true
 	}
 
 	func configureMessageCollectionView() {
@@ -178,7 +184,7 @@ extension ChatViewController: ConversationMessagesDelegate {
 
 extension ChatViewController: MessagesDataSource {
 	func currentSender() -> SenderType {
-		careManager.patient ?? CHParticipant(name: "Patient")
+		conversationManager.patient ?? ChatParticipant(name: "Patient")
 	}
 
 	func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {

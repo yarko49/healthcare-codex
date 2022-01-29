@@ -8,6 +8,7 @@
 import CareKit
 import CareKitStore
 import CareKitUI
+import CodexFoundation
 import Combine
 import HealthKit
 import UIKit
@@ -94,64 +95,50 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 			return
 		}
 		let value = values.first
-		let viewController = GeneralizedLogTaskDetailViewController()
-		viewController.queryDate = eventQuery.dateInterval.start
-		viewController.anyTask = task
-		viewController.outcomeValues = values
+		let taskDetailViewController = GeneralizedLogTaskDetailViewController()
+		taskDetailViewController.queryDate = eventQuery.dateInterval.start
+		taskDetailViewController.anyTask = task
+		taskDetailViewController.outcomeValues = values
 		if let uuid = value?.healthKitUUID {
-			viewController.outcome = try? careManager.dbFindFirstOutcome(sampleId: uuid)
+			taskDetailViewController.outcome = try? careManager.dbFindFirstOutcome(sampleId: uuid)
 		}
-		viewController.modalPresentationStyle = .overFullScreen
+		taskDetailViewController.modalPresentationStyle = .overFullScreen
 
-		viewController.healthKitSampleHandler = { [weak viewController, weak self] newSample in
-			guard let strongSelf = self else {
+		taskDetailViewController.healthKitSampleHandler = { [weak taskDetailViewController, weak self] newSample in
+			guard let strongSelf = self, let viewController = taskDetailViewController else {
 				return
 			}
-			strongSelf.healthKitStore.save(sample: newSample, completion: { result in
-				switch result {
-				case .success:
-					if let outcomeValue = viewController?.outcomeValues.first {
-						strongSelf.controller.deleteOutcome(value: outcomeValue) { [weak self] result in
-							switch result {
-							case .success(let deletedSample):
-								let lastOutcomeUplaodDate = UserDefaults.standard[healthKitOutcomesUploadDate: task.healthKitLinkage.quantityIdentifier.rawValue]
-								if let carePlanId = task.carePlanId, newSample.startDate < lastOutcomeUplaodDate, let outcome = self?.careManager.fetchOutcome(sample: newSample, deletedSample: deletedSample, task: task, carePlanId: carePlanId) {
-									self?.careManager.upload(outcomes: [outcome]) { result in
-										if case .failure(let error) = result {
-											ALog.error("unable to upload outcome", error: error)
-										}
-									}
-								}
-							case .failure(let error):
-								ALog.error("Error deleteting data", error: error)
-							}
-						}
-					} else {
-						let lastOutcomeUploadDate = UserDefaults.standard[healthKitOutcomesUploadDate: task.healthKitLinkage.quantityIdentifier.rawValue]
-						if let carePlanId = task.carePlanId, newSample.startDate < lastOutcomeUploadDate, let outcome = strongSelf.careManager.fetchOutcome(sample: newSample, deletedSample: nil, task: task, carePlanId: carePlanId) {
-							strongSelf.careManager.upload(outcomes: [outcome]) { result in
-								if case .failure(let error) = result {
-									ALog.error("unable to upload outcome", error: error)
-								}
-							}
-						}
+			Task {
+				do {
+					_ = try await strongSelf.healthKitStore.save(sample: newSample)
+					var deletedSample: HKSample?
+					if let outcomeValue = viewController.outcomeValues.first {
+						deletedSample = try await strongSelf.controller.deleteOutcome(value: outcomeValue)
 					}
-					DispatchQueue.main.async {
-						viewController?.dismiss(animated: true, completion: nil)
+					let lastOutcomeUplaodDate = UserDefaults.standard[healthKitOutcomesUploadDate: task.healthKitLinkage.quantityIdentifier.rawValue]
+					if let carePlanId = task.carePlanId, newSample.startDate < lastOutcomeUplaodDate, let outcome = strongSelf.careManager.fetchOutcome(sample: newSample, deletedSample: deletedSample, task: task, carePlanId: carePlanId) {
+						_ = try await strongSelf.careManager.upload(outcomes: [outcome])
 					}
-				case .failure(let error):
+				} catch {
 					ALog.error("Unable to save sample", error: error)
 				}
-			})
+
+				DispatchQueue.main.async {
+					viewController.dismiss(animated: true, completion: nil)
+				}
+			}
 		}
 
-		viewController.deleteAction = { [weak self, weak viewController] in
-			guard let outcomeValue = viewController?.outcomeValues.first, let task = viewController?.healthKitTask else {
-				viewController?.dismiss(animated: true, completion: nil)
+		taskDetailViewController.deleteAction = { [weak self, weak taskDetailViewController] in
+			guard let strongSelf = self, let viewController = taskDetailViewController else {
+				return
+			}
+			guard let outcomeValue = viewController.outcomeValues.first, let task = viewController.healthKitTask else {
+				viewController.dismiss(animated: true, completion: nil)
 				return
 			}
 
-			self?.deleteOutcome(value: outcomeValue, task: task, completion: { result in
+			strongSelf.deleteOutcome(value: outcomeValue, task: task, completion: { result in
 				switch result {
 				case .success(let sample):
 					ALog.trace("\(sample.uuid) sample was deleted", metadata: nil)
@@ -159,16 +146,20 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 					ALog.error("Error deleteting data", error: error)
 				}
 				DispatchQueue.main.async {
-					viewController?.dismiss(animated: true, completion: nil)
+					viewController.dismiss(animated: true, completion: nil)
 				}
 			})
 		}
 
-		viewController.cancelAction = { [weak viewController] in
-			viewController?.dismiss(animated: true, completion: nil)
+		taskDetailViewController.cancelAction = { [weak taskDetailViewController] in
+			guard let viewController = taskDetailViewController else {
+				return
+			}
+
+			viewController.dismiss(animated: true, completion: nil)
 		}
 
-		tabBarController?.showDetailViewController(viewController, sender: self)
+		tabBarController?.showDetailViewController(taskDetailViewController, sender: self)
 	}
 
 	func deleteOutcome(value: OCKOutcomeValue, task: OCKHealthKitTask, completion: @escaping AllieResultCompletion<CHOutcome>) {
@@ -201,5 +192,22 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 				completion(.failure(error))
 			}
 		}
+	}
+
+	func deleteOutcome(value: OCKOutcomeValue, task: OCKHealthKitTask) async throws -> CHOutcome {
+		let sample = try await controller.deleteOutcome(value: value)
+		ALog.trace("Did delete sample \(sample.uuid)", metadata: nil)
+		var outcome: CHOutcome?
+		if let carePlanId = task.carePlanId {
+			outcome = careManager.fetchOutcome(sample: sample, deletedSample: sample, task: task, carePlanId: carePlanId)
+		} else {
+			outcome = try careManager.dbFindFirstOutcome(sample: sample)
+		}
+		guard var existingOutcome = outcome else {
+			throw AllieError.missing("\(sample.uuid.uuidString)")
+		}
+		existingOutcome.deletedDate = Date()
+		_ = try await careManager.upload(outcomes: [existingOutcome])
+		return existingOutcome
 	}
 }

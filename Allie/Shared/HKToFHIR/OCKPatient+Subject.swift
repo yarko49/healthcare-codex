@@ -6,7 +6,9 @@
 //
 
 import CareKitStore
+import CodexModel
 import Foundation
+import HKToFHIR
 import ModelsR4
 
 extension OCKPatient {

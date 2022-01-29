@@ -5,6 +5,8 @@
 //  Created by Waqar Malik on 6/17/21.
 //
 
+import CodexFoundation
+import CodexModel
 import Combine
 import MessageKit
 import OrderedCollections
@@ -33,8 +35,22 @@ class ConversationsManager: NSObject, ObservableObject {
 
 	private(set) var cancellables: Set<AnyCancellable> = []
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
+	@Injected(\.careManager) var careManager: CareManager
+
+	var patient: CHPatient? {
+		careManager.patient
+	}
 
 	weak var messagesDelegate: ConversationMessagesDelegate?
+
+	private(set) var readMessagesQueue: OperationQueue = {
+		let queue = OperationQueue()
+		queue.name = "com.codexhealth.allie.readMessages"
+		queue.isSuspended = true
+		queue.maxConcurrentOperationCount = 1
+		return queue
+	}()
+
 	@Published private(set) var client: TwilioConversationsClient? {
 		didSet {
 			client?.delegate = self
@@ -50,8 +66,8 @@ class ConversationsManager: NSObject, ObservableObject {
 		}
 	}
 
-	@Published private(set) var codexUsers: [String: CHConversationsUser] = [:]
-	private var conversationTokens: CHConversationsTokens?
+	@Published private(set) var codexUsers: [String: CMConversationsUser] = [:]
+	private var conversationTokens: CMConversationsTokens?
 	private var foregroundNotification: AnyCancellable?
 
 	func configureNotifications() {
@@ -79,7 +95,7 @@ class ConversationsManager: NSObject, ObservableObject {
 			}.store(in: &cancellables)
 	}
 
-	func updateToken(token: CHConversationsTokens.Token?, completion: AllieResultCompletion<Bool>?) {
+	func updateToken(token: CMConversationsTokens.Token?, completion: AllieResultCompletion<Bool>?) {
 		guard let token = token else {
 			completion?(.failure(AllieError.missing("Unable to update token, missing token")))
 			return
@@ -175,7 +191,7 @@ class ConversationsManager: NSObject, ObservableObject {
 			}.store(in: &cancellables)
 	}
 
-	func login(token: CHConversationsTokens.Token?, completion: AllieResultCompletion<Bool>?) {
+	func login(token: CMConversationsTokens.Token?, completion: AllieResultCompletion<Bool>?) {
 		guard let accessToken = token?.accessToken else {
 			completion?(.failure(AllieError.missing("Unable to login, missing token")))
 			return
@@ -331,7 +347,18 @@ extension ConversationsManager {
 			return nil
 		}
 		let message = messages[conversation.id]?[indexPath.section]
-		if let messageIndex = message?.index {
+		sendReadReceiptIfNeeded(for: conversation, message: message)
+		return message
+	}
+
+	func sendReadReceiptIfNeeded(for conversation: TCHConversation?, message: TCHMessage?) {
+		guard let conversation = conversation, let message = message else {
+			return
+		}
+		guard let messageIndex = message.index, message.sender.senderId != patient?.id else {
+			return
+		}
+		readMessagesQueue.addOperation {
 			conversation.advanceLastReadMessageIndex(messageIndex) { result, count in
 				if let error = result.error {
 					ALog.error("Unable to advance last read message index \(messageIndex)", error: error)
@@ -340,7 +367,6 @@ extension ConversationsManager {
 				}
 			}
 		}
-		return message
 	}
 
 	func messages(for conversation: TCHConversation?) -> OrderedSet<TCHMessage>? {
