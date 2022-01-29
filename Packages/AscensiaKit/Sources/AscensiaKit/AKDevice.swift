@@ -55,9 +55,9 @@ public class AKDevice: Peripheral {
 			return
 		}
 
-		var command = AKCommand.allRecords
+		var command = GATTRACPCommands.allRecords
 		if let startSequenceNumber = startSequenceNumber, startSequenceNumber > 0 {
-			command = AKCommand.recordStart(sequenceNumber: startSequenceNumber)
+			command = GATTRACPCommands.recordStart(sequenceNumber: startSequenceNumber)
 		}
 		writeMessage(characteristic: racpCharacteristic, message: command, isBatched: true)
 	}
@@ -66,7 +66,7 @@ public class AKDevice: Peripheral {
 		guard let racpCharacteristic = racpCharacteristic else {
 			return
 		}
-		writeMessage(characteristic: racpCharacteristic, message: AKCommand.numberOfRecords, isBatched: true)
+		writeMessage(characteristic: racpCharacteristic, message: GATTRACPCommands.numberOfRecords, isBatched: true)
 	}
 
 	override public func reset() {

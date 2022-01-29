@@ -8,7 +8,7 @@
 import Foundation
 import os.log
 
-public enum AKCommand {
+public enum GATTRACPCommands {
 	public static let allRecords: [UInt8] = [1, 1] // 1,1 get all records
 	public static let numberOfRecords: [UInt8] = [4, 1] // 4,1 get number of records
 	public static let lastRecord: [UInt8] = [1, 6] // 1,6 get last record received
