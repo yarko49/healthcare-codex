@@ -21,34 +21,29 @@ class BPMPairingViewController: PairingViewController {
 	var devices: [UUID: OHQDevice] = [:]
 
 	override var dicoveryServices: Set<CBUUID> {
-		[GATTDeviceService.bloodPressure.id]
+		[GATTDeviceService.bloodPressure.id, GATTDeviceService.heartRate.id, GATTDeviceService.deviceInformation.id]
 	}
 
 	override var measurementCharacteristics: Set<CBUUID> {
 		Set(GATTDeviceCharacteristic.bloodPressureMeasurements.map(\.uuid))
 	}
 
-	override var notifyCharacteristics: Set<CBUUID> {
-		[GATTDeviceCharacteristic.bloodPressureMeasurement.uuid]
-	}
-
-	override func bluetoothService(_ service: BluetoothService, didDiscover peripheral: Peripheral) {
-		guard bluetoothDevices[peripheral.identifier] == nil else {
-			return
-		}
-		peripheral.delegate = self
-		bluetoothDevices[peripheral.identifier] = peripheral
-		DispatchQueue.main.async { [weak self] in
-			self?.scroll(toPage: 2, direction: .forward, animated: true) { finished in
-				ALog.info("Bluetooth Finished Scrolling to pairing \(finished)")
-				ALog.info("Bluetooth Connecting to")
-				service.connect(peripheral: peripheral)
-			}
-		}
-	}
-
 	override func showSuccess() {
 		super.showSuccess()
 		NotificationCenter.default.post(name: .didPairBloodPressureMonitor, object: nil)
+	}
+
+	override func peripheral(_ peripheral: Peripheral, readyWith characteristic: CBCharacteristic) {
+		if characteristic.uuid == GATTDeviceCharacteristic.bloodPressureFeature.uuid {
+			peripheral.read(characteristic: characteristic, isBatched: false)
+		}
+	}
+
+	override func updatePatient(peripheral: Peripheral) {
+		if var patient = careManager.patient, let pairedPrepherial = try? CHPeripheral(device: peripheral, type: GATTDeviceService.bloodPressure.identifier) {
+			patient.peripherals.insert(pairedPrepherial)
+			careManager.patient = patient
+			careManager.upload(patient: patient)
+		}
 	}
 }

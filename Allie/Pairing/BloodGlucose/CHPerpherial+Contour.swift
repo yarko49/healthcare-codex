@@ -10,10 +10,13 @@ import BluetoothService
 import Foundation
 
 extension CHPeripheral {
-	init(device: Peripheral) {
-		self.id = device.name ?? GATTDeviceService.bloodGlucose.hexString
+	init(device: Peripheral, type: String) throws {
+		guard let name = device.name else {
+			throw AllieError.missing("name")
+		}
+		self.id = name
 		self.localId = device.identifier.uuidString
-		self.name = device.name ?? GATTDeviceService.bloodGlucose.displayName
-		self.type = GATTDeviceService.bloodGlucose.identifier
+		self.name = name
+		self.type = type
 	}
 }

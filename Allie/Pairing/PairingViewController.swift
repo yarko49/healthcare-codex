@@ -32,10 +32,6 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 		[]
 	}
 
-	var notifyCharacteristics: Set<CBUUID> {
-		[]
-	}
-
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .allieWhite
@@ -173,16 +169,17 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 			}
 			ALog.info("Starting BLE scan\n")
 		} else {
-			ALog.error("Bluetooth State \(state)")
+			ALog.error("Bluetooth State \(state.rawValue)")
 		}
 	}
 
-	func bluetoothService(_ service: BluetoothService, didDiscover peripheral: Peripheral) {
+	func bluetoothService(_ service: BluetoothService, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
 		guard bluetoothDevices[peripheral.identifier] == nil else {
 			return
 		}
-		peripheral.delegate = self
-		bluetoothDevices[peripheral.identifier] = peripheral
+		let device = Peripheral(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
+		device.delegate = self
+		bluetoothDevices[device.identifier] = device
 		DispatchQueue.main.async { [weak self] in
 			self?.scroll(toPage: 2, direction: .forward, animated: true) { finished in
 				ALog.info("Bluetooth Finished Scrolling to pairing \(finished)")
@@ -192,22 +189,22 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 		}
 	}
 
-	func bluetoothService(_ service: BluetoothService, didConnect peripheral: Peripheral) {
-		ALog.info("\(#function) \(peripheral.peripheral)")
+	func bluetoothService(_ service: BluetoothService, didConnect peripheral: CBPeripheral) {
+		ALog.info("\(#function) \(peripheral)")
 		guard let deviceManager = bluetoothDevices[peripheral.identifier] else {
 			return
 		}
 		if !measurementCharacteristics.isEmpty, !dicoveryServices.isEmpty {
-			deviceManager.discover(services: dicoveryServices, measurementCharacteristics: measurementCharacteristics, notifyCharacteristics: notifyCharacteristics)
+			deviceManager.discover(services: dicoveryServices, measurementCharacteristics: measurementCharacteristics)
 		}
 	}
 
-	func bluetoothService(_ service: BluetoothService, didFailToConnect peripheral: Peripheral, error: Error?) {
+	func bluetoothService(_ service: BluetoothService, didFailToConnect peripheral: CBPeripheral, error: Error?) {
 		bluetoothDevices.removeValue(forKey: peripheral.identifier)
 		service.startMonitoring()
 	}
 
-	func bluetoothService(_ service: BluetoothService, didDisconnect peripheral: Peripheral, error: Error?) {
+	func bluetoothService(_ service: BluetoothService, didDisconnect peripheral: CBPeripheral, error: Error?) {
 		bluetoothDevices.removeValue(forKey: peripheral.identifier)
 		service.startMonitoring()
 	}
@@ -229,6 +226,14 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 	}
 
 	func peripheral(_ peripheral: Peripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+		processValue(peripheral: peripheral, characteristic: characteristic, error: error)
+	}
+
+	func peripheral(_ peripheral: Peripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+		processValue(peripheral: peripheral, characteristic: characteristic, error: error)
+	}
+
+	func processValue(peripheral: Peripheral, characteristic: CBCharacteristic, error: Error?) {
 		if let error = error {
 			ALog.error("pairing device", error: error)
 			let nsError = error as NSError
@@ -240,12 +245,6 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 				}
 			}
 		} else {
-			if var patient = careManager.patient {
-				let pairedPrepherial = CHPeripheral(device: peripheral)
-				patient.peripherals.insert(pairedPrepherial)
-				careManager.patient = patient
-				careManager.upload(patient: patient)
-			}
 			bluetoothService.removeDelegate(self)
 			bluetoothService.stopMonitoring()
 			DispatchQueue.main.async { [weak self] in
@@ -253,4 +252,6 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 			}
 		}
 	}
+
+	func updatePatient(peripheral: Peripheral) {}
 }

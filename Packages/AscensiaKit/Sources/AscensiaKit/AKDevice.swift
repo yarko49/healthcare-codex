@@ -95,10 +95,7 @@ public class AKDevice: Peripheral {
 				peripheral.setNotifyValue(true, for: characteristic)
 			}
 
-			if notifyCharacteristics.contains(characteristic.uuid) {
-				delegate?.peripheral(self, readyWith: characteristic)
-			}
-
+			delegate?.peripheral(self, readyWith: characteristic)
 			if characteristic.uuid == GATTDeviceCharacteristic.recordAccessControlPoint.uuid {
 				racpCharacteristic = characteristic
 			}

@@ -25,15 +25,11 @@ class BGMPairingViewController: PairingViewController {
 		Set(GATTDeviceCharacteristic.bloodGlucoseMeasurements.map(\.uuid))
 	}
 
-	override var notifyCharacteristics: Set<CBUUID> {
-		[GATTDeviceCharacteristic.recordAccessControlPoint.uuid]
-	}
-
-	override func bluetoothService(_ service: BluetoothService, didDiscover peripheral: Peripheral) {
+	override func bluetoothService(_ service: BluetoothService, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
 		guard bluetoothDevices[peripheral.identifier] == nil else {
 			return
 		}
-		let device = AKDevice(peripheral: peripheral)
+		let device = AKDevice(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
 		device.delegate = self
 		bluetoothDevices[device.identifier] = device
 		DispatchQueue.main.async { [weak self] in
@@ -45,8 +41,22 @@ class BGMPairingViewController: PairingViewController {
 		}
 	}
 
+	override func peripheral(_ peripheral: Peripheral, readyWith characteristic: CBCharacteristic) {
+		if characteristic.uuid == GATTDeviceCharacteristic.recordAccessControlPoint.uuid {
+			peripheral.writeMessage(characteristic: characteristic, message: GATTRACPCommands.numberOfRecords, isBatched: true)
+		}
+	}
+
 	override func showSuccess() {
 		super.showSuccess()
 		NotificationCenter.default.post(name: .didPairBloodGlucoseMonitor, object: nil)
+	}
+
+	override func updatePatient(peripheral: Peripheral) {
+		if var patient = careManager.patient, let pairedPrepherial = try? CHPeripheral(device: peripheral, type: GATTDeviceService.bloodGlucose.identifier) {
+			patient.peripherals.insert(pairedPrepherial)
+			careManager.patient = patient
+			careManager.upload(patient: patient)
+		}
 	}
 }

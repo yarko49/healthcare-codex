@@ -22,18 +22,19 @@ private extension OSLog {
 public protocol PeripheralDelegate: AnyObject {
 	func peripheral(_ peripheral: Peripheral, readyWith characteristic: CBCharacteristic)
 	func peripheral(_ peripheral: Peripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?)
+	func peripheral(_ peripheral: Peripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?)
 }
 
 public extension PeripheralDelegate {
 	func peripheral(_ device: Peripheral, readyWith characteristic: CBCharacteristic) {}
 	func peripheral(_ device: Peripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {}
+	func peripheral(_ peripheral: Peripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {}
 }
 
 open class Peripheral: NSObject, ObservableObject {
 	public let peripheral: CBPeripheral
 	public let advertisementData: AdvertisementData
 	public let rssi: NSNumber
-	public private(set) var notifyCharacteristics: Set<CBUUID> = []
 	public private(set) var measurementCharacteristics: Set<CBUUID> = []
 	open weak var delegate: PeripheralDelegate?
 
@@ -70,9 +71,8 @@ open class Peripheral: NSObject, ObservableObject {
 		state == .connected
 	}
 
-	public func discover(services: Set<CBUUID>, measurementCharacteristics: Set<CBUUID>, notifyCharacteristics: Set<CBUUID>) {
+	public func discover(services: Set<CBUUID>, measurementCharacteristics: Set<CBUUID>) {
 		self.measurementCharacteristics.formUnion(measurementCharacteristics)
-		self.notifyCharacteristics.formUnion(notifyCharacteristics)
 		peripheral.discoverServices(Array(services))
 	}
 
@@ -81,6 +81,10 @@ open class Peripheral: NSObject, ObservableObject {
 		os_log(.info, log: .peripheral, "%@ %@", #function, message)
 		let data = Data(bytes: message, count: message.count)
 		peripheral.writeValue(data, for: characteristic, type: .withResponse)
+	}
+
+	open func read(characteristic: CBCharacteristic, isBatched: Bool) {
+		peripheral.readValue(for: characteristic)
 	}
 
 	open func reset() {}
@@ -128,7 +132,7 @@ extension Peripheral: CBPeripheralDelegate {
 			return
 		}
 
-		os_log(.info, log: .peripheral, "%@ %@", #function, service)
+		os_log(.info, log: .peripheral, "%@: service = %@", #function, service)
 		guard let characteristics = service.characteristics else {
 			return
 		}
@@ -138,9 +142,8 @@ extension Peripheral: CBPeripheralDelegate {
 				peripheral.setNotifyValue(true, for: characteristic)
 			}
 
-			if notifyCharacteristics.contains(characteristic.uuid) {
-				delegate?.peripheral(self, readyWith: characteristic)
-			}
+			os_log(.info, log: .peripheral, "%@: characteristic = %@", #function, characteristic)
+			delegate?.peripheral(self, readyWith: characteristic)
 		}
 	}
 
@@ -152,6 +155,7 @@ extension Peripheral: CBPeripheralDelegate {
 	// For notified characteristics, here's the triggered method when a value comes in from the Peripheral
 	open func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
 		os_log(.info, log: .peripheral, "%@ %@", #function, characteristic.uuid)
+		delegate?.peripheral(self, didUpdateValueFor: characteristic, error: error)
 		if measurementCharacteristics.contains(characteristic.uuid) {
 			processMeasurement(characteristic: characteristic, for: peripheral)
 		}

@@ -188,7 +188,7 @@ class ConnectedDevicesViewController: UITableViewController {
 			cell.subtitleLabel.text = peripheral?.name
 			cell.statusLabel.text = NSLocalizedString("STATUS_UNKNOWN", comment: "Unknown")
 			if let device = peripheral {
-				let isConnected = bluetoothService.isConnected(uuidString: device.localId ?? device.id)
+				let isConnected = false
 				cell.statusLabel.text = isConnected ? NSLocalizedString("STATUS_CONNECTED", comment: "Connected") : NSLocalizedString("STATUS_NOT_CONNECTED", comment: "Not connected")
 			}
 		} else {

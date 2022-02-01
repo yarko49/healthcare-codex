@@ -32,9 +32,9 @@ class AllReadingsViewModel: ObservableObject {
 }
 
 extension AllReadingsViewModel: BluetoothServiceDelegate {
-	func bluetoothService(_ service: BluetoothService, didDiscover peripheral: Peripheral) {
+	func bluetoothService(_ service: BluetoothService, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
 		if let currentDevice = careManager.patient?.bloodGlucoseMonitor, peripheral.name == currentDevice.id {
-			let device = AKDevice(peripheral: peripheral)
+			let device = AKDevice(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
 			device.delegate = self
 			device.dataSource = self
 			bluetoothDevices[device.identifier] = device
@@ -43,22 +43,22 @@ extension AllReadingsViewModel: BluetoothServiceDelegate {
 		}
 	}
 
-	func bluetoothService(_ service: BluetoothService, didConnect peripheral: Peripheral) {
-		ALog.info("\(#function) \(peripheral.peripheral)")
+	func bluetoothService(_ service: BluetoothService, didConnect peripheral: CBPeripheral) {
+		ALog.info("\(#function) \(peripheral)")
 		guard let deviceManager = bluetoothDevices[peripheral.identifier] else {
 			return
 		}
 		let services = Set([GATTDeviceService.bloodGlucose.uuid])
 		let characteristics = Set(GATTDeviceCharacteristic.bloodGlucoseMeasurements.map(\.uuid))
-		deviceManager.discover(services: services, measurementCharacteristics: characteristics, notifyCharacteristics: [GATTDeviceCharacteristic.recordAccessControlPoint.uuid])
+		deviceManager.discover(services: services, measurementCharacteristics: characteristics)
 	}
 
-	func bluetoothService(_ service: BluetoothService, didFailToConnect peripheral: Peripheral, error: Error?) {
+	func bluetoothService(_ service: BluetoothService, didFailToConnect peripheral: CBPeripheral, error: Error?) {
 		bluetoothDevices.removeValue(forKey: peripheral.identifier)
 		service.startMonitoring()
 	}
 
-	func bluetoothService(_ service: BluetoothService, didDisconnect peripheral: Peripheral, error: Error?) {
+	func bluetoothService(_ service: BluetoothService, didDisconnect peripheral: CBPeripheral, error: Error?) {
 		bluetoothDevices.removeValue(forKey: peripheral.identifier)
 		service.startMonitoring()
 	}

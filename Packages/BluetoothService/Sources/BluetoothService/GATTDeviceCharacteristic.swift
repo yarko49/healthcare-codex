@@ -89,6 +89,6 @@ public extension GATTDeviceCharacteristic {
 	}
 
 	static var bloodPressureMeasurements: Set<GATTDeviceCharacteristic> {
-		[.bloodPressureMeasurement]
+		[.bloodPressureFeature, .bloodPressureMeasurement, .manufacturerDeviceName, .heartRateMeasurement, .heartRateControlPoint]
 	}
 }
