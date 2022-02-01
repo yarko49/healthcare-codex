@@ -21,9 +21,11 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
     }
 
 	private(set) lazy var hud: JGProgressHUD = {
-		let view = JGProgressHUD(style: .dark)
-		view.vibrancyEnabled = true
-		return view
+        let view = JGProgressHUD(style: .dark)
+        view.vibrancyEnabled = true
+        view.textLabel.text = NSLocalizedString("LOADING", comment: "Loading")
+        view.detailTextLabel.text = NSLocalizedString("YOUR_CAREPLAN", comment: "Your Care Plan")
+        return view
 	}()
 
     var navigationView: UIView = {

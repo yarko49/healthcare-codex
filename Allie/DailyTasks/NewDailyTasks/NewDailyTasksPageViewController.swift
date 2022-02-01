@@ -6,6 +6,11 @@
 //
 
 import UIKit
+import JGProgressHUD
+import Combine
+import CareKitStore
+import CareKit
+import SwiftUI
 
 class NewDailyTasksPageViewController: BaseViewController {
 
@@ -14,6 +19,15 @@ class NewDailyTasksPageViewController: BaseViewController {
     @Injected(\.networkAPI) var networkAPI: AllieAPI
     @Injected(\.bluetoothManager) var bloodGlucoseMonitor: BGMBluetoothManager
     @Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
+
+    @Published var viewModel: NewDailyTasksPageViewModel!
+
+    var timeInterval: TimeInterval = 60 * 10
+    var cancellable: Set<AnyCancellable> = []
+    private var shouldUpdateCarePlan: Bool = true
+    private var insertViewsAnimated: Bool = true
+    private var isRefreshingCarePlan = false
+    var ockTasks: [OCKAnyTask] = [OCKAnyTask]()
 
     private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
@@ -57,9 +71,69 @@ class NewDailyTasksPageViewController: BaseViewController {
         return collectionView
     }()
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        bloodGlucoseMonitor.multicastDelegate.add(self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        loadHealthData()
+//        NotificationCenter.default.publisher(for: .patientDidSnychronize)
+//            .receive(on: RunLoop.main)
+//            .sink { [weak self] _ in
+//                self?.reload()
+//            }.store(in: &cancellable)
+//        NotificationCenter.default.publisher(for: .didUpdateCarePlan)
+//            .receive(on: RunLoop.main)
+//            .sink { [weak self] _ in
+//                self?.reload()
+//            }.store(in: &cancellable)
+//        NotificationCenter.default.publisher(for: .didModifyHealthKitStore)
+//            .receive(on: RunLoop.main)
+//            .sink { [weak self] _ in
+//                self?.setupViews()
+//            }.store(in: &cancellable)
+        if careManager.patient?.bgmName == nil {
+            NotificationCenter.default.publisher(for: .didPairBloodGlucoseMonitor)
+                .receive(on: RunLoop.main)
+                .sink { [weak self] _ in
+                    self?.startBluetooth()
+                }.store(in: &cancellable)
+        }
+//        Timer.publish(every: timeInterval, tolerance: 10.0, on: .current, in: .common, options: nil)
+//            .autoconnect()
+//            .receive(on: RunLoop.main)
+//            .sink(receiveValue: { [weak self] _ in
+//                self?.reload()
+//            }).store(in: &cancellable)
+//        careManager.startUploadOutcomesTimer(timeInterval: remoteConfig.outcomesUploadTimeInterval)
+//        healthKitManager.authorizeHealthKit { [weak self] success, error in
+//            if let error = error {
+//                ALog.error("Unable to authorize the HealthKit", error: error)
+//            } else {
+//                ALog.info("Success result \(success)")
+//            }
+//            DispatchQueue.main.async {
+//                self?.reload()
+//            }
+//            if self?.careManager.patient?.bgmName != nil {
+//                self?.startBluetooth()
+//            }
+//        }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        AnalyticsManager.send(event: .pageView, properties: [.name: "CarePlanDailyTasks"])
+    }
+
+    deinit {
+        bloodGlucoseMonitor.multicastDelegate.remove(self)
+        cancellable.forEach { cancellable in
+            cancellable.cancel()
+        }
     }
 
     private func setupViews() {
@@ -83,6 +157,99 @@ class NewDailyTasksPageViewController: BaseViewController {
         datePicker.addTarget(self, action: #selector(onChangeDate), for: .valueChanged)
     }
 
+    func reload() {
+        if shouldUpdateCarePlan {
+            getAndUpdateCarePlans { _ in
+                self.collectionView.reloadData()
+            }
+        } else {
+            self.collectionView.reloadData()
+        }
+    }
+
+    func loadHealthData() {
+        var query = OCKTaskQuery(for: Date())
+        query.excludesTasksWithNoEvents = true
+        let storeManager: OCKSynchronizedStoreManager = CareManager.shared.synchronizedStoreManager
+        storeManager.store.fetchAnyTasks(query: query, callbackQueue: .main) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .failure(let error):
+                ALog.error("Fetching tasks for carePlans", error: error)
+            case .success(let tasks):
+                let filtered = tasks.filter { task in
+                    if let chTask = self.careManager.tasks[task.id] {
+                        return !chTask.isDeleted(for: Date()) && task.schedule.exists(onDay: Date())
+                    } else if let ockTask = task as? OCKTask {
+                        return !ockTask.isDeleted(for: Date()) && task.schedule.exists(onDay: Date())
+                    } else if let hkTask = task as? OCKHealthKitTask, let deletedDate = hkTask.deletedDate {
+                        return deletedDate.shouldShow(for: Date())
+                    } else {
+                        return true
+                    }
+                }
+
+                let sorted = filtered.sorted { lhs, rhs in
+                    guard let left = lhs as? AnyTaskExtensible, let right = rhs as? AnyTaskExtensible else {
+                        return false
+                    }
+                    return left.priority < right.priority
+                }
+                self.ockTasks = sorted
+                self.viewModel = NewDailyTasksPageViewModel(
+                    storeManager: storeManager, tasks: sorted, eventQuery: OCKEventQuery(for: Date()))
+//                self.collectionView.reloadData()
+//                self.viewModel.taskEvents
+            }
+        }
+    }
+
+    func getAndUpdateCarePlans(completion: @escaping AllieBoolCompletion) {
+        guard isRefreshingCarePlan == false else {
+            return
+        }
+        isRefreshingCarePlan = true
+        hud.show(in: tabBarController?.view ?? view, animated: true)
+        Task {
+            do {
+                let carePlanResponsee = try await networkAPI.getCarePlan(option: .carePlan)
+                if let tasks = carePlanResponsee.faultyTasks, !tasks.isEmpty {
+                    self.showError(tasks: tasks)
+                    return
+                }
+                _ = try await careManager.process(carePlanResponse: carePlanResponsee)
+                self.isRefreshingCarePlan = false
+                DispatchQueue.main.async {
+                    self.hud.dismiss(animated: true)
+                }
+                completion(true)
+            } catch {
+                DispatchQueue.main.async { [weak self] in
+                    self?.isRefreshingCarePlan = false
+                    self?.hud.dismiss(animated: true)
+                    let nsError = error as NSError
+                    let code: Set<Int> = [401, 408, -1001]
+                    if !code.contains(nsError.code) {
+                        ALog.error("Unable to fetch care plan", error: error)
+                        let okAction = AlertHelper.AlertAction(withTitle: String.ok)
+                        let title = NSLocalizedString("ERROR", comment: "Error")
+                        AlertHelper.showAlert(title: title, detailText: error.localizedDescription, actions: [okAction], from: self?.tabBarController)
+                    }
+                    completion(false)
+                }
+            }
+        }
+    }
+
+    func showError(tasks: [CHBasicTask]) {
+        let viewController = TaskErrorDisplayViewController(style: .plain)
+        viewController.items = tasks
+        let navigationController = UINavigationController(rootViewController: viewController)
+        tabBarController?.present(navigationController, animated: true, completion: nil)
+    }
+
     @objc func onChangeDate(sender: UIDatePicker) {
         datePicker.isHidden = true
     }
@@ -98,30 +265,9 @@ extension NewDailyTasksPageViewController: UICollectionViewDelegate, UICollectio
             cell.cellType = .rise
             return cell
         } else if indexPath.row == 1 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthFilledCell.cellID, for: indexPath) as! HealthFilledCell
-            cell.configureCell(cellType: .glucose)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthAddCell.cellID, for: indexPath) as! HealthAddCell
             return cell
         } else if indexPath.row == 2 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthFilledCell.cellID, for: indexPath) as! HealthFilledCell
-            cell.configureCell(cellType: .insulin)
-            return cell
-        } else if indexPath.row == 3 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
-            cell.configureCell(cellType: .glucose)
-            return cell
-        } else if indexPath.row == 4 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
-            cell.configureCell(cellType: .insulin)
-            return cell
-        } else if indexPath.row == 5 {
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: HealthAddCell.cellID, for: indexPath) as! HealthAddCell
-            return cell
-        } else if indexPath.row == 6 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthFilledCell.cellID, for: indexPath) as! HealthFilledCell
-            cell.configureCell(cellType: .asprin)
-            return cell
-        } else if indexPath.row == 7 {
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: RiseSleepCell.cellID, for: indexPath) as! RiseSleepCell
             cell.cellType = .sleep
@@ -134,7 +280,7 @@ extension NewDailyTasksPageViewController: UICollectionViewDelegate, UICollectio
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        return 4
     }
 }
 

@@ -43,8 +43,8 @@ class AppCoordinator: BaseCoordinator {
 			}
 			chatController = controller
 		} else {
-//			todayController = Self.dailyTasksController
-            todayController = Self.newDailyTasksController
+			todayController = Self.dailyTasksController
+//            todayController = Self.newDailyTasksController
 			chatController = Self.conversationsListViewController
 		}
 		self.todayNavController = Self.todayNavController(rootViewController: todayController)

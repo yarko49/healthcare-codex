@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25057EE227A531DB00594540 /* NewDailyTasks+BloodGlucoseMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25057EE127A531DB00594540 /* NewDailyTasks+BloodGlucoseMonitor.swift */; };
+		25057EE327A531DB00594540 /* NewDailyTasks+BloodGlucoseMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25057EE127A531DB00594540 /* NewDailyTasks+BloodGlucoseMonitor.swift */; };
+		25057EE427A531DB00594540 /* NewDailyTasks+BloodGlucoseMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25057EE127A531DB00594540 /* NewDailyTasks+BloodGlucoseMonitor.swift */; };
 		2515505A279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25155059279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift */; };
 		2515505B279FEDB600C40BC5 /* NewDailyTasksPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25155059279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift */; };
 		2515505C279FEDB800C40BC5 /* NewDailyTasksPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25155059279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift */; };
@@ -28,6 +31,9 @@
 		258DC4AA27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */; };
 		258DC4AB27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */; };
 		258DC4AC27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */; };
+		259059EE27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */; };
+		259059EF27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */; };
+		259059F027A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */; };
 		47892DA327857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
 		47892DA427857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
 		47892DA527857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
@@ -1143,6 +1149,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		25057EE127A531DB00594540 /* NewDailyTasks+BloodGlucoseMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewDailyTasks+BloodGlucoseMonitor.swift"; sourceTree = "<group>"; };
 		25155059279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDailyTasksPageViewController.swift; sourceTree = "<group>"; };
 		2515505E27A00E4400C40BC5 /* DailyTaskTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTaskTopView.swift; sourceTree = "<group>"; };
 		25737B2C27A1E6F7006357E7 /* RiseSleepCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiseSleepCell.swift; sourceTree = "<group>"; };
@@ -1150,6 +1157,7 @@
 		25764B0C27A2818B0032B365 /* HealthEmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthEmptyCell.swift; sourceTree = "<group>"; };
 		25764B1027A2888B0032B365 /* HealthAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthAddCell.swift; sourceTree = "<group>"; };
 		258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthLastCell.swift; sourceTree = "<group>"; };
+		259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDailyTasksPageViewModel.swift; sourceTree = "<group>"; };
 		47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+Samples.swift"; sourceTree = "<group>"; };
 		47892DA627857CD000BC7827 /* HealthKitManager+Steps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+Steps.swift"; sourceTree = "<group>"; };
 		47892DAA27857D8400BC7827 /* HealthKitManager+BloodPressure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+BloodPressure.swift"; sourceTree = "<group>"; };
@@ -1664,6 +1672,7 @@
 				25737B2B27A1E6BE006357E7 /* Cells */,
 				25155059279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift */,
 				2515505E27A00E4400C40BC5 /* DailyTaskTopView.swift */,
+				25057EE127A531DB00594540 /* NewDailyTasks+BloodGlucoseMonitor.swift */,
 			);
 			path = NewDailyTasks;
 			sourceTree = "<group>";
@@ -1676,6 +1685,7 @@
 				25764B0C27A2818B0032B365 /* HealthEmptyCell.swift */,
 				25764B1027A2888B0032B365 /* HealthAddCell.swift */,
 				258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */,
+				259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -3362,6 +3372,7 @@
 				84037C1E26CB5EA600C87189 /* Keychain+Injectable.swift in Sources */,
 				847A46702728F300007BE113 /* SymptomsLogViewSynchronizer.swift in Sources */,
 				25737B2D27A1E6F7006357E7 /* RiseSleepCell.swift in Sources */,
+				259059EE27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */,
 				841418F726BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */,
 				845B4543269BA17B00EC5211 /* OCKOutcomeValue+LogItem.swift in Sources */,
 				846F97912716A2720094735E /* FileLoggingViewController.swift in Sources */,
@@ -3380,6 +3391,7 @@
 				8487483025B3E622008C15E2 /* FeaturedContentViewController.swift in Sources */,
 				84230BE72607FA79008BB83E /* NotificationSettingsController.swift in Sources */,
 				844767E2259C2A4E00C50C09 /* CHJSONDecoder.swift in Sources */,
+				25057EE227A531DB00594540 /* NewDailyTasks+BloodGlucoseMonitor.swift in Sources */,
 				845FBE8F25FC7C9200472257 /* DeviceFactory.swift in Sources */,
 				84476731259C2A4E00C50C09 /* EmailSignInButton.swift in Sources */,
 				25764B1127A2888B0032B365 /* HealthAddCell.swift in Sources */,
@@ -3725,6 +3737,7 @@
 				84037C2026CB5EA600C87189 /* Keychain+Injectable.swift in Sources */,
 				847A46722728F300007BE113 /* SymptomsLogViewSynchronizer.swift in Sources */,
 				25737B2F27A1E6F7006357E7 /* RiseSleepCell.swift in Sources */,
+				259059F027A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */,
 				847DCCA2265871F3004E9C1D /* DateFormatter+Formatters.swift in Sources */,
 				847DCCA3265871F3004E9C1D /* UserDefaults+Settings.swift in Sources */,
 				846F97932716A2720094735E /* FileLoggingViewController.swift in Sources */,
@@ -3743,6 +3756,7 @@
 				847DCCAB265871F3004E9C1D /* NotificationSettingsController.swift in Sources */,
 				847DCCAC265871F3004E9C1D /* CHJSONDecoder.swift in Sources */,
 				847DCCAD265871F3004E9C1D /* DeviceFactory.swift in Sources */,
+				25057EE427A531DB00594540 /* NewDailyTasks+BloodGlucoseMonitor.swift in Sources */,
 				847DCCAE265871F3004E9C1D /* EmailSignInButton.swift in Sources */,
 				8497045F26B124C2006E2D51 /* BloodGlucoseSampleType.swift in Sources */,
 				25764B1327A2888B0032B365 /* HealthAddCell.swift in Sources */,
@@ -4051,6 +4065,7 @@
 				84037C1F26CB5EA600C87189 /* Keychain+Injectable.swift in Sources */,
 				847A46712728F300007BE113 /* SymptomsLogViewSynchronizer.swift in Sources */,
 				25737B2E27A1E6F7006357E7 /* RiseSleepCell.swift in Sources */,
+				259059EF27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */,
 				84D122CC264112DE00990196 /* DateFormatter+Formatters.swift in Sources */,
 				84D122CD264112DE00990196 /* UserDefaults+Settings.swift in Sources */,
 				846F97922716A2720094735E /* FileLoggingViewController.swift in Sources */,
@@ -4069,6 +4084,7 @@
 				84D122D6264112DE00990196 /* NotificationSettingsController.swift in Sources */,
 				84D122D7264112DE00990196 /* CHJSONDecoder.swift in Sources */,
 				84D122D8264112DE00990196 /* DeviceFactory.swift in Sources */,
+				25057EE327A531DB00594540 /* NewDailyTasks+BloodGlucoseMonitor.swift in Sources */,
 				84D122D9264112DE00990196 /* EmailSignInButton.swift in Sources */,
 				8497045E26B124C2006E2D51 /* BloodGlucoseSampleType.swift in Sources */,
 				25764B1227A2888B0032B365 /* HealthAddCell.swift in Sources */,
