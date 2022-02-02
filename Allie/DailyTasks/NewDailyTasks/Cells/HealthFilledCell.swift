@@ -116,6 +116,8 @@ class HealthFilledCell: UICollectionViewCell {
             imageView.image = dataType.image
         } else if let identifier = ockEvent.task.groupIdentifierType, let icon = identifier.icon {
             imageView.image = icon
+        } else {
+            imageView.image = UIImage(named: "icon-empty")
         }
         let linkPage = (ockEvent.task as? OCKHealthKitTask)?.healthKitLinkage
         let date = outComes.first!.createdDate

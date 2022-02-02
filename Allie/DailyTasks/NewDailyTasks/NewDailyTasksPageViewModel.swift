@@ -98,12 +98,17 @@ class NewDailyTasksPageViewModel: ObservableObject {
                 continue
             } else {
                 groupID = outCome.healthKitUUID
-                groupedOutComes.append(groupOutComes)
+                if groupOutComes.count > 0 {
+                    groupedOutComes.append(groupOutComes)
+                }
                 groupOutComes.removeAll()
                 groupOutComes.append(outCome)
             }
         }
-        groupedOutComes.append(groupOutComes)
+        
+        if groupOutComes.count > 0 {
+            groupedOutComes.append(groupOutComes)
+        }
         sortedOCKEvents = sortedEvents
         sortedOutComes = groupedOutComes
     }
