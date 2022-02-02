@@ -20,7 +20,7 @@ class NewDailyTasksPageViewController: BaseViewController {
     @Injected(\.bluetoothManager) var bloodGlucoseMonitor: BGMBluetoothManager
     @Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
 
-    @Published var viewModel: NewDailyTasksPageViewModel!
+    @ObservedObject var viewModel: NewDailyTasksPageViewModel = NewDailyTasksPageViewModel()
 
     var timeInterval: TimeInterval = 60 * 10
     var cancellable: Set<AnyCancellable> = []
@@ -28,6 +28,8 @@ class NewDailyTasksPageViewController: BaseViewController {
     private var insertViewsAnimated: Bool = true
     private var isRefreshingCarePlan = false
     var ockTasks: [OCKAnyTask] = [OCKAnyTask]()
+
+    private var subscriptions = Set<AnyCancellable>()
 
     private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
@@ -68,6 +70,7 @@ class NewDailyTasksPageViewController: BaseViewController {
         collectionView.register(HealthEmptyCell.self, forCellWithReuseIdentifier: HealthEmptyCell.cellID)
         collectionView.register(HealthAddCell.self, forCellWithReuseIdentifier: HealthAddCell.cellID)
         collectionView.register(HealthLastCell.self, forCellWithReuseIdentifier: HealthLastCell.cellID)
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         return collectionView
     }()
 
@@ -79,7 +82,15 @@ class NewDailyTasksPageViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        loadHealthData()
+        viewModel.loadHealthData(date: Date())
+        viewModel.$sortedOutComes.sink {[weak self] outComes in
+            DispatchQueue.main.async {
+                let events = self!.viewModel.sortedOCKEvents
+                print(events.count)
+                self?.collectionView.reloadData()
+            }
+        }
+        .store(in: &subscriptions)
 //        NotificationCenter.default.publisher(for: .patientDidSnychronize)
 //            .receive(on: RunLoop.main)
 //            .sink { [weak self] _ in
@@ -167,45 +178,6 @@ class NewDailyTasksPageViewController: BaseViewController {
         }
     }
 
-    func loadHealthData() {
-        var query = OCKTaskQuery(for: Date())
-        query.excludesTasksWithNoEvents = true
-        let storeManager: OCKSynchronizedStoreManager = CareManager.shared.synchronizedStoreManager
-        storeManager.store.fetchAnyTasks(query: query, callbackQueue: .main) { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            switch result {
-            case .failure(let error):
-                ALog.error("Fetching tasks for carePlans", error: error)
-            case .success(let tasks):
-                let filtered = tasks.filter { task in
-                    if let chTask = self.careManager.tasks[task.id] {
-                        return !chTask.isDeleted(for: Date()) && task.schedule.exists(onDay: Date())
-                    } else if let ockTask = task as? OCKTask {
-                        return !ockTask.isDeleted(for: Date()) && task.schedule.exists(onDay: Date())
-                    } else if let hkTask = task as? OCKHealthKitTask, let deletedDate = hkTask.deletedDate {
-                        return deletedDate.shouldShow(for: Date())
-                    } else {
-                        return true
-                    }
-                }
-
-                let sorted = filtered.sorted { lhs, rhs in
-                    guard let left = lhs as? AnyTaskExtensible, let right = rhs as? AnyTaskExtensible else {
-                        return false
-                    }
-                    return left.priority < right.priority
-                }
-                self.ockTasks = sorted
-                self.viewModel = NewDailyTasksPageViewModel(
-                    storeManager: storeManager, tasks: sorted, eventQuery: OCKEventQuery(for: Date()))
-//                self.collectionView.reloadData()
-//                self.viewModel.taskEvents
-            }
-        }
-    }
-
     func getAndUpdateCarePlans(completion: @escaping AllieBoolCompletion) {
         guard isRefreshingCarePlan == false else {
             return
@@ -264,23 +236,39 @@ extension NewDailyTasksPageViewController: UICollectionViewDelegate, UICollectio
                 withReuseIdentifier: RiseSleepCell.cellID, for: indexPath) as! RiseSleepCell
             cell.cellType = .rise
             return cell
-        } else if indexPath.row == 1 {
+        } else if indexPath.row == viewModel.sortedOutComes.count + 1 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
+            cell.configureCell(cellType: .glucose)
+            return cell
+        } else if indexPath.row == viewModel.sortedOutComes.count + 2 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
+            cell.configureCell(cellType: .insulin)
+            return cell
+        } else if indexPath.row == viewModel.sortedOutComes.count + 3 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
+            cell.configureCell(cellType: .asprin)
+            return cell
+        } else if indexPath.row == viewModel.sortedOutComes.count + 4 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthAddCell.cellID, for: indexPath) as! HealthAddCell
             return cell
-        } else if indexPath.row == 2 {
+        } else if indexPath.row == viewModel.sortedOutComes.count + 5 {
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: RiseSleepCell.cellID, for: indexPath) as! RiseSleepCell
             cell.cellType = .sleep
             return cell
-        } else {
+        } else if indexPath.row == viewModel.sortedOutComes.count + 6 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthLastCell.cellID, for: indexPath) as! HealthLastCell
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthFilledCell.cellID, for: indexPath) as! HealthFilledCell
+            cell.configureCell(outComes: viewModel.sortedOutComes[indexPath.row - 1], ockEvent: viewModel.sortedOCKEvents[indexPath.row - 1])
             return cell
         }
         // swiftlint:enable force_cast
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return viewModel.sortedOutComes.count + 7
     }
 }
 

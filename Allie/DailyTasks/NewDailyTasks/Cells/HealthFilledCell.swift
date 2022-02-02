@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import CareKitStore
+import CareKit
 
 enum HealthType {
     case glucose
@@ -107,20 +109,44 @@ class HealthFilledCell: UICollectionViewCell {
         contentStack.addArrangedSubview(subTitle)
     }
 
-    func configureCell(cellType: HealthType) {
-        switch cellType {
-        case .glucose:
-            imageView.image = #imageLiteral(resourceName: "icon-blood-glucose.pdf")
-            title.text = "Blood Glucose"
-            subTitle.text = "08:50, 205.6 mg/dL, Fasting"
-        case .insulin:
-            imageView.image = #imageLiteral(resourceName: "icon-insulin.pdf")
-            title.text = "Insulin"
-            subTitle.text = "08:50, 12u"
-        case .asprin:
-            imageView.image = #imageLiteral(resourceName: "icon-symptoms.pdf")
-            title.text = "Asprin 5mg"
-            subTitle.text = "Due this afternoon"
+    func configureCell(outComes: [OCKOutcomeValue], ockEvent: OCKAnyEvent) {
+        title.text = ockEvent.task.title
+        let quantityIdentifier = (ockEvent.task as? OCKHealthKitTask)?.healthKitLinkage.quantityIdentifier
+        if let dataType = quantityIdentifier?.dataType {
+            imageView.image = dataType.image
+        } else if let identifier = ockEvent.task.groupIdentifierType, let icon = identifier.icon {
+            imageView.image = icon
+        }
+        let linkPage = (ockEvent.task as? OCKHealthKitTask)?.healthKitLinkage
+        let date = outComes.first!.createdDate
+        let dateString = ScheduleUtility.timeFormatter.string(from: date)
+        var formattedValue = outComes.first?.formattedValue
+        var context: String?
+        if linkPage?.quantityIdentifier == .bloodPressureDiastolic {
+            let systolicValue: OCKOutcomeValue = outComes[0]
+            let diastolicValue: OCKOutcomeValue = outComes[1]
+            context = systolicValue.symptomTitle
+            formattedValue = String(format: "%d/%d,", systolicValue.integerValue ?? 0, diastolicValue.integerValue ?? 0)
+        }
+        if linkPage?.quantityIdentifier == .insulinDelivery {
+            context = outComes.first?.insulinReasonTitle
+        } else if linkPage?.quantityIdentifier == .bloodGlucose {
+            context = outComes.first?.bloodGlucoseMealTimeTitle
+        } else {
+            context = outComes.first?.symptomTitle
+        }
+        if let contextValue = context, !contextValue.isEmpty {
+            if let formattedVal = formattedValue, !formattedVal.isEmpty {
+                subTitle.text = "\(dateString), \(formattedVal), \(contextValue)"
+            } else {
+                subTitle.text = "\(dateString), \(contextValue)"
+            }
+        } else {
+            if let formattedVal = formattedValue, !formattedVal.isEmpty {
+                subTitle.text = "\(dateString), \(formattedVal)"
+            } else {
+                subTitle.text = "\(dateString)"
+            }
         }
     }
 }

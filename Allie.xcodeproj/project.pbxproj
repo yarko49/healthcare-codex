@@ -1671,6 +1671,7 @@
 			children = (
 				25737B2B27A1E6BE006357E7 /* Cells */,
 				25155059279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift */,
+				259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */,
 				2515505E27A00E4400C40BC5 /* DailyTaskTopView.swift */,
 				25057EE127A531DB00594540 /* NewDailyTasks+BloodGlucoseMonitor.swift */,
 			);
@@ -1685,7 +1686,6 @@
 				25764B0C27A2818B0032B365 /* HealthEmptyCell.swift */,
 				25764B1027A2888B0032B365 /* HealthAddCell.swift */,
 				258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */,
-				259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
