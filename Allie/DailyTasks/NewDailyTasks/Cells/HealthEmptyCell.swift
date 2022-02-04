@@ -13,7 +13,7 @@ class HealthEmptyCell: UICollectionViewCell {
 
     static let cellID: String = "HealthEmptyCell"
 
-    var timeLineModel: TimeLineTaskModel?
+    var timelineViewModel: TimelineItemViewModel!
 
     private var container: UIView = {
         let container = UIView()
@@ -99,23 +99,24 @@ class HealthEmptyCell: UICollectionViewCell {
         contentStack.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
         contentStack.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20.0).isActive = true
 
-        addButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
+        addButton.centerYAnchor.constraint(equalTo: container.centerYAnchor).isActive = true
         addButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20.0).isActive = true
         addButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
         addButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
     }
 
-    func configureCell(timeLineModel: TimeLineTaskModel) {
-        self.timeLineModel = timeLineModel
-        title.text = timeLineModel.event.task.title
-        let quantityIdentifier = (timeLineModel.event.task as? OCKHealthKitTask)?.healthKitLinkage.quantityIdentifier
+    func configureCell(timelineViewModel: TimelineItemViewModel) {
+        self.timelineViewModel = timelineViewModel
+        title.text = timelineViewModel.timelineItemModel.event.task.title
+        let quantityIdentifier = (timelineViewModel.timelineItemModel.event.task as? OCKHealthKitTask)?.healthKitLinkage.quantityIdentifier
         if let dataType = quantityIdentifier?.dataType {
             imageView.image = dataType.image
-        } else if let identifier = timeLineModel.event.task.groupIdentifierType, let icon = identifier.icon {
+        } else if let identifier = timelineViewModel.timelineItemModel.event.task.groupIdentifierType, let icon = identifier.icon {
             imageView.image = icon
         } else {
             imageView.image = UIImage(named: "icon-empty")
         }
+        subTitle.text = timelineViewModel.timelineItemModel.event.task.instructions ?? " "
     }
 }
 

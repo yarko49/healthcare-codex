@@ -16,7 +16,7 @@ enum HealthType {
 }
 
 protocol HealthFilledCellDelegate: AnyObject {
-    func onClickCell(timeLineModel: TimeLineTaskModel)
+    func onClickCell(timelineItemViewModel: TimelineItemViewModel)
 }
 
 class HealthFilledCell: UICollectionViewCell {
@@ -24,7 +24,7 @@ class HealthFilledCell: UICollectionViewCell {
     static let cellID: String = "HealthFilledCell"
 
     weak var delegate: HealthFilledCellDelegate?
-    var timeLineModel: TimeLineTaskModel?
+    var timelineViewModel: TimelineItemViewModel!
 
     private var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -131,10 +131,10 @@ class HealthFilledCell: UICollectionViewCell {
         actionButton.addTarget(self, action: #selector(onActionButtonClick), for: .touchUpInside)
     }
 
-    func configureCell(timeLineModel: TimeLineTaskModel) {
-        self.timeLineModel = timeLineModel
-        let outComes = timeLineModel.outComes!
-        let ockEvent = timeLineModel.event
+    func configureCell(timelineViewModel: TimelineItemViewModel) {
+        self.timelineViewModel = timelineViewModel
+        let outComes = timelineViewModel.timelineItemModel.outcomeValues!
+        let ockEvent = timelineViewModel.timelineItemModel.event
         title.text = ockEvent.task.title
         let quantityIdentifier = (ockEvent.task as? OCKHealthKitTask)?.healthKitLinkage.quantityIdentifier
         if let dataType = quantityIdentifier?.dataType {
@@ -153,7 +153,7 @@ class HealthFilledCell: UICollectionViewCell {
             let systolicValue: OCKOutcomeValue = outComes[0]
             let diastolicValue: OCKOutcomeValue = outComes[1]
             context = systolicValue.symptomTitle
-            formattedValue = String(format: "%d/%d,", systolicValue.integerValue ?? 0, diastolicValue.integerValue ?? 0)
+            formattedValue = String(format: "%d/%d", systolicValue.integerValue ?? 0, diastolicValue.integerValue ?? 0)
         }
         if linkPage?.quantityIdentifier == .insulinDelivery {
             context = outComes.first?.insulinReasonTitle
@@ -162,7 +162,7 @@ class HealthFilledCell: UICollectionViewCell {
         } else {
             context = outComes.first?.symptomTitle
         }
-        if let contextValue = context, !contextValue.isEmpty {
+        if let contextValue = context, !contextValue.replacingOccurrences(of: " ", with: "").isEmpty {
             if let formattedVal = formattedValue, !formattedVal.isEmpty {
                 subTitle.text = "\(dateString), \(formattedVal), \(contextValue)"
             } else {
@@ -178,7 +178,7 @@ class HealthFilledCell: UICollectionViewCell {
     }
 
     @objc func onActionButtonClick() {
-        delegate?.onClickCell(timeLineModel: timeLineModel!)
+        delegate?.onClickCell(timelineItemViewModel: timelineViewModel)
     }
 }
 

@@ -34,6 +34,9 @@
 		259059EE27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */; };
 		259059EF27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */; };
 		259059F027A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */; };
+		25AEDA8727ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */; };
+		25AEDA8827ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */; };
+		25AEDA8927ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */; };
 		47892DA327857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
 		47892DA427857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
 		47892DA527857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
@@ -1158,6 +1161,7 @@
 		25764B1027A2888B0032B365 /* HealthAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthAddCell.swift; sourceTree = "<group>"; };
 		258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthLastCell.swift; sourceTree = "<group>"; };
 		259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDailyTasksPageViewModel.swift; sourceTree = "<group>"; };
+		25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineItemViewModel.swift; sourceTree = "<group>"; };
 		47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+Samples.swift"; sourceTree = "<group>"; };
 		47892DA627857CD000BC7827 /* HealthKitManager+Steps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+Steps.swift"; sourceTree = "<group>"; };
 		47892DAA27857D8400BC7827 /* HealthKitManager+BloodPressure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+BloodPressure.swift"; sourceTree = "<group>"; };
@@ -1669,9 +1673,9 @@
 		2515505D27A00E0000C40BC5 /* NewDailyTasks */ = {
 			isa = PBXGroup;
 			children = (
+				25AEDA8527ADC292004B75E5 /* ViewModel */,
 				25737B2B27A1E6BE006357E7 /* Cells */,
 				25155059279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift */,
-				259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */,
 				2515505E27A00E4400C40BC5 /* DailyTaskTopView.swift */,
 				25057EE127A531DB00594540 /* NewDailyTasks+BloodGlucoseMonitor.swift */,
 			);
@@ -1688,6 +1692,15 @@
 				258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		25AEDA8527ADC292004B75E5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */,
+				25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		3661848D668E4335C90931AA /* Frameworks */ = {
@@ -3250,6 +3263,7 @@
 				84B9739926EDD3020094B35C /* CareManager+Patients.swift in Sources */,
 				8408844026884001003C3AE2 /* Color+Names.swift in Sources */,
 				8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */,
+				25AEDA8727ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */,
 				8449A664267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				84A9E25526E9C93300D3096F /* RecordItem.swift in Sources */,
 				8450848B271AA6000014764A /* RemoteConfigManager.swift in Sources */,
@@ -3615,6 +3629,7 @@
 				8449A666267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				847DCC5A265871F3004E9C1D /* Device+HKObject.swift in Sources */,
 				848994C926941CBE0057C6C4 /* GeneralizedLogTaskDetailViewController.swift in Sources */,
+				25AEDA8927ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */,
 				84A9E25726E9C93300D3096F /* RecordItem.swift in Sources */,
 				847DCC5B265871F3004E9C1D /* Collection+Average.swift in Sources */,
 				8450848D271AA6000014764A /* RemoteConfigManager.swift in Sources */,
@@ -3943,6 +3958,7 @@
 				8449A665267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				84D12287264112DE00990196 /* Device+HKObject.swift in Sources */,
 				848994C826941CBE0057C6C4 /* GeneralizedLogTaskDetailViewController.swift in Sources */,
+				25AEDA8827ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */,
 				84A9E25626E9C93300D3096F /* RecordItem.swift in Sources */,
 				84D12288264112DE00990196 /* Collection+Average.swift in Sources */,
 				8450848C271AA6000014764A /* RemoteConfigManager.swift in Sources */,

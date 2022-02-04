@@ -83,7 +83,7 @@ class NewDailyTasksPageViewController: BaseViewController {
         super.viewDidLoad()
         setupViews()
         viewModel.loadHealthData(date: Date())
-        viewModel.$sortedTimeLineModels.sink {[weak self] _ in
+        viewModel.$timelineItemViewModels.sink {[weak self] _ in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
             }
@@ -234,26 +234,27 @@ extension NewDailyTasksPageViewController: UICollectionViewDelegate, UICollectio
                 withReuseIdentifier: RiseSleepCell.cellID, for: indexPath) as! RiseSleepCell
             cell.cellType = .rise
             return cell
-        } else if indexPath.row == viewModel.sortedTimeLineModels.count + 1 {
+        } else if indexPath.row == viewModel.timelineItemViewModels.count + 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthAddCell.cellID, for: indexPath) as! HealthAddCell
             return cell
-        } else if indexPath.row == viewModel.sortedTimeLineModels.count + 2 {
+        } else if indexPath.row == viewModel.timelineItemViewModels.count + 2 {
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: RiseSleepCell.cellID, for: indexPath) as! RiseSleepCell
             cell.cellType = .sleep
             return cell
-        } else if indexPath.row == viewModel.sortedTimeLineModels.count + 3 {
+        } else if indexPath.row == viewModel.timelineItemViewModels.count + 3 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthLastCell.cellID, for: indexPath) as! HealthLastCell
             return cell
         } else {
-            let timeLineModel = viewModel.sortedTimeLineModels[indexPath.row - 1]
-            if timeLineModel.outComes.isNil {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
-                cell.configureCell(timeLineModel: timeLineModel)
+            let timelineViewModel = viewModel.timelineItemViewModels[indexPath.row - 1]
+            if timelineViewModel.hasOutcomeValue() {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthFilledCell.cellID, for: indexPath) as! HealthFilledCell
+                cell.configureCell(timelineViewModel: timelineViewModel)
+                cell.delegate = self
                 return cell
             } else {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthFilledCell.cellID, for: indexPath) as! HealthFilledCell
-                cell.configureCell(timeLineModel: timeLineModel)
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
+                cell.configureCell(timelineViewModel: timelineViewModel)
                 return cell
             }
         }
@@ -261,45 +262,44 @@ extension NewDailyTasksPageViewController: UICollectionViewDelegate, UICollectio
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.sortedTimeLineModels.count + 4
+        return viewModel.timelineItemViewModels.count + 4
     }
 }
 // MARK: - Collection Cell Delegate
 extension NewDailyTasksPageViewController: HealthFilledCellDelegate {
-    func onClickCell(timeLineModel: TimeLineTaskModel) {
-//        guard let task = ockEvent.task as? OCKHealthKitTask else {
-//            return
-//        }
-//        let value = outComes.first
-//        let viewController = GeneralizedLogTaskDetailViewController()
-//        viewController.queryDate = OCKEventQuery(for: Date()).dateInterval.start
-//        viewController.anyTask = task
-//        viewController.outcomeValues = outComes
-//        if let uuid = value?.healthKitUUID {
-//            viewController.outcome = try? careManager.dbFindFirstOutcome(sampleId: uuid)
-//        }
-//        viewController.modalPresentationStyle = .overFullScreen
-//        viewController.cancelAction = { [weak viewController] in
-//            viewController?.dismiss(animated: true, completion: nil)
-//        }
-//        viewController.deleteAction = { [weak self, weak viewController] in
-//            guard let outComeValue = viewController?.outcomeValues.first, let task = viewController?.healthKitTask else {
-//                viewController?.dismiss(animated: true, completion: nil)
-//                return
-//            }
-//            self?.viewModel.deleteOutcom(value: outComeValue, task: task, completion: { result in
-//                switch result {
-//                case .success(let sample):
-//                    ALog.trace("\(sample.uuid) sample was deleted", metadata: nil)
-//                case .failure(let error):
-//                    ALog.error("Error deleting data", error: error)
-//                }
-//                DispatchQueue.main.async {
-//                    viewController?.dismiss(animated: true, completion: nil)
-//                }
-//            })
-//        }
-//        tabBarController?.showDetailViewController(viewController, sender: self)
+    func onClickCell(timelineItemViewModel: TimelineItemViewModel) {
+        if timelineItemViewModel.timelineItemModel.event.task.groupIdentifierType == .symptoms {
+            guard let task = timelineItemViewModel.timelineItemModel.event.task as? OCKTask else {
+                return
+            }
+            let viewController = GeneralizedLogTaskDetailViewController()
+            viewController.queryDate = OCKEventQuery(for: Date()).dateInterval.start
+            viewController.anyTask = task
+            viewController.outcomeValues = timelineItemViewModel.timelineItemModel.outcomeValues ?? []
+            viewController.outcomeIndex = 0
+            viewController.modalPresentationStyle = .overFullScreen
+            viewController.cancelAction = { [weak viewController] in
+                viewController?.dismiss(animated: true, completion: nil)
+            }
+            tabBarController?.showDetailViewController(viewController, sender: self)
+        } else if timelineItemViewModel.timelineItemModel.event.task.groupIdentifierType == .labeledValue {
+            guard let task = timelineItemViewModel.timelineItemModel.event.task as? OCKHealthKitTask else {
+                return
+            }
+            let value = timelineItemViewModel.timelineItemModel.outcomeValues?.first
+            let viewController = GeneralizedLogTaskDetailViewController()
+            viewController.queryDate = OCKEventQuery(for: Date()).dateInterval.start
+            viewController.anyTask = task
+            viewController.outcomeValues = timelineItemViewModel.timelineItemModel.outcomeValues ?? []
+            if let uuid = value?.healthKitUUID {
+                viewController.outcome = try? careManager.dbFindFirstOutcome(sampleId: uuid)
+            }
+            viewController.modalPresentationStyle = .overFullScreen
+            viewController.cancelAction = { [weak viewController] in
+                viewController?.dismiss(animated: true, completion: nil)
+            }
+            tabBarController?.showDetailViewController(viewController, sender: self)
+        }
     }
 }
 

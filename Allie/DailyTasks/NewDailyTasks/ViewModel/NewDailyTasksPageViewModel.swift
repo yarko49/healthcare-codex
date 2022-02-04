@@ -17,7 +17,7 @@ class NewDailyTasksPageViewModel: ObservableObject {
     @Injected(\.careManager) var careManager: CareManager
     @Injected(\.healthKitManager) var healthKitManager: HealthKitManager
     @Published public internal(set) var error: Error?
-    @Published var sortedTimeLineModels = [TimeLineTaskModel]()
+    @Published var timelineItemViewModels = [TimelineItemViewModel]()
 
     public let storeManager: OCKSynchronizedStoreManager = CareManager.shared.synchronizedStoreManager
     private var cancellables: Set<AnyCancellable> = []
@@ -62,81 +62,58 @@ class NewDailyTasksPageViewModel: ObservableObject {
             self.error = error
         }
         .sink { [unowned self] events in
-            self.sortEvent(events: events)
+            self.generateTimelineItems(events: events)
         }
         .store(in: &cancellables)
     }
 
-    func sortEvent(events: [[OCKAnyEvent]]) {
-        var outComeValues = [OCKOutcomeValue]()
-        var ockEventsDict = [Date: OCKAnyEvent]()
-        for anyEvent in events {
-            if anyEvent.isEmpty {
-                continue
-            }
-            for event in anyEvent {
-                if event.outcome.isNil {
-                    continue
+    func generateTimelineItems(events: [[OCKAnyEvent]]) {
+        var items = [TimelineItemViewModel]()
+        for taskEvent in events {
+            var flag = false
+            for event in taskEvent {
+                if let outcomes = event.outcome {
+                    if !outcomes.values.isEmpty {
+                        var outcomeArr = [OCKOutcomeValue]()
+                        var healthKitUUID = outcomes.values.first?.healthKitUUID
+                        for outcome in outcomes.values {
+                            if outcome.healthKitUUID == healthKitUUID && outcome.healthKitUUID != nil {
+                                outcomeArr.append(outcome)
+                                continue
+                            } else {
+                                healthKitUUID = outcome.healthKitUUID
+                                if !outcomeArr.isEmpty {
+                                    items.append(TimelineItemViewModel(timelineItemModel: TimelineItemModel(outcomeValues: outcomeArr, event: event)))
+                                }
+                                outcomeArr.removeAll()
+                                outcomeArr.append(outcome)
+                            }
+                        }
+                        items.append(TimelineItemViewModel(timelineItemModel: TimelineItemModel(outcomeValues: outcomeArr, event: event)))
+                    } else if !flag {
+                        let timelineItemModel = TimelineItemModel(outcomeValues: nil, event: event)
+                        items.append(TimelineItemViewModel(timelineItemModel: timelineItemModel))
+                        flag = true
+                    }
+                } else if !flag {
+                    let timelineItemModel = TimelineItemModel(outcomeValues: nil, event: event)
+                    items.append(TimelineItemViewModel(timelineItemModel: timelineItemModel))
+                    flag = true
                 }
-                for outCome in event.outcome!.values {
-                    outComeValues.append(outCome)
-                    ockEventsDict[outCome.createdDate] = event
-                }
-            }
-        }
-        let sortedEventsDict = ockEventsDict.sorted(by: {
-            $0.0.compare($1.0) == .orderedAscending
-        })
-        let sortedEvents = sortedEventsDict.map({$0.value})
-        let sortedOutComeValues = outComeValues.sorted(by: { $0.createdDate.compare($1.createdDate) == .orderedAscending })
-        var groupID = sortedOutComeValues.first?.healthKitUUID
-        var groupOutComes = [OCKOutcomeValue]()
-        var groupedOutComes = [[OCKOutcomeValue]]()
-        for outCome in sortedOutComeValues {
-            if groupID == outCome.healthKitUUID && outCome.healthKitUUID != nil {
-                groupOutComes.append(outCome)
-                continue
-            } else {
-                groupID = outCome.healthKitUUID
-                if !groupOutComes.isEmpty {
-                    groupedOutComes.append(groupOutComes)
-                }
-                groupOutComes.removeAll()
-                groupOutComes.append(outCome)
             }
         }
 
-        if !groupOutComes.isEmpty {
-            groupedOutComes.append(groupOutComes)
-        }
-
-        var timeLineModels = [TimeLineTaskModel]()
-        for index in 0..<sortedEvents.count {
-            let timeLineModel = TimeLineTaskModel(
-                outComes: groupedOutComes[index],
-                event: sortedEvents[index]
-            )
-            timeLineModels.append(timeLineModel)
-        }
-        for anyEvent in events {
-            if anyEvent.isEmpty {
-                continue
+       timelineItemViewModels = items.sorted { lhs, rhs in
+            let date1 = lhs.dateTime
+            let date2 = rhs.dateTime
+            if lhs.hasOutcomeValue() && !rhs.hasOutcomeValue() {
+                return true
             }
-            var isEmptyOutCome = true
-            for event in anyEvent {
-                if let outCome = event.outcome, !outCome.values.isEmpty {
-                    isEmptyOutCome = false
-                    break
-                } else {
-                    isEmptyOutCome = true
-                }
+            if !lhs.hasOutcomeValue() && rhs.hasOutcomeValue() {
+                return false
             }
-            if isEmptyOutCome {
-                let timeLineModel = TimeLineTaskModel(outComes: nil, event: anyEvent.first!)
-                timeLineModels.append(timeLineModel)
-            }
+            return date1.compare(date2) == .orderedAscending
         }
-        sortedTimeLineModels = timeLineModels
     }
 
     func modified(event: OCKAnyEvent) -> OCKAnyEvent {
@@ -217,17 +194,5 @@ extension OCKSynchronizedStoreManager {
             self.store.fetchAnyEvents(taskID: taskID, query: query, callbackQueue: .main, completion: completion)
         }
         .eraseToAnyPublisher()
-    }
-}
-
-struct TimeLineTaskModel {
-    let id: String
-    let outComes: [OCKOutcomeValue]?
-    let event: OCKAnyEvent
-
-    init(outComes: [OCKOutcomeValue]?, event: OCKAnyEvent) {
-        id = UUID().uuidString
-        self.outComes = outComes
-        self.event = event
     }
 }
