@@ -6,10 +6,14 @@
 //
 
 import UIKit
+import CareKitStore
+import CareKit
 
 class HealthEmptyCell: UICollectionViewCell {
 
     static let cellID: String = "HealthEmptyCell"
+
+    var timeLineModel: TimeLineTaskModel?
 
     private var container: UIView = {
         let container = UIView()
@@ -101,20 +105,16 @@ class HealthEmptyCell: UICollectionViewCell {
         addButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
     }
 
-    func configureCell(cellType: HealthType) {
-        switch cellType {
-        case .glucose:
-            imageView.image = #imageLiteral(resourceName: "icon-blood-glucose.pdf")
-            title.text = "Blood Glucose"
-            subTitle.text = "Log reading"
-        case .insulin:
-            imageView.image = #imageLiteral(resourceName: "icon-insulin.pdf")
-            title.text = "Insulin"
-            subTitle.text = "Log dosage"
-        case .asprin:
-            imageView.image = #imageLiteral(resourceName: "icon-symptoms.pdf")
-            title.text = "Asprint 5mg"
-            subTitle.text = "Due this afternoon"
+    func configureCell(timeLineModel: TimeLineTaskModel) {
+        self.timeLineModel = timeLineModel
+        title.text = timeLineModel.event.task.title
+        let quantityIdentifier = (timeLineModel.event.task as? OCKHealthKitTask)?.healthKitLinkage.quantityIdentifier
+        if let dataType = quantityIdentifier?.dataType {
+            imageView.image = dataType.image
+        } else if let identifier = timeLineModel.event.task.groupIdentifierType, let icon = identifier.icon {
+            imageView.image = icon
+        } else {
+            imageView.image = UIImage(named: "icon-empty")
         }
     }
 }

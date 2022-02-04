@@ -15,9 +15,9 @@ import UIKit
 
 class NewDailyTasksPageViewModel: ObservableObject {
     @Injected(\.careManager) var careManager: CareManager
-    @Published public final var sortedOutComes = [[OCKOutcomeValue]]()
-    @Published public final var sortedOCKEvents = [OCKAnyEvent]()
+    @Injected(\.healthKitManager) var healthKitManager: HealthKitManager
     @Published public internal(set) var error: Error?
+    @Published var sortedTimeLineModels = [TimeLineTaskModel]()
 
     public let storeManager: OCKSynchronizedStoreManager = CareManager.shared.synchronizedStoreManager
     private var cancellables: Set<AnyCancellable> = []
@@ -85,10 +85,10 @@ class NewDailyTasksPageViewModel: ObservableObject {
             }
         }
         let sortedEventsDict = ockEventsDict.sorted(by: {
-            $0.0.compare($1.0) == .orderedDescending
+            $0.0.compare($1.0) == .orderedAscending
         })
         let sortedEvents = sortedEventsDict.map({$0.value})
-        let sortedOutComeValues = outComeValues.sorted(by: { $0.createdDate.compare($1.createdDate) == .orderedDescending })
+        let sortedOutComeValues = outComeValues.sorted(by: { $0.createdDate.compare($1.createdDate) == .orderedAscending })
         var groupID = sortedOutComeValues.first?.healthKitUUID
         var groupOutComes = [OCKOutcomeValue]()
         var groupedOutComes = [[OCKOutcomeValue]]()
@@ -98,19 +98,45 @@ class NewDailyTasksPageViewModel: ObservableObject {
                 continue
             } else {
                 groupID = outCome.healthKitUUID
-                if groupOutComes.count > 0 {
+                if !groupOutComes.isEmpty {
                     groupedOutComes.append(groupOutComes)
                 }
                 groupOutComes.removeAll()
                 groupOutComes.append(outCome)
             }
         }
-        
-        if groupOutComes.count > 0 {
+
+        if !groupOutComes.isEmpty {
             groupedOutComes.append(groupOutComes)
         }
-        sortedOCKEvents = sortedEvents
-        sortedOutComes = groupedOutComes
+
+        var timeLineModels = [TimeLineTaskModel]()
+        for index in 0..<sortedEvents.count {
+            let timeLineModel = TimeLineTaskModel(
+                outComes: groupedOutComes[index],
+                event: sortedEvents[index]
+            )
+            timeLineModels.append(timeLineModel)
+        }
+        for anyEvent in events {
+            if anyEvent.isEmpty {
+                continue
+            }
+            var isEmptyOutCome = true
+            for event in anyEvent {
+                if let outCome = event.outcome, !outCome.values.isEmpty {
+                    isEmptyOutCome = false
+                    break
+                } else {
+                    isEmptyOutCome = true
+                }
+            }
+            if isEmptyOutCome {
+                let timeLineModel = TimeLineTaskModel(outComes: nil, event: anyEvent.first!)
+                timeLineModels.append(timeLineModel)
+            }
+        }
+        sortedTimeLineModels = timeLineModels
     }
 
     func modified(event: OCKAnyEvent) -> OCKAnyEvent {
@@ -120,6 +146,54 @@ class NewDailyTasksPageViewModel: ObservableObject {
     func clearSubscriptions() {
         cancellables = []
         taskCanceellables = [:]
+    }
+
+    func deleteOutcom(value: OCKOutcomeValue, task: OCKHealthKitTask, completion: @escaping AllieResultCompletion<CHOutcome>) {
+        deleteOutcome(value: value) { [weak self] result in
+            switch result {
+            case .success(let sample):
+                ALog.trace("Did delete sample \(sample.uuid)", metadata: nil)
+                do {
+                    var outcome: CHOutcome?
+                    if let carePlanId = task.carePlanId {
+                        outcome = self?.careManager.fetchOutcome(sample: sample, deletedSample: sample, task: task, carePlanId: carePlanId)
+                    } else {
+                        outcome = try self?.careManager.dbFindFirstOutcome(sample: sample)
+                    }
+                    guard var existingOutcome = outcome else {
+                        throw AllieError.missing("\(sample.uuid.uuidString)")
+                    }
+                    existingOutcome.deletedDate = Date()
+                    self?.careManager.upload(outcomes: [existingOutcome], completion: { result in
+                        if case .failure(let error) = result {
+                            ALog.error("unable to upload outcome", error: error)
+                        }
+                        completion(.success(existingOutcome))
+                    })
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                ALog.error("Error deleteing data", error: error)
+            }
+        }
+    }
+
+    func deleteOutcome(value: OCKOutcomeValue, completion: AllieResultCompletion<HKSample>?) {
+        guard let uuid = value.healthKitUUID, let identifier = value.quantityIdentifier else {
+            completion?(.failure(AllieError.invalid("Invalid outcome value")))
+            return
+        }
+        if identifier == HKQuantityTypeIdentifier.bloodPressureSystolic.rawValue || identifier ==
+            HKQuantityTypeIdentifier.bloodPressureDiastolic.rawValue {
+            guard let bloodPressureType = HKCorrelationType.correlationType(forIdentifier: .bloodPressure) else {
+                completion?(.failure(HealthKitManagerError.invalidInput("Invalid quantityIdentifier")))
+                return
+            }
+            healthKitManager.deleteCorrelationSample(uuid: uuid, sampleType: bloodPressureType, completion: completion)
+        } else {
+            healthKitManager.delete(uuid: uuid, quantityIdentifier: identifier, completion: completion)
+        }
     }
 }
 
@@ -143,5 +217,17 @@ extension OCKSynchronizedStoreManager {
             self.store.fetchAnyEvents(taskID: taskID, query: query, callbackQueue: .main, completion: completion)
         }
         .eraseToAnyPublisher()
+    }
+}
+
+struct TimeLineTaskModel {
+    let id: String
+    let outComes: [OCKOutcomeValue]?
+    let event: OCKAnyEvent
+
+    init(outComes: [OCKOutcomeValue]?, event: OCKAnyEvent) {
+        id = UUID().uuidString
+        self.outComes = outComes
+        self.event = event
     }
 }

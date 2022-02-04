@@ -83,10 +83,8 @@ class NewDailyTasksPageViewController: BaseViewController {
         super.viewDidLoad()
         setupViews()
         viewModel.loadHealthData(date: Date())
-        viewModel.$sortedOutComes.sink {[weak self] outComes in
+        viewModel.$sortedTimeLineModels.sink {[weak self] _ in
             DispatchQueue.main.async {
-                let events = self!.viewModel.sortedOCKEvents
-                print(events.count)
                 self?.collectionView.reloadData()
             }
         }
@@ -236,39 +234,72 @@ extension NewDailyTasksPageViewController: UICollectionViewDelegate, UICollectio
                 withReuseIdentifier: RiseSleepCell.cellID, for: indexPath) as! RiseSleepCell
             cell.cellType = .rise
             return cell
-        } else if indexPath.row == viewModel.sortedOutComes.count + 1 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
-            cell.configureCell(cellType: .glucose)
-            return cell
-        } else if indexPath.row == viewModel.sortedOutComes.count + 2 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
-            cell.configureCell(cellType: .insulin)
-            return cell
-        } else if indexPath.row == viewModel.sortedOutComes.count + 3 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
-            cell.configureCell(cellType: .asprin)
-            return cell
-        } else if indexPath.row == viewModel.sortedOutComes.count + 4 {
+        } else if indexPath.row == viewModel.sortedTimeLineModels.count + 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthAddCell.cellID, for: indexPath) as! HealthAddCell
             return cell
-        } else if indexPath.row == viewModel.sortedOutComes.count + 5 {
+        } else if indexPath.row == viewModel.sortedTimeLineModels.count + 2 {
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: RiseSleepCell.cellID, for: indexPath) as! RiseSleepCell
             cell.cellType = .sleep
             return cell
-        } else if indexPath.row == viewModel.sortedOutComes.count + 6 {
+        } else if indexPath.row == viewModel.sortedTimeLineModels.count + 3 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthLastCell.cellID, for: indexPath) as! HealthLastCell
             return cell
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthFilledCell.cellID, for: indexPath) as! HealthFilledCell
-            cell.configureCell(outComes: viewModel.sortedOutComes[indexPath.row - 1], ockEvent: viewModel.sortedOCKEvents[indexPath.row - 1])
-            return cell
+            let timeLineModel = viewModel.sortedTimeLineModels[indexPath.row - 1]
+            if timeLineModel.outComes.isNil {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
+                cell.configureCell(timeLineModel: timeLineModel)
+                return cell
+            } else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthFilledCell.cellID, for: indexPath) as! HealthFilledCell
+                cell.configureCell(timeLineModel: timeLineModel)
+                return cell
+            }
         }
         // swiftlint:enable force_cast
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.sortedOutComes.count + 7
+        return viewModel.sortedTimeLineModels.count + 4
+    }
+}
+// MARK: - Collection Cell Delegate
+extension NewDailyTasksPageViewController: HealthFilledCellDelegate {
+    func onClickCell(timeLineModel: TimeLineTaskModel) {
+//        guard let task = ockEvent.task as? OCKHealthKitTask else {
+//            return
+//        }
+//        let value = outComes.first
+//        let viewController = GeneralizedLogTaskDetailViewController()
+//        viewController.queryDate = OCKEventQuery(for: Date()).dateInterval.start
+//        viewController.anyTask = task
+//        viewController.outcomeValues = outComes
+//        if let uuid = value?.healthKitUUID {
+//            viewController.outcome = try? careManager.dbFindFirstOutcome(sampleId: uuid)
+//        }
+//        viewController.modalPresentationStyle = .overFullScreen
+//        viewController.cancelAction = { [weak viewController] in
+//            viewController?.dismiss(animated: true, completion: nil)
+//        }
+//        viewController.deleteAction = { [weak self, weak viewController] in
+//            guard let outComeValue = viewController?.outcomeValues.first, let task = viewController?.healthKitTask else {
+//                viewController?.dismiss(animated: true, completion: nil)
+//                return
+//            }
+//            self?.viewModel.deleteOutcom(value: outComeValue, task: task, completion: { result in
+//                switch result {
+//                case .success(let sample):
+//                    ALog.trace("\(sample.uuid) sample was deleted", metadata: nil)
+//                case .failure(let error):
+//                    ALog.error("Error deleting data", error: error)
+//                }
+//                DispatchQueue.main.async {
+//                    viewController?.dismiss(animated: true, completion: nil)
+//                }
+//            })
+//        }
+//        tabBarController?.showDetailViewController(viewController, sender: self)
     }
 }
 

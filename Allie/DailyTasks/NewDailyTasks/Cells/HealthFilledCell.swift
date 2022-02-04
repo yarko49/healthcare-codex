@@ -15,9 +15,16 @@ enum HealthType {
     case asprin
 }
 
+protocol HealthFilledCellDelegate: AnyObject {
+    func onClickCell(timeLineModel: TimeLineTaskModel)
+}
+
 class HealthFilledCell: UICollectionViewCell {
 
     static let cellID: String = "HealthFilledCell"
+
+    weak var delegate: HealthFilledCellDelegate?
+    var timeLineModel: TimeLineTaskModel?
 
     private var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -77,6 +84,14 @@ class HealthFilledCell: UICollectionViewCell {
         return contentStack
     }()
 
+    private let actionButton: UIButton = {
+        let actionButton = UIButton()
+        actionButton.translatesAutoresizingMaskIntoConstraints = false
+        actionButton.backgroundColor = .clear
+        actionButton.setTitle("", for: .normal)
+        return actionButton
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -90,6 +105,7 @@ class HealthFilledCell: UICollectionViewCell {
         self.backgroundColor = .clear
         contentView.addSubview(stepStack)
         contentView.addSubview(contentStack)
+        contentView.addSubview(actionButton)
         stepStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         stepStack.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         stepStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30).isActive = true
@@ -107,9 +123,18 @@ class HealthFilledCell: UICollectionViewCell {
 
         contentStack.addArrangedSubview(title)
         contentStack.addArrangedSubview(subTitle)
+
+        actionButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        actionButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        actionButton.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+        actionButton.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
+        actionButton.addTarget(self, action: #selector(onActionButtonClick), for: .touchUpInside)
     }
 
-    func configureCell(outComes: [OCKOutcomeValue], ockEvent: OCKAnyEvent) {
+    func configureCell(timeLineModel: TimeLineTaskModel) {
+        self.timeLineModel = timeLineModel
+        let outComes = timeLineModel.outComes!
+        let ockEvent = timeLineModel.event
         title.text = ockEvent.task.title
         let quantityIdentifier = (ockEvent.task as? OCKHealthKitTask)?.healthKitLinkage.quantityIdentifier
         if let dataType = quantityIdentifier?.dataType {
@@ -150,6 +175,10 @@ class HealthFilledCell: UICollectionViewCell {
                 subTitle.text = "\(dateString)"
             }
         }
+    }
+
+    @objc func onActionButtonClick() {
+        delegate?.onClickCell(timeLineModel: timeLineModel!)
     }
 }
 
