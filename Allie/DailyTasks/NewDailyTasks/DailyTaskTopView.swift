@@ -182,6 +182,9 @@ class DailyTaskTopView: UIView {
         self.delegate?.onClickTodayButton()
     }
 
+    func setButtonTitle(title: String) {
+        todayButton.setTitle(title, for: .normal)
+    }
 }
 
 class FeelingButton: UIControl {

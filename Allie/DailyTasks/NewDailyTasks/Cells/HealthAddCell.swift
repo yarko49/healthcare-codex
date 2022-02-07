@@ -102,7 +102,7 @@ class HealthAddCell: UICollectionViewCell {
         contentStack.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
         contentStack.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20.0).isActive = true
 
-        addButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
+        addButton.centerYAnchor.constraint(equalTo: container.centerYAnchor).isActive = true
         addButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20.0).isActive = true
         addButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
         addButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true

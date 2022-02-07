@@ -9,11 +9,16 @@ import UIKit
 import CareKitStore
 import CareKit
 
+protocol HealthEmptyCellDelegate: AnyObject {
+    func onAddButtonClick(timelineItemViewModel: TimelineItemViewModel)
+}
+
 class HealthEmptyCell: UICollectionViewCell {
 
     static let cellID: String = "HealthEmptyCell"
 
     var timelineViewModel: TimelineItemViewModel!
+    weak var delegate: HealthEmptyCellDelegate?
 
     private var container: UIView = {
         let container = UIView()
@@ -103,6 +108,7 @@ class HealthEmptyCell: UICollectionViewCell {
         addButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20.0).isActive = true
         addButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
         addButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
+        addButton.addTarget(self, action: #selector(onAddButtonClick), for: .touchUpInside)
     }
 
     func configureCell(timelineViewModel: TimelineItemViewModel) {
@@ -117,6 +123,10 @@ class HealthEmptyCell: UICollectionViewCell {
             imageView.image = UIImage(named: "icon-empty")
         }
         subTitle.text = timelineViewModel.timelineItemModel.event.task.instructions ?? " "
+    }
+
+    @objc func onAddButtonClick() {
+        delegate?.onAddButtonClick(timelineItemViewModel: timelineViewModel)
     }
 }
 

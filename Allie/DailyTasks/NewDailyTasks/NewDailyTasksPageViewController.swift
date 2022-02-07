@@ -28,6 +28,7 @@ class NewDailyTasksPageViewController: BaseViewController {
     private var insertViewsAnimated: Bool = true
     private var isRefreshingCarePlan = false
     var ockTasks: [OCKAnyTask] = [OCKAnyTask]()
+    private var selectedDate: Date = Date()
 
     private var subscriptions = Set<AnyCancellable>()
 
@@ -82,7 +83,7 @@ class NewDailyTasksPageViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        viewModel.loadHealthData(date: Date())
+        viewModel.loadHealthData(date: selectedDate)
         viewModel.$timelineItemViewModels.sink {[weak self] _ in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
@@ -222,6 +223,14 @@ class NewDailyTasksPageViewController: BaseViewController {
 
     @objc func onChangeDate(sender: UIDatePicker) {
         datePicker.isHidden = true
+        selectedDate = sender.date
+        if Calendar.current.isDateInToday(sender.date) {
+            topView.setButtonTitle(title: "Today")
+        } else {
+            let title: String = DateFormatter.yyyyMMdd.string(from: sender.date)
+            topView.setButtonTitle(title: title)
+        }
+        viewModel.loadHealthData(date: selectedDate)
     }
 }
 
@@ -255,6 +264,7 @@ extension NewDailyTasksPageViewController: UICollectionViewDelegate, UICollectio
             } else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
                 cell.configureCell(timelineViewModel: timelineViewModel)
+                cell.delegate = self
                 return cell
             }
         }
@@ -268,37 +278,182 @@ extension NewDailyTasksPageViewController: UICollectionViewDelegate, UICollectio
 // MARK: - Collection Cell Delegate
 extension NewDailyTasksPageViewController: HealthFilledCellDelegate {
     func onClickCell(timelineItemViewModel: TimelineItemViewModel) {
-        if timelineItemViewModel.timelineItemModel.event.task.groupIdentifierType == .symptoms {
-            guard let task = timelineItemViewModel.timelineItemModel.event.task as? OCKTask else {
-                return
-            }
+        let groupIdentifierType = timelineItemViewModel.timelineItemModel.event.task.groupIdentifierType
+        if groupIdentifierType == .symptoms || groupIdentifierType == .labeledValue {
             let viewController = GeneralizedLogTaskDetailViewController()
-            viewController.queryDate = OCKEventQuery(for: Date()).dateInterval.start
-            viewController.anyTask = task
+            viewController.queryDate = OCKEventQuery(for: selectedDate).dateInterval.start
             viewController.outcomeValues = timelineItemViewModel.timelineItemModel.outcomeValues ?? []
-            viewController.outcomeIndex = 0
-            viewController.modalPresentationStyle = .overFullScreen
-            viewController.cancelAction = { [weak viewController] in
-                viewController?.dismiss(animated: true, completion: nil)
-            }
-            tabBarController?.showDetailViewController(viewController, sender: self)
-        } else if timelineItemViewModel.timelineItemModel.event.task.groupIdentifierType == .labeledValue {
-            guard let task = timelineItemViewModel.timelineItemModel.event.task as? OCKHealthKitTask else {
-                return
-            }
-            let value = timelineItemViewModel.timelineItemModel.outcomeValues?.first
-            let viewController = GeneralizedLogTaskDetailViewController()
-            viewController.queryDate = OCKEventQuery(for: Date()).dateInterval.start
-            viewController.anyTask = task
-            viewController.outcomeValues = timelineItemViewModel.timelineItemModel.outcomeValues ?? []
-            if let uuid = value?.healthKitUUID {
-                viewController.outcome = try? careManager.dbFindFirstOutcome(sampleId: uuid)
+            if groupIdentifierType == .symptoms {
+                guard let task = timelineItemViewModel.timelineItemModel.event.task as? OCKTask else {
+                    return
+                }
+                viewController.anyTask = task
+                viewController.outcomeIndex = 0
+            } else {
+                guard let task = timelineItemViewModel.timelineItemModel.event.task as? OCKHealthKitTask else {
+                    return
+                }
+                viewController.anyTask = task
+                let value = timelineItemViewModel.timelineItemModel.outcomeValues?.first
+                if let uuid = value?.healthKitUUID {
+                    viewController.outcome = try? careManager.dbFindFirstOutcome(uuid: uuid)
+                }
             }
             viewController.modalPresentationStyle = .overFullScreen
             viewController.cancelAction = { [weak viewController] in
                 viewController?.dismiss(animated: true, completion: nil)
             }
+            if groupIdentifierType == .symptoms {
+                viewController.outcomeValueHandler = { [weak viewController, weak self] newOutcomeValue in
+                    guard let strongSelf = self, let task = (viewController?.anyTask as? OCKTask) else {
+                        return
+                    }
+                    guard let index = viewController?.outcomeIndex, let outcome = timelineItemViewModel.timelineItemModel.event.outcome as? OCKOutcome, index < outcome.values.count else {
+                        return
+                    }
+                    strongSelf.viewModel.updateOutcomeValue(newValue: newOutcomeValue, for: outcome, event: timelineItemViewModel.timelineItemModel.event, at: index, task: task) { result in
+                        switch result {
+                        case .success:
+                            strongSelf.viewModel.loadHealthData(date: strongSelf.selectedDate)
+                        case .failure(let error):
+                            ALog.error("failed updating", error: error)
+                        }
+                        viewController?.dismiss(animated: true, completion: nil)
+                    }
+                }
+            } else {
+                viewController.healthKitSampleHandler = { [weak viewController, weak self] newSample in
+                    guard let strongSelf = self, let outcomeValue = viewController?.outcomeValues.first, let task = (viewController?.anyTask as? OCKHealthKitTask) else {
+                        return
+                    }
+                    strongSelf.viewModel.updateOutcome(newSample: newSample, outcomeValue: outcomeValue, task: task) { result in
+                        switch result {
+                        case .success:
+                            strongSelf.viewModel.loadHealthData(date: strongSelf.selectedDate)
+                        case .failure(let error):
+                            ALog.error("Error updateing data", error: error)
+                        }
+                        viewController?.dismiss(animated: true, completion: nil)
+                    }
+                }
+            }
+            viewController.deleteAction = { [weak self, weak viewController] in
+                if groupIdentifierType == .symptoms {
+                    guard let strongSelf = self, let index = viewController?.outcomeIndex, let task = viewController?.task else {
+                        viewController?.dismiss(animated: true, completion: nil)
+                        return
+                    }
+                    do {
+                        guard let eventOutcome = timelineItemViewModel.timelineItemModel.event.outcome as? OCKOutcome, index < eventOutcome.values.count else {
+                            throw AllieError.missing("No Outcome Value for Event at index\(index)")
+                        }
+                        strongSelf.viewModel.deleteOutcomeValue(at: index, for: eventOutcome, task: task) { result in
+                            switch result {
+                            case .success(let deletedOutcome):
+                                ALog.trace("Uploaded the outcome \(deletedOutcome.remoteId ?? "")")
+                                self?.viewModel.loadHealthData(date: self?.selectedDate ?? Date())
+                            case .failure(let error):
+                                ALog.error("unable to upload outcome", error: error)
+                            }
+                            DispatchQueue.main.async {
+                                viewController?.dismiss(animated: true, completion: nil)
+                            }
+                        }
+                    } catch {
+                        ALog.error("Can not delete outcome", error: error)
+                        DispatchQueue.main.async {
+                            viewController?.dismiss(animated: true, completion: nil)
+                        }
+                    }
+                } else {
+                    guard let outcomeValue = viewController?.outcomeValues.first, let task = viewController?.healthKitTask else {
+                        viewController?.dismiss(animated: true, completion: nil)
+                        return
+                    }
+                    self?.viewModel.deleteOutcom(value: outcomeValue, task: task, completion: { result in
+                        switch result {
+                        case .success(let sample):
+                            self?.viewModel.loadHealthData(date: self?.selectedDate ?? Date())
+                            ALog.trace("\(sample.uuid) sample was deleted", metadata: nil)
+                        case .failure(let error):
+                            ALog.error("Error deleting data", error: error)
+                        }
+                        DispatchQueue.main.async {
+                            viewController?.dismiss(animated: true, completion: nil)
+                        }
+                    })
+                }
+            }
             tabBarController?.showDetailViewController(viewController, sender: self)
+        } else {
+            return
+        }
+    }
+}
+
+extension NewDailyTasksPageViewController: HealthEmptyCellDelegate {
+    func onAddButtonClick(timelineItemViewModel: TimelineItemViewModel) {
+        let groupIdentifierType = timelineItemViewModel.timelineItemModel.event.task.groupIdentifierType
+        if groupIdentifierType == .symptoms || groupIdentifierType == .labeledValue {
+            let viewController = GeneralizedLogTaskDetailViewController()
+            viewController.queryDate = OCKEventQuery(for: selectedDate).dateInterval.start
+            viewController.outcomeValues = []
+            if groupIdentifierType == .symptoms {
+                guard let task = timelineItemViewModel.timelineItemModel.event.task as? OCKTask else {
+                    return
+                }
+                viewController.anyTask = task
+                viewController.outcomeIndex = 0
+            } else {
+                guard let task = timelineItemViewModel.timelineItemModel.event.task as? OCKHealthKitTask else {
+                    return
+                }
+                viewController.anyTask = task
+                viewController.outcome = nil
+            }
+            viewController.modalPresentationStyle = .overFullScreen
+            viewController.cancelAction = { [weak viewController] in
+                viewController?.dismiss(animated: true, completion: nil)
+            }
+            if groupIdentifierType == .symptoms {
+                viewController.outcomeValueHandler = { [weak viewController, weak self] newOutcomeValue in
+                    guard let strongSelf = self, let task = viewController?.anyTask as? OCKTask, let carePlanId = task.carePlanId else {
+                        return
+                    }
+                    strongSelf.viewModel.addOutcomeValue(newValue: newOutcomeValue, carePlanId: carePlanId, task: task, event: timelineItemViewModel.timelineItemModel.event) { result in
+                        switch result {
+                        case .failure(let error):
+                            ALog.error("Error appnding outcome", error: error)
+                        case .success(let outcome):
+                            ALog.info("Did append value \(outcome.uuid)")
+                            strongSelf.viewModel.loadHealthData(date: strongSelf.selectedDate)
+                        }
+                        DispatchQueue.main.async {
+                            viewController?.dismiss(animated: true, completion: nil)
+                        }
+                    }
+                }
+            } else {
+                viewController.healthKitSampleHandler = { [weak viewController, weak self] newSample in
+                    guard let strongSelf = self, let task = (viewController?.anyTask as? OCKHealthKitTask) else {
+                        return
+                    }
+                    strongSelf.viewModel.addOutcome(newValue: newSample, task: task) { result in
+                        switch result {
+                        case .failure(let error):
+                            ALog.error("unable to upload outcome", error: error)
+                        case .success:
+                            strongSelf.viewModel.loadHealthData(date: strongSelf.selectedDate)
+                        }
+                        DispatchQueue.main.async {
+                            viewController?.dismiss(animated: true, completion: nil)
+                        }
+                    }
+                }
+            }
+            tabBarController?.showDetailViewController(viewController, sender: self)
+        } else {
+            return
         }
     }
 }
