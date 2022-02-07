@@ -42,4 +42,15 @@ extension UIView {
 		NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: container, attribute: .top, multiplier: 1.0, constant: 0).isActive = true
 		NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: container, attribute: .bottom, multiplier: 1.0, constant: 0).isActive = true
 	}
+
+    var safeAreaBottom: CGFloat {
+        if #available(iOS 13.0, *) {
+            let window = UIApplication.shared.windows.first
+            if let bottomPadding = window?.safeAreaInsets.bottom {
+                return bottomPadding
+            }
+            return 0
+        }
+        return 0
+    }
 }

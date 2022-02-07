@@ -49,8 +49,10 @@ class AppCoordinator: BaseCoordinator {
 		}
 		self.todayNavController = Self.todayNavController(rootViewController: todayController)
 		self.conversationsNavController = Self.conversationsNavController(rootViewController: chatController)
-		self.tabBarController = UITabBarController()
-		tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, conversationsNavController!, Self.settingsNavController]
+//		self.tabBarController = UITabBarController()
+        self.tabBarController = RoundedTabBarController()
+//		tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, conversationsNavController!, Self.settingsNavController]
+        tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, Self.settingsNavController]
 		start()
 	}
 
@@ -192,7 +194,7 @@ class AppCoordinator: BaseCoordinator {
 	class func todayNavController(rootViewController controller: UIViewController) -> UINavigationController {
 		let navigationController = UINavigationController(rootViewController: controller)
 		navigationController.tabBarItem.image = UIImage(named: "icon-tabbar-today")
-		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
+		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
 		navigationController.tabBarItem.title = nil
 		return navigationController
 	}
@@ -211,7 +213,7 @@ class AppCoordinator: BaseCoordinator {
 		navigationController.title = title
 		navigationController.tabBarItem.image = UIImage(named: "icon-tabbar-profile")
 		navigationController.tabBarItem.title = nil
-		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
+		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
 		return navigationController
 	}
 
@@ -226,7 +228,7 @@ class AppCoordinator: BaseCoordinator {
 		let navigationController = UINavigationController(rootViewController: viewController)
 		navigationController.tabBarItem.image = UIImage(named: "icon-tabbar-chat")
 		navigationController.tabBarItem.title = nil
-		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
+		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
 		return navigationController
 	}
 
@@ -241,7 +243,7 @@ class AppCoordinator: BaseCoordinator {
 		let navigationController = UINavigationController(rootViewController: settingsViewController)
 		navigationController.tabBarItem.image = UIImage(named: "icon-tabbar-settings")
 		navigationController.tabBarItem.title = nil
-		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: -5.0, right: 0.0)
+		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
 		return navigationController
 	}
 }

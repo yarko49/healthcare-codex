@@ -54,7 +54,7 @@ class NewDailyTasksPageViewController: BaseViewController {
         let item = NSCollectionLayoutItem(layoutSize: size)
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0)
         section.interGroupSpacing = 0
         let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                       heightDimension: .absolute(0))
@@ -64,6 +64,7 @@ class NewDailyTasksPageViewController: BaseViewController {
         section.boundarySupplementaryItems = [sectionHeader]
         let layout = UICollectionViewCompositionalLayout(section: section)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.bounces = false
         collectionView.backgroundColor = .mainBackground
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(RiseSleepCell.self, forCellWithReuseIdentifier: RiseSleepCell.cellID)
@@ -71,7 +72,6 @@ class NewDailyTasksPageViewController: BaseViewController {
         collectionView.register(HealthEmptyCell.self, forCellWithReuseIdentifier: HealthEmptyCell.cellID)
         collectionView.register(HealthAddCell.self, forCellWithReuseIdentifier: HealthAddCell.cellID)
         collectionView.register(HealthLastCell.self, forCellWithReuseIdentifier: HealthLastCell.cellID)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         return collectionView
     }()
 
@@ -84,27 +84,37 @@ class NewDailyTasksPageViewController: BaseViewController {
         super.viewDidLoad()
         setupViews()
         viewModel.loadHealthData(date: selectedDate)
+        viewModel.$loadingState.sink { [weak self] state in
+            switch state {
+            case .loading:
+                self?.hud.show(in: (self?.tabBarController?.view ?? self?.view)!, animated: true)
+            case .completed:
+                self?.hud.dismiss(animated: true)
+            }
+        }
+        .store(in: &subscriptions)
+
         viewModel.$timelineItemViewModels.sink {[weak self] _ in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
             }
         }
         .store(in: &subscriptions)
-//        NotificationCenter.default.publisher(for: .patientDidSnychronize)
-//            .receive(on: RunLoop.main)
-//            .sink { [weak self] _ in
-//                self?.reload()
-//            }.store(in: &cancellable)
-//        NotificationCenter.default.publisher(for: .didUpdateCarePlan)
-//            .receive(on: RunLoop.main)
-//            .sink { [weak self] _ in
-//                self?.reload()
-//            }.store(in: &cancellable)
-//        NotificationCenter.default.publisher(for: .didModifyHealthKitStore)
-//            .receive(on: RunLoop.main)
-//            .sink { [weak self] _ in
-//                self?.setupViews()
-//            }.store(in: &cancellable)
+        NotificationCenter.default.publisher(for: .patientDidSnychronize)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.reload()
+            }.store(in: &cancellable)
+        NotificationCenter.default.publisher(for: .didUpdateCarePlan)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.reload()
+            }.store(in: &cancellable)
+        NotificationCenter.default.publisher(for: .didModifyHealthKitStore)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.reload()
+            }.store(in: &cancellable)
         if careManager.patient?.bgmName == nil {
             NotificationCenter.default.publisher(for: .didPairBloodGlucoseMonitor)
                 .receive(on: RunLoop.main)
@@ -112,26 +122,26 @@ class NewDailyTasksPageViewController: BaseViewController {
                     self?.startBluetooth()
                 }.store(in: &cancellable)
         }
-//        Timer.publish(every: timeInterval, tolerance: 10.0, on: .current, in: .common, options: nil)
-//            .autoconnect()
-//            .receive(on: RunLoop.main)
-//            .sink(receiveValue: { [weak self] _ in
-//                self?.reload()
-//            }).store(in: &cancellable)
-//        careManager.startUploadOutcomesTimer(timeInterval: remoteConfig.outcomesUploadTimeInterval)
-//        healthKitManager.authorizeHealthKit { [weak self] success, error in
-//            if let error = error {
-//                ALog.error("Unable to authorize the HealthKit", error: error)
-//            } else {
-//                ALog.info("Success result \(success)")
-//            }
-//            DispatchQueue.main.async {
-//                self?.reload()
-//            }
-//            if self?.careManager.patient?.bgmName != nil {
-//                self?.startBluetooth()
-//            }
-//        }
+        Timer.publish(every: timeInterval, tolerance: 10.0, on: .current, in: .common, options: nil)
+            .autoconnect()
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: { [weak self] _ in
+                self?.reload()
+            }).store(in: &cancellable)
+        careManager.startUploadOutcomesTimer(timeInterval: remoteConfig.outcomesUploadTimeInterval)
+        healthKitManager.authorizeHealthKit { [weak self] success, error in
+            if let error = error {
+                ALog.error("Unable to authorize the HealthKit", error: error)
+            } else {
+                ALog.info("Success result \(success)")
+            }
+            DispatchQueue.main.async {
+                self?.reload()
+            }
+            if self?.careManager.patient?.bgmName != nil {
+                self?.startBluetooth()
+            }
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -157,6 +167,8 @@ class NewDailyTasksPageViewController: BaseViewController {
         collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        let bottomInset: CGFloat = (self.tabBarController?.tabBar.frame.height)! + self.view.safeAreaBottom
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -bottomInset, right: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(datePicker)
@@ -169,11 +181,11 @@ class NewDailyTasksPageViewController: BaseViewController {
 
     func reload() {
         if shouldUpdateCarePlan {
-            getAndUpdateCarePlans { _ in
-                self.collectionView.reloadData()
+            getAndUpdateCarePlans { [weak self] _ in
+                self?.viewModel.loadHealthData(date: self!.selectedDate)
             }
         } else {
-            self.collectionView.reloadData()
+            self.viewModel.loadHealthData(date: self.selectedDate)
         }
     }
 
@@ -463,6 +475,7 @@ extension NewDailyTasksPageViewController: DailyTaskTopViewDelegate {
     func onClickTodayButton() {
         UIView.animate(withDuration: 0.3) {
             self.datePicker.isHidden = false
+            self.view.layoutIfNeeded()
         }
     }
 }

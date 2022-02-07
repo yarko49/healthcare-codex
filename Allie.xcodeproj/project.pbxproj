@@ -16,6 +16,9 @@
 		2515505F27A00E4400C40BC5 /* DailyTaskTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2515505E27A00E4400C40BC5 /* DailyTaskTopView.swift */; };
 		2515506027A00E4400C40BC5 /* DailyTaskTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2515505E27A00E4400C40BC5 /* DailyTaskTopView.swift */; };
 		2515506127A00E4400C40BC5 /* DailyTaskTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2515505E27A00E4400C40BC5 /* DailyTaskTopView.swift */; };
+		256EA61F27B0F6310023755F /* RoundedTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256EA61E27B0F6310023755F /* RoundedTabBarController.swift */; };
+		256EA62027B0F6310023755F /* RoundedTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256EA61E27B0F6310023755F /* RoundedTabBarController.swift */; };
+		256EA62127B0F6310023755F /* RoundedTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256EA61E27B0F6310023755F /* RoundedTabBarController.swift */; };
 		25737B2D27A1E6F7006357E7 /* RiseSleepCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25737B2C27A1E6F7006357E7 /* RiseSleepCell.swift */; };
 		25737B2E27A1E6F7006357E7 /* RiseSleepCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25737B2C27A1E6F7006357E7 /* RiseSleepCell.swift */; };
 		25737B2F27A1E6F7006357E7 /* RiseSleepCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25737B2C27A1E6F7006357E7 /* RiseSleepCell.swift */; };
@@ -1155,6 +1158,7 @@
 		25057EE127A531DB00594540 /* NewDailyTasks+BloodGlucoseMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewDailyTasks+BloodGlucoseMonitor.swift"; sourceTree = "<group>"; };
 		25155059279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDailyTasksPageViewController.swift; sourceTree = "<group>"; };
 		2515505E27A00E4400C40BC5 /* DailyTaskTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTaskTopView.swift; sourceTree = "<group>"; };
+		256EA61E27B0F6310023755F /* RoundedTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTabBarController.swift; sourceTree = "<group>"; };
 		25737B2C27A1E6F7006357E7 /* RiseSleepCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiseSleepCell.swift; sourceTree = "<group>"; };
 		25737B3027A1EFA0006357E7 /* HealthFilledCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthFilledCell.swift; sourceTree = "<group>"; };
 		25764B0C27A2818B0032B365 /* HealthEmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthEmptyCell.swift; sourceTree = "<group>"; };
@@ -1682,6 +1686,14 @@
 			path = NewDailyTasks;
 			sourceTree = "<group>";
 		};
+		256EA61D27B0F6010023755F /* Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				256EA61E27B0F6310023755F /* RoundedTabBarController.swift */,
+			);
+			path = Tabbar;
+			sourceTree = "<group>";
+		};
 		25737B2B27A1E6BE006357E7 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -1864,6 +1876,7 @@
 		842398C9259C1144006FB3F4 /* Allie */ = {
 			isa = PBXGroup;
 			children = (
+				256EA61D27B0F6010023755F /* Tabbar */,
 				84555DC026AFC5DF00C7BA55 /* GlucoseMeter */,
 				841640C32627D6EB000903AF /* Chat */,
 				84476710259C2A4E00C50C09 /* Shared */,
@@ -3337,6 +3350,7 @@
 				843F513F272917C300E801DE /* CHGroupIdentifierType+Icon.swift in Sources */,
 				84009048261AA77000FB3968 /* ProfileEntryViewController.swift in Sources */,
 				845FBE8025FC775E00472257 /* ConfigurationError.swift in Sources */,
+				256EA61F27B0F6310023755F /* RoundedTabBarController.swift in Sources */,
 				84703C56265B495D0025A50D /* AuthenticationToken.swift in Sources */,
 				84D1129126D45724000BA718 /* BGMPairingViewController.swift in Sources */,
 				258DC4AA27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */,
@@ -3703,6 +3717,7 @@
 				843F5141272917C300E801DE /* CHGroupIdentifierType+Icon.swift in Sources */,
 				847DCC81265871F3004E9C1D /* PersonNameComponents+ResourceName.swift in Sources */,
 				848199B3268996CF00DAB894 /* ProviderDetailViewModel.swift in Sources */,
+				256EA62127B0F6310023755F /* RoundedTabBarController.swift in Sources */,
 				84D1129326D45724000BA718 /* BGMPairingViewController.swift in Sources */,
 				847E8A2226CB13D5006D8820 /* HKDevice+CBPeripheral.swift in Sources */,
 				258DC4AC27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */,
@@ -4032,6 +4047,7 @@
 				843F5140272917C300E801DE /* CHGroupIdentifierType+Icon.swift in Sources */,
 				84D122AF264112DE00990196 /* PersonNameComponents+ResourceName.swift in Sources */,
 				848199B2268996CF00DAB894 /* ProviderDetailViewModel.swift in Sources */,
+				256EA62027B0F6310023755F /* RoundedTabBarController.swift in Sources */,
 				84D1129226D45724000BA718 /* BGMPairingViewController.swift in Sources */,
 				847E8A2126CB13D5006D8820 /* HKDevice+CBPeripheral.swift in Sources */,
 				258DC4AB27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */,

@@ -109,7 +109,7 @@ class HealthFilledCell: UICollectionViewCell {
         stepStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         stepStack.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         stepStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30).isActive = true
-        contentStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        contentStack.centerYAnchor.constraint(equalTo: stepStack.centerYAnchor).isActive = true
         contentStack.leadingAnchor.constraint(equalTo: stepStack.trailingAnchor, constant: 20).isActive = true
         stepStack.addArrangedSubview(topDash)
         topDash.widthAnchor.constraint(equalToConstant: 1.0).isActive = true

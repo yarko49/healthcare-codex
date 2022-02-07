@@ -13,17 +13,23 @@ import HealthKit
 import CareKitUI
 import UIKit
 
+enum NewDailyTaskPageState {
+    case loading, completed
+}
+
 class NewDailyTasksPageViewModel: ObservableObject {
     @Injected(\.careManager) var careManager: CareManager
     @Injected(\.healthKitManager) var healthKitManager: HealthKitManager
     @Published public internal(set) var error: Error?
     @Published var timelineItemViewModels = [TimelineItemViewModel]()
+    @Published var loadingState: NewDailyTaskPageState = .loading
 
     public let storeManager: OCKSynchronizedStoreManager = CareManager.shared.synchronizedStoreManager
     private var cancellables: Set<AnyCancellable> = []
     private var taskCanceellables: [String: Set<AnyCancellable>] = [:]
 
     func loadHealthData(date: Date) {
+        loadingState = .loading
         var query = OCKTaskQuery(for: date)
         query.excludesTasksWithNoEvents = true
         storeManager.store.fetchAnyTasks(query: query, callbackQueue: .main) { [weak self] result in
@@ -63,6 +69,7 @@ class NewDailyTasksPageViewModel: ObservableObject {
         }
         .sink { [unowned self] events in
             self.generateTimelineItems(events: events)
+            self.loadingState = .completed
         }
         .store(in: &cancellables)
     }

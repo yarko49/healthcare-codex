@@ -120,16 +120,17 @@ class MainCoordinator: BaseCoordinator {
 	}
 
 	func updateBadges(count: Int) {
-		let appController = self[.application] as? AppCoordinator
-		let tabbarItem = appController?.tabBarController?.tabBar.items?[2]
-		tabbarItem?.badgeColor = .systemRed
-		// swiftlint:disable:next empty_count
-		tabbarItem?.badgeValue = count > 0 ? "\(count)" : nil
+        // FIXME: Needs to be activated once the tab bar is completed. This is for chat-badge.
+//		let appController = self[.application] as? AppCoordinator
+//		let tabbarItem = appController?.tabBarController?.tabBar.items?[2]
+//		tabbarItem?.badgeColor = .systemRed
+//		// swiftlint:disable:next empty_count
+//		tabbarItem?.badgeValue = count > 0 ? "\(count)" : nil
 	}
 
 	func updateZendeskBadges(count: Int) {
 		let appController = self[.application] as? AppCoordinator
-		let tabbarItem = appController?.tabBarController?.tabBar.items?[3]
+		let tabbarItem = appController?.tabBarController?.tabBar.items?[2]
 		tabbarItem?.badgeColor = .systemRed
 		// swiftlint:disable:next empty_count
 		tabbarItem?.badgeValue = count > 0 ? "\(count)" : nil

@@ -161,16 +161,20 @@ class DailyTaskTopView: UIView {
     func showAnimation() {
         UIView.animate(withDuration: 0.3) { [self] in
             greetingView.isHidden = true
+            self.layoutIfNeeded()
         } completion: { [self] _ in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 UIView.animate(withDuration: 0.3) {
                     statusView.isHidden = false
+                    self.layoutIfNeeded()
                 } completion: { _ in
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         UIView.animate(withDuration: 0.3) { [self] in
                             statusView.isHidden = true
+                            self.layoutIfNeeded()
                         } completion: { [self] _ in
                             calendarView.isHidden = false
+                            self.layoutIfNeeded()
                         }
                     }
                 }
