@@ -2,7 +2,7 @@
 //  RoundedTabBarController.swift
 //  Allie
 //
-//  Created by embedded system mac on 2/6/22.
+//  Created by Onseen on 2/6/22.
 //
 
 import UIKit
@@ -12,6 +12,7 @@ class RoundedTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBar.backgroundColor = .clear
+        self.tabBar.tintColor = .mainBlue
         let layer = CAShapeLayer()
         layer.path = UIBezierPath(roundedRect: CGRect(x: 20, y: tabBar.bounds.minY - 35, width: tabBar.bounds.width - 40.0, height: 72),
                                   cornerRadius: self.tabBar.frame.height / 2).cgPath

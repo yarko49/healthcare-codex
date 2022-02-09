@@ -193,7 +193,8 @@ class AppCoordinator: BaseCoordinator {
 
 	class func todayNavController(rootViewController controller: UIViewController) -> UINavigationController {
 		let navigationController = UINavigationController(rootViewController: controller)
-		navigationController.tabBarItem.image = UIImage(named: "icon-tabbar-today")
+		navigationController.tabBarItem.image = UIImage(named: "icon-tab-home")
+        navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-home-selected")
 		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
 		navigationController.tabBarItem.title = nil
 		return navigationController
@@ -211,7 +212,8 @@ class AppCoordinator: BaseCoordinator {
 		let navigationController = UINavigationController(rootViewController: controller)
 		let title = NSLocalizedString("PROFILE", comment: "Profile")
 		navigationController.title = title
-		navigationController.tabBarItem.image = UIImage(named: "icon-tabbar-profile")
+		navigationController.tabBarItem.image = UIImage(named: "icon-tab-user")
+        navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-user-selected")
 		navigationController.tabBarItem.title = nil
 		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
 		return navigationController
@@ -241,7 +243,8 @@ class AppCoordinator: BaseCoordinator {
 
 	class var settingsNavController: UINavigationController {
 		let navigationController = UINavigationController(rootViewController: settingsViewController)
-		navigationController.tabBarItem.image = UIImage(named: "icon-tabbar-settings")
+		navigationController.tabBarItem.image = UIImage(named: "icon-tab-settings")
+        navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-settings-selected")
 		navigationController.tabBarItem.title = nil
 		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
 		return navigationController

@@ -40,6 +40,8 @@ class HealthEmptyCell: UICollectionViewCell {
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
         title.font = .systemFont(ofSize: 18, weight: .bold)
+        title.numberOfLines = 0
+        title.lineBreakMode = .byWordWrapping
         title.textColor = .black
         return title
     }()
@@ -68,6 +70,8 @@ class HealthEmptyCell: UICollectionViewCell {
         let subTitle = UILabel()
         subTitle.translatesAutoresizingMaskIntoConstraints = false
         subTitle.font = .systemFont(ofSize: 14)
+        subTitle.numberOfLines = 0
+        subTitle.lineBreakMode = .byWordWrapping
         subTitle.textColor = .mainGray
         return subTitle
     }()

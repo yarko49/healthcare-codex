@@ -31,9 +31,24 @@
 		25764B1127A2888B0032B365 /* HealthAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25764B1027A2888B0032B365 /* HealthAddCell.swift */; };
 		25764B1227A2888B0032B365 /* HealthAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25764B1027A2888B0032B365 /* HealthAddCell.swift */; };
 		25764B1327A2888B0032B365 /* HealthAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25764B1027A2888B0032B365 /* HealthAddCell.swift */; };
+		257C7D2F27B30ABB00251BC5 /* SimpleTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C7D2E27B30ABB00251BC5 /* SimpleTaskCell.swift */; };
+		257C7D3027B30ABB00251BC5 /* SimpleTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C7D2E27B30ABB00251BC5 /* SimpleTaskCell.swift */; };
+		257C7D3127B30ABB00251BC5 /* SimpleTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C7D2E27B30ABB00251BC5 /* SimpleTaskCell.swift */; };
+		257C7D3327B324C200251BC5 /* LinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C7D3227B324C200251BC5 /* LinkCell.swift */; };
+		257C7D3427B324C200251BC5 /* LinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C7D3227B324C200251BC5 /* LinkCell.swift */; };
+		257C7D3527B324C200251BC5 /* LinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C7D3227B324C200251BC5 /* LinkCell.swift */; };
 		258DC4AA27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */; };
 		258DC4AB27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */; };
 		258DC4AC27A2E6DE00A95FE3 /* HealthLastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */; };
+		258F1BE027B3B6B400988D63 /* FeaturedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F1BDF27B3B6B400988D63 /* FeaturedCell.swift */; };
+		258F1BE127B3B6B400988D63 /* FeaturedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F1BDF27B3B6B400988D63 /* FeaturedCell.swift */; };
+		258F1BE227B3B6B400988D63 /* FeaturedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F1BDF27B3B6B400988D63 /* FeaturedCell.swift */; };
+		258F1BE427B3C6B500988D63 /* NumericProgressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F1BE327B3C6B500988D63 /* NumericProgressCell.swift */; };
+		258F1BE527B3C6B500988D63 /* NumericProgressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F1BE327B3C6B500988D63 /* NumericProgressCell.swift */; };
+		258F1BE627B3C6B500988D63 /* NumericProgressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F1BE327B3C6B500988D63 /* NumericProgressCell.swift */; };
+		258F1BE827B41FC600988D63 /* GridTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F1BE727B41FC600988D63 /* GridTaskCell.swift */; };
+		258F1BE927B41FC600988D63 /* GridTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F1BE727B41FC600988D63 /* GridTaskCell.swift */; };
+		258F1BEA27B41FC600988D63 /* GridTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F1BE727B41FC600988D63 /* GridTaskCell.swift */; };
 		259059EE27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */; };
 		259059EF27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */; };
 		259059F027A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */; };
@@ -1163,7 +1178,12 @@
 		25737B3027A1EFA0006357E7 /* HealthFilledCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthFilledCell.swift; sourceTree = "<group>"; };
 		25764B0C27A2818B0032B365 /* HealthEmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthEmptyCell.swift; sourceTree = "<group>"; };
 		25764B1027A2888B0032B365 /* HealthAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthAddCell.swift; sourceTree = "<group>"; };
+		257C7D2E27B30ABB00251BC5 /* SimpleTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTaskCell.swift; sourceTree = "<group>"; };
+		257C7D3227B324C200251BC5 /* LinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCell.swift; sourceTree = "<group>"; };
 		258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthLastCell.swift; sourceTree = "<group>"; };
+		258F1BDF27B3B6B400988D63 /* FeaturedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedCell.swift; sourceTree = "<group>"; };
+		258F1BE327B3C6B500988D63 /* NumericProgressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericProgressCell.swift; sourceTree = "<group>"; };
+		258F1BE727B41FC600988D63 /* GridTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridTaskCell.swift; sourceTree = "<group>"; };
 		259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDailyTasksPageViewModel.swift; sourceTree = "<group>"; };
 		25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineItemViewModel.swift; sourceTree = "<group>"; };
 		47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+Samples.swift"; sourceTree = "<group>"; };
@@ -1702,6 +1722,11 @@
 				25764B0C27A2818B0032B365 /* HealthEmptyCell.swift */,
 				25764B1027A2888B0032B365 /* HealthAddCell.swift */,
 				258DC4A927A2E6DE00A95FE3 /* HealthLastCell.swift */,
+				257C7D2E27B30ABB00251BC5 /* SimpleTaskCell.swift */,
+				257C7D3227B324C200251BC5 /* LinkCell.swift */,
+				258F1BDF27B3B6B400988D63 /* FeaturedCell.swift */,
+				258F1BE327B3C6B500988D63 /* NumericProgressCell.swift */,
+				258F1BE727B41FC600988D63 /* GridTaskCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -3116,6 +3141,7 @@
 				844767DD259C2A4E00C50C09 /* MainCoordinator.swift in Sources */,
 				845FBE6925FC6A8E00472257 /* ObservationsConfig.swift in Sources */,
 				25737B3127A1EFA0006357E7 /* HealthFilledCell.swift in Sources */,
+				258F1BE827B41FC600988D63 /* GridTaskCell.swift in Sources */,
 				8456DED12754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C5181325B7F93600D684E5 /* IllustrationView.swift in Sources */,
 				84C212A12660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
@@ -3242,6 +3268,7 @@
 				842398CD259C1144006FB3F4 /* SceneDelegate.swift in Sources */,
 				84C071F725E31FC20098B508 /* AnalyticsManager.swift in Sources */,
 				840BC73F2723C44A00C7EE7E /* NSPersistentStoreCoordinator+Save.swift in Sources */,
+				257C7D2F27B30ABB00251BC5 /* SimpleTaskCell.swift in Sources */,
 				844767C8259C2A4E00C50C09 /* CHCarePlanResponse.swift in Sources */,
 				840BC73B2723C28700C7EE7E /* NSManagedObjectContext+Save.swift in Sources */,
 				84A9202F26858E0400A52412 /* ConnectProviderView.swift in Sources */,
@@ -3281,6 +3308,7 @@
 				84A9E25526E9C93300D3096F /* RecordItem.swift in Sources */,
 				8450848B271AA6000014764A /* RemoteConfigManager.swift in Sources */,
 				84C1060125E763EC00B126ED /* SimpleTaskViewController.swift in Sources */,
+				258F1BE427B3C6B500988D63 /* NumericProgressCell.swift in Sources */,
 				848994C726941CBE0057C6C4 /* GeneralizedLogTaskDetailViewController.swift in Sources */,
 				846F978127169EA80094735E /* HKDiscreteQuantitySample+Copying.swift in Sources */,
 				8439C7AA25FB46AF008C5940 /* Device+HKObject.swift in Sources */,
@@ -3318,6 +3346,7 @@
 				84873BAA25CA8B73004195BB /* OCKHealthKitPassthroughStore+Update.swift in Sources */,
 				8461B30425A17BB800742A44 /* CHScheduleElement+OCKScheduleElement.swift in Sources */,
 				8426E9F02723663A0096CF2D /* HealthStore.xcdatamodeld in Sources */,
+				258F1BE027B3B6B400988D63 /* FeaturedCell.swift in Sources */,
 				84C93C5F2616B7ED00C5E33E /* Date+FHIR.swift in Sources */,
 				8475FBDE268C275900A916B6 /* UINavigationController+Transitions.swift in Sources */,
 				8449F47C26D73804009B5F7A /* GATTCharacteristic.swift in Sources */,
@@ -3336,6 +3365,7 @@
 				845F8BA52647B9BD00999091 /* Date+Conversion.swift in Sources */,
 				844767A5259C2A4E00C50C09 /* Data+PrettyPrint.swift in Sources */,
 				84C212A52660C5F4000D491B /* CHOrganizations.swift in Sources */,
+				257C7D3327B324C200251BC5 /* LinkCell.swift in Sources */,
 				845AF18426F9B00C001F7707 /* BGMSequenceNumbers.swift in Sources */,
 				848CD8B82696CBF2008B675F /* EntryMultiValueEntryView.swift in Sources */,
 				842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */,
@@ -3483,6 +3513,7 @@
 				847DCBF6265871F3004E9C1D /* ObservationsConfig.swift in Sources */,
 				847DCBF7265871F3004E9C1D /* IllustrationView.swift in Sources */,
 				25737B3327A1EFA0006357E7 /* HealthFilledCell.swift in Sources */,
+				258F1BEA27B41FC600988D63 /* GridTaskCell.swift in Sources */,
 				8456DED32754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C212A32660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
 				847DCBF8265871F3004E9C1D /* StatCell.swift in Sources */,
@@ -3609,6 +3640,7 @@
 				847DCC41265871F3004E9C1D /* CHCarePlanResponse.swift in Sources */,
 				847DCC42265871F3004E9C1D /* SignupViewController.swift in Sources */,
 				840BC7412723C44A00C7EE7E /* NSPersistentStoreCoordinator+Save.swift in Sources */,
+				257C7D3127B30ABB00251BC5 /* SimpleTaskCell.swift in Sources */,
 				847DCC43265871F3004E9C1D /* APIRouter.swift in Sources */,
 				840BC73D2723C28700C7EE7E /* NSManagedObjectContext+Save.swift in Sources */,
 				84A9203126858E0400A52412 /* ConnectProviderView.swift in Sources */,
@@ -3648,6 +3680,7 @@
 				847DCC5B265871F3004E9C1D /* Collection+Average.swift in Sources */,
 				8450848D271AA6000014764A /* RemoteConfigManager.swift in Sources */,
 				847DCC5C265871F3004E9C1D /* BaseFactory.swift in Sources */,
+				258F1BE627B3C6B500988D63 /* NumericProgressCell.swift in Sources */,
 				846F978327169EA80094735E /* HKDiscreteQuantitySample+Copying.swift in Sources */,
 				84CFEB32265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift in Sources */,
 				847DCC5E265871F3004E9C1D /* ProfileViewController.swift in Sources */,
@@ -3685,6 +3718,7 @@
 				847DCC6F265871F3004E9C1D /* CHScheduleElement+OCKScheduleElement.swift in Sources */,
 				847DCC70265871F3004E9C1D /* Date+FHIR.swift in Sources */,
 				8426E9F22723663A0096CF2D /* HealthStore.xcdatamodeld in Sources */,
+				258F1BE227B3B6B400988D63 /* FeaturedCell.swift in Sources */,
 				8475FBE0268C275900A916B6 /* UINavigationController+Transitions.swift in Sources */,
 				847DCC71265871F3004E9C1D /* LoggingOSLog.swift in Sources */,
 				8449F47E26D73804009B5F7A /* GATTCharacteristic.swift in Sources */,
@@ -3703,6 +3737,7 @@
 				847DCC7B265871F3004E9C1D /* HealthViewController.swift in Sources */,
 				848CD8BA2696CBF2008B675F /* EntryMultiValueEntryView.swift in Sources */,
 				845AF18626F9B00C001F7707 /* BGMSequenceNumbers.swift in Sources */,
+				257C7D3527B324C200251BC5 /* LinkCell.swift in Sources */,
 				84C212A72660C5F4000D491B /* CHOrganizations.swift in Sources */,
 				847DCC7C265871F3004E9C1D /* CHOutcome+HKSample.swift in Sources */,
 				847DCC7D265871F3004E9C1D /* BottomButton.swift in Sources */,
@@ -3813,6 +3848,7 @@
 				84D1222A264112DE00990196 /* ObservationsConfig.swift in Sources */,
 				84D1222B264112DE00990196 /* IllustrationView.swift in Sources */,
 				25737B3227A1EFA0006357E7 /* HealthFilledCell.swift in Sources */,
+				258F1BE927B41FC600988D63 /* GridTaskCell.swift in Sources */,
 				8456DED22754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C212A22660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
 				84D1222C264112DE00990196 /* StatCell.swift in Sources */,
@@ -3939,6 +3975,7 @@
 				84D1226D264112DE00990196 /* CHCarePlanResponse.swift in Sources */,
 				84D1226E264112DE00990196 /* SignupViewController.swift in Sources */,
 				840BC7402723C44A00C7EE7E /* NSPersistentStoreCoordinator+Save.swift in Sources */,
+				257C7D3027B30ABB00251BC5 /* SimpleTaskCell.swift in Sources */,
 				84D1226F264112DE00990196 /* APIRouter.swift in Sources */,
 				840BC73C2723C28700C7EE7E /* NSManagedObjectContext+Save.swift in Sources */,
 				84A9203026858E0400A52412 /* ConnectProviderView.swift in Sources */,
@@ -3978,6 +4015,7 @@
 				84D12288264112DE00990196 /* Collection+Average.swift in Sources */,
 				8450848C271AA6000014764A /* RemoteConfigManager.swift in Sources */,
 				84D12289264112DE00990196 /* BaseFactory.swift in Sources */,
+				258F1BE527B3C6B500988D63 /* NumericProgressCell.swift in Sources */,
 				846F978227169EA80094735E /* HKDiscreteQuantitySample+Copying.swift in Sources */,
 				84CFEB31265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift in Sources */,
 				84D1228B264112DE00990196 /* ProfileViewController.swift in Sources */,
@@ -4015,6 +4053,7 @@
 				84D1229D264112DE00990196 /* CHScheduleElement+OCKScheduleElement.swift in Sources */,
 				84D1229E264112DE00990196 /* Date+FHIR.swift in Sources */,
 				8426E9F12723663A0096CF2D /* HealthStore.xcdatamodeld in Sources */,
+				258F1BE127B3B6B400988D63 /* FeaturedCell.swift in Sources */,
 				8475FBDF268C275900A916B6 /* UINavigationController+Transitions.swift in Sources */,
 				84D122A0264112DE00990196 /* LoggingOSLog.swift in Sources */,
 				8449F47D26D73804009B5F7A /* GATTCharacteristic.swift in Sources */,
@@ -4033,6 +4072,7 @@
 				84D122A9264112DE00990196 /* HealthViewController.swift in Sources */,
 				848CD8B92696CBF2008B675F /* EntryMultiValueEntryView.swift in Sources */,
 				845AF18526F9B00C001F7707 /* BGMSequenceNumbers.swift in Sources */,
+				257C7D3427B324C200251BC5 /* LinkCell.swift in Sources */,
 				84C212A62660C5F4000D491B /* CHOrganizations.swift in Sources */,
 				84D122AA264112DE00990196 /* CHOutcome+HKSample.swift in Sources */,
 				84D122AB264112DE00990196 /* BottomButton.swift in Sources */,

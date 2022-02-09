@@ -22,8 +22,8 @@ class SettingsViewController: BaseViewController {
 		view.layoutMargins = UIEdgeInsets.zero
 		view.separatorInset = UIEdgeInsets.zero
 		view.separatorStyle = .singleLine
-		view.isScrollEnabled = false
-		view.tableFooterView = UIView()
+		view.isScrollEnabled = true
+        view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -20, right: 0)
 		return view
 	}()
 
@@ -41,23 +41,15 @@ class SettingsViewController: BaseViewController {
 		super.viewDidLoad()
 		title = String.settings
 
-		settingsFooterView.translatesAutoresizingMaskIntoConstraints = false
-		settingsFooterView.delegate = self
-		view.addSubview(settingsFooterView)
-		NSLayoutConstraint.activate([settingsFooterView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: settingsFooterView.trailingAnchor, multiplier: 0.0),
-		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: settingsFooterView.bottomAnchor, multiplier: 0.0),
-		                             settingsFooterView.heightAnchor.constraint(equalToConstant: footerHeight)])
-
 		tableView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(tableView)
-		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 0.0),
+        NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
 		                             tableView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: tableView.trailingAnchor, multiplier: 0.0),
-		                             settingsFooterView.topAnchor.constraint(equalToSystemSpacingBelow: tableView.bottomAnchor, multiplier: 0.0)])
+                                     tableView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.bottomAnchor, multiplier: 0.0)])
 
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.reuseIdentifier)
-		tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: UITableViewHeaderFooterView.reuseIdentifier)
+        settingsFooterView.delegate = self
 		dataSource = UITableViewDiffableDataSource<Int, SettingsType>(tableView: tableView, cellProvider: { tableView, indexPath, type -> UITableViewCell? in
 			let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.reuseIdentifier, for: indexPath)
 			cell.tintColor = .allieGray
@@ -177,6 +169,12 @@ extension SettingsViewController: UITableViewDelegate {
 			showLogging()
 		}
 	}
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = settingsFooterView
+        settingsFooterView.delegate = self
+        return footerView
+    }
 
 	func showAccountDetails() {
 		let profileEntryViewController = ProfileEntryViewController()

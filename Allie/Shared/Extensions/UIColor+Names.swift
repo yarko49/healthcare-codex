@@ -158,4 +158,5 @@ extension UIColor {
     static let mainGray = UIColor(hex: "#323232")
     static let mainLightGray = UIColor(hex: "#CDCDCD")
     static let mainBackground = UIColor(hex: "#F7FBFF")
+    static let mainLightBlue2 = UIColor(hex: "#B4BCE5")
 }

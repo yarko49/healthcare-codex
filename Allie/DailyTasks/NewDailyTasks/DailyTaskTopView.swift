@@ -119,15 +119,15 @@ class DailyTaskTopView: UIView {
         greetingStackView.leadingAnchor.constraint(equalTo: greetingView.leadingAnchor, constant: 32.0).isActive = true
         greetingStackView.topAnchor.constraint(equalTo: helloLabel.bottomAnchor, constant: 24.0).isActive = true
         greetingStackView.bottomAnchor.constraint(equalTo: greetingView.bottomAnchor, constant: -24).isActive = true
-        greetingStackView.addArrangedSubview(FeelingButton(image: UIImage(systemName: "dongsign.circle.fill")!, title: "Not Great", callback: { [self] in
+        greetingStackView.addArrangedSubview(FeelingButton(image: UIImage(named: "button-mood-notgreat")!, selectedImage: UIImage(named: "button-mood-notgreat-selected")!, title: "Not Great", callback: { [self] in
             statusLabel.text = "Not Great"
             showAnimation()
         }))
-        greetingStackView.addArrangedSubview(FeelingButton(image: UIImage(systemName: "pesetasign.square")!, title: "Ok", callback: { [self] in
+        greetingStackView.addArrangedSubview(FeelingButton(image: UIImage(named: "button-mood-okay")!, selectedImage: UIImage(named: "button-mood-okay-selected")!, title: "Ok", callback: { [self] in
             statusLabel.text = "Ok"
             showAnimation()
         }))
-        greetingStackView.addArrangedSubview(FeelingButton(image: UIImage(systemName: "hryvniasign.square.fill")!, title: "Great!", callback: { [self] in
+        greetingStackView.addArrangedSubview(FeelingButton(image: UIImage(named: "button-mood-great")!, selectedImage: UIImage(named: "button-mood-great-selected")!, title: "Great!", callback: { [self] in
             statusLabel.text = "Great!"
             showAnimation()
         }))
@@ -193,6 +193,7 @@ class DailyTaskTopView: UIView {
 
 class FeelingButton: UIControl {
     var image: UIImage!
+    var selectedImage: UIImage!
     var title: String!
     var clickCallback: (() -> Void)!
     private var isSelectedControl: Bool = false {
@@ -214,7 +215,7 @@ class FeelingButton: UIControl {
         circleView.translatesAutoresizingMaskIntoConstraints = false
         circleView.backgroundColor = .white
         circleView.layer.cornerRadius = 28.0
-        circleView.setShadow()
+        circleView.setShadow(shadowRadius: 12.0, shadowColor: .mainLightBlue2!, offset: CGSize(width: 0, height: 18), opacity: 0.5)
         return circleView
     }()
 
@@ -244,9 +245,10 @@ class FeelingButton: UIControl {
         super.init(frame: frame)
     }
 
-    convenience init(image: UIImage, title: String, callback: @escaping () -> Void) {
+    convenience init(image: UIImage, selectedImage: UIImage, title: String, callback: @escaping () -> Void) {
         self.init(frame: .zero)
         self.image = image
+        self.selectedImage = selectedImage
         self.title = title
         self.clickCallback = callback
         setupViews()
@@ -266,8 +268,8 @@ class FeelingButton: UIControl {
         circleView.addSubview(imageView)
         imageView.centerXAnchor.constraint(equalTo: circleView.centerXAnchor).isActive = true
         imageView.centerYAnchor.constraint(equalTo: circleView.centerYAnchor).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 24.0).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 24.0).isActive = true
+        imageView.heightAnchor.constraint(equalTo: circleView.heightAnchor).isActive = true
+        imageView.widthAnchor.constraint(equalTo: circleView.widthAnchor).isActive = true
         imageView.tintColor = .blue
         imageView.image = image
 
@@ -286,6 +288,7 @@ class FeelingButton: UIControl {
 
     @objc func onClickFeelingButton() {
         isSelectedControl = true
+        imageView.image = selectedImage
         clickCallback()
     }
 }

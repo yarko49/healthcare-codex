@@ -16,11 +16,11 @@ extension UIView {
 		NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: container, attribute: .bottom, multiplier: 1.0, constant: 0).isActive = true
 	}
 
-	func setShadow() {
-		layer.shadowColor = UIColor.black.cgColor
-		layer.shadowOffset = CGSize(width: 0, height: 1.0)
-		layer.shadowRadius = 2.0
-		layer.shadowOpacity = 0.2
+    func setShadow(shadowRadius: CGFloat = 2.0, shadowColor: UIColor = UIColor.black, offset: CGSize = CGSize(width: 0, height: 1.0), opacity: Float = 0.2) {
+		layer.shadowColor = shadowColor.cgColor
+		layer.shadowOffset = offset
+		layer.shadowRadius = shadowRadius
+		layer.shadowOpacity = opacity
 		layer.masksToBounds = false
 	}
 

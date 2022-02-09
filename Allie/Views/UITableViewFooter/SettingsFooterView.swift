@@ -68,7 +68,7 @@ class SettingsFooterView: UIView {
 			view.translatesAutoresizingMaskIntoConstraints = false
 		}
 		addSubview(stackView)
-		NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 1.0),
+        NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalTo: topAnchor, constant: 100.0),
 		                             stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 2.0),
 		                             trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2.0),
 		                             bottomAnchor.constraint(equalToSystemSpacingBelow: stackView.bottomAnchor, multiplier: 1.0)])

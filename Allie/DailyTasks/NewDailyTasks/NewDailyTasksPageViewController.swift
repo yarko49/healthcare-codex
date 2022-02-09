@@ -72,6 +72,11 @@ class NewDailyTasksPageViewController: BaseViewController {
         collectionView.register(HealthEmptyCell.self, forCellWithReuseIdentifier: HealthEmptyCell.cellID)
         collectionView.register(HealthAddCell.self, forCellWithReuseIdentifier: HealthAddCell.cellID)
         collectionView.register(HealthLastCell.self, forCellWithReuseIdentifier: HealthLastCell.cellID)
+        collectionView.register(SimpleTaskCell.self, forCellWithReuseIdentifier: SimpleTaskCell.cellID)
+        collectionView.register(LinkCell.self, forCellWithReuseIdentifier: LinkCell.cellID)
+        collectionView.register(FeaturedCell.self, forCellWithReuseIdentifier: FeaturedCell.cellID)
+        collectionView.register(NumericProgressCell.self, forCellWithReuseIdentifier: NumericProgressCell.cellID)
+        collectionView.register(GridTaskCell.self, forCellWithReuseIdentifier: GridTaskCell.cellID)
         return collectionView
     }()
 
@@ -100,6 +105,7 @@ class NewDailyTasksPageViewController: BaseViewController {
             }
         }
         .store(in: &subscriptions)
+
         NotificationCenter.default.publisher(for: .patientDidSnychronize)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
@@ -274,10 +280,33 @@ extension NewDailyTasksPageViewController: UICollectionViewDelegate, UICollectio
                 cell.delegate = self
                 return cell
             } else {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
-                cell.configureCell(timelineViewModel: timelineViewModel)
-                cell.delegate = self
-                return cell
+                let taskType = timelineViewModel.timelineItemModel.event.task.groupIdentifierType
+                if taskType == .simple {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SimpleTaskCell.cellID, for: indexPath) as! SimpleTaskCell
+                    cell.configureCell(timelineItemViewModel: timelineViewModel)
+                    return cell
+                } else if taskType == .link {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LinkCell.cellID, for: indexPath) as! LinkCell
+                    cell.configureCell(timelineItemViewModel: timelineViewModel)
+                    return cell
+                } else if taskType == .featuredContent {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeaturedCell.cellID, for: indexPath) as! FeaturedCell
+                    cell.configureCell(timelineItemViewModel: timelineViewModel)
+                    return cell
+                } else if taskType == .numericProgress {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NumericProgressCell.cellID, for: indexPath) as! NumericProgressCell
+                    cell.configureCell(timelineItemViewModel: timelineViewModel)
+                    return cell
+                } else if taskType == .grid {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridTaskCell.cellID, for: indexPath) as! GridTaskCell
+                    cell.configureCell(timelineItemViewModel: timelineViewModel)
+                    return cell
+                } else {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HealthEmptyCell.cellID, for: indexPath) as! HealthEmptyCell
+                    cell.configureCell(timelineViewModel: timelineViewModel)
+                    cell.delegate = self
+                    return cell
+                }
             }
         }
         // swiftlint:enable force_cast

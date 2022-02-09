@@ -13,6 +13,10 @@ protocol ViewControllerInitializable {
 class BaseViewController: UIViewController, ViewControllerInitializable {
 	var cancellables: Set<AnyCancellable> = []
 
+    var heightConstraint: NSLayoutConstraint = NSLayoutConstraint()
+
+    var isShowChatVC: Bool = false
+
     var hasTopNotch: Bool {
         if #available(iOS 11.0, *) {
             return UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20
@@ -33,6 +37,13 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
         navigationView.translatesAutoresizingMaskIntoConstraints = false
         navigationView.backgroundColor = .mainBlue
         return navigationView
+    }()
+
+    var chatView: UIView = {
+        let chatView = UIView()
+        chatView.translatesAutoresizingMaskIntoConstraints = false
+        chatView.backgroundColor = .red
+        return chatView
     }()
 
     private var greetingLabel: UILabel = {
@@ -153,6 +164,40 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
         onlineView.widthAnchor.constraint(equalToConstant: 10.0).isActive = true
         onlineView.heightAnchor.constraint(equalToConstant: 10.0).isActive = true
 
+        navigationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onNavBarClick)))
+    }
+
+    @objc func onNavBarClick() {
+        let currentVC = self.navigationController?.topViewController
+        if !isShowChatVC {
+            currentVC!.view.addSubview(chatView)
+            heightConstraint.constant = 0.0
+            chatView.topAnchor.constraint(equalTo: navigationView.bottomAnchor).isActive = true
+            chatView.leadingAnchor.constraint(equalTo: currentVC!.view.leadingAnchor).isActive = true
+            chatView.trailingAnchor.constraint(equalTo: currentVC!.view.trailingAnchor).isActive = true
+            heightConstraint = chatView.heightAnchor.constraint(equalToConstant: 0.0)
+            heightConstraint.isActive = true
+            currentVC?.view.bringSubviewToFront(chatView)
+            UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseIn) { [weak self] in
+                self?.heightConstraint.constant = UIScreen.main.bounds.height - self!.navigationView.frame.height
+                self?.chatView.needsUpdateConstraints()
+                currentVC?.view.layoutIfNeeded()
+            } completion: { [weak self] _ in
+                self?.tabBarController?.tabBar.isHidden = true
+                self?.isShowChatVC.toggle()
+            }
+        } else {
+            heightConstraint.constant = 0.0
+            UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseIn) { [weak self] in
+                self?.chatView.needsUpdateConstraints()
+                currentVC!.view.layoutIfNeeded()
+                self?.heightConstraint.isActive = false
+            } completion: { [weak self] _ in
+                self?.chatView.removeFromSuperview()
+                self?.isShowChatVC.toggle()
+                self?.tabBarController?.tabBar.isHidden = false
+            }
+        }
     }
 
 	deinit {
