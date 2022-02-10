@@ -8,6 +8,7 @@
 import UIKit
 import SDWebImage
 import CareKitStore
+import CodexFoundation
 
 class FeaturedCell: UICollectionViewCell {
 

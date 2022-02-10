@@ -12,6 +12,7 @@ import CareKit
 import HealthKit
 import CareKitUI
 import UIKit
+import CodexFoundation
 
 enum NewDailyTaskPageState {
     case loading, completed

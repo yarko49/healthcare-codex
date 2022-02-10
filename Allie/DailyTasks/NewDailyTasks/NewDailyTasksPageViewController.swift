@@ -4,21 +4,24 @@
 //
 //  Created by Onseen on 1/25/22.
 //
-
+import AscensiaKit
 import UIKit
 import JGProgressHUD
 import Combine
 import CareKitStore
 import CareKit
 import SwiftUI
+import BluetoothService
+import CodexFoundation
 
 class NewDailyTasksPageViewController: BaseViewController {
 
     @Injected(\.careManager) var careManager: CareManager
     @Injected(\.healthKitManager) var healthKitManager: HealthKitManager
     @Injected(\.networkAPI) var networkAPI: AllieAPI
-    @Injected(\.bluetoothManager) var bloodGlucoseMonitor: BGMBluetoothManager
+    @Injected(\.bluetoothService) var bluetoothService: BluetoothService
     @Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
+    var bluetoothDevices: [UUID: AKDevice] = [:]
 
     @ObservedObject var viewModel: NewDailyTasksPageViewModel = NewDailyTasksPageViewModel()
 
@@ -82,7 +85,7 @@ class NewDailyTasksPageViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        bloodGlucoseMonitor.multicastDelegate.add(self)
+        bluetoothService.addDelegate(self)
     }
 
     override func viewDidLoad() {
@@ -156,7 +159,7 @@ class NewDailyTasksPageViewController: BaseViewController {
     }
 
     deinit {
-        bloodGlucoseMonitor.multicastDelegate.remove(self)
+        bluetoothService.removeDelegate(self)
         cancellable.forEach { cancellable in
             cancellable.cancel()
         }
