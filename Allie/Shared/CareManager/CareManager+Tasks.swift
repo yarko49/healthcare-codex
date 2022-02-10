@@ -75,18 +75,6 @@ extension CareManager {
 		return updateTasks
 	}
 
-	func syncProcessRegular(tasks: [OCKTask], excludesTasksWithNoEvents: Bool = true, carePlan: OCKCarePlan?, queue: DispatchQueue) -> [OCKTask] {
-		var query = OCKTaskQuery(for: Date())
-		query.excludesTasksWithNoEvents = excludesTasksWithNoEvents
-		return tasks
-	}
-
-	func syncProcessHealthKit(tasks: [OCKHealthKitTask], excludesTasksWithNoEvents: Bool = true, carePlan: OCKCarePlan?, queue: DispatchQueue) -> [OCKHealthKitTask] {
-		var query = OCKTaskQuery(for: Date())
-		query.excludesTasksWithNoEvents = excludesTasksWithNoEvents
-		return tasks
-	}
-
 	func synchronizeOutcomes(carePlanId: String, tasks: [String], completion: @escaping AllieResultCompletion<Bool>) {
 		guard !tasks.isEmpty else {
 			completion(.success(false))

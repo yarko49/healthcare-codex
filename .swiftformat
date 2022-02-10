@@ -1,5 +1,5 @@
 --exclude Pods
---swiftversion 5.3
+--swiftversion 5.5.1
 --binarygrouping none
 --decimalgrouping none
 --hexgrouping none

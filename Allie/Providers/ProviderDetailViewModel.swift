@@ -5,16 +5,18 @@
 //  Created by Waqar Malik on 6/27/21.
 //
 
+import CodexFoundation
+import CodexModel
 import Combine
 import Foundation
 
 class ProviderDetailViewModel: ObservableObject {
 	private var cancellables: Set<AnyCancellable> = []
-	private(set) var organization: CHOrganization
+	private(set) var organization: CMOrganization
 	@Published var isRegistered: Bool = false
 	var shouldShowAlert = false
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
-	init(organization: CHOrganization) {
+	init(organization: CMOrganization) {
 		self.organization = organization
 	}
 

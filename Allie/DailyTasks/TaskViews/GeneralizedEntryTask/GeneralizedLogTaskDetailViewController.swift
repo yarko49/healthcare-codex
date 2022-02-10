@@ -419,9 +419,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			throw GeneralizedEntryTaskError.missing(NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA.message", comment: "Please enter correct value and then save."))
 		}
 
-		guard let systolic = numberFormatter.number(from: lValueString)?.intValue,
-		      let diastolic = numberFormatter.number(from: tValueString)?.intValue
-		else {
+		guard let systolic = numberFormatter.number(from: lValueString)?.intValue, let diastolic = numberFormatter.number(from: tValueString)?.intValue else {
 			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("INVALID_VALUE_TYPE", comment: "Value of invalid type"))
 		}
 

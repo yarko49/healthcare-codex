@@ -4,10 +4,12 @@
 //
 
 import CareKit
+import CodexFoundation
 import Combine
 import Foundation
 import HealthKit
 import HealthKitUI
+import HKToFHIR
 import ModelsR4
 import UIKit
 
@@ -368,7 +370,7 @@ class HealthKitManager {
 		}
 	}
 
-	func deleteCorrelationSample(uuid: UUID, sampleType: HKCorrelationType, completion: AllieResultCompletion<HKSample>?) async throws -> HKSample {
+	func deleteCorrelationSample(uuid: UUID, sampleType: HKCorrelationType) async throws -> HKSample {
 		let sample = try await fetchCorrelationSample(uuid: uuid, sampleType: sampleType)
 		return try await delete(sample: sample)
 	}

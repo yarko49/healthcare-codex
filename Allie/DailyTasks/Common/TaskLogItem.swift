@@ -94,7 +94,7 @@ class TaskLogItem: OCKAnimatedButton<OCKStackView> {
 
 	override open func styleDidChange() {
 		super.styleDidChange()
-		let style = self.style()
+		let style = style()
 		timeLabel.textColor = style.color.label
 		contentStackView.setCustomSpacing(style.dimension.directionalInsets1.top, after: contextLabel)
 		directionalLayoutMargins = style.dimension.directionalInsets1

@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 12/17/20.
 //
 
+import CodexFoundation
 import Combine
 import Firebase
 import FirebaseAnalytics
@@ -209,14 +210,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		} else if typeString == "careplan" {
 			NotificationCenter.default.post(name: .didUpdateCarePlan, object: nil)
 		}
-        AppDelegate.setAppIconBadge()
+		AppDelegate.setAppIconBadge()
 	}
 
-    public static func setAppIconBadge() {
-        let totalBadgeCount = UserDefaults.chatNotificationsCount + UserDefaults.zendeskChatNotificationCount
-        UIApplication.shared.applicationIconBadgeNumber = totalBadgeCount
-        NotificationCenter.default.post(name: .didReceiveZendDeskNotification, object: nil)
-    }
+	public static func setAppIconBadge() {
+		let totalBadgeCount = UserDefaults.chatNotificationsCount + UserDefaults.zendeskChatNotificationCount
+		UIApplication.shared.applicationIconBadgeNumber = totalBadgeCount
+		NotificationCenter.default.post(name: .didReceiveZendDeskNotification, object: nil)
+	}
 }
 
 extension AppDelegate: MessagingDelegate {

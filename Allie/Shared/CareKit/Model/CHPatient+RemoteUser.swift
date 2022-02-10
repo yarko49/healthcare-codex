@@ -33,6 +33,21 @@ extension OCKPatient {
 		updatedDate = createdDate
 		timezone = .current
 	}
+
+	init(remoteUser user: RemoteUser?) throws {
+		guard let identifier = user?.uid else {
+			throw AllieError.missing("Identifier")
+		}
+
+		var nameComponents = PersonNameComponents()
+		if let name = PersonNameComponents(fullName: user?.displayName) {
+			nameComponents = name
+		}
+		self.init(id: identifier, name: nameComponents)
+		createdDate = Calendar.current.startOfDay(for: Date())
+		updatedDate = createdDate
+		timezone = .current
+	}
 }
 
 extension CHPatient {

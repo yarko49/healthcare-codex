@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 10/12/21.
 //
 
+import CodexFoundation
 import MessageUI
 import UIKit
 

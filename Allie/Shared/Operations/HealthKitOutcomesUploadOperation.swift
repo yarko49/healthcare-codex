@@ -6,6 +6,7 @@
 //
 
 import CareKitStore
+import CodexFoundation
 import Combine
 import Foundation
 import HealthKit
@@ -100,7 +101,11 @@ class HealthKitOutcomesUploadOperation: OutcomesUploadOperation {
 		}
 
 		let taskOucomes: [CHOutcome] = samples.compactMap { sample in
-			careManager.fetchOutcome(sample: sample, deletedSample: nil, task: task, carePlanId: carePlanId)
+			let outcome = careManager.fetchOutcome(sample: sample, deletedSample: nil, task: task, carePlanId: carePlanId)
+			if let provenance = outcome?.provenance, provenance.type != "manual", !provenance.id.hasPrefix("Contour") { // HACK for now until I get info about CGM
+				return nil
+			}
+			return outcome
 		}
 
 		guard taskOucomes.count == samples.count else {

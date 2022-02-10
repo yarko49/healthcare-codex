@@ -21,25 +21,16 @@ class CarePlanTests: XCTestCase {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 	}
 
-	func testCarePlanRespnoseInsert() throws {
+	func testCarePlanRespnoseInsert() async throws {
 		let data = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(data)
 		let decoder = CHJSONDecoder()
 		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
 		let careManager = CareManager.shared
-		let expect = expectation(description: "CreateOrUpdate")
-		careManager.process(carePlanResponse: carePlanResponse, forceReset: true, completion: { result in
-			switch result {
-			case .failure(let error):
-				XCTFail(error.localizedDescription)
-			case .success(let tasks):
-				XCTAssertNotNil(careManager.patient)
-				XCTAssertNotNil(careManager.patient?.uuid)
-				expect.fulfill()
-				ALog.info("did succeed \(tasks.count)")
-			}
-		})
-		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
+		let upodateCarePlanResponse = try await careManager.process(carePlanResponse: carePlanResponse)
+		XCTAssertNotNil(careManager.patient)
+		XCTAssertNotNil(careManager.patient?.uuid)
+		XCTAssertEqual(careManager.patient?.uuid, upodateCarePlanResponse.patients.active.first?.uuid)
 	}
 
 	func testCarePlanEncodeDecode() throws {

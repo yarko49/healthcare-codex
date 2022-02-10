@@ -12,7 +12,7 @@ import TwilioConversationsClient
 extension TCHMessage: MessageType {
 	public var sender: SenderType {
 		guard let sender = participant else {
-			return CHParticipant()
+			return ChatParticipant()
 		}
 		return sender
 	}

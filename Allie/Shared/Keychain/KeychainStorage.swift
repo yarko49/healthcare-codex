@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 11/26/21.
 //
 
+import CodexFoundation
 import KeychainAccess
 import SwiftUI
 

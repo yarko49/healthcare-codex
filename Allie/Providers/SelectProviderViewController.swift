@@ -5,6 +5,8 @@
 //  Created by Waqar Malik on 6/24/21.
 //
 
+import CodexFoundation
+import CodexModel
 import Combine
 import JGProgressHUD
 import SDWebImage
@@ -29,9 +31,9 @@ class SelectProviderViewController: UICollectionViewController {
 
 	var doneAction: AllieBoolCompletion?
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
-	var showDetailAction: ((CHOrganization) -> Void)?
+	var showDetailAction: ((CMOrganization) -> Void)?
 	private var cancellables: Set<AnyCancellable> = []
-	var dataSource: UICollectionViewDiffableDataSource<Int, CHOrganization>!
+	var dataSource: UICollectionViewDiffableDataSource<Int, CMOrganization>!
 	var isModel = true
 
 	override func viewDidLoad() {
@@ -44,7 +46,7 @@ class SelectProviderViewController: UICollectionViewController {
 			navigationItem.leftBarButtonItem = cancelBarButtonItem
 		}
 
-		let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, CHOrganization> { [weak self] cell, _, item in
+		let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, CMOrganization> { [weak self] cell, _, item in
 			var configuration = cell.defaultContentConfiguration()
 			configuration.imageProperties.maximumSize = CGSize(width: 150.0, height: 50.0)
 			SDWebImageManager.shared.loadImage(with: item.imageURL, options: [.scaleDownLargeImages], progress: nil) { image, _, _, _, _, _ in
@@ -72,7 +74,7 @@ class SelectProviderViewController: UICollectionViewController {
 
 		collectionView?.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: UICollectionViewListCell.reuseIdentifier)
 		collectionView?.register(UICollectionViewListCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: UICollectionViewListCell.reuseIdentifier)
-		dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: CHOrganization) -> UICollectionViewCell? in
+		dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: CMOrganization) -> UICollectionViewCell? in
 			let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
 			return cell
 		}
@@ -129,7 +131,7 @@ class SelectProviderViewController: UICollectionViewController {
 		(tabBarController ?? navigationController ?? self).showDetailViewController(alertController, sender: self)
 	}
 
-	func showProviderDetailView(organization: CHOrganization) {
+	func showProviderDetailView(organization: CMOrganization) {
 		detailViewModel = ProviderDetailViewModel(organization: organization)
 		if let viewModel = detailViewModel {
 			viewModel.isRegistered = organizations.registered.contains(organization)
@@ -153,7 +155,7 @@ class SelectProviderViewController: UICollectionViewController {
 		}
 	}
 
-	func showAuthenticationView(organization: CHOrganization) {
+	func showAuthenticationView(organization: CMOrganization) {
 		guard let authURL = organization.authURL else {
 			return
 		}
@@ -167,10 +169,10 @@ class SelectProviderViewController: UICollectionViewController {
 	}
 
 	private var detailViewModel: ProviderDetailViewModel?
-	var organizations = CHOrganizations(available: [], registered: [])
-	func process(organizations: CHOrganizations) {
+	var organizations = CMOrganizations(available: [], registered: [])
+	func process(organizations: CMOrganizations) {
 		self.organizations = organizations
-		var snapshot = NSDiffableDataSourceSnapshot<Int, CHOrganization>()
+		var snapshot = NSDiffableDataSourceSnapshot<Int, CMOrganization>()
 		snapshot.appendSections([0])
 		snapshot.appendItems(organizations.available, toSection: 0)
 		dataSource.apply(snapshot, animatingDifferences: true) { [weak self] in
@@ -179,7 +181,7 @@ class SelectProviderViewController: UICollectionViewController {
 		}
 	}
 
-	func register(organization: CHOrganization, animated: Bool = true) {
+	func register(organization: CMOrganization, animated: Bool = true) {
 		if animated {
 			hud.show(in: navigationController?.view ?? view)
 		}
@@ -200,7 +202,7 @@ class SelectProviderViewController: UICollectionViewController {
 					return
 				}
 				if success {
-					let updateOrganizations = CHOrganizations(available: strongSelf.organizations.available, registered: [organization])
+					let updateOrganizations = CMOrganizations(available: strongSelf.organizations.available, registered: [organization])
 					strongSelf.process(organizations: updateOrganizations)
 					NotificationCenter.default.post(name: .didRegisterOrganization, object: nil, userInfo: nil)
 				}
@@ -241,14 +243,14 @@ extension SelectProviderViewController: WebAuthenticationViewControllerDelegate 
 
 	func webAuthenticationViewController(_ controller: WebAuthenticationViewController, didFinsihWith token: String?, state: String?) {
 		controller.dismiss(animated: true) { [weak self] in
-			guard let token = token, let organization = controller.cloudEntity as? CHOrganization else {
+			guard let token = token, let organization = controller.cloudEntity as? CMOrganization else {
 				return
 			}
 			self?.register(token: token, state: state, organization: organization)
 		}
 	}
 
-	func register(token: String, state: String?, organization: CHOrganization) {
+	func register(token: String, state: String?, organization: CMOrganization) {
 		var updatedOrganization = organization
 		updatedOrganization.authorizationToken = token
 		if let state = state {

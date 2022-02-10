@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 8/15/21.
 //
 
+import CodexFoundation
 import Foundation
 
 private struct APIClientKey: InjectionKey {

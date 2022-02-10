@@ -4,6 +4,8 @@
 //
 
 import CareKitStore
+import CodexFoundation
+import CodexModel
 import Combine
 import HealthKit
 import LocalAuthentication
@@ -18,12 +20,12 @@ class AppCoordinator: BaseCoordinator {
 		tabBarController
 	}
 
-	var organizations = CHOrganizations(available: [], registered: [])
+	var organizations = CMOrganizations(available: [], registered: [])
 	var observation: ModelsR4.Observation?
 	var bundle: ModelsR4.Bundle?
 	var observationSearch: String?
 
-	init(parent: MainCoordinator?, organizations: CHOrganizations) {
+	init(parent: MainCoordinator?, organizations: CMOrganizations) {
 		super.init(type: .application)
 		self.parent = parent
 		self.organizations = organizations
@@ -137,7 +139,7 @@ class AppCoordinator: BaseCoordinator {
 			}.store(in: &cancellables)
 	}
 
-	func updateControllers(organizations: CHOrganizations) {
+	func updateControllers(organizations: CMOrganizations) {
 		self.organizations = organizations
 		if organizations.registered.isEmpty {
 			let todayController = Self.connectProviderController

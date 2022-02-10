@@ -3,6 +3,7 @@
 //  Allie
 //
 
+import CodexFoundation
 import HealthKit
 import ModelsR4
 import UIKit

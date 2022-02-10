@@ -5,41 +5,79 @@
 //  Created by Waqar Malik on 9/8/21.
 //
 
+import AscensiaKit
+import BluetoothService
+import CodexFoundation
 import Combine
 import CoreBluetooth
 import Foundation
 
 class AllReadingsViewModel: ObservableObject {
-	@Injected(\.bluetoothManager) var bluetoothManager: BGMBluetoothManager
-	@Published var records: [BGMDataRecord] = []
+	@Injected(\.bluetoothService) var bluetoothService: BluetoothService
+	@Injected(\.careManager) var careManager: CareManager
+	@Published var records: [AKBloodGlucoseRecord] = []
 	private var cancellables: Set<AnyCancellable> = []
+	var bluetoothDevices: [UUID: AKDevice] = [:]
 
 	init() {
-		bluetoothManager.multicastDelegate.add(self)
-		bluetoothManager.$pairedPeripheral.sink { [weak self] peripheral in
-			if let peripheral = peripheral {
-				self?.readAllReadings(peripheral: peripheral)
-			}
-		}.store(in: &cancellables)
-	}
-
-	func readAllReadings(peripheral: CBPeripheral) {
-		if let racp = bluetoothManager.racpCharacteristic {
-			bluetoothManager.writeMessage(peripheral: peripheral, characteristic: racp, message: GATTCommand.allRecords, isBatched: true)
-		}
+		bluetoothService.removeDelegate(self)
+		bluetoothService.startMonitoring()
 	}
 
 	func getAllData() {
-		if let peripheral = bluetoothManager.pairedPeripheral {
-			readAllReadings(peripheral: peripheral)
+		bluetoothDevices.forEach { (_: UUID, value: AKDevice) in
+			value.fetchRecords()
 		}
 	}
 }
 
-extension AllReadingsViewModel: BGMBluetoothManagerDelegate {
-	func bluetoothManager(_ manager: BGMBluetoothManager, peripheral: CBPeripheral, didReceive readings: [Int: BGMDataReading]) {
+extension AllReadingsViewModel: BluetoothServiceDelegate {
+	func bluetoothService(_ service: BluetoothService, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
+		if let currentDevice = careManager.patient?.bloodGlucoseMonitor, peripheral.name == currentDevice.id {
+			let device = AKDevice(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
+			device.delegate = self
+			device.dataSource = self
+			bluetoothDevices[device.identifier] = device
+			bluetoothService.connect(peripheral: peripheral)
+			return
+		}
+	}
+
+	func bluetoothService(_ service: BluetoothService, didConnect peripheral: CBPeripheral) {
+		ALog.info("\(#function) \(peripheral)")
+		guard let deviceManager = bluetoothDevices[peripheral.identifier] else {
+			return
+		}
+		let services = Set([GATTDeviceService.bloodGlucose.uuid])
+		let characteristics = Set(GATTDeviceCharacteristic.bloodGlucoseMeasurements.map(\.uuid))
+		deviceManager.discover(services: services, measurementCharacteristics: characteristics)
+	}
+
+	func bluetoothService(_ service: BluetoothService, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+		bluetoothDevices.removeValue(forKey: peripheral.identifier)
+		service.startMonitoring()
+	}
+
+	func bluetoothService(_ service: BluetoothService, didDisconnect peripheral: CBPeripheral, error: Error?) {
+		bluetoothDevices.removeValue(forKey: peripheral.identifier)
+		service.startMonitoring()
+	}
+}
+
+extension AllReadingsViewModel: PeripheralDelegate {
+	func peripheral(_ peripheral: Peripheral, readyWith characteristic: CBCharacteristic) {
+		if let glucometer = bluetoothDevices[peripheral.identifier] {
+			glucometer.racpCharacteristic = characteristic
+			glucometer.fetchRecords()
+		}
+	}
+}
+
+extension AllReadingsViewModel: AKDeviceDataSource {
+	func device(_ device: AKDevice, didReceive readings: [Int: AKBloodGlucoseReading]) {
+		ALog.info("didReceive readings \(readings)")
 		let records = readings.mapValues { reading in
-			BGMDataRecord(reading: reading)
+			AKBloodGlucoseRecord(reading: reading)
 		}
 		DispatchQueue.main.async {
 			self.records = Array(records.values)

@@ -69,4 +69,12 @@ extension OCKHealthKitPassthroughStore {
 			}
 		}.eraseToAnyPublisher()
 	}
+
+	func fetchTasks(quantityIdentifier: HKQuantityTypeIdentifier) async throws -> [OCKHealthKitTask] {
+		let tasks = try await fetchTasks(query: OCKTaskQuery())
+		let neededTasks = tasks.filter { task in
+			task.healthKitLinkage.quantityIdentifier == quantityIdentifier
+		}
+		return neededTasks
+	}
 }

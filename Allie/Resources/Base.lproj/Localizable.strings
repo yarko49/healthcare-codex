@@ -723,10 +723,10 @@
 "STEP_FAILURE.title" = "Oops, something\nwent wrong!";
 
 /* Step 1 Message */
-"STEP_ONE.message" = "Make sure your meter is off and\nkeep it near your mobile device.";
+"BGM_STEP_ONE.message" = "Make sure your meter is off and\nkeep it near your mobile device.";
 
 /* Step 1. */
-"STEP_ONE.title" = "Step 1.";
+"BT_STEP_ONE.title" = "Step 1.";
 
 /* Success Message */
 "STEP_SUCCESS.message" = "You have successfully paired your device and data should stream automatically into Allie.";
@@ -735,16 +735,16 @@
 "STEP_SUCCESS.title" = "Success!";
 
 /* Step 3 Message */
-"STEP_THREE.message" = "Pairing your device now";
+"BGM_STEP_THREE.message" = "Pairing your device now";
 
 /* Step 3. */
-"STEP_THREE.title" = "Pairing device...";
+"BT_STEP_THREE.title" = "Pairing device...";
 
 /* Step 2 Message */
-"STEP_TWO.message" = "Press and hold the center button\n(A) for 6 seconds until you see the\nblinking Bluetooth symbol.\n\nA blue light should blink when you\nare in pairing mode.";
+"BGM_STEP_TWO.message" = "Press and hold the center button\n(A) for 6 seconds until you see the\nblinking Bluetooth symbol.\n\nA blue light should blink when you\nare in pairing mode.";
 
 /* Step 2. */
-"STEP_TWO.title" = "Step 2.";
+"BT_STEP_TWO.title" = "Step 2.";
 
 /* Bluetooth Pairing */
 "BLUETOOTH_PAIRING" = "Bluetooth Pairing";
@@ -862,4 +862,46 @@
 
 /* Value is not a valid. */
 "VALUE_NOT_VALID" = "Value is not a valid.";
+
+/* Blood Glucose Monitor */
+"BLOOD_GLUCOSE_MONITOR" = "Blood Glucose Monitor";
+
+/* Blood Pressure Monitor */
+"BLOOD_PRESSURE_MONITOR" = "Blood Pressure Monitor";
+
+/* Weight Scale */
+"WEIGHT_SCALE" = "Weight Scale";
+
+/* Body Composition */
+"BODY_COMPOSITION" = "Body Composition";
+
+/* Device Information */
+"DEVICE_INFORMATION" = "Device Information";
+
+/* Not connected */
+"NOT_CONNECTED" = "Not connected";
+
+/* Unknown */
+"STATUS_UNKNOWN" = "Unknown";
+
+/* Connected */
+"STATUS_CONNECTED" = "Connected";
+
+/* Not connected */
+"STATUS_NOT_CONNECTED" = "Not connected";
+
+/* Blood Glucose Pairing */
+"BLOOD_GLUCOSE_PAIRING" = "Blood Glucose Pairing";
+
+/* Blood Pressure Pairing */
+"BLOOD_PRESSURE_PAIRING" = "Blood Pressure Pairing";
+
+/* Step 1 Message */
+"BPM_STEP_ONE.message" = "Make sure your meter is off and\nkeep it near your mobile device.";
+
+/* Step 2 Message */
+"BPM_STEP_TWO.message" = "Press and hold the sync button\n(Double Arrow) for 6 seconds until you see the\nblinking sync symbol.";
+
+/* Step 3 Message */
+"BPM_STEP_THREE.message" = "Pairing your device now";
 

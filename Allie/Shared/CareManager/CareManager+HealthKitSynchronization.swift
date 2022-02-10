@@ -164,6 +164,16 @@ extension CareManager {
 		}
 	}
 
+	func uploadChunked(outcomes: [CHOutcome]) async throws -> [CHOutcome] {
+		let chunkedOutcomes = outcomes.chunked(into: Constants.maximumUploadOutcomesPerCall)
+		var uploadedOutcomes: [CHOutcome] = []
+		for chunkOutcome in chunkedOutcomes {
+			let uploaded = try await networkAPI.post(outcomes: chunkOutcome)
+			uploadedOutcomes.append(contentsOf: uploaded.outcomes)
+		}
+		return uploadedOutcomes
+	}
+
 	func upload(outcomes: [CHOutcome], callbackQueue: DispatchQueue, completion: @escaping ((Result<[CHOutcome], Error>) -> Void)) {
 		let chunkedOutcomes = outcomes.chunked(into: Constants.maximumUploadOutcomesPerCall)
 		let group = DispatchGroup()

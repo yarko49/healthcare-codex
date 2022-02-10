@@ -8,6 +8,7 @@
 import CareKit
 import CareKitStore
 import CareKitUI
+import CodexFoundation
 import Combine
 import HealthKit
 import UIKit

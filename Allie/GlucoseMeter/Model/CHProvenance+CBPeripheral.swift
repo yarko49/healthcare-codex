@@ -14,6 +14,7 @@ extension CHProvenance {
 			return nil
 		}
 
-		self.init(id: name, type: "bgm", name: peripheral.name, address: nil, sequenceNumber: nil, recordData: nil, contextData: nil, sampleType: nil, sampleLocation: nil)
+		let type = name.contains("Contour") ? "bgm" : "other"
+		self.init(id: name, type: type, name: peripheral.name, address: nil, sequenceNumber: nil, recordData: nil, contextData: nil, sampleType: nil, sampleLocation: nil)
 	}
 }

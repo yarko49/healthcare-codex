@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1250"
+   LastUpgradeVersion = "1320"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -45,6 +45,16 @@
                BlueprintIdentifier = "842398E7259C1144006FB3F4"
                BuildableName = "AllieUITests.xctest"
                BlueprintName = "AllieUITests"
+               ReferencedContainer = "container:Allie.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "849FDE422761BD250026F905"
+               BuildableName = "OmronKitTests.xctest"
+               BlueprintName = "OmronKitTests"
                ReferencedContainer = "container:Allie.xcodeproj">
             </BuildableReference>
          </TestableReference>

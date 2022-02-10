@@ -5,9 +5,12 @@
 //  Created by Waqar Malik on 1/7/21.
 //
 
+import AscensiaKit
+import BluetoothService
 import CareKit
 import CareKitStore
 import CareKitUI
+import CodexFoundation
 import Combine
 import CoreBluetooth
 import HealthKit
@@ -19,8 +22,9 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	@Injected(\.careManager) var careManager: CareManager
 	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
-	@Injected(\.bluetoothManager) var bloodGlucoseMonitor: BGMBluetoothManager
+	@Injected(\.bluetoothService) var bluetoothService: BluetoothService
 	@Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
+	var bluetoothDevices: [UUID: AKDevice] = [:]
 
 	var timerInterval: TimeInterval = 60 * 10
 	let hud: JGProgressHUD = {
@@ -56,7 +60,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.refresh()
 			}.store(in: &cancellables)
 
-		if careManager.patient?.bgmName == nil {
+		if careManager.patient?.bloodGlucoseMonitor == nil {
 			NotificationCenter.default.publisher(for: .didPairBloodGlucoseMonitor)
 				.receive(on: RunLoop.main)
 				.sink { [weak self] _ in
@@ -81,7 +85,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			DispatchQueue.main.async {
 				self?.reload()
 			}
-			if self?.careManager.patient?.bgmName != nil {
+			if self?.careManager.patient?.bloodGlucoseMonitor != nil {
 				self?.startBluetooth()
 			}
 		}
@@ -89,7 +93,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		bloodGlucoseMonitor.multicastDelegate.add(self)
+		bluetoothService.addDelegate(self)
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -98,7 +102,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	}
 
 	deinit {
-		bloodGlucoseMonitor.multicastDelegate.remove(self)
+		bluetoothService.removeDelegate(self)
 		cancellables.forEach { cancellable in
 			cancellable.cancel()
 		}
@@ -224,6 +228,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						viewController.controller.fetchAndObserveEvents(forTasks: [updatedTask], eventQuery: eventQuery)
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 					case .dexcom:
+						break
+					case .cgm: // this task is hidden
 						break
 					}
 				}

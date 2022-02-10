@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 8/31/21.
 //
 
+import CodexModel
 import UIKit
 import WebKit
 
@@ -42,7 +43,7 @@ class WebAuthenticationViewController: UIViewController {
 	}
 
 	var redirectURI: String?
-	var cloudEntity: CloudEntityType?
+	var cloudEntity: CMCloudEntityType?
 
 	let webView: WKWebView = {
 		let preferences = WKPreferences()

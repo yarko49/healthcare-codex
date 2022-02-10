@@ -31,6 +31,47 @@ extension CareManager {
 		}
 	}
 
+	func fetchCareKitOutcomes() async throws {
+		var query = OCKTaskQuery()
+		query.sortDescriptors = [.effectiveDate(ascending: false)]
+		let newTasks = try await store.fetchTasks(query: query)
+		let tasks: [UUID: OCKTask] = newTasks.reduce([:]) { partialResult, task in
+			var result = partialResult
+			result[task.uuid] = task
+			return result
+		}
+		guard !tasks.isEmpty else {
+			return
+		}
+		let startDate = UserDefaults.outcomeUploadDate
+		let endDate = Date()
+		let taskUUIDs = Array(tasks.keys)
+		let outcomes = try await fetchOutcomes(taskIds: taskUUIDs, startDate: startDate, endDate: endDate)
+		guard !outcomes.isEmpty else {
+			return
+		}
+		let filtered = outcomes.filter { outcome in
+			do {
+				let existing = try dbFindFirst(uuid: outcome.uuid)
+				return existing == nil
+			} catch {
+				return true
+			}
+		}
+		ALog.trace("Outcomes Count \(filtered.count)")
+		let chOutcomes = filtered.compactMap { outcome -> CHOutcome? in
+			guard let task = tasks[outcome.taskUUID], let carePlanId = task.carePlanId else {
+				return nil
+			}
+
+			return CHOutcome(outcome: outcome, carePlanID: carePlanId, task: task)
+		}
+
+		let uploadedOutcomes = try await upload(outcomes: chOutcomes)
+		ALog.trace("Uploaded outcomes \(uploadedOutcomes.count)")
+		UserDefaults.outcomeUploadDate = endDate
+	}
+
 	func fetchCareKitOutcomes(callbackQueue: DispatchQueue, completion: @escaping AllieBoolCompletion) {
 		var query = OCKTaskQuery()
 		query.sortDescriptors = [.effectiveDate(ascending: false)]

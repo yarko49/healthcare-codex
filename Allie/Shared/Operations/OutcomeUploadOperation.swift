@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 11/29/21.
 //
 
+import CodexFoundation
 import Foundation
 
 protocol OutcomesResultProvider {

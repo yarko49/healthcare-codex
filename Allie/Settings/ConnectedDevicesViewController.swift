@@ -6,6 +6,9 @@
 //
 
 import AuthenticationServices
+import BluetoothService
+import CodexFoundation
+import CodexModel
 import Combine
 import JGProgressHUD
 import UIKit
@@ -13,13 +16,13 @@ import UIKit
 class ConnectedDevicesViewController: UITableViewController {
 	enum SectionType: Hashable, CaseIterable {
 		case bluetooth
-		case cloudDevices
+		case cloud
 
 		var title: String? {
 			switch self {
 			case .bluetooth:
 				return NSLocalizedString("BLUETOOTH_DEVICES", comment: "Bluetooth Devices")
-			case .cloudDevices:
+			case .cloud:
 				return NSLocalizedString("CLOUD_DEVICES", comment: "Cloud Devices")
 			}
 		}
@@ -32,18 +35,15 @@ class ConnectedDevicesViewController: UITableViewController {
 		return view
 	}()
 
-	@Injected(\.bluetoothManager) var bluetoothManager: BGMBluetoothManager
+	@Injected(\.bluetoothService) var bluetoothService: BluetoothService
 	@Injected(\.careManager) var careManager: CareManager
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	private var cancellables: Set<AnyCancellable> = []
 
-	var addBarButtonItem: UIBarButtonItem?
 	var dataSource: UITableViewDiffableDataSource<SectionType, String>!
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = NSLocalizedString("CONNECTED_DEVICES", comment: "Connected Devices")
-		addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showBluetoothPairFlow(_:)))
-		navigationItem.rightBarButtonItem = addBarButtonItem
 		tableView.register(ConnectedDevicesCell.self, forCellReuseIdentifier: ConnectedDevicesCell.reuseIdentifier)
 		tableView.register(ConnectedDevicesSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: ConnectedDevicesSectionHeaderView.reuseIdentifier)
 
@@ -63,26 +63,15 @@ class ConnectedDevicesViewController: UITableViewController {
 		super.viewWillAppear(animated)
 		var snapshot = NSDiffableDataSourceSnapshot<SectionType, String>()
 		snapshot.appendSections([.bluetooth])
-		if let identifier = careManager.patient?.bgmName {
-			snapshot.appendItems([identifier], toSection: .bluetooth)
+		let identifiers = [GATTDeviceService.bloodGlucose, .bloodPressure, .weightScale].map { service in
+			service.hexString
 		}
+		snapshot.appendItems(identifiers, toSection: .bluetooth)
 		dataSource.apply(snapshot, animatingDifferences: animated) {
 			ALog.info("Did finish applying snapshot")
 		}
 
 		fetchCloudDevices()
-	}
-
-	@IBAction func showBluetoothPairFlow(_ sender: UIBarButtonItem?) {
-		guard careManager.patient?.bgmName == nil else {
-			showCannotPair()
-			return
-		}
-
-		let viewController = BGMPairingViewController()
-		viewController.modalPresentationStyle = .fullScreen
-		viewController.delegate = self
-		(tabBarController ?? navigationController ?? self).showDetailViewController(viewController, sender: self)
 	}
 
 	override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -97,10 +86,11 @@ class ConnectedDevicesViewController: UITableViewController {
 			tableView.deselectRow(at: indexPath, animated: true)
 		}
 		let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
+		let identifier = dataSource.itemIdentifier(for: indexPath)
 		switch section {
 		case .bluetooth:
-			showBluetoothDetailView()
-		case .cloudDevices:
+			didSelectBluetoothDevice(hexString: identifier)
+		case .cloud:
 			let device = cloudDevices.devices[indexPath.row]
 			if !cloudDevices.registrations.contains(device.id) {
 				showCloudAuthorizationView(device: device)
@@ -110,16 +100,53 @@ class ConnectedDevicesViewController: UITableViewController {
 		}
 	}
 
-	func showBluetoothDetailView() {
-		guard let device = careManager.patient?.bgmName else {
+	override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+		ALog.info("Button tapped at indexPath \(indexPath)")
+	}
+
+	func didSelectBluetoothDevice(hexString: String?) {
+		guard let hexString = hexString, let service = GATTDeviceService(service: hexString) else {
 			return
 		}
+		if let peripheral = careManager.patient?.peripheral(serviceType: service.identifier) {
+			if peripheral.type == GATTDeviceService.bloodGlucose.identifier {
+				showBloodGlucoseDetailView(peripheral: peripheral)
+			}
+		} else {
+			switch service {
+			case .bloodGlucose:
+				showBloodGlucosePairFlow()
+			case .bloodPressure:
+				showBloodPressurePairFlow()
+			case .weightScale:
+				break
+			default:
+				break
+			}
+		}
+	}
+
+	func showBloodGlucoseDetailView(peripheral: CHPeripheral) {
 		let viewController = BGMDeviceDetailViewController()
-		viewController.device = device
+		viewController.device = peripheral.name
 		navigationController?.show(viewController, sender: self)
 	}
 
-	func showCloudAuthorizationView(device: CHCloudDevice) {
+	@IBAction func showBloodGlucosePairFlow() {
+		let viewController = BGMPairingViewController()
+		viewController.modalPresentationStyle = .fullScreen
+		viewController.delegate = self
+		(tabBarController ?? navigationController ?? self).showDetailViewController(viewController, sender: self)
+	}
+
+	@IBAction func showBloodPressurePairFlow() {
+		let viewController = BPMPairingViewController()
+		viewController.modalPresentationStyle = .fullScreen
+		viewController.delegate = self
+		(tabBarController ?? navigationController ?? self).showDetailViewController(viewController, sender: self)
+	}
+
+	func showCloudAuthorizationView(device: CMCloudDevice) {
 		guard let authURL = device.authURL else {
 			return
 		}
@@ -149,21 +176,34 @@ class ConnectedDevicesViewController: UITableViewController {
 		let sections = dataSource.snapshot().sectionIdentifiers
 		if sections[indexPath.section] == .bluetooth {
 			cell.accessoryType = .disclosureIndicator
-			let name = bluetoothManager.peripherals.first { peripheral in
-				peripheral.identifier.uuidString == itemIdentifier
-			}?.name ?? careManager.patient?.bgmName
-			cell.textLabel?.attributedText = name?.attributedString(style: .regular17, foregroundColor: UIColor.grey, letterSpacing: -0.41)
+			var name = "Unknown"
+			let identifier = dataSource.itemIdentifier(for: indexPath)
+			let serviceType = GATTDeviceService(service: identifier ?? "")
+			name = serviceType?.title ?? "Unknown"
+			let peripheral = careManager.patient?.peripherals.first(where: { peripheral in
+				peripheral.type == serviceType?.identifier
+			})
+
+			cell.titleLabel.attributedText = name.attributedString(style: .regular17, foregroundColor: UIColor.grey, letterSpacing: -0.41)
+			cell.subtitleLabel.text = peripheral?.name
+			cell.statusLabel.text = NSLocalizedString("STATUS_UNKNOWN", comment: "Unknown")
+			if let device = peripheral {
+				let isConnected = false
+				cell.statusLabel.text = isConnected ? NSLocalizedString("STATUS_CONNECTED", comment: "Connected") : NSLocalizedString("STATUS_NOT_CONNECTED", comment: "Not connected")
+			}
 		} else {
 			let device = cloudDevices.devices[indexPath.row]
 			cell.accessoryType = .none
 			if cloudDevices.registrations.contains(device.id) {
 				cell.accessoryType = .checkmark
 			}
-			cell.textLabel?.attributedText = device.name.attributedString(style: .regular17, foregroundColor: UIColor.grey, letterSpacing: -0.41)
+			cell.titleLabel.attributedText = device.name.attributedString(style: .regular17, foregroundColor: UIColor.grey, letterSpacing: -0.41)
+			cell.subtitleLabel.text = nil
+			cell.statusLabel.text = nil
 		}
 	}
 
-	var cloudDevices = CHCloudDevices() {
+	var cloudDevices = CMCloudDevices() {
 		didSet {
 			updateDataSource(cloudDevices: cloudDevices)
 		}
@@ -180,16 +220,16 @@ class ConnectedDevicesViewController: UITableViewController {
 			}.store(in: &cancellables)
 	}
 
-	private func updateDataSource(cloudDevices: CHCloudDevices) {
+	private func updateDataSource(cloudDevices: CMCloudDevices) {
 		var snapshot = dataSource.snapshot()
-		snapshot.deleteSections([.cloudDevices])
+		snapshot.deleteSections([.cloud])
 		if !cloudDevices.devices.isEmpty {
 			let identifiers = cloudDevices.devices.map { device in
 				device.id
 			}
 			if !identifiers.isEmpty {
-				snapshot.appendSections([.cloudDevices])
-				snapshot.appendItems(identifiers, toSection: .cloudDevices)
+				snapshot.appendSections([.cloud])
+				snapshot.appendItems(identifiers, toSection: .cloud)
 			}
 		}
 
@@ -199,7 +239,7 @@ class ConnectedDevicesViewController: UITableViewController {
 		}
 	}
 
-	private func upload(token: String?, state: String?, device: CHCloudDevice) {
+	private func upload(token: String?, state: String?, device: CMCloudDevice) {
 		var updateDevice = device
 		updateDevice.authorizationToken = token
 		if let state = state {
@@ -222,13 +262,13 @@ class ConnectedDevicesViewController: UITableViewController {
 					return
 				}
 				if success {
-					let updatedDevices = CHCloudDevices(devices: strongSelf.cloudDevices.devices, registrations: [updateDevice.id])
+					let updatedDevices = CMCloudDevices(devices: strongSelf.cloudDevices.devices, registrations: [updateDevice.id])
 					strongSelf.cloudDevices = updatedDevices
 				}
 			}.store(in: &cancellables)
 	}
 
-	private func showDisconnectDeviceAlert(device: CHCloudDevice) {
+	private func showDisconnectDeviceAlert(device: CMCloudDevice) {
 		let title = NSLocalizedString("DISCONNECT", comment: "Disconnect")
 		let message = NSLocalizedString("DISCONNECT.message", comment: "Are you sure you want to disconnect") + " \(device.name)?"
 		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -242,7 +282,7 @@ class ConnectedDevicesViewController: UITableViewController {
 		navigationController?.present(alertController, animated: true, completion: nil)
 	}
 
-	private func disconnectCloudDevice(device: CHCloudDevice) {
+	private func disconnectCloudDevice(device: CMCloudDevice) {
 		hud.show(in: navigationController?.view ?? view)
 		networkAPI.deleteIntegration(cloudDevice: device)
 			.sinkOnMain { [weak self] completionResult in
@@ -257,13 +297,13 @@ class ConnectedDevicesViewController: UITableViewController {
 				if success {
 					var registrations = strongSelf.cloudDevices.registrations
 					registrations.remove(device.id)
-					let updatedDevices = CHCloudDevices(devices: strongSelf.cloudDevices.devices, registrations: registrations)
+					let updatedDevices = CMCloudDevices(devices: strongSelf.cloudDevices.devices, registrations: registrations)
 					strongSelf.cloudDevices = updatedDevices
 				}
 			}.store(in: &cancellables)
 	}
 
-	func showAppleWebAuthentication(device: CHCloudDevice) {
+	func showAppleWebAuthentication(device: CMCloudDevice) {
 		guard let authURL = device.authURL, let redirectURI = authURL.extractRedirectURI else {
 			return
 		}
@@ -282,12 +322,12 @@ class ConnectedDevicesViewController: UITableViewController {
 	}
 }
 
-extension ConnectedDevicesViewController: BGMPairingViewControllerDelegate {
-	func pairingViewControllerDidCancel(_ controller: BGMPairingViewController) {
+extension ConnectedDevicesViewController: PairingViewControllerDelegate {
+	func pairingViewControllerDidCancel(_ controller: PairingViewController) {
 		controller.dismiss(animated: true, completion: nil)
 	}
 
-	func pairingViewControllerDidFinish(_ controller: BGMPairingViewController) {
+	func pairingViewControllerDidFinish(_ controller: PairingViewController) {
 		controller.dismiss(animated: true, completion: nil)
 	}
 }
@@ -299,7 +339,7 @@ extension ConnectedDevicesViewController: WebAuthenticationViewControllerDelegat
 
 	func webAuthenticationViewController(_ controller: WebAuthenticationViewController, didFinsihWith token: String?, state: String?) {
 		controller.dismiss(animated: true) {
-			guard let token = token, let device = controller.cloudEntity as? CHCloudDevice else {
+			guard let token = token, let device = controller.cloudEntity as? CMCloudDevice else {
 				return
 			}
 			self.upload(token: token, state: state, device: device)

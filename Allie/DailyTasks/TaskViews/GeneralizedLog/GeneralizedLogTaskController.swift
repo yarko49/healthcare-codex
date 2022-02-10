@@ -7,6 +7,7 @@
 
 import CareKit
 import CareKitStore
+import CodexFoundation
 import Combine
 import Foundation
 import HealthKit
@@ -105,6 +106,22 @@ class GeneralizedLogTaskController: OCKTaskController {
 			healthKitManager.deleteCorrelationSample(uuid: uuid, sampleType: bloodPressureType, completion: completion)
 		} else {
 			healthKitManager.delete(uuid: uuid, quantityIdentifier: identifier, completion: completion)
+		}
+	}
+
+	func deleteOutcome(value: OCKOutcomeValue) async throws -> HKSample {
+		guard let uuid = value.healthKitUUID, let identifier = value.quantityIdentifier else {
+			throw AllieError.invalid("Invalid outcome value")
+		}
+		if identifier == HKQuantityTypeIdentifier.bloodPressureSystolic.rawValue || identifier == HKQuantityTypeIdentifier.bloodPressureDiastolic.rawValue {
+			guard let bloodPressureType = HKCorrelationType.correlationType(forIdentifier: .bloodPressure) else {
+				throw HealthKitManagerError.invalidInput("Invalid quantityIdentifier")
+			}
+			let deletedSample = try await healthKitManager.deleteCorrelationSample(uuid: uuid, sampleType: bloodPressureType)
+			return deletedSample
+		} else {
+			let deletedSample = try await healthKitManager.delete(uuid: uuid, quantityIdentifier: identifier)
+			return deletedSample
 		}
 	}
 }
