@@ -152,6 +152,11 @@ class NumericProgressCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        container.backgroundColor = .clear
+    }
+
     private func setupViews() {
         self.backgroundColor = .clear
         contentView.addSubview(container)
@@ -185,6 +190,7 @@ class NumericProgressCell: UICollectionViewCell {
 
     func configureCell(timelineItemViewModel: TimelineItemViewModel) {
         self.timelineViewModel = timelineItemViewModel
+        container.backgroundColor = timelineItemViewModel.cellType == .current ? .white : .clear
         if let titleValue = timelineViewModel.timelineItemModel.event.task.title {
             title.text = titleValue
         } else {

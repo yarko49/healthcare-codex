@@ -11,6 +11,10 @@ import CareKit
 import HealthKit
 import CareKitUI
 
+enum CellType: Int {
+    case completed, current, future
+}
+
 struct TimelineItemModel {
     let id: String
     let outcomeValues: [OCKOutcomeValue]?
@@ -26,17 +30,39 @@ struct TimelineItemModel {
 class TimelineItemViewModel {
 
     var timelineItemModel: TimelineItemModel
+    var tapCount: Int = 0
+    var eventDate: Date = Date()
+    var cellType: CellType = .completed
+    var dateTime: Date = Date()
 
-    init(timelineItemModel: TimelineItemModel) {
+    init(timelineItemModel: TimelineItemModel, eventDate: Date) {
         self.timelineItemModel = timelineItemModel
+        self.eventDate = eventDate
+        setTempDateAndType()
     }
 
     // MARK: - Computed Properties
-    var dateTime: Date {
+
+    func setTempDateAndType() {
         if let outcomeValue = timelineItemModel.outcomeValues?.first {
-            return outcomeValue.createdDate
+            cellType = .completed
+            dateTime = outcomeValue.createdDate
+            tapCount = 0
+        } else {
+            dateTime = self.getScheduledDateTime()
+            if Calendar.current.isDateInToday(eventDate) {
+                if Calendar.current.dateComponents([.minute], from: Date(), to: dateTime).minute! > 120 {
+                    cellType = .future
+                    tapCount = 0
+                } else {
+                    cellType = .current
+                    tapCount = 1
+                }
+            } else {
+                cellType = .current
+                tapCount = 1
+            }
         }
-        return self.getScheduledDateTime()
     }
 
     func hasOutcomeValue() -> Bool {
@@ -48,9 +74,8 @@ class TimelineItemViewModel {
     }
 
     func getScheduledDateTime() -> Date {
-        let date = Date()
-        let min = Int.random(in: 0...120)
-        let randomDate = Calendar.current.date(byAdding: .minute, value: min, to: date)
+        let min = Int.random(in: 0...200)
+        let randomDate = Calendar.current.date(byAdding: .minute, value: min, to: eventDate)
         return randomDate!
     }
 }

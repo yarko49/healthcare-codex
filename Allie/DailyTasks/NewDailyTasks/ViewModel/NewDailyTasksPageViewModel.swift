@@ -24,6 +24,7 @@ class NewDailyTasksPageViewModel: ObservableObject {
     @Published public internal(set) var error: Error?
     @Published var timelineItemViewModels = [TimelineItemViewModel]()
     @Published var loadingState: NewDailyTaskPageState = .loading
+    var eventDate: Date = Date()
 
     public let storeManager: OCKSynchronizedStoreManager = CareManager.shared.synchronizedStoreManager
     private var cancellables: Set<AnyCancellable> = []
@@ -31,6 +32,7 @@ class NewDailyTasksPageViewModel: ObservableObject {
 
     func loadHealthData(date: Date) {
         loadingState = .loading
+        eventDate = date
         var query = OCKTaskQuery(for: date)
         query.excludesTasksWithNoEvents = true
         storeManager.store.fetchAnyTasks(query: query, callbackQueue: .main) { [weak self] result in
@@ -77,42 +79,32 @@ class NewDailyTasksPageViewModel: ObservableObject {
 
     func generateTimelineItems(events: [[OCKAnyEvent]]) {
         var items = [TimelineItemViewModel]()
-        for taskEvent in events {
-            var flag = false
-            for event in taskEvent {
-                if let outcomes = event.outcome {
-                    if !outcomes.values.isEmpty {
-                        var outcomeArr = [OCKOutcomeValue]()
-                        var healthKitUUID = outcomes.values.first?.healthKitUUID
-                        for outcome in outcomes.values {
-                            if outcome.healthKitUUID == healthKitUUID && outcome.healthKitUUID != nil {
-                                outcomeArr.append(outcome)
-                                continue
-                            } else {
-                                healthKitUUID = outcome.healthKitUUID
-                                if !outcomeArr.isEmpty {
-                                    items.append(TimelineItemViewModel(timelineItemModel: TimelineItemModel(outcomeValues: outcomeArr, event: event)))
-                                }
-                                outcomeArr.removeAll()
-                                outcomeArr.append(outcome)
+        for taskEvents in events {
+            for event in taskEvents {
+                if let outcomes = event.outcome, !outcomes.values.isEmpty {
+                    var outcomeArr = [OCKOutcomeValue]()
+                    var healthKitUUID = outcomes.values.first?.healthKitUUID
+                    for outcome in outcomes.values {
+                        if outcome.healthKitUUID == healthKitUUID && outcome.healthKitUUID != nil {
+                            outcomeArr.append(outcome)
+                            continue
+                        } else {
+                            healthKitUUID = outcome.healthKitUUID
+                            if !outcomeArr.isEmpty {
+                                items.append(TimelineItemViewModel(timelineItemModel: TimelineItemModel(outcomeValues: outcomeArr, event: event), eventDate: eventDate))
                             }
+                            outcomeArr.removeAll()
+                            outcomeArr.append(outcome)
                         }
-                        items.append(TimelineItemViewModel(timelineItemModel: TimelineItemModel(outcomeValues: outcomeArr, event: event)))
-                        flag = true
-                    } else if !flag {
-                        let timelineItemModel = TimelineItemModel(outcomeValues: nil, event: event)
-                        items.append(TimelineItemViewModel(timelineItemModel: timelineItemModel))
-                        flag = true
                     }
-                } else if !flag {
+                    items.append(TimelineItemViewModel(timelineItemModel: TimelineItemModel(outcomeValues: outcomeArr, event: event), eventDate: eventDate))
+                } else {
                     let timelineItemModel = TimelineItemModel(outcomeValues: nil, event: event)
-                    items.append(TimelineItemViewModel(timelineItemModel: timelineItemModel))
-                    flag = true
+                    items.append(TimelineItemViewModel(timelineItemModel: timelineItemModel, eventDate: eventDate))
                 }
             }
         }
-
-       timelineItemViewModels = items.sorted { lhs, rhs in
+        timelineItemViewModels = items.sorted { lhs, rhs in
             let date1 = lhs.dateTime
             let date2 = rhs.dateTime
             if lhs.hasOutcomeValue() && !rhs.hasOutcomeValue() {
@@ -121,7 +113,10 @@ class NewDailyTasksPageViewModel: ObservableObject {
             if !lhs.hasOutcomeValue() && rhs.hasOutcomeValue() {
                 return false
             }
-            return date1.compare(date2) == .orderedAscending
+            if !lhs.hasOutcomeValue() && !rhs.hasOutcomeValue() {
+                return date1 < date2
+            }
+            return date1 < date2
         }
     }
 
@@ -383,6 +378,35 @@ class NewDailyTasksPageViewModel: ObservableObject {
         }
     }
 
+    func setCheckTask(ockEvent: OCKAnyEvent, isComplete: Bool, completion: ((Result<OCKAnyOutcome, Error>) -> Void)?) {
+        if isComplete {
+            if let outcome = makeOutcomeFor(event: ockEvent, withValues: [.init(true)]) {
+                storeManager.store.addAnyOutcome(outcome, callbackQueue: .main) { result in
+                    switch result {
+                    case .failure(let error):
+                        completion?(.failure(error))
+                    case .success(let outcome):
+                        completion?(.success(outcome))
+                    }
+                }
+            } else {
+                ALog.error("Can not make outcome data")
+            }
+        } else {
+            guard let outcome = ockEvent.outcome else {
+                return
+            }
+            storeManager.store.deleteAnyOutcome(outcome, callbackQueue: .main) { result in
+                switch result {
+                case .failure(let error):
+                    completion?(.failure(error))
+                case .success(let outcome):
+                    completion?(.success(outcome))
+                }
+            }
+        }
+    }
+    
     func makeOutcomeFor(event: OCKAnyEvent, withValues values: [OCKOutcomeValue]) -> OCKAnyOutcome? {
         guard let task = event.task as? OCKAnyVersionableTask else {
             return nil

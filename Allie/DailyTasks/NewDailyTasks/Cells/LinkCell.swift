@@ -82,6 +82,7 @@ class LinkCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         footerStackView.arrangedSubviews.forEach { footerStackView.removeArrangedSubview($0) }
+        container.backgroundColor = .clear
     }
 
     private func setupViews() {
@@ -111,6 +112,7 @@ class LinkCell: UICollectionViewCell {
 
     func configureCell(timelineItemViewModel: TimelineItemViewModel) {
         self.timelineViewModel = timelineItemViewModel
+        container.backgroundColor = timelineItemViewModel.cellType == .current ? .white : .clear
         if let titleText = timelineItemViewModel.timelineItemModel.event.task.title {
             title.text = titleText
         } else {

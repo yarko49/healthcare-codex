@@ -52,6 +52,11 @@ class FeaturedCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        container.backgroundColor = .clear
+    }
+
     private func setupViews() {
         self.backgroundColor = .clear
         contentView.addSubview(container)
@@ -76,6 +81,7 @@ class FeaturedCell: UICollectionViewCell {
 
     func configureCell(timelineItemViewModel: TimelineItemViewModel) {
         self.timelineViewModel = timelineItemViewModel
+        container.backgroundColor = timelineItemViewModel.cellType == .current ? .white : .clear
         title.text = timelineItemViewModel.timelineItemModel.event.task.title ?? ""
         if let task = timelineViewModel.timelineItemModel.event.task as? OCKTask? {
             if let task = task, let asset = task.asset, !asset.isEmpty {

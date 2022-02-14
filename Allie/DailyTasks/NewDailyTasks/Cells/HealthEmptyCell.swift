@@ -85,6 +85,11 @@ class HealthEmptyCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        container.backgroundColor = .clear
+    }
+
     private func setupViews() {
         self.backgroundColor = .clear
         contentView.addSubview(container)
@@ -119,6 +124,7 @@ class HealthEmptyCell: UICollectionViewCell {
 
     func configureCell(timelineViewModel: TimelineItemViewModel) {
         self.timelineViewModel = timelineViewModel
+        container.backgroundColor = timelineViewModel.cellType == .current ? .white : .clear
         title.text = timelineViewModel.timelineItemModel.event.task.title
         let quantityIdentifier = (timelineViewModel.timelineItemModel.event.task as? OCKHealthKitTask)?.healthKitLinkage.quantityIdentifier
         if let dataType = quantityIdentifier?.dataType {

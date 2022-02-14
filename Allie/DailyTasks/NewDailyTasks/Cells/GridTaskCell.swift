@@ -108,6 +108,7 @@ class GridTaskCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         contentStackView.arrangedSubviews.forEach { contentStackView.removeArrangedSubview($0) }
+        container.backgroundColor = .clear
     }
 
     private func setupViews() {
@@ -134,7 +135,7 @@ class GridTaskCell: UICollectionViewCell {
         bottomAnchor.priority = .defaultLow
         bottomAnchor.isActive = true
         contentScrollView.widthAnchor.constraint(equalTo: bottomStackView.widthAnchor).isActive = true
-        contentScrollView.heightAnchor.constraint(equalToConstant: 80.0).isActive = true
+        contentScrollView.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
 
         divider.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
         divider.widthAnchor.constraint(equalTo: topStackView.widthAnchor).isActive = true
@@ -146,6 +147,7 @@ class GridTaskCell: UICollectionViewCell {
 
     func configureCell(timelineItemViewModel: TimelineItemViewModel) {
         self.timelineViewModel = timelineItemViewModel
+        container.backgroundColor = timelineItemViewModel.cellType == .current ? .white : .clear
         if let titleValue = timelineViewModel.timelineItemModel.event.task.title {
             title.text = titleValue
         } else {
@@ -219,6 +221,7 @@ class GridItemView: UIView {
     }
 
     func setupViews() {
+        self.backgroundColor = .clear
         addSubview(stackView)
         [imageView, title].forEach { stackView.addArrangedSubview($0) }
         stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
