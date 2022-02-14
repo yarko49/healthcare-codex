@@ -142,11 +142,15 @@ class HealthCell: UICollectionViewCell {
         stepStack.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: 0).isActive = true
         stepStack.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20).isActive = true
         topDash.widthAnchor.constraint(equalToConstant: 1.0).isActive = true
-        topDash.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        let topHeightAnchor = topDash.heightAnchor.constraint(equalToConstant: 30)
+        topHeightAnchor.priority = UILayoutPriority(999)
+        topHeightAnchor.isActive = true
         icon.widthAnchor.constraint(equalToConstant: 28.0).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 28.0).isActive = true
         bottomDash.widthAnchor.constraint(equalToConstant: 1.0).isActive = true
-        bottomDash.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        let bottomHeightAnchor = bottomDash.heightAnchor.constraint(equalToConstant: 30)
+        bottomHeightAnchor.priority = UILayoutPriority(999)
+        bottomHeightAnchor.isActive = true
 
         subContainer.centerYAnchor.constraint(equalTo: container.centerYAnchor).isActive = true
         subContainer.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
