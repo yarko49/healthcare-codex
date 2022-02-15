@@ -46,15 +46,15 @@ class AppCoordinator: BaseCoordinator {
 			chatController = controller
 		} else {
 //			todayController = Self.dailyTasksController
-            todayController = Self.newDailyTasksController
+			todayController = Self.newDailyTasksController
 			chatController = Self.conversationsListViewController
 		}
 		self.todayNavController = Self.todayNavController(rootViewController: todayController)
 		self.conversationsNavController = Self.conversationsNavController(rootViewController: chatController)
 //		self.tabBarController = UITabBarController()
-        self.tabBarController = RoundedTabBarController()
+		self.tabBarController = RoundedTabBarController()
 //		tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, conversationsNavController!, Self.settingsNavController]
-        tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, Self.settingsNavController]
+		tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, Self.settingsNavController]
 		start()
 	}
 
@@ -156,7 +156,7 @@ class AppCoordinator: BaseCoordinator {
 			conversationsNavController?.setViewControllers([chatController], animated: true)
 		} else {
 //			let todayViewController = Self.dailyTasksController
-            let todayViewController = Self.newDailyTasksController
+			let todayViewController = Self.newDailyTasksController
 			todayNavController?.setViewControllers([todayViewController], animated: true)
 			DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) { [weak todayViewController] in
 				todayViewController?.reload()
@@ -188,15 +188,15 @@ class AppCoordinator: BaseCoordinator {
 		return controller
 	}
 
-    class var newDailyTasksController: NewDailyTasksPageViewController {
-        let controller = NewDailyTasksPageViewController()
-        return controller
-    }
+	class var newDailyTasksController: NewDailyTasksPageViewController {
+		let controller = NewDailyTasksPageViewController()
+		return controller
+	}
 
 	class func todayNavController(rootViewController controller: UIViewController) -> UINavigationController {
 		let navigationController = UINavigationController(rootViewController: controller)
 		navigationController.tabBarItem.image = UIImage(named: "icon-tab-home")
-        navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-home-selected")
+		navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-home-selected")
 		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
 		navigationController.tabBarItem.title = nil
 		return navigationController
@@ -215,7 +215,7 @@ class AppCoordinator: BaseCoordinator {
 		let title = NSLocalizedString("PROFILE", comment: "Profile")
 		navigationController.title = title
 		navigationController.tabBarItem.image = UIImage(named: "icon-tab-user")
-        navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-user-selected")
+		navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-user-selected")
 		navigationController.tabBarItem.title = nil
 		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
 		return navigationController
@@ -246,7 +246,7 @@ class AppCoordinator: BaseCoordinator {
 	class var settingsNavController: UINavigationController {
 		let navigationController = UINavigationController(rootViewController: settingsViewController)
 		navigationController.tabBarItem.image = UIImage(named: "icon-tab-settings")
-        navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-settings-selected")
+		navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-settings-selected")
 		navigationController.tabBarItem.title = nil
 		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
 		return navigationController

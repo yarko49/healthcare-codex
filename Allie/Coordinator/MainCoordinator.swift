@@ -122,7 +122,7 @@ class MainCoordinator: BaseCoordinator {
 	}
 
 	func updateBadges(count: Int) {
-        // FIXME: Needs to be activated once the tab bar is completed. This is for chat-badge.
+		// FIXME: Needs to be activated once the tab bar is completed. This is for chat-badge.
 //		let appController = self[.application] as? AppCoordinator
 //		let tabbarItem = appController?.tabBarController?.tabBar.items?[2]
 //		tabbarItem?.badgeColor = .systemRed

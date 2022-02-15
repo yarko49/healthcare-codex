@@ -13,7 +13,7 @@ class SplashViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-        view.backgroundColor = .white
+		view.backgroundColor = .white
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(imageView)
 		NSLayoutConstraint.activate([imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0.0),

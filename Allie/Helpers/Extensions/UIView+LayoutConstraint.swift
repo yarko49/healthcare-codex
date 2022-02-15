@@ -16,7 +16,7 @@ extension UIView {
 		NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: container, attribute: .bottom, multiplier: 1.0, constant: 0).isActive = true
 	}
 
-    func setShadow(shadowRadius: CGFloat = 2.0, shadowColor: UIColor = UIColor.black, offset: CGSize = CGSize(width: 0, height: 1.0), opacity: Float = 0.2) {
+	func setShadow(shadowRadius: CGFloat = 2.0, shadowColor: UIColor = UIColor.black, offset: CGSize = CGSize(width: 0, height: 1.0), opacity: Float = 0.2) {
 		layer.shadowColor = shadowColor.cgColor
 		layer.shadowOffset = offset
 		layer.shadowRadius = shadowRadius
@@ -43,14 +43,14 @@ extension UIView {
 		NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: container, attribute: .bottom, multiplier: 1.0, constant: 0).isActive = true
 	}
 
-    var safeAreaBottom: CGFloat {
-        if #available(iOS 13.0, *) {
-            let window = UIApplication.shared.windows.first
-            if let bottomPadding = window?.safeAreaInsets.bottom {
-                return bottomPadding
-            }
-            return 0
-        }
-        return 0
-    }
+	var safeAreaBottom: CGFloat {
+		if #available(iOS 13.0, *) {
+			let window = UIApplication.shared.windows.first
+			if let bottomPadding = window?.safeAreaInsets.bottom {
+				return bottomPadding
+			}
+			return 0
+		}
+		return 0
+	}
 }

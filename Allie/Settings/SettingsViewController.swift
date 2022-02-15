@@ -24,7 +24,7 @@ class SettingsViewController: BaseViewController {
 		view.separatorInset = UIEdgeInsets.zero
 		view.separatorStyle = .singleLine
 		view.isScrollEnabled = true
-        view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -20, right: 0)
+		view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -20, right: 0)
 		return view
 	}()
 
@@ -44,13 +44,13 @@ class SettingsViewController: BaseViewController {
 
 		tableView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(tableView)
-        NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
+		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
 		                             tableView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: tableView.trailingAnchor, multiplier: 0.0),
-                                     tableView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.bottomAnchor, multiplier: 0.0)])
+		                             tableView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.bottomAnchor, multiplier: 0.0)])
 
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.reuseIdentifier)
-        settingsFooterView.delegate = self
+		settingsFooterView.delegate = self
 		dataSource = UITableViewDiffableDataSource<Int, SettingsType>(tableView: tableView, cellProvider: { tableView, indexPath, type -> UITableViewCell? in
 			let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.reuseIdentifier, for: indexPath)
 			cell.tintColor = .allieGray
@@ -171,11 +171,11 @@ extension SettingsViewController: UITableViewDelegate {
 		}
 	}
 
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = settingsFooterView
-        settingsFooterView.delegate = self
-        return footerView
-    }
+	func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+		let footerView = settingsFooterView
+		settingsFooterView.delegate = self
+		return footerView
+	}
 
 	func showAccountDetails() {
 		let profileEntryViewController = ProfileEntryViewController()

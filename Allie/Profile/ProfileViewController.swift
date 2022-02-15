@@ -37,8 +37,8 @@ class ProfileViewController: BaseViewController {
 
 	// MARK: IBOutlets
 
-    @IBOutlet weak var topAnchor: NSLayoutConstraint!
-    @IBOutlet var tableView: UITableView!
+	@IBOutlet var topAnchor: NSLayoutConstraint!
+	@IBOutlet var tableView: UITableView!
 	@IBOutlet var dateLabel: UILabel!
 	@IBOutlet var previousDateButton: UIButton!
 	@IBOutlet var nextDateButton: UIButton!
@@ -134,11 +134,11 @@ class ProfileViewController: BaseViewController {
 		title = String.profile
 		let name = patient?.name.givenName ?? ""
 		resetExpandState()
-        topView.removeConstraint(topAnchor)
-        topAnchor.isActive = false
-        topView.topAnchor.constraint(equalTo: navigationView.bottomAnchor).isActive = true
-        self.topView.setNeedsUpdateConstraints()
-        self.topView.layoutIfNeeded()
+		topView.removeConstraint(topAnchor)
+		topAnchor.isActive = false
+		topView.topAnchor.constraint(equalTo: navigationView.bottomAnchor).isActive = true
+		topView.setNeedsUpdateConstraints()
+		topView.layoutIfNeeded()
 		topView.backgroundColor = UIColor.white
 		separatorLineView.backgroundColor = UIColor.swipe
 		nameLabel.attributedText = name.attributedString(style: .bold28, foregroundColor: .black, letterSpacing: 0.36)
