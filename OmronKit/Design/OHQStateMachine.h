@@ -5,8 +5,9 @@
 //  Copyright © 2017 Omron Healthcare Co., Ltd. All rights reserved.
 //
 
-#import <OmronKit/OHQState.h>
+#pragma clang system_header
 #import <Foundation/Foundation.h>
+#import "OHQState.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

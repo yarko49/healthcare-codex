@@ -13,6 +13,9 @@
 #import <OmronKit/OHQStateMachine.h>
 #import <OmronKit/CBUUID+Description.h>
 #import <OmronKit/OHQLogStore.h>
+#import <OmronKit/SessionData.h>
+#import <OmronKit/OHQSessionInfo.h>
+#import <OmronKit/OHQDeviceDiscoveryInfo.h>
 
 //! Project version number for OmronKit.
 FOUNDATION_EXPORT double OmronKitVersionNumber;
@@ -21,5 +24,3 @@ FOUNDATION_EXPORT double OmronKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char OmronKitVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <OmronKit/PublicHeader.h>
-
-

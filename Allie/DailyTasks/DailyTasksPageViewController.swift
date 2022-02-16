@@ -5,7 +5,6 @@
 //  Created by Waqar Malik on 1/7/21.
 //
 
-import AscensiaKit
 import BluetoothService
 import CareKit
 import CareKitStore
@@ -13,8 +12,10 @@ import CareKitUI
 import CodexFoundation
 import Combine
 import CoreBluetooth
+import Foundation
 import HealthKit
 import JGProgressHUD
+import OmronKit
 import SwiftUI
 import UIKit
 
@@ -24,7 +25,12 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	@Injected(\.bluetoothService) var bluetoothService: BluetoothService
 	@Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
-	var bluetoothDevices: [UUID: AKDevice] = [:]
+	var bluetoothDevices: [UUID: Peripheral] = [:]
+	var deviceInfoCache: [UUID: [OHQDeviceInfoKey: Any]] = [:]
+	var stopScanCompletion: VoidCompletionHandler?
+	var managerStateObserver: NSKeyValueObservation?
+	var userData: [OHQUserDataKey: Any] = [:]
+	var sessionData: SessionData?
 
 	var timerInterval: TimeInterval = 60 * 10
 	let hud: JGProgressHUD = {
@@ -60,7 +66,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.refresh()
 			}.store(in: &cancellables)
 
-		if careManager.patient?.bloodGlucoseMonitor == nil {
+		if let isEmpty = careManager.patient?.peripherals.isEmpty, isEmpty == true {
 			NotificationCenter.default.publisher(for: .didPairBloodGlucoseMonitor)
 				.receive(on: RunLoop.main)
 				.sink { [weak self] _ in
@@ -85,7 +91,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			DispatchQueue.main.async {
 				self?.reload()
 			}
-			if self?.careManager.patient?.bloodGlucoseMonitor != nil {
+			if let isEmpty = self?.careManager.patient?.peripherals.isEmpty, !isEmpty {
 				self?.startBluetooth()
 			}
 		}

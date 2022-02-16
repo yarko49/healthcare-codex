@@ -25,7 +25,7 @@ class BGMDeviceDetailViewController: UIViewController {
 	@Injected(\.bluetoothService) var bluetootService: BluetoothService
 	@Injected(\.careManager) var careManager: CareManager
 
-	var device: String? {
+	var device: CHPeripheral? {
 		didSet {
 			configureView()
 		}
@@ -91,8 +91,8 @@ class BGMDeviceDetailViewController: UIViewController {
 		guard let device = device else {
 			return
 		}
-		title = device
-		titleLabel.text = device
+		title = device.name
+		titleLabel.text = device.name
 		subtitleLabel.text = nil
 	}
 
@@ -125,7 +125,7 @@ class BGMDeviceDetailViewController: UIViewController {
 		alertController.addAction(cancelAction)
 		let unpairAction = UIAlertAction(title: NSLocalizedString("UNPAIR", comment: "Unpair"), style: .destructive) { [weak self] _ in
 			self?.bluetootService.stopMonitoring()
-			if var patient = self?.careManager.patient, let device = patient.peripheral(serviceType: GATTDeviceService.bloodGlucose.identifier) {
+			if var patient = self?.careManager.patient, let device = self?.device {
 				patient.peripherals.remove(device)
 				self?.careManager.patient = patient
 				self?.careManager.upload(patient: patient)

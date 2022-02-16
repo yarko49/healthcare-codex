@@ -5,7 +5,6 @@
 //  Created by Waqar Malik on 1/12/22.
 //
 
-import AscensiaKit
 import BluetoothService
 import CodexFoundation
 import CoreBluetooth
@@ -24,14 +23,15 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 	var initialIndex: Int = 0
 	var viewModel = PairingViewModel(pages: PairingItem.bloodGlucoseItems)
 	var bluetoothDevices: [UUID: Peripheral] = [:]
-	var dicoveryServices: Set<CBUUID> {
+	var dicoveryServices: [CBUUID] {
 		[]
 	}
 
-	var measurementCharacteristics: Set<CBUUID> {
+	var measurementCharacteristics: [CBUUID] {
 		[]
 	}
 
+	var isPairing: Bool = false
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .allieWhite
@@ -191,12 +191,13 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 
 	func bluetoothService(_ service: BluetoothService, didConnect peripheral: CBPeripheral) {
 		ALog.info("\(#function) \(peripheral)")
-		guard let deviceManager = bluetoothDevices[peripheral.identifier] else {
+		guard let device = bluetoothDevices[peripheral.identifier] else {
 			return
 		}
 		if !measurementCharacteristics.isEmpty, !dicoveryServices.isEmpty {
 			deviceManager.discover(services: dicoveryServices, measurementCharacteristics: measurementCharacteristics)
 		}
+		device.discoverServices(dicoveryServices)
 	}
 
 	func bluetoothService(_ service: BluetoothService, didFailToConnect peripheral: CBPeripheral, error: Error?) {
@@ -207,6 +208,12 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 	func bluetoothService(_ service: BluetoothService, didDisconnect peripheral: CBPeripheral, error: Error?) {
 		bluetoothDevices.removeValue(forKey: peripheral.identifier)
 		service.startMonitoring()
+	}
+
+	func peripheral(_ peripheral: Peripheral, didDiscoverServices services: [CBService], error: Error?) {
+		for service in services {
+			peripheral.discover(characteristics: measurementCharacteristics, for: service)
+		}
 	}
 
 	func showSuccess() {
@@ -234,6 +241,7 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 	}
 
 	func processValue(peripheral: Peripheral, characteristic: CBCharacteristic, error: Error?) {
+		isPairing = false
 		if let error = error {
 			ALog.error("pairing device", error: error)
 			let nsError = error as NSError
@@ -247,6 +255,7 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 		} else {
 			bluetoothService.removeDelegate(self)
 			bluetoothService.stopMonitoring()
+			updatePatient(peripheral: peripheral)
 			DispatchQueue.main.async { [weak self] in
 				self?.showSuccess()
 			}

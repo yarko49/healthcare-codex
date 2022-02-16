@@ -18,3 +18,20 @@ struct CHPeripheral: CMConnectableDevice, Codable {
 	var lastSync: String?
 	var lastSyncDate: Date?
 }
+
+extension CHPeripheral: CustomStringConvertible {
+	var description: String {
+		"""
+		{
+		  id = \(id)
+		  type = \(type)
+		  localId = \(localId ?? "")
+		  name = \(name)
+		  info = \(info ?? "")
+		  address = \(address ?? "")
+		  lastSync = \(lastSync ?? "")
+		  lastSyncDate = \(String(describing: lastSyncDate))
+		}
+		"""
+	}
+}

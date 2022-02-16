@@ -36,13 +36,38 @@ public extension BluetoothServiceDelegate {
 }
 
 public class BluetoothService: NSObject, ObservableObject {
+	public static let EnableNotificationValue: [UInt8] = [0x01, 0x00]
+	public static let EnableIndicationValue: [UInt8] = [0x02, 0x00]
+
 	// Object stored in the MulticastDelegate are weak objects, but we need the set to strong
 	// swiftlint:disable:next weak_delegate
-	private var multicastDelegate: MulticastDelegate<BluetoothServiceDelegate> = .init()
-	public private(set) var centralManager: CBCentralManager?
-
+	internal var multicastDelegate: MulticastDelegate<BluetoothServiceDelegate> = .init()
+	public internal(set) var centralManager: CBCentralManager?
+	@Published public internal(set) var discoveredPeripherals: [UUID: CBPeripheral] = [:]
 	public var isScanning: Bool {
 		centralManager?.isScanning ?? false
+	}
+
+	var supportedServices: [CBUUID] {
+		[GATTServiceBloodGlucose.uuid]
+	}
+
+	public func isConnected(uuidString: String) -> Bool {
+		guard let identifier = UUID(uuidString: uuidString) else {
+			return false
+		}
+		return isConnected(identifier: identifier)
+	}
+
+	public func isConnected(identifier: UUID) -> Bool {
+		peripheralState(identifier: identifier) == .connected
+	}
+
+	public func peripheralState(identifier: UUID) -> CBPeripheralState {
+		guard let peripheral = discoveredPeripherals[identifier] else {
+			return .disconnected
+		}
+		return peripheral.state
 	}
 
 	public func addDelegate(_ delegate: BluetoothServiceDelegate) {
@@ -62,8 +87,8 @@ public class BluetoothService: NSObject, ObservableObject {
 		centralManager?.stopScan()
 	}
 
-	public func scanForPeripherals(services: Set<CBUUID>, options: [String: Any] = [:]) {
-		centralManager?.scanForPeripherals(withServices: Array(services), options: options) // if BLE is powered, kick off scan for BGMs
+	public func scanForPeripherals(services: [CBUUID]? = nil, options: [String: Any] = [:]) {
+		centralManager?.scanForPeripherals(withServices: services ?? supportedServices, options: options)
 	}
 
 	public func connect(peripheral: CBPeripheral, options: [String: Any]? = nil) {
@@ -110,6 +135,7 @@ extension BluetoothService: CBCentralManagerDelegate {
 			os_log(.debug, log: .service, "didDisconnectPeripheral %@", peripheral)
 		}
 
+		discoveredPeripherals.removeValue(forKey: peripheral.identifier)
 		multicastDelegate.invoke { delegate in
 			delegate?.bluetoothService(self, didDisconnect: peripheral, error: error)
 		}
@@ -124,6 +150,7 @@ extension BluetoothService: CBCentralManagerDelegate {
 
 	public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
 		os_log(.debug, log: .service, "didDiscover %@, advertisementData %@, rssi: %@", peripheral, advertisementData, RSSI)
+		discoveredPeripherals[peripheral.identifier] = peripheral
 		multicastDelegate.invoke { delegate in
 			delegate?.bluetoothService(self, didDiscover: peripheral, advertisementData: advertisementData, rssi: RSSI)
 		}

@@ -14,7 +14,7 @@ extension CHPatient {
 			return nil
 		}
 
-		var peripheral = CHPeripheral(id: identifier, type: GATTDeviceService.bloodGlucose.identifier, name: name)
+		var peripheral = CHPeripheral(id: identifier, type: GATTServiceBloodGlucose.identifier, name: name)
 		peripheral.address = bgmAddress
 		peripheral.lastSync = bgmLastSync
 		if let dateString = bgmLastSyncDate {
@@ -42,7 +42,19 @@ extension CHPatient {
 
 	var bloodGlucoseMonitor: CHPeripheral? {
 		peripherals.first { peripheral in
-			peripheral.type == GATTDeviceService.bloodGlucose.identifier
+			peripheral.type == GATTServiceBloodGlucose.identifier
+		}
+	}
+
+	var bloodPresssureMonitor: CHPeripheral? {
+		peripherals.first { peripheral in
+			peripheral.type == GATTServiceBloodPressure.identifier
+		}
+	}
+
+	var weightScale: CHPeripheral? {
+		peripherals.first { peripheral in
+			peripheral.type == GATTServiceWeightScale.identifier
 		}
 	}
 }

@@ -3,7 +3,7 @@
 //  Allie
 //
 
-import UIKit
+import Foundation
 
 public extension String {
 	func isValidEmail() -> Bool {

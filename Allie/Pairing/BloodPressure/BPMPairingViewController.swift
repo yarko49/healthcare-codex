@@ -17,15 +17,12 @@ class BPMPairingViewController: PairingViewController {
 		titleLabel.text = NSLocalizedString("BLOOD_PRESSURE_PAIRING", comment: "Blood Pressure Pairing")
 	}
 
-	var deviceInfos: [UUID: OHQDeviceDiscoveryInfo] = [:]
-	var devices: [UUID: OHQDevice] = [:]
-
-	override var dicoveryServices: Set<CBUUID> {
-		[GATTDeviceService.bloodPressure.id, GATTDeviceService.heartRate.id, GATTDeviceService.deviceInformation.id]
+	override var dicoveryServices: [CBUUID] {
+		GATTServiceBloodPressure.services
 	}
 
-	override var measurementCharacteristics: Set<CBUUID> {
-		Set(GATTDeviceCharacteristic.bloodPressureMeasurements.map(\.uuid))
+	override var measurementCharacteristics: [CBUUID] {
+		GATTServiceBloodPressure.characteristics
 	}
 
 	override func showSuccess() {
@@ -34,13 +31,14 @@ class BPMPairingViewController: PairingViewController {
 	}
 
 	override func peripheral(_ peripheral: Peripheral, readyWith characteristic: CBCharacteristic) {
-		if characteristic.uuid == GATTDeviceCharacteristic.bloodPressureFeature.uuid {
+		if characteristic.uuid == GATTBloodPressureFeature.uuid, !isPairing {
+			isPairing = true
 			peripheral.read(characteristic: characteristic, isBatched: false)
 		}
 	}
 
 	override func updatePatient(peripheral: Peripheral) {
-		if var patient = careManager.patient, let pairedPrepherial = try? CHPeripheral(device: peripheral, type: GATTDeviceService.bloodPressure.identifier) {
+		if var patient = careManager.patient, let pairedPrepherial = try? CHPeripheral(peripheral: peripheral, type: GATTServiceBloodPressure.identifier) {
 			patient.peripherals.insert(pairedPrepherial)
 			careManager.patient = patient
 			careManager.upload(patient: patient)

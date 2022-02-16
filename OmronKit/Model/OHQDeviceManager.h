@@ -5,11 +5,12 @@
 //  Copyright © 2017 Omron Healthcare Co., Ltd. All rights reserved.
 //
 
-#import <OmronKit/OHQDefines.h>
+#pragma clang system_header
 #import <Foundation/Foundation.h>
-#import <CoreBluetooth/CoreBluetooth.h>
+#import "OHQDefines.h"
 
 @protocol OHQDeviceManagerDataSource;
+@protocol OHQDeviceManagerDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (OHQDeviceManager *)sharedManager;
 
 @property (nonatomic, assign, readonly) OHQDeviceManagerState state;
+@property (nonatomic, weak, nullable) id<OHQDeviceManagerDelegate> delegate;
 @property (nonatomic, weak, nullable) id<OHQDeviceManagerDataSource> dataSource;
 
 /** Scan the device.
@@ -68,27 +70,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-///---------------------------------------------------------------------------------------
-#pragma mark - OHQDeviceDiscoveryInfo class
-///---------------------------------------------------------------------------------------
-
-@interface OHQDeviceDiscoveryInfo : NSObject {
-    @protected
-    CBPeripheral *_peripheral;
-    NSNumber *_RSSI;
-    NSDictionary<OHQAdvertisementDataKey,id> *_advertisementData;
-}
-
-@property (readonly) CBPeripheral *peripheral;
-@property (readonly) NSNumber *RSSI;
-@property (readonly) NSDictionary<OHQAdvertisementDataKey,id> *advertisementData;
-@property (nullable, readonly) NSString *modelName;
-@property (readonly) NSDictionary<OHQDeviceInfoKey,id> *deviceInfo;
-@property (readonly) OHQDeviceCategory category;
-
-- (instancetype)initWithPeripheral:(CBPeripheral *)peripheral rawAdvertisementData:(NSDictionary<NSString *,id> *)rawAdvertisementData RSSI:(NSNumber *)RSSI;
-- (void)updateWithRawAdvertisementData:(NSDictionary<NSString *,id> *)rawAdvertisementData RSSI:(NSNumber *)RSSI;
+@protocol OHQDeviceManagerDelegate <NSObject>
+@optional
+- (void)deviceManager:(OHQDeviceManager *)manager didFindDeviceWithInfo:(NSDictionary<OHQDeviceInfoKey,id> *)deviceInfo;
 
 @end
-
 NS_ASSUME_NONNULL_END

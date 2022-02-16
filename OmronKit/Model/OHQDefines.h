@@ -297,6 +297,8 @@ extern OHQUserDataKey const OHQUserDataGenderKey;
 
 /** Measurement Record key */
 typedef NSString * OHQMeasurementRecordKey NS_STRING_ENUM;
+/** value (Type of  value: NSData) */
+extern OHQMeasurementRecordKey const OHQMeasurementRecordValueKey;
 /** User Index (Type of value : NSNumber) */
 extern OHQMeasurementRecordKey const OHQMeasurementRecordUserIndexKey;
 /** Time Stamp (Type of value : NSDate) */

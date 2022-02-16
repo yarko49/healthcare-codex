@@ -5,10 +5,9 @@
 //  Copyright © 2017 Omron Healthcare Co., Ltd. All rights reserved.
 //
 
-#import <OHQDevice.h>
+#import "OHQDevice.h"
 #import "OHQLog.h"
-#import <CBUUID+Description.h>
-#import <OHQDeviceManager.h>
+#import "CBUUID+Description.h"
 #import <CoreBluetooth/CoreBluetooth.h>
 
 #define OHQ_INLINE NS_INLINE
@@ -233,7 +232,7 @@ static NSString * CharacteristicFormatDescription(CharacteristicFormat arg) {
     static NSArray *FormatDescriptions;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSBundle *bundle = [NSBundle bundleForClass:[OHQDeviceManager class]];
+        NSBundle *bundle = [NSBundle mainBundle];
         NSString *path = [bundle pathForResource:@"FormatDescriptions" ofType:@"plist"];
         FormatDescriptions = [NSArray arrayWithContentsOfFile:path];
     });
@@ -1730,6 +1729,9 @@ NS_ASSUME_NONNULL_END
     NSMutableDictionary *dict = [@{} mutableCopy];
     const void *pt = characteristic.value.bytes;
     
+    if(characteristic.value != nil) {
+        dict[OHQMeasurementRecordValueKey] = characteristic.value;
+    }
     BloodPressureMeasurementFlags flagsValue;
     memcpy(&flagsValue, pt, sizeof(flagsValue));
     dict[OHQMeasurementRecordBloodPressureUnitKey] = (flagsValue & BloodPressureMeasurementFlagKpaUnit ? @"kPa" : @"mmHg");
@@ -1784,6 +1786,9 @@ NS_ASSUME_NONNULL_END
     NSMutableDictionary *dict = [@{} mutableCopy];
     const void *pt = characteristic.value.bytes;
     
+    if(characteristic.value != nil) {
+        dict[OHQMeasurementRecordValueKey] = characteristic.value;
+    }
     WeightMeasurementFlags flagsValue;
     memcpy(&flagsValue, pt, sizeof(flagsValue));
     dict[OHQMeasurementRecordWeightUnitKey] = ((flagsValue & WeightMeasurementFlagImperialUnit) ? @"lb" : @"kg");
@@ -1853,6 +1858,9 @@ NS_ASSUME_NONNULL_END
     NSMutableDictionary *dict = [@{} mutableCopy];
     const void *pt = characteristic.value.bytes;
     
+    if(characteristic.value != nil) {
+        dict[OHQMeasurementRecordValueKey] = characteristic.value;
+    }
     BodyCompositionMeasurementFlags flagsValue;
     memcpy(&flagsValue, pt, sizeof(flagsValue));
     if (flagsValue & (BodyCompositionMeasurementFlagMuscleMassPresent |
@@ -1999,6 +2007,9 @@ NS_ASSUME_NONNULL_END
     NSMutableDictionary *dict = [@{} mutableCopy];
     const void *pt = characteristic.value.bytes;
     
+    if(characteristic.value != nil) {
+        dict[OHQMeasurementRecordValueKey] = characteristic.value;
+    }
     UInt24 flagsRawValue;
     memcpy(&flagsRawValue, pt, sizeof(flagsRawValue));
     OmronExtendedBodyCompositionMeasurementFlags flagsValue = ConvertUInt24ToUInt32(flagsRawValue);

@@ -5,11 +5,11 @@
 //  Created by Waqar Malik on 9/8/21.
 //
 
-import AscensiaKit
+import BluetoothService
 import SwiftUI
 
 struct RecordItem: View {
-	var record: AKBloodGlucoseRecord
+	var record: BloodGlucoseRecord
 
 	var body: some View {
 		VStack {
@@ -23,12 +23,12 @@ struct RecordItem: View {
 
 struct ReadingItem_Previews: PreviewProvider {
 	static var previews: some View {
-		RecordItem(record: AKBloodGlucoseRecord.dummyRecord)
+		RecordItem(record: BloodGlucoseRecord.dummyRecord)
 	}
 }
 
-private extension AKBloodGlucoseRecord {
-	static var dummyRecord: AKBloodGlucoseRecord {
-		AKBloodGlucoseRecord(sequence: 0, utcTimestamp: Date(), timezoneOffsetInSeconds: 0, glucoseConcentration: 125.0, concentrationUnit: .kg, sampleType: "Caplliary Blood", sampleLocation: "Finger", sensorFlags: [], mealContext: "Unknown", mealTime: .unknown, peripheral: nil, measurementData: Data(), contextData: nil)
+private extension BloodGlucoseRecord {
+	static var dummyRecord: BloodGlucoseRecord {
+		BloodGlucoseRecord(sequence: 0, utcTimestamp: Date(), timezoneOffsetInSeconds: 0, glucoseConcentration: 125.0, concentrationUnit: .kg, sampleType: "Caplliary Blood", sampleLocation: "Finger", sensorFlags: [], mealContext: "Unknown", mealTime: .unknown, peripheral: nil, measurementData: Data(), contextData: nil)
 	}
 }

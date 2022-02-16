@@ -5,8 +5,8 @@
 //  Copyright © 2017 Omron Healthcare Co., Ltd. All rights reserved.
 //
 
-#import <OmronKit/OHQDefines.h>
-#import <OmronKit/OHQStateMachine.h>
+#import "OHQDefines.h"
+#import "OHQStateMachine.h"
 #import <Foundation/Foundation.h>
 
 @protocol OHQDeviceDelegate;
