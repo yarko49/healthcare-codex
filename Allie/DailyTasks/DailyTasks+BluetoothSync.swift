@@ -369,8 +369,10 @@ extension DailyTasksPageViewController: OHQDeviceManagerDelegate {
 	func deviceManager(_ manager: OHQDeviceManager, didFindDeviceWithInfo deviceInfo: [OHQDeviceInfoKey: Any]) {
 		let identifier = deviceInfo.identifier
 		deviceInfoCache[identifier] = deviceInfo
-		if let bpm = careManager.patient?.bloodPresssureMonitor, let localId = bpm.localId, localId == deviceInfo.identifier.uuidString {
+		if let bpm = careManager.patient?.bloodPresssureMonitor, let localId = bpm.localId, localId == identifier.uuidString {
 			startSession(identifer: deviceInfo.identifier)
+		} else if let ws = careManager.patient?.weightScale, let localId = ws.localId, localId == identifier.uuidString {
+			startSession(identifer: identifier)
 		}
 	}
 }

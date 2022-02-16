@@ -194,9 +194,6 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 		guard let device = bluetoothDevices[peripheral.identifier] else {
 			return
 		}
-		if !measurementCharacteristics.isEmpty, !dicoveryServices.isEmpty {
-			deviceManager.discover(services: dicoveryServices, measurementCharacteristics: measurementCharacteristics)
-		}
 		device.discoverServices(dicoveryServices)
 	}
 

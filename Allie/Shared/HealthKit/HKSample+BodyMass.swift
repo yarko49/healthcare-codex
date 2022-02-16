@@ -43,7 +43,7 @@ extension HKSample {
 			metadata[BMMetadataKeyDeviceName] = modelName
 		}
 
-		metadata[BPMMetadataKeyDeviceId] = sessionData.identifier.uuidString
+		metadata[BMMetadataKeyDeviceId] = sessionData.identifier.uuidString
 		if let batteryLavel = sessionData.batteryLevel?.doubleValue {
 			metadata[BMMetadataKeyBatteryLevel] = batteryLavel
 		}
