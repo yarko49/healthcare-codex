@@ -136,7 +136,7 @@ class ProfileViewController: BaseViewController {
 		resetExpandState()
 		topView.removeConstraint(topAnchor)
 		topAnchor.isActive = false
-		topView.topAnchor.constraint(equalTo: navigationView.bottomAnchor).isActive = true
+		topView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
 		topView.setNeedsUpdateConstraints()
 		topView.layoutIfNeeded()
 		topView.backgroundColor = UIColor.white

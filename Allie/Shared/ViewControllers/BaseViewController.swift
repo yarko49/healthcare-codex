@@ -32,18 +32,34 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 		return view
 	}()
 
-	var navigationView: UIView = {
-		let navigationView = UIView()
-		navigationView.translatesAutoresizingMaskIntoConstraints = false
-		navigationView.backgroundColor = .mainBlue
-		return navigationView
+	var chatStackView: UIStackView = {
+		let chatStackView = UIStackView()
+		chatStackView.translatesAutoresizingMaskIntoConstraints = false
+		chatStackView.distribution = .fill
+		chatStackView.alignment = .fill
+		chatStackView.axis = .vertical
+		return chatStackView
 	}()
 
-	var chatView: UIView = {
-		let chatView = UIView()
-		chatView.translatesAutoresizingMaskIntoConstraints = false
-		chatView.backgroundColor = .red
-		return chatView
+	private var leadingHStack: UIStackView = {
+		let leadingHStack = UIStackView()
+		leadingHStack.translatesAutoresizingMaskIntoConstraints = false
+		leadingHStack.axis = .horizontal
+		leadingHStack.alignment = .center
+		leadingHStack.distribution = .fill
+		leadingHStack.spacing = 12.0
+		return leadingHStack
+	}()
+
+	private var backButton: UIButton = {
+		let backButton = UIButton()
+		backButton.translatesAutoresizingMaskIntoConstraints = false
+		backButton.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+		backButton.setImage(UIImage(systemName: "arrow.up"), for: .normal)
+		backButton.layer.cornerRadius = 22.0
+		backButton.setTitle("", for: .normal)
+		backButton.tintColor = .white
+		return backButton
 	}()
 
 	private var greetingLabel: UILabel = {
@@ -111,8 +127,6 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .white
-		navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.back"), style: .plain, target: nil, action: nil)
-		navigationController?.setNavigationBarHidden(true, animated: false)
 		setupNavigationView()
 		setupView()
 		bindActions()
@@ -128,19 +142,21 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 	func populateData() {}
 
 	func setupNavigationView() {
-		view.addSubview(navigationView)
-		navigationView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-		navigationView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-		navigationView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-		navigationView.heightAnchor.constraint(equalToConstant: hasTopNotch ? 120.0 : 100.0).isActive = true
+		let navigationView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: navigationController!.navigationBar.frame.size.height))
+		navigationItem.titleView = navigationView
+		navigationView.addSubview(leadingHStack)
+		leadingHStack.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor).isActive = true
+		leadingHStack.centerYAnchor.constraint(equalTo: navigationView.centerYAnchor).isActive = true
 
-		navigationView.addSubview(greetingLabel)
-		greetingLabel.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor, constant: 16.0).isActive = true
-		greetingLabel.bottomAnchor.constraint(equalTo: navigationView.bottomAnchor, constant: -20.0).isActive = true
+		[backButton, greetingLabel].forEach { leadingHStack.addArrangedSubview($0) }
+		backButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
+		backButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+		backButton.addTarget(self, action: #selector(onClickBackButton), for: .touchUpInside)
+		setLeadingButton()
 
 		navigationView.addSubview(badgeView)
 		badgeView.centerYAnchor.constraint(equalTo: greetingLabel.centerYAnchor).isActive = true
-		badgeView.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor, constant: -16).isActive = true
+		badgeView.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor).isActive = true
 		badgeView.addArrangedSubview(chatImageView)
 		badgeView.addArrangedSubview(redCircleView)
 
@@ -167,35 +183,61 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 		navigationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onNavBarClick)))
 	}
 
-	@objc func onNavBarClick() {
-		let currentVC = navigationController?.topViewController
+	func setLeadingButton() {
+		backButton.isHidden = !isShowChatVC
+		greetingLabel.text = isShowChatVC ? "Back" : "Monitored By UCHealth"
+	}
+
+	@objc func onClickBackButton() {
 		if !isShowChatVC {
-			currentVC!.view.addSubview(chatView)
-			heightConstraint.constant = 0.0
-			chatView.topAnchor.constraint(equalTo: navigationView.bottomAnchor).isActive = true
-			chatView.leadingAnchor.constraint(equalTo: currentVC!.view.leadingAnchor).isActive = true
-			chatView.trailingAnchor.constraint(equalTo: currentVC!.view.trailingAnchor).isActive = true
-			heightConstraint = chatView.heightAnchor.constraint(equalToConstant: 0.0)
-			heightConstraint.isActive = true
-			currentVC?.view.bringSubviewToFront(chatView)
+			return
+		}
+		let chatVC = AppCoordinator.conversationsListViewController
+		if let currentVC = navigationController?.topViewController {
 			UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseIn) { [weak self] in
-				self?.heightConstraint.constant = UIScreen.main.bounds.height - self!.navigationView.frame.height
-				self?.chatView.needsUpdateConstraints()
-				currentVC?.view.layoutIfNeeded()
+				self?.chatStackView.isHidden = true
+				self?.chatStackView.layoutIfNeeded()
+				currentVC.view.layoutIfNeeded()
 			} completion: { [weak self] _ in
-				self?.tabBarController?.tabBar.isHidden = true
-				self?.isShowChatVC.toggle()
-			}
-		} else {
-			heightConstraint.constant = 0.0
-			UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseIn) { [weak self] in
-				self?.chatView.needsUpdateConstraints()
-				currentVC!.view.layoutIfNeeded()
-				self?.heightConstraint.isActive = false
-			} completion: { [weak self] _ in
-				self?.chatView.removeFromSuperview()
+				chatVC.willMove(toParent: nil)
+				self?.chatStackView.removeArrangedSubview(chatVC.view)
+				chatVC.view.removeFromSuperview()
+				chatVC.removeFromParent()
+				self?.chatStackView.removeFromSuperview()
 				self?.isShowChatVC.toggle()
 				self?.tabBarController?.tabBar.isHidden = false
+				self?.setLeadingButton()
+			}
+		}
+	}
+
+	@objc func onNavBarClick() {
+		let chatVC = AppCoordinator.conversationsListViewController
+		if let currentVC = navigationController?.topViewController {
+			if !isShowChatVC {
+				currentVC.view.addSubview(chatStackView)
+				chatStackView.topAnchor.constraint(equalTo: currentVC.view.safeAreaLayoutGuide.topAnchor).isActive = true
+				chatStackView.leadingAnchor.constraint(equalTo: currentVC.view.leadingAnchor).isActive = true
+				chatStackView.trailingAnchor.constraint(equalTo: currentVC.view.trailingAnchor).isActive = true
+				chatStackView.bottomAnchor.constraint(equalTo: currentVC.view.bottomAnchor).isActive = true
+				currentVC.view.bringSubviewToFront(chatStackView)
+				currentVC.addChild(chatVC)
+				chatStackView.addArrangedSubview(chatVC.view)
+				chatVC.didMove(toParent: currentVC)
+				UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseIn) { [weak self] in
+					self?.chatStackView.isHidden = false
+					self?.chatStackView.layoutIfNeeded()
+					currentVC.view.layoutIfNeeded()
+					self?.tabBarController?.tabBar.isHidden = true
+				} completion: { [weak self] _ in
+					self?.isShowChatVC.toggle()
+					chatVC.view.frame.size = self!.chatStackView.frame.size
+					chatVC.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+					chatVC.becomeFirstResponder()
+					self?.setLeadingButton()
+				}
+			} else {
+				return
 			}
 		}
 	}

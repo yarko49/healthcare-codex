@@ -44,7 +44,7 @@ class SettingsViewController: BaseViewController {
 
 		tableView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(tableView)
-		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
+		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
 		                             tableView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: tableView.trailingAnchor, multiplier: 0.0),
 		                             tableView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.bottomAnchor, multiplier: 0.0)])

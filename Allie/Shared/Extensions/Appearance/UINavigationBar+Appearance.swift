@@ -14,6 +14,7 @@ extension UINavigationBar {
 		appearance.configureWithOpaqueBackground()
 		appearance.shadowColor = .clear
 		appearance.shadowImage = UIImage()
+		appearance.backgroundColor = .mainBlue
 		appearance.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 17.0, weight: .semibold), .foregroundColor: UIColor.allieBlack]
 		navBar.barTintColor = .allieWhite
 		navBar.scrollEdgeAppearance = appearance

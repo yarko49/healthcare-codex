@@ -53,8 +53,9 @@ class ChatViewController: MessagesViewController {
 		super.viewDidLoad()
 		title = NSLocalizedString("CHAT", comment: "Chat")
 		configureMessageCollectionView()
-		configureMessageInputBar()
 		subscribeToConversation()
+		messagesCollectionView.backgroundColor = .mainBlue
+		configureInputBar()
 
 		conversationManager.messagesDelegate = self
 		conversationManager.$codexUsers
@@ -68,6 +69,7 @@ class ChatViewController: MessagesViewController {
 			layout.setMessageOutgoingAvatarSize(.zero)
 			layout.setMessageOutgoingMessageTopLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 5, right: 8)))
 			layout.setMessageIncomingMessageTopLabelAlignment(LabelAlignment(textAlignment: .left, textInsets: UIEdgeInsets(top: 0, left: 8, bottom: 5, right: 0)))
+			layout.textMessageSizeCalculator.messageLabelFont = UIFont.systemFont(ofSize: 18.0, weight: .medium)
 		}
 		configureTokens()
 	}
@@ -82,6 +84,7 @@ class ChatViewController: MessagesViewController {
 					self?.showError(message: error.localizedDescription)
 				case .success:
 					self?.messagesCollectionView.reloadData()
+					self?.messagesCollectionView.scrollToLastItem()
 				}
 			}
 		}
@@ -102,6 +105,7 @@ class ChatViewController: MessagesViewController {
 						ALog.error("\(error)")
 					case .success:
 						self?.messagesCollectionView.reloadData()
+						self?.messagesCollectionView.scrollToLastItem()
 					}
 				})
 			}.store(in: &cancellables)
@@ -122,6 +126,25 @@ class ChatViewController: MessagesViewController {
 		conversationManager.readMessagesQueue.isSuspended = true
 	}
 
+	private func configureInputBar() {
+		messageInputBar.delegate = self
+		messageInputBar.backgroundView.backgroundColor = .mainBlue
+		messageInputBar.inputTextView.backgroundColor = .white
+		messageInputBar.inputTextView.layer.cornerRadius = 6.0
+		messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 14.0, left: 8.0, bottom: 14.0, right: 8.0)
+		messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 14.0, left: 12.0, bottom: 14.0, right: 12.0)
+		messageInputBar.setRightStackViewWidthConstant(to: 40, animated: false)
+		messageInputBar.rightStackView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+		messageInputBar.sendButton.configure {
+			$0.title = ""
+			$0.tintColor = .white
+			$0.image = UIImage(named: "icon-send")
+			$0.backgroundColor = .mainDarkBlue
+			$0.layer.cornerRadius = 6.0
+			$0.setSize(CGSize(width: 40, height: 50), animated: false)
+		}
+	}
+
 	func configureMessageCollectionView() {
 		additionalBottomInset = 16.0
 		messagesCollectionView.messagesDataSource = self
@@ -131,14 +154,7 @@ class ChatViewController: MessagesViewController {
 
 		scrollsToLastItemOnKeyboardBeginsEditing = true
 		maintainPositionOnKeyboardFrameChanged = true
-		showMessageTimestampOnSwipeLeft = true // default false
-	}
-
-	func configureMessageInputBar() {
-		messageInputBar.delegate = self
-		messageInputBar.inputTextView.tintColor = .allieGray
-		messageInputBar.sendButton.setTitleColor(.allieGray, for: .normal)
-		messageInputBar.sendButton.setTitleColor(UIColor.allieGray.withAlphaComponent(0.3), for: .highlighted)
+		showMessageTimestampOnSwipeLeft = false // default false
 	}
 
 	func isLastSectionVisible(messageList: [TCHMessage]) -> Bool {
@@ -197,29 +213,30 @@ extension ChatViewController: MessagesDataSource {
 
 	func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
 		if indexPath.section % 3 == 0 {
-			return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.allieGray])
+			return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.white])
 		}
 		return nil
 	}
 
 	func cellBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-		NSAttributedString(string: NSLocalizedString("READ", comment: "Read"), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.allieGray])
+		NSAttributedString(string: NSLocalizedString("READ", comment: "Read"), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.white])
 	}
 
 	func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
 		let theMessage = message as? TCHMessage
-		var name = conversationManager.participantFriendlyName(identifier: theMessage?.author) ?? message.sender.displayName
+		let name = conversationManager.participantFriendlyName(identifier: theMessage?.author) ?? message.sender.displayName
+		let attrNameString = NSMutableAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .bold), NSAttributedString.Key.foregroundColor: UIColor.white])
 		if message.sender.senderId != patient?.id {
 			if let jobTitle = conversationManager.jobTitle(identifier: theMessage?.author) {
-				name += "\n" + jobTitle
+				attrNameString.append(NSMutableAttributedString(string: "\n\(jobTitle)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .regular), NSAttributedString.Key.foregroundColor: UIColor.white]))
 			}
 		}
-		return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1), .foregroundColor: UIColor.allieGray])
+		return attrNameString
 	}
 
 	func messageTimestampLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
 		let dateString = formatter.string(from: message.sentDate)
-		return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2), .foregroundColor: UIColor.allieGray])
+		return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2), .foregroundColor: UIColor.white])
 	}
 }
 
@@ -227,11 +244,11 @@ extension ChatViewController: MessagesLayoutDelegate {}
 
 extension ChatViewController: MessagesDisplayDelegate {
 	func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-		message.sender.senderId == patient?.id ? .allieChatDark : .allieChatLight
+		message.sender.senderId == patient?.id ? .mainDarkBlue! : .mainWhite!
 	}
 
 	func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-		message.sender.senderId == patient?.id ? .allieWhite : .allieGray
+		message.sender.senderId == patient?.id ? .allieWhite : .allieBlack
 	}
 
 	func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
@@ -240,6 +257,18 @@ extension ChatViewController: MessagesDisplayDelegate {
 
 	func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
 		message.sender.senderId == patient?.id ? 20.0 : 40
+	}
+
+	func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
+		let messageShapeStyle = MessageStyle.custom { [weak self] containerView in
+			containerView.layer.cornerRadius = 12.0
+			if message.sender.senderId == self?.patient?.senderId {
+				containerView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
+			} else {
+				containerView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
+			}
+		}
+		return messageShapeStyle
 	}
 }
 

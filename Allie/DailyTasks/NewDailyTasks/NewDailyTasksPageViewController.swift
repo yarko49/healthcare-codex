@@ -44,6 +44,22 @@ class NewDailyTasksPageViewController: BaseViewController {
 		return datePicker
 	}()
 
+	private lazy var dateDecorationView: UIView = {
+		let decorationView = UIView()
+		decorationView.translatesAutoresizingMaskIntoConstraints = false
+		decorationView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+		return decorationView
+	}()
+
+	private lazy var dateStackView: UIStackView = {
+		let dateStackView = UIStackView()
+		dateStackView.translatesAutoresizingMaskIntoConstraints = false
+		dateStackView.axis = .vertical
+		dateStackView.alignment = .fill
+		dateStackView.distribution = .fill
+		return dateStackView
+	}()
+
 	private var topView: DailyTaskTopView = {
 		let topView = DailyTaskTopView()
 		topView.translatesAutoresizingMaskIntoConstraints = false
@@ -167,7 +183,7 @@ class NewDailyTasksPageViewController: BaseViewController {
 
 	private func setupViews() {
 		view.addSubview(topView)
-		topView.topAnchor.constraint(equalTo: navigationView.bottomAnchor).isActive = true
+		topView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
 		topView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 		topView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 		topView.delegate = self
@@ -180,12 +196,15 @@ class NewDailyTasksPageViewController: BaseViewController {
 		collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -bottomInset, right: 0)
 		collectionView.delegate = self
 		collectionView.dataSource = self
-		view.addSubview(datePicker)
-		datePicker.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
-		datePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-		datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-		datePicker.isHidden = true
+		view.addSubview(dateStackView)
+		dateStackView.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
+		dateStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+		dateStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+		dateStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+		dateStackView.isHidden = true
+		[datePicker, dateDecorationView].forEach { dateStackView.addArrangedSubview($0) }
 		datePicker.addTarget(self, action: #selector(onChangeDate), for: .valueChanged)
+		dateDecorationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onClickDecorationView)))
 	}
 
 	func reload() {
@@ -243,7 +262,7 @@ class NewDailyTasksPageViewController: BaseViewController {
 	}
 
 	@objc func onChangeDate(sender: UIDatePicker) {
-		datePicker.isHidden = true
+		dateStackView.isHidden = true
 		selectedDate = sender.date
 		if Calendar.current.isDateInToday(sender.date) {
 			topView.setButtonTitle(title: "Today")
@@ -253,6 +272,10 @@ class NewDailyTasksPageViewController: BaseViewController {
 		}
 		viewModel.loadHealthData(date: selectedDate)
 	}
+
+	@objc func onClickDecorationView() {
+		dateStackView.isHidden = true
+	}
 }
 
 // MARK: - Top View Delegate
@@ -260,7 +283,7 @@ class NewDailyTasksPageViewController: BaseViewController {
 extension NewDailyTasksPageViewController: DailyTaskTopViewDelegate {
 	func onClickTodayButton() {
 		UIView.animate(withDuration: 0.3) {
-			self.datePicker.isHidden = false
+			self.dateStackView.isHidden = false
 			self.view.layoutIfNeeded()
 		}
 	}
