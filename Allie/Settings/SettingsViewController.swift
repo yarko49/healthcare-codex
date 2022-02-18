@@ -11,7 +11,7 @@ import SwiftUI
 import UIKit
 
 class SettingsViewController: BaseViewController {
-	let rowHeight: CGFloat = 60
+	let rowHeight: CGFloat = 74
 	let footerHeight: CGFloat = 160
 
 	@Injected(\.careManager) var careManager: CareManager
@@ -21,10 +21,10 @@ class SettingsViewController: BaseViewController {
 	let tableView: UITableView = {
 		let view = UITableView(frame: .zero, style: .plain)
 		view.layoutMargins = UIEdgeInsets.zero
-		view.separatorInset = UIEdgeInsets.zero
-		view.separatorStyle = .singleLine
+		view.separatorStyle = .none
 		view.isScrollEnabled = true
-		view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -20, right: 0)
+		view.backgroundColor = .clear
+		view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -120, right: 0)
 		return view
 	}()
 
@@ -41,34 +41,21 @@ class SettingsViewController: BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = String.settings
-
+		view.backgroundColor = .mainBackground
 		tableView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(tableView)
 		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
 		                             tableView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: tableView.trailingAnchor, multiplier: 0.0),
-		                             tableView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.bottomAnchor, multiplier: 0.0)])
-
-		tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.reuseIdentifier)
+		                             tableView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.bottomAnchor, multiplier: 0.0)])
+		tableView.register(SettingCell.self, forCellReuseIdentifier: SettingCell.cellID)
 		settingsFooterView.delegate = self
 		dataSource = UITableViewDiffableDataSource<Int, SettingsType>(tableView: tableView, cellProvider: { tableView, indexPath, type -> UITableViewCell? in
-			let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.reuseIdentifier, for: indexPath)
-			cell.tintColor = .allieGray
-			cell.layoutMargins = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
-			if type == .feedback {
-				cell.accessoryType = .disclosureIndicator
-				let zendBadgeCount = UserDefaults.zendeskChatNotificationCount
-				if zendBadgeCount == 0 {
-					cell.accessoryView = nil
-				} else {
-					cell.setTableViewCellBadge(badgeCount: UserDefaults.zendeskChatNotificationCount)
-				}
-			} else {
-				cell.accessoryType = .disclosureIndicator
-				cell.accessoryView = nil
+			if let cell = tableView.dequeueReusableCell(withIdentifier: SettingCell.cellID, for: indexPath) as? SettingCell {
+				cell.configureCell(type: type)
+				return cell
 			}
-			cell.textLabel?.attributedText = type.title.attributedString(style: .regular17, foregroundColor: .allieGray, letterSpacing: -0.41)
-			return cell
+			fatalError("could not dequee cell")
 		})
 
 		tableView.rowHeight = rowHeight

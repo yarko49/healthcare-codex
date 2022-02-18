@@ -25,6 +25,8 @@ class SettingsFooterView: UIView {
 
 	let logoutButton: BottomButton = {
 		let button = BottomButton(frame: .zero)
+		button.backgroundColor = .allieBlack
+		button.setTitleColor(.allieWhite, for: .normal)
 		button.setTitle(NSLocalizedString("LOG_OUT", comment: "Log Out"), for: .normal)
 		button.heightAnchor.constraint(equalToConstant: 48.0).isActive = true
 		return button
@@ -68,7 +70,7 @@ class SettingsFooterView: UIView {
 			view.translatesAutoresizingMaskIntoConstraints = false
 		}
 		addSubview(stackView)
-		NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalTo: topAnchor, constant: 100.0),
+		NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalTo: topAnchor, constant: 20.0),
 		                             stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 2.0),
 		                             trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2.0),
 		                             bottomAnchor.constraint(equalToSystemSpacingBelow: stackView.bottomAnchor, multiplier: 1.0)])
@@ -89,7 +91,7 @@ class SettingsFooterView: UIView {
 
 	func setup() {
 		localize()
-		logoutButton.setupButton()
+//		logoutButton.setupButton()
 	}
 
 	@IBAction func logoutAction(_ sender: Any) {
