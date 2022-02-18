@@ -84,7 +84,9 @@ class ChatViewController: MessagesViewController {
 					self?.showError(message: error.localizedDescription)
 				case .success:
 					self?.messagesCollectionView.reloadData()
-					self?.messagesCollectionView.scrollToLastItem()
+					DispatchQueue.main.async {
+						self?.messagesCollectionView.scrollToLastItem()
+					}
 				}
 			}
 		}
@@ -105,7 +107,9 @@ class ChatViewController: MessagesViewController {
 						ALog.error("\(error)")
 					case .success:
 						self?.messagesCollectionView.reloadData()
-						self?.messagesCollectionView.scrollToLastItem()
+						DispatchQueue.main.async {
+							self?.messagesCollectionView.scrollToLastItem()
+						}
 					}
 				})
 			}.store(in: &cancellables)
@@ -117,7 +121,11 @@ class ChatViewController: MessagesViewController {
 		UserDefaults.chatNotificationsCount = 0
 		AppDelegate.mainCoordinator?.updateBadges(count: 0)
 		AppDelegate.setAppIconBadge()
-		messagesCollectionView.scrollToLastItem()
+		scrollsToLastItemOnKeyboardBeginsEditing = true
+		maintainPositionOnKeyboardFrameChanged = true
+		DispatchQueue.main.async { [weak self] in
+			self?.messagesCollectionView.scrollToLastItem()
+		}
 		conversationManager.readMessagesQueue.isSuspended = false
 	}
 
@@ -194,7 +202,9 @@ extension ChatViewController: ConversationMessagesDelegate {
 
 	func conversationsManager(_ manager: ConversationsManager, didReceive message: TCHMessage, for conversation: TCHConversation) {
 		ALog.trace("Did Recieve message")
-		messagesCollectionView.scrollToLastItem()
+		DispatchQueue.main.async { [weak self] in
+			self?.messagesCollectionView.scrollToLastItem()
+		}
 	}
 }
 

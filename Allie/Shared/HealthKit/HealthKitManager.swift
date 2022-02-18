@@ -298,6 +298,19 @@ class HealthKitManager {
 		}
 	}
 
+	func save(samples: [HKSample], completion: @escaping AllieResultCompletion<[HKSample]>) {
+		healthStore.save(samples) { success, error in
+			if let error = error {
+				completion(.failure(error))
+			} else if success == false {
+				completion(.failure(AllieError.forbidden("Unable to save sample")))
+			} else {
+				NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
+				completion(.success(samples))
+			}
+		}
+	}
+
 	func fetch(uuid: UUID, quantityIdentifier: String) async throws -> HKSample {
 		let predicate = HKQuery.predicateForObject(with: uuid)
 		let identifier = HKQuantityTypeIdentifier(rawValue: quantityIdentifier)
@@ -339,19 +352,28 @@ class HealthKitManager {
 		}
 	}
 
-	func save(sample: HKSample) async throws -> HKSample {
+	func save(samples: [HKSample]) async throws -> [HKSample] {
 		try await withCheckedThrowingContinuation { checkedContinuation in
-			healthStore.save(sample) { didSave, error in
+			healthStore.save(samples) { didSave, error in
 				if let error = error {
 					checkedContinuation.resume(throwing: error)
 				} else if didSave == false {
 					checkedContinuation.resume(throwing: AllieError.forbidden("Unable to save sample"))
 				} else {
 					NotificationCenter.default.post(name: .didModifyHealthKitStore, object: nil)
-					checkedContinuation.resume(returning: sample)
+					checkedContinuation.resume(returning: samples)
 				}
 			}
 		}
+	}
+
+	func save(sample: HKSample) async throws -> HKSample {
+		let samples = try await save(samples: [sample])
+		guard let first = samples.first else {
+			throw AllieError.missing("Unable to save sample")
+		}
+
+		return first
 	}
 
 	func fetchCorrelationSample(uuid: UUID, sampleType: HKCorrelationType) async throws -> HKSample {

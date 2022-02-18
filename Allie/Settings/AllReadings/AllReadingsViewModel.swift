@@ -5,7 +5,6 @@
 //  Created by Waqar Malik on 9/8/21.
 //
 
-import AscensiaKit
 import BluetoothService
 import CodexFoundation
 import Combine
@@ -15,9 +14,9 @@ import Foundation
 class AllReadingsViewModel: ObservableObject {
 	@Injected(\.bluetoothService) var bluetoothService: BluetoothService
 	@Injected(\.careManager) var careManager: CareManager
-	@Published var records: [AKBloodGlucoseRecord] = []
+	@Published var records: [BloodGlucoseRecord] = []
 	private var cancellables: Set<AnyCancellable> = []
-	var bluetoothDevices: [UUID: AKDevice] = [:]
+	var bluetoothDevices: [UUID: BloodGlucosePeripheral] = [:]
 
 	init() {
 		bluetoothService.removeDelegate(self)
@@ -25,7 +24,7 @@ class AllReadingsViewModel: ObservableObject {
 	}
 
 	func getAllData() {
-		bluetoothDevices.forEach { (_: UUID, value: AKDevice) in
+		bluetoothDevices.forEach { (_: UUID, value: BloodGlucosePeripheral) in
 			value.fetchRecords()
 		}
 	}
@@ -34,7 +33,7 @@ class AllReadingsViewModel: ObservableObject {
 extension AllReadingsViewModel: BluetoothServiceDelegate {
 	func bluetoothService(_ service: BluetoothService, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
 		if let currentDevice = careManager.patient?.bloodGlucoseMonitor, peripheral.name == currentDevice.id {
-			let device = AKDevice(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
+			let device = BloodGlucosePeripheral(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
 			device.delegate = self
 			device.dataSource = self
 			bluetoothDevices[device.identifier] = device
@@ -45,12 +44,10 @@ extension AllReadingsViewModel: BluetoothServiceDelegate {
 
 	func bluetoothService(_ service: BluetoothService, didConnect peripheral: CBPeripheral) {
 		ALog.info("\(#function) \(peripheral)")
-		guard let deviceManager = bluetoothDevices[peripheral.identifier] else {
+		guard let peripherial = bluetoothDevices[peripheral.identifier] else {
 			return
 		}
-		let services = Set([GATTDeviceService.bloodGlucose.uuid])
-		let characteristics = Set(GATTDeviceCharacteristic.bloodGlucoseMeasurements.map(\.uuid))
-		deviceManager.discover(services: services, measurementCharacteristics: characteristics)
+		peripherial.discoverServices()
 	}
 
 	func bluetoothService(_ service: BluetoothService, didFailToConnect peripheral: CBPeripheral, error: Error?) {
@@ -73,11 +70,11 @@ extension AllReadingsViewModel: PeripheralDelegate {
 	}
 }
 
-extension AllReadingsViewModel: AKDeviceDataSource {
-	func device(_ device: AKDevice, didReceive readings: [Int: AKBloodGlucoseReading]) {
+extension AllReadingsViewModel: BloodGlucosePeripheralDataSource {
+	func device(_ device: BloodGlucosePeripheral, didReceive readings: [Int: BloodGlucoseReading]) {
 		ALog.info("didReceive readings \(readings)")
 		let records = readings.mapValues { reading in
-			AKBloodGlucoseRecord(reading: reading)
+			BloodGlucoseRecord(reading: reading)
 		}
 		DispatchQueue.main.async {
 			self.records = Array(records.values)

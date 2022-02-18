@@ -4,13 +4,17 @@
 //
 //  Created by Onseen on 1/25/22.
 //
-import AscensiaKit
 import BluetoothService
 import CareKit
 import CareKitStore
+import CareKitUI
 import CodexFoundation
 import Combine
+import CoreBluetooth
+import Foundation
+import HealthKit
 import JGProgressHUD
+import OmronKit
 import SwiftUI
 import UIKit
 
@@ -20,7 +24,13 @@ class NewDailyTasksPageViewController: BaseViewController {
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	@Injected(\.bluetoothService) var bluetoothService: BluetoothService
 	@Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
-	var bluetoothDevices: [UUID: AKDevice] = [:]
+	var bluetoothDevices: [UUID: Peripheral] = [:]
+	var deviceInfoCache: [UUID: [OHQDeviceInfoKey: Any]] = [:]
+	var stopScanCompletion: VoidCompletionHandler?
+	var managerStateObserver: NSKeyValueObservation?
+	var userData: [OHQUserDataKey: Any] = [:]
+	var sessionData: SessionData?
+
 	var addCellIndex: Int?
 
 	@ObservedObject var viewModel: NewDailyTasksPageViewModel = .init()

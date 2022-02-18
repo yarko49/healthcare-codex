@@ -905,3 +905,12 @@
 /* Step 3 Message */
 "BPM_STEP_THREE.message" = "Pairing your device now";
 
+/* Battery Service */
+"BATTERY_SERVICE" = "Battery Service";
+
+/* Current Time */
+"CURRENT_TIME" = "Current Time";
+
+/* Scale Pairing */
+"WEIGHT_SCALE_PAIRING" = "Scale Pairing";
+

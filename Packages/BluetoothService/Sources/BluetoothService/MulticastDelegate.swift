@@ -17,6 +17,9 @@ final class MulticastDelegate<T> {
 
 extension MulticastDelegate {
 	func add(_ delegate: T) {
+		guard !delegates.contains(delegates) else {
+			return
+		}
 		delegates.add(delegate as AnyObject)
 	}
 

@@ -63,9 +63,7 @@ class ConnectedDevicesViewController: UITableViewController {
 		super.viewWillAppear(animated)
 		var snapshot = NSDiffableDataSourceSnapshot<SectionType, String>()
 		snapshot.appendSections([.bluetooth])
-		let identifiers = [GATTDeviceService.bloodGlucose, .bloodPressure, .weightScale].map { service in
-			service.hexString
-		}
+		let identifiers = [GATTServiceBloodGlucose.hexString, GATTServiceBloodPressure.hexString, GATTServiceWeightScale.hexString]
 		snapshot.appendItems(identifiers, toSection: .bluetooth)
 		dataSource.apply(snapshot, animatingDifferences: animated) {
 			ALog.info("Did finish applying snapshot")
@@ -105,21 +103,19 @@ class ConnectedDevicesViewController: UITableViewController {
 	}
 
 	func didSelectBluetoothDevice(hexString: String?) {
-		guard let hexString = hexString, let service = GATTDeviceService(service: hexString) else {
+		guard let hexString = hexString, let serviceType = serviceType(hexString: hexString) else {
 			return
 		}
-		if let peripheral = careManager.patient?.peripheral(serviceType: service.identifier) {
-			if peripheral.type == GATTDeviceService.bloodGlucose.identifier {
-				showBloodGlucoseDetailView(peripheral: peripheral)
-			}
+		if let peripheral = careManager.patient?.peripheral(serviceType: serviceType.identifier) {
+			showBloodGlucoseDetailView(peripheral: peripheral)
 		} else {
-			switch service {
-			case .bloodGlucose:
+			switch hexString {
+			case GATTServiceBloodGlucose.hexString:
 				showBloodGlucosePairFlow()
-			case .bloodPressure:
+			case GATTServiceBloodPressure.hexString:
 				showBloodPressurePairFlow()
-			case .weightScale:
-				break
+			case GATTServiceWeightScale.hexString:
+				showWeightScalePairFlow()
 			default:
 				break
 			}
@@ -128,7 +124,7 @@ class ConnectedDevicesViewController: UITableViewController {
 
 	func showBloodGlucoseDetailView(peripheral: CHPeripheral) {
 		let viewController = BGMDeviceDetailViewController()
-		viewController.device = peripheral.name
+		viewController.device = peripheral
 		navigationController?.show(viewController, sender: self)
 	}
 
@@ -141,6 +137,13 @@ class ConnectedDevicesViewController: UITableViewController {
 
 	@IBAction func showBloodPressurePairFlow() {
 		let viewController = BPMPairingViewController()
+		viewController.modalPresentationStyle = .fullScreen
+		viewController.delegate = self
+		(tabBarController ?? navigationController ?? self).showDetailViewController(viewController, sender: self)
+	}
+
+	@IBAction func showWeightScalePairFlow() {
+		let viewController = WSPairingViewController()
 		viewController.modalPresentationStyle = .fullScreen
 		viewController.delegate = self
 		(tabBarController ?? navigationController ?? self).showDetailViewController(viewController, sender: self)
@@ -178,8 +181,8 @@ class ConnectedDevicesViewController: UITableViewController {
 			cell.accessoryType = .disclosureIndicator
 			var name = "Unknown"
 			let identifier = dataSource.itemIdentifier(for: indexPath)
-			let serviceType = GATTDeviceService(service: identifier ?? "")
-			name = serviceType?.title ?? "Unknown"
+			let serviceType = serviceType(hexString: identifier ?? "")
+			name = title(hexString: identifier)
 			let peripheral = careManager.patient?.peripherals.first(where: { peripheral in
 				peripheral.type == serviceType?.identifier
 			})
@@ -188,7 +191,7 @@ class ConnectedDevicesViewController: UITableViewController {
 			cell.subtitleLabel.text = peripheral?.name
 			cell.statusLabel.text = NSLocalizedString("STATUS_UNKNOWN", comment: "Unknown")
 			if let device = peripheral {
-				let isConnected = false
+				let isConnected = bluetoothService.isConnected(uuidString: device.localId ?? "")
 				cell.statusLabel.text = isConnected ? NSLocalizedString("STATUS_CONNECTED", comment: "Connected") : NSLocalizedString("STATUS_NOT_CONNECTED", comment: "Not connected")
 			}
 		} else {
@@ -350,5 +353,43 @@ extension ConnectedDevicesViewController: WebAuthenticationViewControllerDelegat
 extension ConnectedDevicesViewController: ASWebAuthenticationPresentationContextProviding {
 	func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
 		view.window ?? ASPresentationAnchor()
+	}
+}
+
+extension ConnectedDevicesViewController {
+	func serviceType(hexString: String) -> GATTService.Type? {
+		if hexString == GATTServiceBloodGlucose.hexString {
+			return GATTServiceBloodGlucose.self
+		} else if hexString == GATTServiceBloodPressure.hexString {
+			return GATTServiceBloodPressure.self
+		} else if hexString == GATTServiceWeightScale.hexString {
+			return GATTServiceWeightScale.self
+		} else if hexString == GATTServiceBodyComposition.hexString {
+			return GATTServiceBodyComposition.self
+		} else if hexString == GATTServiceHeartRate.hexString {
+			return GATTServiceHeartRate.self
+		} else if hexString == GATTServiceDeviceInformation.hexString {
+			return GATTServiceDeviceInformation.self
+		} else {
+			return nil
+		}
+	}
+
+	func title(hexString: String?) -> String {
+		if hexString == GATTServiceBloodGlucose.hexString {
+			return GATTServiceBloodGlucose.title
+		} else if hexString == GATTServiceBloodPressure.hexString {
+			return GATTServiceBloodPressure.title
+		} else if hexString == GATTServiceWeightScale.hexString {
+			return GATTServiceWeightScale.title
+		} else if hexString == GATTServiceBodyComposition.hexString {
+			return GATTServiceBodyComposition.title
+		} else if hexString == GATTServiceHeartRate.hexString {
+			return GATTServiceHeartRate.title
+		} else if hexString == GATTServiceDeviceInformation.hexString {
+			return GATTServiceDeviceInformation.title
+		} else {
+			return NSLocalizedString("STATUS_UNKNOWN", comment: "Unknown")
+		}
 	}
 }

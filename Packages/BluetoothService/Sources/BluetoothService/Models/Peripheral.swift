@@ -20,14 +20,16 @@ private extension OSLog {
 }
 
 public protocol PeripheralDelegate: AnyObject {
+	func peripheral(_ peripheral: Peripheral, didDiscoverServices services: [CBService], error: Error?)
 	func peripheral(_ peripheral: Peripheral, readyWith characteristic: CBCharacteristic)
 	func peripheral(_ peripheral: Peripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?)
 	func peripheral(_ peripheral: Peripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?)
 }
 
 public extension PeripheralDelegate {
-	func peripheral(_ device: Peripheral, readyWith characteristic: CBCharacteristic) {}
-	func peripheral(_ device: Peripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {}
+	func peripheral(_ peripheral: Peripheral, didDiscoverServices services: [CBService], error: Error?) {}
+	func peripheral(_ peripheral: Peripheral, readyWith characteristic: CBCharacteristic) {}
+	func peripheral(_ peripheral: Peripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {}
 	func peripheral(_ peripheral: Peripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {}
 }
 
@@ -35,7 +37,11 @@ open class Peripheral: NSObject, ObservableObject {
 	public let peripheral: CBPeripheral
 	public let advertisementData: AdvertisementData
 	public let rssi: NSNumber
-	public private(set) var measurementCharacteristics: Set<CBUUID> = []
+	public internal(set) var supportedServices: Set<CBUUID> = []
+	public internal(set) var supportedCharacteristics: [CBUUID: [CBUUID]] = [:]
+	public internal(set) var measurementCharacteristics: Set<CBUUID> = []
+	public internal(set) var discoveredCharacteristics: [CBUUID: CBCharacteristic] = [:]
+
 	open weak var delegate: PeripheralDelegate?
 
 	@available(*, unavailable)
@@ -71,25 +77,61 @@ open class Peripheral: NSObject, ObservableObject {
 		state == .connected
 	}
 
-	public func discover(services: Set<CBUUID>, measurementCharacteristics: Set<CBUUID>) {
-		self.measurementCharacteristics.formUnion(measurementCharacteristics)
-		peripheral.discoverServices(Array(services))
+	open func discoverServices(_ services: [CBUUID]? = nil) {
+		peripheral.discoverServices(services ?? Array(supportedServices))
 	}
 
-	// Write 1 byte message to the BLE peripheral
+	open func discover(characteristics: [CBUUID]?, for service: CBService) {
+		peripheral.discoverCharacteristics(characteristics, for: service)
+	}
+
+	open func discoverDescriptors(for characteristic: CBCharacteristic) {
+		peripheral.discoverDescriptors(for: characteristic)
+	}
+
 	open func writeMessage(characteristic: CBCharacteristic, message: [UInt8], isBatched: Bool) {
 		os_log(.info, log: .peripheral, "%@ %@", #function, message)
 		let data = Data(bytes: message, count: message.count)
-		peripheral.writeValue(data, for: characteristic, type: .withResponse)
+		write(value: data, for: characteristic)
+	}
+
+	open func write(message: [UInt8], for characteristic: CBCharacteristic, type: CBCharacteristicWriteType = .withResponse) {
+		os_log(.info, log: .peripheral, "%@ %@", #function, message)
+		let data = Data(bytes: message, count: message.count)
+		write(value: data, for: characteristic, type: .withResponse)
+	}
+
+	open func write(value: Data, for characteristic: CBCharacteristic, type: CBCharacteristicWriteType = .withResponse) {
+		os_log(.info, log: .peripheral, "%@ %@", #function, value.asciiEncodedString ?? "")
+		peripheral.writeValue(value, for: characteristic, type: type)
+	}
+
+	open func write(message: [UInt8], for descriptor: CBDescriptor) {
+		os_log(.info, log: .peripheral, "%@ %@", #function, message)
+		let data = Data(bytes: message, count: message.count)
+		write(value: data, for: descriptor)
+	}
+
+	open func write(value: Data, for descriptor: CBDescriptor) {
+		os_log(.info, log: .peripheral, "%@ %@", #function, value.asciiEncodedString ?? "")
+		peripheral.writeValue(value, for: descriptor)
+	}
+
+	open func setNotify(enabled: Bool, for characteristic: CBCharacteristic) {
+		peripheral.setNotifyValue(enabled, for: characteristic)
 	}
 
 	open func read(characteristic: CBCharacteristic, isBatched: Bool) {
 		peripheral.readValue(for: characteristic)
 	}
 
-	open func reset() {}
+	open func reset() {
+		discoveredCharacteristics.removeAll(keepingCapacity: true)
+	}
 
-	open func processMeasurement(characteristic: CBCharacteristic, for peripheral: CBPeripheral) {}
+	open func processMeasurement(characteristic: CBCharacteristic, for peripheral: CBPeripheral) {
+		os_log(.info, log: .peripheral, "%@ CBPeripheral %@, CBCharacteristic %@", #function, peripheral.displayName, characteristic.uuid)
+	}
 }
 
 extension Peripheral {
@@ -112,20 +154,22 @@ extension Peripheral {
 }
 
 extension Peripheral: CBPeripheralDelegate {
+	// Service
 	open func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+		let services = peripheral.services ?? []
 		if let error = error {
 			os_log(.error, log: .peripheral, "%@, error: %@", #function, error.localizedDescription)
 		} else {
 			os_log(.info, log: .peripheral, "%@", #function)
+			services.forEach { service in
+				let characteristics = supportedCharacteristics[service.uuid]
+				peripheral.discoverCharacteristics(characteristics, for: service)
+			}
 		}
-		guard let services = peripheral.services else {
-			return
-		}
-		services.forEach { service in
-			peripheral.discoverCharacteristics(Array(measurementCharacteristics), for: service) // Now find the Characteristics of these Services
-		}
+		delegate?.peripheral(self, didDiscoverServices: services, error: error)
 	}
 
+	// Characteristics
 	open func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
 		if let error = error {
 			os_log(.error, log: .peripheral, "%@, service: %@ error: %@", #function, service, error.localizedDescription)
@@ -138,26 +182,43 @@ extension Peripheral: CBPeripheralDelegate {
 		}
 
 		for characteristic in characteristics {
-			if measurementCharacteristics.contains(characteristic.uuid) {
-				peripheral.setNotifyValue(true, for: characteristic)
-			}
+			setNotify(enabled: true, for: characteristic)
 
 			os_log(.info, log: .peripheral, "%@: characteristic = %@", #function, characteristic)
+			discoveredCharacteristics[characteristic.uuid] = characteristic
 			delegate?.peripheral(self, readyWith: characteristic)
+			discoverDescriptors(for: characteristic)
 		}
 	}
 
 	open func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
-		os_log(.info, log: .peripheral, "%@ %@", #function, characteristic.uuid)
+		os_log(.info, log: .peripheral, "%@ %@ %@", #function, characteristic.uuid, error?.localizedDescription ?? "")
 		delegate?.peripheral(self, didWriteValueFor: characteristic, error: error)
 	}
 
 	// For notified characteristics, here's the triggered method when a value comes in from the Peripheral
 	open func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-		os_log(.info, log: .peripheral, "%@ %@", #function, characteristic.uuid)
+		os_log(.info, log: .peripheral, "%@ %@ $%@$ %@", #function, characteristic.uuid, characteristic.value?.base64EncodedString() ?? "", error?.localizedDescription ?? "")
 		delegate?.peripheral(self, didUpdateValueFor: characteristic, error: error)
 		if measurementCharacteristics.contains(characteristic.uuid) {
 			processMeasurement(characteristic: characteristic, for: peripheral)
 		}
+	}
+
+	open func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
+		os_log(.info, log: .peripheral, "%@ %@ %@ %@", #function, peripheral.displayName, characteristic, error?.localizedDescription ?? "")
+	}
+
+	// Descriptors
+	open func peripheral(_ peripheral: CBPeripheral, didDiscoverDescriptorsFor characteristic: CBCharacteristic, error: Error?) {
+		os_log(.info, log: .peripheral, "%@ %@ %@ %@", #function, peripheral.displayName, characteristic, error?.localizedDescription ?? "")
+	}
+
+	open func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor descriptor: CBDescriptor, error: Error?) {
+		os_log(.info, log: .peripheral, "%@ %@ %@ %@", #function, peripheral.displayName, descriptor, error?.localizedDescription ?? "")
+	}
+
+	open func peripheral(_ peripheral: CBPeripheral, didWriteValueFor descriptor: CBDescriptor, error: Error?) {
+		os_log(.info, log: .peripheral, "%@ %@ %@ %@", #function, peripheral.displayName, descriptor, error?.localizedDescription ?? "")
 	}
 }

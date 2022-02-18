@@ -165,7 +165,7 @@ struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyItemDeleta
 		}
 		self.peripherals = try container.decodeIfPresent(Set<CHPeripheral>.self, forKey: .peripherals) ?? []
 		let monitor = peripherals.first { peripheral in
-			peripheral.type == GATTDeviceService.bloodPressure.identifier
+			peripheral.type == GATTServiceBloodPressure.identifier
 		}
 		if let bgmMonitor = bgmPeripheral, monitor == nil {
 			peripherals.insert(bgmMonitor)

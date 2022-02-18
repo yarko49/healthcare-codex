@@ -5,7 +5,6 @@
 //  Created by Waqar Malik on 8/23/21.
 //
 
-import AscensiaKit
 import BluetoothService
 import CodexFoundation
 import CoreBluetooth
@@ -17,19 +16,19 @@ class BGMPairingViewController: PairingViewController {
 		titleLabel.text = NSLocalizedString("BLOOD_GLUCOSE_PAIRING", comment: "Blood Glucose Pairing")
 	}
 
-	override var dicoveryServices: Set<CBUUID> {
-		[GATTDeviceService.bloodGlucose.id]
+	override var dicoveryServices: [CBUUID] {
+		GATTServiceBloodGlucose.services
 	}
 
-	override var measurementCharacteristics: Set<CBUUID> {
-		Set(GATTDeviceCharacteristic.bloodGlucoseMeasurements.map(\.uuid))
+	override var measurementCharacteristics: [CBUUID] {
+		GATTServiceBloodGlucose.characteristics
 	}
 
 	override func bluetoothService(_ service: BluetoothService, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
 		guard bluetoothDevices[peripheral.identifier] == nil else {
 			return
 		}
-		let device = AKDevice(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
+		let device = BloodGlucosePeripheral(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
 		device.delegate = self
 		bluetoothDevices[device.identifier] = device
 		DispatchQueue.main.async { [weak self] in
@@ -42,8 +41,9 @@ class BGMPairingViewController: PairingViewController {
 	}
 
 	override func peripheral(_ peripheral: Peripheral, readyWith characteristic: CBCharacteristic) {
-		if characteristic.uuid == GATTDeviceCharacteristic.recordAccessControlPoint.uuid {
-			peripheral.writeMessage(characteristic: characteristic, message: GATTRACPCommands.numberOfRecords, isBatched: true)
+		if characteristic.uuid == GATTRecordAccessControlPoint.uuid, !isPairing {
+			isPairing = true
+			peripheral.writeMessage(characteristic: characteristic, message: GATTRecordAccessControlPoint.numberOfRecords, isBatched: true)
 		}
 	}
 
@@ -53,7 +53,7 @@ class BGMPairingViewController: PairingViewController {
 	}
 
 	override func updatePatient(peripheral: Peripheral) {
-		if var patient = careManager.patient, let pairedPrepherial = try? CHPeripheral(device: peripheral, type: GATTDeviceService.bloodGlucose.identifier) {
+		if var patient = careManager.patient, let pairedPrepherial = try? CHPeripheral(peripheral: peripheral, type: GATTServiceBloodGlucose.identifier) {
 			patient.peripherals.insert(pairedPrepherial)
 			careManager.patient = patient
 			careManager.upload(patient: patient)

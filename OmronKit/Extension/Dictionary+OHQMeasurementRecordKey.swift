@@ -8,9 +8,14 @@
 import Foundation
 
 public extension Dictionary where Key == OHQMeasurementRecordKey, Value == Any {
+	/// value (Type of value : NSData)
+	var value: Data? {
+		self[.valueKey] as? Data
+	}
+
 	/// User Index (Type of value : NSNumber)
-	var userIndex: Int {
-		(self[.userIndexKey] as? NSNumber)?.intValue ?? 0
+	var userIndex: Int? {
+		(self[.userIndexKey] as? NSNumber)?.intValue
 	}
 
 	/// Time Stamp (Type of value : NSDate)
@@ -19,8 +24,8 @@ public extension Dictionary where Key == OHQMeasurementRecordKey, Value == Any {
 	}
 
 	/// Sequence Number (Type of value : NSNumber)
-	var sequenceNumber: Int {
-		(self[.sequenceNumberKey] as? NSNumber)?.intValue ?? 0
+	var sequenceNumber: Int? {
+		(self[.sequenceNumberKey] as? NSNumber)?.intValue
 	}
 
 	/// Blood Pressure Unit (Type of value : NSString, Unit is ["mmHg" or "kPa"])
@@ -91,6 +96,11 @@ public extension Dictionary where Key == OHQMeasurementRecordKey, Value == Any {
 	/// Muscle Percentage (Type of value : NSNumber)
 	var musclePercentage: Double? {
 		(self[.musclePercentageKey] as? NSNumber)?.doubleValue
+	}
+
+	/// Muscle Mass (Type of value : NSNumber, Unit is ["kg" or "lb"]) */
+	var muscleMassUnit: String? {
+		self[.weightUnitKey] as? String
 	}
 
 	/// Muscle Mass (Type of value : NSNumber, Unit is ["kg" or "lb"])

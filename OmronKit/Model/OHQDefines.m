@@ -178,6 +178,7 @@ OHQGender const OHQGenderMale = @"male";
 OHQGender const OHQGenderFemale = @"female";
 
 /** Measurement Record key */
+OHQMeasurementRecordKey const OHQMeasurementRecordValueKey = @"value";
 OHQMeasurementRecordKey const OHQMeasurementRecordUserIndexKey = @"userIndex";
 OHQMeasurementRecordKey const OHQMeasurementRecordTimeStampKey = @"timeStamp";
 OHQMeasurementRecordKey const OHQMeasurementRecordSequenceNumberKey = @"sequenceNumber";

@@ -5,7 +5,6 @@
 //  Created by Waqar Malik on 7/27/21.
 //
 
-import AscensiaKit
 import BluetoothService
 import Combine
 import CoreBluetooth
@@ -20,7 +19,7 @@ let BGMMetadataKeyDeviceId = "BGMDeviceId"
 let BGMMetadataKeyMeasurementRecord = "BMGMeasurementRecord"
 let BGMMetadataKeyContextRecord = "BGMContextRecord"
 
-extension AKBloodGlucoseRecord {
+extension BloodGlucoseRecord {
 	var metadata: [String: Any] {
 		var metadata: [String: Any] = [HKMetadataKeyTimeZone: timeZone.identifier,
 		                               BGMMetadataKeySequenceNumber: NSNumber(value: sequence),
@@ -55,15 +54,15 @@ extension AKBloodGlucoseRecord {
 }
 
 extension HealthKitManager {
-	func save(readings: [Int: AKBloodGlucoseReading], peripheral: Peripheral) -> AnyPublisher<[HKSample], Error> {
-		let records: [Int: AKBloodGlucoseRecord] = readings.mapValues { reading in
+	func save(readings: [Int: BloodGlucoseReading], peripheral: Peripheral) -> AnyPublisher<[HKSample], Error> {
+		let records: [Int: BloodGlucoseRecord] = readings.mapValues { reading in
 			ALog.info("\(reading.measurement) \(reading.context)")
-			return AKBloodGlucoseRecord(reading: reading)
+			return BloodGlucoseRecord(reading: reading)
 		}
 		return save(records: records, peripheral: peripheral)
 	}
 
-	func save(records: [Int: AKBloodGlucoseRecord], peripheral: Peripheral) -> AnyPublisher<[HKSample], Error> {
+	func save(records: [Int: BloodGlucoseRecord], peripheral: Peripheral) -> AnyPublisher<[HKSample], Error> {
 		Future { [weak self] promise in
 			guard let strongSelf = self else {
 				promise(.failure(AllieError.invalid("Self does not exist")))
@@ -75,7 +74,7 @@ extension HealthKitManager {
 				return
 			}
 
-			let recordsToAdd: [Int: AKBloodGlucoseRecord] = records.filter { (key: Int, _: AKBloodGlucoseRecord) in
+			let recordsToAdd: [Int: BloodGlucoseRecord] = records.filter { (key: Int, _: BloodGlucoseRecord) in
 				!strongSelf.sequenceNumbers.contains(number: key, forDevice: name)
 			}
 
@@ -111,20 +110,20 @@ extension HealthKitManager {
 		}.eraseToAnyPublisher()
 	}
 
-	func save(readings: [Int: AKBloodGlucoseReading], peripheral: Peripheral) async throws -> [HKSample] {
-		let records: [Int: AKBloodGlucoseRecord] = readings.mapValues { reading in
+	func save(readings: [Int: BloodGlucoseReading], peripheral: Peripheral) async throws -> [HKSample] {
+		let records: [Int: BloodGlucoseRecord] = readings.mapValues { reading in
 			ALog.info("\(reading.measurement) \(reading.context)")
-			return AKBloodGlucoseRecord(reading: reading)
+			return BloodGlucoseRecord(reading: reading)
 		}
 		return try await save(records: records, peripheral: peripheral)
 	}
 
-	func save(records: [Int: AKBloodGlucoseRecord], peripheral: Peripheral) async throws -> [HKSample] {
+	func save(records: [Int: BloodGlucoseRecord], peripheral: Peripheral) async throws -> [HKSample] {
 		guard let name = peripheral.name else {
 			throw AllieError.missing("device name")
 		}
 
-		let recordsToAdd: [Int: AKBloodGlucoseRecord] = records.filter { (key: Int, _: AKBloodGlucoseRecord) in
+		let recordsToAdd: [Int: BloodGlucoseRecord] = records.filter { (key: Int, _: BloodGlucoseRecord) in
 			!sequenceNumbers.contains(number: key, forDevice: name)
 		}
 

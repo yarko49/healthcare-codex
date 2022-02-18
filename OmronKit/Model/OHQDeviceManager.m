@@ -5,65 +5,19 @@
 //  Copyright © 2017 Omron Healthcare Co., Ltd. All rights reserved.
 //
 
-#import <OHQDeviceManager.h>
-#import <OHQDevice.h>
-#import "OHQLog.h"
-#import <CBUUID+Description.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <UIKit/UIKit.h>
 
+#import "OHQDeviceManager.h"
+#import "OHQDevice.h"
+#import "OHQLog.h"
+#import "CBUUID+Description.h"
+#import "OHQSessionInfo.h"
+#import "OHQConstants.h"
+#import "OHQDeviceDiscoveryInfo.h"
+
 #define OHQ_INLINE NS_INLINE
 #define OHQ_UNUSED __attribute__((unused))
-
-///---------------------------------------------------------------------------------------
-#pragma mark - Private definition of advertisement data
-///---------------------------------------------------------------------------------------
-
-// Omron Local Name Prefix
-static NSString * const OmronLocalNameLowercasePrefix = @"blesmart_";
-
-// Omron Company Identifier
-static const UInt16 OmronCompanyIdentifier = 0x020E;
-
-// Omron Manufacturer Data Type
-typedef NS_ENUM(UInt8, OmronManufacturerDataType) {
-    OmronManufacturerDataTypeUnknown = 0x00,
-    OmronManufacturerDataTypeEachUserData = 0x01,
-};
-
-// Omron Each User Data Flags
-typedef NS_OPTIONS(UInt8, OmronEachUserDataFlags) {
-    OmronEachUserDataFlagsNumberOfUser = 3,
-    OmronEachUserDataFlagsTimeNotConfigured = 1 << 2,
-    OmronEachUserDataFlagsIsPairable = 1 << 3,
-};
-
-// Get Description of Company Identifier
-NSString * CompanyIdentifierDescription(UInt16 arg) {
-    static NSArray *companyIdentifierStrings;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSBundle *bundle = [NSBundle bundleForClass:[OHQDeviceManager class]];
-        NSString *path = [bundle pathForResource:@"CompanyNames" ofType:@"plist"];
-        companyIdentifierStrings = [NSArray arrayWithContentsOfFile:path];
-    });
-    
-    NSString *ret = @"Unknown";
-    if (arg < companyIdentifierStrings.count) {
-        ret = [NSString stringWithFormat:@"%@", companyIdentifierStrings[arg]];
-    }
-    return ret;
-}
-
-// Service UUID Strings
-static NSString * const BloodPressureServiceUUIDString = @"1810";
-static NSString * const BodyCompositionServiceUUIDString = @"181B";
-static NSString * const WeightScaleServiceUUIDString = @"181D";
-
-// Service UUIDs
-static CBUUID * _bloodPressureServiceUUID = nil;
-static CBUUID * _bodyCompositionServiceUUID = nil;
-static CBUUID * _weightScaleServiceUUID = nil;
 
 ///---------------------------------------------------------------------------------------
 #pragma mark - Private definition of GCD (ohq_dispatch_*)
@@ -139,310 +93,18 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
     }
 }
 
-@implementation OHQDeviceDiscoveryInfo
-
-- (instancetype)initWithPeripheral:(CBPeripheral *)peripheral rawAdvertisementData:(NSDictionary<NSString *,id> *)rawAdvertisementData RSSI:(NSNumber *)RSSI {
-    NSString *localName = rawAdvertisementData[CBAdvertisementDataLocalNameKey];
-    if (!peripheral || !localName || !RSSI) {
-        return nil;
-    }
-    self = [super init];
-    if (self) {
-        _peripheral = peripheral;
-        [self updateWithRawAdvertisementData:rawAdvertisementData RSSI:RSSI];
-    }
-    return self;
-}
-
-+ (NSDictionary<OHQAdvertisementDataKey,id> *)updated:(NSDictionary<OHQAdvertisementDataKey,id> *)advertisementData withRawAdvertisementData:(NSDictionary<NSString *,id> *)rawAdvertisementData {
-    NSMutableDictionary<OHQAdvertisementDataKey,id> *newAdvertisementData = (advertisementData ? [advertisementData mutableCopy] : [@{} mutableCopy]);
-    
-    id localName = rawAdvertisementData[CBAdvertisementDataLocalNameKey];
-    if (localName) {
-        newAdvertisementData[OHQAdvertisementDataLocalNameKey] = localName;
-    }
-    id isConnectable = rawAdvertisementData[CBAdvertisementDataIsConnectable];
-    newAdvertisementData[OHQAdvertisementDataIsConnectable] = isConnectable;
-    id overflowServiceUUIDs = rawAdvertisementData[CBAdvertisementDataOverflowServiceUUIDsKey];
-    newAdvertisementData[OHQAdvertisementDataOverflowServiceUUIDsKey] = overflowServiceUUIDs;
-    id serviceData = rawAdvertisementData[CBAdvertisementDataServiceDataKey];
-    newAdvertisementData[OHQAdvertisementDataServiceDataKey] = serviceData;
-    id serviceUUIDs = rawAdvertisementData[CBAdvertisementDataServiceUUIDsKey];
-    newAdvertisementData[OHQAdvertisementDataServiceUUIDsKey] = serviceUUIDs;
-    id solicitedServiceUUIDs = rawAdvertisementData[CBAdvertisementDataSolicitedServiceUUIDsKey];
-    newAdvertisementData[OHQAdvertisementDataSolicitedServiceUUIDsKey] = solicitedServiceUUIDs;
-    id txPowerLevel = rawAdvertisementData[CBAdvertisementDataTxPowerLevelKey];
-    newAdvertisementData[OHQAdvertisementDataTxPowerLevelKey] = txPowerLevel;
-    NSData *rawManufacturerData = rawAdvertisementData[CBAdvertisementDataManufacturerDataKey];
-    if (rawManufacturerData && [serviceUUIDs containsObject:_weightScaleServiceUUID]) {
-        const void *pt = rawManufacturerData.bytes;
-        NSMutableDictionary<OHQManufacturerDataKey,id> *newManufacturerData = [@{} mutableCopy];
-        
-        UInt16 companyIdentifier;
-        memcpy(&companyIdentifier, pt, sizeof(companyIdentifier));
-        pt += sizeof(companyIdentifier);
-        
-        newManufacturerData[OHQManufacturerDataCompanyIdentifierKey] = @(companyIdentifier);
-        newManufacturerData[OHQManufacturerDataCompanyIdentifierDescriptionKey] = CompanyIdentifierDescription(companyIdentifier);
-        
-        if (companyIdentifier == OmronCompanyIdentifier) {
-            OmronManufacturerDataType manufacturerDataType;
-            memcpy(&manufacturerDataType, pt, sizeof(manufacturerDataType));
-            pt += sizeof(manufacturerDataType);
-            
-            switch (manufacturerDataType) {
-                case OmronManufacturerDataTypeEachUserData: {
-                    OmronEachUserDataFlags eachUserDataFlags;
-                    memcpy(&eachUserDataFlags, pt, sizeof(eachUserDataFlags));
-                    pt += sizeof(eachUserDataFlags);
-                    
-                    NSUInteger numberOfUser = (eachUserDataFlags & OmronEachUserDataFlagsNumberOfUser) + 1;
-                    newManufacturerData[OHQManufacturerDataNumberOfUserKey] = @(numberOfUser);
-                    if (eachUserDataFlags & OmronEachUserDataFlagsIsPairable) {
-                        newManufacturerData[OHQManufacturerDataIsPairingMode] = @YES;
-                    }
-                    if (eachUserDataFlags & OmronEachUserDataFlagsTimeNotConfigured) {
-                        newManufacturerData[OHQManufacturerDataTimeNotConfigured] = @YES;
-                    }
-                    NSMutableArray *recordInfoArray = [@[] mutableCopy];
-                    for (int i = 0; i < numberOfUser; i++) {
-                        UInt16 lastSequenceNumber;
-                        memcpy(&lastSequenceNumber, pt, sizeof(lastSequenceNumber));
-                        pt += sizeof(lastSequenceNumber);
-                        
-                        UInt8 numberOfRecords;
-                        memcpy(&numberOfRecords, pt, sizeof(numberOfRecords));
-                        pt += sizeof(numberOfRecords);
-                        
-                        [recordInfoArray addObject:@{OHQRecordInfoUserIndexKey: @(i + 1), OHQRecordInfoLastSequenceNumberKey: @(lastSequenceNumber), OHQRecordInfoNumberOfRecordsKey: @(numberOfRecords)}];
-                    }
-                    if (recordInfoArray.count) {
-                        newManufacturerData[OHQManufacturerDataRecordInfoArrayKey] = [recordInfoArray copy];
-                    }
-                    break;
-                }
-                default: {
-                    break;
-                }
-            }
-        }
-        newAdvertisementData[OHQAdvertisementDataManufacturerDataKey] = [newManufacturerData copy];
-    }
-    
-    return newAdvertisementData;
-}
-
-- (void)updateWithRawAdvertisementData:(NSDictionary<NSString *,id> *)rawAdvertisementData RSSI:(NSNumber *)RSSI {
-    NSDictionary<OHQAdvertisementDataKey,id> *updated = [OHQDeviceDiscoveryInfo updated:_advertisementData withRawAdvertisementData:rawAdvertisementData];
-    _advertisementData = updated;
-    if (RSSI) {
-        _RSSI = RSSI;
-    }
-}
-
-- (void)updateWithRawAdvertisementData1:(NSDictionary<NSString *,id> *)rawAdvertisementData RSSI:(NSNumber *)RSSI {
-    NSMutableDictionary<OHQAdvertisementDataKey,id> *newAdvertisementData = (_advertisementData ? [_advertisementData mutableCopy] : [@{} mutableCopy]);
-    
-    id localName = rawAdvertisementData[CBAdvertisementDataLocalNameKey];
-    if (localName) {
-        newAdvertisementData[OHQAdvertisementDataLocalNameKey] = localName;
-    }
-    id isConnectable = rawAdvertisementData[CBAdvertisementDataIsConnectable];
-    newAdvertisementData[OHQAdvertisementDataIsConnectable] = isConnectable;
-    id overflowServiceUUIDs = rawAdvertisementData[CBAdvertisementDataOverflowServiceUUIDsKey];
-    newAdvertisementData[OHQAdvertisementDataOverflowServiceUUIDsKey] = overflowServiceUUIDs;
-    id serviceData = rawAdvertisementData[CBAdvertisementDataServiceDataKey];
-    newAdvertisementData[OHQAdvertisementDataServiceDataKey] = serviceData;
-    id serviceUUIDs = rawAdvertisementData[CBAdvertisementDataServiceUUIDsKey];
-    newAdvertisementData[OHQAdvertisementDataServiceUUIDsKey] = serviceUUIDs;
-    id solicitedServiceUUIDs = rawAdvertisementData[CBAdvertisementDataSolicitedServiceUUIDsKey];
-    newAdvertisementData[OHQAdvertisementDataSolicitedServiceUUIDsKey] = solicitedServiceUUIDs;
-    id txPowerLevel = rawAdvertisementData[CBAdvertisementDataTxPowerLevelKey];
-    newAdvertisementData[OHQAdvertisementDataTxPowerLevelKey] = txPowerLevel;
-    NSData *rawManufacturerData = rawAdvertisementData[CBAdvertisementDataManufacturerDataKey];
-    if (rawManufacturerData && [serviceUUIDs containsObject:_weightScaleServiceUUID]) {
-        const void *pt = rawManufacturerData.bytes;
-        NSMutableDictionary<OHQManufacturerDataKey,id> *newManufacturerData = [@{} mutableCopy];
-        
-        UInt16 companyIdentifier;
-        memcpy(&companyIdentifier, pt, sizeof(companyIdentifier));
-        pt += sizeof(companyIdentifier);
-        
-        newManufacturerData[OHQManufacturerDataCompanyIdentifierKey] = @(companyIdentifier);
-        newManufacturerData[OHQManufacturerDataCompanyIdentifierDescriptionKey] = CompanyIdentifierDescription(companyIdentifier);
-        
-        if (companyIdentifier == OmronCompanyIdentifier) {
-            OmronManufacturerDataType manufacturerDataType;
-            memcpy(&manufacturerDataType, pt, sizeof(manufacturerDataType));
-            pt += sizeof(manufacturerDataType);
-            
-            switch (manufacturerDataType) {
-                case OmronManufacturerDataTypeEachUserData: {
-                    OmronEachUserDataFlags eachUserDataFlags;
-                    memcpy(&eachUserDataFlags, pt, sizeof(eachUserDataFlags));
-                    pt += sizeof(eachUserDataFlags);
-                    
-                    NSUInteger numberOfUser = (eachUserDataFlags & OmronEachUserDataFlagsNumberOfUser) + 1;
-                    newManufacturerData[OHQManufacturerDataNumberOfUserKey] = @(numberOfUser);
-                    if (eachUserDataFlags & OmronEachUserDataFlagsIsPairable) {
-                        newManufacturerData[OHQManufacturerDataIsPairingMode] = @YES;
-                    }
-                    if (eachUserDataFlags & OmronEachUserDataFlagsTimeNotConfigured) {
-                        newManufacturerData[OHQManufacturerDataTimeNotConfigured] = @YES;
-                    }
-                    NSMutableArray *recordInfoArray = [@[] mutableCopy];
-                    for (int i = 0; i < numberOfUser; i++) {
-                        UInt16 lastSequenceNumber;
-                        memcpy(&lastSequenceNumber, pt, sizeof(lastSequenceNumber));
-                        pt += sizeof(lastSequenceNumber);
-                        
-                        UInt8 numberOfRecords;
-                        memcpy(&numberOfRecords, pt, sizeof(numberOfRecords));
-                        pt += sizeof(numberOfRecords);
-                        
-                        [recordInfoArray addObject:@{OHQRecordInfoUserIndexKey: @(i + 1), OHQRecordInfoLastSequenceNumberKey: @(lastSequenceNumber), OHQRecordInfoNumberOfRecordsKey: @(numberOfRecords)}];
-                    }
-                    if (recordInfoArray.count) {
-                        newManufacturerData[OHQManufacturerDataRecordInfoArrayKey] = [recordInfoArray copy];
-                    }
-                    break;
-                }
-                default: {
-                    break;
-                }
-            }
-        }
-        newAdvertisementData[OHQAdvertisementDataManufacturerDataKey] = [newManufacturerData copy];
-    }
-    _advertisementData = [newAdvertisementData copy];
-    if (RSSI) {
-        _RSSI = RSSI;
-    }
-}
-
-- (NSString *)modelName {
-    NSString *ret = nil;
-    if (![_peripheral.name.lowercaseString hasPrefix:OmronLocalNameLowercasePrefix]) {
-        ret = _peripheral.name;
-    }
-    return ret;
-}
-
-- (OHQDeviceCategory)category {
-    OHQDeviceCategory ret = 0;
-    
-    NSArray<CBUUID *> *serviceUUIDs = self.advertisementData[OHQAdvertisementDataServiceUUIDsKey];
-    if ([serviceUUIDs containsObject:_bloodPressureServiceUUID]) {
-        ret = OHQDeviceCategoryBloodPressureMonitor;
-    }
-    else if ([serviceUUIDs containsObject:_bodyCompositionServiceUUID]) {
-        ret = OHQDeviceCategoryBodyCompositionMonitor;
-    }
-    else if ([serviceUUIDs containsObject:_weightScaleServiceUUID]) {
-        NSDictionary *manufacturerData = self.advertisementData[OHQAdvertisementDataManufacturerDataKey];
-        UInt16 companyIdentifier = [manufacturerData[OHQManufacturerDataCompanyIdentifierKey] unsignedShortValue];
-        ret = (companyIdentifier == OHQOmronHealthcareCompanyIdentifier ? OHQDeviceCategoryBodyCompositionMonitor : OHQDeviceCategoryWeightScale);
-    }
-    return ret;
-}
-
-- (NSDictionary<OHQDeviceInfoKey,id> *)deviceInfo {
-    NSMutableDictionary *ret = [@{ OHQDeviceInfoIdentifierKey: _peripheral.identifier,
-                                   OHQDeviceInfoAdvertisementDataKey: _advertisementData,
-                                   OHQDeviceInfoRSSIKey: _RSSI} mutableCopy];
-    NSString *modelName = self.modelName;
-    if (modelName) {
-        ret[OHQDeviceInfoModelNameKey] = modelName;
-    }
-    OHQDeviceCategory category = self.category;
-    if (category != 0) {
-        ret[OHQDeviceInfoCategoryKey] = @(category);
-    }
-    return [ret copy];
-}
-
-- (BOOL)isEqual:(id)other {
-    BOOL ret = NO;
-    if (other == self) {
-        ret = YES;
-    }
-    else if ([super isEqual:other]) {
-        ret = YES;
-    }
-    else if ([other isKindOfClass:[self class]]) {
-        typeof(self) otherItem = other;
-        if ([otherItem.peripheral isEqual:self.peripheral]) {
-            ret = YES;
-        }
-    }
-    return ret;
-}
-
-- (NSUInteger)hash {
-    return self.peripheral.hash;
-}
-
-@end
-
-///---------------------------------------------------------------------------------------
-#pragma mark - OHQSessionInfo class
-///---------------------------------------------------------------------------------------
-
-@interface OHQSessionInfo : NSObject
-
-+ (OHQSessionInfo *)sessionInfoWithDataObserver:(OHQDataObserverBlock)dataObserver
-                             connectionObserver:(OHQConnectionObserverBlock)connectionObserver
-                                     completion:(OHQCompletionBlock)completion
-                                        options:(NSDictionary<OHQSessionOptionKey,id> *)options;
-
-@property (nonatomic, copy) OHQDataObserverBlock dataObserverBlock;
-@property (nonatomic, copy) OHQConnectionObserverBlock connectionObserverBlock;
-@property (nonatomic, copy) OHQCompletionBlock completionBlock;
-@property (nonatomic, copy) void (^connectionTimeoutHandler)(NSUUID *timeoutIdentifier);
-@property (nonatomic, copy) NSDictionary<OHQSessionOptionKey,id> *options;
-@property (nonatomic, strong) OHQDevice *device;
-
-- (instancetype)initWithDataObserver:(OHQDataObserverBlock)dataObserver
-                  connectionObserver:(OHQConnectionObserverBlock)connectionObserver
-                          completion:(OHQCompletionBlock)completion
-                             options:(NSDictionary<OHQSessionOptionKey,id> *)options;
-
-@end
-
-@implementation OHQSessionInfo
-
-+ (OHQSessionInfo *)sessionInfoWithDataObserver:(OHQDataObserverBlock)dataObserver connectionObserver:(OHQConnectionObserverBlock)connectionObserver completion:(OHQCompletionBlock)completion options:(NSDictionary<OHQSessionOptionKey,id> *)options {
-    return [[super alloc] initWithDataObserver:dataObserver connectionObserver:connectionObserver completion:completion options:options];
-}
-
-- (instancetype)initWithDataObserver:(OHQDataObserverBlock)dataObserver connectionObserver:(OHQConnectionObserverBlock)connectionObserver completion:(OHQCompletionBlock)completion options:(NSDictionary<OHQSessionOptionKey,id> *)options {
-    self = [super init];
-    if (self) {
-        self.dataObserverBlock = dataObserver;
-        self.connectionObserverBlock = connectionObserver;
-        self.completionBlock = completion;
-        self.options = options;
-        self.device = nil;
-    }
-    return self;
-}
-
-@end
-
 ///---------------------------------------------------------------------------------------
 #pragma mark - OHQDeviceManager class extension
 ///---------------------------------------------------------------------------------------
 
 @interface OHQDeviceManager () <CBCentralManagerDelegate, OHQDeviceDelegate>
-
-@property CBCentralManager *central;
+@property (nonatomic, strong) CBCentralManager *central;
 @property (nonatomic, assign, readwrite) OHQDeviceManagerState state;
 @property (nonatomic, copy) dispatch_block_t scanStartBlock;
 @property (nonatomic, copy) OHQScanObserverBlock scanObserverBlock;
 @property (nonatomic, copy) OHQCompletionBlock scanCompletionBlock;
 @property (nonatomic, strong) NSMutableDictionary<NSUUID *, OHQDeviceDiscoveryInfo *> *discoveredDevices;
 @property (nonatomic, strong) NSMutableDictionary<NSUUID *, OHQSessionInfo *> *sessionInfoDictionary;
-
 @end
 
 ///---------------------------------------------------------------------------------------
@@ -587,7 +249,7 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
         [weakSelf.discoveredDevices removeAllObjects];
         
         weakSelf.scanStartBlock = ^{
-            NSDictionary *options = @{CBCentralManagerScanOptionAllowDuplicatesKey: @YES};
+            NSDictionary *options = @{CBCentralManagerScanOptionAllowDuplicatesKey: @NO};
             OHQLogD(@"-[CBCentralManager scanForPeripheralsWithServices:options:] services:%@ options:%@", services, options);
             [weakSelf.central scanForPeripheralsWithServices:services.allObjects options:options];
         };
@@ -928,6 +590,10 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
     
     if (deviceInfo.count && self.scanObserverBlock) {
         self.scanObserverBlock(deviceInfo);
+    }
+    
+    if([self.delegate respondsToSelector:@selector(deviceManager:didFindDeviceWithInfo:)] && deviceInfo.count) {
+        [self.delegate deviceManager:self didFindDeviceWithInfo:deviceInfo];
     }
 }
 
