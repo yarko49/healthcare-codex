@@ -9,6 +9,7 @@ import UIKit
 
 protocol DailyTaskTopViewDelegate: AnyObject {
 	func onClickTodayButton()
+	func onClickNotGreat()
 }
 
 class DailyTaskTopView: UIView {
@@ -121,15 +122,15 @@ class DailyTaskTopView: UIView {
 		greetingStackView.bottomAnchor.constraint(equalTo: greetingView.bottomAnchor, constant: -24).isActive = true
 		greetingStackView.addArrangedSubview(FeelingButton(image: UIImage(named: "button-mood-notgreat")!, selectedImage: UIImage(named: "button-mood-notgreat-selected")!, title: "Not Great", callback: { [self] in
 			statusLabel.text = "Not Great"
-			showAnimation()
+			showAnimation(index: 0)
 		}))
 		greetingStackView.addArrangedSubview(FeelingButton(image: UIImage(named: "button-mood-okay")!, selectedImage: UIImage(named: "button-mood-okay-selected")!, title: "Ok", callback: { [self] in
 			statusLabel.text = "Ok"
-			showAnimation()
+			showAnimation(index: 1)
 		}))
 		greetingStackView.addArrangedSubview(FeelingButton(image: UIImage(named: "button-mood-great")!, selectedImage: UIImage(named: "button-mood-great-selected")!, title: "Great!", callback: { [self] in
 			statusLabel.text = "Great!"
-			showAnimation()
+			showAnimation(index: 2)
 		}))
 
 		wholeStackView.addArrangedSubview(statusView)
@@ -158,12 +159,12 @@ class DailyTaskTopView: UIView {
 		calendarView.isHidden = true
 	}
 
-	func showAnimation() {
+	func showAnimation(index: Int) {
 		UIView.animate(withDuration: 0.3) { [self] in
 			greetingView.isHidden = true
 			self.layoutIfNeeded()
 		} completion: { [self] _ in
-			DispatchQueue.main.asyncAfter(deadline: .now()) {
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 				UIView.animate(withDuration: 0.3) {
 					statusView.isHidden = false
 					self.layoutIfNeeded()
@@ -175,6 +176,9 @@ class DailyTaskTopView: UIView {
 						} completion: { [self] _ in
 							calendarView.isHidden = false
 							self.layoutIfNeeded()
+							DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+								self?.delegate?.onClickNotGreat()
+							}
 						}
 					}
 				}

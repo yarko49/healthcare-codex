@@ -34,6 +34,15 @@
 		25764B1127A2888B0032B365 /* HealthAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25764B1027A2888B0032B365 /* HealthAddCell.swift */; };
 		25764B1227A2888B0032B365 /* HealthAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25764B1027A2888B0032B365 /* HealthAddCell.swift */; };
 		25764B1327A2888B0032B365 /* HealthAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25764B1027A2888B0032B365 /* HealthAddCell.swift */; };
+		2577350F27C03B6100DF152C /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2577350E27C03B6100DF152C /* FollowViewController.swift */; };
+		2577351027C03B6100DF152C /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2577350E27C03B6100DF152C /* FollowViewController.swift */; };
+		2577351127C03B6100DF152C /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2577350E27C03B6100DF152C /* FollowViewController.swift */; };
+		2577351327C04EB100DF152C /* FollowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2577351227C04EB100DF152C /* FollowViewModel.swift */; };
+		2577351427C04EB100DF152C /* FollowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2577351227C04EB100DF152C /* FollowViewModel.swift */; };
+		2577351527C04EB100DF152C /* FollowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2577351227C04EB100DF152C /* FollowViewModel.swift */; };
+		2577351727C05D5000DF152C /* FollowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2577351627C05D5000DF152C /* FollowCell.swift */; };
+		2577351827C05D5000DF152C /* FollowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2577351627C05D5000DF152C /* FollowCell.swift */; };
+		2577351927C05D5000DF152C /* FollowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2577351627C05D5000DF152C /* FollowCell.swift */; };
 		257C7D2F27B30ABB00251BC5 /* SimpleTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C7D2E27B30ABB00251BC5 /* SimpleTaskCell.swift */; };
 		257C7D3027B30ABB00251BC5 /* SimpleTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C7D2E27B30ABB00251BC5 /* SimpleTaskCell.swift */; };
 		257C7D3127B30ABB00251BC5 /* SimpleTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C7D2E27B30ABB00251BC5 /* SimpleTaskCell.swift */; };
@@ -1207,6 +1216,9 @@
 		25737B3027A1EFA0006357E7 /* HealthFilledCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthFilledCell.swift; sourceTree = "<group>"; };
 		25764B0C27A2818B0032B365 /* HealthEmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthEmptyCell.swift; sourceTree = "<group>"; };
 		25764B1027A2888B0032B365 /* HealthAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthAddCell.swift; sourceTree = "<group>"; };
+		2577350E27C03B6100DF152C /* FollowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewController.swift; sourceTree = "<group>"; };
+		2577351227C04EB100DF152C /* FollowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewModel.swift; sourceTree = "<group>"; };
+		2577351627C05D5000DF152C /* FollowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowCell.swift; sourceTree = "<group>"; };
 		257C7D2E27B30ABB00251BC5 /* SimpleTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTaskCell.swift; sourceTree = "<group>"; };
 		257C7D3227B324C200251BC5 /* LinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCell.swift; sourceTree = "<group>"; };
 		257EAF6A27B83DEC001B395B /* NewDailyTasksPageViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewDailyTasksPageViewController+.swift"; sourceTree = "<group>"; };
@@ -1768,12 +1780,10 @@
 		2515505D27A00E0000C40BC5 /* NewDailyTasks */ = {
 			isa = PBXGroup;
 			children = (
-				25AEDA8527ADC292004B75E5 /* ViewModel */,
+				2577350D27C03A3D00DF152C /* CustomView */,
 				25737B2B27A1E6BE006357E7 /* Cells */,
-				25155059279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift */,
-				257EAF6A27B83DEC001B395B /* NewDailyTasksPageViewController+.swift */,
-				2515505E27A00E4400C40BC5 /* DailyTaskTopView.swift */,
-				25057EE127A531DB00594540 /* NewDailyTasks+BluetoothSync.swift */,
+				25AEDA8527ADC292004B75E5 /* ViewModel */,
+				2577350C27C03A2A00DF152C /* ViewController */,
 			);
 			path = NewDailyTasks;
 			sourceTree = "<group>";
@@ -1800,13 +1810,34 @@
 				258F1BE327B3C6B500988D63 /* NumericProgressCell.swift */,
 				258F1BE727B41FC600988D63 /* GridTaskCell.swift */,
 				2547D9FB27BA304200E90FB6 /* HealthCell.swift */,
+				2577351627C05D5000DF152C /* FollowCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		2577350C27C03A2A00DF152C /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2577350E27C03B6100DF152C /* FollowViewController.swift */,
+				25057EE127A531DB00594540 /* NewDailyTasks+BluetoothSync.swift */,
+				25155059279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift */,
+				257EAF6A27B83DEC001B395B /* NewDailyTasksPageViewController+.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		2577350D27C03A3D00DF152C /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				2515505E27A00E4400C40BC5 /* DailyTaskTopView.swift */,
+			);
+			path = CustomView;
 			sourceTree = "<group>";
 		};
 		25AEDA8527ADC292004B75E5 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				2577351227C04EB100DF152C /* FollowViewModel.swift */,
 				259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */,
 				25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */,
 			);
@@ -3390,6 +3421,7 @@
 				84AF11A126707C9B0061A9E5 /* GridTaskController.swift in Sources */,
 				84703C71265B743A0025A50D /* ButtonLogTaskViewSynchronizer.swift in Sources */,
 				84261686269A7111006BD8B0 /* GeneralizedLogTaskViewSynchronizer.swift in Sources */,
+				2577350F27C03B6100DF152C /* FollowViewController.swift in Sources */,
 				8494705F2671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */,
 				84AF3B572750BE7300E414C1 /* UserDefault.swift in Sources */,
 				477BA0C6278FFBAA0056D5BA /* CHPeripheral.swift in Sources */,
@@ -3418,6 +3450,7 @@
 				84A92033268599DA00A52412 /* SelectProviderViewController.swift in Sources */,
 				84CFEB30265DE53A003C8836 /* HKSample+OCKOutcomeValue.swift in Sources */,
 				47700E9E27BCE69100262123 /* WSPairingViewController.swift in Sources */,
+				2577351727C05D5000DF152C /* FollowCell.swift in Sources */,
 				84749FBB26313B4200D7D7A8 /* CareManager+HealthKitSynchronization.swift in Sources */,
 				84E0624825C7C2E7008142C6 /* SettingsType.swift in Sources */,
 				8423226B2717EFA1008B50F0 /* ApplicationVersion.swift in Sources */,
@@ -3486,6 +3519,7 @@
 				8446E18D26DF2943001E52BF /* WebAuthenticationViewController.swift in Sources */,
 				8408843826883DF8003C3AE2 /* ProviderDetailView.swift in Sources */,
 				8439776226BB9CD1002A932E /* HKUnit+Codex.swift in Sources */,
+				2577351327C04EB100DF152C /* FollowViewModel.swift in Sources */,
 				84B973A126EDD3A10094B35C /* CareManager+Tasks.swift in Sources */,
 				84DC75A525ABBAD6003B541C /* CHCarePlan+OCKCarePlan.swift in Sources */,
 				847885462761DE3D002A9EFA /* BGMSequenceNumbers.swift in Sources */,
@@ -3798,6 +3832,7 @@
 				840D1BF5265CCAE4000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift in Sources */,
 				845B4541269B9C1C00EC5211 /* HKCorrelationTypeIdentifier+Linkage.swift in Sources */,
 				847DCC22265871F3004E9C1D /* UILabel+Height.swift in Sources */,
+				2577351527C04EB100DF152C /* FollowViewModel.swift in Sources */,
 				84D1129726D45957000BA718 /* PairingPageViewController.swift in Sources */,
 				847DCC24265871F3004E9C1D /* ButtonLogTaskViewController.swift in Sources */,
 				847DCC25265871F3004E9C1D /* HealthKitDataType.swift in Sources */,
@@ -3827,6 +3862,7 @@
 				847DCC34265871F3004E9C1D /* CHCarePlan+OCKCarePlan.swift in Sources */,
 				8439776426BB9CD1002A932E /* HKUnit+Codex.swift in Sources */,
 				84B973A326EDD3A10094B35C /* CareManager+Tasks.swift in Sources */,
+				2577351927C05D5000DF152C /* FollowCell.swift in Sources */,
 				847DCC36265871F3004E9C1D /* SettingsViewController.swift in Sources */,
 				847885482761DE3D002A9EFA /* BGMSequenceNumbers.swift in Sources */,
 				8455B153269A159B006C367C /* GeneralizedLogTaskDetailView.swift in Sources */,
@@ -3933,6 +3969,7 @@
 				847DCC73265871F3004E9C1D /* GenderPickerView.swift in Sources */,
 				847DCC74265871F3004E9C1D /* ScreenFlowType.swift in Sources */,
 				477BA0D627900BA80056D5BA /* BPMPairingViewController.swift in Sources */,
+				2577351127C03B6100DF152C /* FollowViewController.swift in Sources */,
 				84703C5A265B4B350025A50D /* Keychain+Access.swift in Sources */,
 				847DCC75265871F3004E9C1D /* ViewIdentifiable.swift in Sources */,
 				BF760E39276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */,
@@ -4139,6 +4176,7 @@
 				840D1BF4265CCAE4000C9DB7 /* HKCorrelationTypeIdentifier+Image.swift in Sources */,
 				845B4540269B9C1C00EC5211 /* HKCorrelationTypeIdentifier+Linkage.swift in Sources */,
 				84D12251264112DE00990196 /* UILabel+Height.swift in Sources */,
+				2577351427C04EB100DF152C /* FollowViewModel.swift in Sources */,
 				84D1129626D45957000BA718 /* PairingPageViewController.swift in Sources */,
 				84D12252264112DE00990196 /* ButtonLogTaskViewController.swift in Sources */,
 				84D12253264112DE00990196 /* HealthKitDataType.swift in Sources */,
@@ -4168,6 +4206,7 @@
 				84D12261264112DE00990196 /* CHCarePlan+OCKCarePlan.swift in Sources */,
 				8439776326BB9CD1002A932E /* HKUnit+Codex.swift in Sources */,
 				84B973A226EDD3A10094B35C /* CareManager+Tasks.swift in Sources */,
+				2577351827C05D5000DF152C /* FollowCell.swift in Sources */,
 				84D12263264112DE00990196 /* SettingsViewController.swift in Sources */,
 				847885472761DE3D002A9EFA /* BGMSequenceNumbers.swift in Sources */,
 				8455B152269A159B006C367C /* GeneralizedLogTaskDetailView.swift in Sources */,
@@ -4274,6 +4313,7 @@
 				84D122A2264112DE00990196 /* GenderPickerView.swift in Sources */,
 				84D122A4264112DE00990196 /* ScreenFlowType.swift in Sources */,
 				477BA0D527900BA80056D5BA /* BPMPairingViewController.swift in Sources */,
+				2577351027C03B6100DF152C /* FollowViewController.swift in Sources */,
 				84703C59265B4B350025A50D /* Keychain+Access.swift in Sources */,
 				84D122A5264112DE00990196 /* ViewIdentifiable.swift in Sources */,
 				BF760E38276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */,

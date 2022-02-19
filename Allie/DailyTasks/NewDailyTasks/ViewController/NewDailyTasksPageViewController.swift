@@ -291,6 +291,13 @@ class NewDailyTasksPageViewController: BaseViewController {
 // MARK: - Top View Delegate
 
 extension NewDailyTasksPageViewController: DailyTaskTopViewDelegate {
+	func onClickNotGreat() {
+		let viewController = FollowViewController()
+		viewController.modalTransitionStyle = .crossDissolve
+		viewController.modalPresentationStyle = .overFullScreen
+		present(viewController, animated: true, completion: nil)
+	}
+
 	func onClickTodayButton() {
 		UIView.animate(withDuration: 0.3) {
 			self.dateStackView.isHidden = false
