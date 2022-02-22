@@ -176,8 +176,10 @@ class DailyTaskTopView: UIView {
 						} completion: { [self] _ in
 							calendarView.isHidden = false
 							self.layoutIfNeeded()
-							DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-								self?.delegate?.onClickNotGreat()
+							if index == 0 {
+								DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+									self?.delegate?.onClickNotGreat()
+								}
 							}
 						}
 					}

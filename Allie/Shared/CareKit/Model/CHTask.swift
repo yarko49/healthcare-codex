@@ -50,6 +50,14 @@ struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDeletable, O
 		userInfo?["category"]
 	}
 
+	var priority: Int? {
+		if let priority = userInfo?["priority"] {
+			return Int(priority)
+		} else {
+			return nil
+		}
+	}
+
 	init(id: String, title: String?, carePlanUUID: String?, schedule: OCKSchedule) {
 		self.id = id
 		self.title = title

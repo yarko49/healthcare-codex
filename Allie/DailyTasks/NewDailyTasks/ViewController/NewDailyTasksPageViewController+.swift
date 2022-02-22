@@ -5,7 +5,6 @@
 //  Created Onseen on 2/12/22.
 //
 
-import AscensiaKit
 import BluetoothService
 import CareKit
 import CareKitStore

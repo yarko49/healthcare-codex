@@ -141,7 +141,7 @@ enum HealthKitDataType: String, CaseIterable, Hashable {
 		case .restingHeartRate:
 			return UIImage(named: "icon-heart-rate")
 		case .stepCount:
-			return UIImage(named: "icon-activty")
+			return UIImage(named: "icon-activity")
 		case .bloodPressure:
 			return UIImage(named: "icon-blood-pressure")
 		case .bloodGlucose:

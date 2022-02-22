@@ -52,6 +52,7 @@ class SettingsViewController: BaseViewController {
 		settingsFooterView.delegate = self
 		dataSource = UITableViewDiffableDataSource<Int, SettingsType>(tableView: tableView, cellProvider: { tableView, indexPath, type -> UITableViewCell? in
 			if let cell = tableView.dequeueReusableCell(withIdentifier: SettingCell.cellID, for: indexPath) as? SettingCell {
+				cell.selectionStyle = .none
 				cell.configureCell(type: type)
 				return cell
 			}

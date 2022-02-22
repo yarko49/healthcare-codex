@@ -54,7 +54,8 @@ class AppCoordinator: BaseCoordinator {
 //		self.tabBarController = UITabBarController()
 		self.tabBarController = RoundedTabBarController()
 //		tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, conversationsNavController!, Self.settingsNavController]
-		tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, Self.settingsNavController]
+		//        tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, Self.settingsNavController]
+		tabBarController?.viewControllers = [todayNavController!, Self.carePlanNavController, Self.settingsNavController]
 		start()
 	}
 
@@ -233,6 +234,20 @@ class AppCoordinator: BaseCoordinator {
 		navigationController.tabBarItem.image = UIImage(named: "icon-tabbar-chat")
 		navigationController.tabBarItem.title = nil
 		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+		return navigationController
+	}
+
+	class var carePlanViewController: CarePlanViewController {
+		let controller = CarePlanViewController()
+		return controller
+	}
+
+	class var carePlanNavController: UINavigationController {
+		let navigationController = UINavigationController(rootViewController: carePlanViewController)
+		navigationController.tabBarItem.image = UIImage(named: "icon-tab-user")
+		navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-user-selected")
+		navigationController.tabBarItem.title = nil
+		navigationController.tabBarItem.imageInsets = .zero
 		return navigationController
 	}
 

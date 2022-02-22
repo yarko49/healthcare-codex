@@ -2,7 +2,7 @@
 //  FollowCell.swift
 //  Allie
 //
-//  Created by embedded system mac on 2/18/22.
+//  Created by Onseen on 2/18/22.
 //
 
 import UIKit

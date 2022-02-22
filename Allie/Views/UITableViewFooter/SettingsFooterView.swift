@@ -73,7 +73,7 @@ class SettingsFooterView: UIView {
 		NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalTo: topAnchor, constant: 20.0),
 		                             stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 2.0),
 		                             trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2.0),
-		                             bottomAnchor.constraint(equalToSystemSpacingBelow: stackView.bottomAnchor, multiplier: 1.0)])
+		                             bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20.0)])
 		[appVersionLabel, logoutButton, deleteButton].forEach { view in
 			stackView.addArrangedSubview(view)
 		}
