@@ -24,7 +24,7 @@ class SettingsViewController: BaseViewController {
 		view.separatorStyle = .none
 		view.isScrollEnabled = true
 		view.backgroundColor = .clear
-		view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -120, right: 0)
+		view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 		return view
 	}()
 
@@ -49,22 +49,32 @@ class SettingsViewController: BaseViewController {
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: tableView.trailingAnchor, multiplier: 0.0),
 		                             tableView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.bottomAnchor, multiplier: 0.0)])
 		tableView.register(SettingCell.self, forCellReuseIdentifier: SettingCell.cellID)
+		tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.reuseIdentifier)
 		settingsFooterView.delegate = self
 		dataSource = UITableViewDiffableDataSource<Int, SettingsType>(tableView: tableView, cellProvider: { tableView, indexPath, type -> UITableViewCell? in
-			if let cell = tableView.dequeueReusableCell(withIdentifier: SettingCell.cellID, for: indexPath) as? SettingCell {
+			if indexPath.section == 0 {
+				if let cell = tableView.dequeueReusableCell(withIdentifier: SettingCell.cellID, for: indexPath) as? SettingCell {
+					cell.selectionStyle = .none
+					cell.configureCell(type: type)
+					return cell
+				}
+				fatalError("could not dequee cell")
+			} else {
+				let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.reuseIdentifier, for: indexPath)
 				cell.selectionStyle = .none
-				cell.configureCell(type: type)
+				cell.backgroundColor = .clear
 				return cell
 			}
-			fatalError("could not dequee cell")
 		})
-
+		tabBarController?.tabBar.items![2].badgeValue = "1"
 		tableView.rowHeight = rowHeight
 		tableView.delegate = self
 		var snapshot = dataSource.snapshot()
 		snapshot.appendSections([0])
 		let items: [SettingsType] = [.accountDetails, .myDevices, .systemAuthorization, .feedback, .privacyPolicy, .termsOfService, .providers, .logging]
 		snapshot.appendItems(items, toSection: 0)
+		snapshot.appendSections([1])
+		snapshot.appendItems([.readings], toSection: 1)
 		dataSource.apply(snapshot, animatingDifferences: false) {
 			ALog.info("Finished Apply Snapshot")
 		}
@@ -123,6 +133,9 @@ class SettingsViewController: BaseViewController {
 
 extension SettingsViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if indexPath.section == 1 {
+			return
+		}
 		defer {
 			tableView.deselectRow(at: indexPath, animated: true)
 		}
@@ -160,9 +173,15 @@ extension SettingsViewController: UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-		let footerView = settingsFooterView
-		settingsFooterView.delegate = self
-		return footerView
+		if section == 0 {
+			let footerView = settingsFooterView
+			settingsFooterView.delegate = self
+			return footerView
+		} else {
+			let footerView = UIView()
+			footerView.backgroundColor = .clear
+			return footerView
+		}
 	}
 
 	func showAccountDetails() {

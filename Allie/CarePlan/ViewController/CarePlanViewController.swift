@@ -18,7 +18,7 @@ class CarePlanViewController: BaseViewController {
 	}()
 
 	private var collectionView: UICollectionView = {
-		let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(44))
+		let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
 		let item = NSCollectionLayoutItem(layoutSize: size)
 		let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
 		let section = NSCollectionLayoutSection(group: group)

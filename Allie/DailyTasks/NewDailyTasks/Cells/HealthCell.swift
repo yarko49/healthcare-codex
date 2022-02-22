@@ -219,15 +219,15 @@ class HealthCell: UICollectionViewCell {
 			}
 		}
 		title.text = item.timelineItemModel.event.task.title
+		let quantityIdentifier = (ockEvent.task as? OCKHealthKitTask)?.healthKitLinkage.quantityIdentifier
+		if let dataType = quantityIdentifier?.dataType {
+			icon.image = dataType.image
+		} else if let identifier = ockEvent.task.groupIdentifierType, let iconImage = identifier.icon {
+			icon.image = iconImage
+		} else {
+			icon.image = UIImage(named: "icon-empty")
+		}
 		if groupIdentifierType == .symptoms || groupIdentifierType == .labeledValue {
-			let quantityIdentifier = (ockEvent.task as? OCKHealthKitTask)?.healthKitLinkage.quantityIdentifier
-			if let dataType = quantityIdentifier?.dataType {
-				icon.image = dataType.image
-			} else if let identifier = ockEvent.task.groupIdentifierType, let iconImage = identifier.icon {
-				icon.image = iconImage
-			} else {
-				icon.image = UIImage(named: "icon-empty")
-			}
 			if item.cellType == .completed {
 				let linkPage = (ockEvent.task as? OCKHealthKitTask)?.healthKitLinkage
 				let outComes = item.timelineItemModel.outcomeValues!
@@ -265,7 +265,6 @@ class HealthCell: UICollectionViewCell {
 				subTitle.text = ockEvent.task.instructions ?? ""
 			}
 		} else if groupIdentifierType == .simple || groupIdentifierType == .grid {
-			icon.image = UIImage(named: "icon-empty")
 			if groupIdentifierType == .simple {
 				subTitle.text = ockEvent.task.instructions ?? ScheduleUtility.scheduleLabel(for: ockEvent)
 			} else {
