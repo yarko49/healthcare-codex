@@ -124,15 +124,26 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 		return badgeView
 	}()
 
+	private var navigationView: UIView!
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .white
-		setupNavigationView()
 		setupView()
 		bindActions()
 		setupLayout()
 		localize()
 		populateData()
+	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		setupNavigationView()
+	}
+
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		navigationView.removeFromSuperview()
 	}
 
 	func setupView() {}
@@ -142,8 +153,8 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 	func populateData() {}
 
 	func setupNavigationView() {
-		let navigationView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: navigationController!.navigationBar.frame.size.height))
-		navigationItem.titleView = navigationView
+		navigationView = UIView(frame: CGRect(x: 16, y: 0, width: view.frame.size.width - 32, height: navigationController!.navigationBar.frame.size.height))
+		navigationController!.navigationBar.addSubview(navigationView)
 		navigationView.addSubview(leadingHStack)
 		leadingHStack.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor).isActive = true
 		leadingHStack.centerYAnchor.constraint(equalTo: navigationView.centerYAnchor).isActive = true

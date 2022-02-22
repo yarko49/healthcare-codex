@@ -253,8 +253,6 @@ class AppCoordinator: BaseCoordinator {
 
 	class var settingsViewController: SettingsViewController {
 		let controller = SettingsViewController()
-		let title = NSLocalizedString("SETTINGS", comment: "Settings")
-		controller.title = title
 		return controller
 	}
 

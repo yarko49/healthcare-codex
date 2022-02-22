@@ -55,6 +55,17 @@ class CarePlanViewController: BaseViewController {
 				self?.collectionView.reloadData()
 			}
 			.store(in: &cancellable)
+		viewModel.$loadingState
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] state in
+				switch state {
+				case .loading:
+					self?.hud.show(in: (self?.tabBarController?.view ?? self?.view)!, animated: true)
+				case .failed, .success:
+					self?.hud.dismiss(animated: true)
+				}
+			}
+			.store(in: &cancellable)
 	}
 
 	deinit {

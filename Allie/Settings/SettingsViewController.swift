@@ -40,7 +40,6 @@ class SettingsViewController: BaseViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		title = String.settings
 		view.backgroundColor = .mainBackground
 		tableView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(tableView)
@@ -189,6 +188,7 @@ extension SettingsViewController: UITableViewDelegate {
 		profileEntryViewController.controllerViewMode = .settings
 		profileEntryViewController.doneButtonTitle = NSLocalizedString("SAVE", comment: "Save")
 		profileEntryViewController.patient = careManager.patient
+		profileEntryViewController.hidesBottomBarWhenPushed = true
 		profileEntryViewController.doneAction = { [weak self] in
 			guard let strongSelf = self else {
 				return
@@ -223,11 +223,13 @@ extension SettingsViewController: UITableViewDelegate {
 
 	func showConnectedDevices() {
 		let viewController = ConnectedDevicesViewController(style: .plain)
+		viewController.hidesBottomBarWhenPushed = true
 		navigationController?.show(viewController, sender: self)
 	}
 
 	func showNotifications() {
 		let notificationSettingsController = NotificationSettingsController()
+		notificationSettingsController.hidesBottomBarWhenPushed = true
 		navigationController?.show(notificationSettingsController, sender: self)
 	}
 
@@ -257,6 +259,7 @@ extension SettingsViewController: UITableViewDelegate {
 			let messagingConfiguration = MessagingConfiguration()
 			let supportEngine = try SupportEngine.engine()
 			let viewController = try Messaging.instance.buildUI(engines: [supportEngine], configs: [messagingConfiguration])
+			viewController.hidesBottomBarWhenPushed = true
 			navigationController?.show(viewController, sender: self)
 			AppDelegate.mainCoordinator?.updateZendeskBadges(count: 0)
 		} catch {
@@ -296,18 +299,21 @@ extension SettingsViewController: UITableViewDelegate {
 	func showOrganizations() {
 		let selectProviderController = SelectProviderViewController(collectionViewLayout: SelectProviderViewController.layout)
 		selectProviderController.isModel = false
+		selectProviderController.hidesBottomBarWhenPushed = true
 		navigationController?.show(selectProviderController, sender: self)
 	}
 
 	func showReadings() {
 		let viewController = UIHostingController(rootView: ReadingsListView())
 		viewController.title = SettingsType.readings.title
+		viewController.hidesBottomBarWhenPushed = true
 		navigationController?.show(viewController, sender: self)
 	}
 
 	func showLogging() {
 		let viewController = FileLoggingViewController()
 		viewController.title = SettingsType.logging.title
+		viewController.hidesBottomBarWhenPushed = true
 		navigationController?.show(viewController, sender: self)
 	}
 
@@ -320,6 +326,7 @@ extension SettingsViewController: UITableViewDelegate {
 		mailComposer.setSubject("Allie Logs")
 		mailComposer.setMessageBody("Attched Logs", isHTML: false)
 		mailComposer.addAttachmentData(data, mimeType: "text/plain", fileName: "Allie.log")
+		mailComposer.hidesBottomBarWhenPushed = true
 		navigationController?.show(mailComposer, sender: self)
 	}
 }
