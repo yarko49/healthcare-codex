@@ -6,6 +6,7 @@
 //
 
 import CareKitStore
+import CodexFoundation
 import Combine
 import SkyFloatingLabelTextField
 import UIKit
@@ -69,6 +70,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 		bottomButton.backgroundColor = .allieGray
 		firstNameTextField.addTarget(self, action: #selector(firstNameDidChange(_:)), for: .editingChanged)
 		lastNameTextField.addTarget(self, action: #selector(lastNameDidChange(_:)), for: .editingChanged)
+		emailTextField.addTarget(self, action: #selector(emailDidChange(_:)), for: .editingChanged)
 		configureValues()
 	}
 
@@ -77,6 +79,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 			.receive(on: RunLoop.main)
 			.assign(to: \.isEnabled, on: bottomButton)
 			.store(in: &cancellables)
+
 		bottomButton.publisher(for: \.isEnabled)
 			.receive(on: RunLoop.main)
 			.map { $0 }
@@ -114,6 +117,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 			.debounce(for: 0.2, scheduler: RunLoop.main)
 			.removeDuplicates()
 			.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+			.map(\.cf_sanitized)
 			.map { $0.count > 1 ? true : false }
 			.eraseToAnyPublisher()
 	}
@@ -123,6 +127,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 			.debounce(for: 0.2, scheduler: RunLoop.main)
 			.removeDuplicates()
 			.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+			.map(\.cf_sanitized)
 			.map { $0.count > 1 ? true : false }
 			.eraseToAnyPublisher()
 	}
@@ -187,15 +192,51 @@ class ProfileEntryViewController: SignupBaseViewController {
 		return view
 	}()
 
-	@IBAction func firstNameDidChange(_ sender: UITextField) {
-		firstName = sender.text ?? ""
+	@IBAction func firstNameDidChange(_ textField: UITextField) {
+		if let text = textField.text {
+			let sanitized = text.trimmingCharacters(in: .whitespacesAndNewlines).cf_sanitized
+			if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
+				if text != sanitized {
+					floatingLabelTextField.errorMessage = NSLocalizedString("INVALID_PREFERRED_NAME", comment: "Invalid preferred name")
+				} else {
+					// The error message will only disappear when we reset it to nil or empty string
+					floatingLabelTextField.errorMessage = nil
+				}
+			}
+		}
+
+		firstName = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines).cf_sanitized ?? ""
 	}
 
-	@IBAction func lastNameDidChange(_ sender: UITextField) {
-		lastName = sender.text ?? ""
+	@IBAction func lastNameDidChange(_ textField: UITextField) {
+		if let text = textField.text {
+			let sanitized = text.trimmingCharacters(in: .whitespacesAndNewlines).cf_sanitized
+			if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
+				if text != sanitized {
+					floatingLabelTextField.errorMessage = NSLocalizedString("INVALID_LAST_NAME", comment: "Invalid last name")
+				} else {
+					// The error message will only disappear when we reset it to nil or empty string
+					floatingLabelTextField.errorMessage = nil
+				}
+			}
+		}
+		lastName = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines).cf_sanitized ?? ""
 	}
 
-	let firstNameTextField: SkyFloatingLabelTextField = createNameTextField(placeholder: NSLocalizedString("FIRST_NAME", comment: "First Name"), isRequired: true)
+	@IBAction func emailDidChange(_ textField: UITextField) {
+		if let text = textField.text {
+			if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
+				if !text.cf_isValidEmail {
+					floatingLabelTextField.errorMessage = NSLocalizedString("INVALID_EMAIL_ADDRESS", comment: "Invalid email address")
+				} else {
+					// The error message will only disappear when we reset it to nil or empty string
+					floatingLabelTextField.errorMessage = nil
+				}
+			}
+		}
+	}
+
+	let firstNameTextField: SkyFloatingLabelTextField = createNameTextField(placeholder: NSLocalizedString("PREFERRED_NAME", comment: "Preferred Name"), isRequired: true)
 
 	let lastNameTextField: SkyFloatingLabelTextField = createNameTextField(placeholder: NSLocalizedString("LAST_NAME", comment: "Last Name"), isRequired: false)
 

@@ -29,6 +29,15 @@ class PairingPageViewController: UIViewController {
 		return label
 	}()
 
+	let deviceNameLabel: UILabel = {
+		let label = UILabel(frame: .zero)
+		label.textColor = .allieGray
+		label.numberOfLines = 0
+		label.font = UIFont.systemFont(ofSize: 24.0, weight: .bold)
+		label.textAlignment = .center
+		return label
+	}()
+
 	let subtitleLabel: UILabel = {
 		let label = UILabel(frame: .zero)
 		label.textColor = .allieLightGray
@@ -50,7 +59,7 @@ class PairingPageViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		[imageView, titleLabel, subtitleLabel, stackView].forEach { view in
+		[imageView, titleLabel, deviceNameLabel, subtitleLabel, stackView].forEach { view in
 			view.translatesAutoresizingMaskIntoConstraints = false
 		}
 		view.addSubview(stackView)
@@ -59,6 +68,7 @@ class PairingPageViewController: UIViewController {
 		                             stackView.centerYAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.centerYAnchor, multiplier: 0.0)])
 		stackView.addArrangedSubview(imageView)
 		stackView.addArrangedSubview(titleLabel)
+		stackView.addArrangedSubview(deviceNameLabel)
 		stackView.addArrangedSubview(subtitleLabel)
 	}
 
@@ -74,5 +84,6 @@ class PairingPageViewController: UIViewController {
 		imageView.image = UIImage(named: item.imageName)
 		titleLabel.attributedText = item.attributedTitle
 		subtitleLabel.attributedText = item.attributedMessage
+		deviceNameLabel.attributedText = nil
 	}
 }

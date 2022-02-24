@@ -105,6 +105,7 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
 @property (nonatomic, copy) OHQCompletionBlock scanCompletionBlock;
 @property (nonatomic, strong) NSMutableDictionary<NSUUID *, OHQDeviceDiscoveryInfo *> *discoveredDevices;
 @property (nonatomic, strong) NSMutableDictionary<NSUUID *, OHQSessionInfo *> *sessionInfoDictionary;
+@property (nonatomic, strong) NSHashTable<OHQDeviceManagerDelegate> *delegates;
 @end
 
 ///---------------------------------------------------------------------------------------
@@ -117,6 +118,7 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
     if (self == [OHQDeviceManager class]) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
+            _bloodGlucoseServiceUUID = [CBUUID UUIDWithString:BloodGlucoseServiceUUIDString];
             _bloodPressureServiceUUID = [CBUUID UUIDWithString:BloodPressureServiceUUIDString];
             _bodyCompositionServiceUUID = [CBUUID UUIDWithString:BodyCompositionServiceUUIDString];
             _weightScaleServiceUUID = [CBUUID UUIDWithString:WeightScaleServiceUUIDString];
@@ -136,6 +138,7 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
         OHQLogV(@"defined OHQ_OPTION_RETRY_COUNT_FOR_NOTIFICATION_ACTIVATION %d", OHQ_OPTION_RETRY_COUNT_FOR_NOTIFICATION_ACTIVATION);
 #endif // OHQ_OPTION_ENABLE_RETRY_FOR_NOTIFICATION_ACTIVATION
         
+        _delegates = (NSHashTable<OHQDeviceManagerDelegate> *)[NSHashTable weakObjectsHashTable];
         NSDictionary<NSString *,id> *options = @{CBCentralManagerOptionShowPowerAlertKey: @NO};
         OHQLogD(@"-[CBCentralManager initWithDelegate:queue:options:] options:%@", options);
         
@@ -164,7 +167,25 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
     return self;
 }
 
+- (void)addDelegate:(NSObject<OHQDeviceManagerDelegate> *)delegate {
+    if(![self.delegates containsObject:delegate]) {
+        [self.delegates addObject:delegate];
+    }
+}
+
+- (void)removeDelegate:(NSObject<OHQDeviceManagerDelegate> *)delegate {
+    NSEnumerator *delegateEnumerator = [[self.delegates allObjects] reverseObjectEnumerator];
+    
+    for(NSObject<OHQDeviceManagerDelegate> *existing in delegateEnumerator) {
+        if(existing == delegate) {
+            [self.delegates removeObject:existing];
+            break;
+        }
+    }
+}
+
 - (void)dealloc {
+    [_delegates removeAllObjects];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -206,10 +227,14 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
             [services addObject:_weightScaleServiceUUID];
             [services addObject:_bodyCompositionServiceUUID];
             break;
+        case OHQDeviceCategoryBloodGlucoseMonitor:
+            [services addObject:_bloodGlucoseServiceUUID];
+            break;
         case OHQDeviceCategoryAny:
             [services addObject:_bloodPressureServiceUUID];
             [services addObject:_weightScaleServiceUUID];
             [services addObject:_bodyCompositionServiceUUID];
+            [services addObject:_bloodGlucoseServiceUUID];
             break;
         default: break;
     }
@@ -249,7 +274,7 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
         [weakSelf.discoveredDevices removeAllObjects];
         
         weakSelf.scanStartBlock = ^{
-            NSDictionary *options = @{CBCentralManagerScanOptionAllowDuplicatesKey: @NO};
+            NSDictionary *options = @{CBCentralManagerScanOptionAllowDuplicatesKey: @YES};
             OHQLogD(@"-[CBCentralManager scanForPeripheralsWithServices:options:] services:%@ options:%@", services, options);
             [weakSelf.central scanForPeripheralsWithServices:services.allObjects options:options];
         };
@@ -283,6 +308,25 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
     });
 }
 
+- (void)connectPerpherial:(CBPeripheral *)peripheral withOptions:(nullable NSDictionary<NSString *, id> *)options {
+    [self.central connectPeripheral:peripheral options:options];
+}
+
+- (nullable NSDictionary<OHQDeviceInfoKey,id> *)deviceInfoForPeripheral:(CBPeripheral *)peripheral {
+    return [self.discoveredDevices[peripheral.identifier] deviceInfo];
+}
+
+- (void)startScan {
+    OHQFuncLogI(@"[IN]");
+    
+    __weak typeof(self) weakSelf = self;
+    ohq_dispatch_to_internal_queue(^{
+        if (weakSelf.scanStartBlock) {
+            weakSelf.scanStartBlock();
+        }
+    });
+}
+
 - (void)stopScan {
     OHQFuncLogI(@"[IN]");
     
@@ -292,6 +336,14 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
             weakSelf.scanCompletionBlock(OHQCompletionReasonCanceled);
         }
     });
+}
+
+- (BOOL)isDeviceConnected:(NSString *)identifier {
+    NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:identifier];
+    if(uuid == NULL) {
+        return NO;
+    }
+    return (self.discoveredDevices[uuid] != NULL);
 }
 
 - (void)startSessionWithDevice:(NSUUID *)identifier usingDataObserver:(OHQDataObserverBlock)dataObserver connectionObserver:(OHQConnectionObserverBlock)connectionObserver completion:(OHQCompletionBlock)completion options:(NSDictionary<OHQSessionOptionKey,id> *)options {
@@ -576,14 +628,21 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
     
     OHQDeviceDiscoveryInfo *discoveredDevice = self.discoveredDevices[identifier];
     NSDictionary<OHQDeviceInfoKey,id> *deviceInfo = nil;
+    NSMutableDictionary<NSString *, id> *mutableAdvertisementData = [advertisementData mutableCopy];
+    if(mutableAdvertisementData[CBAdvertisementDataLocalNameKey] == NULL && [[peripheral.name lowercaseString] containsString:@"contour"]) {
+        NSArray<CBUUID *> *serviceUUIDs = (NSArray<CBUUID *> *)advertisementData[CBAdvertisementDataServiceUUIDsKey];
+        if([serviceUUIDs containsObject:_bloodGlucoseServiceUUID]) {
+            mutableAdvertisementData[CBAdvertisementDataLocalNameKey] = peripheral.name;
+        }
+    }
+    
     if (discoveredDevice) {
         // update discovery info
-        [discoveredDevice updateWithRawAdvertisementData:advertisementData RSSI:RSSI];
+        [discoveredDevice updateWithRawAdvertisementData:mutableAdvertisementData RSSI:RSSI];
         deviceInfo = discoveredDevice.deviceInfo;
-    }
-    else {
+    } else {
         // new discovery info
-        OHQDeviceDiscoveryInfo *newDevice = [[OHQDeviceDiscoveryInfo alloc] initWithPeripheral:peripheral rawAdvertisementData:advertisementData RSSI:RSSI];
+        OHQDeviceDiscoveryInfo *newDevice = [[OHQDeviceDiscoveryInfo alloc] initWithPeripheral:peripheral rawAdvertisementData:mutableAdvertisementData RSSI:RSSI];
         self.discoveredDevices[peripheral.identifier] = newDevice;
         deviceInfo = newDevice.deviceInfo;
     }
@@ -592,14 +651,20 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
         self.scanObserverBlock(deviceInfo);
     }
     
-    if([self.delegate respondsToSelector:@selector(deviceManager:didFindDeviceWithInfo:)] && deviceInfo.count) {
-        [self.delegate deviceManager:self didFindDeviceWithInfo:deviceInfo];
+    if(deviceInfo.count) {
+        for(NSObject<OHQDeviceManagerDelegate> *delegate in self.delegates) {
+            [delegate deviceManager:self didDiscoverPeripheral:peripheral advertisementData:mutableAdvertisementData RSSI:RSSI];
+        }
     }
 }
 
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     OHQFuncLogD(@"[IN] central:%@ peripheral:%@ error:%@", central, peripheral, error);
     
+    for(NSObject<OHQDeviceManagerDelegate> *delegate in self.delegates) {
+        [delegate deviceManager:self didFailToConnectPeripheral:peripheral error:error];
+    }
+
     OHQSessionInfo *sessionInfo = self.sessionInfoDictionary[peripheral.identifier];
     if (!sessionInfo) {
         return;
@@ -615,6 +680,10 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     OHQFuncLogD(@"[IN] central:%@ peripheral:%@ error:%@", central, peripheral, error);
+    
+    for(NSObject<OHQDeviceManagerDelegate> *delegate in self.delegates) {
+        [delegate deviceManager:self didDisconnectPeripheral:peripheral error:error];
+    }
     
     OHQSessionInfo *sessionInfo = self.sessionInfoDictionary[peripheral.identifier];
     if (!sessionInfo) {
@@ -636,6 +705,10 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     OHQFuncLogD(@"[IN] central:%@ peripheral:%@", central, peripheral);
     
+    for(NSObject<OHQDeviceManagerDelegate> *delegate in self.delegates) {
+        [delegate deviceManager:self didConnectPeripheral:peripheral];
+    }
+    
     OHQSessionInfo *sessionInfo = self.sessionInfoDictionary[peripheral.identifier];
     if (!sessionInfo) {
         return;
@@ -645,15 +718,20 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
     NSString *localName = nil;
     if (discoveryInfo) {
         localName = discoveryInfo.advertisementData[OHQAdvertisementDataLocalNameKey];
-    }
-    else if ([self.dataSource respondsToSelector:@selector(deviceManager:localNameForDevice:)]) {
+    } else if ([self.dataSource respondsToSelector:@selector(deviceManager:localNameForDevice:)]) {
         localName = [self.dataSource deviceManager:self localNameForDevice:peripheral.identifier];
     }
     OHQLogI(@"Connected with %@ (%@)", peripheral.identifier, (localName ? localName : peripheral.name));
-    
-    sessionInfo.connectionObserverBlock(OHQConnectionStateConnected);
-    sessionInfo.device.delegate = self;
-    [sessionInfo.device startTransferWithDataObserverBlock:sessionInfo.dataObserverBlock options:sessionInfo.options];
+    for(NSObject<OHQDeviceManagerDelegate> *delegate in self.delegates) {
+        if ([delegate respondsToSelector:@selector(deviceManager:shouldStartTransferForPeripherial:)]) {
+            BOOL result = [delegate deviceManager:self shouldStartTransferForPeripherial:peripheral];
+            if(result) {
+                sessionInfo.connectionObserverBlock(OHQConnectionStateConnected);
+                sessionInfo.device.delegate = self;
+                [sessionInfo.device startTransferWithDataObserverBlock:sessionInfo.dataObserverBlock options:sessionInfo.options];
+            }
+        }
+    }
 }
 
 ///---------------------------------------------------------------------------------------

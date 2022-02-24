@@ -25,11 +25,6 @@ class BPMPairingViewController: PairingViewController {
 		GATTServiceBloodPressure.characteristics
 	}
 
-	override func showSuccess() {
-		super.showSuccess()
-		NotificationCenter.default.post(name: .didPairBloodPressureMonitor, object: nil)
-	}
-
 	override func peripheral(_ peripheral: Peripheral, readyWith characteristic: CBCharacteristic) {
 		if characteristic.uuid == GATTBloodPressureFeature.uuid, !isPairing {
 			isPairing = true

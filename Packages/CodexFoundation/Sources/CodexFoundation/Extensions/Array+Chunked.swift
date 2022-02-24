@@ -1,5 +1,5 @@
 //
-//  Ext_Array.swift
+//  Array+Chucked.swift
 //  Allie
 //
 

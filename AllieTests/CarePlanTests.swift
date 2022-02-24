@@ -6,6 +6,7 @@
 //
 
 @testable import Allie
+import CodexFoundation
 import Combine
 import Foundation
 import XCTest
@@ -24,7 +25,7 @@ class CarePlanTests: XCTestCase {
 	func testCarePlanRespnoseInsert() async throws {
 		let data = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(data)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
 		let careManager = CareManager.shared
 		let upodateCarePlanResponse = try await careManager.process(carePlanResponse: carePlanResponse)
@@ -36,13 +37,13 @@ class CarePlanTests: XCTestCase {
 	func testCarePlanEncodeDecode() throws {
 		let data = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(data)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
 		XCTAssertNotNil(carePlanResponse.tasks)
 	}
 
 	func carePlanDecode(string: String) throws -> CHCarePlan {
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		if let data = string.data(using: .utf8) {
 			let carePlan = try decoder.decode(CHCarePlan.self, from: data)
 			return carePlan
@@ -54,7 +55,7 @@ class CarePlanTests: XCTestCase {
 	func testNewCarePlan() throws {
 		let data = AllieTests.loadTestData(fileName: "NewCarePlan.json")
 		XCTAssertNotNil(data)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
 		XCTAssertNotNil(carePlanResponse.tasks)
 	}
@@ -62,7 +63,7 @@ class CarePlanTests: XCTestCase {
 	func testBadCarePlan() throws {
 		let data = AllieTests.loadTestData(fileName: "BadCarePlan.json")
 		XCTAssertNotNil(data)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
 		XCTAssertNotNil(carePlanResponse.tasks)
 	}

@@ -7,6 +7,7 @@
 
 @testable import Allie
 import CareKitStore
+import CodexFoundation
 import KeychainAccess
 import XCTest
 

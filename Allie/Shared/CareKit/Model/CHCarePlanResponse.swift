@@ -61,7 +61,7 @@ extension CHCarePlanResponse {
 			guard let planId = task.carePlanId else {
 				return false
 			}
-			return carePlanId == planId
+			return carePlanId == planId && !task.isHidden
 		}
 		return filtered
 	}

@@ -6,6 +6,7 @@
 //
 
 @testable import Allie
+import CodexFoundation
 import CoreData
 import XCTest
 
@@ -18,13 +19,13 @@ class CoreDataTests: XCTestCase {
 	override func setUpWithError() throws {
 		// Put setup code here. This method is called before the invocation of each test method in the class.
 		let downloaded = try AllieTests.loadTestData(fileName: "DownlaodedOutcomes", withExtension: "json")
-		downlaodedOutcomes = try CHJSONDecoder().decode([CHOutcome].self, from: downloaded)
+		downlaodedOutcomes = try CHFJSONDecoder().decode([CHOutcome].self, from: downloaded)
 
 		let upaloded = try AllieTests.loadTestData(fileName: "UploadOutcomes", withExtension: "json")
-		uploadedOutcomes = try CHJSONDecoder().decode([CHOutcome].self, from: upaloded)
+		uploadedOutcomes = try CHFJSONDecoder().decode([CHOutcome].self, from: upaloded)
 
 		let symptom = try AllieTests.loadTestData(fileName: "SymptomOutcomeUploaded", withExtension: "json")
-		symptomsUploaded = try CHJSONDecoder().decode([CHOutcome].self, from: symptom)
+		symptomsUploaded = try CHFJSONDecoder().decode([CHOutcome].self, from: symptom)
 	}
 
 	override func tearDownWithError() throws {

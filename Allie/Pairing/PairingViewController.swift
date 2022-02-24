@@ -8,6 +8,7 @@
 import BluetoothService
 import CodexFoundation
 import CoreBluetooth
+import OmronKit
 import UIKit
 
 protocol PairingViewControllerDelegate: AnyObject {
@@ -15,14 +16,18 @@ protocol PairingViewControllerDelegate: AnyObject {
 	func pairingViewControllerDidFinish(_ controller: PairingViewController)
 }
 
-class PairingViewController: UIViewController, BluetoothServiceDelegate, PeripheralDelegate {
+class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceManagerDelegate {
 	weak var delegate: PairingViewControllerDelegate?
 	var selectedIdentifier: String?
-	@Injected(\.bluetoothService) var bluetoothService: BluetoothService
 	@Injected(\.careManager) var careManager: CareManager
 	var initialIndex: Int = 0
 	var viewModel = PairingViewModel(pages: PairingItem.bloodGlucoseItems)
 	var bluetoothDevices: [UUID: Peripheral] = [:]
+
+	var deviceManager: OHQDeviceManager {
+		OHQDeviceManager.shared()
+	}
+
 	var dicoveryServices: [CBUUID] {
 		[]
 	}
@@ -46,13 +51,7 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 		view.sendSubviewToBack(pageViewController.view)
 		pageViewController.didMove(toParent: self)
 		configureView()
-
-		bluetoothService.addDelegate(self)
-		bluetoothService.startMonitoring()
-	}
-
-	deinit {
-		bluetoothService.removeDelegate(self)
+		deviceManager.add(delegate: self)
 	}
 
 	var pageViewController: UIPageViewController = {
@@ -161,68 +160,26 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 		}
 	}
 
-	func bluetoothService(_ service: BluetoothService, didUpdate state: CBManagerState) {
-		if state == .poweredOn {
-			ALog.info("Bluetooth Active")
-			if !dicoveryServices.isEmpty {
-				bluetoothService.scanForPeripherals(services: dicoveryServices)
-			}
-			ALog.info("Starting BLE scan\n")
-		} else {
-			ALog.error("Bluetooth State \(state.rawValue)")
-		}
-	}
-
-	func bluetoothService(_ service: BluetoothService, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
-		guard bluetoothDevices[peripheral.identifier] == nil else {
-			return
-		}
-		let device = Peripheral(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
-		device.delegate = self
-		bluetoothDevices[device.identifier] = device
-		DispatchQueue.main.async { [weak self] in
-			self?.scroll(toPage: 2, direction: .forward, animated: true) { finished in
-				ALog.info("Bluetooth Finished Scrolling to pairing \(finished)")
-				ALog.info("Bluetooth Connecting to")
-				service.connect(peripheral: peripheral)
-			}
-		}
-	}
-
-	func bluetoothService(_ service: BluetoothService, didConnect peripheral: CBPeripheral) {
-		ALog.info("\(#function) \(peripheral)")
-		guard let device = bluetoothDevices[peripheral.identifier] else {
-			return
-		}
-		device.discoverServices(dicoveryServices)
-	}
-
-	func bluetoothService(_ service: BluetoothService, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-		bluetoothDevices.removeValue(forKey: peripheral.identifier)
-		service.startMonitoring()
-	}
-
-	func bluetoothService(_ service: BluetoothService, didDisconnect peripheral: CBPeripheral, error: Error?) {
-		bluetoothDevices.removeValue(forKey: peripheral.identifier)
-		service.startMonitoring()
-	}
-
-	func peripheral(_ peripheral: Peripheral, didDiscoverServices services: [CBService], error: Error?) {
-		for service in services {
-			peripheral.discover(characteristics: measurementCharacteristics, for: service)
-		}
-	}
+	// MARK: - PeripheralDelegate
 
 	func showSuccess() {
 		viewModel.updateSuccess()
 		continueButton.setTitle(NSLocalizedString("DONE", comment: "Done"), for: .normal)
 		scrollToNextPage(animated: true)
+		NotificationCenter.default.post(name: .didPairBluetoothDevice, object: nil)
 	}
 
 	func showFailure() {
 		viewModel.updateFailure()
 		continueButton.setTitle(NSLocalizedString("DONE", comment: "Done"), for: .normal)
 		scrollToNextPage(animated: true)
+		deviceManager.startScan()
+	}
+
+	func peripheral(_ peripheral: Peripheral, didDiscoverServices services: [CBService], error: Error?) {
+		for service in services {
+			peripheral.discover(characteristics: measurementCharacteristics, for: service)
+		}
 	}
 
 	func peripheral(_ peripheral: Peripheral, readyWith characteristic: CBCharacteristic) {
@@ -244,14 +201,13 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 			let nsError = error as NSError
 			ALog.error("nsError = \(nsError)")
 			if nsError.code == 15 || nsError.code == 3, nsError.domain == "CBATTErrorDomain" {
-				bluetoothService.removeDelegate(self)
+				deviceManager.remove(delegate: self)
 				DispatchQueue.main.async { [weak self] in
 					self?.showFailure()
 				}
 			}
 		} else {
-			bluetoothService.removeDelegate(self)
-			bluetoothService.stopMonitoring()
+			deviceManager.remove(delegate: self)
 			updatePatient(peripheral: peripheral)
 			DispatchQueue.main.async { [weak self] in
 				self?.showSuccess()
@@ -260,4 +216,45 @@ class PairingViewController: UIViewController, BluetoothServiceDelegate, Periphe
 	}
 
 	func updatePatient(peripheral: Peripheral) {}
+
+	// MARK: - OHQDeviceManagerDelegate
+
+	func deviceManager(_ manager: OHQDeviceManager, didConnect peripheral: CBPeripheral) {
+		ALog.info("\(#function) \(peripheral)")
+		guard let device = bluetoothDevices[peripheral.identifier] else {
+			return
+		}
+		device.discoverServices(dicoveryServices)
+	}
+
+	func deviceManager(_ manager: OHQDeviceManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+		bluetoothDevices.removeValue(forKey: peripheral.identifier)
+		manager.startScan()
+	}
+
+	func deviceManager(_ manager: OHQDeviceManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+		bluetoothDevices.removeValue(forKey: peripheral.identifier)
+		manager.startScan()
+	}
+
+	func deviceManager(_ manager: OHQDeviceManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
+		guard bluetoothDevices[peripheral.identifier] == nil else {
+			return
+		}
+		let device = Peripheral(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
+		device.delegate = self
+		bluetoothDevices[device.identifier] = device
+		DispatchQueue.main.async { [weak self] in
+			self?.scroll(toPage: 2, direction: .forward, animated: true) { finished in
+				ALog.info("Bluetooth Finished Scrolling to pairing \(finished)")
+				ALog.info("Bluetooth Connecting to")
+				manager.stopScan()
+				manager.connectPerpherial(peripheral, withOptions: nil)
+			}
+		}
+	}
+
+	func deviceManager(_ manager: OHQDeviceManager, shouldStartTransferForPeripherial peripheral: CBPeripheral) -> Bool {
+		false
+	}
 }

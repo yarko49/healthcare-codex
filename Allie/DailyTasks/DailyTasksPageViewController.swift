@@ -23,7 +23,6 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	@Injected(\.careManager) var careManager: CareManager
 	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
-	@Injected(\.bluetoothService) var bluetoothService: BluetoothService
 	@Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
 	var bluetoothDevices: [UUID: Peripheral] = [:]
 	var deviceInfoCache: [UUID: [OHQDeviceInfoKey: Any]] = [:]
@@ -66,13 +65,11 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.refresh()
 			}.store(in: &cancellables)
 
-		if let isEmpty = careManager.patient?.peripherals.isEmpty, isEmpty == true {
-			NotificationCenter.default.publisher(for: .didPairBloodGlucoseMonitor)
-				.receive(on: RunLoop.main)
-				.sink { [weak self] _ in
-					self?.startBluetooth()
-				}.store(in: &cancellables)
-		}
+		NotificationCenter.default.publisher(for: .didPairBluetoothDevice)
+			.receive(on: RunLoop.main)
+			.sink { [weak self] _ in
+				self?.startBluetooth()
+			}.store(in: &cancellables)
 
 		Timer.publish(every: timerInterval, tolerance: 10.0, on: .current, in: .common, options: nil)
 			.autoconnect()
@@ -91,15 +88,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			DispatchQueue.main.async {
 				self?.reload()
 			}
-			if let isEmpty = self?.careManager.patient?.peripherals.isEmpty, !isEmpty {
-				self?.startBluetooth()
-			}
+			self?.startBluetooth()
 		}
-	}
-
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		bluetoothService.addDelegate(self)
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -108,7 +98,6 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	}
 
 	deinit {
-		bluetoothService.removeDelegate(self)
 		cancellables.forEach { cancellable in
 			cancellable.cancel()
 		}
@@ -273,17 +262,17 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		}
 		isRefreshingCarePlan = true
 		hud.show(in: tabBarController?.view ?? view, animated: true)
-		Task {
+		Task { [weak self] in
 			do {
 				let carePlanResponse = try await networkAPI.getCarePlan(option: .carePlan)
 				if let tasks = carePlanResponse.faultyTasks, !tasks.isEmpty {
-					self.showError(tasks: tasks)
+					self?.showError(tasks: tasks)
 					return
 				}
 				_ = try await careManager.process(carePlanResponse: carePlanResponse)
-				self.isRefreshingCarePlan = false
-				DispatchQueue.main.async {
-					self.hud.dismiss(animated: true)
+				self?.isRefreshingCarePlan = false
+				DispatchQueue.main.async { [weak self] in
+					self?.hud.dismiss(animated: true)
 				}
 				completion(true)
 			} catch {
@@ -291,7 +280,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 					self?.isRefreshingCarePlan = false
 					self?.hud.dismiss(animated: true)
 					let nsError = error as NSError
-					let codes: Set<Int> = [401, 408, -1001]
+					let codes: Set<Int> = [401, 404, 408, -1001]
 					if !codes.contains(nsError.code) {
 						ALog.error("Unable to fetch care plan", error: error)
 						let okAction = AlertHelper.AlertAction(withTitle: String.ok)

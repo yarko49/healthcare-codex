@@ -6,6 +6,8 @@
 //
 
 @testable import Allie
+import BluetoothService
+import CodexFoundation
 import CoreBluetooth
 import XCTest
 
@@ -31,11 +33,11 @@ class GlucoseMeterTests: XCTestCase {
 		receivedDataSet.append(([19, 54, 0, 226, 7, 10, 25, 17, 0, 0, 0, 0, 150, 176, 241], [2, 52, 0, 4], glucometerDeviceID!.uuidString)) // newest date
 		receivedDataSet.append(([19, 55, 0, 226, 7, 10, 20, 17, 0, 0, 0, 0, 140, 176, 241], [2, 52, 0, 4], glucometerDeviceID!.uuidString))
 		let readings = receivedDataSet.map { item in
-			BGMDataReading(measurement: item.0, context: item.1, peripheral: nil)
+			BloodGlucoseReading(measurement: item.0, context: item.1, peripheral: nil)
 		}
 
 		let dataRecords = readings.map { reading in
-			BGMDataRecord(reading: reading)
+			BloodGlucoseRecord(reading: reading)
 		}
 
 		XCTAssertEqual(readings.count, dataRecords.count)
@@ -75,19 +77,18 @@ class GlucoseMeterTests: XCTestCase {
 	}
 
 	func testServiceItems() throws {
-		let bloodGlucose = GATTService.bloodGlucose
 		let intValue = 0x1808
-		XCTAssertEqual(bloodGlucose.rawValue, intValue)
+		XCTAssertEqual(GATTServiceBloodGlucose.rawIdentifier, intValue)
 		let stringValue = "0x1808"
-		XCTAssertEqual(bloodGlucose.hexString, stringValue)
+		XCTAssertEqual(GATTServiceBloodGlucose.hexString, stringValue)
 		let cbuuid = CBUUID(string: stringValue)
-		XCTAssertEqual(bloodGlucose.uuid, cbuuid)
+		XCTAssertEqual(GATTServiceBloodGlucose.uuid, cbuuid)
 	}
 
 	func testPostOutcomeReponse() throws {
 		let data = AllieTests.loadTestData(fileName: "PostOutcomesResponse.json")
 		XCTAssertNotNil(data)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		let careplanRespone = try decoder.decode(CHCarePlanResponse.self, from: data!)
 		XCTAssertEqual(careplanRespone.outcomes.count, 6)
 	}
@@ -103,9 +104,9 @@ class GlucoseMeterTests: XCTestCase {
 		}
 		XCTAssertFalse(outputArray.isEmpty)
 		ALog.info("\(outputArray)")
-		let currentReading = BGMDataReading(measurement: outputArray, context: [], peripheral: nil, measurementData: data!, contextData: nil)
+		let currentReading = BloodGlucoseReading(measurement: outputArray, context: [], peripheral: nil, measurementData: data!, contextData: nil)
 		ALog.info("Sequence Number \(currentReading.sequence)")
-		ALog.info("utcTimeStamp \(currentReading.utcTimestamp)")
+		ALog.info("utcTimeStamp \(String(describing: currentReading.utcTimestamp))")
 		ALog.info("Timezone Offset in Seconds \(currentReading.timezoneOffsetInSeconds)")
 		ALog.info("Concentration \(currentReading.concentration)")
 		ALog.info("Units \(currentReading.units)")

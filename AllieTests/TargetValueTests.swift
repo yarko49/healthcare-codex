@@ -7,6 +7,7 @@
 
 @testable import Allie
 import CareKitStore
+import CodexFoundation
 import XCTest
 
 class TargetValueTests: XCTestCase {
@@ -29,7 +30,7 @@ class TargetValueTests: XCTestCase {
 			    "kind" : ""
 			  }
 			"""
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		if let data = dataString.data(using: .utf8) {
 			let targetValue = try decoder.decode(CHOutcomeValue.self, from: data)
 			XCTAssertEqual(targetValue.type, OCKOutcomeValueType.boolean, "invalid remote Id")
@@ -72,7 +73,7 @@ class TargetValueTests: XCTestCase {
 			    "type": "integer"
 			}
 			"""
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		if let data = dataString.data(using: .utf8) {
 			let targetValue = try decoder.decode(CHOutcomeValue.self, from: data)
 			XCTAssertEqual(targetValue.type, OCKOutcomeValueType.integer, "invalid remote Id")

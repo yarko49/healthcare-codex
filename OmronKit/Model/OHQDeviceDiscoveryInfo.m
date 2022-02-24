@@ -127,6 +127,8 @@
         NSDictionary *manufacturerData = self.advertisementData[OHQAdvertisementDataManufacturerDataKey];
         UInt16 companyIdentifier = [manufacturerData[OHQManufacturerDataCompanyIdentifierKey] unsignedShortValue];
         ret = (companyIdentifier == OHQOmronHealthcareCompanyIdentifier ? OHQDeviceCategoryBodyCompositionMonitor : OHQDeviceCategoryWeightScale);
+    } else if ([serviceUUIDs containsObject:_bloodGlucoseServiceUUID]) {
+        ret = OHQDeviceCategoryBloodGlucoseMonitor;
     }
     return ret;
 }

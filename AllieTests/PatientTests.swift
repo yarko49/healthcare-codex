@@ -6,6 +6,7 @@
 //
 
 @testable import Allie
+import CodexFoundation
 import Foundation
 import XCTest
 
@@ -147,7 +148,7 @@ class PatientTests: XCTestCase {
 	}
 
 	func patientDecode(string: String) throws -> CHPatient {
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		if let data = string.data(using: .utf8) {
 			let patient = try decoder.decode(CHPatient.self, from: data)
 			return patient

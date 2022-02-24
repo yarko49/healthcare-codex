@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  String+HexString.swift
 //
 //
 //  Created by Waqar Malik on 2/12/22.

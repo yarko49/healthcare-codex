@@ -41,6 +41,27 @@ class RemoteConfigManager: ObservableObject {
 		}
 	}
 
+	func refresh() async -> Bool {
+		let settings = RemoteConfigSettings()
+		settings.minimumFetchInterval = 0
+		remoteConfig.configSettings = settings
+		return await withCheckedContinuation { [weak self] checkedContinuation in
+			self?.remoteConfig.fetchAndActivate { [weak self] activateStatus, error in
+				switch activateStatus {
+				case .error:
+					ALog.error("Could not fetch config", error: error)
+					checkedContinuation.resume(returning: false)
+				case .successFetchedFromRemote, .successUsingPreFetchedData:
+					self?.updateProperties()
+					checkedContinuation.resume(returning: true)
+				@unknown default:
+					ALog.info("Unknown Status")
+					checkedContinuation.resume(returning: false)
+				}
+			}
+		}
+	}
+
 	private func updateProperties() {
 		if let email = remoteConfig.configValue(forKey: CodingKeys.feedbackEmaail.rawValue).stringValue {
 			feedbackEmail = email

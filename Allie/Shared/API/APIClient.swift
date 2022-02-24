@@ -24,8 +24,8 @@ protocol AllieAPI {
 	func unregisterOrganization(organization: CMOrganization) async -> Bool
 	func unregisterOrganization(organization: CMOrganization) -> AnyPublisher<Bool, Never>
 
-	func getOrganizations() async -> CMOrganizations
-	func getOrganizations() -> AnyPublisher<CMOrganizations, Never>
+	func getOrganizations() async throws -> CMOrganizations
+	func getOrganizations() -> AnyPublisher<CMOrganizations, Error>
 
 	func getConservationsTokens() async throws -> CMConversationsTokens
 	func getConservationsTokens() -> AnyPublisher<CMConversationsTokens, Error>
@@ -150,15 +150,12 @@ public final class APIClient: AllieAPI {
 			}.eraseToAnyPublisher()
 	}
 
-	func getOrganizations() async -> CMOrganizations {
-		(try? await webService.decodable(route: .organizations)) ?? CMOrganizations(available: [], registered: [])
+	func getOrganizations() async throws -> CMOrganizations {
+		try await webService.decodable(route: .organizations)
 	}
 
-	func getOrganizations() -> AnyPublisher<CMOrganizations, Never> {
+	func getOrganizations() -> AnyPublisher<CMOrganizations, Error> {
 		webService.decodable(route: .organizations)
-			.catch { _ -> Just<CMOrganizations> in
-				Just(CMOrganizations(available: [], registered: []))
-			}.eraseToAnyPublisher()
 	}
 
 	func getConservationsTokens() async throws -> CMConversationsTokens {

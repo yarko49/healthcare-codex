@@ -6,6 +6,8 @@
 //
 
 @testable import Allie
+import CodexFoundation
+import CodexModel
 import XCTest
 
 class ConersationsTests: XCTestCase {
@@ -31,15 +33,15 @@ class ConersationsTests: XCTestCase {
 		}
 		""".data(using: .utf8)
 		XCTAssertNotNil(data)
-		let decoder = CHJSONDecoder()
-		let conversations = try decoder.decode(CHConversationsTokens.self, from: data!)
+		let decoder = CHFJSONDecoder()
+		let conversations = try decoder.decode(CMConversationsTokens.self, from: data!)
 		ALog.info("date = \(String(describing: conversations.tokens.first?.expirationDate))")
 	}
 
 	func testConversationsUsersTests() throws {
 		let data = AllieTests.loadTestData(fileName: "ConversationsUsers.json")
 		XCTAssertNotNil(data)
-		let decoded = try CHJSONDecoder().decode(CHConversationsUsers.self, from: data!)
+		let decoded = try CHFJSONDecoder().decode(CMConversationsUsers.self, from: data!)
 		XCTAssertEqual(decoded.users.count, 1)
 	}
 }

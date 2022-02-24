@@ -22,6 +22,7 @@
 /* Hello */
 "HELLO" = "Hello";
 
+/* Hello, %@ */
 "HELLO_NAME" = "Hello, %@";
 
 /* Close */
@@ -136,6 +137,7 @@
 
 "FAILED_TO_CONFIRM_EMAIL" = "Failed to confirm email";
 
+/* Invalid text */
 "INVALID_TEXT" = "Invalid text";
 
 "TEXT_SHOULD_NOT_CONTAIN_SPECIAL_CHARACTERS_OR_NUMBERS" = "Text should neither be empty nor contain special characters or numbers";
@@ -144,6 +146,7 @@
 
 "FAILED_SEND_LINK" = "Failed to send a link.";
 
+/* Invalid option */
 "INVALID_OPTION" = "Invalid option";
 
 /* Please select gender */
@@ -151,6 +154,7 @@
 
 "FIELDS_CANNOT_BE_EMPTY" = "Fields cannot be empty";
 
+/* invalid input */
 "INVALID_INPUT" = "invalid input";
 
 /* Select your smart Devices */
@@ -179,8 +183,10 @@
 /* Sign in */
 "IF_YOUR_ACCOUNT_IS_ASSOCIATED_WITH_THIS_EMAIL_ADDRESS_YOU_WILL_RECEIVE_AN_EMAIL_TO_RESET_YOUR_PASSWORD_IF_YOU_DON'T_PLEASE_TRY_ANOTHER_EMAIL_ADDRESS" = "if your account is associated with this \n email address you will receive an email \n to reset your pasword. If you don't, \n please try another email address";
 
+/* Invalid email address */
 "INVALID_EMAIL_ADDRESS" = "Invalid email address";
 
+/* Invalid Password */
 "INVALID_PASSWORD" = "Invalid Password";
 
 "PLEASE_ENTER_EMAIL_ADDRESS" = "Please enter email address";
@@ -344,8 +350,10 @@
 
 "VERSION" = "Version %@";
 
+/* First Name */
 "FIRST_NAME" = "First Name";
 
+/* Last Name */
 "LAST_NAME" = "Last Name";
 
 "EMAIL_ADDRESS" = "Email Address";
@@ -913,4 +921,13 @@
 
 /* Scale Pairing */
 "WEIGHT_SCALE_PAIRING" = "Scale Pairing";
+
+/* Preferred Name */
+"PREFERRED_NAME" = "Preferred Name";
+
+/* Invalid Last Name */
+"INVALID_LAST_NAME" = "Invalid Last Name";
+
+/* Invalid preferred name */
+"INVALID_PREFERRED_NAME" = "Invalid preferred name";
 

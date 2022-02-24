@@ -14,6 +14,7 @@ import HealthKit
 import KeychainAccess
 import UIKit
 
+@MainActor
 class AuthCoordinator: BaseCoordinator {
 	weak var parent: MainCoordinator?
 	var currentNonce: String?
@@ -159,15 +160,15 @@ class AuthCoordinator: BaseCoordinator {
 			showHUD()
 			if Auth.auth().isSignIn(withEmailLink: link) {
 				Auth.auth().signIn(withEmail: email, link: link) { [weak self] authResult, error in
-					DispatchQueue.main.async {
+					DispatchQueue.main.async { [weak self] in
 						self?.hideHUD()
 					}
 					if error == nil {
 						self?.getFirebaseAuthTokenResult(authDataResult: authResult, error: error, completion: { _ in
-							DispatchQueue.main.async {
+							DispatchQueue.main.async { [weak self] in
 								if let authorizationFlowType = self?.authorizationFlowType, authorizationFlowType == .signIn {
 									self?.healthKitManager.authorizeHealthKit { _, _ in
-										DispatchQueue.main.async {
+										DispatchQueue.main.async { [weak self] in
 											self?.parent?.gotoMainApp()
 										}
 									}
@@ -177,7 +178,7 @@ class AuthCoordinator: BaseCoordinator {
 							}
 						})
 					} else {
-						DispatchQueue.main.async {
+						DispatchQueue.main.async { [weak self] in
 							AlertHelper.showAlert(title: error?.localizedDescription, detailText: String.signInFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)], from: self?.parent?.window.visibleViewController)
 						}
 					}
@@ -260,7 +261,7 @@ class AuthCoordinator: BaseCoordinator {
 		healthViewController.screenFlowType = screenFlowType
 		healthViewController.authorizationFlowType = authorizationFlowType
 		healthViewController.notNowAction = { [weak self] in
-			DispatchQueue.main.async {
+			DispatchQueue.main.async { [weak self] in
 				self?.parent?.gotoMainApp()
 			}
 		}
@@ -277,27 +278,33 @@ class AuthCoordinator: BaseCoordinator {
 		careManager.patient = alliePatient
 		let title = NSLocalizedString("CREATING_ACCOUNT", comment: "Creating Account")
 		showHUD(title: title, message: nil, animated: true)
-		networkAPI.post(patient: alliePatient!)
-			.receive(on: DispatchQueue.main)
-			.sink(receiveCompletion: { [weak self] result in
-				if case .failure(let error) = result {
+		Task { [weak self] in
+			guard let strongSelf = self else {
+				return
+			}
+
+			do {
+				let carePlanResponse = try await strongSelf.networkAPI.post(patient: alliePatient!)
+				if let patient = carePlanResponse.patients.active.first {
+					strongSelf.careManager.patient = patient
+				}
+
+				_ = await strongSelf.parent?.refreshRemoteConfig()
+				DispatchQueue.main.async {
+					strongSelf.hideHUD()
+					strongSelf.gotoHealthViewController(screenFlowType: .healthKit)
+				}
+			} catch {
+				DispatchQueue.main.async {
 					let okAction = AlertHelper.AlertAction(withTitle: String.ok) {
-						self?.parent?.refreshRemoteConfig(completion: { [weak self] _ in
-							self?.hideHUD()
-							self?.gotoHealthViewController(screenFlowType: .healthKit)
+						strongSelf.parent?.refreshRemoteConfig(completion: { _ in
+							strongSelf.hideHUD()
 						})
 					}
-					self?.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
+					strongSelf.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
 				}
-			}, receiveValue: { [weak self] carePlanResponse in
-				if let patient = carePlanResponse.patients.first {
-					self?.careManager.patient = patient
-				}
-				self?.parent?.refreshRemoteConfig(completion: { [weak self] _ in
-					self?.hideHUD()
-					self?.gotoHealthViewController(screenFlowType: .healthKit)
-				})
-			}).store(in: &cancellables)
+			}
+		}
 	}
 
 	func authorizeHKForUpload() {
@@ -312,7 +319,7 @@ class AuthCoordinator: BaseCoordinator {
 				return
 			}
 			ALog.info("HealthKit Successfully Authorized.")
-			DispatchQueue.main.async {
+			DispatchQueue.main.async { [weak self] in
 				self?.parent?.gotoMainApp()
 			}
 		}

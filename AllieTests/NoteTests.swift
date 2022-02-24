@@ -7,6 +7,7 @@
 
 @testable import Allie
 import CareKitStore
+import CodexFoundation
 import Foundation
 import XCTest
 
@@ -28,7 +29,7 @@ class NoteTests: XCTestCase {
 			  "title" : "test",
 			}
 			"""
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		if let data = careplanNoteDictionary.data(using: .utf8) {
 			let note = try decoder.decode(OCKNote.self, from: data)
 			XCTAssertEqual(note.author, "test", "invalid author")
@@ -48,7 +49,7 @@ class NoteTests: XCTestCase {
 			  "title" : "test",
 			}
 			"""
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		if let data = careplanNoteDictionary.data(using: .utf8) {
 			let note = try decoder.decode(OCKNote.self, from: data)
 			XCTAssertEqual(note.author, "testB", "invalid author")
