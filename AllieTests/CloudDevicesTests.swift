@@ -6,6 +6,8 @@
 //
 
 @testable import Allie
+import CodexFoundation
+import CodexModel
 import XCTest
 
 class CloudDevicesTests: XCTestCase {
@@ -19,7 +21,7 @@ class CloudDevicesTests: XCTestCase {
 
 	func testExample() throws {
 		let downloaded = try AllieTests.loadTestData(fileName: "CloudDevices", withExtension: "json")
-		let cloudDevices = try CHJSONDecoder().decode(CHCloudDevices.self, from: downloaded)
+		let cloudDevices = try CHFJSONDecoder().decode(CMCloudDevices.self, from: downloaded)
 		XCTAssertEqual(cloudDevices.devices.count, 2)
 		XCTAssertEqual(cloudDevices.registrations.count, 1)
 	}

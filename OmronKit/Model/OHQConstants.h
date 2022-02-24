@@ -37,11 +37,13 @@ typedef NS_OPTIONS(UInt8, OmronEachUserDataFlags) {
 extern NSString * CompanyIdentifierDescription(UInt16 arg);
 
 // Service UUID Strings
+static NSString * const BloodGlucoseServiceUUIDString = @"1808";
 static NSString * const BloodPressureServiceUUIDString = @"1810";
 static NSString * const BodyCompositionServiceUUIDString = @"181B";
 static NSString * const WeightScaleServiceUUIDString = @"181D";
 
 // Service UUIDs
+static CBUUID * _bloodGlucoseServiceUUID = nil;
 static CBUUID * _bloodPressureServiceUUID = nil;
 static CBUUID * _bodyCompositionServiceUUID = nil;
 static CBUUID * _weightScaleServiceUUID = nil;

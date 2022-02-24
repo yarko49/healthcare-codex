@@ -14,8 +14,7 @@ extension Notification.Name {
 	static let didRegisterOrganization = Notification.Name("didRegisterOrganization")
 	static let didUnregisterOrganization = Notification.Name("didUnregisterOrganization")
 
-	static let didPairBloodGlucoseMonitor = Notification.Name("didPairBloodGlucoseMonitor")
-	static let didPairBloodPressureMonitor = Notification.Name("didPairBloodPressureMonitor")
+	static let didPairBluetoothDevice = Notification.Name("didPairBluetoothDevice")
 
 	static let didUpdateCarePlan = Notification.Name("didUpdateCarePlan")
 	static let didModifyHealthKitStore = Notification.Name("didModifyHealthKitStore")

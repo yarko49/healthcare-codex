@@ -104,6 +104,7 @@ typedef NS_ENUM(NSUInteger, OHQDeviceCategory) {
     OHQDeviceCategoryBloodPressureMonitor,
     OHQDeviceCategoryWeightScale,
     OHQDeviceCategoryBodyCompositionMonitor,
+    OHQDeviceCategoryBloodGlucoseMonitor,
     OHQDeviceCategoryAny = NSUIntegerMax,
 };
 

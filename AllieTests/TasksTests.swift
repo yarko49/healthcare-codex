@@ -7,6 +7,7 @@
 
 @testable import Allie
 import CareKitStore
+import CodexFoundation
 import HealthKit
 import XCTest
 
@@ -29,7 +30,7 @@ class TasksTests: XCTestCase {
 		let tasksDictionary = carePlan["tasks"] as? [[String: Any]]
 		XCTAssertNotNil(tasksDictionary)
 		let data = try JSONSerialization.data(withJSONObject: tasksDictionary!, options: .prettyPrinted)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		let tasks = try decoder.decode([CHTask].self, from: data)
 		XCTAssertEqual(tasks.count, 10)
 	}
@@ -45,7 +46,7 @@ class TasksTests: XCTestCase {
 	func testNewTasksDecode() throws {
 		let tasksData = AllieTests.loadTestData(fileName: "NewTasks.json")
 		XCTAssertNotNil(tasksData)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		do {
 			let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: tasksData!)
 			XCTAssertNotNil(carePlanResponse.faultyTasks, "Missing faulty tasks")
@@ -59,7 +60,7 @@ class TasksTests: XCTestCase {
 	func testActosTask() throws {
 		let tasksData = AllieTests.loadTestData(fileName: "Actos.json")
 		XCTAssertNotNil(tasksData)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		let task = try decoder.decode(CHTask.self, from: tasksData!)
 		XCTAssertNotNil(task, "Missing faulty tasks")
 		ALog.info("\(String(describing: task.id))")

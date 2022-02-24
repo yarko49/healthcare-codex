@@ -193,7 +193,7 @@ extension SettingsViewController: UITableViewDelegate {
 			guard let strongSelf = self else {
 				return
 			}
-			var alliePatient = self?.careManager.patient ?? CHPatient(id: self?.keychain.userIdentifier ?? "", name: PersonNameComponents())
+			var alliePatient = strongSelf.careManager.patient ?? CHPatient(id: strongSelf.keychain.userIdentifier ?? "", name: PersonNameComponents())
 			alliePatient.name = profileEntryViewController.name
 			alliePatient.profile.email = profileEntryViewController.emailTextField.text
 			alliePatient.sex = profileEntryViewController.sex
@@ -202,12 +202,12 @@ extension SettingsViewController: UITableViewDelegate {
 			alliePatient.profile.weightInPounds = profileEntryViewController.weightInPounds
 			alliePatient.profile.heightInInches = profileEntryViewController.heightInInches
 			strongSelf.hud.show(in: strongSelf.view)
-			self?.networkAPI.post(patient: alliePatient)
-				.sink(receiveCompletion: { result in
+			strongSelf.networkAPI.post(patient: alliePatient)
+				.sinkOnMain(receiveCompletion: { result in
 					if case .failure(let error) = result {
 						ALog.error("\(error.localizedDescription)")
 						let okAction = AlertHelper.AlertAction(withTitle: String.ok)
-						AlertHelper.showAlert(title: String.error, detailText: error.localizedDescription, actions: [okAction], from: self?.tabBarController)
+						AlertHelper.showAlert(title: String.error, detailText: error.localizedDescription, actions: [okAction], from: strongSelf.tabBarController)
 					}
 					strongSelf.hud.dismiss()
 					strongSelf.navigationController?.popViewController(animated: true)

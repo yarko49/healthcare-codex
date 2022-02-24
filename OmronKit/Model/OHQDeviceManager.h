@@ -23,7 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (OHQDeviceManager *)sharedManager;
 
 @property (nonatomic, assign, readonly) OHQDeviceManagerState state;
-@property (nonatomic, weak, nullable) id<OHQDeviceManagerDelegate> delegate;
 @property (nonatomic, weak, nullable) id<OHQDeviceManagerDataSource> dataSource;
 
 /** Scan the device.
@@ -35,9 +34,12 @@ NS_ASSUME_NONNULL_BEGIN
                      usingObserver:(OHQScanObserverBlock)observer
                         completion:(OHQCompletionBlock)completion;
 
+- (void)startScan;
 /** Suspend the Scanning.
  */
 - (void)stopScan;
+
+- (BOOL)isDeviceConnected:(NSString *)identifier;
 
 /** Start session with the device with the specified identifier.
  @param identifier Identifier of device
@@ -57,6 +59,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)cancelSessionWithDevice:(NSUUID *)identifier;
 
+- (void)connectPerpherial:(CBPeripheral *)peripheral withOptions:(nullable NSDictionary<NSString *, id> *)options;
+- (nullable NSDictionary<OHQDeviceInfoKey,id> *)deviceInfoForPeripheral:(CBPeripheral *)peripheral;
+
+- (void)addDelegate:(NSObject<OHQDeviceManagerDelegate> *)delegate NS_SWIFT_NAME(add(delegate:));
+- (void)removeDelegate:(NSObject<OHQDeviceManagerDelegate> *)delegate NS_SWIFT_NAME(remove(delegate:));
 @end
 
 ///---------------------------------------------------------------------------------------
@@ -64,15 +71,16 @@ NS_ASSUME_NONNULL_BEGIN
 ///---------------------------------------------------------------------------------------
 
 @protocol OHQDeviceManagerDataSource <NSObject>
-
 @optional
 - (nullable NSString *)deviceManager:(OHQDeviceManager *)manager localNameForDevice:(NSUUID *)identifier;
-
 @end
 
 @protocol OHQDeviceManagerDelegate <NSObject>
-@optional
-- (void)deviceManager:(OHQDeviceManager *)manager didFindDeviceWithInfo:(NSDictionary<OHQDeviceInfoKey,id> *)deviceInfo;
+- (void)deviceManager:(OHQDeviceManager *)manager didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *, id> *)advertisementData RSSI:(NSNumber *)RSSI;
+- (void)deviceManager:(OHQDeviceManager *)manager didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(nullable NSError *)error;
+- (void)deviceManager:(OHQDeviceManager *)manager didDisconnectPeripheral:(CBPeripheral *)peripheral error:(nullable NSError *)error;
+- (void)deviceManager:(OHQDeviceManager *)manager didConnectPeripheral:(CBPeripheral *)peripheral;
+- (BOOL)deviceManager:(OHQDeviceManager *)manager shouldStartTransferForPeripherial:(CBPeripheral *)peripheral;
 
 @end
 NS_ASSUME_NONNULL_END

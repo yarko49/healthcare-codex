@@ -8,10 +8,11 @@ import CodexFoundation
 import CodexModel
 import Combine
 import HealthKit
+import KeychainAccess
 import LocalAuthentication
-import ModelsR4
 import UIKit
 
+@MainActor
 class AppCoordinator: BaseCoordinator {
 	weak var parent: MainCoordinator?
 	var tabBarController: UITabBarController?
@@ -20,19 +21,18 @@ class AppCoordinator: BaseCoordinator {
 		tabBarController
 	}
 
-	var organizations = CMOrganizations(available: [], registered: [])
-	var observation: ModelsR4.Observation?
-	var bundle: ModelsR4.Bundle?
+	@KeychainStorage(Keychain.Keys.organizations)
+	var organizations: CMOrganizations?
+
 	var observationSearch: String?
 
-	init(parent: MainCoordinator?, organizations: CMOrganizations) {
+	init(parent: MainCoordinator?) {
 		super.init(type: .application)
 		self.parent = parent
-		self.organizations = organizations
 
 		let todayController: UIViewController
 		let chatController: UIViewController
-		if organizations.registered.isEmpty {
+		if let organizations = organizations, organizations.registered.isEmpty {
 			var controller = Self.connectProviderController
 			controller.showProviderList = { [weak self] in
 				self?.showProviderList()
@@ -128,20 +128,32 @@ class AppCoordinator: BaseCoordinator {
 	}
 
 	deinit {
-		navigationController?.viewControllers = []
-		rootViewController?.dismiss(animated: true, completion: nil)
+		DispatchQueue.main.async { [weak self] in
+			self?.navigationController?.viewControllers = []
+			self?.rootViewController?.dismiss(animated: true, completion: nil)
+		}
 	}
 
 	func organizaionRegistraionDidChange(animated: Bool = true) {
-		networkAPI.getOrganizations()
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] organizations in
-				self?.updateControllers(organizations: organizations)
-			}.store(in: &cancellables)
+		Task { [weak self] in
+			guard let strongSelf = self else {
+				return
+			}
+			do {
+				let organizations = try await strongSelf.networkAPI.getOrganizations()
+				strongSelf.organizations = organizations
+			} catch {
+				ALog.error("Error getting organizations", error: error)
+			}
+			strongSelf.updateControllers(organizations: strongSelf.organizations)
+		}
 	}
 
-	func updateControllers(organizations: CMOrganizations) {
-		self.organizations = organizations
+	func updateControllers(organizations: CMOrganizations?) {
+		guard let organizations = organizations else {
+			return
+		}
+
 		if organizations.registered.isEmpty {
 			let todayController = Self.connectProviderController
 			todayController.showProviderList = { [weak self] in

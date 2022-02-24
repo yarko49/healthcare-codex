@@ -5,7 +5,6 @@
 //  Created by Waqar Malik on 8/24/21.
 //
 
-import BluetoothService
 import CodexFoundation
 import UIKit
 
@@ -22,7 +21,6 @@ class BGMDeviceDetailViewController: UIViewController {
 		configureView()
 	}
 
-	@Injected(\.bluetoothService) var bluetootService: BluetoothService
 	@Injected(\.careManager) var careManager: CareManager
 
 	var device: CHPeripheral? {
@@ -124,7 +122,6 @@ class BGMDeviceDetailViewController: UIViewController {
 		let cancelAction = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"), style: .cancel, handler: nil)
 		alertController.addAction(cancelAction)
 		let unpairAction = UIAlertAction(title: NSLocalizedString("UNPAIR", comment: "Unpair"), style: .destructive) { [weak self] _ in
-			self?.bluetootService.stopMonitoring()
 			if var patient = self?.careManager.patient, let device = self?.device {
 				patient.peripherals.remove(device)
 				self?.careManager.patient = patient

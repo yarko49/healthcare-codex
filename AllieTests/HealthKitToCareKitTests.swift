@@ -7,6 +7,7 @@
 
 @testable import Allie
 import CareKitStore
+import CodexFoundation
 import HealthKit
 import XCTest
 
@@ -107,7 +108,7 @@ class HealthKitToCareKitTests: XCTestCase {
 		            }
 		        }
 		""".data(using: .utf8)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		let task = try decoder.decode(CHTask.self, from: taskData!)
 		let ockHealthTask = OCKHealthKitTask(task: task)
 		return ockHealthTask

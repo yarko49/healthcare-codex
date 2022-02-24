@@ -8,6 +8,7 @@
 import BluetoothService
 import CodexFoundation
 import CoreBluetooth
+import OmronKit
 import UIKit
 
 class BGMPairingViewController: PairingViewController {
@@ -24,18 +25,19 @@ class BGMPairingViewController: PairingViewController {
 		GATTServiceBloodGlucose.characteristics
 	}
 
-	override func bluetoothService(_ service: BluetoothService, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
-		guard bluetoothDevices[peripheral.identifier] == nil else {
+	override func deviceManager(_ manager: OHQDeviceManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
+		guard bluetoothDevices[peripheral.identifier] == nil, let contains = peripheral.name?.lowercased().contains("contour"), contains else {
 			return
 		}
-		let device = BloodGlucosePeripheral(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
+		let device = Peripheral(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
 		device.delegate = self
 		bluetoothDevices[device.identifier] = device
 		DispatchQueue.main.async { [weak self] in
 			self?.scroll(toPage: 2, direction: .forward, animated: true) { finished in
 				ALog.info("Bluetooth Finished Scrolling to pairing \(finished)")
 				ALog.info("Bluetooth Connecting to")
-				service.connect(peripheral: peripheral)
+				manager.stopScan()
+				manager.connectPerpherial(peripheral, withOptions: nil)
 			}
 		}
 	}
@@ -49,7 +51,7 @@ class BGMPairingViewController: PairingViewController {
 
 	override func showSuccess() {
 		super.showSuccess()
-		NotificationCenter.default.post(name: .didPairBloodGlucoseMonitor, object: nil)
+		NotificationCenter.default.post(name: .didPairBluetoothDevice, object: nil)
 	}
 
 	override func updatePatient(peripheral: Peripheral) {

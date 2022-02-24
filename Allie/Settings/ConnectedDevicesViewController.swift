@@ -11,6 +11,7 @@ import CodexFoundation
 import CodexModel
 import Combine
 import JGProgressHUD
+import OmronKit
 import UIKit
 
 class ConnectedDevicesViewController: UITableViewController {
@@ -35,7 +36,6 @@ class ConnectedDevicesViewController: UITableViewController {
 		return view
 	}()
 
-	@Injected(\.bluetoothService) var bluetoothService: BluetoothService
 	@Injected(\.careManager) var careManager: CareManager
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	private var cancellables: Set<AnyCancellable> = []
@@ -191,7 +191,7 @@ class ConnectedDevicesViewController: UITableViewController {
 			cell.subtitleLabel.text = peripheral?.name
 			cell.statusLabel.text = NSLocalizedString("STATUS_UNKNOWN", comment: "Unknown")
 			if let device = peripheral {
-				let isConnected = bluetoothService.isConnected(uuidString: device.localId ?? "")
+				let isConnected = OHQDeviceManager.shared().isDeviceConnected(device.localId ?? "")
 				cell.statusLabel.text = isConnected ? NSLocalizedString("STATUS_CONNECTED", comment: "Connected") : NSLocalizedString("STATUS_NOT_CONNECTED", comment: "Not connected")
 			}
 		} else {

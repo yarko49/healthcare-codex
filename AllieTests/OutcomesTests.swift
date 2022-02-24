@@ -7,6 +7,7 @@
 
 @testable import Allie
 import CareKitStore
+import CodexFoundation
 import XCTest
 
 class OutcomesTests: XCTestCase {
@@ -21,7 +22,7 @@ class OutcomesTests: XCTestCase {
 	func testOutcomes1() throws {
 		let data = AllieTests.loadTestData(fileName: "Outcomes1.json")
 		XCTAssertNotNil(data)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
 		XCTAssertEqual(carePlanResponse.outcomes.count, 43)
 	}
@@ -29,7 +30,7 @@ class OutcomesTests: XCTestCase {
 	func testOutcomes2() throws {
 		let data = AllieTests.loadTestData(fileName: "Outcomes2.json")
 		XCTAssertNotNil(data)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
 		XCTAssertEqual(carePlanResponse.outcomes.count, 43)
 	}
@@ -37,7 +38,7 @@ class OutcomesTests: XCTestCase {
 	func testGetOutcomes() throws {
 		let data = AllieTests.loadTestData(fileName: "OutcomesResponse.json")
 		XCTAssertNotNil(data)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		let outcomeResponse = try decoder.decode(CHOutcomeResponse.self, from: data!)
 		XCTAssertEqual(outcomeResponse.outcomes.count, 18)
 	}

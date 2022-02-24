@@ -6,6 +6,7 @@
 //
 
 @testable import Allie
+import HKToFHIR
 import ModelsR4
 import XCTest
 

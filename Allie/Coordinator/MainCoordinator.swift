@@ -14,6 +14,7 @@ import JGProgressHUD
 import KeychainAccess
 import UIKit
 
+@MainActor
 class MainCoordinator: BaseCoordinator {
 	private(set) var window: UIWindow
 
@@ -24,6 +25,8 @@ class MainCoordinator: BaseCoordinator {
 	}()
 
 	@Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
+	@KeychainStorage(Keychain.Keys.organizations)
+	var organizations: CMOrganizations?
 
 	override public var rootViewController: UIViewController? {
 		navigationController
@@ -68,15 +71,14 @@ class MainCoordinator: BaseCoordinator {
 			ALog.info("MainCoordinator start currentUser == nil")
 			goToAuth()
 		} else {
-			firebaseAuthentication(completion: { [weak self] success in
-				DispatchQueue.main.async {
-					if success {
-						self?.createPatientIfNeeded()
-					} else {
-						self?.goToAuth()
-					}
+			Task { [weak self] in
+				let success = await firebaseAuthentication()
+				if success {
+					self?.createPatientIfNeeded()
+				} else {
+					goToAuth()
 				}
-			})
+			}
 		}
 	}
 
@@ -90,17 +92,27 @@ class MainCoordinator: BaseCoordinator {
 
 	public func gotoMainApp() {
 		showHUD()
-		networkAPI.getOrganizations()
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] organizations in
+		Task { [weak self] in
+			guard let strongSelf = self else {
+				return
+			}
+			do {
+				let organizations = try await strongSelf.networkAPI.getOrganizations()
+				strongSelf.organizations = organizations
+			} catch {
+				ALog.error("Error Getting Organizations", error: error)
+			}
+
+			DispatchQueue.main.async { [weak self] in
 				self?.hideHUD()
-				self?.showMainApp(organizations: organizations)
-			}.store(in: &cancellables)
+				self?.showMainApp()
+			}
+		}
 	}
 
-	func showMainApp(organizations: CMOrganizations) {
+	func showMainApp() {
 		removeCoordinator(ofType: .application)
-		let appCoordinator = AppCoordinator(parent: self, organizations: organizations)
+		let appCoordinator = AppCoordinator(parent: self)
 		addChild(coordinator: appCoordinator)
 		let rootViewController = appCoordinator.rootViewController
 		var transitionOptions = UIWindow.TransitionOptions()
@@ -140,22 +152,40 @@ class MainCoordinator: BaseCoordinator {
 
 	func createPatientIfNeeded() {
 		if let patient = careManager.patient, patient.profile.fhirId == nil {
-			networkAPI.post(patient: patient)
-				.receive(on: DispatchQueue.main)
-				.sink { [weak self] completion in
-					switch completion {
-					case .failure(let error):
-						ALog.error("\(error.localizedDescription)")
+			Task { [weak self] in
+				do {
+					_ = try await networkAPI.post(patient: patient)
+				} catch {
+					ALog.error("\(error.localizedDescription)")
+					DispatchQueue.main.async { [weak self] in
 						AlertHelper.showAlert(title: String.error, detailText: String.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)], from: self?.window.visibleViewController)
-					case .finished:
-						break
 					}
+				}
+				DispatchQueue.main.async { [weak self] in
 					self?.gotoMainApp()
-				} receiveValue: { _ in
-					ALog.info("OK STATUS FOR PATIENT : 200")
-				}.store(in: &cancellables)
+				}
+			}
 		} else {
 			gotoMainApp()
+		}
+	}
+
+	func firebaseAuthentication() async -> Bool {
+		do {
+			let tokenResult = try await Auth.auth().currentUser?.getIDTokenResult()
+			guard tokenResult?.token != nil else {
+				return false
+			}
+			if let userId = Auth.auth().currentUser?.uid {
+				_ = resetDataIfNeeded(newPatientId: userId)
+			}
+			if let token = AuthenticationToken(result: tokenResult) {
+				keychain.authenticationToken = token
+			}
+			return true
+		} catch {
+			ALog.error("Error getting token:", error: error)
+			return false
 		}
 	}
 
@@ -207,7 +237,7 @@ class MainCoordinator: BaseCoordinator {
 				return
 			}
 			ALog.info("HealthKit Successfully Authorized.")
-			DispatchQueue.main.async {
+			DispatchQueue.main.async { [weak self] in
 				self?.gotoMainApp()
 			}
 		}
@@ -218,11 +248,19 @@ class MainCoordinator: BaseCoordinator {
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] refreshResult in
 				ALog.info("Did finsihed remote configuration synchronization with result = \(refreshResult)")
-				DispatchQueue.main.async {
+				DispatchQueue.main.async { [weak self] in
 					self?.showUpgradeAlertIfNeede()
 				}
 				completion?(refreshResult)
 			}.store(in: &cancellables)
+	}
+
+	func refreshRemoteConfig() async -> Bool {
+		let result = await remoteConfig.refresh()
+		DispatchQueue.main.async { [weak self] in
+			self?.showUpgradeAlertIfNeede()
+		}
+		return result
 	}
 
 	func showUpgradeAlertIfNeede() {

@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 5/23/21.
 //
 
+import CodexModel
 import Foundation
 import KeychainAccess
 
@@ -59,6 +60,7 @@ extension Keychain {
 		static let userEmail = "UserEmail"
 		static let userIdentifier = "UserIdentifier"
 		static let fcmToken = "fcmToken"
+		static let organizations = "organizations"
 	}
 
 	var userIdentifier: String? {
@@ -111,6 +113,15 @@ extension Keychain {
 		}
 		set {
 			self[Keys.fcmToken] = newValue
+		}
+	}
+
+	var organizations: CMOrganizations? {
+		get {
+			self[codable: Keys.organizations]
+		}
+		set {
+			self[codable: Keys.organizations] = newValue
 		}
 	}
 }

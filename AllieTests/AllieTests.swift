@@ -7,6 +7,7 @@
 
 @testable import Allie
 import CareKitStore
+import CodexFoundation
 import Combine
 import Foundation
 import WebService
@@ -48,6 +49,13 @@ class AllieTests: XCTestCase {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 	}
 
+	func testFilterNameCharacters() throws {
+		let characterset = CharacterSet.alphanumerics
+		let originalString = "@ab$cd!ef156]["
+		let resultString = String(originalString.unicodeScalars.filter { characterset.contains($0) })
+		XCTAssertEqual(resultString, "abcdef156")
+	}
+
 	func testVersionNumber() throws {
 		let version = ApplicationVersion.current
 		let date = Date()
@@ -63,7 +71,7 @@ class AllieTests: XCTestCase {
 	func testDecodeCarePlan() throws {
 		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		do {
 			let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: carePlanResponseData!)
 			XCTAssertNotEqual(carePlanResponse.carePlans.count, 0)
@@ -121,12 +129,12 @@ class AllieTests: XCTestCase {
 	func testDefaultCarePlan() throws {
 		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		do {
 			let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: carePlanResponseData!)
 			let allTasks = carePlanResponse.tasks
 			for task in allTasks {
-				let ockTask = task.ockTask as? OCKTask
+				let ockTask = task.ockTask
 				print("effective \(task.effectiveDate), \(ockTask?.effectiveDate ?? Date())")
 			}
 		} catch {
@@ -134,22 +142,13 @@ class AllieTests: XCTestCase {
 		}
 	}
 
-	func testInsertCarePlanStore() throws {
+	func testInsertCarePlanStore() async throws {
 		let carePlanResponseData = AllieTests.loadTestData(fileName: "DiabetiesCarePlan.json")
 		XCTAssertNotNil(carePlanResponseData)
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: carePlanResponseData!)
 		let storeManager = CareManager.shared
-		let expect = expectation(description: "InsertCarePlans")
-		storeManager.process(carePlanResponse: carePlanResponse, forceReset: false) { result in
-			switch result {
-			case .failure(let error):
-				XCTFail("Error Fetching DefaultDiabetes Care Plan \(error.localizedDescription)")
-			case .success:
-				expect.fulfill()
-			}
-		}
-		XCTAssertEqual(.completed, XCTWaiter().wait(for: [expect], timeout: 10))
+		_ = try await storeManager.process(carePlanResponse: carePlanResponse)
 	}
 
 	func testImageDownload() throws {

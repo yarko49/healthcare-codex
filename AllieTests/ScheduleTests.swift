@@ -7,6 +7,7 @@
 
 @testable import Allie
 import CareKitStore
+import CodexFoundation
 import Foundation
 import XCTest
 
@@ -23,7 +24,7 @@ class ScheduleTests: XCTestCase {
 	}
 
 	func testScheduleA() throws {
-		let decoder = CHJSONDecoder()
+		let decoder = CHFJSONDecoder()
 		XCTAssertNotNil(testData)
 		let schedule = try decoder.decode(CHScheduleElement.self, from: testData)
 		var startDate = DateFormatter.wholeDate.date(from: "2020-11-11T01:31:00.343Z")
@@ -82,7 +83,7 @@ class ScheduleTests: XCTestCase {
 		""".data(using: .utf8)
 
 		XCTAssertNotNil(data)
-		let task = try CHJSONDecoder().decode(CHTask.self, from: data!)
+		let task = try CHFJSONDecoder().decode(CHTask.self, from: data!)
 		XCTAssertNotNil(task.schedule)
 		let ockTask = OCKTask(task: task)
 		XCTAssertNotNil(ockTask)
