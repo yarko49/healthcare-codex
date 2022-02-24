@@ -108,7 +108,7 @@ class CarePlanLinkCell: UICollectionViewCell {
 
 					linkItemView.widthAnchor.constraint(equalTo: footerStackView.widthAnchor).isActive = true
 
-					linkTitle.attributedText = linkItem.title.attributedString(style: .bold16, foregroundColor: .allieBlack, letterSpacing: -0.41)
+					linkTitle.attributedText = linkItem.title.attributedString(style: .bold16, foregroundColor: UIColor.black, letterSpacing: -0.41)
 					typeButton.setAttributedTitle(linkItem.type.rawValue.capitalized.attributedString(style: .regular13, foregroundColor: .allieGray, letterSpacing: -0.025), for: .normal)
 					let iconConfig = UIImage.SymbolConfiguration(pointSize: 26.0)
 					switch linkItem.linkItem {

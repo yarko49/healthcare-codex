@@ -65,7 +65,7 @@ class SettingsViewController: BaseViewController {
 				return cell
 			}
 		})
-		tabBarController?.tabBar.items![2].badgeValue = "1"
+		tabBarController?.tabBar.items![3].badgeValue = "99"
 		tableView.rowHeight = rowHeight
 		tableView.delegate = self
 		var snapshot = dataSource.snapshot()

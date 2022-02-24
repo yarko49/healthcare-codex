@@ -77,7 +77,7 @@ class SettingCell: UITableViewCell {
 		let trailingIcon = UIImageView()
 		trailingIcon.translatesAutoresizingMaskIntoConstraints = false
 		trailingIcon.image = UIImage(systemName: "chevron.right")
-		trailingIcon.tintColor = .allieBlack
+		trailingIcon.tintColor = .black
 		return trailingIcon
 	}()
 

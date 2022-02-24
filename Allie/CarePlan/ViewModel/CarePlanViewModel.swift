@@ -20,7 +20,7 @@ class CarePlanViewModel: ObservableObject {
 	private let cancellables: Set<AnyCancellable> = []
 
 	@Published var loadingState: CarePlanLoadingState = .loading
-	@Published var carePlans: [CHTasks] = .init()
+	@Published var carePlans: [[CHTasks]] = .init()
 
 	func loadCarePlanTask() {
 		loadingState = .loading
@@ -58,7 +58,16 @@ class CarePlanViewModel: ObservableObject {
 						return title1!.capitalized < title2!.capitalized
 					}
 				}
-				self.carePlans = sortedCarePlan
+				let carePlan = sortedCarePlan.filter { $0.first?.category != "education" && $0.first?.category != "links" }
+				let recommeded = sortedCarePlan.filter { $0.first?.category == "education" || $0.first?.category == "links" }
+				if !carePlan.isEmpty {
+//					self.carePlans[0] = carePlan
+					self.carePlans.append(carePlan)
+				}
+				if !recommeded.isEmpty {
+//					self.carePlans[1] = recommeded
+					self.carePlans.append(recommeded)
+				}
 				self.loadingState = .success
 			} catch {
 				ALog.error("Can not load care plan \(error.localizedDescription)")

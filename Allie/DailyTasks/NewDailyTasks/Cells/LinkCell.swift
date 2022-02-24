@@ -126,7 +126,7 @@ class LinkCell: UICollectionViewCell {
 		if let task = timelineItemViewModel.timelineItemModel.event.task as? OCKTask, let linkItems = task.linkItems, !linkItems.isEmpty {
 			linkItems.forEach { linkItem in
 				let linkItemView = UIView()
-				linkItemView.backgroundColor = .lightGrey
+				linkItemView.backgroundColor = .clear
 				linkItemView.layer.cornerRadius = 4.0
 				let linkTitle = UILabel()
 				linkTitle.textColor = .darkGray

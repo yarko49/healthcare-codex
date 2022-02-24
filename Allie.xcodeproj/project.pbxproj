@@ -88,6 +88,9 @@
 		25AEDA8727ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */; };
 		25AEDA8827ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */; };
 		25AEDA8927ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */; };
+		25AF7F8627C712FC00F67CCF /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AF7F8527C712FC00F67CCF /* ChartViewController.swift */; };
+		25AF7F8727C712FC00F67CCF /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AF7F8527C712FC00F67CCF /* ChartViewController.swift */; };
+		25AF7F8827C712FC00F67CCF /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AF7F8527C712FC00F67CCF /* ChartViewController.swift */; };
 		473775F52792BFE00010C308 /* CodexModel in Frameworks */ = {isa = PBXBuildFile; productRef = 473775F42792BFE00010C308 /* CodexModel */; };
 		473775F72792BFE80010C308 /* CodexModel in Frameworks */ = {isa = PBXBuildFile; productRef = 473775F62792BFE80010C308 /* CodexModel */; };
 		473775F92792BFEF0010C308 /* CodexModel in Frameworks */ = {isa = PBXBuildFile; productRef = 473775F82792BFEF0010C308 /* CodexModel */; };
@@ -1252,6 +1255,7 @@
 		2590042927C3BEF20024D616 /* CarePlanCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlanCell.swift; sourceTree = "<group>"; };
 		259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDailyTasksPageViewModel.swift; sourceTree = "<group>"; };
 		25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineItemViewModel.swift; sourceTree = "<group>"; };
+		25AF7F8527C712FC00F67CCF /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
 		473775FA2792C2F00010C308 /* CodexFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CodexFoundation; sourceTree = "<group>"; };
 		4738FCD127914544000686FA /* PairingItem+BloodPressure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PairingItem+BloodPressure.swift"; sourceTree = "<group>"; };
 		474089C62792B10C00DEC810 /* HKToFHIR */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = HKToFHIR; sourceTree = "<group>"; };
@@ -1905,6 +1909,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		25AF7F8427C712D100F67CCF /* Chart */ = {
+			isa = PBXGroup;
+			children = (
+				25AF7F8527C712FC00F67CCF /* ChartViewController.swift */,
+			);
+			path = Chart;
+			sourceTree = "<group>";
+		};
 		3661848D668E4335C90931AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -2103,6 +2115,7 @@
 				84AB058C26D5C478006E8B9E /* Pairing */,
 				84555DC026AFC5DF00C7BA55 /* GlucoseMeter */,
 				841640C32627D6EB000903AF /* Chat */,
+				25AF7F8427C712D100F67CCF /* Chart */,
 				84476710259C2A4E00C50C09 /* Shared */,
 				84476699259C2A4E00C50C09 /* Onboarding */,
 				8447661A259C2A4D00C50C09 /* Views */,
@@ -3486,6 +3499,7 @@
 				2577350F27C03B6100DF152C /* FollowViewController.swift in Sources */,
 				8494705F2671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */,
 				84AF3B572750BE7300E414C1 /* UserDefault.swift in Sources */,
+				25AF7F8627C712FC00F67CCF /* ChartViewController.swift in Sources */,
 				477BA0C6278FFBAA0056D5BA /* CHPeripheral.swift in Sources */,
 				84AF4CF726CA0E6200867349 /* APIClient+Injectable.swift in Sources */,
 				8401F71D270EA5C300D1CBED /* NumericProgressViewController.swift in Sources */,
@@ -3842,6 +3856,7 @@
 				847DCBF7265871F3004E9C1D /* IllustrationView.swift in Sources */,
 				25737B3327A1EFA0006357E7 /* HealthFilledCell.swift in Sources */,
 				258F1BEA27B41FC600988D63 /* GridTaskCell.swift in Sources */,
+				25AF7F8827C712FC00F67CCF /* ChartViewController.swift in Sources */,
 				8456DED32754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C212A32660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
 				847DCBF8265871F3004E9C1D /* StatCell.swift in Sources */,
@@ -4192,6 +4207,7 @@
 				84D1222B264112DE00990196 /* IllustrationView.swift in Sources */,
 				25737B3227A1EFA0006357E7 /* HealthFilledCell.swift in Sources */,
 				258F1BE927B41FC600988D63 /* GridTaskCell.swift in Sources */,
+				25AF7F8727C712FC00F67CCF /* ChartViewController.swift in Sources */,
 				8456DED22754C98400D5958B /* OutcomeUploadOperation.swift in Sources */,
 				84C212A22660B3AC000D491B /* CareManager+FeatureContent.swift in Sources */,
 				84D1222C264112DE00990196 /* StatCell.swift in Sources */,

@@ -258,7 +258,7 @@ extension ChatViewController: MessagesDisplayDelegate {
 	}
 
 	func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-		message.sender.senderId == patient?.id ? .allieWhite : .allieBlack
+		message.sender.senderId == patient?.id ? .white : .black
 	}
 
 	func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {

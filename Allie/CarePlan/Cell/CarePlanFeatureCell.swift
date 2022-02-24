@@ -121,7 +121,7 @@ class CarePlanFeatureCell: UICollectionViewCell {
 		} else {
 			icon.image = UIImage(named: "icon-empty")
 		}
-		title.attributedText = task.first?.title?.attributedString(style: .bold20, foregroundColor: .allieBlack, letterSpacing: -0.41)
+		title.attributedText = task.first?.title?.attributedString(style: .bold20, foregroundColor: UIColor.black, letterSpacing: -0.41)
 		if let fileExtension = task.first?.userInfo?["detailViewAsset"]?.components(separatedBy: ".").last {
 			fileType.setAttributedTitle(fileExtension.uppercased().attributedString(style: .regular13, foregroundColor: .allieGray, letterSpacing: -0.025), for: .normal)
 		} else {

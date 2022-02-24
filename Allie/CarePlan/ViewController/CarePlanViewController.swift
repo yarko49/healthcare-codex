@@ -88,20 +88,23 @@ class CarePlanViewController: BaseViewController {
 
 extension CarePlanViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 	func numberOfSections(in collectionView: UICollectionView) -> Int {
-		2
+		viewModel.carePlans.count
 	}
 
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		if section == 0 {
-			return viewModel.carePlans.count
+			return viewModel.carePlans[0].count
 		} else {
-			return 2
+			return viewModel.carePlans[1].count + 1
 		}
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		if indexPath.section == 0 {
-			let chTask = viewModel.carePlans[indexPath.row]
+		if indexPath.section == 1, indexPath.row == viewModel.carePlans[1].count {
+			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.reuseIdentifier, for: indexPath)
+			return cell
+		} else {
+			let chTask = viewModel.carePlans[indexPath.section][indexPath.row]
 			let groupIdentifier = chTask.first?.groupIdentifier ?? ""
 			let chGroupIdentifierType = CHGroupIdentifierType(rawValue: groupIdentifier)
 			if chGroupIdentifierType == .featuredContent {
@@ -122,24 +125,6 @@ extension CarePlanViewController: UICollectionViewDataSource, UICollectionViewDe
 					return cell
 				}
 				fatalError("Can not deque CarePlanCell")
-			}
-		} else {
-			if indexPath.row == 0 {
-				let chTask = viewModel.carePlans.first { carePlan in
-					carePlan.first?.category == "education"
-				}
-				if let task = chTask, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CarePlanFeatureCell.cellID, for: indexPath) as? CarePlanFeatureCell {
-					cell.configureCell(for: task)
-					return cell
-				} else {
-					let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.reuseIdentifier, for: indexPath)
-					cell.backgroundColor = .clear
-					return cell
-				}
-			} else {
-				let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.reuseIdentifier, for: indexPath)
-				cell.backgroundColor = .clear
-				return cell
 			}
 		}
 	}

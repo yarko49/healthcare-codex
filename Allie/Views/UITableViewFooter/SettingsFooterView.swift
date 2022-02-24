@@ -18,14 +18,14 @@ class SettingsFooterView: UIView {
 	let appVersionLabel: UILabel = {
 		let label = UILabel(frame: .zero)
 		label.text = "Version 00.001.0"
-		label.textColor = .allieGray
+		label.textColor = .mainBlue
 		label.textAlignment = .center
 		return label
 	}()
 
 	let logoutButton: BottomButton = {
 		let button = BottomButton(frame: .zero)
-		button.backgroundColor = .allieBlack
+		button.backgroundColor = .black
 		button.setTitleColor(.allieWhite, for: .normal)
 		button.setTitle(NSLocalizedString("LOG_OUT", comment: "Log Out"), for: .normal)
 		button.heightAnchor.constraint(equalToConstant: 48.0).isActive = true
@@ -85,7 +85,7 @@ class SettingsFooterView: UIView {
 
 	private func localize() {
 		if let version = Bundle.main.ch_appVersion {
-			appVersionLabel.attributedText = String.version(version).attributedString(style: .regular17, foregroundColor: UIColor.lightGrey, letterSpacing: -0.41)
+			appVersionLabel.attributedText = String.version(version).attributedString(style: .regular17, foregroundColor: UIColor.mainBlue, letterSpacing: -0.41)
 		}
 	}
 

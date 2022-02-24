@@ -13,10 +13,26 @@ class FollowViewController: UIViewController {
 	@ObservedObject var viewModel: FollowViewModel = .init()
 	private var subscriptions = Set<AnyCancellable>()
 
+	private let containerStackView: UIStackView = {
+		let containerStackView = UIStackView()
+		containerStackView.translatesAutoresizingMaskIntoConstraints = false
+		containerStackView.alignment = .top
+		containerStackView.axis = .vertical
+		containerStackView.distribution = .fill
+		return containerStackView
+	}()
+
+	private let tableContainerView: UIView = {
+		let tableContainerView = UIView()
+		tableContainerView.translatesAutoresizingMaskIntoConstraints = false
+		tableContainerView.backgroundColor = .white
+		return tableContainerView
+	}()
+
 	private let closeButton: UIButton = {
 		let closeButton = UIButton()
 		closeButton.translatesAutoresizingMaskIntoConstraints = false
-		closeButton.backgroundColor = .allieBlack
+		closeButton.backgroundColor = .black
 		closeButton.setTitle("", for: .normal)
 		closeButton.layer.cornerRadius = 22.0
 		closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
@@ -27,7 +43,7 @@ class FollowViewController: UIViewController {
 	private let title1: UILabel = {
 		let title1 = UILabel()
 		title1.translatesAutoresizingMaskIntoConstraints = false
-		title1.attributedText = "Sorry you're not feeling great.".attributedString(style: .bold20, foregroundColor: .allieBlack, letterSpacing: -0.41)
+		title1.attributedText = "Sorry you're not feeling great.".attributedString(style: .bold20, foregroundColor: UIColor.black, letterSpacing: -0.41)
 		title1.numberOfLines = 0
 		title1.lineBreakMode = .byWordWrapping
 		return title1
@@ -55,7 +71,7 @@ class FollowViewController: UIViewController {
 	private var doneButton: BottomButton = {
 		let doneButton = BottomButton(frame: .zero)
 		doneButton.translatesAutoresizingMaskIntoConstraints = false
-		doneButton.backgroundColor = .allieBlack
+		doneButton.backgroundColor = .black
 		doneButton.setTitle("Done", for: .normal)
 		doneButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
 		doneButton.setTitleColor(.white, for: .normal)
@@ -67,7 +83,35 @@ class FollowViewController: UIViewController {
 		let buttonContainerView = UIView()
 		buttonContainerView.translatesAutoresizingMaskIntoConstraints = false
 		buttonContainerView.backgroundColor = .white
+		buttonContainerView.setShadow()
 		return buttonContainerView
+	}()
+
+	private let confirmedContainerView: UIView = {
+		let confirmedContainerView = UIView()
+		confirmedContainerView.translatesAutoresizingMaskIntoConstraints = false
+		confirmedContainerView.backgroundColor = .mainBlue
+		return confirmedContainerView
+	}()
+
+	private let symptomsLabel: UILabel = {
+		let symptomsLabel = UILabel()
+		symptomsLabel.translatesAutoresizingMaskIntoConstraints = false
+		symptomsLabel.textColor = .white
+		symptomsLabel.font = .systemFont(ofSize: 26, weight: .bold)
+		symptomsLabel.text = "Thanks for adding\nyour symptoms.\n\nHope you feel\nbetter soon!"
+		symptomsLabel.lineBreakMode = .byWordWrapping
+		symptomsLabel.numberOfLines = 0
+		symptomsLabel.textAlignment = .center
+		return symptomsLabel
+	}()
+
+	private let symptomsImage: UIImageView = {
+		let symptomsImage = UIImageView()
+		symptomsImage.translatesAutoresizingMaskIntoConstraints = false
+		symptomsImage.image = UIImage(named: "img-symptoms")
+		symptomsImage.contentMode = .scaleAspectFill
+		return symptomsImage
 	}()
 
 	override func viewDidLoad() {
@@ -82,51 +126,80 @@ class FollowViewController: UIViewController {
 					follow.isSelected
 				}
 				self?.doneButton.isEnabled = !checkedFollow.isEmpty
-				self?.doneButton.backgroundColor = UIColor.allieBlack.withAlphaComponent(checkedFollow.isEmpty ? 0.5 : 1)
+				self?.doneButton.backgroundColor = UIColor.black.withAlphaComponent(checkedFollow.isEmpty ? 0.5 : 1)
 			}
 			.store(in: &subscriptions)
 	}
 
 	private func setupViews() {
 		view.backgroundColor = .mainBackground
-		[closeButton, title1, title2, tableView, buttonContainerView].forEach { view.addSubview($0) }
-		closeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-		closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+		view.addSubview(containerStackView)
+		[tableContainerView, confirmedContainerView].forEach { containerStackView.addArrangedSubview($0) }
+		[closeButton, title1, title2, tableView, buttonContainerView].forEach { tableContainerView.addSubview($0) }
+		[symptomsLabel, symptomsImage].forEach { confirmedContainerView.addSubview($0) }
+
+		containerStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+		containerStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+		containerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+		containerStackView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+
+		confirmedContainerView.isHidden = true
+
+		tableContainerView.widthAnchor.constraint(equalTo: containerStackView.widthAnchor).isActive = true
+		confirmedContainerView.widthAnchor.constraint(equalTo: containerStackView.widthAnchor).isActive = true
+
+		closeButton.centerXAnchor.constraint(equalTo: tableContainerView.centerXAnchor).isActive = true
+		closeButton.topAnchor.constraint(equalTo: tableContainerView.topAnchor, constant: 60).isActive = true
 		closeButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
 		closeButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
 		closeButton.addTarget(self, action: #selector(onClickCloseButton), for: .touchUpInside)
 
-		title1.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-		title1.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24).isActive = true
+		title1.centerXAnchor.constraint(equalTo: tableContainerView.centerXAnchor).isActive = true
+		title1.leadingAnchor.constraint(equalTo: tableContainerView.leadingAnchor, constant: 24).isActive = true
 		title1.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 45.0).isActive = true
 
-		title2.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-		title2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24).isActive = true
+		title2.centerXAnchor.constraint(equalTo: tableContainerView.centerXAnchor).isActive = true
+		title2.leadingAnchor.constraint(equalTo: tableContainerView.leadingAnchor, constant: 24).isActive = true
 		title2.topAnchor.constraint(equalTo: title1.bottomAnchor, constant: 10.0).isActive = true
 
-		buttonContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-		buttonContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-		buttonContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+		buttonContainerView.centerXAnchor.constraint(equalTo: tableContainerView.centerXAnchor).isActive = true
+		buttonContainerView.leadingAnchor.constraint(equalTo: tableContainerView.leadingAnchor).isActive = true
+		buttonContainerView.bottomAnchor.constraint(equalTo: tableContainerView.bottomAnchor).isActive = true
 
 		buttonContainerView.addSubview(doneButton)
 		doneButton.centerXAnchor.constraint(equalTo: buttonContainerView.centerXAnchor).isActive = true
-		doneButton.centerYAnchor.constraint(equalTo: buttonContainerView.centerYAnchor).isActive = true
 		doneButton.topAnchor.constraint(equalTo: buttonContainerView.topAnchor, constant: 24).isActive = true
-		doneButton.leadingAnchor.constraint(equalTo: buttonContainerView.leadingAnchor, constant: 24.0).isActive = true
-		doneButton.addTarget(self, action: #selector(onClickCloseButton), for: .touchUpInside)
+		doneButton.bottomAnchor.constraint(equalTo: buttonContainerView.bottomAnchor, constant: -44).isActive = true
+		doneButton.leadingAnchor.constraint(equalTo: buttonContainerView.leadingAnchor, constant: 34.0).isActive = true
+		doneButton.addTarget(self, action: #selector(onClickDoneButton), for: .touchUpInside)
 
-		tableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-		tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+		tableView.centerXAnchor.constraint(equalTo: tableContainerView.centerXAnchor).isActive = true
+		tableView.leadingAnchor.constraint(equalTo: tableContainerView.leadingAnchor).isActive = true
 		tableView.topAnchor.constraint(equalTo: title2.bottomAnchor, constant: 10.0).isActive = true
 		tableView.bottomAnchor.constraint(equalTo: buttonContainerView.topAnchor, constant: 10).isActive = true
 		tableView.rowHeight = 75
 		tableView.register(FollowCell.self, forCellReuseIdentifier: FollowCell.cellID)
 		tableView.delegate = self
 		tableView.dataSource = self
+
+		symptomsImage.centerXAnchor.constraint(equalTo: confirmedContainerView.centerXAnchor).isActive = true
+		symptomsImage.bottomAnchor.constraint(equalTo: confirmedContainerView.bottomAnchor).isActive = true
+		symptomsImage.leadingAnchor.constraint(equalTo: confirmedContainerView.leadingAnchor).isActive = true
+
+		symptomsLabel.centerXAnchor.constraint(equalTo: confirmedContainerView.centerXAnchor).isActive = true
+		symptomsLabel.bottomAnchor.constraint(equalTo: symptomsImage.topAnchor, constant: -40).isActive = true
 	}
 
 	@objc func onClickCloseButton() {
 		dismiss(animated: true)
+	}
+
+	@objc func onClickDoneButton() {
+		tableContainerView.isHidden = true
+		confirmedContainerView.isHidden = false
+		DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+			self?.dismiss(animated: true)
+		}
 	}
 }
 
@@ -134,6 +207,7 @@ extension FollowViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if let cell = tableView.dequeueReusableCell(withIdentifier: FollowCell.cellID, for: indexPath) as? FollowCell {
 			cell.configureCell(follow: viewModel.followModels[indexPath.row])
+			cell.selectionStyle = .none
 			return cell
 		}
 		fatalError("can not deque cell")

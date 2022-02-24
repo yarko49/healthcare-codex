@@ -55,7 +55,7 @@ class AppCoordinator: BaseCoordinator {
 		self.tabBarController = RoundedTabBarController()
 //		tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, conversationsNavController!, Self.settingsNavController]
 		//        tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, Self.settingsNavController]
-		tabBarController?.viewControllers = [todayNavController!, Self.carePlanNavController, Self.settingsNavController]
+		tabBarController?.viewControllers = [todayNavController!, Self.carePlanNavController, Self.chartNavController, Self.settingsNavController]
 		start()
 	}
 
@@ -196,8 +196,8 @@ class AppCoordinator: BaseCoordinator {
 
 	class func todayNavController(rootViewController controller: UIViewController) -> UINavigationController {
 		let navigationController = UINavigationController(rootViewController: controller)
-		navigationController.tabBarItem.image = UIImage(named: "icon-tab-home")
-		navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-home-selected")
+		navigationController.tabBarItem.image = UIImage(named: "icon-tab-home")?.withRenderingMode(.alwaysOriginal)
+		navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-home-selected")?.withRenderingMode(.alwaysOriginal)
 		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
 		navigationController.tabBarItem.title = nil
 		return navigationController
@@ -244,10 +244,24 @@ class AppCoordinator: BaseCoordinator {
 
 	class var carePlanNavController: UINavigationController {
 		let navigationController = UINavigationController(rootViewController: carePlanViewController)
-		navigationController.tabBarItem.image = UIImage(named: "icon-tab-user")
-		navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-user-selected")
+		navigationController.tabBarItem.image = UIImage(named: "icon-tab-user")?.withRenderingMode(.alwaysOriginal)
+		navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-user-selected")?.withRenderingMode(.alwaysOriginal)
 		navigationController.tabBarItem.title = nil
 		navigationController.tabBarItem.imageInsets = .zero
+		return navigationController
+	}
+
+	class var chartViewController: ChartViewController {
+		let controller = ChartViewController()
+		return controller
+	}
+
+	class var chartNavController: UINavigationController {
+		let navigationController = UINavigationController(rootViewController: chartViewController)
+		navigationController.tabBarItem.image = UIImage(named: "icon-tab-chart")?.withTintColor(.mainGray!, renderingMode: .alwaysTemplate)
+		navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-chart-selected")?.withRenderingMode(.alwaysOriginal)
+		navigationController.tabBarItem.title = nil
+		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
 		return navigationController
 	}
 
@@ -258,8 +272,8 @@ class AppCoordinator: BaseCoordinator {
 
 	class var settingsNavController: UINavigationController {
 		let navigationController = UINavigationController(rootViewController: settingsViewController)
-		navigationController.tabBarItem.image = UIImage(named: "icon-tab-settings")
-		navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-settings-selected")
+		navigationController.tabBarItem.image = UIImage(named: "icon-tab-settings")?.withRenderingMode(.alwaysOriginal)
+		navigationController.tabBarItem.selectedImage = UIImage(named: "icon-tab-settings-selected")?.withRenderingMode(.alwaysOriginal)
 		navigationController.tabBarItem.title = nil
 		navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
 		return navigationController

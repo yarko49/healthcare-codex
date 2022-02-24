@@ -11,9 +11,8 @@ class RoundedTabBarController: UITabBarController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		tabBar.backgroundColor = .clear
-		tabBar.tintColor = .mainBlue
 		let layer = CAShapeLayer()
-		layer.path = UIBezierPath(roundedRect: CGRect(x: 20, y: tabBar.bounds.minY - 5, width: tabBar.bounds.width - 40.0, height: 72),
+		layer.path = UIBezierPath(roundedRect: CGRect(x: 0, y: tabBar.bounds.minY - 5, width: tabBar.bounds.width - 40.0, height: 72),
 		                          cornerRadius: tabBar.frame.height / 2).cgPath
 		layer.shadowColor = UIColor.darkGray.cgColor
 		layer.shadowOffset = CGSize(width: 5, height: 5)
@@ -30,12 +29,13 @@ class RoundedTabBarController: UITabBarController {
 		tabBar.invalidateIntrinsicContentSize()
 		var tabFrame = tabBar.frame
 		tabFrame.size.height = 72
+		tabFrame.size.width = view.frame.size.width - 40
 		tabFrame.origin.y = view.frame.size.height - 120
+		tabFrame.origin.x = 20.0
+		tabBar.itemWidth = CGFloat(tabBar.bounds.width - 40.0) / CGFloat(viewControllers!.count)
+		tabBar.itemPositioning = .centered
 		tabBar.frame = tabFrame
 
 		super.viewDidLayoutSubviews()
-
-		tabBar.itemWidth = CGFloat(tabBar.bounds.width - 40.0) / CGFloat(viewControllers!.count)
-		tabBar.itemPositioning = .centered
 	}
 }
