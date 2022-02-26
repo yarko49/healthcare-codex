@@ -24,13 +24,12 @@ extension NewDailyTasksPageViewController {
 		startObservingManagerState()
 	}
 
-	func stopBluetooth() {
-	}
+	func stopBluetooth() {}
 }
 
 extension NewDailyTasksPageViewController {
 	func startObservingManagerState() {
-        OHQDeviceManager.shared().add(delegate: self)
+		OHQDeviceManager.shared().add(delegate: self)
 		managerStateObserver = OHQDeviceManager.shared().observe(\.state, options: [.initial, .new]) { [weak self] manager, _ in
 			ALog.info("New State \(manager.state.rawValue)")
 			if manager.state == .poweredOn {
@@ -155,13 +154,13 @@ extension NewDailyTasksPageViewController: BloodGlucosePeripheralDataSource {
 		guard var patient = careManager.patient, var pairedPeripheral = patient.peripheral(device: peripheral) else {
 			return
 		}
-        patient.peripherals.removeValue(forKey: pairedPeripheral.type)
+		patient.peripherals.removeValue(forKey: pairedPeripheral.type)
 		let date = Date()
 		let seconds = date.timeIntervalSince1970
 		let millisecondsString = String(Int64(seconds * 1000))
 		pairedPeripheral.lastSync = millisecondsString
 		pairedPeripheral.lastSyncDate = date
-        patient.peripherals[pairedPeripheral.type] = pairedPeripheral
+		patient.peripherals[pairedPeripheral.type] = pairedPeripheral
 		careManager.patient = patient
 		careManager.upload(patient: patient)
 	}
@@ -318,51 +317,51 @@ extension NewDailyTasksPageViewController: PairingViewControllerDelegate {
 }
 
 extension NewDailyTasksPageViewController: OHQDeviceManagerDelegate {
-    func deviceManager(_ manager: OHQDeviceManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
-        guard let peripherals = careManager.patient?.peripherals, !peripherals.isEmpty else {
-            return
-        }
+	func deviceManager(_ manager: OHQDeviceManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
+		guard let peripherals = careManager.patient?.peripherals, !peripherals.isEmpty else {
+			return
+		}
 
-        if let currentDevice = careManager.patient?.bloodGlucoseMonitor, peripheral.name == currentDevice.id {
-            guard bluetoothDevices[peripheral.identifier] == nil else {
-                return
-            }
-            let device = BloodGlucosePeripheral(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
-            device.delegate = self
-            device.dataSource = self
-            bluetoothDevices[device.identifier] = device
-            manager.connectPerpherial(peripheral, withOptions: nil)
-            manager.stopScan()
-        } else if let deviceInfo = manager.deviceInfo(for: peripheral) {
-            let identifier = deviceInfo.identifier
-            deviceInfoCache[identifier] = deviceInfo
-            if let bpm = careManager.patient?.bloodPresssureMonitor, let localId = bpm.localId, localId == identifier.uuidString {
-                startSession(identifer: deviceInfo.identifier)
-            } else if let ws = careManager.patient?.weightScale, let localId = ws.localId, localId == identifier.uuidString {
-                startSession(identifer: identifier)
-            }
-        }
-    }
+		if let currentDevice = careManager.patient?.bloodGlucoseMonitor, peripheral.name == currentDevice.id {
+			guard bluetoothDevices[peripheral.identifier] == nil else {
+				return
+			}
+			let device = BloodGlucosePeripheral(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
+			device.delegate = self
+			device.dataSource = self
+			bluetoothDevices[device.identifier] = device
+			manager.connectPerpherial(peripheral, withOptions: nil)
+			manager.stopScan()
+		} else if let deviceInfo = manager.deviceInfo(for: peripheral) {
+			let identifier = deviceInfo.identifier
+			deviceInfoCache[identifier] = deviceInfo
+			if let bpm = careManager.patient?.bloodPresssureMonitor, let localId = bpm.localId, localId == identifier.uuidString {
+				startSession(identifer: deviceInfo.identifier)
+			} else if let ws = careManager.patient?.weightScale, let localId = ws.localId, localId == identifier.uuidString {
+				startSession(identifer: identifier)
+			}
+		}
+	}
 
-    func deviceManager(_ manager: OHQDeviceManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        ALog.info("\(#function)")
-        bluetoothDevices.removeValue(forKey: peripheral.identifier)
-    }
+	func deviceManager(_ manager: OHQDeviceManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+		ALog.info("\(#function)")
+		bluetoothDevices.removeValue(forKey: peripheral.identifier)
+	}
 
-    func deviceManager(_ manager: OHQDeviceManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        ALog.info("\(#function)")
-        bluetoothDevices.removeValue(forKey: peripheral.identifier)
-    }
+	func deviceManager(_ manager: OHQDeviceManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+		ALog.info("\(#function)")
+		bluetoothDevices.removeValue(forKey: peripheral.identifier)
+	}
 
-    func deviceManager(_ manager: OHQDeviceManager, didConnect peripheral: CBPeripheral) {
-        ALog.info("\(#function)")
-        guard let device = bluetoothDevices[peripheral.identifier] else {
-            return
-        }
-        device.discoverServices()
-    }
+	func deviceManager(_ manager: OHQDeviceManager, didConnect peripheral: CBPeripheral) {
+		ALog.info("\(#function)")
+		guard let device = bluetoothDevices[peripheral.identifier] else {
+			return
+		}
+		device.discoverServices()
+	}
 
-    func deviceManager(_ manager: OHQDeviceManager, shouldStartTransferForPeripherial peripheral: CBPeripheral) -> Bool {
-        true
-    }
+	func deviceManager(_ manager: OHQDeviceManager, shouldStartTransferForPeripherial peripheral: CBPeripheral) -> Bool {
+		true
+	}
 }
