@@ -34,7 +34,7 @@ class BPMPairingViewController: PairingViewController {
 
 	override func updatePatient(peripheral: Peripheral) {
 		if var patient = careManager.patient, let pairedPrepherial = try? CHPeripheral(peripheral: peripheral, type: GATTServiceBloodPressure.identifier) {
-			patient.peripherals.insert(pairedPrepherial)
+			patient.peripherals[pairedPrepherial.type] = pairedPrepherial
 			careManager.patient = patient
 			careManager.upload(patient: patient)
 		}

@@ -123,7 +123,7 @@ class BGMDeviceDetailViewController: UIViewController {
 		alertController.addAction(cancelAction)
 		let unpairAction = UIAlertAction(title: NSLocalizedString("UNPAIR", comment: "Unpair"), style: .destructive) { [weak self] _ in
 			if var patient = self?.careManager.patient, let device = self?.device {
-				patient.peripherals.remove(device)
+				patient.peripherals.removeValue(forKey: device.type)
 				self?.careManager.patient = patient
 				self?.careManager.upload(patient: patient)
 			}

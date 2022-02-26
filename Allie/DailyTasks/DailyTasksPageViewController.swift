@@ -113,6 +113,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 	var cancellables: Set<AnyCancellable> = []
 
+	@MainActor
 	override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController, prepare listViewController: OCKListViewController, for date: Date) {
 		var query = OCKTaskQuery(for: date)
 		query.excludesTasksWithNoEvents = true
@@ -269,30 +270,35 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 					self?.showError(tasks: tasks)
 					return
 				}
+				careManager.process(carePlanResponse: carePlanResponse) { result in
+					switch result {
+					case .failure(let error):
+						ALog.error("Error inserting care plan into db", error: error)
+					case .success:
+						ALog.info("Added new careplan to db")
+					}
+				}
 				_ = try await careManager.process(carePlanResponse: carePlanResponse)
 				self?.isRefreshingCarePlan = false
-				DispatchQueue.main.async { [weak self] in
-					self?.hud.dismiss(animated: true)
-				}
+				self?.hud.dismiss(animated: true)
 				completion(true)
 			} catch {
-				DispatchQueue.main.async { [weak self] in
-					self?.isRefreshingCarePlan = false
-					self?.hud.dismiss(animated: true)
-					let nsError = error as NSError
-					let codes: Set<Int> = [401, 404, 408, -1001]
-					if !codes.contains(nsError.code) {
-						ALog.error("Unable to fetch care plan", error: error)
-						let okAction = AlertHelper.AlertAction(withTitle: String.ok)
-						let title = NSLocalizedString("ERROR", comment: "Error")
-						AlertHelper.showAlert(title: title, detailText: error.localizedDescription, actions: [okAction], from: self?.tabBarController)
-					}
-					completion(false)
+				self?.isRefreshingCarePlan = false
+				self?.hud.dismiss(animated: true)
+				let nsError = error as NSError
+				let codes: Set<Int> = [401, 404, 408, -1001]
+				if !codes.contains(nsError.code) {
+					ALog.error("Unable to fetch care plan", error: error)
+					let okAction = AlertHelper.AlertAction(withTitle: String.ok)
+					let title = NSLocalizedString("ERROR", comment: "Error")
+					AlertHelper.showAlert(title: title, detailText: error.localizedDescription, actions: [okAction], from: self?.tabBarController)
 				}
+				completion(false)
 			}
 		}
 	}
 
+	@MainActor
 	func showError(tasks: [CHBasicTask]) {
 		let viewController = TaskErrorDisplayViewController(style: .plain)
 		viewController.items = tasks
@@ -300,6 +306,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 		tabBarController?.present(navigationController, animated: true, completion: nil)
 	}
 
+	@MainActor
 	@IBAction func gotoToday(_ sender: Any) {
 		selectDate(Date(), animated: true)
 	}

@@ -172,8 +172,6 @@ extension SettingsViewController: UITableViewDelegate {
 			showHelpCenter()
 		case .providers:
 			showOrganizations()
-		case .readings:
-			showReadings()
 		case .logging:
 			showLogging()
 		}
@@ -292,12 +290,6 @@ extension SettingsViewController: UITableViewDelegate {
 		let selectProviderController = SelectProviderViewController(collectionViewLayout: SelectProviderViewController.layout)
 		selectProviderController.isModel = false
 		navigationController?.show(selectProviderController, sender: self)
-	}
-
-	func showReadings() {
-		let viewController = UIHostingController(rootView: ReadingsListView())
-		viewController.title = SettingsType.readings.title
-		navigationController?.show(viewController, sender: self)
 	}
 
 	func showLogging() {
