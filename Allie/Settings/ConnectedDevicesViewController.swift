@@ -183,10 +183,7 @@ class ConnectedDevicesViewController: UITableViewController {
 			let identifier = dataSource.itemIdentifier(for: indexPath)
 			let serviceType = serviceType(hexString: identifier ?? "")
 			name = title(hexString: identifier)
-			let peripheral = careManager.patient?.peripherals.first(where: { peripheral in
-				peripheral.type == serviceType?.identifier
-			})
-
+			let peripheral = careManager.patient?.peripherals[serviceType?.identifier ?? ""]
 			cell.titleLabel.attributedText = name.attributedString(style: .regular17, foregroundColor: UIColor.grey, letterSpacing: -0.41)
 			cell.subtitleLabel.text = peripheral?.name
 			cell.statusLabel.text = NSLocalizedString("STATUS_UNKNOWN", comment: "Unknown")

@@ -29,32 +29,24 @@ extension CHPatient {
 	}
 
 	func peripheral(serviceType: String) -> CHPeripheral? {
-		peripherals.first { peripheral in
-			peripheral.type == serviceType
-		}
+		peripherals[serviceType]
 	}
 
 	func peripheral(device: Peripheral) -> CHPeripheral? {
-		peripherals.first { element in
-			element.id == device.name
-		}
+		peripherals.first { (_: String, value: CHPeripheral) in
+			value.name == device.name
+		}?.value
 	}
 
 	var bloodGlucoseMonitor: CHPeripheral? {
-		peripherals.first { peripheral in
-			peripheral.type == GATTServiceBloodGlucose.identifier
-		}
+		peripherals[GATTServiceBloodGlucose.identifier]
 	}
 
 	var bloodPresssureMonitor: CHPeripheral? {
-		peripherals.first { peripheral in
-			peripheral.type == GATTServiceBloodPressure.identifier
-		}
+		peripherals[GATTServiceBloodPressure.identifier]
 	}
 
 	var weightScale: CHPeripheral? {
-		peripherals.first { peripheral in
-			peripheral.type == GATTServiceWeightScale.identifier
-		}
+		peripherals[GATTServiceWeightScale.identifier]
 	}
 }

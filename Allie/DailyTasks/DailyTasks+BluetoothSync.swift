@@ -136,13 +136,13 @@ extension DailyTasksPageViewController: BloodGlucosePeripheralDataSource {
 		guard var patient = careManager.patient, var pairedPeripheral = patient.peripheral(device: peripheral) else {
 			return
 		}
-		patient.peripherals.remove(pairedPeripheral)
+		patient.peripherals.removeValue(forKey: pairedPeripheral.type)
 		let date = Date()
 		let seconds = date.timeIntervalSince1970
 		let millisecondsString = String(Int64(seconds * 1000))
 		pairedPeripheral.lastSync = millisecondsString
 		pairedPeripheral.lastSyncDate = date
-		patient.peripherals.insert(pairedPeripheral)
+		patient.peripherals[pairedPeripheral.type] = pairedPeripheral
 		careManager.patient = patient
 		careManager.upload(patient: patient)
 	}

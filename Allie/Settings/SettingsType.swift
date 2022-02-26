@@ -17,7 +17,6 @@ enum SettingsType: CustomStringConvertible, CaseIterable, Hashable {
 	case support
 	case troubleShoot
 	case providers
-	case readings
 	case logging
 
 	var title: String {
@@ -42,8 +41,6 @@ enum SettingsType: CustomStringConvertible, CaseIterable, Hashable {
 			return String.termsOfService
 		case .providers:
 			return NSLocalizedString("HEALTHCARE_PROVIDERS", comment: "Health Providers")
-		case .readings:
-			return "Readings"
 		case .logging:
 			return "File Logging"
 		}

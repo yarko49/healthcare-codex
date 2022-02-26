@@ -121,6 +121,7 @@ class CareManager: NSObject, ObservableObject {
 
 		do {
 			let carePlanResponse = try readCarePlan()
+			self.carePlanResponse = carePlanResponse
 			tasks = carePlanResponse.tasks.reduce([:]) { partialResult, task in
 				var result = partialResult
 				result[task.id] = task
@@ -188,6 +189,7 @@ class CareManager: NSObject, ObservableObject {
 		try? resetAllContents()
 	}
 
+	private(set) var carePlanResponse: CHCarePlanResponse?
 	private(set) var carePlan: CHCarePlan?
 	private(set) var tasks: [String: CHTask] = [:]
 
@@ -197,6 +199,22 @@ class CareManager: NSObject, ObservableObject {
 // MARK: - CarePlanResponse
 
 extension CareManager {
+	func process(carePlanResponse: CHCarePlanResponse, forceReset: Bool = false, completion: AllieResultCompletion<CHCarePlanResponse>?) {
+		DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+			Task { [weak self] in
+				guard let strongSelf = self else {
+					return
+				}
+				do {
+					let response = try await strongSelf.process(carePlanResponse: carePlanResponse, forceReset: forceReset)
+					completion?(.success(response))
+				} catch {
+					completion?(.failure(error))
+				}
+			}
+		}
+	}
+
 	func process(carePlanResponse: CHCarePlanResponse, forceReset: Bool = false) async throws -> CHCarePlanResponse {
 		var updateCarePlanResponse = CHCarePlanResponse()
 		tasks = carePlanResponse.tasks.reduce([:]) { partialResult, task in
@@ -207,6 +225,7 @@ extension CareManager {
 
 		carePlan = carePlanResponse.carePlans.active.first
 		try save(carePlanResponse: carePlanResponse)
+		self.carePlanResponse = carePlanResponse
 		var activePatient = carePlanResponse.patients.active.first
 		if let patient = activePatient {
 			do {
@@ -256,6 +275,7 @@ extension CareManager {
 		}
 
 		try save(carePlanResponse: updateCarePlanResponse)
+		self.carePlanResponse = updateCarePlanResponse
 		return updateCarePlanResponse
 	}
 

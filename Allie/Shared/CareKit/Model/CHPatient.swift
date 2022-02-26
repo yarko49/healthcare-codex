@@ -40,7 +40,7 @@ struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyItemDeleta
 	var timezone: TimeZone
 	var notes: [OCKNote]?
 	var profile = CHProfile()
-	var peripherals: Set<CHPeripheral> = []
+	var peripherals: [String: CHPeripheral] = [:]
 
 	var age: Int? {
 		guard let birthday = birthday else {
@@ -163,12 +163,16 @@ struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyItemDeleta
 		if remoteId == nil {
 			self.remoteId = profile.userId ?? profile.patientId ?? profile.fhirId
 		}
-		self.peripherals = try container.decodeIfPresent(Set<CHPeripheral>.self, forKey: .peripherals) ?? []
-		let monitor = peripherals.first { peripheral in
-			peripheral.type == GATTServiceBloodPressure.identifier
+		let pairedPeripherals = try container.decodeIfPresent(Set<CHPeripheral>.self, forKey: .peripherals) ?? []
+		self.peripherals = pairedPeripherals.reduce([:]) { partialResult, peripheral in
+			var result = partialResult
+			result[peripheral.type] = peripheral
+			return result
 		}
+
+		let monitor = peripherals[GATTServiceBloodPressure.identifier]
 		if let bgmMonitor = bgmPeripheral, monitor == nil {
-			peripherals.insert(bgmMonitor)
+			peripherals[bgmMonitor.type] = bgmMonitor
 		}
 	}
 
@@ -192,7 +196,7 @@ struct CHPatient: Codable, Identifiable, Equatable, OCKAnyPatient, AnyItemDeleta
 		try container.encodeIfPresent(asset, forKey: .asset)
 		try container.encode(timezone, forKey: .timezone)
 		try container.encodeIfPresent(profile, forKey: .profile)
-		try container.encode(peripherals, forKey: .peripherals)
+		try container.encode(Set(peripherals.values), forKey: .peripherals)
 	}
 
 	private enum CodingKeys: String, CodingKey {

@@ -22,7 +22,6 @@ class NewDailyTasksPageViewController: BaseViewController {
 	@Injected(\.careManager) var careManager: CareManager
 	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
-	@Injected(\.bluetoothService) var bluetoothService: BluetoothService
 	@Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
 	var bluetoothDevices: [UUID: Peripheral] = [:]
 	var deviceInfoCache: [UUID: [OHQDeviceInfoKey: Any]] = [:]
@@ -106,11 +105,6 @@ class NewDailyTasksPageViewController: BaseViewController {
 		return collectionView
 	}()
 
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		bluetoothService.addDelegate(self)
-	}
-
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupViews()
@@ -150,13 +144,6 @@ class NewDailyTasksPageViewController: BaseViewController {
 			.sink { [weak self] _ in
 				self?.reload()
 			}.store(in: &cancellable)
-		if careManager.patient?.bgmName == nil {
-			NotificationCenter.default.publisher(for: .didPairBloodGlucoseMonitor)
-				.receive(on: RunLoop.main)
-				.sink { [weak self] _ in
-					self?.startBluetooth()
-				}.store(in: &cancellable)
-		}
 		Timer.publish(every: timeInterval, tolerance: 10.0, on: .current, in: .common, options: nil)
 			.autoconnect()
 			.receive(on: RunLoop.main)
@@ -185,7 +172,6 @@ class NewDailyTasksPageViewController: BaseViewController {
 	}
 
 	deinit {
-		bluetoothService.removeDelegate(self)
 		cancellable.forEach { cancellable in
 			cancellable.cancel()
 		}

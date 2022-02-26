@@ -13,72 +13,24 @@ import HealthKit
 import OmronKit
 import UIKit
 
-extension NewDailyTasksPageViewController: BluetoothServiceDelegate {
+extension NewDailyTasksPageViewController {
 	var characteristics: [CBUUID: [CBUUID]] {
 		[GATTServiceBloodGlucose.uuid: GATTServiceBloodGlucose.characteristics, GATTServiceBloodPressure.uuid: GATTServiceBloodPressure.characteristics,
 		 GATTServiceBatteryService.uuid: GATTServiceBatteryService.characteristics, GATTServiceCurrentTime.uuid: GATTServiceCurrentTime.characteristics,
 		 GATTServiceWeightScale.uuid: GATTServiceWeightScale.characteristics]
 	}
 
-	func bluetoothService(_ service: BluetoothService, didUpdate state: CBManagerState) {
-		ALog.info("Bluetooth state = \(state.rawValue)")
-		let state: Bool = state == .poweredOn ? true : false
-		if state {
-			ALog.info("Bluetooth Active")
-			// let options: [String: Any] = [CBCentralManagerScanOptionAllowDuplicatesKey: true
-			bluetoothService.scanForPeripherals()
-			ALog.info("Starting BLE scan\n")
-		} else {
-			ALog.error("Bluetooth Start Error")
-		}
-	}
-
 	func startBluetooth() {
-		bluetoothService.addDelegate(self)
-		bluetoothService.startMonitoring()
 		startObservingManagerState()
 	}
 
 	func stopBluetooth() {
-		bluetoothService.stopMonitoring()
-	}
-
-	func bluetoothService(_ service: BluetoothService, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
-		guard let peripherals = careManager.patient?.peripherals, !peripherals.isEmpty else {
-			return
-		}
-
-		if let currentDevice = careManager.patient?.bloodGlucoseMonitor, peripheral.name == currentDevice.id {
-			let device = BloodGlucosePeripheral(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
-			device.delegate = self
-			device.dataSource = self
-			bluetoothDevices[device.identifier] = device
-			service.connect(peripheral: peripheral)
-		}
-	}
-
-	func bluetoothService(_ service: BluetoothService, didConnect peripheral: CBPeripheral) {
-		ALog.info("\(#function) \(peripheral)")
-		guard let device = bluetoothDevices[peripheral.identifier] else {
-			return
-		}
-		device.discoverServices()
-	}
-
-	func bluetoothService(_ service: BluetoothService, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-		bluetoothDevices.removeValue(forKey: peripheral.identifier)
-		service.startMonitoring()
-	}
-
-	func bluetoothService(_ service: BluetoothService, didDisconnect peripheral: CBPeripheral, error: Error?) {
-		bluetoothDevices.removeValue(forKey: peripheral.identifier)
-		service.startMonitoring()
 	}
 }
 
 extension NewDailyTasksPageViewController {
 	func startObservingManagerState() {
-		OHQDeviceManager.shared().delegate = self
+        OHQDeviceManager.shared().add(delegate: self)
 		managerStateObserver = OHQDeviceManager.shared().observe(\.state, options: [.initial, .new]) { [weak self] manager, _ in
 			ALog.info("New State \(manager.state.rawValue)")
 			if manager.state == .poweredOn {
@@ -203,13 +155,13 @@ extension NewDailyTasksPageViewController: BloodGlucosePeripheralDataSource {
 		guard var patient = careManager.patient, var pairedPeripheral = patient.peripheral(device: peripheral) else {
 			return
 		}
-		patient.peripherals.remove(pairedPeripheral)
+        patient.peripherals.removeValue(forKey: pairedPeripheral.type)
 		let date = Date()
 		let seconds = date.timeIntervalSince1970
 		let millisecondsString = String(Int64(seconds * 1000))
 		pairedPeripheral.lastSync = millisecondsString
 		pairedPeripheral.lastSyncDate = date
-		patient.peripherals.insert(pairedPeripheral)
+        patient.peripherals[pairedPeripheral.type] = pairedPeripheral
 		careManager.patient = patient
 		careManager.upload(patient: patient)
 	}
@@ -366,13 +318,51 @@ extension NewDailyTasksPageViewController: PairingViewControllerDelegate {
 }
 
 extension NewDailyTasksPageViewController: OHQDeviceManagerDelegate {
-	func deviceManager(_ manager: OHQDeviceManager, didFindDeviceWithInfo deviceInfo: [OHQDeviceInfoKey: Any]) {
-		let identifier = deviceInfo.identifier
-		deviceInfoCache[identifier] = deviceInfo
-		if let bpm = careManager.patient?.bloodPresssureMonitor, let localId = bpm.localId, localId == identifier.uuidString {
-			startSession(identifer: deviceInfo.identifier)
-		} else if let ws = careManager.patient?.weightScale, let localId = ws.localId, localId == identifier.uuidString {
-			startSession(identifer: identifier)
-		}
-	}
+    func deviceManager(_ manager: OHQDeviceManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
+        guard let peripherals = careManager.patient?.peripherals, !peripherals.isEmpty else {
+            return
+        }
+
+        if let currentDevice = careManager.patient?.bloodGlucoseMonitor, peripheral.name == currentDevice.id {
+            guard bluetoothDevices[peripheral.identifier] == nil else {
+                return
+            }
+            let device = BloodGlucosePeripheral(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
+            device.delegate = self
+            device.dataSource = self
+            bluetoothDevices[device.identifier] = device
+            manager.connectPerpherial(peripheral, withOptions: nil)
+            manager.stopScan()
+        } else if let deviceInfo = manager.deviceInfo(for: peripheral) {
+            let identifier = deviceInfo.identifier
+            deviceInfoCache[identifier] = deviceInfo
+            if let bpm = careManager.patient?.bloodPresssureMonitor, let localId = bpm.localId, localId == identifier.uuidString {
+                startSession(identifer: deviceInfo.identifier)
+            } else if let ws = careManager.patient?.weightScale, let localId = ws.localId, localId == identifier.uuidString {
+                startSession(identifer: identifier)
+            }
+        }
+    }
+
+    func deviceManager(_ manager: OHQDeviceManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        ALog.info("\(#function)")
+        bluetoothDevices.removeValue(forKey: peripheral.identifier)
+    }
+
+    func deviceManager(_ manager: OHQDeviceManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        ALog.info("\(#function)")
+        bluetoothDevices.removeValue(forKey: peripheral.identifier)
+    }
+
+    func deviceManager(_ manager: OHQDeviceManager, didConnect peripheral: CBPeripheral) {
+        ALog.info("\(#function)")
+        guard let device = bluetoothDevices[peripheral.identifier] else {
+            return
+        }
+        device.discoverServices()
+    }
+
+    func deviceManager(_ manager: OHQDeviceManager, shouldStartTransferForPeripherial peripheral: CBPeripheral) -> Bool {
+        true
+    }
 }
