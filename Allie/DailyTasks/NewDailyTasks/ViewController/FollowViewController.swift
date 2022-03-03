@@ -5,13 +5,31 @@
 //  Created by Onseen on 2/18/22.
 //
 
+import CareKitStore
 import Combine
 import SwiftUI
 import UIKit
 
+protocol FollowViewControllerDelegate: AnyObject {
+	func onClickDoneButton()
+}
+
 class FollowViewController: UIViewController {
-	@ObservedObject var viewModel: FollowViewModel = .init()
+	@ObservedObject var viewModel: NewDailyTasksPageViewModel = .init()
 	private var subscriptions = Set<AnyCancellable>()
+	private var selectedDate = Date()
+	weak var delegate: FollowViewControllerDelegate?
+
+	init(viewModel: NewDailyTasksPageViewModel, date: Date) {
+		self.viewModel = viewModel
+		self.selectedDate = date
+		super.init(nibName: nil, bundle: nil)
+	}
+
+	@available(*, unavailable)
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
 
 	private let containerStackView: UIStackView = {
 		let containerStackView = UIStackView()
@@ -118,7 +136,7 @@ class FollowViewController: UIViewController {
 		super.viewDidLoad()
 
 		setupViews()
-		viewModel.$followModels
+		viewModel.$symptomData
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] follows in
 				self?.tableView.reloadData()
@@ -198,7 +216,9 @@ class FollowViewController: UIViewController {
 		tableContainerView.isHidden = true
 		confirmedContainerView.isHidden = false
 		DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
-			self?.dismiss(animated: true)
+			self?.dismiss(animated: true) {
+				self?.delegate?.onClickDoneButton()
+			}
 		}
 	}
 }
@@ -206,7 +226,7 @@ class FollowViewController: UIViewController {
 extension FollowViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if let cell = tableView.dequeueReusableCell(withIdentifier: FollowCell.cellID, for: indexPath) as? FollowCell {
-			cell.configureCell(follow: viewModel.followModels[indexPath.row])
+			cell.configureCell(follow: viewModel.symptomData[indexPath.row])
 			cell.selectionStyle = .none
 			return cell
 		}
@@ -214,11 +234,61 @@ extension FollowViewController: UITableViewDelegate, UITableViewDataSource {
 	}
 
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		viewModel.followModels.count
+		viewModel.symptomData.count
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: false)
-		viewModel.updateFollows(at: indexPath.row)
+		let followModel = viewModel.symptomData[indexPath.row]
+		guard let task = followModel.event.task as? OCKTask else { return }
+		let viewController = GeneralizedLogTaskDetailViewController()
+		viewController.queryDate = OCKEventQuery(for: selectedDate).dateInterval.start
+		viewController.anyTask = task
+		viewController.outcomeIndex = 0
+		var outComes = [OCKOutcomeValue]()
+		if let outcome = followModel.event.outcome, !outcome.values.isEmpty {
+			outComes.append(outcome.values.first!)
+		}
+		viewController.outcomeValues = outComes
+		viewController.modalPresentationStyle = .overFullScreen
+		viewController.cancelAction = { [weak viewController] in
+			viewController?.dismiss(animated: true, completion: nil)
+		}
+		viewController.outcomeValueHandler = { [weak viewController, weak self] newOutcomeValue in
+			guard let strongSelf = self, let task = viewController?.anyTask as? OCKTask, let carePlanId = task.carePlanId else {
+				return
+			}
+			if followModel.isSelected {
+				guard let index = viewController?.outcomeIndex, let outcome = followModel.event.outcome as? OCKOutcome, index < outcome.values.count else {
+					return
+				}
+				strongSelf.viewModel.updateOutcomeValue(newValue: newOutcomeValue, for: outcome, event: followModel.event, at: index, task: task) { result in
+					switch result {
+					case .success:
+						ALog.info("Updated successfully")
+						strongSelf.viewModel.updateFollows(at: indexPath.row)
+					case .failure(let error):
+						ALog.error("failed updating", error: error)
+					}
+					DispatchQueue.main.async {
+						viewController?.dismiss(animated: true, completion: nil)
+					}
+				}
+			} else {
+				strongSelf.viewModel.addOutcomeValue(newValue: newOutcomeValue, carePlanId: carePlanId, task: task, event: followModel.event) { result in
+					switch result {
+					case .failure(let error):
+						ALog.error("Error appending outcomes", error: error)
+					case .success(let outcome):
+						ALog.info("Did append value \(outcome.uuid)")
+						strongSelf.viewModel.updateFollows(at: indexPath.row)
+					}
+					DispatchQueue.main.async {
+						viewController?.dismiss(animated: true, completion: nil)
+					}
+				}
+			}
+		}
+		showDetailViewController(viewController, sender: self)
 	}
 }

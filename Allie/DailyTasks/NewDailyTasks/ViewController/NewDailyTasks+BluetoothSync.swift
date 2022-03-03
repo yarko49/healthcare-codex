@@ -44,28 +44,10 @@ extension NewDailyTasksPageViewController {
 	}
 
 	func scanForDevices() {
-		OHQDeviceManager.shared().scanForDevices(with: .any) { [weak self] deviceInfo in
-			let identifier = deviceInfo.identifier
-			self?.deviceInfoCache[identifier] = deviceInfo
-			if let bpm = self?.careManager.patient?.bloodPresssureMonitor, let localId = bpm.localId, localId == identifier.uuidString {
-				self?.startSession(identifer: identifier)
-			} else if let ws = self?.careManager.patient?.weightScale, let localId = ws.localId, localId == identifier.uuidString {
-				self?.startSession(identifer: identifier)
-			}
-		} completion: { [weak self] completionReason in
-			switch completionReason {
-			case .canceled:
-				self?.stopScanCompletion?()
-			case .busy:
-				self?.stopScan {
-					self?.deviceInfoCache.removeAll(keepingCapacity: true)
-					self?.scanForDevices()
-				}
-			case .disconnected:
-				self?.scanForDevices()
-			default:
-				break
-			}
+		OHQDeviceManager.shared().scanForDevices(with: .any) { deviceInfo in
+			ALog.info("Device Did get device Info \(deviceInfo.modelName)")
+		} completion: { completionReason in
+			ALog.info("Device Did Complete = \(completionReason)")
 		}
 	}
 

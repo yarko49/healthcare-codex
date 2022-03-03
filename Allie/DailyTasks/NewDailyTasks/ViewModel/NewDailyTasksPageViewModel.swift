@@ -23,6 +23,7 @@ class NewDailyTasksPageViewModel: ObservableObject {
 	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
 	@Published public internal(set) var error: Error?
 	@Published var timelineItemViewModels = [TimelineItemViewModel]()
+	@Published var symptomData = [FollowModel]()
 	@Published var loadingState: NewDailyTaskPageState = .loading
 	var eventDate: Date = .init()
 
@@ -72,6 +73,7 @@ class NewDailyTasksPageViewModel: ObservableObject {
 		}
 		.sink { [unowned self] events in
 			self.generateTimelineItems(events: events)
+			self.generateSymptomData(events: events)
 			self.loadingState = .completed
 		}
 		.store(in: &cancellables)
@@ -118,6 +120,21 @@ class NewDailyTasksPageViewModel: ObservableObject {
 			}
 			return date1 < date2
 		}
+	}
+
+	func generateSymptomData(events: [[OCKAnyEvent]]) {
+		var followModels = [FollowModel]()
+		events.filter { event in
+			event.first?.task.groupIdentifierType == .symptoms
+		}.forEach { event in
+			let followModel = FollowModel(
+				isSelected: event.first?.outcome != nil,
+				title: event.first?.task.title ?? "",
+				event: event.first!
+			)
+			followModels.append(followModel)
+		}
+		symptomData = followModels
 	}
 
 	func modified(event: OCKAnyEvent) -> OCKAnyEvent {
@@ -413,6 +430,10 @@ class NewDailyTasksPageViewModel: ObservableObject {
 			return nil
 		}
 		return OCKOutcome(taskUUID: task.uuid, taskOccurrenceIndex: event.scheduleEvent.occurrence, values: values)
+	}
+
+	func updateFollows(at index: Int) {
+		symptomData[index].isSelected.toggle()
 	}
 }
 

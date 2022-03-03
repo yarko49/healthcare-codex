@@ -160,9 +160,7 @@ class NewDailyTasksPageViewController: BaseViewController {
 			DispatchQueue.main.async {
 				self?.reload()
 			}
-			if self?.careManager.patient?.bgmName != nil {
-				self?.startBluetooth()
-			}
+			self?.startBluetooth()
 		}
 	}
 
@@ -219,33 +217,37 @@ class NewDailyTasksPageViewController: BaseViewController {
 		}
 		isRefreshingCarePlan = true
 		hud.show(in: tabBarController?.view ?? view, animated: true)
-		Task {
+		Task { [weak self] in
 			do {
-				let carePlanResponsee = try await networkAPI.getCarePlan(option: .carePlan)
-				if let tasks = carePlanResponsee.faultyTasks, !tasks.isEmpty {
-					self.showError(tasks: tasks)
+				let carePlanResponse = try await networkAPI.getCarePlan(option: .carePlan)
+				if let tasks = carePlanResponse.faultyTasks, !tasks.isEmpty {
+					self?.showError(tasks: tasks)
 					return
 				}
-				_ = try await careManager.process(carePlanResponse: carePlanResponsee)
-				self.isRefreshingCarePlan = false
-				DispatchQueue.main.async {
-					self.hud.dismiss(animated: true)
+				careManager.process(carePlanResponse: carePlanResponse) { result in
+					switch result {
+					case .failure(let error):
+						ALog.error("Error inserting care plan into db", error: error)
+					case .success:
+						ALog.info("Added new careplan to db")
+					}
 				}
+				_ = try await careManager.process(carePlanResponse: carePlanResponse)
+				self?.isRefreshingCarePlan = false
+				self?.hud.dismiss(animated: true)
 				completion(true)
 			} catch {
-				DispatchQueue.main.async { [weak self] in
-					self?.isRefreshingCarePlan = false
-					self?.hud.dismiss(animated: true)
-					let nsError = error as NSError
-					let code: Set<Int> = [401, 408, -1001]
-					if !code.contains(nsError.code) {
-						ALog.error("Unable to fetch care plan", error: error)
-						let okAction = AlertHelper.AlertAction(withTitle: String.ok)
-						let title = NSLocalizedString("ERROR", comment: "Error")
-						AlertHelper.showAlert(title: title, detailText: error.localizedDescription, actions: [okAction], from: self?.tabBarController)
-					}
-					completion(false)
+				self?.isRefreshingCarePlan = false
+				self?.hud.dismiss(animated: true)
+				let nsError = error as NSError
+				let codes: Set<Int> = [401, 404, 408, -1001]
+				if !codes.contains(nsError.code) {
+					ALog.error("Unable to fetch care plan", error: error)
+					let okAction = AlertHelper.AlertAction(withTitle: String.ok)
+					let title = NSLocalizedString("ERROR", comment: "Error")
+					AlertHelper.showAlert(title: title, detailText: error.localizedDescription, actions: [okAction], from: self?.tabBarController)
 				}
+				completion(false)
 			}
 		}
 	}
@@ -278,7 +280,8 @@ class NewDailyTasksPageViewController: BaseViewController {
 
 extension NewDailyTasksPageViewController: DailyTaskTopViewDelegate {
 	func onClickNotGreat() {
-		let viewController = FollowViewController()
+		let viewController = FollowViewController(viewModel: viewModel, date: selectedDate)
+		viewController.delegate = self
 		viewController.modalTransitionStyle = .crossDissolve
 		viewController.modalPresentationStyle = .overFullScreen
 		present(viewController, animated: true, completion: nil)
@@ -289,5 +292,13 @@ extension NewDailyTasksPageViewController: DailyTaskTopViewDelegate {
 			self.dateStackView.isHidden = false
 			self.view.layoutIfNeeded()
 		}
+	}
+}
+
+// MARK: - FollowViewControllerDelegate
+
+extension NewDailyTasksPageViewController: FollowViewControllerDelegate {
+	func onClickDoneButton() {
+		viewModel.loadHealthData(date: selectedDate)
 	}
 }

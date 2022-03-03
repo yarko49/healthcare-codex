@@ -73,6 +73,7 @@ class SettingsViewController: BaseViewController {
 		let items: [SettingsType] = [.accountDetails, .myDevices, .systemAuthorization, .feedback, .privacyPolicy, .termsOfService, .providers, .logging]
 		snapshot.appendItems(items, toSection: 0)
 		snapshot.appendSections([1])
+		snapshot.appendItems([.troubleShoot], toSection: 1)
 		dataSource.apply(snapshot, animatingDifferences: false) {
 			ALog.info("Finished Apply Snapshot")
 		}
