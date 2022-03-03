@@ -5,6 +5,7 @@
 
 import AuthenticationServices
 import CareKitStore
+import CareModel
 import Combine
 import CryptoKit
 import Firebase

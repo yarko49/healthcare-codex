@@ -6,6 +6,7 @@
 //
 
 import CareKitStore
+import CareModel
 import CodexFoundation
 import Combine
 import SkyFloatingLabelTextField

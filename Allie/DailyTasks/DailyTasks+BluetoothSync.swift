@@ -236,10 +236,15 @@ extension DailyTasksPageViewController {
 			return
 		}
 
-		let samples = records.compactMap { record in
+		var samples = records.compactMap { record in
 			try? HKSample.createBloodPressure(sessionData: sessionData, record: record)
 		}
 
+		let pulseRateSamples = records.compactMap { record in
+			try? HKSample.createRestingHeartRate(sessionData: sessionData, record: record)
+		}
+
+		samples.append(contentsOf: pulseRateSamples)
 		guard !samples.isEmpty else {
 			self.sessionData = nil
 			scanForDevices()

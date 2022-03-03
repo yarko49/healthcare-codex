@@ -7,6 +7,7 @@
 
 import CareKit
 import CareKitStore
+import CareModel
 import CodexFoundation
 import CodexModel
 import Combine
@@ -94,15 +95,6 @@ class CareManager: NSObject, ObservableObject {
 		}
 	}
 
-	var vectorClock: UInt64 {
-		get {
-			UserDefaults.vectorClock
-		}
-		set {
-			UserDefaults.vectorClock = newValue
-		}
-	}
-
 	override required init() {
 		super.init()
 		commonInit()
@@ -175,10 +167,6 @@ class CareManager: NSObject, ObservableObject {
 		uploadOutcomesTimer?.cancel()
 	}
 
-	func isServerVectorClockAhead(serverClock: UInt64) -> Bool {
-		serverClock > vectorClock
-	}
-
 	func reset() {
 		cancellables.forEach { cancellable in
 			cancellable.cancel()
@@ -194,13 +182,30 @@ class CareManager: NSObject, ObservableObject {
 	private(set) var tasks: [String: CHTask] = [:]
 
 	private(set) lazy var dbStore: CoreDataManager = .init(modelName: "HealthStore")
+
+	let processingQueue: DispatchQueue = {
+		let bundleIdentifier = Bundle.main.bundleIdentifier!
+		let queue = DispatchQueue(label: bundleIdentifier + ".CarePlan", qos: .userInitiated, attributes: [], autoreleaseFrequency: .inherit, target: nil)
+		return queue
+	}()
 }
 
 // MARK: - CarePlanResponse
 
 extension CareManager {
 	func process(carePlanResponse: CHCarePlanResponse, forceReset: Bool = false, completion: AllieResultCompletion<CHCarePlanResponse>?) {
-		DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+		// If the care plan response is empty we need to reset every thing
+		if carePlanResponse.carePlans.isEmpty || carePlanResponse.tasks.isEmpty {
+			try? resetAllContents()
+		}
+
+		// if we have a care plan check if the vector clock is ahead then upate, otherwise we are good
+		if let existingCare = self.carePlanResponse, existingCare.vectorClock <= carePlanResponse.vectorClock {
+			completion?(.success(carePlanResponse))
+			return
+		}
+
+		processingQueue.async { [weak self] in
 			Task { [weak self] in
 				guard let strongSelf = self else {
 					return
@@ -223,50 +228,57 @@ extension CareManager {
 			return result
 		}
 
+		let existingCarePlanResponse = self.carePlanResponse
+		patient = carePlanResponse.patients.active.first
 		carePlan = carePlanResponse.carePlans.active.first
 		try save(carePlanResponse: carePlanResponse)
 		self.carePlanResponse = carePlanResponse
-		var activePatient = carePlanResponse.patients.active.first
-		if let patient = activePatient {
-			do {
-				let thePatient = try await process(patient: patient)
-				ALog.info("patient id \(String(describing: thePatient.id)), patient uuid = \(String(describing: thePatient.uuid.uuidString))")
-				self.patient = thePatient
-				updateCarePlanResponse.patients.append(thePatient)
-			} catch {
-				activePatient = nil
-				ALog.error("Error Procesing patient \(patient.id)", error: error)
-			}
+		// We do not store patient object in CareKitStore
+		do {
+			try await deleteAllPatients()
+		} catch {
+			ALog.error("Unable to delete patients", error: error)
+		}
+		// We do not store any careplans in CareKitStore
+
+		do {
+			try await deleteAllCarePlans()
+		} catch {
+			ALog.error("Unable to delete carePlans", error: error)
 		}
 
-		// There should only be one active CarePlan
-		var activeCarePlan: CHCarePlan?
 		let carePlans = carePlanResponse.carePlans
-		if !carePlans.isEmpty {
-			do {
-				let processedCarePlans = try await process(carePlans: carePlans, patient: patient)
-				activeCarePlan = processedCarePlans.active.first
-				updateCarePlanResponse.carePlans.append(contentsOf: processedCarePlans)
-				ALog.info("CarePlan id \(String(describing: activeCarePlan?.id)), carePlan uuid \(String(describing: activeCarePlan?.uuid))")
-			} catch {
-				ALog.error("Error Procesing carePlans \(String(describing: activeCarePlan?.id))", error: error)
-			}
-		}
-
+		let activeCarePlan = carePlans.active.first
 		let toProcess = carePlanResponse.tasks(forCarePlanId: activeCarePlan?.id ?? "")
 		if !toProcess.isEmpty {
-			do {
-				let processedTasks = try await process(tasks: toProcess, carePlan: activeCarePlan)
-				ALog.info("Tasks saved = \(String(describing: processedTasks.count))")
-				updateCarePlanResponse.tasks.append(contentsOf: processedTasks)
-			} catch {
-				ALog.error("Error Procesing tasks", error: error)
+			let existingTasks = existingCarePlanResponse?.tasks ?? []
+			let shouldUpdateTasks = existingTasks != toProcess
+
+			if shouldUpdateTasks {
+				let excludedTasks = toProcess.map { task in
+					task.id
+				}
+				ALog.info("excluded Tasks = \(excludedTasks)")
+				try await deleteTasks(exclude: excludedTasks, carePlans: [])
+				do {
+					let existingTasksById: [String: CHTask] = existingTasks.reduce([:]) { partialResult, task in
+						var result = partialResult
+						result[task.id] = task
+						return result
+					}
+
+					let processedTasks = try await process(tasks: toProcess, carePlan: activeCarePlan, existingTasks: existingTasksById)
+					ALog.info("Tasks saved = \(String(describing: processedTasks.count))")
+					updateCarePlanResponse.tasks.append(contentsOf: processedTasks)
+				} catch {
+					ALog.error("Error Procesing tasks", error: error)
+				}
 			}
 		}
 		let toDelete = carePlanResponse.tasks.deleted
 		if !toDelete.isEmpty {
 			do {
-				let processedTasks = try await process(tasks: toProcess, carePlan: activeCarePlan)
+				let processedTasks = try await process(tasks: toProcess, carePlan: activeCarePlan, existingTasks: [:])
 				updateCarePlanResponse.tasks.append(contentsOf: processedTasks)
 				ALog.info("Tasks deleted = \(String(describing: processedTasks.count))")
 			} catch {

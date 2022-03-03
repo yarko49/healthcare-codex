@@ -6,6 +6,7 @@
 //
 
 import CareKitStore
+import CareModel
 import CoreData
 import Foundation
 import HealthKit

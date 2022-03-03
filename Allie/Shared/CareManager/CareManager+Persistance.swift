@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 10/15/21.
 //
 
+import CareModel
 import CodexFoundation
 import Foundation
 

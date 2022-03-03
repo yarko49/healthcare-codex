@@ -8,6 +8,8 @@
 import Combine
 import UIKit
 import WebService
+import WebServiceCombine
+import WebServiceConcurrency
 
 public extension WebService {
 	func loadImage(urlString: String) -> AnyPublisher<UIImage, Error> {

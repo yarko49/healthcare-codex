@@ -6,18 +6,11 @@
 //
 
 import BluetoothService
+import CareModel
 import Combine
 import CoreBluetooth
 import Foundation
 import HealthKit
-
-let BGMMetadataKeySequenceNumber = "BGMSequenceNumber"
-let BGMMetadataKeyBloodSampleType = "BGMBloodSampleType"
-let BGMMetadataKeySampleLocation = "BGMSampleLocation"
-let BGMMetadataKeyDeviceName = "BGMDeviceName"
-let BGMMetadataKeyDeviceId = "BGMDeviceId"
-let BGMMetadataKeyMeasurementRecord = "BMGMeasurementRecord"
-let BGMMetadataKeyContextRecord = "BGMContextRecord"
 
 extension BloodGlucoseRecord {
 	var metadata: [String: Any] {

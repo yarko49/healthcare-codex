@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 12/17/20.
 //
 
+import CareModel
 import CodexFoundation
 import Combine
 import Firebase

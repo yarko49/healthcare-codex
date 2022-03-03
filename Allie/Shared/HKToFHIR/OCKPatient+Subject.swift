@@ -6,6 +6,7 @@
 //
 
 import CareKitStore
+import CareModel
 import CodexModel
 import Foundation
 import HKToFHIR

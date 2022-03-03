@@ -6,6 +6,7 @@
 //
 
 import BluetoothService
+import CareModel
 import CodexFoundation
 import CoreBluetooth
 import OmronKit

@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 4/14/21.
 //
 
+import CareModel
 import CodexFoundation
 import Combine
 import InputBarAccessoryView

@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 9/7/21.
 //
 
+import CareModel
 import CoreBluetooth
 import Foundation
 

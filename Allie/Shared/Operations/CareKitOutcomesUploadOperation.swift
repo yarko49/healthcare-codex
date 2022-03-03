@@ -6,6 +6,7 @@
 //
 
 import CareKitStore
+import CareModel
 import Foundation
 
 class CareKitOutcomesUploadOperation: OutcomesUploadOperation {

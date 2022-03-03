@@ -1,3 +1,4 @@
+import CareModel
 import CodexFoundation
 import Firebase
 import FirebaseAuth

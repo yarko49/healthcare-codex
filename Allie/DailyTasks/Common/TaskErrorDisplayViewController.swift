@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 5/14/21.
 //
 
+import CareModel
 import UIKit
 
 class TaskErrorDisplayViewController: UITableViewController {
