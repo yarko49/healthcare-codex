@@ -154,6 +154,8 @@
 		477BA0DC279012300056D5BA /* PairingItem+BloodGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477BA0DB279012300056D5BA /* PairingItem+BloodGlucose.swift */; };
 		477BA0DD279012300056D5BA /* PairingItem+BloodGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477BA0DB279012300056D5BA /* PairingItem+BloodGlucose.swift */; };
 		477BA0DE279012300056D5BA /* PairingItem+BloodGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477BA0DB279012300056D5BA /* PairingItem+BloodGlucose.swift */; };
+		47868D2427D185C400E5D6FB /* WebServiceConcurrency in Frameworks */ = {isa = PBXBuildFile; productRef = 47868D2327D185C400E5D6FB /* WebServiceConcurrency */; };
+		47868D2627D1C6E300E5D6FB /* WebServiceCombine in Frameworks */ = {isa = PBXBuildFile; productRef = 47868D2527D1C6E300E5D6FB /* WebServiceCombine */; };
 		47892DA327857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
 		47892DA427857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
 		47892DA527857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
@@ -1712,6 +1714,7 @@
 				847DCCB5265871F3004E9C1D /* SkyFloatingLabelTextField in Frameworks */,
 				84A9D89226AA92B4001E83B2 /* WebService in Frameworks */,
 				847DCCB6265871F3004E9C1D /* CareKitFHIR in Frameworks */,
+				47868D2627D1C6E300E5D6FB /* WebServiceCombine in Frameworks */,
 				84C2E001270D8157009168F7 /* HealthKit.framework in Frameworks */,
 				847DCCB7265871F3004E9C1D /* CareKitStore in Frameworks */,
 				84CEF53826891F39000C4C56 /* SDWebImageSwiftUI in Frameworks */,
@@ -1731,6 +1734,7 @@
 				847DCCC6265871F3004E9C1D /* FirebaseCrashlytics in Frameworks */,
 				849FDE9B2761C0A80026F905 /* OmronKit.framework in Frameworks */,
 				847BBE9826DDF3A800402B47 /* OrderedCollections in Frameworks */,
+				47868D2427D185C400E5D6FB /* WebServiceConcurrency in Frameworks */,
 				847DCCC7265871F3004E9C1D /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3002,6 +3006,8 @@
 				474089C92792B5B200DEC810 /* HKToFHIR */,
 				473775F42792BFE00010C308 /* CodexModel */,
 				47734F642792C3CA00AA44EF /* CodexFoundation */,
+				47868D2327D185C400E5D6FB /* WebServiceConcurrency */,
+				47868D2527D1C6E300E5D6FB /* WebServiceCombine */,
 			);
 			productName = Alfred;
 			productReference = 847DCCE1265871F3004E9C1D /* Allie Dev.app */;
@@ -3983,7 +3989,6 @@
 				8449A666267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				848994C926941CBE0057C6C4 /* GeneralizedLogTaskDetailViewController.swift in Sources */,
 				25AEDA8927ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */,
-				84A9E25726E9C93300D3096F /* RecordItem.swift in Sources */,
 				8450848D271AA6000014764A /* RemoteConfigManager.swift in Sources */,
 				258F1BE627B3C6B500988D63 /* NumericProgressCell.swift in Sources */,
 				846F978327169EA80094735E /* HKDiscreteQuantitySample+Copying.swift in Sources */,
@@ -4332,7 +4337,6 @@
 				8449A665267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				848994C826941CBE0057C6C4 /* GeneralizedLogTaskDetailViewController.swift in Sources */,
 				25AEDA8827ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */,
-				84A9E25626E9C93300D3096F /* RecordItem.swift in Sources */,
 				8450848C271AA6000014764A /* RemoteConfigManager.swift in Sources */,
 				258F1BE527B3C6B500988D63 /* NumericProgressCell.swift in Sources */,
 				846F978227169EA80094735E /* HKDiscreteQuantitySample+Copying.swift in Sources */,
@@ -4865,7 +4869,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4895,7 +4899,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -5476,6 +5480,16 @@
 		47734F682792C3D800AA44EF /* CodexFoundation */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CodexFoundation;
+		};
+		47868D2327D185C400E5D6FB /* WebServiceConcurrency */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84A9D88C26AA9286001E83B2 /* XCRemoteSwiftPackageReference "WebService" */;
+			productName = WebServiceConcurrency;
+		};
+		47868D2527D1C6E300E5D6FB /* WebServiceCombine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84A9D88C26AA9286001E83B2 /* XCRemoteSwiftPackageReference "WebService" */;
+			productName = WebServiceCombine;
 		};
 		842D018B267C53FF006B708F /* TwilioConversationsClient */ = {
 			isa = XCSwiftPackageProductDependency;
