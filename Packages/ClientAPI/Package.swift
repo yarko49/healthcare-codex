@@ -25,6 +25,8 @@ let package = Package(
 		.target(
 			name: "ClientAPI",
 			dependencies: ["WebService", "CodexModel",
+			               .product(name: "WebServiceCombine", package: "WebService"),
+			               .product(name: "WebServiceConcurrency", package: "WebService"),
 			               .product(name: "ModelsR4", package: "FHIRModels")]
 		),
 		.testTarget(
