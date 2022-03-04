@@ -10,6 +10,10 @@ import CodexFoundation
 import SDWebImage
 import UIKit
 
+protocol FeaturedCellDelegate: AnyObject {
+	func onClickFeaturedCell(task: OCKTask, image: UIImage)
+}
+
 class FeaturedCell: UICollectionViewCell {
 	static let cellID: String = "FeaturedCell"
 	var timelineViewModel: TimelineItemViewModel!
@@ -28,6 +32,7 @@ class FeaturedCell: UICollectionViewCell {
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		imageView.layer.cornerRadius = 8.0
 		imageView.clipsToBounds = true
+		imageView.isUserInteractionEnabled = true
 		imageView.contentMode = .scaleAspectFill
 		return imageView
 	}()
@@ -41,6 +46,8 @@ class FeaturedCell: UICollectionViewCell {
 		title.textColor = .white
 		return title
 	}()
+
+	weak var delegate: FeaturedCellDelegate?
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -77,6 +84,8 @@ class FeaturedCell: UICollectionViewCell {
 		title.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20).isActive = true
 		title.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20).isActive = true
 		title.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
+
+		imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onClickFeaturedCell)))
 	}
 
 	func configureCell(timelineItemViewModel: TimelineItemViewModel) {
@@ -100,5 +109,10 @@ class FeaturedCell: UICollectionViewCell {
 				imageView.sd_setImage(with: faturedURL, completed: nil)
 			}
 		}
+	}
+
+	@objc func onClickFeaturedCell() {
+		let task = timelineViewModel.timelineItemModel.event.task
+		delegate?.onClickFeaturedCell(task: (task as? OCKTask)!, image: imageView.image!)
 	}
 }

@@ -53,9 +53,8 @@ class AppCoordinator: BaseCoordinator {
 		self.conversationsNavController = Self.conversationsNavController(rootViewController: chatController)
 //		self.tabBarController = UITabBarController()
 		self.tabBarController = RoundedTabBarController()
-//		tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, conversationsNavController!, Self.settingsNavController]
-		//        tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, Self.settingsNavController]
-		tabBarController?.viewControllers = [todayNavController!, Self.carePlanNavController, Self.chartNavController, Self.settingsNavController]
+		tabBarController?.viewControllers = [todayNavController!, Self.profileNavController, conversationsNavController!, Self.settingsNavController]
+//		tabBarController?.viewControllers = [todayNavController!, Self.carePlanNavController, Self.chartNavController, Self.settingsNavController]
 		start()
 	}
 

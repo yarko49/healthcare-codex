@@ -7,7 +7,12 @@
 
 import CareKitStore
 import CareKitUI
+import MessageKit
 import UIKit
+
+protocol LinkCellDelegate: AnyObject {
+	func onClickLinkItem(linkItem: CHLink)
+}
 
 class LinkCell: UICollectionViewCell {
 	static let cellID: String = "LinkCell"
@@ -69,6 +74,8 @@ class LinkCell: UICollectionViewCell {
 		return footerStackView
 	}()
 
+	weak var delegate: LinkCellDelegate?
+
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupViews()
@@ -81,7 +88,12 @@ class LinkCell: UICollectionViewCell {
 
 	override func prepareForReuse() {
 		super.prepareForReuse()
-		footerStackView.arrangedSubviews.forEach { footerStackView.removeArrangedSubview($0) }
+		footerStackView.arrangedSubviews.forEach {
+			$0.subviews.forEach { subItem in
+				subItem.removeFromSuperview()
+			}
+			footerStackView.removeArrangedSubview($0)
+		}
 		container.backgroundColor = .clear
 	}
 
@@ -123,8 +135,8 @@ class LinkCell: UICollectionViewCell {
 		} else {
 			subTitle.isHidden = true
 		}
-		if let task = timelineItemViewModel.timelineItemModel.event.task as? OCKTask, let linkItems = task.linkItems, !linkItems.isEmpty {
-			linkItems.forEach { linkItem in
+		if let task = timelineItemViewModel.timelineItemModel.event.task as? OCKTask, let chLinkItems = task.links, !chLinkItems.isEmpty {
+			for (index, chLinkItem) in chLinkItems.enumerated() {
 				let linkItemView = UIView()
 				linkItemView.backgroundColor = .clear
 				linkItemView.layer.cornerRadius = 4.0
@@ -134,10 +146,14 @@ class LinkCell: UICollectionViewCell {
 				linkTitle.numberOfLines = 1
 				let linkImage = UIImageView()
 				linkImage.tintColor = .darkGray
-				[linkItemView, linkTitle, linkImage].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+				let actionButton = UIButton()
+				actionButton.backgroundColor = .clear
+				actionButton.setTitle("", for: .normal)
+				actionButton.tag = index
+				[linkItemView, linkTitle, linkImage, actionButton].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 				footerStackView.addArrangedSubview(linkItemView)
 				linkItemView.widthAnchor.constraint(equalTo: footerStackView.widthAnchor, multiplier: 1.0).isActive = true
-				[linkTitle, linkImage].forEach { linkItemView.addSubview($0) }
+				[linkTitle, linkImage, actionButton].forEach { linkItemView.addSubview($0) }
 
 				let topAnchor = linkImage.topAnchor.constraint(equalTo: linkItemView.topAnchor, constant: 6)
 				topAnchor.priority = .defaultLow
@@ -151,32 +167,44 @@ class LinkCell: UICollectionViewCell {
 				linkTitle.leadingAnchor.constraint(equalTo: linkItemView.leadingAnchor, constant: 6).isActive = true
 				linkTitle.trailingAnchor.constraint(equalTo: linkImage.leadingAnchor, constant: 6).isActive = true
 
-				switch linkItem {
-				case .appStore(_, let title):
-					linkTitle.text = title
+				actionButton.centerXAnchor.constraint(equalTo: linkItemView.centerXAnchor).isActive = true
+				actionButton.centerYAnchor.constraint(equalTo: linkItemView.centerYAnchor).isActive = true
+				actionButton.leadingAnchor.constraint(equalTo: linkItemView.leadingAnchor).isActive = true
+				actionButton.topAnchor.constraint(equalTo: linkItemView.topAnchor).isActive = true
+				actionButton.addTarget(self, action: #selector(onClickLinkItem), for: .touchUpInside)
+
+				linkTitle.text = chLinkItem.title
+				switch chLinkItem.linkItem {
+				case .appStore:
 					linkImage.image = UIImage(systemName: LinkSymbols.appStore)
-				case .url(_, title: let title, let symbol):
-					linkTitle.text = title
+				case .url(_, _, let symbol):
 					linkImage.image = UIImage(systemName: symbol)
-				case .website(_, title: let title):
-					linkTitle.text = title
+				case .website:
 					linkImage.image = UIImage(systemName: LinkSymbols.website)
-				case .location(_, _, title: let title):
-					linkTitle.text = title
+				case .location:
 					linkImage.image = UIImage(systemName: LinkSymbols.address)
-				case .call(phoneNumber: _, title: let title):
-					linkTitle.text = title
+				case .call:
 					linkImage.image = UIImage(systemName: LinkSymbols.call)
-				case .message(phoneNumber: _, title: let title):
-					linkTitle.text = title
+				case .message:
 					linkImage.image = UIImage(systemName: LinkSymbols.message)
-				case .email(recipient: _, title: let title):
-					linkTitle.text = title
+				case .email:
 					linkImage.image = UIImage(systemName: LinkSymbols.email)
+				case .none:
+					break
 				}
 			}
 		} else {
 			footerStackView.isHidden = true
+		}
+	}
+
+	@objc func onClickLinkItem(sender: UIButton) {
+		if let task = timelineViewModel.timelineItemModel.event.task as? OCKTask, let linkItems = task.links, !linkItems.isEmpty {
+			let index = sender.tag
+			let linkItem = linkItems[index]
+			delegate?.onClickLinkItem(linkItem: linkItem)
+		} else {
+			return
 		}
 	}
 }

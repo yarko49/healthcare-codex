@@ -8,9 +8,11 @@
 import BluetoothService
 import CareKit
 import CareKitStore
+import CareKitUI
 import CodexFoundation
 import Combine
 import JGProgressHUD
+import SafariServices
 import SwiftUI
 import UIKit
 
@@ -46,10 +48,12 @@ extension NewDailyTasksPageViewController: UICollectionViewDelegate, UICollectio
 					if taskType == .link {
 						let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LinkCell.cellID, for: indexPath) as! LinkCell
 						cell.configureCell(timelineItemViewModel: timelineViewModel)
+						cell.delegate = self
 						return cell
 					} else if taskType == .featuredContent {
 						let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeaturedCell.cellID, for: indexPath) as! FeaturedCell
 						cell.configureCell(timelineItemViewModel: timelineViewModel)
+						cell.delegate = self
 						return cell
 					} else if taskType == .numericProgress {
 						let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NumericProgressCell.cellID, for: indexPath) as! NumericProgressCell
@@ -73,10 +77,12 @@ extension NewDailyTasksPageViewController: UICollectionViewDelegate, UICollectio
 					if taskType == .link {
 						let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LinkCell.cellID, for: indexPath) as! LinkCell
 						cell.configureCell(timelineItemViewModel: timelineViewModel)
+						cell.delegate = self
 						return cell
 					} else if taskType == .featuredContent {
 						let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeaturedCell.cellID, for: indexPath) as! FeaturedCell
 						cell.configureCell(timelineItemViewModel: timelineViewModel)
+						cell.delegate = self
 						return cell
 					} else if taskType == .numericProgress {
 						let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NumericProgressCell.cellID, for: indexPath) as! NumericProgressCell
@@ -302,6 +308,57 @@ extension NewDailyTasksPageViewController: HealthCellDelegate {
 				self?.viewModel.loadHealthData(date: self!.selectedDate)
 			case .failure(let error):
 				ALog.error("unable to upload outcome", error: error)
+			}
+		}
+	}
+}
+
+extension NewDailyTasksPageViewController: LinkCellDelegate {
+	func onClickLinkItem(linkItem: CHLink) {
+		if let url = linkItem.linkItem?.url {
+			if linkItem.type == .url {
+				let config = SFSafariViewController.Configuration()
+				config.entersReaderIfAvailable = true
+				let vc = SFSafariViewController(url: url, configuration: config)
+				present(vc, animated: true, completion: nil)
+			} else {
+				UIApplication.shared.open(url)
+			}
+		} else {
+			return
+		}
+	}
+}
+
+extension NewDailyTasksPageViewController: FeaturedCellDelegate {
+	func onClickFeaturedCell(task: OCKTask, image: UIImage) {
+		if let html = task.featuredContentDetailViewHTML, !html.isEmpty {
+			let css = task.featuredContentDetailViewCSS
+			let title = task.featuredContentDetailViewImageLabel ?? task.title
+			let imageURL = task.featuredContentImageURL
+			showHTMLCSSContent(title: title, html: html, css: css, image: image, imageURL: imageURL)
+		} else if let text = task.featuredContentDetailViewText, !text.isEmpty {
+			let imageURL = task.featuredContentImageURL
+			let title = task.featuredContentDetailViewImageLabel
+			showTextContent(title: title, content: text, image: image, imageURL: imageURL)
+		} else if let url = task.featuredContentDetailViewURL {
+			showURLContent(url: url)
+		} else {
+			if let asset = task.featuredContentDetailViewAsset, asset.hasSuffix("pdf") {
+				hud.show(in: tabBarController?.view ?? navigationController?.view ?? view, animated: true)
+				careManager.pdfData(task: task) { [weak self] result in
+					DispatchQueue.main.async {
+						self?.hud.dismiss(animated: true)
+					}
+					switch result {
+					case .failure(let error):
+						ALog.error("Unable to download Feature Content", error: error)
+					case .success(let url):
+						DispatchQueue.main.async {
+							self?.showPDFContent(url: url, title: task.featuredContentDetailViewImageLabel ?? task.title)
+						}
+					}
+				}
 			}
 		}
 	}
