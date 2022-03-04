@@ -52,6 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		Self.configureZendesk()
 		UNUserNotificationCenter.current().delegate = self
 		Messaging.messaging().delegate = self
+		UserDefaults.zendeskChatNotificationCount = 12
 		ALog.trace("-----------------------> Start of the App <-----------------------")
 		return true
 	}

@@ -65,7 +65,6 @@ class SettingsViewController: BaseViewController {
 				return cell
 			}
 		})
-		tabBarController?.tabBar.items![3].badgeValue = "99"
 		tableView.rowHeight = rowHeight
 		tableView.delegate = self
 		var snapshot = dataSource.snapshot()
@@ -384,21 +383,5 @@ extension SettingsViewController: MFMailComposeViewControllerDelegate {
 				try? Data().write(to: fileURL, options: .noFileProtection)
 			}
 		}
-	}
-}
-
-extension UITableViewCell {
-	func setTableViewCellBadge(badgeCount: Int) {
-		let size: CGFloat = 26
-		let digits = CGFloat("\(badgeCount)".count)
-		let width = max(size, 0.7 * size * digits)
-		let badgeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: size))
-		badgeLabel.text = "\(badgeCount)"
-		badgeLabel.layer.cornerRadius = size / 2.0
-		badgeLabel.layer.masksToBounds = true
-		badgeLabel.textAlignment = .center
-		badgeLabel.backgroundColor = .red
-		badgeLabel.textColor = .white
-		accessoryView = badgeLabel
 	}
 }

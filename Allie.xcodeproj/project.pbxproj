@@ -91,6 +91,12 @@
 		25AF7F8627C712FC00F67CCF /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AF7F8527C712FC00F67CCF /* ChartViewController.swift */; };
 		25AF7F8727C712FC00F67CCF /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AF7F8527C712FC00F67CCF /* ChartViewController.swift */; };
 		25AF7F8827C712FC00F67CCF /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AF7F8527C712FC00F67CCF /* ChartViewController.swift */; };
+		25DD5D7027D2BBAE00C32282 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD5D6F27D2BBAE00C32282 /* BadgeView.swift */; };
+		25DD5D7127D2BBAE00C32282 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD5D6F27D2BBAE00C32282 /* BadgeView.swift */; };
+		25DD5D7227D2BBAE00C32282 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD5D6F27D2BBAE00C32282 /* BadgeView.swift */; };
+		25DD5D7427D2C7F200C32282 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD5D7327D2C7F200C32282 /* SettingCell.swift */; };
+		25DD5D7527D2C7F200C32282 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD5D7327D2C7F200C32282 /* SettingCell.swift */; };
+		25DD5D7627D2C7F200C32282 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD5D7327D2C7F200C32282 /* SettingCell.swift */; };
 		473775F52792BFE00010C308 /* CodexModel in Frameworks */ = {isa = PBXBuildFile; productRef = 473775F42792BFE00010C308 /* CodexModel */; };
 		473775F72792BFE80010C308 /* CodexModel in Frameworks */ = {isa = PBXBuildFile; productRef = 473775F62792BFE80010C308 /* CodexModel */; };
 		473775F92792BFEF0010C308 /* CodexModel in Frameworks */ = {isa = PBXBuildFile; productRef = 473775F82792BFEF0010C308 /* CodexModel */; };
@@ -1247,6 +1253,8 @@
 		259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDailyTasksPageViewModel.swift; sourceTree = "<group>"; };
 		25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineItemViewModel.swift; sourceTree = "<group>"; };
 		25AF7F8527C712FC00F67CCF /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
+		25DD5D6F27D2BBAE00C32282 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
+		25DD5D7327D2C7F200C32282 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		473775FA2792C2F00010C308 /* CodexFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CodexFoundation; sourceTree = "<group>"; };
 		4738FCD127914544000686FA /* PairingItem+BloodPressure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PairingItem+BloodPressure.swift"; sourceTree = "<group>"; };
 		474089C62792B10C00DEC810 /* HKToFHIR */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = HKToFHIR; sourceTree = "<group>"; };
@@ -2256,6 +2264,7 @@
 				84476644259C2A4E00C50C09 /* AppleHealthView.swift */,
 				842DFCEA25BBF52F00066A07 /* AppleHealthView.xib */,
 				8447663E259C2A4E00C50C09 /* ProfileChartView.swift */,
+				25DD5D6F27D2BBAE00C32282 /* BadgeView.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -2264,6 +2273,7 @@
 			isa = PBXGroup;
 			children = (
 				84476680259C2A4E00C50C09 /* SettingsViewController.swift */,
+				25DD5D7327D2C7F200C32282 /* SettingCell.swift */,
 				844766A4259C2A4E00C50C09 /* SettingsType.swift */,
 				8482203226ED2B1800DDD77A /* ConnectedDevicesViewController.swift */,
 				848723E92734E98800F0D4CA /* ConnectedDevicesSectionHeaderView.swift */,
@@ -3539,6 +3549,7 @@
 				84D3F690264A4C2800241BBB /* OCKTaskEvents+Extension.swift in Sources */,
 				8439776A26BBC32E002A932E /* OCKTask+CareKitUI.swift in Sources */,
 				47DA6AAE27B79FE5006C2BBC /* BSOSessionData+Validation.swift in Sources */,
+				25DD5D7027D2BBAE00C32282 /* BadgeView.swift in Sources */,
 				842322612717E228008B50F0 /* FileLoggingConfig.swift in Sources */,
 				84873BA225CA7765004195BB /* OCKStore+Update.swift in Sources */,
 				84EDA18F26577DF30049323C /* HKDiscreteQuantitySample+Insulin.swift in Sources */,
@@ -3637,6 +3648,7 @@
 				84B9739926EDD3020094B35C /* CareManager+Patients.swift in Sources */,
 				8408844026884001003C3AE2 /* Color+Names.swift in Sources */,
 				8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */,
+				25DD5D7427D2C7F200C32282 /* SettingCell.swift in Sources */,
 				25AEDA8727ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */,
 				8449A664267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				8450848B271AA6000014764A /* RemoteConfigManager.swift in Sources */,
@@ -3896,6 +3908,7 @@
 				847DCC25265871F3004E9C1D /* HealthKitDataType.swift in Sources */,
 				8426167C269A70B5006BD8B0 /* GeneralizedLogTaskView.swift in Sources */,
 				84D1129F26D46A38000BA718 /* UIButton+Custom.swift in Sources */,
+				25DD5D7227D2BBAE00C32282 /* BadgeView.swift in Sources */,
 				847DCC26265871F3004E9C1D /* APIClient.swift in Sources */,
 				847DCC27265871F3004E9C1D /* CHPatient+OCKPatient.swift in Sources */,
 				84261684269A70F6006BD8B0 /* GeneralizedLogTaskViewController.swift in Sources */,
@@ -3973,6 +3986,7 @@
 				8408843E26883F8C003C3AE2 /* FilledButton.swift in Sources */,
 				847DCC52265871F3004E9C1D /* CHOutcome+HKStatistics.swift in Sources */,
 				84037C1A26CB5B6200C87189 /* CHDevice+CBPeripheral.swift in Sources */,
+				25DD5D7627D2C7F200C32282 /* SettingCell.swift in Sources */,
 				847DCC53265871F3004E9C1D /* BaseViewController.swift in Sources */,
 				845B453D269B9BDC00EC5211 /* HKCategoryTypeIdentifier+Linkage.swift in Sources */,
 				847DCC56265871F3004E9C1D /* TextContentDetailViewController.swift in Sources */,
@@ -3983,7 +3997,6 @@
 				8449A666267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				848994C926941CBE0057C6C4 /* GeneralizedLogTaskDetailViewController.swift in Sources */,
 				25AEDA8927ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */,
-				84A9E25726E9C93300D3096F /* RecordItem.swift in Sources */,
 				8450848D271AA6000014764A /* RemoteConfigManager.swift in Sources */,
 				258F1BE627B3C6B500988D63 /* NumericProgressCell.swift in Sources */,
 				846F978327169EA80094735E /* HKDiscreteQuantitySample+Copying.swift in Sources */,
@@ -4245,6 +4258,7 @@
 				84D12253264112DE00990196 /* HealthKitDataType.swift in Sources */,
 				8426167B269A70B5006BD8B0 /* GeneralizedLogTaskView.swift in Sources */,
 				84D1129E26D46A38000BA718 /* UIButton+Custom.swift in Sources */,
+				25DD5D7127D2BBAE00C32282 /* BadgeView.swift in Sources */,
 				84D12254264112DE00990196 /* APIClient.swift in Sources */,
 				84D12255264112DE00990196 /* CHPatient+OCKPatient.swift in Sources */,
 				84261683269A70F6006BD8B0 /* GeneralizedLogTaskViewController.swift in Sources */,
@@ -4322,6 +4336,7 @@
 				8408843D26883F8C003C3AE2 /* FilledButton.swift in Sources */,
 				84EDA196265786120049323C /* CHOutcome+HKStatistics.swift in Sources */,
 				84037C1926CB5B6200C87189 /* CHDevice+CBPeripheral.swift in Sources */,
+				25DD5D7527D2C7F200C32282 /* SettingCell.swift in Sources */,
 				84D1227F264112DE00990196 /* BaseViewController.swift in Sources */,
 				845B453C269B9BDC00EC5211 /* HKCategoryTypeIdentifier+Linkage.swift in Sources */,
 				84D12282264112DE00990196 /* TextContentDetailViewController.swift in Sources */,
@@ -4332,7 +4347,6 @@
 				8449A665267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				848994C826941CBE0057C6C4 /* GeneralizedLogTaskDetailViewController.swift in Sources */,
 				25AEDA8827ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */,
-				84A9E25626E9C93300D3096F /* RecordItem.swift in Sources */,
 				8450848C271AA6000014764A /* RemoteConfigManager.swift in Sources */,
 				258F1BE527B3C6B500988D63 /* NumericProgressCell.swift in Sources */,
 				846F978227169EA80094735E /* HKDiscreteQuantitySample+Copying.swift in Sources */,
