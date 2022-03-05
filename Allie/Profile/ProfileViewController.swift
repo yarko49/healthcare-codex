@@ -3,6 +3,7 @@
 //  Allie
 //
 
+import CareModel
 import CodexFoundation
 import HealthKit
 import ModelsR4

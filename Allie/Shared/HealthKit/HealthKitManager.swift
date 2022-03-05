@@ -4,6 +4,7 @@
 //
 
 import CareKit
+import CareModel
 import CodexFoundation
 import Combine
 import Foundation

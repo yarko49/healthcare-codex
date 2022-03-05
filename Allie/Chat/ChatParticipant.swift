@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 7/3/21.
 //
 
+import CareModel
 import Foundation
 import MessageKit
 

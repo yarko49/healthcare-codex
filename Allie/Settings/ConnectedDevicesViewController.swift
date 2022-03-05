@@ -7,6 +7,7 @@
 
 import AuthenticationServices
 import BluetoothService
+import CareModel
 import CodexFoundation
 import CodexModel
 import Combine

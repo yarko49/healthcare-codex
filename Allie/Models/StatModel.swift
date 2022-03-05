@@ -1,3 +1,4 @@
+import CareModel
 import Foundation
 import HealthKit
 

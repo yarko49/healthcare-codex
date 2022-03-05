@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 10/12/21.
 //
 
+import CareModel
 import Foundation
 import HealthKit
 

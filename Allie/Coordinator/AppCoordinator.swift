@@ -12,7 +12,6 @@ import KeychainAccess
 import LocalAuthentication
 import UIKit
 
-@MainActor
 class AppCoordinator: BaseCoordinator {
 	weak var parent: MainCoordinator?
 	var tabBarController: UITabBarController?
@@ -127,10 +126,8 @@ class AppCoordinator: BaseCoordinator {
 	}
 
 	deinit {
-		DispatchQueue.main.async { [weak self] in
-			self?.navigationController?.viewControllers = []
-			self?.rootViewController?.dismiss(animated: true, completion: nil)
-		}
+		navigationController?.viewControllers = []
+		rootViewController?.dismiss(animated: true, completion: nil)
 	}
 
 	func organizaionRegistraionDidChange(animated: Bool = true) {

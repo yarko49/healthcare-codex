@@ -6,6 +6,8 @@
 //
 
 import BluetoothService
+import CareModel
+import CoreBluetooth
 import Foundation
 import OmronKit
 
@@ -14,14 +16,12 @@ extension CHPeripheral {
 		let discoveryInfo = OHQDeviceDiscoveryInfo(peripheral: peripheral.peripheral, rawAdvertisementData: peripheral.advertisementData.advertisementData, rssi: peripheral.rssi)
 		let deviceInfo: [OHQDeviceInfoKey: Any] = discoveryInfo.deviceInfo
 		let advertisementData = deviceInfo.advertisementData
-		let manufacturerData: [OHQManufacturerDataKey: Any]? = advertisementData?.manufacturerData
+		// let manufacturerData: [OHQManufacturerDataKey: Any]? = advertisementData?.manufacturerData
 
 		guard let name = discoveryInfo.modelName ?? peripheral.name else {
 			throw AllieError.missing("name")
 		}
-		self.id = advertisementData?.localName ?? name
-		self.localId = peripheral.identifier.uuidString
-		self.name = name
-		self.type = type
+
+		self.init(id: advertisementData?.localName ?? name, type: type, name: name, localId: peripheral.identifier.uuidString)
 	}
 }

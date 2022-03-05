@@ -3,6 +3,7 @@
 //  Allie
 //
 
+import CareModel
 import Charts
 import Foundation
 import UIKit

@@ -9,6 +9,7 @@ import BluetoothService
 import CareKit
 import CareKitStore
 import CareKitUI
+import CareModel
 import CodexFoundation
 import Combine
 import CoreBluetooth
@@ -28,6 +29,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	var deviceInfoCache: [UUID: [OHQDeviceInfoKey: Any]] = [:]
 	var stopScanCompletion: VoidCompletionHandler?
 	var managerStateObserver: NSKeyValueObservation?
+
 	var userData: [OHQUserDataKey: Any] = [:]
 	var sessionData: SessionData?
 

@@ -6,6 +6,7 @@
 //
 
 import CareKitStore
+import CareModel
 import HealthKit
 
 extension CareManager {

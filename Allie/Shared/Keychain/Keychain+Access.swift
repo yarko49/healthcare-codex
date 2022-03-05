@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 5/23/21.
 //
 
+import CareModel
 import CodexModel
 import Foundation
 import KeychainAccess

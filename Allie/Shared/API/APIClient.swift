@@ -5,6 +5,7 @@
 //  Created by Waqar Malik on 12/16/20.
 //
 
+import CareModel
 import ClientAPI
 import CodexFoundation
 import CodexModel

@@ -7,6 +7,7 @@
 
 import CareKit
 import CareKitStore
+import CareModel
 import Combine
 import CoreData
 import Foundation
