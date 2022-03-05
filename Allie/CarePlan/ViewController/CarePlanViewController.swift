@@ -5,6 +5,7 @@
 //  Created by Onseen on 2/20/22.
 //
 
+import CareModel
 import Combine
 import SwiftUI
 import UIKit

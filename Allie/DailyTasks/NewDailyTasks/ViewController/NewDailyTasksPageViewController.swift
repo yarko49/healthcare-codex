@@ -8,6 +8,7 @@ import BluetoothService
 import CareKit
 import CareKitStore
 import CareKitUI
+import CareModel
 import CodexFoundation
 import Combine
 import CoreBluetooth

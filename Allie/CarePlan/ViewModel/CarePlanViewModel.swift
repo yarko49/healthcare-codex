@@ -7,6 +7,7 @@
 
 import CareKit
 import CareKitStore
+import CareModel
 import CodexFoundation
 import Combine
 import Foundation
@@ -35,15 +36,15 @@ class CarePlanViewModel: ObservableObject {
 				let groupedTasks = Dictionary(grouping: tasks) { (element: CHTask) in
 					element.category
 				}.sorted { lhs, rhs in
-					let priority1 = lhs.value.first?.priority
-					let priority2 = rhs.value.first?.priority
+					let priority1 = lhs.value.first?.taskPriority
+					let priority2 = rhs.value.first?.taskPriority
 					if priority1 != nil, priority2 == nil {
 						return true
 					}
 					if priority1 == nil, priority2 != nil {
 						return false
 					}
-					return (lhs.value.first?.priority)! < (rhs.value.first?.priority)!
+					return (lhs.value.first?.taskPriority)! < (rhs.value.first?.taskPriority)!
 				}
 				let sortedCarePlan = groupedTasks.map { _, value in
 					value.sorted { lhs, rhs in
@@ -61,11 +62,9 @@ class CarePlanViewModel: ObservableObject {
 				let carePlan = sortedCarePlan.filter { $0.first?.category != "education" && $0.first?.category != "links" }
 				let recommeded = sortedCarePlan.filter { $0.first?.category == "education" || $0.first?.category == "links" }
 				if !carePlan.isEmpty {
-//					self.carePlans[0] = carePlan
 					self.carePlans.append(carePlan)
 				}
 				if !recommeded.isEmpty {
-//					self.carePlans[1] = recommeded
 					self.carePlans.append(recommeded)
 				}
 				self.loadingState = .success

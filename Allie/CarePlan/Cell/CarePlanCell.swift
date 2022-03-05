@@ -5,6 +5,7 @@
 //  Created by Onseen on 2/21/22.
 //
 
+import CareModel
 import UIKit
 
 class CarePlanCell: UICollectionViewCell {

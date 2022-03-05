@@ -9,6 +9,7 @@ import BluetoothService
 import CareKit
 import CareKitStore
 import CareKitUI
+import CareModel
 import CodexFoundation
 import Combine
 import JGProgressHUD
@@ -315,7 +316,7 @@ extension NewDailyTasksPageViewController: HealthCellDelegate {
 
 extension NewDailyTasksPageViewController: LinkCellDelegate {
 	func onClickLinkItem(linkItem: CHLink) {
-		if let url = linkItem.linkItem?.url {
+		if let url = linkItem.linkItemData?.url {
 			if linkItem.type == .url {
 				let config = SFSafariViewController.Configuration()
 				config.entersReaderIfAvailable = true

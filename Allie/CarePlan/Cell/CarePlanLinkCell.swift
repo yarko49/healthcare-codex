@@ -6,6 +6,9 @@
 //
 
 import CareKitStore
+import CareKitUI
+import CareModel
+import MessageKit
 import UIKit
 
 class CarePlanLinkCell: UICollectionViewCell {
@@ -111,22 +114,9 @@ class CarePlanLinkCell: UICollectionViewCell {
 					linkTitle.attributedText = linkItem.title.attributedString(style: .bold16, foregroundColor: UIColor.black, letterSpacing: -0.41)
 					typeButton.setAttributedTitle(linkItem.type.rawValue.capitalized.attributedString(style: .regular13, foregroundColor: .allieGray, letterSpacing: -0.025), for: .normal)
 					let iconConfig = UIImage.SymbolConfiguration(pointSize: 26.0)
-					switch linkItem.linkItem {
-					case .appStore:
-						icon.image = UIImage(systemName: LinkSymbols.appStore, withConfiguration: iconConfig)
-					case .url(_, title: _, let symbol):
-						icon.image = UIImage(systemName: symbol, withConfiguration: iconConfig)
-					case .website(_, title: _):
-						icon.image = UIImage(systemName: LinkSymbols.website, withConfiguration: iconConfig)
-					case .location(_, _, title: _):
-						icon.image = UIImage(systemName: LinkSymbols.address, withConfiguration: iconConfig)
-					case .call(phoneNumber: _, title: _):
-						icon.image = UIImage(systemName: LinkSymbols.call, withConfiguration: iconConfig)
-					case .message(phoneNumber: _, title: _):
-						icon.image = UIImage(systemName: LinkSymbols.message, withConfiguration: iconConfig)
-					case .email(recipient: _, title: _):
-						icon.image = UIImage(systemName: LinkSymbols.email, withConfiguration: iconConfig)
-					case .none:
+					if let linkItemData = linkItem.linkItemData {
+						icon.image = UIImage(systemName: linkItemData.iconSymbol, withConfiguration: iconConfig)
+					} else {
 						icon.image = UIImage(named: "icon-empty")
 					}
 				}

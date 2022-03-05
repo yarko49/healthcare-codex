@@ -7,6 +7,7 @@
 
 import CareKitStore
 import CareKitUI
+import CareModel
 import MessageKit
 import UIKit
 
@@ -174,24 +175,30 @@ class LinkCell: UICollectionViewCell {
 				actionButton.addTarget(self, action: #selector(onClickLinkItem), for: .touchUpInside)
 
 				linkTitle.text = chLinkItem.title
-				switch chLinkItem.linkItem {
-				case .appStore:
-					linkImage.image = UIImage(systemName: LinkSymbols.appStore)
-				case .url(_, _, let symbol):
-					linkImage.image = UIImage(systemName: symbol)
-				case .website:
-					linkImage.image = UIImage(systemName: LinkSymbols.website)
-				case .location:
-					linkImage.image = UIImage(systemName: LinkSymbols.address)
-				case .call:
-					linkImage.image = UIImage(systemName: LinkSymbols.call)
-				case .message:
-					linkImage.image = UIImage(systemName: LinkSymbols.message)
-				case .email:
-					linkImage.image = UIImage(systemName: LinkSymbols.email)
-				case .none:
-					break
+				let iconConfig = UIImage.SymbolConfiguration(pointSize: 26.0)
+				if let linkItemData = chLinkItem.linkItemData {
+					linkImage.image = UIImage(systemName: linkItemData.iconSymbol, withConfiguration: iconConfig)
+				} else {
+					linkImage.image = UIImage(named: "icon-empty")
 				}
+//				switch chLinkItem.linkItem {
+//				case .appStore:
+//					linkImage.image = UIImage(systemName: LinkSymbols.appStore)
+//				case .url(_, _, let symbol):
+//					linkImage.image = UIImage(systemName: symbol)
+//				case .website:
+//					linkImage.image = UIImage(systemName: LinkSymbols.website)
+//				case .location:
+//					linkImage.image = UIImage(systemName: LinkSymbols.address)
+//				case .call:
+//					linkImage.image = UIImage(systemName: LinkSymbols.call)
+//				case .message:
+//					linkImage.image = UIImage(systemName: LinkSymbols.message)
+//				case .email:
+//					linkImage.image = UIImage(systemName: LinkSymbols.email)
+//				case .none:
+//					break
+//				}
 			}
 		} else {
 			footerStackView.isHidden = true
@@ -207,13 +214,4 @@ class LinkCell: UICollectionViewCell {
 			return
 		}
 	}
-}
-
-enum LinkSymbols {
-	static let call = "phone.circle.fill"
-	static let website = "safari.fill"
-	static let email = "envelope.circle.fill"
-	static let message = "message.circle.fill"
-	static let appStore = "arrow.up.right.circle.fill"
-	static let address = "location.circle.fill"
 }

@@ -19,6 +19,9 @@
 		2547D9FC27BA304200E90FB6 /* HealthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2547D9FB27BA304200E90FB6 /* HealthCell.swift */; };
 		2547D9FD27BA304200E90FB6 /* HealthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2547D9FB27BA304200E90FB6 /* HealthCell.swift */; };
 		2547D9FE27BA304200E90FB6 /* HealthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2547D9FB27BA304200E90FB6 /* HealthCell.swift */; };
+		256CCBAA27D373DD00C1C7FC /* CareModel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256CCBA927D373DD00C1C7FC /* CareModel+.swift */; };
+		256CCBAB27D373DD00C1C7FC /* CareModel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256CCBA927D373DD00C1C7FC /* CareModel+.swift */; };
+		256CCBAC27D373DD00C1C7FC /* CareModel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256CCBA927D373DD00C1C7FC /* CareModel+.swift */; };
 		256EA61F27B0F6310023755F /* RoundedTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256EA61E27B0F6310023755F /* RoundedTabBarController.swift */; };
 		256EA62027B0F6310023755F /* RoundedTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256EA61E27B0F6310023755F /* RoundedTabBarController.swift */; };
 		256EA62127B0F6310023755F /* RoundedTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256EA61E27B0F6310023755F /* RoundedTabBarController.swift */; };
@@ -157,8 +160,6 @@
 		477BA0DC279012300056D5BA /* PairingItem+BloodGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477BA0DB279012300056D5BA /* PairingItem+BloodGlucose.swift */; };
 		477BA0DD279012300056D5BA /* PairingItem+BloodGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477BA0DB279012300056D5BA /* PairingItem+BloodGlucose.swift */; };
 		477BA0DE279012300056D5BA /* PairingItem+BloodGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477BA0DB279012300056D5BA /* PairingItem+BloodGlucose.swift */; };
-		47868D2427D185C400E5D6FB /* WebServiceConcurrency in Frameworks */ = {isa = PBXBuildFile; productRef = 47868D2327D185C400E5D6FB /* WebServiceConcurrency */; };
-		47868D2627D1C6E300E5D6FB /* WebServiceCombine in Frameworks */ = {isa = PBXBuildFile; productRef = 47868D2527D1C6E300E5D6FB /* WebServiceCombine */; };
 		47892DA327857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
 		47892DA427857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
 		47892DA527857C8800BC7827 /* HealthKitManager+Samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */; };
@@ -1105,6 +1106,7 @@
 		25155059279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDailyTasksPageViewController.swift; sourceTree = "<group>"; };
 		2515505E27A00E4400C40BC5 /* DailyTaskTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTaskTopView.swift; sourceTree = "<group>"; };
 		2547D9FB27BA304200E90FB6 /* HealthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCell.swift; sourceTree = "<group>"; };
+		256CCBA927D373DD00C1C7FC /* CareModel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareModel+.swift"; sourceTree = "<group>"; };
 		256EA61E27B0F6310023755F /* RoundedTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTabBarController.swift; sourceTree = "<group>"; };
 		256FADFA27C4157C00FBB3D9 /* CarePlanFeatureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlanFeatureCell.swift; sourceTree = "<group>"; };
 		256FADFE27C42B4500FBB3D9 /* CarePlanLinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlanLinkCell.swift; sourceTree = "<group>"; };
@@ -2376,6 +2378,7 @@
 				8475FBDD268C275900A916B6 /* UINavigationController+Transitions.swift */,
 				84DC16FC2774F92700076EAE /* SDWebImage+Concurrency.swift */,
 				477BA0CF27900B540056D5BA /* UIPageViewController+Scrolling.swift */,
+				256CCBA927D373DD00C1C7FC /* CareModel+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3282,9 +3285,7 @@
 				84703C71265B743A0025A50D /* ButtonLogTaskViewSynchronizer.swift in Sources */,
 				84261686269A7111006BD8B0 /* GeneralizedLogTaskViewSynchronizer.swift in Sources */,
 				2577350F27C03B6100DF152C /* FollowViewController.swift in Sources */,
-				8494705F2671D4EF000A77A7 /* AnyItemDeletable.swift in Sources */,
 				25AF7F8627C712FC00F67CCF /* ChartViewController.swift in Sources */,
-				477BA0C6278FFBAA0056D5BA /* CHPeripheral.swift in Sources */,
 				84AF3B572750BE7300E414C1 /* UserDefault.swift in Sources */,
 				84AF4CF726CA0E6200867349 /* APIClient+Injectable.swift in Sources */,
 				8401F71D270EA5C300D1CBED /* NumericProgressViewController.swift in Sources */,
@@ -3347,7 +3348,6 @@
 				8426167A269A70B5006BD8B0 /* GeneralizedLogTaskView.swift in Sources */,
 				84D1129D26D46A38000BA718 /* UIButton+Custom.swift in Sources */,
 				2590042327C37B6A0024D616 /* CarePlanViewModel.swift in Sources */,
-				846257A725E2230A004AEBCD /* HealthKitDataType.swift in Sources */,
 				844767EE259C2A4E00C50C09 /* APIClient.swift in Sources */,
 				84261682269A70F6006BD8B0 /* GeneralizedLogTaskViewController.swift in Sources */,
 				84D1128D26D45232000BA718 /* PairingItem.swift in Sources */,
@@ -3394,7 +3394,6 @@
 				840BC73F2723C44A00C7EE7E /* NSPersistentStoreCoordinator+Save.swift in Sources */,
 				257C7D2F27B30ABB00251BC5 /* SimpleTaskCell.swift in Sources */,
 				257375D327C2DF6F00A95458 /* CarePlanViewController.swift in Sources */,
-				844767C8259C2A4E00C50C09 /* CHCarePlanResponse.swift in Sources */,
 				840BC73B2723C28700C7EE7E /* NSManagedObjectContext+Save.swift in Sources */,
 				84A9202F26858E0400A52412 /* ConnectProviderView.swift in Sources */,
 				47892DA727857CD000BC7827 /* HealthKitManager+Steps.swift in Sources */,
@@ -3419,10 +3418,8 @@
 				47D0E8D527C77404003FFDA8 /* CareManager+AsyncOutcomes.swift in Sources */,
 				845B453B269B9BDC00EC5211 /* HKCategoryTypeIdentifier+Linkage.swift in Sources */,
 				256FAE0327C4491E00FBB3D9 /* SectionView.swift in Sources */,
-				8497045B26B122B1006E2D51 /* CHBloodGlucoseMealTime.swift in Sources */,
 				25DD5D7427D2C7F200C32282 /* SettingCell.swift in Sources */,
 				25AEDA8727ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */,
-				8449A664267C746900F73D8E /* CHOutcomeResponse.swift in Sources */,
 				84B9739926EDD3020094B35C /* CareManager+Patients.swift in Sources */,
 				8408844026884001003C3AE2 /* Color+Names.swift in Sources */,
 				8419CF0B25CE42EB005F9617 /* TextContentDetailViewController.swift in Sources */,
@@ -3468,8 +3465,6 @@
 				849F37A125BA8CF300FC2D1B /* ScreenFlowType.swift in Sources */,
 				477BA0D427900BA80056D5BA /* BPMPairingViewController.swift in Sources */,
 				84E4660225A040F100A10F8B /* ViewIdentifiable.swift in Sources */,
-				BF760E37276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */,
-				845F8B9F26470B2A00999091 /* OCKHealthKitLinkage+Dictionary.swift in Sources */,
 				25764B0D27A2818B0032B365 /* HealthEmptyCell.swift in Sources */,
 				8423225F2717E1FB008B50F0 /* RemoteLoggingConfig.swift in Sources */,
 				2515505A279FEDAA00C40BC5 /* NewDailyTasksPageViewController.swift in Sources */,
@@ -3484,6 +3479,7 @@
 				84F2E9A6269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */,
 				84476796259C2A4E00C50C09 /* TextStyle.swift in Sources */,
 				84B9739526EDD2230094B35C /* CareManager+Outcomes.swift in Sources */,
+				256CCBAA27D373DD00C1C7FC /* CareModel+.swift in Sources */,
 				843F513F272917C300E801DE /* CHGroupIdentifierType+Icon.swift in Sources */,
 				84009048261AA77000FB3968 /* ProfileEntryViewController.swift in Sources */,
 				256FADFF27C42B4500FBB3D9 /* CarePlanLinkCell.swift in Sources */,
@@ -3526,7 +3522,6 @@
 				847A46702728F300007BE113 /* SymptomsLogViewSynchronizer.swift in Sources */,
 				25737B2D27A1E6F7006357E7 /* RiseSleepCell.swift in Sources */,
 				259059EE27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */,
-				841418F726BD10C1006FD6DE /* CHOutcome+OCKHealthKitOutcome.swift in Sources */,
 				845B4543269BA17B00EC5211 /* OCKOutcomeValue+LogItem.swift in Sources */,
 				846F97912716A2720094735E /* FileLoggingViewController.swift in Sources */,
 				844F06DF25C113B500D26119 /* UserDefaults+Settings.swift in Sources */,
@@ -3612,7 +3607,6 @@
 				847DCBFB265871F3004E9C1D /* DatePickerView.swift in Sources */,
 				84AF4CFD26CA104D00867349 /* CareManager+Injectable.swift in Sources */,
 				47700EA427BCE6B700262123 /* PairingITem+WeightScale.swift in Sources */,
-				847DCBFC265871F3004E9C1D /* CHSourceRevision.swift in Sources */,
 				256FAE0527C4491E00FBB3D9 /* SectionView.swift in Sources */,
 				847DCBFD265871F3004E9C1D /* GradientView.swift in Sources */,
 				847DCBFE265871F3004E9C1D /* Coordinable.swift in Sources */,
@@ -3649,7 +3643,6 @@
 				847DCC1F265871F3004E9C1D /* OCKTaskEvents+Extension.swift in Sources */,
 				847DCC20265871F3004E9C1D /* OCKStore+Update.swift in Sources */,
 				256FAE0127C42B4500FBB3D9 /* CarePlanLinkCell.swift in Sources */,
-				8439776C26BBC32F002A932E /* OCKTask+CareKitUI.swift in Sources */,
 				47DA6AB027B79FE5006C2BBC /* BSOSessionData+Validation.swift in Sources */,
 				845B4541269B9C1C00EC5211 /* HKCorrelationTypeIdentifier+Linkage.swift in Sources */,
 				847DCC22265871F3004E9C1D /* UILabel+Height.swift in Sources */,
@@ -3722,6 +3715,7 @@
 				847DCC4D265871F3004E9C1D /* NotificationType.swift in Sources */,
 				847DCC4E265871F3004E9C1D /* UIWindow+Transition.swift in Sources */,
 				256FADFD27C4157D00FBB3D9 /* CarePlanFeatureCell.swift in Sources */,
+				256CCBAC27D373DD00C1C7FC /* CareModel+.swift in Sources */,
 				8408843E26883F8C003C3AE2 /* FilledButton.swift in Sources */,
 				84037C1A26CB5B6200C87189 /* CHDevice+CBPeripheral.swift in Sources */,
 				25DD5D7627D2C7F200C32282 /* SettingCell.swift in Sources */,
@@ -3778,8 +3772,6 @@
 				2577351127C03B6100DF152C /* FollowViewController.swift in Sources */,
 				84703C5A265B4B350025A50D /* Keychain+Access.swift in Sources */,
 				847DCC75265871F3004E9C1D /* ViewIdentifiable.swift in Sources */,
-				BF760E39276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */,
-				847DCC76265871F3004E9C1D /* OCKHealthKitLinkage+Dictionary.swift in Sources */,
 				25764B0F27A2818B0032B365 /* HealthEmptyCell.swift in Sources */,
 				2515505C279FEDB800C40BC5 /* NewDailyTasksPageViewController.swift in Sources */,
 				847DCC7B265871F3004E9C1D /* HealthViewController.swift in Sources */,
@@ -3817,7 +3809,6 @@
 				847DCC8E265871F3004E9C1D /* AuthorizationFlowType.swift in Sources */,
 				848CD8B22696CB2A008B675F /* EntrySegmentedView.swift in Sources */,
 				2590042C27C3BEF20024D616 /* CarePlanCell.swift in Sources */,
-				847DCC90265871F3004E9C1D /* CHDevice+HKDevice.swift in Sources */,
 				847DCC91265871F3004E9C1D /* AlertHelper.swift in Sources */,
 				848723EC2734E98800F0D4CA /* ConnectedDevicesSectionHeaderView.swift in Sources */,
 				8482203526ED2B1800DDD77A /* ConnectedDevicesViewController.swift in Sources */,
@@ -3827,8 +3818,6 @@
 				847DCC93265871F3004E9C1D /* SeparatorView.swift in Sources */,
 				847DCC94265871F3004E9C1D /* ScheduleUtility.swift in Sources */,
 				257375D527C2DF6F00A95458 /* CarePlanViewController.swift in Sources */,
-				47734F712792C8D700AA44EF /* OperatingSystemVersion+Comparable.swift in Sources */,
-				847DCC95265871F3004E9C1D /* CHTask+OCKTask.swift in Sources */,
 				847DCC97265871F3004E9C1D /* ButtonView.swift in Sources */,
 				847DCC98265871F3004E9C1D /* CustomYAxisRenderer.swift in Sources */,
 				847DCC99265871F3004E9C1D /* HealthKitOutcomesUploadOperation.swift in Sources */,
@@ -3924,7 +3913,6 @@
 				84D1222F264112DE00990196 /* DatePickerView.swift in Sources */,
 				84AF4CFC26CA104D00867349 /* CareManager+Injectable.swift in Sources */,
 				47700EA327BCE6B700262123 /* PairingITem+WeightScale.swift in Sources */,
-				84D12230264112DE00990196 /* CHSourceRevision.swift in Sources */,
 				256FAE0427C4491E00FBB3D9 /* SectionView.swift in Sources */,
 				84FE91402650E55B00D681DF /* GradientView.swift in Sources */,
 				84D12231264112DE00990196 /* Coordinable.swift in Sources */,
@@ -3961,7 +3949,6 @@
 				84D3F691264A4C2800241BBB /* OCKTaskEvents+Extension.swift in Sources */,
 				84D12250264112DE00990196 /* OCKStore+Update.swift in Sources */,
 				256FAE0027C42B4500FBB3D9 /* CarePlanLinkCell.swift in Sources */,
-				8439776B26BBC32F002A932E /* OCKTask+CareKitUI.swift in Sources */,
 				47DA6AAF27B79FE5006C2BBC /* BSOSessionData+Validation.swift in Sources */,
 				845B4540269B9C1C00EC5211 /* HKCorrelationTypeIdentifier+Linkage.swift in Sources */,
 				84D12251264112DE00990196 /* UILabel+Height.swift in Sources */,
@@ -4034,6 +4021,7 @@
 				84D1227A264112DE00990196 /* NotificationType.swift in Sources */,
 				84D1227B264112DE00990196 /* UIWindow+Transition.swift in Sources */,
 				256FADFC27C4157C00FBB3D9 /* CarePlanFeatureCell.swift in Sources */,
+				256CCBAB27D373DD00C1C7FC /* CareModel+.swift in Sources */,
 				8408843D26883F8C003C3AE2 /* FilledButton.swift in Sources */,
 				84037C1926CB5B6200C87189 /* CHDevice+CBPeripheral.swift in Sources */,
 				25DD5D7527D2C7F200C32282 /* SettingCell.swift in Sources */,
@@ -4090,8 +4078,6 @@
 				2577351027C03B6100DF152C /* FollowViewController.swift in Sources */,
 				84703C59265B4B350025A50D /* Keychain+Access.swift in Sources */,
 				84D122A5264112DE00990196 /* ViewIdentifiable.swift in Sources */,
-				BF760E38276DE48600439D46 /* OCKOutcome+BloodPressure.swift in Sources */,
-				845F8BA026470B2A00999091 /* OCKHealthKitLinkage+Dictionary.swift in Sources */,
 				25764B0E27A2818B0032B365 /* HealthEmptyCell.swift in Sources */,
 				2515505B279FEDB600C40BC5 /* NewDailyTasksPageViewController.swift in Sources */,
 				84D122A9264112DE00990196 /* HealthViewController.swift in Sources */,
@@ -4129,7 +4115,6 @@
 				84D122BC264112DE00990196 /* AuthorizationFlowType.swift in Sources */,
 				848CD8B12696CB2A008B675F /* EntrySegmentedView.swift in Sources */,
 				2590042B27C3BEF20024D616 /* CarePlanCell.swift in Sources */,
-				84D122BE264112DE00990196 /* CHDevice+HKDevice.swift in Sources */,
 				84D122C0264112DE00990196 /* AlertHelper.swift in Sources */,
 				848723EB2734E98800F0D4CA /* ConnectedDevicesSectionHeaderView.swift in Sources */,
 				8482203426ED2B1800DDD77A /* ConnectedDevicesViewController.swift in Sources */,
@@ -4139,8 +4124,6 @@
 				84D122C2264112DE00990196 /* SeparatorView.swift in Sources */,
 				84D3F68E264A4BB700241BBB /* ScheduleUtility.swift in Sources */,
 				257375D427C2DF6F00A95458 /* CarePlanViewController.swift in Sources */,
-				47734F702792C8D700AA44EF /* OperatingSystemVersion+Comparable.swift in Sources */,
-				84D122C3264112DE00990196 /* CHTask+OCKTask.swift in Sources */,
 				84D122C4264112DE00990196 /* ButtonView.swift in Sources */,
 				84D122C5264112DE00990196 /* CustomYAxisRenderer.swift in Sources */,
 				841A77332652348C000913A9 /* HealthKitOutcomesUploadOperation.swift in Sources */,
