@@ -5339,7 +5339,7 @@
 			repositoryURL = "https://github.com/wmalloc/WebService.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.1;
+				minimumVersion = 0.3.2;
 			};
 		};
 		84C22BC925A5821700D16CFF /* XCRemoteSwiftPackageReference "swift-log" */ = {
