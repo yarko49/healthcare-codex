@@ -21,7 +21,7 @@ public enum CarePlanResponseType: Hashable {
 	case vectorClock
 }
 
-enum APIRouter {
+public enum APIRouter {
 	static let baseURLPath = AppConfig.apiBaseUrl
 	@Injected(\.keychain) static var keychain: Keychain
 	static var authToken: String? {
@@ -248,14 +248,14 @@ enum APIRouter {
 }
 
 extension APIRouter: URLRequestEncodable {
-	func url() throws -> URL {
+	public func url() throws -> URL {
 		guard let url = URL(string: APIRouter.baseURLPath)?.appendingPathComponent(path) else {
 			throw URLError(.badURL)
 		}
 		return url
 	}
 
-	func request() throws -> Request {
+	public func request() throws -> Request {
 		let url = try url()
 		var request = Request(method, url: url)
 		request.setHeaders(headers)
@@ -268,7 +268,7 @@ extension APIRouter: URLRequestEncodable {
 		return request
 	}
 
-	func urlRequest() throws -> URLRequest {
+	public func urlRequest() throws -> URLRequest {
 		try request().urlRequest()
 	}
 }

@@ -10,7 +10,7 @@ import Firebase
 import FirebaseAuth
 import Foundation
 
-extension APIClient {
+public extension APIClient {
 	func firebaseAuthenticationToken() async throws -> AuthenticationToken {
 		guard let currentUser = Auth.auth().currentUser else {
 			throw AllieError.missing("User not logged in")

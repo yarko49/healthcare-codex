@@ -84,7 +84,7 @@ extension CareManager {
 		return updateTasks
 	}
 
-	func deleteTasks(exclude: [String], carePlans: [String]) async throws {
+	func deleteTasks(exclude: [String], carePlans: Set<String>) async throws {
 		let tasksQuery = OCKTaskQuery(for: Date())
 		let allTasks = try await store.fetchAnyTasks(query: tasksQuery, queue: processingQueue)
 		let filtered = allTasks.filter { task in
@@ -101,6 +101,29 @@ extension CareManager {
 			return
 		}
 		_ = try await store.deleteAnyTasks(filtered)
+	}
+
+	func deleteTasks(exclude: Set<String>, carePlans: Set<String>) async throws {
+		let taskQuery = OCKTaskQuery(for: Date())
+		let tasks = try await store.fetchTasks(query: taskQuery)
+		let filtered = tasks.filter { task in
+			!exclude.contains(task.id)
+		}
+		if !filtered.isEmpty {
+			_ = try await store.deleteTasks(filtered)
+		}
+	}
+
+	func deleteHealthKitTasks(exclude: Set<String>, carePlans: Set<String>) async throws {
+		let tasksQuery = OCKTaskQuery(for: Date())
+		let allTasks = try await healthKitStore.fetchTasks(query: tasksQuery)
+		let filtered = allTasks.filter { task in
+			!exclude.contains(task.id)
+		}
+
+		if !filtered.isEmpty {
+			_ = try await healthKitStore.deleteTasks(filtered)
+		}
 	}
 }
 

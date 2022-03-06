@@ -10,7 +10,7 @@ import Combine
 import Foundation
 import WebService
 
-extension WebService {
+public extension WebService {
 	func decodable<T: Decodable>(route: APIRouter, decoder: JSONDecoder = CHFJSONDecoder()) async throws -> T {
 		let request = try route.request()
 		return try await decodable(request: request, decoder: decoder)

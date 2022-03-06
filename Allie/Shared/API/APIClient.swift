@@ -15,7 +15,7 @@ import ModelsR4
 import UIKit
 import WebService
 
-protocol AllieAPI {
+public protocol AllieAPI {
 	func firebaseAuthenticationToken() async throws -> AuthenticationToken
 	func firebaseAuthenticationToken() -> Future<AuthenticationToken, Error>
 
@@ -129,162 +129,162 @@ public final class APIClient: AllieAPI {
 
 //	func postBundle(bundle: ModelsR4.Bundle) async -> ModelsR4.Bundle {}
 
-	func registerOrganization(organization: CMOrganization) async -> Bool {
+	public func registerOrganization(organization: CMOrganization) async -> Bool {
 		(try? await webService.simple(route: APIRouter.registerOrganization(organization))) ?? false
 	}
 
-	func registerOrganization(organization: CMOrganization) -> AnyPublisher<Bool, Never> {
+	public func registerOrganization(organization: CMOrganization) -> AnyPublisher<Bool, Never> {
 		webService.simple(route: APIRouter.registerOrganization(organization))
 			.catch { _ -> Just<Bool> in
 				Just(false)
 			}.eraseToAnyPublisher()
 	}
 
-	func unregisterOrganization(organization: CMOrganization) async -> Bool {
+	public func unregisterOrganization(organization: CMOrganization) async -> Bool {
 		(try? await webService.simple(route: APIRouter.unregisterOrganization(organization))) ?? false
 	}
 
-	func unregisterOrganization(organization: CMOrganization) -> AnyPublisher<Bool, Never> {
+	public func unregisterOrganization(organization: CMOrganization) -> AnyPublisher<Bool, Never> {
 		webService.simple(route: APIRouter.unregisterOrganization(organization))
 			.catch { _ -> Just<Bool> in
 				Just(false)
 			}.eraseToAnyPublisher()
 	}
 
-	func getOrganizations() async throws -> CMOrganizations {
+	public func getOrganizations() async throws -> CMOrganizations {
 		try await webService.decodable(route: .organizations)
 	}
 
-	func getOrganizations() -> AnyPublisher<CMOrganizations, Error> {
+	public func getOrganizations() -> AnyPublisher<CMOrganizations, Error> {
 		webService.decodable(route: .organizations)
 	}
 
-	func getConservationsTokens() async throws -> CMConversationsTokens {
+	public func getConservationsTokens() async throws -> CMConversationsTokens {
 		try await webService.decodable(route: .conversationsTokens)
 	}
 
-	func getConservationsTokens() -> AnyPublisher<CMConversationsTokens, Error> {
+	public func getConservationsTokens() -> AnyPublisher<CMConversationsTokens, Error> {
 		webService.decodable(route: .conversationsTokens)
 	}
 
-	func postConservationsUsers(organizationId: String, users: [String]) async throws -> CMConversationsUsers {
+	public func postConservationsUsers(organizationId: String, users: [String]) async throws -> CMConversationsUsers {
 		try await webService.decodable(route: .postConversationsUsers(organizationId, users))
 	}
 
-	func postConservationsUsers(organizationId: String, users: [String]) -> AnyPublisher<CMConversationsUsers, Error> {
+	public func postConservationsUsers(organizationId: String, users: [String]) -> AnyPublisher<CMConversationsUsers, Error> {
 		webService.decodable(route: .postConversationsUsers(organizationId, users))
 	}
 
-	func getCarePlan(option: CarePlanResponseType) async throws -> CHCarePlanResponse {
+	public func getCarePlan(option: CarePlanResponseType) async throws -> CHCarePlanResponse {
 		let route = APIRouter.getCarePlan(option: option)
 		return try await webService.decodable(route: route)
 	}
 
-	func getCarePlan(option: CarePlanResponseType = .carePlan) -> AnyPublisher<CHCarePlanResponse, Error> {
+	public func getCarePlan(option: CarePlanResponseType = .carePlan) -> AnyPublisher<CHCarePlanResponse, Error> {
 		let route = APIRouter.getCarePlan(option: option)
 		return webService.decodable(route: route)
 	}
 
-	func post(carePlanResponse: CHCarePlanResponse) async throws -> CHCarePlanResponse {
+	public func post(carePlanResponse: CHCarePlanResponse) async throws -> CHCarePlanResponse {
 		try await webService.decodable(route: .postCarePlan(carePlanResponse: carePlanResponse))
 	}
 
-	func post(carePlanResponse: CHCarePlanResponse) -> AnyPublisher<CHCarePlanResponse, Error> {
+	public func post(carePlanResponse: CHCarePlanResponse) -> AnyPublisher<CHCarePlanResponse, Error> {
 		webService.decodable(route: .postCarePlan(carePlanResponse: carePlanResponse))
 	}
 
-	func post(bundle: ModelsR4.Bundle) async throws -> ModelsR4.Bundle {
+	public func post(bundle: ModelsR4.Bundle) async throws -> ModelsR4.Bundle {
 		try await webService.decodable(route: APIRouter.postBundle(bundle: bundle))
 	}
 
-	func post(bundle: ModelsR4.Bundle) -> AnyPublisher<ModelsR4.Bundle, Error> {
+	public func post(bundle: ModelsR4.Bundle) -> AnyPublisher<ModelsR4.Bundle, Error> {
 		let route = APIRouter.postBundle(bundle: bundle)
 		return webService.decodable(route: route)
 	}
 
-	func post(patient: CHPatient) async throws -> CHCarePlanResponse {
+	public func post(patient: CHPatient) async throws -> CHCarePlanResponse {
 		try await webService.decodable(route: APIRouter.postPatient(patient: patient))
 	}
 
-	func post(patient: CHPatient) -> AnyPublisher<CHCarePlanResponse, Error> {
+	public func post(patient: CHPatient) -> AnyPublisher<CHCarePlanResponse, Error> {
 		let route = APIRouter.postPatient(patient: patient)
 		return webService.decodable(route: route)
 	}
 
-	func getOutcomes(carePlanId: String, taskId: String) async throws -> CHOutcomeResponse {
+	public func getOutcomes(carePlanId: String, taskId: String) async throws -> CHOutcomeResponse {
 		try await webService.decodable(route: .getOutcomes(carePlanId: carePlanId, taskId: taskId))
 	}
 
-	func getOutcomes(carePlanId: String, taskId: String) -> AnyPublisher<CHOutcomeResponse, Error> {
+	public func getOutcomes(carePlanId: String, taskId: String) -> AnyPublisher<CHOutcomeResponse, Error> {
 		webService.decodable(route: .getOutcomes(carePlanId: carePlanId, taskId: taskId))
 	}
 
-	func getOutcomes(url: URL) async throws -> CHOutcomeResponse {
+	public func getOutcomes(url: URL) async throws -> CHOutcomeResponse {
 		try await webService.decodable(request: Request(.GET, url: url))
 	}
 
-	func getOutcomes(url: URL) -> AnyPublisher<CHOutcomeResponse, Error> {
+	public func getOutcomes(url: URL) -> AnyPublisher<CHOutcomeResponse, Error> {
 		let request = Request(.GET, url: url)
 		return webService.decodable(request: request)
 	}
 
-	func post(outcomes: [CHOutcome]) async throws -> CHCarePlanResponse {
+	public func post(outcomes: [CHOutcome]) async throws -> CHCarePlanResponse {
 		let route = APIRouter.postOutcomes(outcomes: outcomes)
 		return try await webService.decodable(route: route)
 	}
 
-	func post(outcomes: [CHOutcome]) -> AnyPublisher<CHCarePlanResponse, Error> {
+	public func post(outcomes: [CHOutcome]) -> AnyPublisher<CHCarePlanResponse, Error> {
 		let route = APIRouter.postOutcomes(outcomes: outcomes)
 		return webService.decodable(route: route)
 	}
 
-	func getFeatureContent(carePlanId: String, taskId: String, asset: String) async throws -> CMSignedURLResponse {
+	public func getFeatureContent(carePlanId: String, taskId: String, asset: String) async throws -> CMSignedURLResponse {
 		let route = APIRouter.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
 		return try await webService.decodable(route: route)
 	}
 
-	func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> AnyPublisher<CMSignedURLResponse, Error> {
+	public func getFeatureContent(carePlanId: String, taskId: String, asset: String) -> AnyPublisher<CMSignedURLResponse, Error> {
 		let route = APIRouter.getFeatureContent(carePlanId: carePlanId, taskId: taskId, asset: asset)
 		return webService.decodable(route: route)
 	}
 
-	func getData(url: URL) async throws -> Data {
+	public func getData(url: URL) async throws -> Data {
 		try await webService.data(request: Request(.GET, url: url))
 	}
 
-	func getData(url: URL) -> AnyPublisher<Data, Error> {
+	public func getData(url: URL) -> AnyPublisher<Data, Error> {
 		webService.data(request: Request(.GET, url: url))
 	}
 
-	func uploadRemoteNotification(token: String) async throws -> Bool {
+	public func uploadRemoteNotification(token: String) async throws -> Bool {
 		try await webService.simple(route: .postNotificationToken(token))
 	}
 
-	func uploadRemoteNotification(token: String) -> AnyPublisher<Bool, Error> {
+	public func uploadRemoteNotification(token: String) -> AnyPublisher<Bool, Error> {
 		webService.simple(route: .postNotificationToken(token))
 	}
 
-	func getCloudDevices() async throws -> CMCloudDevices {
+	public func getCloudDevices() async throws -> CMCloudDevices {
 		try await webService.decodable(route: .integrations)
 	}
 
-	func getCloudDevices() -> AnyPublisher<CMCloudDevices, Error> {
+	public func getCloudDevices() -> AnyPublisher<CMCloudDevices, Error> {
 		webService.decodable(route: .integrations)
 	}
 
-	func postIntegrate(cloudDevice: CMCloudDevice) async throws -> Bool {
+	public func postIntegrate(cloudDevice: CMCloudDevice) async throws -> Bool {
 		try await webService.simple(route: .postIntegration(cloudDevice))
 	}
 
-	func postIntegrate(cloudDevice: CMCloudDevice) -> AnyPublisher<Bool, Error> {
+	public func postIntegrate(cloudDevice: CMCloudDevice) -> AnyPublisher<Bool, Error> {
 		webService.simple(route: .postIntegration(cloudDevice))
 	}
 
-	func deleteIntegration(cloudDevice: CMCloudDevice) async throws -> Bool {
+	public func deleteIntegration(cloudDevice: CMCloudDevice) async throws -> Bool {
 		try await webService.simple(route: .deleteIntegration(cloudDevice))
 	}
 
-	func deleteIntegration(cloudDevice: CMCloudDevice) -> AnyPublisher<Bool, Error> {
+	public func deleteIntegration(cloudDevice: CMCloudDevice) -> AnyPublisher<Bool, Error> {
 		webService.simple(route: .deleteIntegration(cloudDevice))
 	}
 }

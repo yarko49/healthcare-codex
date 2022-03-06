@@ -19,7 +19,7 @@ extension CareManager {
 			return
 		}
 
-		Task { [weak self] in
+		Task.detached(priority: .userInitiated) { [weak self] in
 			guard let strongSelf = self else {
 				return
 			}
@@ -40,7 +40,7 @@ extension CareManager {
 	}
 
 	func fetchOutcome(sample: HKSample, deletedSample: HKSample?, task: OCKHealthKitTask, carePlanId: String) -> CHOutcome? {
-		var outcome = CHOutcome(sample: sample, task: task, carePlanId: carePlanId)
+		var outcome = CHOutcome(sample: sample, task: task, carePlanId: carePlanId, deletedSample: nil)
 		if let deleted = deletedSample, let existing = try? dbFindFirstOutcome(sample: deleted) {
 			outcome?.remoteId = existing.remoteId
 			outcome?.updatedDate = Date()

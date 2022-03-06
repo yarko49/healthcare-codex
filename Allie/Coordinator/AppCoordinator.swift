@@ -128,17 +128,21 @@ class AppCoordinator: BaseCoordinator {
 	}
 
 	func organizaionRegistraionDidChange(animated: Bool = true) {
-		Task { [weak self] in
+		Task.detached(priority: .userInitiated) { [weak self] in
 			guard let strongSelf = self else {
 				return
 			}
 			do {
 				let organizations = try await strongSelf.networkAPI.getOrganizations()
-				strongSelf.organizations = organizations
+				await MainActor.run(body: {
+					strongSelf.organizations = organizations
+				})
 			} catch {
 				ALog.error("Error getting organizations", error: error)
 			}
-			strongSelf.updateControllers(organizations: strongSelf.organizations)
+			await MainActor.run(body: {
+				strongSelf.updateControllers(organizations: strongSelf.organizations)
+			})
 		}
 	}
 

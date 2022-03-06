@@ -9,17 +9,17 @@ import Foundation
 import HealthKit
 
 public extension HKDiscreteQuantitySample {
-	convenience init(bloodGlucose level: Double, startDate: Date, mealTime: CHBloodGlucoseMealTime) {
+	convenience init(bloodGlucose level: Double, startDate: Date, mealTime: CHBloodGlucoseMealTime, metadata: [String: Any]?) {
 		let quantity = HKQuantity(unit: HealthKitDataType.bloodGlucose.unit, doubleValue: level)
-		var metadata: [String: Any] = [:]
-		metadata[HKMetadataKeyTimeZone] = TimeZone.current.identifier
-		metadata[HKMetadataKeyWasUserEntered] = true
-		metadata[CHMetadataKeyUpdatedDate] = Date()
-		metadata[CHMetadataKeyBloodGlucoseMealTime] = NSNumber(value: mealTime.rawValue)
+		var newMetadata: [String: Any] = metadata ?? [:]
+		newMetadata[HKMetadataKeyTimeZone] = TimeZone.current.identifier
+		newMetadata[HKMetadataKeyWasUserEntered] = true
+		newMetadata[CHMetadataKeyUpdatedDate] = Date()
+		newMetadata[CHMetadataKeyBloodGlucoseMealTime] = NSNumber(value: mealTime.rawValue)
 		if mealTime == .postprandial || mealTime == .preprandial {
-			metadata[HKMetadataKeyBloodGlucoseMealTime] = NSNumber(value: mealTime.rawValue)
+			newMetadata[HKMetadataKeyBloodGlucoseMealTime] = NSNumber(value: mealTime.rawValue)
 		}
 		let quantityType = HKQuantityType.quantityType(forIdentifier: .bloodGlucose)
-		self.init(type: quantityType!, quantity: quantity, start: startDate, end: startDate, device: HKDevice.local(), metadata: metadata)
+		self.init(type: quantityType!, quantity: quantity, start: startDate, end: startDate, device: HKDevice.local(), metadata: newMetadata)
 	}
 }

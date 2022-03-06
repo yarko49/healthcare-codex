@@ -13,9 +13,12 @@ import UIKit
 
 extension CareManager {
 	func image(task: OCKAnyTask & AnyTaskExtensible, completion: @escaping AllieResultCompletion<UIImage>) {
-		Task {
+		Task.detached(priority: .userInitiated) { [weak self] in
+			guard let strongSelf = self else {
+				return
+			}
 			do {
-				let image = try await image(task: task)
+				let image = try await strongSelf.image(task: task)
 				completion(.success(image))
 			} catch {
 				completion(.failure(error))
@@ -43,9 +46,12 @@ extension CareManager {
 	}
 
 	func pdfData(task: OCKAnyTask & AnyTaskExtensible, completion: @escaping AllieResultCompletion<URL>) {
-		Task {
+		Task.detached(priority: .userInitiated) { [weak self] in
+			guard let strongSelf = self else {
+				return
+			}
 			do {
-				let url = try await pdfData(task: task)
+				let url = try await strongSelf.pdfData(task: task)
 				completion(.success(url))
 			} catch {
 				completion(.failure(error))
