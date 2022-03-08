@@ -63,6 +63,9 @@ class ChatViewController: MessagesViewController {
 			.receive(on: DispatchQueue.main)
 			.sink(receiveValue: { _ in
 				self.messagesCollectionView.reloadData()
+				DispatchQueue.main.async { [weak self] in
+					self?.messagesCollectionView.scrollToLastItem()
+				}
 			}).store(in: &cancellables)
 
 		if let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout {

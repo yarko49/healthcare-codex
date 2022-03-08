@@ -135,6 +135,11 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 		navigationView.removeFromSuperview()
 	}
 
+	deinit {
+		NotificationCenter.default.removeObserver(self)
+		ALog.trace("\(String(describing: type(of: self))) deinitialized")
+	}
+
 	func setupView() {}
 	func bindActions() {}
 	func setupLayout() {}
@@ -239,9 +244,5 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 				return
 			}
 		}
-	}
-
-	deinit {
-		ALog.trace("\(String(describing: type(of: self))) deinitialized")
 	}
 }

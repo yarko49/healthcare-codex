@@ -17,7 +17,7 @@ extension UINavigationBar {
 		appearance.backgroundColor = .mainBlue
 		appearance.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 17.0, weight: .semibold), .foregroundColor: UIColor.allieWhite]
 		navBar.tintColor = .allieWhite
-		navBar.barTintColor = .allieWhite
+		navBar.barTintColor = .mainBlue
 		navBar.scrollEdgeAppearance = appearance
 		navBar.standardAppearance = appearance
 	}
