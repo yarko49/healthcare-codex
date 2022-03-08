@@ -96,23 +96,10 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 		return chatImageView
 	}()
 
-	private var badgeLabel: UILabel = {
-		let badgeLabel = UILabel()
-		badgeLabel.translatesAutoresizingMaskIntoConstraints = false
-		badgeLabel.layer.cornerRadius = 12.0
-		badgeLabel.text = "3"
-		badgeLabel.textColor = .white
-		badgeLabel.textAlignment = .center
-		badgeLabel.font = .systemFont(ofSize: 12.0, weight: .bold)
-		return badgeLabel
-	}()
-
-	private var redCircleView: UIView = {
-		let redCircleView = UIView()
-		redCircleView.translatesAutoresizingMaskIntoConstraints = false
-		redCircleView.backgroundColor = .red
-		redCircleView.layer.cornerRadius = 12.0
-		return redCircleView
+	private var badgeCountView: BadgeView = {
+		let badgeCountView = BadgeView()
+		badgeCountView.translatesAutoresizingMaskIntoConstraints = false
+		return badgeCountView
 	}()
 
 	private var badgeView: UIStackView = {
@@ -139,6 +126,8 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		setupNavigationView()
+
+		NotificationCenter.default.addObserver(self, selector: #selector(observeChatNotification), name: .didReceiveChatNotification, object: nil)
 	}
 
 	override func viewWillDisappear(_ animated: Bool) {
@@ -151,6 +140,10 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 	func setupLayout() {}
 	func localize() {}
 	func populateData() {}
+
+	@objc func observeChatNotification() {
+		badgeCountView.badgeCount = UserDefaults.chatNotificationsCount
+	}
 
 	func setupNavigationView() {
 		navigationView = UIView(frame: CGRect(x: 16, y: 0, width: view.frame.size.width - 32, height: navigationController!.navigationBar.frame.size.height))
@@ -169,14 +162,9 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 		badgeView.centerYAnchor.constraint(equalTo: greetingLabel.centerYAnchor).isActive = true
 		badgeView.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor).isActive = true
 		badgeView.addArrangedSubview(chatImageView)
-		badgeView.addArrangedSubview(redCircleView)
+		badgeView.addArrangedSubview(badgeCountView)
 
-		redCircleView.addSubview(badgeLabel)
-		redCircleView.widthAnchor.constraint(equalToConstant: 24.0).isActive = true
-		redCircleView.heightAnchor.constraint(equalToConstant: 24.0).isActive = true
-
-		badgeLabel.centerXAnchor.constraint(equalTo: redCircleView.centerXAnchor).isActive = true
-		badgeLabel.centerYAnchor.constraint(equalTo: redCircleView.centerYAnchor).isActive = true
+		badgeCountView.badgeCount = UserDefaults.chatNotificationsCount
 
 		chatImageView.widthAnchor.constraint(equalToConstant: 24.0).isActive = true
 		chatImageView.heightAnchor.constraint(equalToConstant: 24.0).isActive = true

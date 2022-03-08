@@ -123,8 +123,6 @@ class MainCoordinator: BaseCoordinator {
 		transitionOptions.direction = .fade
 		window.setRootViewController(rootViewController, options: transitionOptions)
 		AppDelegate.registerServices(patient: careManager.patient)
-		let count = UserDefaults.chatNotificationsCount
-		updateBadges(count: count)
 		let zendCount = UserDefaults.zendeskChatNotificationCount
 		updateZendeskBadges(count: zendCount)
 		#if !targetEnvironment(simulator)
@@ -136,16 +134,6 @@ class MainCoordinator: BaseCoordinator {
 	func showMessagesTab() {
 		let appController = self[.application] as? AppCoordinator
 		appController?.tabBarController?.selectedIndex = 2
-	}
-
-	@MainActor
-	func updateBadges(count: Int) {
-		// FIXME: Needs to be activated once the tab bar is completed. This is for chat-badge.
-//		let appController = self[.application] as? AppCoordinator
-//		let tabbarItem = appController?.tabBarController?.tabBar.items?[2]
-//		tabbarItem?.badgeColor = .systemRed
-//		// swiftlint:disable:next empty_count
-//		tabbarItem?.badgeValue = count > 0 ? "\(count)" : nil
 	}
 
 	@MainActor

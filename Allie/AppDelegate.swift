@@ -54,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		UNUserNotificationCenter.current().delegate = self
 		Messaging.messaging().delegate = self
 		UserDefaults.zendeskChatNotificationCount = 12
+		UserDefaults.chatNotificationsCount = 9
 		ALog.trace("-----------------------> Start of the App <-----------------------")
 		return true
 	}
@@ -203,7 +204,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		if typeString == "chat" {
 			ALog.trace("process notificationInfo: applicationState: \(application.applicationState.rawValue)")
 			let count = UserDefaults.chatNotificationsCount + 1
-			AppDelegate.mainCoordinator?.updateBadges(count: count)
 			UserDefaults.chatNotificationsCount = count
 		} else if typeString == "zendeskSupport" {
 			let count = UserDefaults.zendeskChatNotificationCount + 1
@@ -219,6 +219,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		let totalBadgeCount = UserDefaults.chatNotificationsCount + UserDefaults.zendeskChatNotificationCount
 		UIApplication.shared.applicationIconBadgeNumber = totalBadgeCount
 		NotificationCenter.default.post(name: .didReceiveZendDeskNotification, object: nil)
+		NotificationCenter.default.post(name: .didReceiveChatNotification, object: nil)
 	}
 }
 

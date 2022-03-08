@@ -45,6 +45,15 @@ class SettingCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	override func prepareForReuse() {
+		super.prepareForReuse()
+		for subview in contentView.subviews {
+			if subview.isKind(of: BadgeView.self) {
+				subview.removeFromSuperview()
+			}
+		}
+	}
+
 	func setupViews() {
 		backgroundColor = .clear
 		contentView.backgroundColor = .clear
@@ -64,10 +73,12 @@ class SettingCell: UITableViewCell {
 	func configureCell(type: SettingsType) {
 		title.attributedText = type.title.attributedString(style: .semibold17, foregroundColor: .allieBlack, letterSpacing: -0.41)
 		if type == .feedback {
-			let badgeHub = BadgeHub(view: trailingIcon)
-			badgeHub.moveCircleBy(xPos: -10, yPos: 5)
-			badgeHub.setCountLabelFont(.systemFont(ofSize: 16))
-			badgeHub.setCount(UserDefaults.zendeskChatNotificationCount)
+			let badgeView = BadgeView()
+			badgeView.translatesAutoresizingMaskIntoConstraints = false
+			contentView.addSubview(badgeView)
+			badgeView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+			badgeView.trailingAnchor.constraint(equalTo: trailingIcon.leadingAnchor, constant: -6).isActive = true
+			badgeView.badgeCount = UserDefaults.zendeskChatNotificationCount
 		}
 	}
 }
