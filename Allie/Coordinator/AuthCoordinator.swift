@@ -279,31 +279,31 @@ class AuthCoordinator: BaseCoordinator {
 		careManager.patient = alliePatient
 		let title = NSLocalizedString("CREATING_ACCOUNT", comment: "Creating Account")
 		showHUD(title: title, message: nil, animated: true)
-		Task { [weak self] in
+		Task.detached(priority: .userInitiated) { [weak self] in
 			guard let strongSelf = self else {
 				return
 			}
 
 			do {
-				let carePlanResponse = try await strongSelf.networkAPI.post(patient: alliePatient!)
+				let carePlanResponse = try await strongSelf.networkAPI.post(patient: strongSelf.alliePatient!)
 				if let patient = carePlanResponse.patients.active.first {
-					strongSelf.careManager.patient = patient
+					await strongSelf.careManager.patient = patient
 				}
 
 				_ = await strongSelf.parent?.refreshRemoteConfig()
-				DispatchQueue.main.async {
+				await MainActor.run(body: {
 					strongSelf.hideHUD()
 					strongSelf.gotoHealthViewController(screenFlowType: .healthKit)
-				}
+				})
 			} catch {
-				DispatchQueue.main.async {
+				await MainActor.run(body: {
 					let okAction = AlertHelper.AlertAction(withTitle: String.ok) {
 						strongSelf.parent?.refreshRemoteConfig(completion: { _ in
 							strongSelf.hideHUD()
 						})
 					}
 					strongSelf.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
-				}
+				})
 			}
 		}
 	}

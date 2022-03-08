@@ -9,12 +9,12 @@ import Firebase
 import FirebaseAuth
 import Foundation
 
-struct AuthenticationToken: Codable, Hashable {
+public struct AuthenticationToken: Codable, Hashable {
 	let token: String
 	let expirationDate: Date
 }
 
-extension AuthenticationToken {
+public extension AuthenticationToken {
 	init?(result: AuthTokenResult?) {
 		guard let token = result?.token, let expirationDate = result?.expirationDate else {
 			return nil
@@ -25,7 +25,7 @@ extension AuthenticationToken {
 }
 
 extension AuthenticationToken: CustomStringConvertible {
-	var description: String {
+	public var description: String {
 		"{token: \(token)\nexpirationDate: \(expirationDate)}"
 	}
 }

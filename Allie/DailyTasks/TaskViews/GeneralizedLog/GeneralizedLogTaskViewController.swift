@@ -95,27 +95,35 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 		guard let event = controller.eventFor(indexPath: eventIndexPath), let task = event.task as? OCKHealthKitTask else {
 			return
 		}
-		let value = values.first
+
 		let taskDetailViewController = GeneralizedLogTaskDetailViewController()
 		taskDetailViewController.queryDate = eventQuery.dateInterval.start
 		taskDetailViewController.anyTask = task
 		taskDetailViewController.outcomeValues = values
-		if let uuid = value?.healthKitUUID {
+		if let value = values.first, let uuid = value.healthKitUUID {
 			taskDetailViewController.outcome = try? careManager.dbFindFirstOutcome(sampleId: uuid)
+			existingSample(value: value) { [weak taskDetailViewController] result in
+				if case .success(let sample) = result {
+					taskDetailViewController?.existingSample = sample
+				}
+			}
 		}
 		taskDetailViewController.modalPresentationStyle = .overFullScreen
 
 		taskDetailViewController.healthKitSampleHandler = { [weak taskDetailViewController, weak self] newSample in
-			guard let strongSelf = self, let viewController = taskDetailViewController else {
+			guard let viewController = taskDetailViewController else {
 				return
 			}
-			Task {
+			Task { [weak self] in
+				guard let strongSelf = self else {
+					return
+				}
 				do {
-					_ = try await strongSelf.healthKitStore.save(sample: newSample)
 					var deletedSample: HKSample?
 					if let outcomeValue = viewController.outcomeValues.first {
 						deletedSample = try await strongSelf.controller.deleteOutcome(value: outcomeValue)
 					}
+					_ = try await strongSelf.healthKitStore.save(sample: newSample)
 					let lastOutcomeUplaodDate = UserDefaults.standard[healthKitOutcomesUploadDate: task.healthKitLinkage.quantityIdentifier.rawValue]
 					if let carePlanId = task.carePlanId, newSample.startDate < lastOutcomeUplaodDate, let outcome = strongSelf.careManager.fetchOutcome(sample: newSample, deletedSample: deletedSample, task: task, carePlanId: carePlanId) {
 						_ = try await strongSelf.careManager.upload(outcomes: [outcome])
@@ -124,9 +132,9 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 					ALog.error("Unable to save sample", error: error)
 				}
 
-				DispatchQueue.main.async {
+				await MainActor.run(body: {
 					viewController.dismiss(animated: true, completion: nil)
-				}
+				})
 			}
 		}
 
@@ -210,5 +218,38 @@ class GeneralizedLogTaskViewController: OCKTaskViewController<GeneralizedLogTask
 		existingOutcome.deletedDate = Date()
 		_ = try await careManager.upload(outcomes: [existingOutcome])
 		return existingOutcome
+	}
+
+	func existingSample(value: OCKOutcomeValue) async throws -> HKSample {
+		guard let uuid = value.healthKitUUID, let identifier = value.quantityIdentifier else {
+			throw AllieError.invalid("Invalid outcome value")
+		}
+		if identifier == HKQuantityTypeIdentifier.bloodPressureSystolic.rawValue || identifier == HKQuantityTypeIdentifier.bloodPressureDiastolic.rawValue {
+			guard let bloodPressureType = HKCorrelationType.correlationType(forIdentifier: .bloodPressure) else {
+				throw HealthKitManagerError.invalidInput("Invalid quantityIdentifier")
+			}
+			let sample = try await healthKitStore.fetch(uuid: uuid, quantityIdentifier: bloodPressureType.identifier)
+			return sample
+		} else {
+			let sample = try await healthKitStore.fetch(uuid: uuid, quantityIdentifier: identifier)
+			return sample
+		}
+	}
+
+	func existingSample(value: OCKOutcomeValue, completion: AllieResultCompletion<HKSample>?) {
+		guard let uuid = value.healthKitUUID, let identifier = value.quantityIdentifier else {
+			completion?(.failure(AllieError.invalid("Invalid outcome value")))
+			return
+		}
+
+		if identifier == HKQuantityTypeIdentifier.bloodPressureSystolic.rawValue || identifier == HKQuantityTypeIdentifier.bloodPressureDiastolic.rawValue {
+			guard let bloodPressureType = HKCorrelationType.correlationType(forIdentifier: .bloodPressure) else {
+				completion?(.failure(HealthKitManagerError.invalidInput("Invalid quantityIdentifier")))
+				return
+			}
+			healthKitStore.fetch(uuid: uuid, quantityIdentifier: bloodPressureType.identifier, completion: completion)
+		} else {
+			healthKitStore.fetch(uuid: uuid, quantityIdentifier: identifier, completion: completion)
+		}
 	}
 }

@@ -101,7 +101,7 @@ public class BloodGlucosePeripheral: Peripheral {
 
 			if characteristic.uuid == GATTRecordAccessControlPoint.uuid {
 				racpCharacteristic = characteristic
-				Task { [weak self] in
+				Task.detached(priority: .userInitiated) { [weak self] in
 					guard let strongSelf = self else {
 						return
 					}

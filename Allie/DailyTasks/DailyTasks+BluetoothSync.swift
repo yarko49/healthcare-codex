@@ -114,13 +114,13 @@ extension DailyTasksPageViewController: BloodGlucosePeripheralDataSource {
 
 	func device(_ device: BloodGlucosePeripheral, didReceive readings: [Int: BloodGlucoseReading]) {
 		ALog.info("didReceive readings \(readings)")
-		Task { [weak self] in
+		Task.detached(priority: .userInitiated) { [weak self] in
 			guard let strongSelf = self else {
 				return
 			}
 			do {
 				let samples = try await strongSelf.healthKitManager.save(readings: readings, peripheral: device)
-				strongSelf.updatePatient(peripheral: device)
+				await strongSelf.updatePatient(peripheral: device)
 				_ = try await strongSelf.process(samples: samples, quantityIdentifier: .bloodGlucose)
 			} catch {
 				ALog.error("Error saving data to health kit \(error.localizedDescription)", error: error)
@@ -243,6 +243,15 @@ extension DailyTasksPageViewController {
 		let pulseRateSamples = records.compactMap { record in
 			try? HKSample.createRestingHeartRate(sessionData: sessionData, record: record)
 		}
+
+		//        let irregularHeartRateEvents = records.compactMap { record in
+		//            guard let measurementStatusNumber = record[.bloodPressureMeasurementStatusKey] as? NSNumber, let value = measurementStatusNumber.uint16Value else {
+		//                return
+		//            }
+//
+		//            let status = GATTBloodPressureMeasurement.MeasurementStatus(rawValue: value)
+		//            return status.isPulseNormal ? nil: OCKOutcomeValue(true, units: .none)
+		//        }
 
 		samples.append(contentsOf: pulseRateSamples)
 		guard !samples.isEmpty else {

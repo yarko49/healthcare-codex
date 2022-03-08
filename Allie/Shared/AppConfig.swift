@@ -65,10 +65,6 @@ enum AppConfig {
 		path("Environment", "Twilio_Auth_Token")!
 	}
 
-	static var keychainAccessGroup: String {
-		"29P9H8TMND.com.codexhealth.Allie"
-	}
-
 	static func path(_ keys: String...) -> String? {
 		var current = Bundle.main.infoDictionary
 		for (index, key) in keys.enumerated() {

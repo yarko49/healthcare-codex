@@ -14,7 +14,6 @@ import JGProgressHUD
 import KeychainAccess
 import UIKit
 
-@MainActor
 class MainCoordinator: BaseCoordinator {
 	private(set) var window: UIWindow
 
@@ -32,23 +31,19 @@ class MainCoordinator: BaseCoordinator {
 		navigationController
 	}
 
+	@MainActor
 	func showHUD(title: String? = nil, message: String? = nil, animated: Bool = true) {
-		DispatchQueue.main.async { [weak self] in
-			guard let strongSelf = self else {
-				return
-			}
-			strongSelf.hud.textLabel.text = title
-			strongSelf.hud.detailTextLabel.text = message
-			strongSelf.hud.show(in: strongSelf.window, animated: animated)
-		}
+		hud.textLabel.text = title
+		hud.detailTextLabel.text = message
+		hud.show(in: window, animated: animated)
 	}
 
+	@MainActor
 	func hideHUD(animated: Bool = true) {
-		DispatchQueue.main.async { [weak self] in
-			self?.hud.dismiss(animated: animated)
-		}
+		hud.dismiss(animated: animated)
 	}
 
+	@MainActor
 	init(window: UIWindow) {
 		self.window = window
 		super.init(type: .main)
@@ -64,6 +59,7 @@ class MainCoordinator: BaseCoordinator {
 			}.store(in: &cancellables)
 	}
 
+	@MainActor
 	override func start() {
 		ALog.info("MainCoordinator start")
 		super.start()
@@ -72,16 +68,20 @@ class MainCoordinator: BaseCoordinator {
 			goToAuth()
 		} else {
 			Task { [weak self] in
-				let success = await firebaseAuthentication()
+				guard let strongSelf = self else {
+					return
+				}
+				let success = await strongSelf.firebaseAuthentication()
 				if success {
-					self?.createPatientIfNeeded()
+					await strongSelf.createPatientIfNeeded()
 				} else {
-					goToAuth()
+					strongSelf.goToAuth()
 				}
 			}
 		}
 	}
 
+	@MainActor
 	func goToAuth(url: String? = nil) {
 		ALog.info("goToAuth: \(String(describing: url))")
 		removeCoordinator(ofType: .application)
@@ -90,26 +90,30 @@ class MainCoordinator: BaseCoordinator {
 		window.rootViewController = authCoordinator.rootViewController
 	}
 
+	@MainActor
 	public func gotoMainApp() {
 		showHUD()
-		Task { [weak self] in
+		Task.detached(priority: .userInitiated) { [weak self] in
 			guard let strongSelf = self else {
 				return
 			}
 			do {
 				let organizations = try await strongSelf.networkAPI.getOrganizations()
-				strongSelf.organizations = organizations
+				await MainActor.run(body: {
+					strongSelf.organizations = organizations
+				})
 			} catch {
 				ALog.error("Error Getting Organizations", error: error)
 			}
 
-			DispatchQueue.main.async { [weak self] in
+			await MainActor.run(body: { [weak self] in
 				self?.hideHUD()
 				self?.showMainApp()
-			}
+			})
 		}
 	}
 
+	@MainActor
 	func showMainApp() {
 		removeCoordinator(ofType: .application)
 		let appCoordinator = AppCoordinator(parent: self)
@@ -128,11 +132,13 @@ class MainCoordinator: BaseCoordinator {
 		#endif
 	}
 
+	@MainActor
 	func showMessagesTab() {
 		let appController = self[.application] as? AppCoordinator
 		appController?.tabBarController?.selectedIndex = 2
 	}
 
+	@MainActor
 	func updateBadges(count: Int) {
 		// FIXME: Needs to be activated once the tab bar is completed. This is for chat-badge.
 //		let appController = self[.application] as? AppCoordinator
@@ -142,6 +148,7 @@ class MainCoordinator: BaseCoordinator {
 //		tabbarItem?.badgeValue = count > 0 ? "\(count)" : nil
 	}
 
+	@MainActor
 	func updateZendeskBadges(count: Int) {
 		let appController = self[.application] as? AppCoordinator
 		let tabbarItem = appController?.tabBarController?.tabBar.items?[3]
@@ -150,20 +157,19 @@ class MainCoordinator: BaseCoordinator {
 		tabbarItem?.badgeValue = count > 0 ? "\(count)" : nil
 	}
 
-	func createPatientIfNeeded() {
+	func createPatientIfNeeded() async {
 		if let patient = careManager.patient, patient.profile.fhirId == nil {
-			Task { [weak self] in
-				do {
-					_ = try await networkAPI.post(patient: patient)
-				} catch {
-					ALog.error("\(error.localizedDescription)")
-					DispatchQueue.main.async { [weak self] in
-						AlertHelper.showAlert(title: String.error, detailText: String.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)], from: self?.window.visibleViewController)
-					}
+			do {
+				_ = try await networkAPI.post(patient: patient)
+			} catch {
+				ALog.error("\(error.localizedDescription)")
+				await MainActor.run { [weak self] in
+					AlertHelper.showAlert(title: String.error, detailText: String.createPatientFailed, actions: [AlertHelper.AlertAction(withTitle: String.ok)], from: self?.window.visibleViewController)
 				}
-				DispatchQueue.main.async { [weak self] in
-					self?.gotoMainApp()
-				}
+			}
+
+			await MainActor.run { [weak self] in
+				self?.gotoMainApp()
 			}
 		} else {
 			gotoMainApp()
@@ -187,27 +193,6 @@ class MainCoordinator: BaseCoordinator {
 			ALog.error("Error getting token:", error: error)
 			return false
 		}
-	}
-
-	func firebaseAuthentication(completion: @escaping (Bool) -> Void) {
-		Auth.auth().currentUser?.getIDTokenResult(completion: { [weak self] tokenResult, error in
-			guard error == nil else {
-				ALog.error("Error signing out:", error: error)
-				completion(false)
-				return
-			}
-			guard tokenResult?.token != nil else {
-				completion(false)
-				return
-			}
-			if let userId = Auth.auth().currentUser?.uid {
-				_ = self?.resetDataIfNeeded(newPatientId: userId)
-			}
-			if let token = AuthenticationToken(result: tokenResult) {
-				self?.keychain.authenticationToken = token
-			}
-			completion(true)
-		})
 	}
 
 	func syncHealthKitData() {
@@ -263,6 +248,7 @@ class MainCoordinator: BaseCoordinator {
 		return result
 	}
 
+	@MainActor
 	func showUpgradeAlertIfNeede() {
 		let current = ApplicationVersion.current!
 		let supportedVersion = remoteConfig.minimumSupportedVersion

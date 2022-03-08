@@ -203,9 +203,9 @@
 		47D0E8D527C77404003FFDA8 /* CareManager+AsyncOutcomes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D0E8D427C77404003FFDA8 /* CareManager+AsyncOutcomes.swift */; };
 		47D0E8D627C77404003FFDA8 /* CareManager+AsyncOutcomes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D0E8D427C77404003FFDA8 /* CareManager+AsyncOutcomes.swift */; };
 		47D0E8D727C77404003FFDA8 /* CareManager+AsyncOutcomes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D0E8D427C77404003FFDA8 /* CareManager+AsyncOutcomes.swift */; };
-		47DA6AAE27B79FE5006C2BBC /* BSOSessionData+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DA6AAD27B79FE5006C2BBC /* BSOSessionData+Validation.swift */; };
-		47DA6AAF27B79FE5006C2BBC /* BSOSessionData+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DA6AAD27B79FE5006C2BBC /* BSOSessionData+Validation.swift */; };
-		47DA6AB027B79FE5006C2BBC /* BSOSessionData+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DA6AAD27B79FE5006C2BBC /* BSOSessionData+Validation.swift */; };
+		47DA6AAE27B79FE5006C2BBC /* SessionData+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DA6AAD27B79FE5006C2BBC /* SessionData+Validation.swift */; };
+		47DA6AAF27B79FE5006C2BBC /* SessionData+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DA6AAD27B79FE5006C2BBC /* SessionData+Validation.swift */; };
+		47DA6AB027B79FE5006C2BBC /* SessionData+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DA6AAD27B79FE5006C2BBC /* SessionData+Validation.swift */; };
 		47F6B6DD27B7937F008501E1 /* SessionData.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F6B6DB27B7937F008501E1 /* SessionData.m */; };
 		47F6B6DE27B7937F008501E1 /* SessionData.h in Headers */ = {isa = PBXBuildFile; fileRef = 47F6B6DC27B7937F008501E1 /* SessionData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		47FEBE0227BCF22C00359688 /* HKSample+BodyMass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FEBE0127BCF22C00359688 /* HKSample+BodyMass.swift */; };
@@ -1174,7 +1174,7 @@
 		47C9846327AA778E00FB7907 /* HKSample+BloodPressure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKSample+BloodPressure.swift"; sourceTree = "<group>"; };
 		47CAD9DE27A351AA000CD9FB /* Dictionary+OHQMeasurementRecordKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+OHQMeasurementRecordKey.swift"; sourceTree = "<group>"; };
 		47D0E8D427C77404003FFDA8 /* CareManager+AsyncOutcomes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+AsyncOutcomes.swift"; sourceTree = "<group>"; };
-		47DA6AAD27B79FE5006C2BBC /* BSOSessionData+Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BSOSessionData+Validation.swift"; sourceTree = "<group>"; };
+		47DA6AAD27B79FE5006C2BBC /* SessionData+Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionData+Validation.swift"; sourceTree = "<group>"; };
 		47F6B6DB27B7937F008501E1 /* SessionData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionData.m; sourceTree = "<group>"; };
 		47F6B6DC27B7937F008501E1 /* SessionData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionData.h; sourceTree = "<group>"; };
 		47FEBE0127BCF22C00359688 /* HKSample+BodyMass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKSample+BodyMass.swift"; sourceTree = "<group>"; };
@@ -1891,6 +1891,7 @@
 				84AF4CFA26CA104D00867349 /* CareManager+Injectable.swift */,
 				84749FBA26313B4200D7D7A8 /* CareManager+HealthKitSynchronization.swift */,
 				8456DEC82754BBB100D5958B /* CareManager+OutcomeSynchronization.swift */,
+				84C212A02660B3AC000D491B /* CareManager+FeatureContent.swift */,
 				8450848E271AA93A0014764A /* CareManager+Persistance.swift */,
 				84B9739826EDD3020094B35C /* CareManager+Patients.swift */,
 				4765CA5727C8BA9100C751B1 /* CareManager+AsyncPatients.swift */,
@@ -1899,7 +1900,6 @@
 				4765CA5B27C8BCB100C751B1 /* CarePlan+AsyncTasks.swift */,
 				84B9739426EDD2230094B35C /* CareManager+Outcomes.swift */,
 				47D0E8D427C77404003FFDA8 /* CareManager+AsyncOutcomes.swift */,
-				84C212A02660B3AC000D491B /* CareManager+FeatureContent.swift */,
 				840BC7422723CB0400C7EE7E /* CoreData */,
 			);
 			path = CareManager;
@@ -2236,7 +2236,7 @@
 				2515505D27A00E0000C40BC5 /* NewDailyTasks */,
 				84342FCF25A8276C00B3EF5B /* DailyTasksPageViewController.swift */,
 				84E6DA4426C641A4006847FE /* DailyTasks+BluetoothSync.swift */,
-				47DA6AAD27B79FE5006C2BBC /* BSOSessionData+Validation.swift */,
+				47DA6AAD27B79FE5006C2BBC /* SessionData+Validation.swift */,
 				843F514227291DBA00E801DE /* Common */,
 				8487485E25B3F954008C15E2 /* TaskViews */,
 			);
@@ -3339,6 +3339,7 @@
 				84D3F690264A4C2800241BBB /* OCKTaskEvents+Extension.swift in Sources */,
 				47DA6AAE27B79FE5006C2BBC /* BSOSessionData+Validation.swift in Sources */,
 				25DD5D7027D2BBAE00C32282 /* BadgeView.swift in Sources */,
+				47DA6AAE27B79FE5006C2BBC /* SessionData+Validation.swift in Sources */,
 				842322612717E228008B50F0 /* FileLoggingConfig.swift in Sources */,
 				84873BA225CA7765004195BB /* OCKStore+Update.swift in Sources */,
 				845B453F269B9C1C00EC5211 /* HKCorrelationTypeIdentifier+Linkage.swift in Sources */,
@@ -3644,6 +3645,7 @@
 				847DCC20265871F3004E9C1D /* OCKStore+Update.swift in Sources */,
 				256FAE0127C42B4500FBB3D9 /* CarePlanLinkCell.swift in Sources */,
 				47DA6AB027B79FE5006C2BBC /* BSOSessionData+Validation.swift in Sources */,
+				47DA6AB027B79FE5006C2BBC /* SessionData+Validation.swift in Sources */,
 				845B4541269B9C1C00EC5211 /* HKCorrelationTypeIdentifier+Linkage.swift in Sources */,
 				847DCC22265871F3004E9C1D /* UILabel+Height.swift in Sources */,
 				2577351527C04EB100DF152C /* FollowViewModel.swift in Sources */,
@@ -3950,6 +3952,7 @@
 				84D12250264112DE00990196 /* OCKStore+Update.swift in Sources */,
 				256FAE0027C42B4500FBB3D9 /* CarePlanLinkCell.swift in Sources */,
 				47DA6AAF27B79FE5006C2BBC /* BSOSessionData+Validation.swift in Sources */,
+				47DA6AAF27B79FE5006C2BBC /* SessionData+Validation.swift in Sources */,
 				845B4540269B9C1C00EC5211 /* HKCorrelationTypeIdentifier+Linkage.swift in Sources */,
 				84D12251264112DE00990196 /* UILabel+Height.swift in Sources */,
 				2577351427C04EB100DF152C /* FollowViewModel.swift in Sources */,
@@ -4392,7 +4395,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4422,7 +4425,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4548,7 +4551,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4578,7 +4581,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4717,7 +4720,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4747,7 +4750,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -8,7 +8,7 @@
 import Combine
 import UIKit
 
-extension APIClient {
+public extension APIClient {
 	func loadImage(urlString: String) -> AnyPublisher<UIImage, Error> {
 		webService.loadImage(urlString: urlString)
 	}

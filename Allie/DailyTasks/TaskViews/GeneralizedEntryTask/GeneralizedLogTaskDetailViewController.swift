@@ -9,6 +9,7 @@ import CareKitStore
 import CareModel
 import Combine
 import HealthKit
+import JGProgressHUD
 import UIKit
 
 enum GeneralizedEntryTaskError: Error {
@@ -29,6 +30,12 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		return view
 	}()
 
+	lazy var hud: JGProgressHUD = {
+		let hud = JGProgressHUD(style: .dark)
+		hud.textLabel.text = NSLocalizedString("SAVING_DOTS", comment: "Saving...")
+		return hud
+	}()
+
 	var outcome: CHOutcome?
 	var outcomeValues: [OCKOutcomeValue] = []
 	var outcomeIndex: Int?
@@ -37,6 +44,8 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 	var task: OCKTask? {
 		anyTask as? OCKTask
 	}
+
+	var existingSample: HKSample?
 
 	var healthKitTask: OCKHealthKitTask? {
 		anyTask as? OCKHealthKitTask
@@ -356,7 +365,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		}
 
 		let date = unitView.date
-		let sample = HKDiscreteQuantitySample(insulinUnits: value, startDate: date, reason: reason)
+		let sample = HKDiscreteQuantitySample(insulinUnits: value, startDate: date, reason: reason, metadata: existingSample?.metadata)
 		return sample
 	}
 
@@ -391,7 +400,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 			throw GeneralizedEntryTaskError.invalid(NSLocalizedString("VALUE_RANGE_INVALID", comment: "Value must be greater than \(valueRange.lowerBound) and less than or equal to \(valueRange.upperBound)"))
 		}
 
-		let sample = HKDiscreteQuantitySample(bloodGlucose: Double(value), startDate: date, mealTime: mealTime)
+		let sample = HKDiscreteQuantitySample(bloodGlucose: Double(value), startDate: date, mealTime: mealTime, metadata: existingSample?.metadata)
 		return sample
 	}
 
@@ -405,7 +414,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		}
 
 		let quantity = HKQuantity(unit: HealthKitDataType.bodyMass.unit, doubleValue: Double(value))
-		var metadata: [String: Any] = [:]
+		var metadata: [String: Any] = existingSample?.metadata ?? [:]
 		metadata[HKMetadataKeyTimeZone] = TimeZone.current.identifier
 		metadata[HKMetadataKeyWasUserEntered] = true
 		metadata[CHMetadataKeyUpdatedDate] = Date()
@@ -446,7 +455,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		let bloodPressureCorrelationType = HKCorrelationType.correlationType(forIdentifier: .bloodPressure)!
 		let bloodPressureCorrelation = Set<HKSample>(arrayLiteral: systolicSample, diastolicSample)
 
-		var metadata: [String: Any] = [:]
+		var metadata: [String: Any] = existingSample?.metadata ?? [:]
 		metadata[HKMetadataKeyTimeZone] = TimeZone.current.identifier
 		metadata[HKMetadataKeyWasUserEntered] = true
 		metadata[CHMetadataKeyUpdatedDate] = Date()
@@ -521,10 +530,13 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 	}
 
 	private func saveHealthKit() {
+		hud.show(in: tabBarController?.view ?? view)
 		do {
 			let sample = try createHealthKitSample()
 			healthKitSampleHandler?(sample)
+			hud.dismiss(animated: true)
 		} catch {
+			hud.dismiss(animated: true)
 			let title = NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA", comment: "Error saving data!")
 			var message: String?
 			var showSettings = false
@@ -542,10 +554,13 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 	}
 
 	func saveOutcomeValue() {
+		hud.show(in: tabBarController?.view ?? view)
 		do {
 			let outcomeValue = try createOutcomeValue()
 			outcomeValueHandler?(outcomeValue)
+			hud.dismiss(animated: true)
 		} catch {
+			hud.dismiss(animated: true)
 			let title = NSLocalizedString("ERROR_SAVING_OUTCOME", comment: "Error saving outcome!")
 			var message: String?
 			var showSettings = false

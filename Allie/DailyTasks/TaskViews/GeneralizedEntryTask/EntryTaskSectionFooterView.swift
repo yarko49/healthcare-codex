@@ -86,6 +86,7 @@ class EntryTaskSectionFooterView: UIView {
 	}
 
 	@objc func saveItem(_ sender: Any?) {
+		saveButton.isEnabled = false
 		delegate?.entryTaskSectionFooterViewDidSelectSave(self)
 	}
 

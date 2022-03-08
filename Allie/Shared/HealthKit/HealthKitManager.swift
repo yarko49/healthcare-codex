@@ -65,7 +65,7 @@ class HealthKitManager {
 		let healthKitTypesToRead: Set<HKQuantityType> = [bodyMass, heartRate, restingHeartRate, bloodPressureDiastolic, bloodPressureSystolic, stepCount, bloodGloucose, insulinDelivery]
 		healthStore.requestAuthorization(toShare: healthKitTypesToWrite, read: healthKitTypesToRead) { [weak self] success, error in
 			if success {
-				DispatchQueue.global(qos: .background).async {
+				DispatchQueue.global(qos: .background).async { [weak self] in
 					self?.sequenceNumbers.removeAll()
 					self?.fetchAllSequenceNumbers { newValues in
 						self?.sequenceNumbers.formUnion(newValues)

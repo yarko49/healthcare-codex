@@ -19,7 +19,7 @@ public let BGMMetadataKeyMeasurementRecord = "BMGMeasurementRecord"
 public let BGMMetadataKeyContextRecord = "BGMContextRecord"
 
 public extension CHOutcome {
-	init?(sample: HKSample, task: OCKHealthKitTask, carePlanId: String) {
+	init?(sample: HKSample, task: OCKHealthKitTask, carePlanId: String, deletedSample: HKSample?) {
 		self.init(taskUUID: task.uuid, taskID: task.id, carePlanID: carePlanId, taskOccurrenceIndex: 0, values: [])
 
 		let linkage = task.healthKitLinkage
@@ -73,10 +73,15 @@ public extension CHOutcome {
 		effectiveDate = task.effectiveDate
 		startDate = sample.startDate
 		endDate = sample.endDate
-		if let hkDevice = sample.device {
+		if let hkDevice = sample.device ?? deletedSample?.device {
 			device = CHDevice(device: hkDevice)
 		}
 		var metadata = sample.metadata
+		if let existingMetaData = deletedSample?.metadata {
+			metadata?.merge(existingMetaData, uniquingKeysWith: { _, existing in
+				existing
+			})
+		}
 		if let updatedDate = metadata?[CHMetadataKeyUpdatedDate] as? Date {
 			self.updatedDate = updatedDate
 			metadata?.removeValue(forKey: CHMetadataKeyUpdatedDate)
@@ -86,7 +91,7 @@ public extension CHOutcome {
 			self.isBluetoothCollected = !userEntered
 			metadata?.removeValue(forKey: HKMetadataKeyWasUserEntered)
 		}
-		self.provenance = sample.provenance
+		self.provenance = deletedSample?.provenance ?? sample.provenance
 		[BGMMetadataKeyDeviceId, BGMMetadataKeyDeviceName, BGMMetadataKeySequenceNumber, BGMMetadataKeyMeasurementRecord, BGMMetadataKeyContextRecord, BGMMetadataKeyBloodSampleType, BGMMetadataKeySampleLocation].forEach { key in
 			metadata?.removeValue(forKey: key)
 		}
