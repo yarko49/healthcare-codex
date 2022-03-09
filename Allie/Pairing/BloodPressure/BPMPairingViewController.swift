@@ -13,6 +13,7 @@ import UIKit
 
 class BPMPairingViewController: PairingViewController {
 	override func viewDidLoad() {
+		deviceCategory = .bloodPressureMonitor
 		viewModel = PairingViewModel(pages: PairingItem.bloodPressureItems)
 		super.viewDidLoad()
 		titleLabel.text = NSLocalizedString("BLOOD_PRESSURE_PAIRING", comment: "Blood Pressure Pairing")

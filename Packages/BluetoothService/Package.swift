@@ -8,10 +8,7 @@ let package = Package(
 	platforms: [.iOS(.v14), .watchOS(.v7)],
 	products: [
 		// Products define the executables and libraries a package produces, and make them visible to other packages.
-		.library(
-			name: "BluetoothService",
-			targets: ["BluetoothService"]
-		),
+		.library(name: "BluetoothService", targets: ["BluetoothService"]),
 	],
 	dependencies: [
 		// Dependencies declare other packages that this package depends on.
@@ -25,9 +22,6 @@ let package = Package(
 			name: "BluetoothService",
 			dependencies: ["CodexFoundation"]
 		),
-		.testTarget(
-			name: "BluetoothServiceTests",
-			dependencies: ["BluetoothService", "CodexFoundation"]
-		),
+		.testTarget(name: "BluetoothServiceTests", dependencies: ["BluetoothService", "CodexFoundation"]),
 	]
 )

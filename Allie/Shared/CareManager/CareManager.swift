@@ -18,6 +18,7 @@ import UIKit
 
 class CareManager: NSObject, ObservableObject {
 	@Injected(\.careManager) static var shared: CareManager // Hack for few things
+
 	enum Constants {
 		static let careStore = "CareStore"
 		static let healthKitPassthroughStore = "HealthKitPassthroughStore"
@@ -180,6 +181,9 @@ class CareManager: NSObject, ObservableObject {
 	private(set) var carePlanResponse: CHCarePlanResponse?
 	private(set) var carePlan: CHCarePlan?
 	private(set) var tasks: [String: CHTask] = [:]
+	var activePatient: CHPatient? {
+		carePlanResponse?.patients.active.first
+	}
 
 	private(set) lazy var dbStore: CoreDataManager = .init(modelName: "HealthStore")
 
@@ -210,9 +214,8 @@ extension CareManager {
 			guard let strongSelf = self else {
 				return
 			}
-			ALog.info("isMainThread \(Thread.isMainThread)")
 			do {
-				let response = try await strongSelf.process(carePlanResponse: carePlanResponse, forceReset: forceReset)
+				let response = try await strongSelf.process(newCarePlanResponse: carePlanResponse, forceReset: forceReset)
 				completion?(.success(response))
 			} catch {
 				completion?(.failure(error))
@@ -220,24 +223,20 @@ extension CareManager {
 		})
 	}
 
-	func process(carePlanResponse: CHCarePlanResponse, forceReset: Bool = false) async throws -> CHCarePlanResponse {
-		var updateCarePlanResponse = CHCarePlanResponse()
-		tasks = carePlanResponse.tasks.reduce([:]) { partialResult, task in
+	func process(newCarePlanResponse response: CHCarePlanResponse, forceReset: Bool = false) async throws -> CHCarePlanResponse {
+		let newCarePlanResponse = response
+		let existingCarePlanResponse = carePlanResponse
+		patient = newCarePlanResponse.patients.active.first
+		carePlan = newCarePlanResponse.carePlans.active.first
+		try save(carePlanResponse: newCarePlanResponse)
+
+		tasks = newCarePlanResponse.tasks.reduce([:]) { partialResult, task in
 			var result = partialResult
 			result[task.id] = task
 			return result
 		}
 
-		let existingCarePlanResponse = self.carePlanResponse
-		do {
-			try await writeStoreCarePlan()
-		} catch {
-			ALog.error("Unable to write careplan", error: error)
-		}
-		patient = carePlanResponse.patients.active.first
-		carePlan = carePlanResponse.carePlans.active.first
-		try save(carePlanResponse: carePlanResponse)
-		self.carePlanResponse = carePlanResponse
+		carePlanResponse = newCarePlanResponse
 		// We do not store patient object in CareKitStore
 		do {
 			try await deleteAllPatients()
@@ -252,14 +251,14 @@ extension CareManager {
 			ALog.error("Unable to delete carePlans", error: error)
 		}
 
-		let carePlans = carePlanResponse.carePlans
+		let carePlans = newCarePlanResponse.carePlans
 		let activeCarePlan = carePlans.active.first
-		let taskIds = carePlanResponse.tasks.map { task in
+		let taskIds = newCarePlanResponse.tasks.map { task in
 			task.id
 		}
 		try await deleteTasks(exclude: Set(taskIds), carePlans: [])
 		try await deleteHealthKitTasks(exclude: Set(taskIds), carePlans: [])
-		let toProcess = carePlanResponse.tasks(forCarePlanId: activeCarePlan?.id ?? "")
+		let toProcess = newCarePlanResponse.tasks(forCarePlanId: activeCarePlan?.id ?? "")
 		if !toProcess.isEmpty {
 			let existingTasks = existingCarePlanResponse?.tasks ?? []
 			let shouldUpdateTasks = existingTasks != toProcess
@@ -274,26 +273,23 @@ extension CareManager {
 
 					let processedTasks = try await process(tasks: toProcess, carePlan: activeCarePlan, existingTasks: existingTasksById)
 					ALog.info("Tasks saved = \(String(describing: processedTasks.count))")
-					updateCarePlanResponse.tasks.append(contentsOf: processedTasks)
 				} catch {
 					ALog.error("Error Procesing tasks", error: error)
 				}
 			}
 		}
-		let toDelete = carePlanResponse.tasks.deleted
+
+		let toDelete = newCarePlanResponse.tasks.deleted
 		if !toDelete.isEmpty {
 			do {
 				let processedTasks = try await process(tasks: toProcess, carePlan: activeCarePlan, existingTasks: [:])
-				updateCarePlanResponse.tasks.append(contentsOf: processedTasks)
 				ALog.info("Tasks deleted = \(String(describing: processedTasks.count))")
 			} catch {
 				ALog.error("Error Procesing tasks", error: error)
 			}
 		}
 
-		try save(carePlanResponse: updateCarePlanResponse)
-		self.carePlanResponse = updateCarePlanResponse
-		return updateCarePlanResponse
+		return newCarePlanResponse
 	}
 
 	func register(organization: CMOrganization) -> AnyPublisher<Bool, Never> {
@@ -346,31 +342,5 @@ extension CareManager: OCKRemoteSynchronizationDelegate {
 extension CareManager: OCKResetDelegate {
 	func storeDidReset(_ store: OCKAnyResettableStore) {
 		ALog.trace("Store \(store) did reset")
-	}
-}
-
-extension CareManager {
-	func writeStoreCarePlan() async throws {
-		let fileManager = FileManager()
-		guard let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
-			throw AllieError.forbidden("Missing directory")
-		}
-		let ockTask = documentsDirectory.appendingPathComponent("CareKitStoreOCKTasks.json")
-		let query = OCKTaskQuery(for: Date())
-		let tasks = try await store.fetchAnyTasks(query: query)
-		let ockTasks = tasks.compactMap { anyTask in
-			anyTask as? OCKTask
-		}
-		let encoder = JSONEncoder()
-		encoder.dateEncodingStrategy = .iso8601WithFractionalSeconds
-		let ockData = try encoder.encode(ockTasks)
-		try ockData.write(to: ockTask, options: .atomic)
-		let healthKitTasks = tasks.compactMap { anyTask in
-			anyTask as? OCKHealthKitTask
-		}
-
-		let hkTask = documentsDirectory.appendingPathComponent("CareKitStoreHKTasks.json")
-		let hkData = try encoder.encode(healthKitTasks)
-		try hkData.write(to: hkTask, options: .atomic)
 	}
 }

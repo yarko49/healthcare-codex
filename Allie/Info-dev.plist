@@ -84,8 +84,6 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>Allie uses bluetooth to find and connect with smart devices</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>

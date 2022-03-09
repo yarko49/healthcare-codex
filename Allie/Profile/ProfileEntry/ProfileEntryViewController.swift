@@ -113,12 +113,18 @@ class ProfileEntryViewController: SignupBaseViewController {
 		}.eraseToAnyPublisher()
 	}
 
+	let supportedCharaterSet: CharacterSet = {
+		var set = CharacterSet.alphanumerics
+		set.insert(charactersIn: " -")
+		return set
+	}()
+
 	var validFirstName: AnyPublisher<Bool, Never> {
 		$firstName
 			.debounce(for: 0.2, scheduler: RunLoop.main)
 			.removeDuplicates()
 			.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-			.map(\.cf_sanitized)
+			.map { $0.cf_sanitized(characterSet: self.supportedCharaterSet) }
 			.map { $0.count > 1 ? true : false }
 			.eraseToAnyPublisher()
 	}
@@ -128,7 +134,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 			.debounce(for: 0.2, scheduler: RunLoop.main)
 			.removeDuplicates()
 			.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-			.map(\.cf_sanitized)
+			.map { $0.cf_sanitized(characterSet: self.supportedCharaterSet) }
 			.map { $0.count > 1 ? true : false }
 			.eraseToAnyPublisher()
 	}

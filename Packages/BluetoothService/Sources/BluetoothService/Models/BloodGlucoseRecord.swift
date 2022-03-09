@@ -48,6 +48,10 @@ public struct BloodGlucoseRecord: Identifiable, Hashable {
 		self.measurementData = measurementData
 		self.contextData = contextData
 	}
+
+	public var isValid: Bool {
+		glucoseConcentration < 10000
+	}
 }
 
 public extension BloodGlucoseRecord {

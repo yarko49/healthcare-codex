@@ -8,6 +8,7 @@
 import Foundation
 
 public enum CHGroupIdentifierType: String, Hashable, CaseIterable {
+	case simple = "SIMPLE"
 	case labeledValue = "LABELED_VALUE"
 	case numericProgress = "NUMERIC_PROGRESS"
 	case grid = "GRID"
@@ -17,8 +18,9 @@ public enum CHGroupIdentifierType: String, Hashable, CaseIterable {
 	case instruction = "INSTRUCTION"
 	case featuredContent = "FEATURED_CONTENT"
 	case link = "LINK"
-	case simple = "SIMPLE"
 	case symptoms = "SYMPTOMS"
 	case dexcom = "INTEGRATION_DEXCOM"
 	case cgm = "BLUETOOTH_CGM"
+	case restingHeartRate = "RESTING_HEART_RATE"
+	case irregularHeartRhythm = "IRREGULAR_HEART_RHYTHM"
 }

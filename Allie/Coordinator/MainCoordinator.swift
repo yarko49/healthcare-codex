@@ -24,9 +24,6 @@ class MainCoordinator: BaseCoordinator {
 	}()
 
 	@Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
-	@KeychainStorage(Keychain.Keys.organizations)
-	var organizations: CMOrganizations?
-
 	override public var rootViewController: UIViewController? {
 		navigationController
 	}
@@ -93,23 +90,19 @@ class MainCoordinator: BaseCoordinator {
 	@MainActor
 	public func gotoMainApp() {
 		showHUD()
-		Task.detached(priority: .userInitiated) { [weak self] in
+		Task { [weak self] in
 			guard let strongSelf = self else {
 				return
 			}
 			do {
 				let organizations = try await strongSelf.networkAPI.getOrganizations()
-				await MainActor.run(body: {
-					strongSelf.organizations = organizations
-				})
+				strongSelf.keychain.organizations = organizations
 			} catch {
 				ALog.error("Error Getting Organizations", error: error)
 			}
 
-			await MainActor.run(body: { [weak self] in
-				self?.hideHUD()
-				self?.showMainApp()
-			})
+			strongSelf.hideHUD()
+			strongSelf.showMainApp()
 		}
 	}
 

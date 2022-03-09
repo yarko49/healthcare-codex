@@ -23,4 +23,13 @@ final class BluetoothServiceTests: XCTestCase {
 		//        XCTAssertEqual(measurement!.pulseRate, 67)
 		//        XCTAssertEqual(measurement!.unit, .mmHg)
 	}
+
+	func testInvalidBloodGlucoseReading() throws {
+		let data = Data(base64Encoded: "AwwA5gcDBwgXJiD+Agix")!
+		let reading = BloodGlucoseReading(measurementData: data, contextData: nil)
+		XCTAssertEqual(reading.units, GATTBloodGlucoseMeasurement.ConcentrationUnit.kg)
+		XCTAssertEqual(reading.concentration, 2050)
+		let record = BloodGlucoseRecord(reading: reading)
+		XCTAssertFalse(record.isValid)
+	}
 }

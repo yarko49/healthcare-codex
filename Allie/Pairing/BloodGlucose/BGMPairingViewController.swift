@@ -14,6 +14,7 @@ import UIKit
 
 class BGMPairingViewController: PairingViewController {
 	override func viewDidLoad() {
+		deviceCategory = .bloodGlucoseMonitor
 		super.viewDidLoad()
 		titleLabel.text = NSLocalizedString("BLOOD_GLUCOSE_PAIRING", comment: "Blood Glucose Pairing")
 	}

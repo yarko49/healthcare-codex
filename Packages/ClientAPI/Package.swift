@@ -8,10 +8,7 @@ let package = Package(
 	platforms: [.iOS(.v13), .watchOS(.v6)],
 	products: [
 		// Products define the executables and libraries a package produces, and make them visible to other packages.
-		.library(
-			name: "ClientAPI",
-			targets: ["ClientAPI"]
-		),
+		.library(name: "ClientAPI", targets: ["ClientAPI"]),
 	],
 	dependencies: [
 		// Dependencies declare other packages that this package depends on.
@@ -27,9 +24,6 @@ let package = Package(
 			dependencies: ["WebService", "CodexModel",
 			               .product(name: "ModelsR4", package: "FHIRModels")]
 		),
-		.testTarget(
-			name: "ClientAPITests",
-			dependencies: ["ClientAPI"]
-		),
+		.testTarget(name: "ClientAPITests", dependencies: ["ClientAPI"]),
 	]
 )

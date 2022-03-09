@@ -112,6 +112,18 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
 #pragma mark - OHQDeviceManager class implementation
 ///---------------------------------------------------------------------------------------
 
+// Service UUID Strings
+static NSString * const BloodGlucoseServiceUUIDString = @"1808";
+static NSString * const BloodPressureServiceUUIDString = @"1810";
+static NSString * const BodyCompositionServiceUUIDString = @"181B";
+static NSString * const WeightScaleServiceUUIDString = @"181D";
+
+// Service UUIDs
+static CBUUID * _bloodGlucoseServiceUUID = nil;
+static CBUUID * _bloodPressureServiceUUID = nil;
+static CBUUID * _bodyCompositionServiceUUID = nil;
+static CBUUID * _weightScaleServiceUUID = nil;
+
 @implementation OHQDeviceManager
 
 + (void)initialize {
@@ -124,6 +136,22 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
             _weightScaleServiceUUID = [CBUUID UUIDWithString:WeightScaleServiceUUIDString];
         });
     }
+}
+
++ (CBUUID *)bloodGlucoseServiceUUID {
+    return _bloodGlucoseServiceUUID;
+}
+
++ (CBUUID *)bloodPressureServiceUUID {
+    return _bloodPressureServiceUUID;
+}
+
++ (CBUUID *)bodyCompositionServiceUUID {
+    return _bodyCompositionServiceUUID;
+}
+
++ (CBUUID *)weightScaleServiceUUID {
+    return _weightScaleServiceUUID;
 }
 
 - (instancetype)init {

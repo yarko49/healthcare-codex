@@ -29,7 +29,9 @@ void OHQLog(OHQLogLevel level, NSString *formatString, ...) {
     NSDate *timeStamp = [NSDate date];
     
 #ifdef OHQ_OPTION_ENABLE_LOG_OUTPUT_TO_CONSOLE
-    NSLog(@"%@ %@", _levelMarks[level], body);
+    if(level <= OHQ_OPTION_ENABLE_LOG_OUTPUT_TO_CONSOLE_LEVEL) {
+        NSLog(@"%@ %@", _levelMarks[level], body);
+    }
 #endif // OHQ_OPTION_ENABLE_LOG_OUTPUT_TO_CONSOLE
     [[OHQLogStore sharedStore] append:level timeStamp:timeStamp log:log];
 }
@@ -55,7 +57,9 @@ void OHQFuncLog(OHQLogLevel level, const char *function, int line, NSString *for
     NSDate *timeStamp = [NSDate date];
     
 #ifdef OHQ_OPTION_ENABLE_LOG_OUTPUT_TO_CONSOLE
-    NSLog(@"%@ L%d:%s %@", _levelMarks[level], line, function, body);
+    if(level <= OHQ_OPTION_ENABLE_LOG_OUTPUT_TO_CONSOLE_LEVEL) {
+        NSLog(@"%@ L%d:%s %@", _levelMarks[level], line, function, body);
+    }
 #endif // OHQ_OPTION_ENABLE_LOG_OUTPUT_TO_CONSOLE
     [[OHQLogStore sharedStore] append:level timeStamp:timeStamp log:log];
 }

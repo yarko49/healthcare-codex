@@ -44,6 +44,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 #define OHQ_OPTION_ENABLE_LOG_OUTPUT_TO_CONSOLE
 
+/** Build Option: OHQ_OPTION_ENABLE_LOG_OUTPUT_TO_CONSOLE_LEVEL
+    Output log leve if the level is lower then print otherwise skip
+ */
+#define OHQ_OPTION_ENABLE_LOG_OUTPUT_TO_CONSOLE_LEVEL OHQLogLevelInfo
+
 ///---------------------------------------------------------------------------------------
 #pragma mark - Constants
 ///---------------------------------------------------------------------------------------
