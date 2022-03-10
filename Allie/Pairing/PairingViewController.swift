@@ -20,9 +20,11 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 	weak var delegate: PairingViewControllerDelegate?
 	var selectedIdentifier: String?
 	@Injected(\.careManager) var careManager: CareManager
+
 	var initialIndex: Int = 0
 	var viewModel = PairingViewModel(pages: PairingItem.bloodGlucoseItems)
 	var bluetoothDevices: [UUID: Peripheral] = [:]
+	var deviceCategory: OHQDeviceCategory = .any
 
 	var deviceManager: OHQDeviceManager {
 		OHQDeviceManager.shared()
@@ -239,6 +241,10 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 
 	func deviceManager(_ manager: OHQDeviceManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
 		guard bluetoothDevices[peripheral.identifier] == nil else {
+			return
+		}
+		let discoveredCategory = manager.deviceInfo(for: peripheral)?.category ?? .unknown
+		guard discoveredCategory == deviceCategory, discoveredCategory != .unknown, discoveredCategory != .any else {
 			return
 		}
 		let device = Peripheral(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)

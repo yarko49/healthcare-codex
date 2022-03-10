@@ -13,6 +13,7 @@ import UIKit
 
 class WSPairingViewController: PairingViewController {
 	override func viewDidLoad() {
+		deviceCategory = .bodyCompositionMonitor
 		viewModel = PairingViewModel(pages: PairingItem.weightScaleItems)
 		super.viewDidLoad()
 		titleLabel.text = NSLocalizedString("WEIGHT_SCALE_PAIRING", comment: "Scale Pairing")

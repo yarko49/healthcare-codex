@@ -9,6 +9,7 @@
 #import "OHQDeviceDiscoveryInfo.h"
 #import "OHQDefines.h"
 #import "OHQConstants.h"
+#import "OHQDeviceManager.h"
 
 @implementation OHQDeviceDiscoveryInfo
 
@@ -45,7 +46,7 @@
     id txPowerLevel = rawAdvertisementData[CBAdvertisementDataTxPowerLevelKey];
     newAdvertisementData[OHQAdvertisementDataTxPowerLevelKey] = txPowerLevel;
     NSData *rawManufacturerData = rawAdvertisementData[CBAdvertisementDataManufacturerDataKey];
-    if (rawManufacturerData && [serviceUUIDs containsObject:_weightScaleServiceUUID]) {
+    if (rawManufacturerData && [serviceUUIDs containsObject:[OHQDeviceManager weightScaleServiceUUID]]) {
         const void *pt = rawManufacturerData.bytes;
         NSMutableDictionary<OHQManufacturerDataKey,id> *newManufacturerData = [@{} mutableCopy];
         
@@ -114,20 +115,18 @@
 }
 
 - (OHQDeviceCategory)category {
-    OHQDeviceCategory ret = 0;
+    OHQDeviceCategory ret = OHQDeviceCategoryUnknown;
     
     NSArray<CBUUID *> *serviceUUIDs = self.advertisementData[OHQAdvertisementDataServiceUUIDsKey];
-    if ([serviceUUIDs containsObject:_bloodPressureServiceUUID]) {
+    if ([serviceUUIDs containsObject:[OHQDeviceManager bloodPressureServiceUUID]]) {
         ret = OHQDeviceCategoryBloodPressureMonitor;
-    }
-    else if ([serviceUUIDs containsObject:_bodyCompositionServiceUUID]) {
+    }else if ([serviceUUIDs containsObject:[OHQDeviceManager bodyCompositionServiceUUID]]) {
         ret = OHQDeviceCategoryBodyCompositionMonitor;
-    }
-    else if ([serviceUUIDs containsObject:_weightScaleServiceUUID]) {
+    } else if ([serviceUUIDs containsObject:[OHQDeviceManager weightScaleServiceUUID]]) {
         NSDictionary *manufacturerData = self.advertisementData[OHQAdvertisementDataManufacturerDataKey];
         UInt16 companyIdentifier = [manufacturerData[OHQManufacturerDataCompanyIdentifierKey] unsignedShortValue];
         ret = (companyIdentifier == OHQOmronHealthcareCompanyIdentifier ? OHQDeviceCategoryBodyCompositionMonitor : OHQDeviceCategoryWeightScale);
-    } else if ([serviceUUIDs containsObject:_bloodGlucoseServiceUUID]) {
+    } else if ([serviceUUIDs containsObject:[OHQDeviceManager bloodGlucoseServiceUUID]]) {
         ret = OHQDeviceCategoryBloodGlucoseMonitor;
     }
     return ret;

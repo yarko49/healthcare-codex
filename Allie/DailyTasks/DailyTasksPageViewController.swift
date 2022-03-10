@@ -25,13 +25,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	@Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
-	var bluetoothDevices: [UUID: Peripheral] = [:]
-	var deviceInfoCache: [UUID: [OHQDeviceInfoKey: Any]] = [:]
-	var stopScanCompletion: VoidCompletionHandler?
-	var managerStateObserver: NSKeyValueObservation?
-
-	var userData: [OHQUserDataKey: Any] = [:]
-	var sessionData: SessionData?
+	@Injected(\.syncManager) var syncManager: BluetoothSyncManager
 
 	var timerInterval: TimeInterval = 60 * 10
 	let hud: JGProgressHUD = {
@@ -67,12 +61,6 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				self?.refresh()
 			}.store(in: &cancellables)
 
-		NotificationCenter.default.publisher(for: .didPairBluetoothDevice)
-			.receive(on: RunLoop.main)
-			.sink { [weak self] _ in
-				self?.startBluetooth()
-			}.store(in: &cancellables)
-
 		Timer.publish(every: timerInterval, tolerance: 10.0, on: .current, in: .common, options: nil)
 			.autoconnect()
 			.receive(on: RunLoop.main)
@@ -90,8 +78,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			DispatchQueue.main.async {
 				self?.reload()
 			}
-			self?.startBluetooth()
 		}
+		syncManager.start()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -207,6 +195,10 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 								.accentColor(Color(.allieGray))
 							listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
 						}
+					case .restingHeartRate:
+						let view = LabeledValueTaskView(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
+							.accentColor(Color(.allieGray))
+						listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
 					case .numericProgress:
 						let view = NumericProgressTaskView(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 						listViewController.appendViewController(view.iOS15FormattedHostingController(), animated: self.insertViewsAnimated)
@@ -225,9 +217,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						viewController.view.tintColor = .allieGray
 						viewController.controller.fetchAndObserveEvents(forTasks: [updatedTask], eventQuery: eventQuery)
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
-					case .dexcom:
-						break
-					case .cgm: // this task is hidden
+					case .dexcom, .cgm, .irregularHeartRhythm:
 						break
 					}
 				}
@@ -280,7 +270,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						ALog.info("Added new careplan to db")
 					}
 				}
-				_ = try await careManager.process(carePlanResponse: carePlanResponse)
+				_ = try await careManager.process(newCarePlanResponse: carePlanResponse)
 				self?.isRefreshingCarePlan = false
 				self?.hud.dismiss(animated: true)
 				completion(true)

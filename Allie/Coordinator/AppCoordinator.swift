@@ -20,9 +20,6 @@ class AppCoordinator: BaseCoordinator {
 		tabBarController
 	}
 
-	@KeychainStorage(Keychain.Keys.organizations)
-	var organizations: CMOrganizations?
-
 	var observationSearch: String?
 
 	init(parent: MainCoordinator?) {
@@ -31,7 +28,7 @@ class AppCoordinator: BaseCoordinator {
 
 		let todayController: UIViewController
 		let chatController: UIViewController
-		if let organizations = organizations, organizations.registered.isEmpty {
+		if let organizations = keychain.organizations, organizations.registered.isEmpty {
 			var controller = Self.connectProviderController
 			controller.showProviderList = { [weak self] in
 				self?.showProviderList()
@@ -130,22 +127,20 @@ class AppCoordinator: BaseCoordinator {
 		rootViewController?.dismiss(animated: true, completion: nil)
 	}
 
+	@MainActor
 	func organizaionRegistraionDidChange(animated: Bool = true) {
-		Task.detached(priority: .userInitiated) { [weak self] in
+		careManager.reset()
+		Task { [weak self] in
 			guard let strongSelf = self else {
 				return
 			}
 			do {
 				let organizations = try await strongSelf.networkAPI.getOrganizations()
-				await MainActor.run(body: {
-					strongSelf.organizations = organizations
-				})
+				strongSelf.keychain.organizations = organizations
+				strongSelf.updateControllers(organizations: organizations)
 			} catch {
 				ALog.error("Error getting organizations", error: error)
 			}
-			await MainActor.run(body: {
-				strongSelf.updateControllers(organizations: strongSelf.organizations)
-			})
 		}
 	}
 

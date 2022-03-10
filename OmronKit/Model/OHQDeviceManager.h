@@ -7,6 +7,7 @@
 
 #pragma clang system_header
 #import <Foundation/Foundation.h>
+#import <CoreBluetooth/CoreBluetooth.h>
 #import "OHQDefines.h"
 
 @protocol OHQDeviceManagerDataSource;
@@ -21,6 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OHQDeviceManager : NSObject
 
 + (OHQDeviceManager *)sharedManager;
+
++ (CBUUID *)bloodGlucoseServiceUUID;
++ (CBUUID *)bloodPressureServiceUUID;
++ (CBUUID *)bodyCompositionServiceUUID;
++ (CBUUID *)weightScaleServiceUUID;
 
 @property (nonatomic, assign, readonly) OHQDeviceManagerState state;
 @property (nonatomic, weak, nullable) id<OHQDeviceManagerDataSource> dataSource;

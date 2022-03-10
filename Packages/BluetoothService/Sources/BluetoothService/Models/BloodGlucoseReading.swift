@@ -26,6 +26,23 @@ public struct BloodGlucoseReading: Identifiable, Hashable {
 		self.measurementData = measurementData
 		self.contextData = contextData
 	}
+
+	public init(measurementData value: Data, contextData: Data? = nil, peripheral: CBPeripheral? = nil) {
+		let valueArray = [UInt8](value)
+		self.measurement = valueArray.map { byte in
+			Int(byte)
+		}
+		self.context = []
+		if let contextData = contextData {
+			let contextArray = [UInt8](contextData)
+			self.context = contextArray.map { byte in
+				Int(byte)
+			}
+		}
+		self.measurementData = value
+		self.contextData = contextData
+		self.peripheral = peripheral
+	}
 }
 
 public extension BloodGlucoseReading {
@@ -133,5 +150,23 @@ public extension BloodGlucoseReading {
 		}
 
 		return mealTime
+	}
+}
+
+extension BloodGlucoseReading: CustomStringConvertible {
+	public var description: String {
+		"""
+		{
+		    sequence: \(sequence)
+		    timeStamp: \(String(describing: utcTimestamp))
+		    timezoneOffsetInSeconds: \(timezoneOffsetInSeconds)
+		    concentration: \(concentration)
+		    units: \(units.rawValue)
+		    location: \(location)
+		    type: \(type)
+		    mealContext: \(mealContext)
+		    mealTime: \(mealTime.rawValue)
+		}
+		"""
 	}
 }

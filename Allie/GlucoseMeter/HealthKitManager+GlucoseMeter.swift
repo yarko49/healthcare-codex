@@ -48,9 +48,10 @@ extension BloodGlucoseRecord {
 
 extension HealthKitManager {
 	func save(readings: [Int: BloodGlucoseReading], peripheral: Peripheral) -> AnyPublisher<[HKSample], Error> {
-		let records: [Int: BloodGlucoseRecord] = readings.mapValues { reading in
+		let records: [Int: BloodGlucoseRecord] = readings.compactMapValues { reading in
 			ALog.info("\(reading.measurement) \(reading.context)")
-			return BloodGlucoseRecord(reading: reading)
+			let record = BloodGlucoseRecord(reading: reading)
+			return record.isValid ? record : nil
 		}
 		return save(records: records, peripheral: peripheral)
 	}
@@ -104,9 +105,10 @@ extension HealthKitManager {
 	}
 
 	func save(readings: [Int: BloodGlucoseReading], peripheral: Peripheral) async throws -> [HKSample] {
-		let records: [Int: BloodGlucoseRecord] = readings.mapValues { reading in
+		let records: [Int: BloodGlucoseRecord] = readings.compactMapValues { reading in
 			ALog.info("\(reading.measurement) \(reading.context)")
-			return BloodGlucoseRecord(reading: reading)
+			let record = BloodGlucoseRecord(reading: reading)
+			return record.isValid ? record : nil
 		}
 		return try await save(records: records, peripheral: peripheral)
 	}
@@ -114,6 +116,10 @@ extension HealthKitManager {
 	func save(records: [Int: BloodGlucoseRecord], peripheral: Peripheral) async throws -> [HKSample] {
 		guard let name = peripheral.name else {
 			throw AllieError.missing("device name")
+		}
+
+		guard !records.isEmpty else {
+			return []
 		}
 
 		let recordsToAdd: [Int: BloodGlucoseRecord] = records.filter { (key: Int, _: BloodGlucoseRecord) in

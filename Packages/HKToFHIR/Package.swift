@@ -8,10 +8,7 @@ let package = Package(
 	platforms: [.iOS(.v13), .watchOS(.v6)],
 	products: [
 		// Products define the executables and libraries a package produces, and make them visible to other packages.
-		.library(
-			name: "HKToFHIR",
-			targets: ["HKToFHIR"]
-		),
+		.library(name: "HKToFHIR", targets: ["HKToFHIR"]),
 	],
 	dependencies: [
 		// Dependencies declare other packages that this package depends on.
@@ -24,9 +21,6 @@ let package = Package(
 			name: "HKToFHIR",
 			dependencies: [.product(name: "ModelsR4", package: "FHIRModels")]
 		),
-		.testTarget(
-			name: "HKToFHIRTests",
-			dependencies: ["HKToFHIR"]
-		),
+		.testTarget(name: "HKToFHIRTests", dependencies: ["HKToFHIR"]),
 	]
 )

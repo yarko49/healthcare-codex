@@ -8,10 +8,7 @@ let package = Package(
 	platforms: [.iOS(.v14), .watchOS(.v7)],
 	products: [
 		// Products define the executables and libraries a package produces, and make them visible to other packages.
-		.library(
-			name: "CareModel",
-			targets: ["CareModel"]
-		),
+		.library(name: "CareModel", targets: ["CareModel"]),
 	],
 	dependencies: [
 		.package(name: "CareKit", path: "../../../CareKit"),
@@ -28,9 +25,6 @@ let package = Package(
 			               .product(name: "CareKitUI", package: "CareKit"),
 			               "CodexModel", "BluetoothService", "CodexFoundation"]
 		),
-		.testTarget(
-			name: "CareModelTests",
-			dependencies: ["CareModel"]
-		),
+		.testTarget(name: "CareModelTests", dependencies: ["CareModel"]),
 	]
 )

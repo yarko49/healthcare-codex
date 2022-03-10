@@ -28,7 +28,7 @@ extension CareManager {
 
 	func image(task: OCKAnyTask & AnyTaskExtensible) async throws -> UIImage {
 		let taskId = task.id
-		guard let patientId = patient?.id, let chTask = tasks[taskId], let carePlanId = chTask.carePlanId, let asset = task.asset else {
+		guard let patientId = patient?.id ?? activePatient?.id, let carePlanId = carePlan?.id, let asset = task.asset else {
 			throw URLError(.unsupportedURL)
 		}
 		let key = patientId + carePlanId + taskId + asset
@@ -61,7 +61,7 @@ extension CareManager {
 
 	func pdfData(task: OCKAnyTask & AnyTaskExtensible) async throws -> URL {
 		let taskId = task.id
-		guard let patientId = patient?.id, let chTask = tasks[taskId], let carePlanId = chTask.carePlanId, let asset = task.featuredContentDetailViewAsset else {
+		guard let patientId = patient?.id ?? activePatient?.id, let carePlanId = carePlan?.id, let asset = task.featuredContentDetailViewAsset else {
 			throw URLError(.unsupportedURL)
 		}
 		guard let url = FileManager.default.documentsFileURL(patientId: patientId, carePlanId: carePlanId, taskId: taskId, name: asset) else {
