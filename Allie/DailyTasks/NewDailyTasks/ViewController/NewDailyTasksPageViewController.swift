@@ -24,12 +24,7 @@ class NewDailyTasksPageViewController: BaseViewController {
 	@Injected(\.healthKitManager) var healthKitManager: HealthKitManager
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	@Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
-	var bluetoothDevices: [UUID: Peripheral] = [:]
-	var deviceInfoCache: [UUID: [OHQDeviceInfoKey: Any]] = [:]
-	var stopScanCompletion: VoidCompletionHandler?
-	var managerStateObserver: NSKeyValueObservation?
-	var userData: [OHQUserDataKey: Any] = [:]
-	var sessionData: SessionData?
+	@Injected(\.syncManager) var syncManager: BluetoothSyncManager
 
 	var addCellIndex: Int?
 
@@ -38,7 +33,6 @@ class NewDailyTasksPageViewController: BaseViewController {
 	var timeInterval: TimeInterval = 60 * 10
 	var cancellable: Set<AnyCancellable> = []
 	private var shouldUpdateCarePlan: Bool = true
-	private var insertViewsAnimated: Bool = true
 	private var isRefreshingCarePlan = false
 	var ockTasks: [OCKAnyTask] = .init()
 	var selectedDate: Date = .init()
@@ -143,7 +137,7 @@ class NewDailyTasksPageViewController: BaseViewController {
 		NotificationCenter.default.publisher(for: .didModifyHealthKitStore)
 			.receive(on: RunLoop.main)
 			.sink { [weak self] _ in
-				self?.reload()
+				self?.refresh()
 			}.store(in: &cancellable)
 		Timer.publish(every: timeInterval, tolerance: 10.0, on: .current, in: .common, options: nil)
 			.autoconnect()
@@ -161,8 +155,8 @@ class NewDailyTasksPageViewController: BaseViewController {
 			DispatchQueue.main.async {
 				self?.reload()
 			}
-			self?.startBluetooth()
 		}
+		syncManager.start()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -212,6 +206,12 @@ class NewDailyTasksPageViewController: BaseViewController {
 		}
 	}
 
+	func refresh() {
+		shouldUpdateCarePlan = false
+		reload()
+		shouldUpdateCarePlan = true
+	}
+
 	func getAndUpdateCarePlans(completion: @escaping AllieBoolCompletion) {
 		guard isRefreshingCarePlan == false else {
 			return
@@ -233,7 +233,7 @@ class NewDailyTasksPageViewController: BaseViewController {
 						ALog.info("Added new careplan to db")
 					}
 				}
-				_ = try await careManager.process(carePlanResponse: carePlanResponse)
+				_ = try await careManager.process(newCarePlanResponse: carePlanResponse)
 				self?.isRefreshingCarePlan = false
 				self?.hud.dismiss(animated: true)
 				completion(true)
