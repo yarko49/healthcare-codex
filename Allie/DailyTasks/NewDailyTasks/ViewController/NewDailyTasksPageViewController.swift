@@ -67,7 +67,6 @@ class NewDailyTasksPageViewController: BaseViewController {
 	private var topView: DailyTaskTopView = {
 		let topView = DailyTaskTopView()
 		topView.translatesAutoresizingMaskIntoConstraints = false
-		topView.setShadow()
 		return topView
 	}()
 
@@ -177,7 +176,7 @@ class NewDailyTasksPageViewController: BaseViewController {
 		topView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 		topView.delegate = self
 		view.addSubview(collectionView)
-		collectionView.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
+		collectionView.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 16.0).isActive = true
 		collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 		collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 		collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true

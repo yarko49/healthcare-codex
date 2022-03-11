@@ -59,9 +59,6 @@ class HealthAddCell: UICollectionViewCell {
 	private var subTitle: UILabel = {
 		let subTitle = UILabel()
 		subTitle.translatesAutoresizingMaskIntoConstraints = false
-		subTitle.font = .systemFont(ofSize: 14)
-		subTitle.textColor = .mainGray
-		subTitle.text = "Log something else"
 		return subTitle
 	}()
 
@@ -108,5 +105,7 @@ class HealthAddCell: UICollectionViewCell {
 		addButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20.0).isActive = true
 		addButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
 		addButton.widthAnchor.constraint(equalToConstant: 44.0).isActive = true
+
+		subTitle.attributedText = "Log something else".attributedString(style: .silkaregular16, foregroundColor: UIColor.black.withAlphaComponent(0.5))
 	}
 }

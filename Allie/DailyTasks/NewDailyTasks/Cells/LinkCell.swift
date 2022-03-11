@@ -181,24 +181,6 @@ class LinkCell: UICollectionViewCell {
 				} else {
 					linkImage.image = UIImage(named: "icon-empty")
 				}
-//				switch chLinkItem.linkItem {
-//				case .appStore:
-//					linkImage.image = UIImage(systemName: LinkSymbols.appStore)
-//				case .url(_, _, let symbol):
-//					linkImage.image = UIImage(systemName: symbol)
-//				case .website:
-//					linkImage.image = UIImage(systemName: LinkSymbols.website)
-//				case .location:
-//					linkImage.image = UIImage(systemName: LinkSymbols.address)
-//				case .call:
-//					linkImage.image = UIImage(systemName: LinkSymbols.call)
-//				case .message:
-//					linkImage.image = UIImage(systemName: LinkSymbols.message)
-//				case .email:
-//					linkImage.image = UIImage(systemName: LinkSymbols.email)
-//				case .none:
-//					break
-//				}
 			}
 		} else {
 			footerStackView.isHidden = true

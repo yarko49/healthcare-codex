@@ -37,7 +37,7 @@ class CarePlanViewController: BaseViewController {
 		collectionView.register(CarePlanCell.self, forCellWithReuseIdentifier: CarePlanCell.cellID)
 		collectionView.register(CarePlanFeatureCell.self, forCellWithReuseIdentifier: CarePlanFeatureCell.cellID)
 		collectionView.register(CarePlanLinkCell.self, forCellWithReuseIdentifier: CarePlanLinkCell.cellID)
-		collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.reuseIdentifier)
+		collectionView.register(CarePlanLastCell.self, forCellWithReuseIdentifier: CarePlanLastCell.cellID)
 		collectionView.register(SectionView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionView.reuseID)
 		return collectionView
 	}()
@@ -83,6 +83,8 @@ class CarePlanViewController: BaseViewController {
 		collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 		collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 		collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+		let bottomInset: CGFloat = (tabBarController?.tabBar.frame.height)! + view.safeAreaBottom
+		collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -bottomInset, right: 0)
 		collectionView.dataSource = self
 	}
 }
@@ -102,8 +104,10 @@ extension CarePlanViewController: UICollectionViewDataSource, UICollectionViewDe
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		if indexPath.section == 1, indexPath.row == viewModel.carePlans[1].count {
-			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.reuseIdentifier, for: indexPath)
-			return cell
+			if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CarePlanLastCell.cellID, for: indexPath) as? CarePlanLastCell {
+				return cell
+			}
+			fatalError("Can not deque CarePlanLastCell")
 		} else {
 			let chTask = viewModel.carePlans[indexPath.section][indexPath.row]
 			let groupIdentifier = chTask.first?.groupIdentifier ?? ""

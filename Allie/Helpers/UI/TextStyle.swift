@@ -25,6 +25,29 @@ enum TextStyle {
 	case bold17
 	case bold20
 	case bold24
+	case silkaregular12
+	case silkaregular13
+	case silkaregular15
+	case silkaregular16
+	case silkaregular17
+	case silkaregular20
+	case silkaregular24
+	case silkaregular26
+	case silkaregular28
+	case silkamedium13
+	case silkamedium17
+	case silkasemibold14
+	case silkasemibold17
+	case silkasemibold20
+	case silkasemibold24
+	case silkasemibold26
+	case silkabold28
+	case silkabold16
+	case silkabold17
+	case silkabold20
+	case silkabold24
+	case silkabold36
+	case silkabold14
 
 	var font: UIFont {
 		switch self {
@@ -47,6 +70,29 @@ enum TextStyle {
 		case .bold20: return UIFont.systemFont(ofSize: 20.0, weight: .bold)
 		case .bold24: return UIFont.systemFont(ofSize: 24.0, weight: .bold)
 		case .bold28: return UIFont.systemFont(ofSize: 28.0, weight: .bold)
+		case .silkaregular12: return UIFont(name: "Silka-Regular", size: 12.0)!
+		case .silkaregular13: return UIFont(name: "Silka-Regular", size: 13.0)!
+		case .silkaregular15: return UIFont(name: "Silka-Regular", size: 15.0)!
+		case .silkaregular16: return UIFont(name: "Silka-Regular", size: 16.0)!
+		case .silkaregular17: return UIFont(name: "Silka-Regular", size: 17.0)!
+		case .silkaregular20: return UIFont(name: "Silka-Regular", size: 20.0)!
+		case .silkaregular24: return UIFont(name: "Silka-Regular", size: 24.0)!
+		case .silkaregular26: return UIFont(name: "Silka-Regular", size: 26.0)!
+		case .silkaregular28: return UIFont(name: "Silka-Regular", size: 28.0)!
+		case .silkamedium13: return UIFont(name: "Silka-Medium", size: 13.0)!
+		case .silkamedium17: return UIFont(name: "Silka-Medium", size: 17.0)!
+		case .silkasemibold14: return UIFont(name: "Silka-SemiBold", size: 14.0)!
+		case .silkasemibold17: return UIFont(name: "Silka-SemiBold", size: 17.0)!
+		case .silkasemibold20: return UIFont(name: "Silka-SemiBold", size: 20.0)!
+		case .silkasemibold24: return UIFont(name: "Silka-SemiBold", size: 24.0)!
+		case .silkasemibold26: return UIFont(name: "Silka-SemiBold", size: 26.0)!
+		case .silkabold28: return UIFont(name: "Silka-Bold", size: 28.0)!
+		case .silkabold16: return UIFont(name: "Silka-Bold", size: 16.0)!
+		case .silkabold17: return UIFont(name: "Silka-Bold", size: 17.0)!
+		case .silkabold20: return UIFont(name: "Silka-Bold", size: 20.0)!
+		case .silkabold24: return UIFont(name: "Silka-Bold", size: 24.0)!
+		case .silkabold36: return UIFont(name: "Silka-Bold", size: 36.0)!
+		case .silkabold14: return UIFont(name: "Silka-Bold", size: 14.0)!
 		}
 	}
 

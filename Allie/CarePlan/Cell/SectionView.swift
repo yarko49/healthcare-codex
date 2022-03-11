@@ -37,6 +37,6 @@ class SectionView: UICollectionReusableView {
 	}
 
 	func configureSection(headerTitle: String) {
-		title.attributedText = headerTitle.attributedString(style: .bold24, foregroundColor: .mainBlue)
+		title.attributedText = headerTitle.attributedString(style: .silkasemibold24, foregroundColor: .mainBlue)
 	}
 }

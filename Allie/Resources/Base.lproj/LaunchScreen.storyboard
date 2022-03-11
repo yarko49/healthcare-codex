@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,15 +17,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="e2d-ua-dsF">
-                                <rect key="frame" x="163" y="411.66666666666669" width="88" height="83"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img-splash" translatesAutoresizingMaskIntoConstraints="NO" id="e2d-ua-dsF">
+                                <rect key="frame" x="67" y="444" width="320" height="452"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img-splash-title" translatesAutoresizingMaskIntoConstraints="NO" id="QDU-J8-124">
+                                <rect key="frame" x="38.666666666666657" y="375" width="337" height="69"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="OnboardingBackground"/>
                         <constraints>
-                            <constraint firstItem="e2d-ua-dsF" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="6B0-Ye-RxW"/>
-                            <constraint firstItem="e2d-ua-dsF" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="NvW-N2-oFL"/>
+                            <constraint firstAttribute="bottom" secondItem="e2d-ua-dsF" secondAttribute="bottom" id="46g-BR-QKx"/>
+                            <constraint firstItem="e2d-ua-dsF" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" constant="20" id="6B0-Ye-RxW"/>
+                            <constraint firstItem="QDU-J8-124" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="bkk-yl-5lT"/>
+                            <constraint firstItem="e2d-ua-dsF" firstAttribute="top" secondItem="QDU-J8-124" secondAttribute="bottom" id="fKe-c5-CXr"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -34,7 +40,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Logo" width="88" height="83"/>
+        <image name="img-splash" width="320" height="452"/>
+        <image name="img-splash-title" width="337" height="69"/>
         <namedColor name="OnboardingBackground">
             <color red="0.95686274509803926" green="0.96470588235294119" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

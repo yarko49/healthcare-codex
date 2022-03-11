@@ -18,10 +18,10 @@ class RiseSleepCell: UICollectionViewCell {
 		didSet {
 			if cellType == .rise {
 				imageView.image = UIImage(systemName: "sun.min")
-				title.text = "Rise and shine!"
+				title.attributedText = "Rise and shine!".attributedString(style: .silkaregular15, foregroundColor: .mainGray, letterSpacing: 0.017)
 			} else {
 				imageView.image = UIImage(systemName: "sun.haze")
-				title.text = "Sleep well!"
+				title.attributedText = "Sleep well!".attributedString(style: .silkaregular15, foregroundColor: .mainGray, letterSpacing: 0.017)
 			}
 		}
 	}
@@ -36,8 +36,6 @@ class RiseSleepCell: UICollectionViewCell {
 	private var title: UILabel = {
 		let title = UILabel()
 		title.translatesAutoresizingMaskIntoConstraints = false
-		title.textColor = .mainGray
-		title.font = .systemFont(ofSize: 14)
 		return title
 	}()
 

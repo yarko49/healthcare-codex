@@ -66,8 +66,7 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 		let greetingLabel = UILabel()
 		greetingLabel.translatesAutoresizingMaskIntoConstraints = false
 		greetingLabel.textColor = .white
-		greetingLabel.font = .systemFont(ofSize: 14.0, weight: .bold)
-		greetingLabel.text = "Monitored By UCHealth"
+		greetingLabel.attributedText = "Monitored By UCHealth".attributedString(style: .silkabold14, foregroundColor: .white)
 		return greetingLabel
 	}()
 
@@ -82,9 +81,7 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 	private var onlineLabel: UILabel = {
 		let onlineLabel = UILabel()
 		onlineLabel.translatesAutoresizingMaskIntoConstraints = false
-		onlineLabel.text = "ONLINE"
-		onlineLabel.textColor = .mainLightGreen
-		onlineLabel.font = .systemFont(ofSize: 14.0, weight: .bold)
+		onlineLabel.attributedText = "ONLINE".attributedString(style: .silkabold14, foregroundColor: .mainLightGreen)
 		return onlineLabel
 	}()
 
@@ -189,7 +186,7 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 
 	func setLeadingButton() {
 		backButton.isHidden = !isShowChatVC
-		greetingLabel.text = isShowChatVC ? "Back" : "Monitored By UCHealth"
+		greetingLabel.attributedText = (isShowChatVC ? "Back" : "Monitored By UCHealth").attributedString(style: .silkabold14, foregroundColor: .white)
 	}
 
 	@objc func onClickBackButton() {

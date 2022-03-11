@@ -87,7 +87,7 @@ class CarePlanCell: UICollectionViewCell {
 	}
 
 	func configureCell(for task: CHTasks) {
-		title.attributedText = task.first?.category?.capitalized.attributedString(style: .bold20, foregroundColor: UIColor.black, letterSpacing: -0.41)
+		title.attributedText = task.first?.category?.capitalized.attributedString(style: .silkasemibold20, foregroundColor: UIColor.black, letterSpacing: -0.41)
 		task.forEach { chTask in
 			let taskItemView = UIStackView()
 			taskItemView.translatesAutoresizingMaskIntoConstraints = false
@@ -143,8 +143,8 @@ class CarePlanCell: UICollectionViewCell {
 			icon.heightAnchor.constraint(equalToConstant: 26.0).isActive = true
 			icon.widthAnchor.constraint(equalToConstant: 26.0).isActive = true
 
-			taskTitle.attributedText = chTask.title?.attributedString(style: .medium17, foregroundColor: UIColor.black, letterSpacing: 0.02)
-			instruction.attributedText = chTask.instructions?.attributedString(style: .regular13, foregroundColor: .allieGray, letterSpacing: -0.03)
+			taskTitle.attributedText = chTask.title?.attributedString(style: .silkamedium17, foregroundColor: UIColor.black, letterSpacing: 0.02)
+			instruction.attributedText = chTask.instructions?.attributedString(style: .silkaregular13, foregroundColor: .allieGray, letterSpacing: -0.03)
 		}
 	}
 }

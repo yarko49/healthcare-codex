@@ -76,11 +76,13 @@ class FollowCell: UITableViewCell {
 			checkButton.layer.borderColor = UIColor.mainBlue?.cgColor
 			checkButton.backgroundColor = .mainBlue
 			checkButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+			container.setShadow(opacity: 0.1)
 		} else {
 			checkButton.layer.borderColor = UIColor.black.cgColor
 			checkButton.backgroundColor = .clear
+			container.clearShadow()
 			checkButton.setImage(nil, for: .normal)
 		}
-		title.attributedText = follow.title.attributedString(style: .bold20, foregroundColor: .black, letterSpacing: 0)
+		title.attributedText = follow.title.attributedString(style: .silkabold20, foregroundColor: .black, letterSpacing: 0)
 	}
 }

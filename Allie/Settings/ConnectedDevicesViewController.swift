@@ -11,6 +11,7 @@ import CareModel
 import CodexFoundation
 import CodexModel
 import Combine
+import CoreGraphics
 import JGProgressHUD
 import OmronKit
 import UIKit
@@ -55,7 +56,7 @@ class ConnectedDevicesViewController: UITableViewController {
 		})
 		tableView.dataSource = dataSource
 		tableView.delegate = self
-		tableView.rowHeight = 54.0
+		tableView.rowHeight = 64.0
 		tableView.sectionHeaderHeight = 64.0
 		tableView.separatorStyle = .none
 	}
@@ -76,7 +77,7 @@ class ConnectedDevicesViewController: UITableViewController {
 	override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: ConnectedDevicesSectionHeaderView.reuseIdentifier) as? ConnectedDevicesSectionHeaderView
 		let sectionIdentifier = dataSource.snapshot().sectionIdentifiers[section]
-		view?.textLabel?.text = sectionIdentifier.title
+		view?.textLabel?.attributedText = sectionIdentifier.title?.attributedString(style: .silkaregular17, foregroundColor: .black, letterSpacing: -0.41)
 		return view
 	}
 
@@ -179,27 +180,36 @@ class ConnectedDevicesViewController: UITableViewController {
 		}
 		let sections = dataSource.snapshot().sectionIdentifiers
 		if sections[indexPath.section] == .bluetooth {
-			cell.accessoryType = .disclosureIndicator
 			var name = "Unknown"
 			let identifier = dataSource.itemIdentifier(for: indexPath)
 			let serviceType = serviceType(hexString: identifier ?? "")
 			name = title(hexString: identifier)
 			let peripheral = careManager.patient?.peripherals[serviceType?.identifier ?? ""]
-			cell.titleLabel.attributedText = name.attributedString(style: .regular17, foregroundColor: UIColor.grey, letterSpacing: -0.41)
-			cell.subtitleLabel.text = peripheral?.name
-			cell.statusLabel.text = NSLocalizedString("STATUS_UNKNOWN", comment: "Unknown")
+			cell.titleLabel.attributedText = name.attributedString(style: .silkabold17, foregroundColor: .black, letterSpacing: -0.41)
+//			cell.subtitleLabel.text = peripheral?.name
+//			cell.statusLabel.text = NSLocalizedString("STATUS_UNKNOWN", comment: "Unknown")
 			if let device = peripheral {
 				let isConnected = OHQDeviceManager.shared().isDeviceConnected(device.localId ?? "")
-				cell.statusLabel.text = isConnected ? NSLocalizedString("STATUS_CONNECTED", comment: "Connected") : NSLocalizedString("STATUS_NOT_CONNECTED", comment: "Not connected")
+				cell.subtitleLabel.attributedText = (isConnected ? NSLocalizedString("STATUS_CONNECTED", comment: "Connected") : NSLocalizedString("STATUS_NOT_CONNECTED", comment: "Not connected")).attributedString(style: .silkamedium13, foregroundColor: UIColor.black.withAlphaComponent(0.5))
+				cell.trailingImageView.image = UIImage(systemName: isConnected ? "checkmark.circle" : "chevron.right")
+				cell.trailingImageView.tintColor = isConnected ? .mainBlue : .black
+			} else {
+				cell.trailingImageView.image = UIImage(systemName: "chevron.right")
+				cell.trailingImageView.tintColor = .black
+				cell.subtitleLabel.attributedText = NSLocalizedString("STATUS_NOT_CONNECTED", comment: "Not connected").attributedString(style: .silkamedium13, foregroundColor: UIColor.black.withAlphaComponent(0.5))
 			}
 		} else {
 			let device = cloudDevices.devices[indexPath.row]
-			cell.accessoryType = .none
 			if cloudDevices.registrations.contains(device.id) {
-				cell.accessoryType = .checkmark
+				cell.trailingImageView.image = UIImage(systemName: "checkmark.circle")
+				cell.trailingImageView.tintColor = .mainBlue
+				cell.subtitleLabel.attributedText = NSLocalizedString("STATUS_CONNECTED", comment: "Connected").attributedString(style: .silkamedium13, foregroundColor: UIColor.black.withAlphaComponent(0.5))
+			} else {
+				cell.trailingImageView.image = UIImage(systemName: "chevron.right")
+				cell.trailingImageView.tintColor = .black
+				cell.subtitleLabel.attributedText = NSLocalizedString("STATUS_NOT_CONNECTED", comment: "Not connected").attributedString(style: .silkamedium13, foregroundColor: UIColor.black.withAlphaComponent(0.5))
 			}
-			cell.titleLabel.attributedText = device.name.attributedString(style: .regular17, foregroundColor: UIColor.grey, letterSpacing: -0.41)
-			cell.subtitleLabel.text = nil
+			cell.titleLabel.attributedText = device.name.attributedString(style: .silkabold17, foregroundColor: .black, letterSpacing: -0.41)
 			cell.statusLabel.text = nil
 		}
 	}

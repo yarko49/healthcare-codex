@@ -81,21 +81,16 @@ class HealthCell: UICollectionViewCell {
 	private var title: UILabel = {
 		let title = UILabel()
 		title.translatesAutoresizingMaskIntoConstraints = false
-		title.font = .systemFont(ofSize: 18, weight: .bold)
 		title.numberOfLines = 0
 		title.lineBreakMode = .byWordWrapping
-		title.textColor = .black
 		return title
 	}()
 
 	private let subTitle: UILabel = {
 		let subTitle = UILabel()
 		subTitle.translatesAutoresizingMaskIntoConstraints = false
-		subTitle.font = .systemFont(ofSize: 14)
 		subTitle.numberOfLines = 0
 		subTitle.lineBreakMode = .byWordWrapping
-		subTitle.textColor = .mainGray
-		subTitle.text = "Events Remaining"
 		return subTitle
 	}()
 
@@ -165,6 +160,7 @@ class HealthCell: UICollectionViewCell {
 
 		contentStack.centerYAnchor.constraint(equalTo: subContainer.centerYAnchor).isActive = true
 		contentStack.leadingAnchor.constraint(equalTo: subContainer.leadingAnchor, constant: 68.0).isActive = true
+		contentStack.trailingAnchor.constraint(equalTo: trailingButton.leadingAnchor, constant: -12).isActive = true
 
 		actionButton.centerXAnchor.constraint(equalTo: subContainer.centerXAnchor).isActive = true
 		actionButton.centerYAnchor.constraint(equalTo: subContainer.centerYAnchor).isActive = true
@@ -181,22 +177,26 @@ class HealthCell: UICollectionViewCell {
 
 		if item.cellType == .current {
 			subContainer.backgroundColor = .white
+			subContainer.setShadow(opacity: 0.1)
 			topDash.backgroundColor = .clear
 			bottomDash.backgroundColor = .clear
 			trailingButton.isHidden = false
 		} else {
 			subContainer.backgroundColor = .clear
+			subContainer.clearShadow()
 			topDash.backgroundColor = .mainGray
 			bottomDash.backgroundColor = .mainGray
 			trailingButton.isHidden = true
 		}
 		if item.tapCount == 0 {
 			subContainer.backgroundColor = .clear
+			subContainer.clearShadow()
 			trailingButton.isHidden = true
 			topDash.backgroundColor = .mainGray
 			bottomDash.backgroundColor = .mainGray
 		} else if item.tapCount == 1 {
 			subContainer.backgroundColor = .white
+			subContainer.setShadow(opacity: 0.1)
 			topDash.backgroundColor = .clear
 			bottomDash.backgroundColor = .clear
 			trailingButton.isHidden = false
@@ -218,7 +218,7 @@ class HealthCell: UICollectionViewCell {
 				}
 			}
 		}
-		title.text = item.timelineItemModel.event.task.title
+		title.attributedText = item.timelineItemModel.event.task.title?.attributedString(style: .silkabold20, foregroundColor: .black)
 		let quantityIdentifier = (ockEvent.task as? OCKHealthKitTask)?.healthKitLinkage.quantityIdentifier
 		if let dataType = quantityIdentifier?.dataType {
 			icon.image = dataType.image
@@ -250,26 +250,26 @@ class HealthCell: UICollectionViewCell {
 				}
 				if let contextValue = context, !contextValue.replacingOccurrences(of: " ", with: "").isEmpty {
 					if let formattedVal = formattedValue, !formattedVal.isEmpty {
-						subTitle.text = "\(dateString), \(formattedVal), \(contextValue)"
+						subTitle.attributedText = "\(dateString), \(formattedVal), \(contextValue)".attributedString(style: .silkaregular16, foregroundColor: UIColor.black.withAlphaComponent(0.5))
 					} else {
-						subTitle.text = "\(dateString), \(contextValue)"
+						subTitle.attributedText = "\(dateString), \(contextValue)".attributedString(style: .silkaregular16, foregroundColor: UIColor.black.withAlphaComponent(0.5))
 					}
 				} else {
 					if let formattedVal = formattedValue, !formattedVal.isEmpty {
-						subTitle.text = "\(dateString), \(formattedVal)"
+						subTitle.attributedText = "\(dateString), \(formattedVal)".attributedString(style: .silkaregular16, foregroundColor: UIColor.black.withAlphaComponent(0.5))
 					} else {
-						subTitle.text = "\(dateString)"
+						subTitle.attributedText = "\(dateString)".attributedString(style: .silkaregular16, foregroundColor: UIColor.black.withAlphaComponent(0.5))
 					}
 				}
 			} else {
-				subTitle.text = ockEvent.task.instructions ?? ""
+				subTitle.attributedText = (ockEvent.task.instructions ?? "").attributedString(style: .silkaregular16, foregroundColor: UIColor.black.withAlphaComponent(0.5))
 			}
 		} else if groupIdentifierType == .simple || groupIdentifierType == .grid {
 			if groupIdentifierType == .simple {
-				subTitle.text = ockEvent.task.instructions ?? ScheduleUtility.scheduleLabel(for: ockEvent)
+				subTitle.attributedText = (ockEvent.task.instructions ?? ScheduleUtility.scheduleLabel(for: ockEvent))?.attributedString(style: .silkaregular16, foregroundColor: UIColor.black.withAlphaComponent(0.5))
 			} else {
 				let isCompleted = ockEvent.outcome != nil
-				subTitle.text = isCompleted ? ScheduleUtility.completedTimeLabel(for: ockEvent) : ScheduleUtility.timeLabel(for: ockEvent, includesEnd: false)
+				subTitle.attributedText = (isCompleted ? ScheduleUtility.completedTimeLabel(for: ockEvent) : ScheduleUtility.timeLabel(for: ockEvent, includesEnd: false))?.attributedString(style: .silkaregular16, foregroundColor: UIColor.black.withAlphaComponent(0.5))
 			}
 		}
 	}

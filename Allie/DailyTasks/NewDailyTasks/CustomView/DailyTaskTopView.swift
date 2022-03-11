@@ -33,19 +33,15 @@ class DailyTaskTopView: UIView {
 	private var greetingLabel: UILabel = {
 		let greetingLabel = UILabel()
 		greetingLabel.translatesAutoresizingMaskIntoConstraints = false
-		greetingLabel.text = "Good morning Susan!"
-		greetingLabel.font = .systemFont(ofSize: 20.0, weight: .bold)
-		greetingLabel.textColor = .black
+		greetingLabel.attributedText = "Good morning Susan!".attributedString(style: .silkabold20, foregroundColor: .black)
 		return greetingLabel
 	}()
 
 	private let helloLabel: UILabel = {
 		let helloLabel = UILabel()
 		helloLabel.translatesAutoresizingMaskIntoConstraints = false
-		helloLabel.text = "How are you feeling\ntoday?"
-		helloLabel.font = .systemFont(ofSize: 20.0, weight: .bold)
+		helloLabel.attributedText = "How are you\nfeeling today?".attributedString(style: .silkabold24, foregroundColor: .mainBlue)
 		helloLabel.numberOfLines = 0
-		helloLabel.textColor = .mainBlue
 		return helloLabel
 	}()
 
@@ -83,9 +79,7 @@ class DailyTaskTopView: UIView {
 	private var todayButton: UIButton = {
 		let todayButton = UIButton()
 		todayButton.translatesAutoresizingMaskIntoConstraints = false
-		todayButton.setTitle("Today", for: .normal)
-		todayButton.setTitleColor(.black, for: .normal)
-		todayButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+		todayButton.setAttributedTitle("Today".attributedString(style: .silkabold20, foregroundColor: .black), for: .normal)
 		return todayButton
 	}()
 
@@ -101,6 +95,7 @@ class DailyTaskTopView: UIView {
 
 	private func setupViews() {
 		backgroundColor = .white
+		setShadow(shadowRadius: 10.0, opacity: 0.1)
 		wholeStackView.addArrangedSubview(greetingView)
 		greetingView.addSubview(greetingLabel)
 		greetingView.addSubview(helloLabel)
@@ -193,7 +188,7 @@ class DailyTaskTopView: UIView {
 	}
 
 	func setButtonTitle(title: String) {
-		todayButton.setTitle(title, for: .normal)
+		todayButton.setAttributedTitle(title.attributedString(style: .silkabold20, foregroundColor: .black), for: .normal)
 	}
 }
 
@@ -234,9 +229,6 @@ class FeelingButton: UIControl {
 	private var titleLabel: UILabel = {
 		let titleLabel = UILabel()
 		titleLabel.translatesAutoresizingMaskIntoConstraints = false
-		titleLabel.textColor = .black
-		titleLabel.isUserInteractionEnabled = true
-		titleLabel.font = .systemFont(ofSize: 14.0, weight: .bold)
 		return titleLabel
 	}()
 
@@ -291,6 +283,8 @@ class FeelingButton: UIControl {
 		actionButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
 		actionButton.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
 		actionButton.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
+
+		titleLabel.attributedText = title.attributedString(style: .silkabold14, foregroundColor: .black)
 	}
 
 	@objc func onClickFeelingButton() {

@@ -88,6 +88,18 @@
 		259059EE27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */; };
 		259059EF27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */; };
 		259059F027A8319D002ABF9F /* NewDailyTasksPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */; };
+		25A7CEC127DB5241003B5CF7 /* Silka-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 25A7CEBD27DB5240003B5CF7 /* Silka-Medium.otf */; };
+		25A7CEC227DB5241003B5CF7 /* Silka-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 25A7CEBD27DB5240003B5CF7 /* Silka-Medium.otf */; };
+		25A7CEC327DB5241003B5CF7 /* Silka-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 25A7CEBD27DB5240003B5CF7 /* Silka-Medium.otf */; };
+		25A7CEC427DB5241003B5CF7 /* Silka-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 25A7CEBE27DB5240003B5CF7 /* Silka-Bold.otf */; };
+		25A7CEC527DB5241003B5CF7 /* Silka-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 25A7CEBE27DB5240003B5CF7 /* Silka-Bold.otf */; };
+		25A7CEC627DB5241003B5CF7 /* Silka-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 25A7CEBE27DB5240003B5CF7 /* Silka-Bold.otf */; };
+		25A7CEC727DB5241003B5CF7 /* Silka-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 25A7CEBF27DB5240003B5CF7 /* Silka-Regular.otf */; };
+		25A7CEC827DB5241003B5CF7 /* Silka-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 25A7CEBF27DB5240003B5CF7 /* Silka-Regular.otf */; };
+		25A7CEC927DB5241003B5CF7 /* Silka-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 25A7CEBF27DB5240003B5CF7 /* Silka-Regular.otf */; };
+		25A7CECA27DB5241003B5CF7 /* Silka-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 25A7CEC027DB5240003B5CF7 /* Silka-SemiBold.otf */; };
+		25A7CECB27DB5241003B5CF7 /* Silka-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 25A7CEC027DB5240003B5CF7 /* Silka-SemiBold.otf */; };
+		25A7CECC27DB5241003B5CF7 /* Silka-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 25A7CEC027DB5240003B5CF7 /* Silka-SemiBold.otf */; };
 		25AEDA8727ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */; };
 		25AEDA8827ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */; };
 		25AEDA8927ADC2C0004B75E5 /* TimelineItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */; };
@@ -100,6 +112,21 @@
 		25DD5D7427D2C7F200C32282 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD5D7327D2C7F200C32282 /* SettingCell.swift */; };
 		25DD5D7527D2C7F200C32282 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD5D7327D2C7F200C32282 /* SettingCell.swift */; };
 		25DD5D7627D2C7F200C32282 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD5D7327D2C7F200C32282 /* SettingCell.swift */; };
+		25E68B6027DB5D32003B3364 /* Silka-Bold.otf in Sources */ = {isa = PBXBuildFile; fileRef = 25A7CEBE27DB5240003B5CF7 /* Silka-Bold.otf */; };
+		25E68B6127DB5D32003B3364 /* Silka-Medium.otf in Sources */ = {isa = PBXBuildFile; fileRef = 25A7CEBD27DB5240003B5CF7 /* Silka-Medium.otf */; };
+		25E68B6227DB5D32003B3364 /* Silka-Regular.otf in Sources */ = {isa = PBXBuildFile; fileRef = 25A7CEBF27DB5240003B5CF7 /* Silka-Regular.otf */; };
+		25E68B6327DB5D32003B3364 /* Silka-SemiBold.otf in Sources */ = {isa = PBXBuildFile; fileRef = 25A7CEC027DB5240003B5CF7 /* Silka-SemiBold.otf */; };
+		25E68B6427DB5D53003B3364 /* Silka-Bold.otf in Sources */ = {isa = PBXBuildFile; fileRef = 25A7CEBE27DB5240003B5CF7 /* Silka-Bold.otf */; };
+		25E68B6527DB5D53003B3364 /* Silka-Medium.otf in Sources */ = {isa = PBXBuildFile; fileRef = 25A7CEBD27DB5240003B5CF7 /* Silka-Medium.otf */; };
+		25E68B6627DB5D53003B3364 /* Silka-Regular.otf in Sources */ = {isa = PBXBuildFile; fileRef = 25A7CEBF27DB5240003B5CF7 /* Silka-Regular.otf */; };
+		25E68B6727DB5D53003B3364 /* Silka-SemiBold.otf in Sources */ = {isa = PBXBuildFile; fileRef = 25A7CEC027DB5240003B5CF7 /* Silka-SemiBold.otf */; };
+		25E68B6827DB5D61003B3364 /* Silka-Bold.otf in Sources */ = {isa = PBXBuildFile; fileRef = 25A7CEBE27DB5240003B5CF7 /* Silka-Bold.otf */; };
+		25E68B6927DB5D61003B3364 /* Silka-Medium.otf in Sources */ = {isa = PBXBuildFile; fileRef = 25A7CEBD27DB5240003B5CF7 /* Silka-Medium.otf */; };
+		25E68B6A27DB5D61003B3364 /* Silka-Regular.otf in Sources */ = {isa = PBXBuildFile; fileRef = 25A7CEBF27DB5240003B5CF7 /* Silka-Regular.otf */; };
+		25E68B6B27DB5D61003B3364 /* Silka-SemiBold.otf in Sources */ = {isa = PBXBuildFile; fileRef = 25A7CEC027DB5240003B5CF7 /* Silka-SemiBold.otf */; };
+		25E68B6D27DB8A90003B3364 /* CarePlanLastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E68B6C27DB8A90003B3364 /* CarePlanLastCell.swift */; };
+		25E68B6E27DB8A91003B3364 /* CarePlanLastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E68B6C27DB8A90003B3364 /* CarePlanLastCell.swift */; };
+		25E68B6F27DB8A91003B3364 /* CarePlanLastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E68B6C27DB8A90003B3364 /* CarePlanLastCell.swift */; };
 		47221E9327D89AB000017EA4 /* CarePlanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47221E9227D89AB000017EA4 /* CarePlanManager.swift */; };
 		47221E9427D89AB000017EA4 /* CarePlanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47221E9227D89AB000017EA4 /* CarePlanManager.swift */; };
 		47221E9527D89AB000017EA4 /* CarePlanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47221E9227D89AB000017EA4 /* CarePlanManager.swift */; };
@@ -1138,10 +1165,15 @@
 		2590042227C37B6A0024D616 /* CarePlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlanViewModel.swift; sourceTree = "<group>"; };
 		2590042927C3BEF20024D616 /* CarePlanCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlanCell.swift; sourceTree = "<group>"; };
 		259059ED27A8319D002ABF9F /* NewDailyTasksPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDailyTasksPageViewModel.swift; sourceTree = "<group>"; };
+		25A7CEBD27DB5240003B5CF7 /* Silka-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Silka-Medium.otf"; sourceTree = "<group>"; };
+		25A7CEBE27DB5240003B5CF7 /* Silka-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Silka-Bold.otf"; sourceTree = "<group>"; };
+		25A7CEBF27DB5240003B5CF7 /* Silka-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Silka-Regular.otf"; sourceTree = "<group>"; };
+		25A7CEC027DB5240003B5CF7 /* Silka-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Silka-SemiBold.otf"; sourceTree = "<group>"; };
 		25AEDA8627ADC2C0004B75E5 /* TimelineItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineItemViewModel.swift; sourceTree = "<group>"; };
 		25AF7F8527C712FC00F67CCF /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
 		25CCD89327D7372600D4D91E /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		25DD5D7327D2C7F200C32282 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
+		25E68B6C27DB8A90003B3364 /* CarePlanLastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlanLastCell.swift; sourceTree = "<group>"; };
 		47221E9227D89AB000017EA4 /* CarePlanManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanManager.swift; sourceTree = "<group>"; };
 		47221E9627D8A03F00017EA4 /* HKSample+RestingHeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKSample+RestingHeartRate.swift"; sourceTree = "<group>"; };
 		47221E9A27D8A3E500017EA4 /* CHOutcome+IrregularRhythm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHOutcome+IrregularRhythm.swift"; sourceTree = "<group>"; };
@@ -1746,8 +1778,20 @@
 				256FADFA27C4157C00FBB3D9 /* CarePlanFeatureCell.swift */,
 				256FADFE27C42B4500FBB3D9 /* CarePlanLinkCell.swift */,
 				256FAE0227C4491E00FBB3D9 /* SectionView.swift */,
+				25E68B6C27DB8A90003B3364 /* CarePlanLastCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		25A7CEBC27DB5225003B5CF7 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				25A7CEBE27DB5240003B5CF7 /* Silka-Bold.otf */,
+				25A7CEBD27DB5240003B5CF7 /* Silka-Medium.otf */,
+				25A7CEBF27DB5240003B5CF7 /* Silka-Regular.otf */,
+				25A7CEC027DB5240003B5CF7 /* Silka-SemiBold.otf */,
+			);
+			path = Font;
 			sourceTree = "<group>";
 		};
 		25AEDA8527ADC292004B75E5 /* ViewModel */ = {
@@ -2251,6 +2295,7 @@
 		844766CE259C2A4E00C50C09 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				25A7CEBC27DB5225003B5CF7 /* Font */,
 				844766CF259C2A4E00C50C09 /* Assets.xcassets */,
 				844766D0259C2A4E00C50C09 /* LaunchScreen.storyboard */,
 				844766D2259C2A4E00C50C09 /* Localizable.strings */,
@@ -3018,6 +3063,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				844767AD259C2A4E00C50C09 /* Assets.xcassets in Resources */,
+				25A7CECA27DB5241003B5CF7 /* Silka-SemiBold.otf in Resources */,
+				25A7CEC727DB5241003B5CF7 /* Silka-Regular.otf in Resources */,
+				25A7CEC127DB5241003B5CF7 /* Silka-Medium.otf in Resources */,
 				842DFCE825BBF52F00066A07 /* AppleHealthView.xib in Resources */,
 				844767AF259C2A4E00C50C09 /* Localizable.strings in Resources */,
 				842DFCBB25BBF4F500066A07 /* StatCell.xib in Resources */,
@@ -3028,6 +3076,7 @@
 				84EDA19B265A0A240049323C /* GoogleService-Info.plist in Resources */,
 				842DFCE225BBF52A00066A07 /* TextfieldView.xib in Resources */,
 				842DFCC125BBF4F900066A07 /* TodayStatCell.xib in Resources */,
+				25A7CEC427DB5241003B5CF7 /* Silka-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3069,6 +3118,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				847DCCCB265871F3004E9C1D /* Assets.xcassets in Resources */,
+				25A7CECC27DB5241003B5CF7 /* Silka-SemiBold.otf in Resources */,
+				25A7CEC927DB5241003B5CF7 /* Silka-Regular.otf in Resources */,
+				25A7CEC327DB5241003B5CF7 /* Silka-Medium.otf in Resources */,
 				847DCCCD265871F3004E9C1D /* AppleHealthView.xib in Resources */,
 				847DCCCE265871F3004E9C1D /* Localizable.strings in Resources */,
 				847DCCCF265871F3004E9C1D /* StatCell.xib in Resources */,
@@ -3079,6 +3131,7 @@
 				847DCCD5265871F3004E9C1D /* GoogleService-Info.plist in Resources */,
 				847DCCD7265871F3004E9C1D /* TextfieldView.xib in Resources */,
 				847DCCD8265871F3004E9C1D /* TodayStatCell.xib in Resources */,
+				25A7CEC627DB5241003B5CF7 /* Silka-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3104,6 +3157,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				84D122F4264112DE00990196 /* Assets.xcassets in Resources */,
+				25A7CECB27DB5241003B5CF7 /* Silka-SemiBold.otf in Resources */,
+				25A7CEC827DB5241003B5CF7 /* Silka-Regular.otf in Resources */,
+				25A7CEC227DB5241003B5CF7 /* Silka-Medium.otf in Resources */,
 				84D122F6264112DE00990196 /* AppleHealthView.xib in Resources */,
 				84D122F7264112DE00990196 /* Localizable.strings in Resources */,
 				84D122F8264112DE00990196 /* StatCell.xib in Resources */,
@@ -3114,6 +3170,7 @@
 				844DD5E2264F76EC0039DB20 /* GoogleService-Info.plist in Resources */,
 				84D12300264112DE00990196 /* TextfieldView.xib in Resources */,
 				84D12301264112DE00990196 /* TodayStatCell.xib in Resources */,
+				25A7CEC527DB5241003B5CF7 /* Silka-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3310,6 +3367,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25E68B6827DB5D61003B3364 /* Silka-Bold.otf in Sources */,
+				25E68B6927DB5D61003B3364 /* Silka-Medium.otf in Sources */,
+				25E68B6A27DB5D61003B3364 /* Silka-Regular.otf in Sources */,
+				25E68B6B27DB5D61003B3364 /* Silka-SemiBold.otf in Sources */,
 				842F966A26915C8D0041237F /* ChatParticipant.swift in Sources */,
 				84D1128926D451FC000BA718 /* PairingViewModel.swift in Sources */,
 				84AF11A126707C9B0061A9E5 /* GridTaskController.swift in Sources */,
@@ -3507,6 +3568,7 @@
 				848CD8B82696CBF2008B675F /* EntryMultiValueEntryView.swift in Sources */,
 				842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */,
 				8450848F271AA93A0014764A /* CareManager+Persistance.swift in Sources */,
+				25E68B6D27DB8A90003B3364 /* CarePlanLastCell.swift in Sources */,
 				84C517F525B7E55F00D684E5 /* BottomButton.swift in Sources */,
 				2515505F27A00E4400C40BC5 /* DailyTaskTopView.swift in Sources */,
 				847A46632728EFC5007BE113 /* SymptomsLogViewController.swift in Sources */,
@@ -3620,6 +3682,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25E68B6027DB5D32003B3364 /* Silka-Bold.otf in Sources */,
+				25E68B6127DB5D32003B3364 /* Silka-Medium.otf in Sources */,
+				25E68B6227DB5D32003B3364 /* Silka-Regular.otf in Sources */,
+				25E68B6327DB5D32003B3364 /* Silka-SemiBold.otf in Sources */,
 				842F966C26915C8D0041237F /* ChatParticipant.swift in Sources */,
 				84D1128B26D451FC000BA718 /* PairingViewModel.swift in Sources */,
 				84703C73265B743A0025A50D /* ButtonLogTaskViewSynchronizer.swift in Sources */,
@@ -3793,6 +3859,7 @@
 				840D69A2271E985F00473045 /* SimpleTaskView.swift in Sources */,
 				8426EA19272372530096CF2D /* MappedOutcome+Fetch.swift in Sources */,
 				847DCC68265871F3004E9C1D /* ProfileChartView.swift in Sources */,
+				25E68B6F27DB8A91003B3364 /* CarePlanLastCell.swift in Sources */,
 				847A46762728F4D5007BE113 /* TaskView.swift in Sources */,
 				84703C6E265B727C0025A50D /* GridTaskViewSynchronizer.swift in Sources */,
 				847DCC6A265871F3004E9C1D /* UINavigationBar+Appearance.swift in Sources */,
@@ -3930,6 +3997,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25E68B6427DB5D53003B3364 /* Silka-Bold.otf in Sources */,
+				25E68B6527DB5D53003B3364 /* Silka-Medium.otf in Sources */,
+				25E68B6627DB5D53003B3364 /* Silka-Regular.otf in Sources */,
+				25E68B6727DB5D53003B3364 /* Silka-SemiBold.otf in Sources */,
 				842F966B26915C8D0041237F /* ChatParticipant.swift in Sources */,
 				84D1128A26D451FC000BA718 /* PairingViewModel.swift in Sources */,
 				84703C72265B743A0025A50D /* ButtonLogTaskViewSynchronizer.swift in Sources */,
@@ -4103,6 +4174,7 @@
 				840D69A1271E985F00473045 /* SimpleTaskView.swift in Sources */,
 				8426EA18272372530096CF2D /* MappedOutcome+Fetch.swift in Sources */,
 				84D12295264112DE00990196 /* ProfileChartView.swift in Sources */,
+				25E68B6E27DB8A91003B3364 /* CarePlanLastCell.swift in Sources */,
 				847A46752728F4D5007BE113 /* TaskView.swift in Sources */,
 				84703C6D265B727C0025A50D /* GridTaskViewSynchronizer.swift in Sources */,
 				84D12297264112DE00990196 /* UINavigationBar+Appearance.swift in Sources */,

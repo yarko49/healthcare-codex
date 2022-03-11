@@ -61,7 +61,7 @@ class FollowViewController: UIViewController {
 	private let title1: UILabel = {
 		let title1 = UILabel()
 		title1.translatesAutoresizingMaskIntoConstraints = false
-		title1.attributedText = "Sorry you're not feeling great.".attributedString(style: .bold20, foregroundColor: UIColor.black, letterSpacing: -0.41)
+		title1.attributedText = "Sorry you're not feeling great.".attributedString(style: .silkabold20, foregroundColor: UIColor.black, letterSpacing: -0.41)
 		title1.numberOfLines = 0
 		title1.lineBreakMode = .byWordWrapping
 		return title1
@@ -70,7 +70,7 @@ class FollowViewController: UIViewController {
 	private let title2: UILabel = {
 		let title2 = UILabel()
 		title2.translatesAutoresizingMaskIntoConstraints = false
-		title2.attributedText = "Do you have any of these symptoms?".attributedString(style: .bold24, foregroundColor: .mainBlue, letterSpacing: -0.41)
+		title2.attributedText = "Do you have any of these symptoms?".attributedString(style: .silkabold24, foregroundColor: .mainBlue, letterSpacing: -0.41)
 		title2.numberOfLines = 0
 		title2.lineBreakMode = .byWordWrapping
 		return title2
@@ -115,9 +115,7 @@ class FollowViewController: UIViewController {
 	private let symptomsLabel: UILabel = {
 		let symptomsLabel = UILabel()
 		symptomsLabel.translatesAutoresizingMaskIntoConstraints = false
-		symptomsLabel.textColor = .white
-		symptomsLabel.font = .systemFont(ofSize: 26, weight: .bold)
-		symptomsLabel.text = "Thanks for adding\nyour symptoms.\n\nHope you feel\nbetter soon!"
+		symptomsLabel.attributedText = "Thanks for adding\nyour symptoms.\n\nHope you feel\nbetter soon!".attributedString(style: .silkabold24, foregroundColor: .white)
 		symptomsLabel.lineBreakMode = .byWordWrapping
 		symptomsLabel.numberOfLines = 0
 		symptomsLabel.textAlignment = .center

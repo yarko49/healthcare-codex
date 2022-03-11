@@ -1,9 +1,15 @@
 import UIKit
 
 class SplashViewController: UIViewController {
-	let imageView: UIImageView = {
-		let view = UIImageView(image: UIImage(named: "Logo"))
-		view.contentMode = .center
+	private let imageView: UIImageView = {
+		let view = UIImageView(image: UIImage(named: "img-splash"))
+		view.contentMode = .scaleAspectFit
+		return view
+	}()
+
+	private let titleImageView: UIImageView = {
+		let view = UIImageView(image: UIImage(named: "img-splash-title"))
+		view.contentMode = .scaleAspectFit
 		return view
 	}()
 
@@ -15,9 +21,12 @@ class SplashViewController: UIViewController {
 		super.viewDidLoad()
 		view.backgroundColor = .white
 		imageView.translatesAutoresizingMaskIntoConstraints = false
-		view.addSubview(imageView)
-		NSLayoutConstraint.activate([imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0.0),
-		                             imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0)])
+		titleImageView.translatesAutoresizingMaskIntoConstraints = false
+		[imageView, titleImageView].forEach { view.addSubview($0) }
+		NSLayoutConstraint.activate([imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 20.0),
+		                             imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0.0)])
+		NSLayoutConstraint.activate([titleImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0.0),
+		                             titleImageView.bottomAnchor.constraint(equalTo: imageView.topAnchor, constant: 0.0)])
 	}
 
 	override func viewDidAppear(_ animated: Bool) {

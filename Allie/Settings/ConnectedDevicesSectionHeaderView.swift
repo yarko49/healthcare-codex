@@ -13,9 +13,6 @@ class ConnectedDevicesSectionHeaderView: UITableViewHeaderFooterView {
 		let view = UIView(frame: .zero)
 		view.backgroundColor = .allieWhite
 		backgroundView = view
-
-		textLabel?.font = UIFont.systemFont(ofSize: 17.0)
-		textLabel?.textColor = .allieGray
 	}
 
 	@available(*, unavailable)
