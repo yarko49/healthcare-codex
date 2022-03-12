@@ -261,13 +261,11 @@ class NewDailyTasksPageViewController: BaseViewController {
 
 	@objc func onChangeDate(sender: UIDatePicker) {
 		dateStackView.isHidden = true
-		selectedDate = sender.date
-		if Calendar.current.isDateInToday(sender.date) {
-			topView.setButtonTitle(title: "Today")
-		} else {
-			let title: String = DateFormatter.yyyyMMdd.string(from: sender.date)
-			topView.setButtonTitle(title: title)
+		if sender.date == selectedDate || sender.date > Date() {
+			return
 		}
+		selectedDate = sender.date
+		topView.setButtonTitle(date: selectedDate)
 		viewModel.loadHealthData(date: selectedDate)
 	}
 
@@ -279,6 +277,11 @@ class NewDailyTasksPageViewController: BaseViewController {
 // MARK: - Top View Delegate
 
 extension NewDailyTasksPageViewController: DailyTaskTopViewDelegate {
+	func onClickDateSelectionButton(date: Date) {
+		selectedDate = date
+		viewModel.loadHealthData(date: date)
+	}
+
 	func onClickNotGreat() {
 		let viewController = FollowViewController(viewModel: viewModel, date: selectedDate)
 		viewController.delegate = self

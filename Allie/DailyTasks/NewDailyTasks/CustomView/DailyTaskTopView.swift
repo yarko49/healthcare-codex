@@ -10,10 +10,12 @@ import UIKit
 protocol DailyTaskTopViewDelegate: AnyObject {
 	func onClickTodayButton()
 	func onClickNotGreat()
+	func onClickDateSelectionButton(date: Date)
 }
 
 class DailyTaskTopView: UIView {
 	weak var delegate: DailyTaskTopViewDelegate?
+	private var selectedDate: Date = .init()
 
 	private var wholeStackView: UIStackView = {
 		let wholeStackView = UIStackView()
@@ -83,6 +85,28 @@ class DailyTaskTopView: UIView {
 		return todayButton
 	}()
 
+	private var beforeButton: UIButton = {
+		let beforeButton = UIButton()
+		beforeButton.translatesAutoresizingMaskIntoConstraints = false
+		beforeButton.backgroundColor = .clear
+		beforeButton.setTitle(nil, for: .normal)
+		beforeButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+		beforeButton.tintColor = .black
+		beforeButton.tag = 0
+		return beforeButton
+	}()
+
+	private var nextButton: UIButton = {
+		let nextButton = UIButton()
+		nextButton.translatesAutoresizingMaskIntoConstraints = false
+		nextButton.backgroundColor = .clear
+		nextButton.setTitle(nil, for: .normal)
+		nextButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+		nextButton.tintColor = .black
+		nextButton.tag = 1
+		return nextButton
+	}()
+
 	override init(frame: CGRect) {
 		super.init(frame: .zero)
 		setupViews()
@@ -144,6 +168,17 @@ class DailyTaskTopView: UIView {
 		todayButton.centerYAnchor.constraint(equalTo: calendarView.centerYAnchor).isActive = true
 		todayButton.addTarget(self, action: #selector(onClickTodayButton), for: .touchUpInside)
 
+		calendarView.addSubview(beforeButton)
+		beforeButton.centerYAnchor.constraint(equalTo: calendarView.centerYAnchor).isActive = true
+		beforeButton.leadingAnchor.constraint(equalTo: calendarView.leadingAnchor, constant: 50).isActive = true
+
+		calendarView.addSubview(nextButton)
+		nextButton.centerYAnchor.constraint(equalTo: calendarView.centerYAnchor).isActive = true
+		nextButton.trailingAnchor.constraint(equalTo: calendarView.trailingAnchor, constant: -50).isActive = true
+
+		beforeButton.addTarget(self, action: #selector(onClickDateSelectionButton), for: .touchUpInside)
+		nextButton.addTarget(self, action: #selector(onClickDateSelectionButton), for: .touchUpInside)
+
 		addSubview(wholeStackView)
 		wholeStackView.topAnchor.constraint(equalTo: topAnchor).isActive = true
 		wholeStackView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
@@ -152,6 +187,8 @@ class DailyTaskTopView: UIView {
 
 		statusView.isHidden = true
 		calendarView.isHidden = true
+
+		setButtonTitle(date: selectedDate)
 	}
 
 	func showAnimation(index: Int) {
@@ -187,8 +224,29 @@ class DailyTaskTopView: UIView {
 		delegate?.onClickTodayButton()
 	}
 
-	func setButtonTitle(title: String) {
-		todayButton.setAttributedTitle(title.attributedString(style: .silkabold20, foregroundColor: .black), for: .normal)
+	@objc func onClickDateSelectionButton(sender: UIButton) {
+		let calendar = Calendar.current
+		let date = calendar.date(byAdding: .day, value: sender.tag == 0 ? -1 : 1, to: selectedDate)!
+		setButtonTitle(date: date)
+		delegate?.onClickDateSelectionButton(date: selectedDate)
+	}
+
+	func setButtonTitle(date: Date) {
+		var buttonTitle = ""
+		selectedDate = date
+		if Calendar.current.isDateInToday(date) {
+			nextButton.isHidden = true
+			buttonTitle = "Today"
+		} else {
+			if date > Date() {
+				nextButton.isHidden = true
+				return
+			} else {
+				nextButton.isHidden = false
+				buttonTitle = DateFormatter.yyyyMMdd.string(from: date)
+			}
+		}
+		todayButton.setAttributedTitle(buttonTitle.attributedString(style: .silkabold20, foregroundColor: .black), for: .normal)
 	}
 }
 
