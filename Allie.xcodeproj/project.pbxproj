@@ -3,13 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		47221E9327D89AB000017EA4 /* CarePlanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47221E9227D89AB000017EA4 /* CarePlanManager.swift */; };
-		47221E9427D89AB000017EA4 /* CarePlanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47221E9227D89AB000017EA4 /* CarePlanManager.swift */; };
-		47221E9527D89AB000017EA4 /* CarePlanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47221E9227D89AB000017EA4 /* CarePlanManager.swift */; };
+		47124EA827DB3F8C008C5853 /* CareManager+Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47124EA727DB3F8C008C5853 /* CareManager+Persistence.swift */; };
+		47124EA927DB3F8C008C5853 /* CareManager+Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47124EA727DB3F8C008C5853 /* CareManager+Persistence.swift */; };
+		47124EAA27DB3F8C008C5853 /* CareManager+Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47124EA727DB3F8C008C5853 /* CareManager+Persistence.swift */; };
 		47221E9727D8A03F00017EA4 /* HKSample+RestingHeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47221E9627D8A03F00017EA4 /* HKSample+RestingHeartRate.swift */; };
 		47221E9827D8A03F00017EA4 /* HKSample+RestingHeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47221E9627D8A03F00017EA4 /* HKSample+RestingHeartRate.swift */; };
 		47221E9927D8A03F00017EA4 /* HKSample+RestingHeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47221E9627D8A03F00017EA4 /* HKSample+RestingHeartRate.swift */; };
@@ -58,9 +58,9 @@
 		47700E9E27BCE69100262123 /* WSPairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47700E9D27BCE69100262123 /* WSPairingViewController.swift */; };
 		47700E9F27BCE69100262123 /* WSPairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47700E9D27BCE69100262123 /* WSPairingViewController.swift */; };
 		47700EA027BCE69100262123 /* WSPairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47700E9D27BCE69100262123 /* WSPairingViewController.swift */; };
-		47700EA227BCE6B700262123 /* PairingITem+WeightScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47700EA127BCE6B700262123 /* PairingITem+WeightScale.swift */; };
-		47700EA327BCE6B700262123 /* PairingITem+WeightScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47700EA127BCE6B700262123 /* PairingITem+WeightScale.swift */; };
-		47700EA427BCE6B700262123 /* PairingITem+WeightScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47700EA127BCE6B700262123 /* PairingITem+WeightScale.swift */; };
+		47700EA227BCE6B700262123 /* PairingItem+WeightScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47700EA127BCE6B700262123 /* PairingItem+WeightScale.swift */; };
+		47700EA327BCE6B700262123 /* PairingItem+WeightScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47700EA127BCE6B700262123 /* PairingItem+WeightScale.swift */; };
+		47700EA427BCE6B700262123 /* PairingItem+WeightScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47700EA127BCE6B700262123 /* PairingItem+WeightScale.swift */; };
 		47734F652792C3CA00AA44EF /* CodexFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 47734F642792C3CA00AA44EF /* CodexFoundation */; };
 		47734F672792C3D200AA44EF /* CodexFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 47734F662792C3D200AA44EF /* CodexFoundation */; };
 		47734F692792C3D800AA44EF /* CodexFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 47734F682792C3D800AA44EF /* CodexFoundation */; };
@@ -85,6 +85,9 @@
 		4791E4C0278EA58E003FBC87 /* HealthKitManager+BloodPressure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4791E4BF278EA58E003FBC87 /* HealthKitManager+BloodPressure.swift */; };
 		4791E4C1278EA58E003FBC87 /* HealthKitManager+BloodPressure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4791E4BF278EA58E003FBC87 /* HealthKitManager+BloodPressure.swift */; };
 		4791E4C2278EA58E003FBC87 /* HealthKitManager+BloodPressure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4791E4BF278EA58E003FBC87 /* HealthKitManager+BloodPressure.swift */; };
+		4796C69527D9D829007E3A38 /* MurariCarePlanResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 4796C69427D9D829007E3A38 /* MurariCarePlanResponse.json */; };
+		4796C69727D9D85C007E3A38 /* CarePlanManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4796C69627D9D85C007E3A38 /* CarePlanManagerTests.swift */; };
+		4796C69927D9D89C007E3A38 /* Bundle+LoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4796C69827D9D89C007E3A38 /* Bundle+LoadData.swift */; };
 		4799602127A3B2E1007E6A69 /* Dictionary+OHQSessionOptionKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799602027A3B2E1007E6A69 /* Dictionary+OHQSessionOptionKey.swift */; };
 		4799602327A3B8EC007E6A69 /* Dictionary+OHQUserDataKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799602227A3B8EC007E6A69 /* Dictionary+OHQUserDataKey.swift */; };
 		47AE808027D5B57B00A5BE3D /* BluetoothSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AE807F27D5B57B00A5BE3D /* BluetoothSyncManager.swift */; };
@@ -340,9 +343,6 @@
 		8450848B271AA6000014764A /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8450848A271AA6000014764A /* RemoteConfigManager.swift */; };
 		8450848C271AA6000014764A /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8450848A271AA6000014764A /* RemoteConfigManager.swift */; };
 		8450848D271AA6000014764A /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8450848A271AA6000014764A /* RemoteConfigManager.swift */; };
-		8450848F271AA93A0014764A /* CareManager+Persistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8450848E271AA93A0014764A /* CareManager+Persistance.swift */; };
-		84508490271AA93A0014764A /* CareManager+Persistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8450848E271AA93A0014764A /* CareManager+Persistance.swift */; };
-		84508491271AA93A0014764A /* CareManager+Persistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8450848E271AA93A0014764A /* CareManager+Persistance.swift */; };
 		8452775C262E8DB9002241A1 /* EmailSentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8452775B262E8DB9002241A1 /* EmailSentViewController.swift */; };
 		845292EB272BD5E700472264 /* SymptomOutcomeUploaded.json in Resources */ = {isa = PBXBuildFile; fileRef = 845292EA272BD5E700472264 /* SymptomOutcomeUploaded.json */; };
 		8455B151269A159B006C367C /* GeneralizedLogTaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455B150269A159B006C367C /* GeneralizedLogTaskDetailView.swift */; };
@@ -1018,7 +1018,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		47221E9227D89AB000017EA4 /* CarePlanManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanManager.swift; sourceTree = "<group>"; };
+		47124EA727DB3F8C008C5853 /* CareManager+Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+Persistence.swift"; sourceTree = "<group>"; };
 		47221E9627D8A03F00017EA4 /* HKSample+RestingHeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKSample+RestingHeartRate.swift"; sourceTree = "<group>"; };
 		47221E9A27D8A3E500017EA4 /* CHOutcome+IrregularRhythm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHOutcome+IrregularRhythm.swift"; sourceTree = "<group>"; };
 		473775FA2792C2F00010C308 /* CodexFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CodexFoundation; sourceTree = "<group>"; };
@@ -1039,7 +1039,7 @@
 		4765CA5727C8BA9100C751B1 /* CareManager+AsyncPatients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+AsyncPatients.swift"; sourceTree = "<group>"; };
 		4765CA5B27C8BCB100C751B1 /* CarePlan+AsyncTasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarePlan+AsyncTasks.swift"; sourceTree = "<group>"; };
 		47700E9D27BCE69100262123 /* WSPairingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSPairingViewController.swift; sourceTree = "<group>"; };
-		47700EA127BCE6B700262123 /* PairingITem+WeightScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PairingITem+WeightScale.swift"; sourceTree = "<group>"; };
+		47700EA127BCE6B700262123 /* PairingItem+WeightScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PairingItem+WeightScale.swift"; sourceTree = "<group>"; };
 		477BA0CF27900B540056D5BA /* UIPageViewController+Scrolling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPageViewController+Scrolling.swift"; sourceTree = "<group>"; };
 		477BA0D327900BA80056D5BA /* BPMPairingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPMPairingViewController.swift; sourceTree = "<group>"; };
 		477BA0D727900BE30056D5BA /* PairingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingViewController.swift; sourceTree = "<group>"; };
@@ -1047,6 +1047,9 @@
 		47892DA227857C8800BC7827 /* HealthKitManager+Samples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+Samples.swift"; sourceTree = "<group>"; };
 		47892DA627857CD000BC7827 /* HealthKitManager+Steps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+Steps.swift"; sourceTree = "<group>"; };
 		4791E4BF278EA58E003FBC87 /* HealthKitManager+BloodPressure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+BloodPressure.swift"; sourceTree = "<group>"; };
+		4796C69427D9D829007E3A38 /* MurariCarePlanResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MurariCarePlanResponse.json; sourceTree = "<group>"; };
+		4796C69627D9D85C007E3A38 /* CarePlanManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlanManagerTests.swift; sourceTree = "<group>"; };
+		4796C69827D9D89C007E3A38 /* Bundle+LoadData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+LoadData.swift"; sourceTree = "<group>"; };
 		4799602027A3B2E1007E6A69 /* Dictionary+OHQSessionOptionKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+OHQSessionOptionKey.swift"; sourceTree = "<group>"; };
 		4799602227A3B8EC007E6A69 /* Dictionary+OHQUserDataKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+OHQUserDataKey.swift"; sourceTree = "<group>"; };
 		47AE807F27D5B57B00A5BE3D /* BluetoothSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSyncManager.swift; sourceTree = "<group>"; };
@@ -1199,7 +1202,6 @@
 		844F06DE25C113B500D26119 /* UserDefaults+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Settings.swift"; sourceTree = "<group>"; };
 		844F218826B114AF00788DA9 /* HealthKitManager+GlucoseMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HealthKitManager+GlucoseMeter.swift"; sourceTree = "<group>"; };
 		8450848A271AA6000014764A /* RemoteConfigManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
-		8450848E271AA93A0014764A /* CareManager+Persistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+Persistance.swift"; sourceTree = "<group>"; };
 		8452775B262E8DB9002241A1 /* EmailSentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSentViewController.swift; sourceTree = "<group>"; };
 		845292EA272BD5E700472264 /* SymptomOutcomeUploaded.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SymptomOutcomeUploaded.json; sourceTree = "<group>"; };
 		8455B150269A159B006C367C /* GeneralizedLogTaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralizedLogTaskDetailView.swift; sourceTree = "<group>"; };
@@ -1542,19 +1544,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		47221E9127D89AB000017EA4 /* CarePlanManager */ = {
-			isa = PBXGroup;
-			children = (
-				47221E9227D89AB000017EA4 /* CarePlanManager.swift */,
-			);
-			path = CarePlanManager;
-			sourceTree = "<group>";
-		};
 		47700E9C27BCE65D00262123 /* WeightScale */ = {
 			isa = PBXGroup;
 			children = (
 				47700E9D27BCE69100262123 /* WSPairingViewController.swift */,
-				47700EA127BCE6B700262123 /* PairingITem+WeightScale.swift */,
+				47700EA127BCE6B700262123 /* PairingItem+WeightScale.swift */,
 			);
 			path = WeightScale;
 			sourceTree = "<group>";
@@ -1624,6 +1618,7 @@
 				845292EA272BD5E700472264 /* SymptomOutcomeUploaded.json */,
 				84BA7DFF273A371C0019B966 /* CloudDevices.json */,
 				84B4FCDF277192E0005A8D62 /* Actos.json */,
+				4796C69427D9D829007E3A38 /* MurariCarePlanResponse.json */,
 			);
 			path = TestData;
 			sourceTree = "<group>";
@@ -1686,7 +1681,6 @@
 				84749FBA26313B4200D7D7A8 /* CareManager+HealthKitSynchronization.swift */,
 				8456DEC82754BBB100D5958B /* CareManager+OutcomeSynchronization.swift */,
 				84C212A02660B3AC000D491B /* CareManager+FeatureContent.swift */,
-				8450848E271AA93A0014764A /* CareManager+Persistance.swift */,
 				84B9739826EDD3020094B35C /* CareManager+Patients.swift */,
 				4765CA5727C8BA9100C751B1 /* CareManager+AsyncPatients.swift */,
 				84B9739C26EDD36E0094B35C /* CareManager+AsyncCarePlan.swift */,
@@ -1694,6 +1688,7 @@
 				4765CA5B27C8BCB100C751B1 /* CarePlan+AsyncTasks.swift */,
 				84B9739426EDD2230094B35C /* CareManager+Outcomes.swift */,
 				47D0E8D427C77404003FFDA8 /* CareManager+AsyncOutcomes.swift */,
+				47124EA727DB3F8C008C5853 /* CareManager+Persistence.swift */,
 				840BC7422723CB0400C7EE7E /* CoreData */,
 			);
 			path = CareManager;
@@ -1785,6 +1780,7 @@
 				84C83FC6259C48F100DAEF34 /* TargetValueTests.swift */,
 				84C83FC7259C48F100DAEF34 /* TasksTests.swift */,
 				84C83FD2259C48F200DAEF34 /* URLProtocolMock.swift */,
+				4796C69827D9D89C007E3A38 /* Bundle+LoadData.swift */,
 				845FBE7625FC71A700472257 /* ObservationsConfigTest.swift */,
 				84A6316E2601B6B5000922F3 /* CareKitStoreTests.swift */,
 				849E158E26113ABB00663010 /* AlliePatientTests.swift */,
@@ -1796,6 +1792,7 @@
 				8401F70A270D33F400D1CBED /* HealthKitToCareKitTests.swift */,
 				84CD36832721371E00BD93BC /* CoreDataTests.swift */,
 				84BA7E01273A37580019B966 /* CloudDevicesTests.swift */,
+				4796C69627D9D85C007E3A38 /* CarePlanManagerTests.swift */,
 				8401F709270D335300D1CBED /* TestData */,
 			);
 			path = AllieTests;
@@ -2082,7 +2079,6 @@
 				84476724259C2A4E00C50C09 /* AppConfig.swift */,
 				8447671E259C2A4E00C50C09 /* API */,
 				84310E0025FF06E300DBFDAF /* CareKit */,
-				47221E9127D89AB000017EA4 /* CarePlanManager */,
 				841E9A0225F096FE001192DD /* CareManager */,
 				8439C7A825FB467E008C5940 /* HKToFHIR */,
 				8487481925B3B309008C15E2 /* Logging */,
@@ -2729,7 +2725,7 @@
 				};
 			};
 			buildConfigurationList = 842398C2259C1144006FB3F4 /* Build configuration list for PBXProject "Allie" */;
-			compatibilityVersion = "Xcode 12.0";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -2808,6 +2804,7 @@
 				84C83FE6259C48F200DAEF34 /* SechduleA.json in Resources */,
 				8420C948264EE524005C21DD /* NewTasks.json in Resources */,
 				84F47F6B26426136009CC791 /* ActivityTask.json in Resources */,
+				4796C69527D9D829007E3A38 /* MurariCarePlanResponse.json in Resources */,
 				84016C3A2616BED7006D5279 /* DiabetiesCarePlan.json in Resources */,
 				84CD36822721370200BD93BC /* DownlaodedOutcomes.json in Resources */,
 				84BA7E00273A371C0019B966 /* CloudDevices.json in Resources */,
@@ -3085,7 +3082,7 @@
 				84867D4725A99016002EE695 /* IllustrationCollectionViewCell.swift in Sources */,
 				8447674C259C2A4E00C50C09 /* SplashViewController.swift in Sources */,
 				84AF4CFB26CA104D00867349 /* CareManager+Injectable.swift in Sources */,
-				47700EA227BCE6B700262123 /* PairingITem+WeightScale.swift in Sources */,
+				47700EA227BCE6B700262123 /* PairingItem+WeightScale.swift in Sources */,
 				84CF2DA4261AE60B0080293F /* DatePickerView.swift in Sources */,
 				84FE913F2650E55B00D681DF /* GradientView.swift in Sources */,
 				474089D42792B8BF00DEC810 /* APIRouter.swift in Sources */,
@@ -3106,7 +3103,6 @@
 				846B5EBA2648B287003046EF /* NSLayoutConstraint+Extensions.swift in Sources */,
 				843F514427291FCB00E801DE /* CHGroupIdentifierType+Views.swift in Sources */,
 				84476795259C2A4E00C50C09 /* SearchParameter.swift in Sources */,
-				47221E9327D89AB000017EA4 /* CarePlanManager.swift in Sources */,
 				844767DC259C2A4E00C50C09 /* CoordinatorType.swift in Sources */,
 				8437270C25F8989C005B2C5C /* Notification+Names.swift in Sources */,
 				84A9202B26858DE300A52412 /* ConnectProviderViewController.swift in Sources */,
@@ -3233,6 +3229,7 @@
 				8475FBDE268C275900A916B6 /* UINavigationController+Transitions.swift in Sources */,
 				8487481525B3B2FD008C15E2 /* LoggingOSLog.swift in Sources */,
 				84CF2D9E261AC5D40080293F /* GenderPickerView.swift in Sources */,
+				47124EA827DB3F8C008C5853 /* CareManager+Persistence.swift in Sources */,
 				849F37A125BA8CF300FC2D1B /* ScreenFlowType.swift in Sources */,
 				477BA0D427900BA80056D5BA /* BPMPairingViewController.swift in Sources */,
 				84E4660225A040F100A10F8B /* ViewIdentifiable.swift in Sources */,
@@ -3240,7 +3237,6 @@
 				84703C58265B4B350025A50D /* Keychain+Access.swift in Sources */,
 				848CD8B82696CBF2008B675F /* EntryMultiValueEntryView.swift in Sources */,
 				842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */,
-				8450848F271AA93A0014764A /* CareManager+Persistance.swift in Sources */,
 				84C517F525B7E55F00D684E5 /* BottomButton.swift in Sources */,
 				847A46632728EFC5007BE113 /* SymptomsLogViewController.swift in Sources */,
 				84F2E9A6269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */,
@@ -3324,10 +3320,12 @@
 				84C83FE9259C48F200DAEF34 /* URLProtocolMock.swift in Sources */,
 				84DC75AA25AC0F33003B541C /* ScheduleElementTests.swift in Sources */,
 				845F189D263246CE005A601A /* DeviceTests.swift in Sources */,
+				4796C69727D9D85C007E3A38 /* CarePlanManagerTests.swift in Sources */,
 				84C83FD5259C48F200DAEF34 /* CarePlanTests.swift in Sources */,
 				84C83FDD259C48F200DAEF34 /* TargetValueTests.swift in Sources */,
 				84C83FE8259C48F200DAEF34 /* TaskTests.swift in Sources */,
 				8401F70B270D33F400D1CBED /* HealthKitToCareKitTests.swift in Sources */,
+				4796C69927D9D89C007E3A38 /* Bundle+LoadData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3361,7 +3359,7 @@
 				847DCBFA265871F3004E9C1D /* SplashViewController.swift in Sources */,
 				847DCBFB265871F3004E9C1D /* DatePickerView.swift in Sources */,
 				84AF4CFD26CA104D00867349 /* CareManager+Injectable.swift in Sources */,
-				47700EA427BCE6B700262123 /* PairingITem+WeightScale.swift in Sources */,
+				47700EA427BCE6B700262123 /* PairingItem+WeightScale.swift in Sources */,
 				847DCBFD265871F3004E9C1D /* GradientView.swift in Sources */,
 				847DCBFE265871F3004E9C1D /* Coordinable.swift in Sources */,
 				474089D62792B8BF00DEC810 /* APIRouter.swift in Sources */,
@@ -3382,7 +3380,6 @@
 				4738FCD427914544000686FA /* PairingItem+BloodPressure.swift in Sources */,
 				843F514627291FCB00E801DE /* CHGroupIdentifierType+Views.swift in Sources */,
 				847DCC0B265871F3004E9C1D /* SearchParameter.swift in Sources */,
-				47221E9527D89AB000017EA4 /* CarePlanManager.swift in Sources */,
 				847DCC0C265871F3004E9C1D /* CoordinatorType.swift in Sources */,
 				847DCC0D265871F3004E9C1D /* Notification+Names.swift in Sources */,
 				847DCC11265871F3004E9C1D /* ChatViewController.swift in Sources */,
@@ -3509,6 +3506,7 @@
 				8426E9F22723663A0096CF2D /* HealthStore.xcdatamodeld in Sources */,
 				8475FBE0268C275900A916B6 /* UINavigationController+Transitions.swift in Sources */,
 				847DCC71265871F3004E9C1D /* LoggingOSLog.swift in Sources */,
+				47124EAA27DB3F8C008C5853 /* CareManager+Persistence.swift in Sources */,
 				847DCC73265871F3004E9C1D /* GenderPickerView.swift in Sources */,
 				847DCC74265871F3004E9C1D /* ScreenFlowType.swift in Sources */,
 				477BA0D627900BA80056D5BA /* BPMPairingViewController.swift in Sources */,
@@ -3518,7 +3516,6 @@
 				848CD8BA2696CBF2008B675F /* EntryMultiValueEntryView.swift in Sources */,
 				847DCC7D265871F3004E9C1D /* BottomButton.swift in Sources */,
 				84F2E9A8269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */,
-				84508491271AA93A0014764A /* CareManager+Persistance.swift in Sources */,
 				847DCC7E265871F3004E9C1D /* TextStyle.swift in Sources */,
 				847A46652728EFC5007BE113 /* SymptomsLogViewController.swift in Sources */,
 				847DCC7F265871F3004E9C1D /* ProfileEntryViewController.swift in Sources */,
@@ -3635,7 +3632,7 @@
 				84D1222E264112DE00990196 /* SplashViewController.swift in Sources */,
 				84D1222F264112DE00990196 /* DatePickerView.swift in Sources */,
 				84AF4CFC26CA104D00867349 /* CareManager+Injectable.swift in Sources */,
-				47700EA327BCE6B700262123 /* PairingITem+WeightScale.swift in Sources */,
+				47700EA327BCE6B700262123 /* PairingItem+WeightScale.swift in Sources */,
 				84FE91402650E55B00D681DF /* GradientView.swift in Sources */,
 				84D12231264112DE00990196 /* Coordinable.swift in Sources */,
 				474089D52792B8BF00DEC810 /* APIRouter.swift in Sources */,
@@ -3656,7 +3653,6 @@
 				4738FCD327914544000686FA /* PairingItem+BloodPressure.swift in Sources */,
 				843F514527291FCB00E801DE /* CHGroupIdentifierType+Views.swift in Sources */,
 				84D1223D264112DE00990196 /* SearchParameter.swift in Sources */,
-				47221E9427D89AB000017EA4 /* CarePlanManager.swift in Sources */,
 				84D1223E264112DE00990196 /* CoordinatorType.swift in Sources */,
 				84D1223F264112DE00990196 /* Notification+Names.swift in Sources */,
 				84D12242264112DE00990196 /* ChatViewController.swift in Sources */,
@@ -3783,6 +3779,7 @@
 				8426E9F12723663A0096CF2D /* HealthStore.xcdatamodeld in Sources */,
 				8475FBDF268C275900A916B6 /* UINavigationController+Transitions.swift in Sources */,
 				84D122A0264112DE00990196 /* LoggingOSLog.swift in Sources */,
+				47124EA927DB3F8C008C5853 /* CareManager+Persistence.swift in Sources */,
 				84D122A2264112DE00990196 /* GenderPickerView.swift in Sources */,
 				84D122A4264112DE00990196 /* ScreenFlowType.swift in Sources */,
 				477BA0D527900BA80056D5BA /* BPMPairingViewController.swift in Sources */,
@@ -3792,7 +3789,6 @@
 				848CD8B92696CBF2008B675F /* EntryMultiValueEntryView.swift in Sources */,
 				84D122AB264112DE00990196 /* BottomButton.swift in Sources */,
 				84F2E9A7269E59BB004B8003 /* HKQuantityTypeIdentifier+TaskViews.swift in Sources */,
-				84508490271AA93A0014764A /* CareManager+Persistance.swift in Sources */,
 				84D122AC264112DE00990196 /* TextStyle.swift in Sources */,
 				847A46642728EFC5007BE113 /* SymptomsLogViewController.swift in Sources */,
 				84D122AD264112DE00990196 /* ProfileEntryViewController.swift in Sources */,
@@ -4086,7 +4082,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4095,7 +4091,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2.0;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4117,7 +4113,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = Allie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4126,7 +4122,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2.0;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.Allie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4244,7 +4240,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4253,7 +4249,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2.0;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4275,7 +4271,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4284,7 +4280,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2.0;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4415,7 +4411,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4424,7 +4420,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2.0;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4446,7 +4442,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-qa.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4455,7 +4451,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2.0;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codexhealth.allie.qa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4550,7 +4546,7 @@
 			repositoryURL = "https://github.com/twilio/conversations-ios.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.2.0;
+				minimumVersion = 1.3.1;
 			};
 		};
 		84311368262E87F300561329 /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */ = {
@@ -4566,7 +4562,7 @@
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.11.1;
+				minimumVersion = 5.12.4;
 			};
 		};
 		84436273264B527B002B475C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
@@ -4598,7 +4594,7 @@
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.5.8;
+				minimumVersion = 6.5.0;
 			};
 		};
 		84700A82259C331B0083E2AA /* XCRemoteSwiftPackageReference "Charts" */ = {
@@ -4726,7 +4722,7 @@
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.1;
+				minimumVersion = 6.1.0;
 			};
 		};
 		84CEF53226891EFE000C4C56 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {

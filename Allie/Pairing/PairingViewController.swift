@@ -24,7 +24,7 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 	var initialIndex: Int = 0
 	var viewModel = PairingViewModel(pages: PairingItem.bloodGlucoseItems)
 	var bluetoothDevices: [UUID: Peripheral] = [:]
-	var deviceCategory: OHQDeviceCategory = .any
+	var deviceCategories: Set<OHQDeviceCategory> = [.any]
 
 	var deviceManager: OHQDeviceManager {
 		OHQDeviceManager.shared()
@@ -43,6 +43,8 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 		super.viewDidLoad()
 		view.backgroundColor = .allieWhite
 		pageViewController.dataSource = viewModel
+		pageViewController.delegate = self
+		pageViewController.isPagingEnabled = false
 		pageViewController.view.frame = view.bounds
 		let viewController = viewModel.viewControllerAt(index: initialIndex)
 		pageViewController.setViewControllers([viewController!], direction: .forward, animated: false) { finished in
@@ -54,6 +56,7 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 		pageViewController.didMove(toParent: self)
 		configureView()
 		deviceManager.add(delegate: self)
+		currentPageDidChange(index: initialIndex)
 	}
 
 	var pageViewController: UIPageViewController = {
@@ -72,9 +75,28 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 
 	let titleLabel: UILabel = {
 		let label = UILabel(frame: .zero)
-		label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-		label.text = NSLocalizedString("BLUETOOTH_PAIRING", comment: "Bluetooth Pairing")
+		label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+		label.text = NSLocalizedString("PAIRING", comment: "Pairing")
 		label.textColor = .allieGray
+		label.textAlignment = .center
+		return label
+	}()
+
+	let deviceNameTitleLabel: UILabel = {
+		let label = UILabel(frame: .zero)
+		label.textColor = .allieGray
+		label.numberOfLines = 0
+		label.font = UIFont.systemFont(ofSize: 20.0, weight: .bold)
+		label.textAlignment = .center
+		label.text = NSLocalizedString("ACTIVE_DEVICES_NEAR_YOU", comment: "Active devices near you")
+		return label
+	}()
+
+	let deviceNameLabel: UILabel = {
+		let label = UILabel(frame: .zero)
+		label.textColor = .allieGray
+		label.numberOfLines = 0
+		label.font = UIFont.systemFont(ofSize: 17.0, weight: .bold)
 		label.textAlignment = .center
 		return label
 	}()
@@ -90,8 +112,17 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 		return button
 	}()
 
+	let deviceInfoStackView: UIStackView = {
+		let view = UIStackView(frame: .zero)
+		view.axis = .vertical
+		view.spacing = 16.0
+		view.distribution = .fill
+		view.alignment = .fill
+		return view
+	}()
+
 	func configureView() {
-		[titleLabel, cancelButton, continueButton].forEach { view in
+		[titleLabel, cancelButton, continueButton, deviceNameLabel, deviceNameTitleLabel, deviceInfoStackView].forEach { view in
 			view.translatesAutoresizingMaskIntoConstraints = false
 		}
 
@@ -103,6 +134,13 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 		NSLayoutConstraint.activate([titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: cancelButton.trailingAnchor, multiplier: 1.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 10.5),
 		                             titleLabel.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor)])
+
+		view.addSubview(deviceInfoStackView)
+		NSLayoutConstraint.activate([deviceInfoStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: deviceInfoStackView.trailingAnchor, multiplier: 2.0),
+		                             deviceInfoStackView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 5.0)])
+		deviceInfoStackView.addArrangedSubview(deviceNameTitleLabel)
+		deviceInfoStackView.addArrangedSubview(deviceNameLabel)
 
 		view.addSubview(continueButton)
 		NSLayoutConstraint.activate([continueButton.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 3.0),
@@ -121,17 +159,59 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 		guard let item = currentPageViewController?.item else {
 			return
 		}
-		if item.id == "success" || item.id == "failure" {
+		switch item.id {
+		case "success", "failure":
 			delegate?.pairingViewControllerDidFinish(self)
-		} else {
+		case "one":
 			scrollToNextPage(animated: true) { _ in
 				ALog.info("Did Scroll To Page")
 			}
+		case "two":
+			startPairing()
+		case "three":
+			break
+		default:
+			break
 		}
+	}
+
+	func currentPageDidChange(index: Int) {
+		switch index {
+		case 0:
+			deviceInfoStackView.isHidden = true
+			continueButton.setTitle(NSLocalizedString("CONTINUE", comment: "Continue"), for: .normal)
+			setContinueButton(enabled: true)
+		case 1:
+			deviceInfoStackView.isHidden = false
+			continueButton.setTitle(NSLocalizedString("START_PAIRING", comment: "Start Pairing"), for: .normal)
+			if deviceNameLabel.text == nil {
+				setContinueButton(enabled: false)
+			}
+		case 2:
+			deviceInfoStackView.isHidden = true
+			setContinueButton(enabled: false)
+		case 3:
+			deviceInfoStackView.isHidden = true
+			continueButton.setTitle(NSLocalizedString("DONE", comment: "Done"), for: .normal)
+			setContinueButton(enabled: true)
+		default:
+			break
+		}
+	}
+
+	func setContinueButton(enabled: Bool) {
+		continueButton.isEnabled = enabled
+		continueButton.backgroundColor = enabled ? .allieGray : .allieLighterGray
 	}
 
 	var currentPageViewController: PairingPageViewController? {
 		pageViewController.viewControllers?.first as? PairingPageViewController
+	}
+
+	private(set) var currentPageIndex: Int = 0 {
+		didSet {
+			currentPageDidChange(index: currentPageIndex)
+		}
 	}
 
 	func scrollToNextPage(animated: Bool, completion: ((Bool) -> Void)? = nil) {
@@ -157,7 +237,10 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 			completion?(false)
 			return
 		}
-		pageViewController.setViewControllers([viewController], direction: direction, animated: animated) { result in
+		pageViewController.setViewControllers([viewController], direction: direction, animated: animated) { [weak self] result in
+			if result {
+				self?.currentPageIndex = page
+			}
 			completion?(result)
 		}
 	}
@@ -179,24 +262,30 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 	}
 
 	func peripheral(_ peripheral: Peripheral, didDiscoverServices services: [CBService], error: Error?) {
+		ALog.info("\(#function) services \(services)")
+
 		for service in services {
 			peripheral.discover(characteristics: measurementCharacteristics, for: service)
 		}
 	}
 
 	func peripheral(_ peripheral: Peripheral, readyWith characteristic: CBCharacteristic) {
+		ALog.info("\(#function) characteristic: \(characteristic)")
 		peripheral.writeMessage(characteristic: characteristic, message: [], isBatched: true)
 	}
 
 	func peripheral(_ peripheral: Peripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
-		processValue(peripheral: peripheral, characteristic: characteristic, error: error)
+		ALog.info("\(#function) characteristic: \(characteristic)")
+		processValue(peripheral: peripheral, characteristic: characteristic, error: error, shouldUpdatePatient: false)
 	}
 
 	func peripheral(_ peripheral: Peripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-		processValue(peripheral: peripheral, characteristic: characteristic, error: error)
+		ALog.info("\(#function) characteristic: \(characteristic)")
+		processValue(peripheral: peripheral, characteristic: characteristic, error: error, shouldUpdatePatient: true)
 	}
 
-	func processValue(peripheral: Peripheral, characteristic: CBCharacteristic, error: Error?) {
+	func processValue(peripheral: Peripheral, characteristic: CBCharacteristic, error: Error?, shouldUpdatePatient: Bool) {
+		ALog.info("\(#function) characteristic: \(characteristic)")
 		isPairing = false
 		if let error = error {
 			ALog.error("pairing device", error: error)
@@ -210,7 +299,9 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 			}
 		} else {
 			deviceManager.remove(delegate: self)
-			updatePatient(peripheral: peripheral)
+			if shouldUpdatePatient {
+				updatePatient(peripheral: peripheral)
+			}
 			DispatchQueue.main.async { [weak self] in
 				self?.showSuccess()
 			}
@@ -218,6 +309,16 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 	}
 
 	func updatePatient(peripheral: Peripheral) {}
+
+	func startPairing() {
+		ALog.info("Bluetooth Connecting to")
+		guard let device = bluetoothDevices.first?.value else {
+			return
+		}
+		deviceManager.stopScan()
+		deviceManager.connectPerpherial(device.peripheral, withOptions: nil)
+		setContinueButton(enabled: false)
+	}
 
 	// MARK: - OHQDeviceManagerDelegate
 
@@ -230,37 +331,65 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 	}
 
 	func deviceManager(_ manager: OHQDeviceManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+		ALog.info("\(#function) \(peripheral) \(String(describing: error))")
 		bluetoothDevices.removeValue(forKey: peripheral.identifier)
+		deviceNameLabel.text = nil
+		setContinueButton(enabled: false)
 		manager.startScan()
 	}
 
 	func deviceManager(_ manager: OHQDeviceManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+		ALog.info("\(#function) \(peripheral) \(String(describing: error))")
 		bluetoothDevices.removeValue(forKey: peripheral.identifier)
+		deviceNameLabel.text = nil
+		setContinueButton(enabled: false)
 		manager.startScan()
 	}
 
 	func deviceManager(_ manager: OHQDeviceManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
+		ALog.info("\(#function) \(peripheral), \(advertisementData)")
 		guard bluetoothDevices[peripheral.identifier] == nil else {
 			return
 		}
 		let discoveredCategory = manager.deviceInfo(for: peripheral)?.category ?? .unknown
-		guard discoveredCategory == deviceCategory, discoveredCategory != .unknown, discoveredCategory != .any else {
+		guard deviceCategories.contains(discoveredCategory), discoveredCategory != .unknown, discoveredCategory != .any else {
 			return
 		}
 		let device = Peripheral(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
 		device.delegate = self
 		bluetoothDevices[device.identifier] = device
+		ALog.info("\(#function) \(peripheral) Added to bluetoothDevices")
 		DispatchQueue.main.async { [weak self] in
-			self?.scroll(toPage: 2, direction: .forward, animated: true) { finished in
-				ALog.info("Bluetooth Finished Scrolling to pairing \(finished)")
-				ALog.info("Bluetooth Connecting to")
-				manager.stopScan()
-				manager.connectPerpherial(peripheral, withOptions: nil)
+			guard let strongSelf = self else {
+				return
+			}
+			strongSelf.deviceNameLabel.text = device.name
+			strongSelf.setContinueButton(enabled: true)
+			if strongSelf.currentPageIndex != 1 {
+				strongSelf.scroll(toPage: 1, direction: strongSelf.currentPageIndex < 1 ? .forward : .reverse, animated: true, completion: nil)
 			}
 		}
 	}
 
 	func deviceManager(_ manager: OHQDeviceManager, shouldStartTransferForPeripherial peripheral: CBPeripheral) -> Bool {
 		false
+	}
+}
+
+extension PairingViewController: UIPageViewControllerDelegate {
+	func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+		guard completed else {
+			return
+		}
+
+		guard let viewController = pageViewController.viewControllers?.last else {
+			return
+		}
+
+		guard let index = viewModel.firstIndex(of: viewController) else {
+			return
+		}
+
+		currentPageIndex = index
 	}
 }

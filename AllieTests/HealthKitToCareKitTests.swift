@@ -7,6 +7,7 @@
 
 @testable import Allie
 import CareKitStore
+import CareModel
 import CodexFoundation
 import HealthKit
 import XCTest
@@ -25,8 +26,8 @@ class HealthKitToCareKitTests: XCTestCase {
 		let date = now.advanced(by: -(24 * 60 * 60))
 		ALog.info("Date \(date)", metadata: nil)
 		let task = try healthKitTask()
-		let sample = HKDiscreteQuantitySample(bloodGlucose: 120.0, startDate: date, mealTime: .postprandial)
-		let outcome = CHOutcome(sample: sample, task: task, carePlanId: "defaultCarePlan")
+		let sample = HKDiscreteQuantitySample(bloodGlucose: 120.0, startDate: date, mealTime: .postprandial, metadata: nil)
+		let outcome = CHOutcome(sample: sample, task: task, carePlanId: "defaultCarePlan", deletedSample: nil)
 		XCTAssertEqual(date, sample.startDate)
 		XCTAssertEqual(date, sample.endDate)
 		XCTAssertEqual(date, outcome?.createdDate)

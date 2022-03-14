@@ -66,12 +66,13 @@ class BluetoothSyncManager: NSObject, ObservableObject {
 		OHQDeviceManager.shared().stopScan()
 	}
 
-	func startSession(identifer: UUID) {
+	func startSession(identifer: UUID, deviceInfo: [OHQDeviceInfoKey: Any]) {
 		let options: [OHQSessionOptionKey: Any] = [.readMeasurementRecordsKey: true, .connectionWaitTimeKey: NSNumber(value: 60)]
 		sessionData = SessionData(identifier: identifer, options: options)
 
 		OHQDeviceManager.shared().stopScan()
 		OHQDeviceManager.shared().startSession(withDevice: identifer, usingDataObserver: { [weak self] dataType, data in
+			ALog.info("Adding Data Type: \(dataType.rawValue), data: \(data)")
 			self?.sessionData?.add(data, with: dataType)
 		}, connectionObserver: { state in
 			ALog.info("State \(state)")
@@ -83,10 +84,20 @@ class BluetoothSyncManager: NSObject, ObservableObject {
 			case .connectionTimedOut:
 				break
 			default:
-				if self?.sessionData?.deviceCategory == .bloodPressureMonitor {
+				guard let category = deviceInfo.category else {
+					return
+				}
+				switch category {
+				case .bloodPressureMonitor:
 					self?.saveBloodPressureData()
-				} else if self?.sessionData?.deviceCategory == .weightScale {
+				case .weightScale, .bodyCompositionMonitor:
 					self?.saveBodyMassData()
+				case .bloodGlucoseMonitor:
+					break
+				case .any, .unknown:
+					break
+				@unknown default:
+					break
 				}
 			}
 		}, options: options)
@@ -187,9 +198,9 @@ class BluetoothSyncManager: NSObject, ObservableObject {
 		}
 		deviceInfoCache[identifier] = deviceInfo
 		if let bpm = careManager.patient?.bloodPresssureMonitor, let localId = bpm.localId, localId == identifier.uuidString {
-			startSession(identifer: deviceInfo.identifier)
+			startSession(identifer: deviceInfo.identifier, deviceInfo: deviceInfo)
 		} else if let ws = careManager.patient?.weightScale, let localId = ws.localId, localId == identifier.uuidString {
-			startSession(identifer: identifier)
+			startSession(identifer: identifier, deviceInfo: deviceInfo)
 		}
 	}
 }

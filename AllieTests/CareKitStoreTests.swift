@@ -80,7 +80,7 @@ class CareKitStoreTests: XCTestCase {
 		URLProtocolMock.response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
 		let carePlanResponse = try await client?.getCarePlan(option: .carePlan)
 		XCTAssertNotNil(carePlanResponse)
-		_ = try await careManager.process(carePlanResponse: carePlanResponse!)
+		_ = try await careManager.process(newCarePlanResponse: carePlanResponse!)
 	}
 
 	func testInsertPatients() async throws {

@@ -16,10 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 ///---------------------------------------------------------------------------------------
 
 @interface OHQDeviceDiscoveryInfo : NSObject {
-    @protected
-    CBPeripheral *_peripheral;
-    NSNumber *_RSSI;
-    NSDictionary<OHQAdvertisementDataKey,id> *_advertisementData;
+	@protected
+	CBPeripheral *_peripheral;
+	NSNumber *_RSSI;
+	NSDictionary<OHQAdvertisementDataKey,id> *_advertisementData;
 }
 
 @property (readonly) CBPeripheral *peripheral;

@@ -13,7 +13,7 @@ import UIKit
 
 class WSPairingViewController: PairingViewController {
 	override func viewDidLoad() {
-		deviceCategory = .bodyCompositionMonitor
+		deviceCategories = [.bodyCompositionMonitor, .weightScale]
 		viewModel = PairingViewModel(pages: PairingItem.weightScaleItems)
 		super.viewDidLoad()
 		titleLabel.text = NSLocalizedString("WEIGHT_SCALE_PAIRING", comment: "Scale Pairing")
@@ -28,6 +28,7 @@ class WSPairingViewController: PairingViewController {
 	}
 
 	override func peripheral(_ peripheral: Peripheral, readyWith characteristic: CBCharacteristic) {
+		ALog.info("\(#function) \(peripheral)")
 		if characteristic.uuid == GATTWeightScaleFeature.uuid, !isPairing {
 			isPairing = true
 			peripheral.read(characteristic: characteristic, isBatched: false)

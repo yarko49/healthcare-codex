@@ -53,7 +53,7 @@ enum LoggingManager {
 	}
 
 	static var fileLogURL: URL? {
-		let cachesDirectoryURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
+		let cachesDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
 		return cachesDirectoryURL?.appendingPathComponent("Allie.log")
 	}
 

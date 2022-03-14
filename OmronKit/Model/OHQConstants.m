@@ -9,17 +9,17 @@
 
 // Get Description of Company Identifier
 NSString * CompanyIdentifierDescription(UInt16 arg) {
-    static NSArray *companyIdentifierStrings;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSBundle *bundle = [NSBundle mainBundle];
-        NSString *path = [bundle pathForResource:@"CompanyNames" ofType:@"plist"];
-        companyIdentifierStrings = [NSArray arrayWithContentsOfFile:path];
-    });
-    
-    NSString *ret = @"Unknown";
-    if (arg < companyIdentifierStrings.count) {
-        ret = [NSString stringWithFormat:@"%@", companyIdentifierStrings[arg]];
-    }
-    return ret;
+	static NSArray *companyIdentifierStrings;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSBundle *bundle = [NSBundle mainBundle];
+		NSString *path = [bundle pathForResource:@"CompanyNames" ofType:@"plist"];
+		companyIdentifierStrings = [NSArray arrayWithContentsOfFile:path];
+	});
+
+	NSString *ret = @"Unknown";
+	if (arg < companyIdentifierStrings.count) {
+		ret = [NSString stringWithFormat:@"%@", companyIdentifierStrings[arg]];
+	}
+	return ret;
 }

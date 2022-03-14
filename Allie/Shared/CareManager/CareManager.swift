@@ -111,19 +111,6 @@ class CareManager: NSObject, ObservableObject {
 	private func commonInit() {
 		registerForNotifications()
 		registerForConfighanges()
-
-		do {
-			let carePlanResponse = try readCarePlan()
-			self.carePlanResponse = carePlanResponse
-			tasks = carePlanResponse.tasks.reduce([:]) { partialResult, task in
-				var result = partialResult
-				result[task.id] = task
-				return result
-			}
-			carePlan = carePlanResponse.carePlans.active.first
-		} catch {
-			ALog.error("CarePlan Missing \(error.localizedDescription)")
-		}
 	}
 
 	func registerForConfighanges() {
@@ -178,16 +165,14 @@ class CareManager: NSObject, ObservableObject {
 		try? resetAllContents()
 	}
 
-	private(set) var carePlanResponse: CHCarePlanResponse?
-	private(set) var carePlan: CHCarePlan?
-	private(set) var tasks: [String: CHTask] = [:]
-	var activePatient: CHPatient? {
-		carePlanResponse?.patients.active.first
-	}
+	var carePlanResponse: CHCarePlanResponse?
+	var activeCarePlan: CHCarePlan?
+	var tasks: [String: CHTask] = [:] // Key == careplanId + taskId
+	var carePlans: [String: CHCarePlan] = [:]
 
 	private(set) lazy var dbStore: CoreDataManager = .init(modelName: "HealthStore")
 
-	var planProcesstask: Task<Void, Never>?
+	var planProcessTask: Task<Void, Never>?
 	let processingQueue: DispatchQueue = {
 		let bundleIdentifier = Bundle.main.bundleIdentifier!
 		let queue = DispatchQueue(label: bundleIdentifier + ".CarePlan", qos: .userInitiated, attributes: [], autoreleaseFrequency: .inherit, target: nil)
@@ -198,24 +183,14 @@ class CareManager: NSObject, ObservableObject {
 // MARK: - CarePlanResponse
 
 extension CareManager {
-	func process(carePlanResponse: CHCarePlanResponse, forceReset: Bool = false, completion: AllieResultCompletion<CHCarePlanResponse>?) {
-		// If the care plan response is empty we need to reset every thing
-		if carePlanResponse.carePlans.isEmpty || carePlanResponse.tasks.isEmpty {
-			try? resetAllContents()
-		}
-
-		// if we have a care plan check if the vector clock is ahead then upate, otherwise we are good
-		if let existingCare = self.carePlanResponse, existingCare.vectorClock <= carePlanResponse.vectorClock {
-			completion?(.success(carePlanResponse))
-			return
-		}
-		planProcesstask?.cancel()
-		planProcesstask = Task.detached(priority: .userInitiated, operation: { [weak self] in
+	func process(newCarePlanResponse: CHCarePlanResponse, forceReset: Bool = false, completion: AllieResultCompletion<CHCarePlanResponse>?) {
+		planProcessTask?.cancel()
+		planProcessTask = Task.detached(priority: .userInitiated, operation: { [weak self] in
 			guard let strongSelf = self else {
 				return
 			}
 			do {
-				let response = try await strongSelf.process(newCarePlanResponse: carePlanResponse, forceReset: forceReset)
+				let response = try await strongSelf.process(newCarePlanResponse: newCarePlanResponse, forceReset: forceReset)
 				completion?(.success(response))
 			} catch {
 				completion?(.failure(error))
@@ -224,41 +199,26 @@ extension CareManager {
 	}
 
 	func process(newCarePlanResponse response: CHCarePlanResponse, forceReset: Bool = false) async throws -> CHCarePlanResponse {
+		// If the care plan response is empty we need to reset every thing
+		if response.carePlans.isEmpty || response.tasks.isEmpty {
+			try? resetAllContents()
+			return response
+		}
+
+		// if we have a care plan check if the vector clock is ahead then upate, otherwise we are good
+		if let existingCare = carePlanResponse, existingCare.vectorClock <= response.vectorClock {
+			return response
+		}
+
 		let newCarePlanResponse = response
 		let existingCarePlanResponse = carePlanResponse
-		patient = newCarePlanResponse.patients.active.first
-		carePlan = newCarePlanResponse.carePlans.active.first
-		try save(carePlanResponse: newCarePlanResponse)
-
-		tasks = newCarePlanResponse.tasks.reduce([:]) { partialResult, task in
-			var result = partialResult
-			result[task.id] = task
-			return result
+		process(carePlanResponse: newCarePlanResponse)
+		try saveCarePlan()
+		if let activeCarePlanId = activeCarePlan?.id {
+			try await deleteTasks(exclude: [], carePlans: [activeCarePlanId])
 		}
 
-		carePlanResponse = newCarePlanResponse
-		// We do not store patient object in CareKitStore
-		do {
-			try await deleteAllPatients()
-		} catch {
-			ALog.error("Unable to delete patients", error: error)
-		}
-		// We do not store any careplans in CareKitStore
-
-		do {
-			try await deleteAllCarePlans()
-		} catch {
-			ALog.error("Unable to delete carePlans", error: error)
-		}
-
-		let carePlans = newCarePlanResponse.carePlans
-		let activeCarePlan = carePlans.active.first
-		let taskIds = newCarePlanResponse.tasks.map { task in
-			task.id
-		}
-		try await deleteTasks(exclude: Set(taskIds), carePlans: [])
-		try await deleteHealthKitTasks(exclude: Set(taskIds), carePlans: [])
-		let toProcess = newCarePlanResponse.tasks(forCarePlanId: activeCarePlan?.id ?? "")
+		let toProcess = Array(tasks.values)
 		if !toProcess.isEmpty {
 			let existingTasks = existingCarePlanResponse?.tasks ?? []
 			let shouldUpdateTasks = existingTasks != toProcess
@@ -279,11 +239,15 @@ extension CareManager {
 			}
 		}
 
-		let toDelete = newCarePlanResponse.tasks.deleted
+		var toDelete = newCarePlanResponse.tasks.deleted
+		let hidden = newCarePlanResponse.tasks.filter { task in
+			task.isHidden
+		}
+		toDelete.append(contentsOf: hidden)
 		if !toDelete.isEmpty {
 			do {
-				let processedTasks = try await process(tasks: toProcess, carePlan: activeCarePlan, existingTasks: [:])
-				ALog.info("Tasks deleted = \(String(describing: processedTasks.count))")
+				try await delete(tasks: toDelete)
+				ALog.info("Tasks deleted = \(toDelete.count))")
 			} catch {
 				ALog.error("Error Procesing tasks", error: error)
 			}

@@ -6,6 +6,7 @@
 //
 
 @testable import Allie
+import CareModel
 import CodexFoundation
 import Combine
 import Foundation
@@ -28,7 +29,7 @@ class CarePlanTests: XCTestCase {
 		let decoder = CHFJSONDecoder()
 		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: data!)
 		let careManager = CareManager.shared
-		let upodateCarePlanResponse = try await careManager.process(carePlanResponse: carePlanResponse)
+		let upodateCarePlanResponse = try await careManager.process(newCarePlanResponse: carePlanResponse, forceReset: false)
 		XCTAssertNotNil(careManager.patient)
 		XCTAssertNotNil(careManager.patient?.uuid)
 		XCTAssertEqual(careManager.patient?.uuid, upodateCarePlanResponse.patients.active.first?.uuid)

@@ -9,113 +9,113 @@
 
 // Convert OHQDeviceManagerState value to text
 NSString * OHQDeviceManagerStateDescription(OHQDeviceManagerState value) {
-    NSString *ret = nil;
-    switch (value) {
-        case OHQDeviceManagerStateUnknown:      ret = @"Unknown";      break;
-        case OHQDeviceManagerStateUnsupported:  ret = @"Unsupported";  break;
-        case OHQDeviceManagerStateUnauthorized: ret = @"Unauthorized"; break;
-        case OHQDeviceManagerStatePoweredOff:   ret = @"Powered Off";   break;
-        case OHQDeviceManagerStatePoweredOn:    ret = @"Powered On";    break;
-        default: break;
-    }
-    return ret;
+	NSString *ret = nil;
+	switch (value) {
+	case OHQDeviceManagerStateUnknown:      ret = @"Unknown";      break;
+	case OHQDeviceManagerStateUnsupported:  ret = @"Unsupported";  break;
+	case OHQDeviceManagerStateUnauthorized: ret = @"Unauthorized"; break;
+	case OHQDeviceManagerStatePoweredOff:   ret = @"Powered Off";   break;
+	case OHQDeviceManagerStatePoweredOn:    ret = @"Powered On";    break;
+	default: break;
+	}
+	return ret;
 }
 
 // Convert OHQConnectionState value to text
 NSString * OHQConnectionStateDescription(OHQConnectionState value) {
-    NSString *ret = nil;
-    switch (value) {
-        case OHQConnectionStateDisconnected:  ret = @"Disconnected";  break;
-        case OHQConnectionStateConnecting:    ret = @"Connecting";    break;
-        case OHQConnectionStateConnected:     ret = @"Connected";     break;
-        case OHQConnectionStateDisconnecting: ret = @"Disconnecting"; break;
-        default: break;
-    }
-    return ret;
+	NSString *ret = nil;
+	switch (value) {
+	case OHQConnectionStateDisconnected:  ret = @"Disconnected";  break;
+	case OHQConnectionStateConnecting:    ret = @"Connecting";    break;
+	case OHQConnectionStateConnected:     ret = @"Connected";     break;
+	case OHQConnectionStateDisconnecting: ret = @"Disconnecting"; break;
+	default: break;
+	}
+	return ret;
 }
 
 // Convert OHQCompletionReason value to text
 NSString * OHQCompletionReasonDescription(OHQCompletionReason value) {
-    NSString *ret = @"Unknown";
-    switch (value) {
-        case OHQCompletionReasonDisconnected:             ret = @"Disconnected";                break;
-        case OHQCompletionReasonCanceled:                 ret = @"Canceled";                    break;
-        case OHQCompletionReasonPoweredOff:               ret = @"Powered Off";                 break;
-        case OHQCompletionReasonBusy:                     ret = @"Busy";                        break;
-        case OHQCompletionReasonInvalidDeviceIdentifier:  ret = @"Invalid Device Identifier";   break;
-        case OHQCompletionReasonFailedToConnect:          ret = @"Failed to Connect";           break;
-        case OHQCompletionReasonFailedToTransfer:         ret = @"Failed to Transfer";          break;
-        case OHQCompletionReasonFailedToRegisterUser:     ret = @"Failed to Register User";     break;
-        case OHQCompletionReasonFailedToAuthenticateUser: ret = @"Failed to Authenticate User"; break;
-        case OHQCompletionReasonFailedToDeleteUser:       ret = @"Failed to Delete User";       break;
-        case OHQCompletionReasonFailedToSetUserData:      ret = @"Failed to Set User Data";     break;
-        case OHQCompletionReasonOperationNotSupported:    ret = @"Operation not Supported";     break;
-        case OHQCompletionReasonConnectionTimedOut:       ret = @"Connection Timed Out";        break;
-        default: break;
-    }
-    return ret;
+	NSString *ret = @"Unknown";
+	switch (value) {
+	case OHQCompletionReasonDisconnected:             ret = @"Disconnected";                break;
+	case OHQCompletionReasonCanceled:                 ret = @"Canceled";                    break;
+	case OHQCompletionReasonPoweredOff:               ret = @"Powered Off";                 break;
+	case OHQCompletionReasonBusy:                     ret = @"Busy";                        break;
+	case OHQCompletionReasonInvalidDeviceIdentifier:  ret = @"Invalid Device Identifier";   break;
+	case OHQCompletionReasonFailedToConnect:          ret = @"Failed to Connect";           break;
+	case OHQCompletionReasonFailedToTransfer:         ret = @"Failed to Transfer";          break;
+	case OHQCompletionReasonFailedToRegisterUser:     ret = @"Failed to Register User";     break;
+	case OHQCompletionReasonFailedToAuthenticateUser: ret = @"Failed to Authenticate User"; break;
+	case OHQCompletionReasonFailedToDeleteUser:       ret = @"Failed to Delete User";       break;
+	case OHQCompletionReasonFailedToSetUserData:      ret = @"Failed to Set User Data";     break;
+	case OHQCompletionReasonOperationNotSupported:    ret = @"Operation not Supported";     break;
+	case OHQCompletionReasonConnectionTimedOut:       ret = @"Connection Timed Out";        break;
+	default: break;
+	}
+	return ret;
 }
 
 // Convert OHQDeviceCategory value to text
 NSString * OHQDeviceCategoryDescription(OHQDeviceCategory value) {
-    NSString *ret = @"Unknown";
-    switch (value) {
-        case OHQDeviceCategoryBloodPressureMonitor:   ret = @"Blood Pressure Monitor";   break;
-        case OHQDeviceCategoryWeightScale:            ret = @"Weight Scale";             break;
-        case OHQDeviceCategoryBodyCompositionMonitor: ret = @"Body Composition Monitor"; break;
-        case OHQDeviceCategoryAny:                    ret = @"Any";                      break;
-        default: break;
-    }
-    return ret;
+	NSString *ret = @"Unknown";
+	switch (value) {
+	case OHQDeviceCategoryBloodPressureMonitor:   ret = @"Blood Pressure Monitor";   break;
+	case OHQDeviceCategoryWeightScale:            ret = @"Weight Scale";             break;
+	case OHQDeviceCategoryBodyCompositionMonitor: ret = @"Body Composition Monitor"; break;
+	case OHQDeviceCategoryAny:                    ret = @"Any";                      break;
+	default: break;
+	}
+	return ret;
 }
 
 // OHQDataType description
 NSString * OHQDataTypeDescription(OHQDataType value) {
-    NSString *ret = nil;
-    switch (value) {
-        case OHQDataTypeCurrentTime:                  ret = @"Current Time";                     break;
-        case OHQDataTypeBatteryLevel:                 ret = @"Battery Level";                    break;
-        case OHQDataTypeModelName:                    ret = @"Model Name";                       break;
-        case OHQDataTypeDeviceCategory:               ret = @"Device Category";                  break;
-        case OHQDataTypeRegisteredUserIndex:          ret = @"Registered User Index";            break;
-        case OHQDataTypeAuthenticatedUserIndex:       ret = @"Authenticated User Index";         break;
-        case OHQDataTypeDeletedUserIndex:             ret = @"Deleted User Index";               break;
-        case OHQDataTypeUserData:                     ret = @"User Data";                        break;
-        case OHQDataTypeDatabaseChangeIncrement:      ret = @"Database Change Increment";        break;
-        case OHQDataTypeSequenceNumberOfLatestRecord: ret = @"Sequence Number of Latest Record"; break;
-        case OHQDataTypeMeasurementRecords:           ret = @"Measurement Records";              break;
-        default: break;
-    }
-    return ret;
+	NSString *ret = nil;
+	switch (value) {
+	case OHQDataTypeCurrentTime:                  ret = @"Current Time";                     break;
+	case OHQDataTypeBatteryLevel:                 ret = @"Battery Level";                    break;
+	case OHQDataTypeModelName:                    ret = @"Model Name";                       break;
+	case OHQDataTypeDeviceCategory:               ret = @"Device Category";                  break;
+	case OHQDataTypeRegisteredUserIndex:          ret = @"Registered User Index";            break;
+	case OHQDataTypeAuthenticatedUserIndex:       ret = @"Authenticated User Index";         break;
+	case OHQDataTypeDeletedUserIndex:             ret = @"Deleted User Index";               break;
+	case OHQDataTypeUserData:                     ret = @"User Data";                        break;
+	case OHQDataTypeDatabaseChangeIncrement:      ret = @"Database Change Increment";        break;
+	case OHQDataTypeSequenceNumberOfLatestRecord: ret = @"Sequence Number of Latest Record"; break;
+	case OHQDataTypeMeasurementRecords:           ret = @"Measurement Records";              break;
+	default: break;
+	}
+	return ret;
 }
 
 NSString * OHQBloodPressureMeasurementStatusDescription(OHQBloodPressureMeasurementStatus value) {
-    NSMutableArray<NSString *> *array = [@[] mutableCopy];
-    if (value & OHQBloodPressureMeasurementStatusBodyMovementDetected) {
-        [array addObject:@"Body Movement Detected"];
-    }
-    if (value & OHQBloodPressureMeasurementStatusCuffTooLoose) {
-        [array addObject:@"Cuff Too Loose"];
-    }
-    if (value & OHQBloodPressureMeasurementStatusIrregularPulseDetected) {
-        [array addObject:@"Irregular Pulse Detected"];
-    }
-    if (value & OHQBloodPressureMeasurementStatusPulseRateTooHigher) {
-        [array addObject:@"Pulse Rate Too Higher"];
-    }
-    if (value & OHQBloodPressureMeasurementStatusPulseRateTooLower) {
-        [array addObject:@"Pulse Rate Too Lower"];
-    }
-    if (value & OHQBloodPressureMeasurementStatusImproperMeasurementPosition) {
-        [array addObject:@"Improper Measurement Position"];
-    }
-    NSString *ret = nil;
-    switch (array.count) {
-        case 0: ret = @"None"; break;
-        case 1: ret = array.firstObject; break;
-        default: ret = array.description; break;
-    }
-    return ret;
+	NSMutableArray<NSString *> *array = [@[] mutableCopy];
+	if (value & OHQBloodPressureMeasurementStatusBodyMovementDetected) {
+		[array addObject:@"Body Movement Detected"];
+	}
+	if (value & OHQBloodPressureMeasurementStatusCuffTooLoose) {
+		[array addObject:@"Cuff Too Loose"];
+	}
+	if (value & OHQBloodPressureMeasurementStatusIrregularPulseDetected) {
+		[array addObject:@"Irregular Pulse Detected"];
+	}
+	if (value & OHQBloodPressureMeasurementStatusPulseRateTooHigher) {
+		[array addObject:@"Pulse Rate Too Higher"];
+	}
+	if (value & OHQBloodPressureMeasurementStatusPulseRateTooLower) {
+		[array addObject:@"Pulse Rate Too Lower"];
+	}
+	if (value & OHQBloodPressureMeasurementStatusImproperMeasurementPosition) {
+		[array addObject:@"Improper Measurement Position"];
+	}
+	NSString *ret = nil;
+	switch (array.count) {
+	case 0: ret = @"None"; break;
+	case 1: ret = array.firstObject; break;
+	default: ret = array.description; break;
+	}
+	return ret;
 }
 
 // Default Consent Code

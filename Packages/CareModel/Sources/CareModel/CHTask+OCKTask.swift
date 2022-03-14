@@ -22,6 +22,7 @@ public protocol AnyTaskExtensible: AnyUserInfoExtensible {
 	var subtitle: String? { get set }
 	var logText: String? { get set }
 	var links: [CHLink]? { get set }
+	var isHidden: Bool { get set }
 }
 
 public extension OCKAnyTask {
@@ -60,6 +61,7 @@ public extension OCKTask {
 		self.timezone = task.timezone
 		self.carePlanId = task.carePlanId
 		self.links = task.links
+		self.isHidden = task.isHidden
 	}
 
 	func updated(new: CHTask) -> OCKTask {
@@ -67,6 +69,7 @@ public extension OCKTask {
 		if let carePlanId = new.carePlanId {
 			updated.carePlanId = carePlanId
 		}
+		updated.effectiveDate = new.effectiveDate
 		updated.instructions = new.instructions
 		updated.impactsAdherence = new.impactsAdherence
 		updated.tags = new.tags
@@ -77,6 +80,7 @@ public extension OCKTask {
 		updated.links = new.links
 		updated.schedule = new.schedule
 		updated.groupIdentifier = new.groupIdentifier
+		updated.isHidden = new.isHidden
 
 		return updated
 	}
@@ -84,6 +88,7 @@ public extension OCKTask {
 	func merged(new: OCKTask) -> Self {
 		var existing = self
 		existing.carePlanId = carePlanId
+		existing.effectiveDate = new.effectiveDate
 		existing.deletedDate = nil
 		existing.title = new.title
 		existing.instructions = new.instructions
@@ -251,6 +256,15 @@ public extension AnyTaskExtensible {
 				return
 			}
 			setUserInfo(string: linkDataString, forKey: "links")
+		}
+	}
+
+	var isHidden: Bool {
+		get {
+			getBool(forKey: "hidden")
+		}
+		set {
+			set(bool: newValue, forKey: "hidden")
 		}
 	}
 }

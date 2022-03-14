@@ -18,7 +18,7 @@ extension HKSample {
 
 		let startDate = record.timeStamp ?? Date()
 		let endDate = startDate
-		let pulseRateType = HKQuantityType.quantityType(forIdentifier: .respiratoryRate)!
+		let pulseRateType = HKQuantityType.quantityType(forIdentifier: .restingHeartRate)!
 		let pulseRateQuantity = HKQuantity(unit: HKUnit.count().unitDivided(by: HKUnit.minute()), doubleValue: Double(pulseRate))
 
 		var metadata: [String: Any] = [:]
@@ -44,7 +44,7 @@ extension HKSample {
 			metadata[BPMMetadataKeyUserIndex] = userIndex
 		}
 
-		let pulseRateSample = HKQuantitySample(type: pulseRateType, quantity: pulseRateQuantity, start: startDate, end: endDate, metadata: metadata)
+		let pulseRateSample = HKDiscreteQuantitySample(type: pulseRateType, quantity: pulseRateQuantity, start: startDate, end: endDate, metadata: metadata)
 		return pulseRateSample
 	}
 }

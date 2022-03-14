@@ -21,6 +21,7 @@ public enum CHGroupIdentifierType: String, Hashable, CaseIterable {
 	case symptoms = "SYMPTOMS"
 	case dexcom = "INTEGRATION_DEXCOM"
 	case cgm = "BLUETOOTH_CGM"
+	case heartRate = "HEART_RATE"
 	case restingHeartRate = "RESTING_HEART_RATE"
 	case irregularHeartRhythm = "IRREGULAR_HEART_RHYTHM"
 }

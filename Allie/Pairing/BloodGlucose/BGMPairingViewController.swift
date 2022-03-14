@@ -14,7 +14,7 @@ import UIKit
 
 class BGMPairingViewController: PairingViewController {
 	override func viewDidLoad() {
-		deviceCategory = .bloodGlucoseMonitor
+		deviceCategories = [.bloodGlucoseMonitor]
 		super.viewDidLoad()
 		titleLabel.text = NSLocalizedString("BLOOD_GLUCOSE_PAIRING", comment: "Blood Glucose Pairing")
 	}
@@ -35,11 +35,13 @@ class BGMPairingViewController: PairingViewController {
 		device.delegate = self
 		bluetoothDevices[device.identifier] = device
 		DispatchQueue.main.async { [weak self] in
-			self?.scroll(toPage: 2, direction: .forward, animated: true) { finished in
-				ALog.info("Bluetooth Finished Scrolling to pairing \(finished)")
-				ALog.info("Bluetooth Connecting to")
-				manager.stopScan()
-				manager.connectPerpherial(peripheral, withOptions: nil)
+			guard let strongSelf = self else {
+				return
+			}
+			strongSelf.deviceNameLabel.text = device.name
+			strongSelf.setContinueButton(enabled: true)
+			if strongSelf.currentPageIndex != 1 {
+				strongSelf.scroll(toPage: 1, direction: strongSelf.currentPageIndex < 1 ? .forward : .reverse, animated: true, completion: nil)
 			}
 		}
 	}

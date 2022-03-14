@@ -6,6 +6,7 @@
 //
 
 @testable import Allie
+import CareModel
 import CodexFoundation
 import Foundation
 import XCTest
