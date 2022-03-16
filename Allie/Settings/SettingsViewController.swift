@@ -24,13 +24,21 @@ class SettingsViewController: BaseViewController {
 		view.layoutMargins = UIEdgeInsets.zero
 		view.separatorInset = UIEdgeInsets.zero
 		view.separatorStyle = .singleLine
-		view.isScrollEnabled = false
 		view.tableFooterView = UIView()
 		return view
 	}()
 
 	let settingsFooterView: SettingsFooterView = {
 		let view = SettingsFooterView(frame: .zero)
+		return view
+	}()
+
+	var stackView: UIStackView = {
+		let view = UIStackView()
+		view.spacing = 0
+		view.axis = .vertical
+		view.distribution = .fill
+		view.alignment = .fill
 		return view
 	}()
 
@@ -42,22 +50,20 @@ class SettingsViewController: BaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = String.settings
-
-		settingsFooterView.translatesAutoresizingMaskIntoConstraints = false
 		settingsFooterView.delegate = self
-		view.addSubview(settingsFooterView)
-		NSLayoutConstraint.activate([settingsFooterView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: settingsFooterView.trailingAnchor, multiplier: 0.0),
-		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: settingsFooterView.bottomAnchor, multiplier: 0.0),
-		                             settingsFooterView.heightAnchor.constraint(equalToConstant: footerHeight)])
 
-		tableView.translatesAutoresizingMaskIntoConstraints = false
-		view.addSubview(tableView)
-		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 0.0),
-		                             tableView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: tableView.trailingAnchor, multiplier: 0.0),
-		                             settingsFooterView.topAnchor.constraint(equalToSystemSpacingBelow: tableView.bottomAnchor, multiplier: 0.0)])
+		[settingsFooterView, tableView, stackView].forEach { view in
+			view.translatesAutoresizingMaskIntoConstraints = false
+		}
+		view.addSubview(stackView)
+		NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 0.0),
+		                             stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 0.0),
+		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: stackView.bottomAnchor, multiplier: 0.0)])
 
+		settingsFooterView.heightAnchor.constraint(equalToConstant: footerHeight).isActive = true
+		stackView.addArrangedSubview(tableView)
+		stackView.addArrangedSubview(settingsFooterView)
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.reuseIdentifier)
 		tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: UITableViewHeaderFooterView.reuseIdentifier)
 		dataSource = UITableViewDiffableDataSource<Int, SettingsType>(tableView: tableView, cellProvider: { tableView, indexPath, type -> UITableViewCell? in

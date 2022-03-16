@@ -20,6 +20,7 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 	weak var delegate: PairingViewControllerDelegate?
 	var selectedIdentifier: String?
 	@Injected(\.careManager) var careManager: CareManager
+	@Injected(\.syncManager) var syncManager: BluetoothSyncManager
 
 	var initialIndex: Int = 0
 	var viewModel = PairingViewModel(pages: PairingItem.bloodGlucoseItems)
@@ -41,6 +42,7 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 	var isPairing: Bool = false
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		syncManager.stop()
 		view.backgroundColor = .allieWhite
 		pageViewController.dataSource = viewModel
 		pageViewController.delegate = self
@@ -55,8 +57,12 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 		view.sendSubviewToBack(pageViewController.view)
 		pageViewController.didMove(toParent: self)
 		configureView()
-		deviceManager.add(delegate: self)
+		deviceManager.delegate = self
 		currentPageDidChange(index: initialIndex)
+	}
+
+	deinit {
+		syncManager.start()
 	}
 
 	var pageViewController: UIPageViewController = {
@@ -176,21 +182,28 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 	}
 
 	func currentPageDidChange(index: Int) {
-		switch index {
-		case 0:
+		guard let identifier = viewModel.identifier(forPage: index) else {
+			return
+		}
+		switch identifier {
+		case "one":
 			deviceInfoStackView.isHidden = true
 			continueButton.setTitle(NSLocalizedString("CONTINUE", comment: "Continue"), for: .normal)
 			setContinueButton(enabled: true)
-		case 1:
+		case "two":
 			deviceInfoStackView.isHidden = false
 			continueButton.setTitle(NSLocalizedString("START_PAIRING", comment: "Start Pairing"), for: .normal)
 			if deviceNameLabel.text == nil {
 				setContinueButton(enabled: false)
 			}
-		case 2:
+		case "three":
 			deviceInfoStackView.isHidden = true
 			setContinueButton(enabled: false)
-		case 3:
+		case "success":
+			deviceInfoStackView.isHidden = true
+			continueButton.setTitle(NSLocalizedString("DONE", comment: "Done"), for: .normal)
+			setContinueButton(enabled: true)
+		case "failure":
 			deviceInfoStackView.isHidden = true
 			continueButton.setTitle(NSLocalizedString("DONE", comment: "Done"), for: .normal)
 			setContinueButton(enabled: true)
@@ -212,6 +225,15 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 		didSet {
 			currentPageDidChange(index: currentPageIndex)
 		}
+	}
+
+	func scrollToPage(identifier: String, animated: Bool, completion: ((Bool) -> Void)? = nil) {
+		guard let index = viewModel.page(forIdentifier: identifier) else {
+			completion?(false)
+			return
+		}
+
+		scroll(toPage: index, direction: .forward, animated: true, completion: completion)
 	}
 
 	func scrollToNextPage(animated: Bool, completion: ((Bool) -> Void)? = nil) {
@@ -247,18 +269,16 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 
 	// MARK: - PeripheralDelegate
 
-	func showSuccess() {
+	func showSuccess(completion: ((Bool) -> Void)? = nil) {
 		viewModel.updateSuccess()
 		continueButton.setTitle(NSLocalizedString("DONE", comment: "Done"), for: .normal)
-		scrollToNextPage(animated: true)
-		NotificationCenter.default.post(name: .didPairBluetoothDevice, object: nil)
+		scrollToPage(identifier: "success", animated: true, completion: completion)
 	}
 
-	func showFailure() {
+	func showFailure(completion: ((Bool) -> Void)? = nil) {
 		viewModel.updateFailure()
 		continueButton.setTitle(NSLocalizedString("DONE", comment: "Done"), for: .normal)
-		scrollToNextPage(animated: true)
-		deviceManager.startScan()
+		scrollToPage(identifier: "failure", animated: true, completion: completion)
 	}
 
 	func peripheral(_ peripheral: Peripheral, didDiscoverServices services: [CBService], error: Error?) {
@@ -276,34 +296,34 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 
 	func peripheral(_ peripheral: Peripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
 		ALog.info("\(#function) characteristic: \(characteristic)")
-		processValue(peripheral: peripheral, characteristic: characteristic, error: error, shouldUpdatePatient: false)
+		// processValue(peripheral: peripheral, characteristic: characteristic, error: error)
 	}
 
 	func peripheral(_ peripheral: Peripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
 		ALog.info("\(#function) characteristic: \(characteristic)")
-		processValue(peripheral: peripheral, characteristic: characteristic, error: error, shouldUpdatePatient: true)
+		processValue(peripheral: peripheral, characteristic: characteristic, error: error)
 	}
 
-	func processValue(peripheral: Peripheral, characteristic: CBCharacteristic, error: Error?, shouldUpdatePatient: Bool) {
+	func processValue(peripheral: Peripheral, characteristic: CBCharacteristic, error: Error?) {
 		ALog.info("\(#function) characteristic: \(characteristic)")
 		isPairing = false
+		guard characteristic.uuid == GATTCurrentTime.uuid else {
+			return
+		}
 		if let error = error {
 			ALog.error("pairing device", error: error)
 			let nsError = error as NSError
 			ALog.error("nsError = \(nsError)")
 			if nsError.code == 15 || nsError.code == 3, nsError.domain == "CBATTErrorDomain" {
-				deviceManager.remove(delegate: self)
 				DispatchQueue.main.async { [weak self] in
 					self?.showFailure()
 				}
 			}
 		} else {
-			deviceManager.remove(delegate: self)
-			if shouldUpdatePatient {
-				updatePatient(peripheral: peripheral)
-			}
 			DispatchQueue.main.async { [weak self] in
-				self?.showSuccess()
+				self?.showSuccess(completion: { _ in
+					self?.updatePatient(peripheral: peripheral)
+				})
 			}
 		}
 	}
@@ -311,7 +331,7 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 	func updatePatient(peripheral: Peripheral) {}
 
 	func startPairing() {
-		ALog.info("Bluetooth Connecting to")
+		ALog.info("\(#function) Bluetooth Connecting to")
 		guard let device = bluetoothDevices.first?.value else {
 			return
 		}
@@ -333,16 +353,20 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 	func deviceManager(_ manager: OHQDeviceManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
 		ALog.info("\(#function) \(peripheral) \(String(describing: error))")
 		bluetoothDevices.removeValue(forKey: peripheral.identifier)
-		deviceNameLabel.text = nil
-		setContinueButton(enabled: false)
+		DispatchQueue.main.async { [weak self] in
+			self?.deviceNameLabel.text = nil
+			self?.setContinueButton(enabled: false)
+		}
 		manager.startScan()
 	}
 
 	func deviceManager(_ manager: OHQDeviceManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
 		ALog.info("\(#function) \(peripheral) \(String(describing: error))")
 		bluetoothDevices.removeValue(forKey: peripheral.identifier)
-		deviceNameLabel.text = nil
-		setContinueButton(enabled: false)
+		DispatchQueue.main.async { [weak self] in
+			self?.deviceNameLabel.text = nil
+			self?.setContinueButton(enabled: false)
+		}
 		manager.startScan()
 	}
 
@@ -369,10 +393,6 @@ class PairingViewController: UIViewController, PeripheralDelegate, OHQDeviceMana
 				strongSelf.scroll(toPage: 1, direction: strongSelf.currentPageIndex < 1 ? .forward : .reverse, animated: true, completion: nil)
 			}
 		}
-	}
-
-	func deviceManager(_ manager: OHQDeviceManager, shouldStartTransferForPeripherial peripheral: CBPeripheral) -> Bool {
-		false
 	}
 }
 

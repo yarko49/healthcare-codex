@@ -19,6 +19,10 @@ class WSPairingViewController: PairingViewController {
 		titleLabel.text = NSLocalizedString("WEIGHT_SCALE_PAIRING", comment: "Scale Pairing")
 	}
 
+	deinit {
+		syncManager.start()
+	}
+
 	override var dicoveryServices: [CBUUID] {
 		GATTServiceWeightScale.services
 	}

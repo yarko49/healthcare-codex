@@ -38,7 +38,7 @@ class BluetoothSyncManager: NSObject, ObservableObject {
 	var sessionData: SessionData?
 
 	func start() {
-		OHQDeviceManager.shared().add(delegate: self)
+		OHQDeviceManager.shared().delegate = self
 		managerStateObserver = OHQDeviceManager.shared().observe(\.state, options: [.initial, .new]) { [weak self] manager, _ in
 			ALog.info("New State \(manager.state.rawValue)")
 			if manager.state == .poweredOn {
@@ -70,7 +70,6 @@ class BluetoothSyncManager: NSObject, ObservableObject {
 		let options: [OHQSessionOptionKey: Any] = [.readMeasurementRecordsKey: true, .connectionWaitTimeKey: NSNumber(value: 60)]
 		sessionData = SessionData(identifier: identifer, options: options)
 
-		OHQDeviceManager.shared().stopScan()
 		OHQDeviceManager.shared().startSession(withDevice: identifer, usingDataObserver: { [weak self] dataType, data in
 			ALog.info("Adding Data Type: \(dataType.rawValue), data: \(data)")
 			self?.sessionData?.add(data, with: dataType)
@@ -78,101 +77,117 @@ class BluetoothSyncManager: NSObject, ObservableObject {
 			ALog.info("State \(state)")
 		}, completion: { [weak self] completionReason in
 			self?.sessionData?.completionReason = completionReason
-			switch completionReason {
-			case .canceled:
-				break
-			case .connectionTimedOut:
-				break
-			default:
-				guard let category = deviceInfo.category else {
-					return
-				}
+			if let category = deviceInfo.category {
 				switch category {
 				case .bloodPressureMonitor:
 					self?.saveBloodPressureData()
 				case .weightScale, .bodyCompositionMonitor:
 					self?.saveBodyMassData()
-				case .bloodGlucoseMonitor:
-					break
-				case .any, .unknown:
-					break
-				@unknown default:
+				default:
 					break
 				}
 			}
 		}, options: options)
 	}
 
-	func saveBloodPressureData() {
-		guard let sessionData = sessionData, let records = sessionData.measurementRecords, !records.isEmpty else {
-			ALog.error("unable to find records in session Data = \(String(describing: sessionData?.measurementRecords))")
-			scanForDevices()
-			return
-		}
-
-		var samples: [HKSample] = []
-		var outcomes: [CHOutcome] = []
-		records.forEach { record in
-			if let sample = try? HKSample.createBloodPressure(sessionData: sessionData, record: record) {
-				samples.append(sample)
-			}
-			if let sample = try? HKSample.createRestingHeartRate(sessionData: sessionData, record: record) {
-				samples.append(sample)
+	func saveBloodPressureData(sessionData: SessionData?) async {
+		do {
+			guard let sessionData = sessionData, let records = sessionData.measurementRecords, !records.isEmpty else {
+				throw AllieError.missing("unable to find records in session Data = \(String(describing: sessionData?.measurementRecords))")
 			}
 
-			if let outcome = CHOutcome(irregularRhythm: sessionData, record: record) {
-				outcomes.append(outcome)
-			}
-		}
+			var hkBloodPressureTask: OCKHealthKitTask?
 
-		if !samples.isEmpty {
-			healthKitManager.save(samples: samples) { [weak self] result in
-				switch result {
-				case .failure(let error):
-					ALog.error("Unable to save samples", error: error)
-				case .success(let samples):
-					ALog.info("Number of samples saved = \(samples.count)")
+			let chBloodPressureTask = careManager.tasks.values.first { task in
+				guard let linkage = task.healthKitLinkage, linkage.quantityIdentifier == .bloodPressureSystolic || linkage.quantityIdentifier == .bloodPressureDiastolic else {
+					return false
 				}
-				self?.sessionData = nil
-				self?.scanForDevices()
+				return true
 			}
-		}
 
-		careManager.upload(outcomes: outcomes) { result in
-			if case .failure(let error) = result {
-				ALog.error("Unable to upload outcomes", error: error)
+			if let bloodPressureTask = chBloodPressureTask {
+				hkBloodPressureTask = try? await careManager.healthKitStore.fetchTask(withID: bloodPressureTask.id)
 			}
-		}
 
+			var hkRestingHeartRateTask: OCKHealthKitTask?
+			let chRestingHeartRateTask = careManager.tasks.values.first(where: { task in
+				guard let linkage = task.healthKitLinkage, linkage.quantityIdentifier == .restingHeartRate else {
+					return false
+				}
+				return true
+			})
+			if let chRestingHeartRateTask = chRestingHeartRateTask {
+				hkRestingHeartRateTask = try? await careManager.healthKitStore.fetchTask(withID: chRestingHeartRateTask.id)
+			}
+
+			var samples: [HKSample] = []
+			var outcomes: [CHOutcome] = []
+			records.forEach { record in
+				if let sample = try? HKSample.createBloodPressure(sessionData: sessionData, record: record) {
+					samples.append(sample)
+					if let task = hkBloodPressureTask, let carePlanId = task.carePlanId ?? careManager.activeCarePlan?.id {
+						let outcome = CHOutcome(sample: sample, task: task, carePlanId: carePlanId, deletedSample: nil)
+						if let outcome = outcome {
+							outcomes.append(outcome)
+						}
+					}
+				}
+
+				if let sample = try? HKSample.createRestingHeartRate(sessionData: sessionData, record: record) {
+					samples.append(sample)
+					if let task = hkRestingHeartRateTask, let carePlanId = task.carePlanId ?? careManager.activeCarePlan?.id {
+						let outcome = CHOutcome(sample: sample, task: task, carePlanId: carePlanId, deletedSample: nil)
+						if let outcome = outcome {
+							outcomes.append(outcome)
+						}
+					}
+				}
+
+				if let outcome = CHOutcome(irregularRhythm: sessionData, record: record) {
+					outcomes.append(outcome)
+				}
+			}
+
+			if !samples.isEmpty {
+				_ = try await healthKitManager.save(samples: samples)
+			}
+			_ = try await careManager.upload(outcomes: outcomes)
+		} catch {
+			ALog.error("Unable to save blood pressure data", error: error)
+		}
+		self.sessionData = nil
+		scanForDevices()
+	}
+
+	func saveBloodPressureData() {
+		Task { [weak self] in
+			await self?.saveBloodPressureData(sessionData: self?.sessionData)
+		}
+	}
+
+	func saveBodyMassData(sessionData: SessionData?) async {
+		do {
+			guard let sessionData = sessionData, let records = sessionData.measurementRecords, !records.isEmpty else {
+				throw AllieError.missing("unable to find records in session Data = \(String(describing: sessionData?.measurementRecords))")
+			}
+
+			let samples = records.compactMap { record in
+				try? HKSample.createBodyMass(sessionData: sessionData, record: record)
+			}
+
+			if !samples.isEmpty {
+				_ = try await healthKitManager.save(samples: samples)
+			}
+		} catch {
+			ALog.error("Unable to save body mass data", error: error)
+		}
 		self.sessionData = nil
 		scanForDevices()
 	}
 
 	func saveBodyMassData() {
-		guard let sessionData = sessionData, let records = sessionData.measurementRecords, !records.isEmpty else {
-			ALog.error("unable to find records in session Data = \(String(describing: sessionData?.measurementRecords))")
-			scanForDevices()
-			return
-		}
-
-		let samples = records.compactMap { record in
-			try? HKSample.createBodyMass(sessionData: sessionData, record: record)
-		}
-
-		guard !samples.isEmpty else {
-			self.sessionData = nil
-			scanForDevices()
-			return
-		}
-		healthKitManager.save(samples: samples) { [weak self] result in
-			switch result {
-			case .failure(let error):
-				ALog.error("Unable to save samples", error: error)
-			case .success(let samples):
-				ALog.info("Number of samples saved = \(samples.count)")
-			}
-			self?.sessionData = nil
-			self?.scanForDevices()
+		Task { [weak self] in
+			await self?.saveBodyMassData(sessionData: self?.sessionData)
 		}
 	}
 
@@ -205,24 +220,6 @@ class BluetoothSyncManager: NSObject, ObservableObject {
 	}
 }
 
-extension BluetoothSyncManager: PeripheralDelegate {
-	func syncGlucometer(device: BloodGlucosePeripheral, characteristic: CBCharacteristic) {
-		guard let identifier = device.name else {
-			return
-		}
-
-		healthKitManager.fetchSequenceNumbers(deviceId: identifier) { [weak self] values in
-			guard let strongSelf = self else {
-				return
-			}
-
-			strongSelf.healthKitManager.sequenceNumbers.insert(values: values, forDevice: identifier)
-			let maxSequenceNumber = strongSelf.healthKitManager.sequenceNumbers.max(forDevice: identifier)
-			device.fetchRecords(startSequenceNumber: maxSequenceNumber)
-		}
-	}
-}
-
 extension BluetoothSyncManager: OHQDeviceManagerDelegate {
 	func deviceManager(_ manager: OHQDeviceManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
 		guard let peripherals = careManager.patient?.peripherals, !peripherals.isEmpty else {
@@ -238,7 +235,6 @@ extension BluetoothSyncManager: OHQDeviceManagerDelegate {
 			device.dataSource = self
 			bluetoothDevices[device.identifier] = device
 			manager.connectPerpherial(peripheral, withOptions: nil)
-			manager.stopScan()
 		} else if let deviceInfo = manager.deviceInfo(for: peripheral) {
 			startSessionIfNeeded(deviceInfo: deviceInfo)
 		}
@@ -263,42 +259,35 @@ extension BluetoothSyncManager: OHQDeviceManagerDelegate {
 		}
 		device.discoverServices()
 	}
-
-	func deviceManager(_ manager: OHQDeviceManager, shouldStartTransferForPeripherial peripheral: CBPeripheral) -> Bool {
-		true
-	}
 }
 
 extension BluetoothSyncManager: BloodGlucosePeripheralDataSource {
-	func peripheralStartSequenceNumber(_ peripheral: Peripheral) async -> Int? {
+	func peripheralStartSequenceNumber(_ peripheral: Peripheral, completion: @escaping (Result<Int, Error>) -> Void) {
 		guard let identifier = peripheral.name else {
-			return nil
+			completion(.failure(AllieError.invalid("Invalid perpherial identifier")))
+			return
 		}
 
-		let values = await healthKitManager.fetchSequenceNumbers(deviceId: identifier)
-		healthKitManager.sequenceNumbers.insert(values: values, forDevice: identifier)
-		let maxSequenceNumber = healthKitManager.sequenceNumbers.max(forDevice: identifier)
-		return maxSequenceNumber
+		healthKitManager.fetchSequenceNumbers(deviceId: identifier) { [weak self] values in
+			guard let strongSelf = self else {
+				completion(.failure(AllieError.invalid("Self was deallocated")))
+				return
+			}
+			strongSelf.healthKitManager.sequenceNumbers.insert(values: values, forDevice: identifier)
+			guard let maxSequenceNumber = strongSelf.healthKitManager.sequenceNumbers.max(forDevice: identifier) else {
+				completion(.failure(AllieError.invalid("Sequence number was not found")))
+				return
+			}
+			completion(.success(maxSequenceNumber))
+		}
 	}
 
 	func device(_ device: BloodGlucosePeripheral, didReceive readings: [Int: BloodGlucoseReading]) {
 		ALog.info("didReceive readings \(readings)")
 		Task.detached(priority: .userInitiated) { [weak self] in
-			guard let strongSelf = self else {
-				return
-			}
-			do {
-				let samples = try await strongSelf.healthKitManager.save(readings: readings, peripheral: device)
-				if !samples.isEmpty {
-					try await strongSelf.updatePatient(peripheral: device)
-					_ = try await strongSelf.process(samples: samples, quantityIdentifier: .bloodGlucose)
-				}
-			} catch {
-				ALog.error("Error saving data to health kit \(error.localizedDescription)", error: error)
-				// DispatchQueue.main.async {
-				//   let title = NSLocalizedString("ERROR", comment: "Error")
-				//   strongSelf.showErrorAlert(title: title, message: error.localizedDescription)
-				// }
+			if let samples = try? await self?.healthKitManager.save(readings: readings, peripheral: device), !samples.isEmpty {
+				try await self?.updatePatient(peripheral: device)
+				_ = try await self?.process(samples: samples, quantityIdentifier: .bloodGlucose)
 			}
 		}
 	}
@@ -310,5 +299,23 @@ extension BluetoothSyncManager: BloodGlucosePeripheralDataSource {
 		}
 		let outcomes = try await careManager.upload(samples: samplesToUpload, quantityIdentifier: quantityIdentifier)
 		return try await careManager.save(outcomes: outcomes)
+	}
+}
+
+extension BluetoothSyncManager: PeripheralDelegate {
+	func peripheral(_ peripheral: Peripheral, didDiscoverServices services: [CBService], error: Error?) {
+		ALog.info("\(#function) peripheral: \(peripheral) services: \(services)")
+	}
+
+	func peripheral(_ peripheral: Peripheral, readyWith characteristic: CBCharacteristic) {
+		ALog.info("\(#function) peripheral: \(peripheral) characteristic: \(characteristic)")
+	}
+
+	func peripheral(_ peripheral: Peripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+		ALog.info("\(#function) peripheral: \(peripheral) characteristic: \(characteristic)")
+	}
+
+	func peripheral(_ peripheral: Peripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+		ALog.info("\(#function) peripheral: \(peripheral) characteristic: \(characteristic)")
 	}
 }

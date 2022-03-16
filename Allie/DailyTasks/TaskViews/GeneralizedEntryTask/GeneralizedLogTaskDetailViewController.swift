@@ -530,11 +530,13 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 	}
 
 	private func saveHealthKit() {
+		footerView.isSaveButtonEnabled = false
 		hud.show(in: tabBarController?.view ?? view)
 		do {
 			let sample = try createHealthKitSample()
 			healthKitSampleHandler?(sample)
 			hud.dismiss(animated: true)
+			footerView.isSaveButtonEnabled = true
 		} catch {
 			hud.dismiss(animated: true)
 			let title = NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA", comment: "Error saving data!")
@@ -550,15 +552,18 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 				showSettings = true
 			}
 			showAlert(title: title, message: message, showSettings: showSettings)
+			footerView.isSaveButtonEnabled = true
 		}
 	}
 
 	func saveOutcomeValue() {
+		footerView.isSaveButtonEnabled = false
 		hud.show(in: tabBarController?.view ?? view)
 		do {
 			let outcomeValue = try createOutcomeValue()
 			outcomeValueHandler?(outcomeValue)
 			hud.dismiss(animated: true)
+			footerView.isSaveButtonEnabled = true
 		} catch {
 			hud.dismiss(animated: true)
 			let title = NSLocalizedString("ERROR_SAVING_OUTCOME", comment: "Error saving outcome!")
@@ -574,6 +579,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 				showSettings = true
 			}
 			showAlert(title: title, message: message, showSettings: showSettings)
+			footerView.isSaveButtonEnabled = true
 		}
 	}
 }

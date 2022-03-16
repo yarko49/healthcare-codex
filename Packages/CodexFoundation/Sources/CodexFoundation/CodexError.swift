@@ -7,18 +7,36 @@
 
 import Foundation
 
-public enum CodexError: Int, LocalizedError {
-	case invalidData
+public enum CodexError: LocalizedError {
+	case missing(String)
+	case invalid(String)
+	case compound([Error])
+	case forbidden(String)
 
 	public var errorDescription: String? {
 		switch self {
-		case .invalidData:
-			return "Data is not in the correct format"
+		case .missing(let message):
+			return "Data in missing \(message)"
+		case .invalid(let message):
+			return "Data is not in the correct format \(message)"
+		case .compound:
+			return "An array of errors"
+		case .forbidden(let message):
+			return "Forbidden \(message)"
 		}
 	}
 
 	public var failureReason: String? {
-		nil
+		switch self {
+		case .missing(let message):
+			return message
+		case .invalid(let message):
+			return message
+		case .compound:
+			return "An array of errors"
+		case .forbidden(let message):
+			return message
+		}
 	}
 
 	public var recoverySuggestion: String? {
@@ -36,7 +54,16 @@ extension CodexError: CustomNSError {
 	}
 
 	public var errorCode: Int {
-		rawValue
+		switch self {
+		case .missing:
+			return 0
+		case .invalid:
+			return 1
+		case .compound:
+			return 2
+		case .forbidden:
+			return 3
+		}
 	}
 
 	public var errorUserInfo: [String: Any] {

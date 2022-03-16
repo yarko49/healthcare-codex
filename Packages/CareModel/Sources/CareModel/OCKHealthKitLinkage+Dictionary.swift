@@ -38,7 +38,7 @@ public extension OCKHealthKitLinkage {
 
 		if unitString == "lbs" {
 			unitString = "lb"
-		} else if unitString == "bpm" {
+		} else if unitString == "bpm" || unitString == "count/minute" {
 			unitString = "count/min"
 		}
 		let unit = HKUnit(from: unitString)

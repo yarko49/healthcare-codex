@@ -19,6 +19,10 @@ class BGMPairingViewController: PairingViewController {
 		titleLabel.text = NSLocalizedString("BLOOD_GLUCOSE_PAIRING", comment: "Blood Glucose Pairing")
 	}
 
+	deinit {
+		syncManager.start()
+	}
+
 	override var dicoveryServices: [CBUUID] {
 		GATTServiceBloodGlucose.services
 	}
@@ -27,10 +31,16 @@ class BGMPairingViewController: PairingViewController {
 		GATTServiceBloodGlucose.characteristics
 	}
 
+	override func peripheral(_ peripheral: Peripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+		ALog.info("\(#function) characteristic: \(characteristic)")
+		processValue(peripheral: peripheral, characteristic: characteristic, error: error)
+	}
+
 	override func deviceManager(_ manager: OHQDeviceManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
 		guard bluetoothDevices[peripheral.identifier] == nil, let contains = peripheral.name?.lowercased().contains("contour"), contains else {
 			return
 		}
+
 		let device = Peripheral(peripheral: peripheral, advertisementData: AdvertisementData(advertisementData: advertisementData), rssi: RSSI)
 		device.delegate = self
 		bluetoothDevices[device.identifier] = device
@@ -53,9 +63,25 @@ class BGMPairingViewController: PairingViewController {
 		}
 	}
 
-	override func showSuccess() {
-		super.showSuccess()
-		NotificationCenter.default.post(name: .didPairBluetoothDevice, object: nil)
+	override func processValue(peripheral: Peripheral, characteristic: CBCharacteristic, error: Error?) {
+		ALog.info("\(#function) characteristic: \(characteristic)")
+		isPairing = false
+		if let error = error {
+			ALog.error("pairing device", error: error)
+			let nsError = error as NSError
+			ALog.error("nsError = \(nsError)")
+			if nsError.code == 15 || nsError.code == 3, nsError.domain == "CBATTErrorDomain" {
+				DispatchQueue.main.async { [weak self] in
+					self?.showFailure()
+				}
+			}
+		} else {
+			DispatchQueue.main.async { [weak self] in
+				self?.showSuccess(completion: { _ in
+					self?.updatePatient(peripheral: peripheral)
+				})
+			}
+		}
 	}
 
 	override func updatePatient(peripheral: Peripheral) {

@@ -105,7 +105,6 @@ void ohq_dispatch_to_internal_queue(dispatch_block_t block) {
 @property (nonatomic, copy) OHQCompletionBlock scanCompletionBlock;
 @property (nonatomic, strong) NSMutableDictionary<NSUUID *, OHQDeviceDiscoveryInfo *> *discoveredDevices;
 @property (nonatomic, strong) NSMutableDictionary<NSUUID *, OHQSessionInfo *> *sessionInfoDictionary;
-@property (nonatomic, strong) NSHashTable<OHQDeviceManagerDelegate> *delegates;
 @end
 
 ///---------------------------------------------------------------------------------------
@@ -166,7 +165,6 @@ static CBUUID * _weightScaleServiceUUID = nil;
 		OHQLogV(@"defined OHQ_OPTION_RETRY_COUNT_FOR_NOTIFICATION_ACTIVATION %d", OHQ_OPTION_RETRY_COUNT_FOR_NOTIFICATION_ACTIVATION);
 #endif // OHQ_OPTION_ENABLE_RETRY_FOR_NOTIFICATION_ACTIVATION
 
-		_delegates = (NSHashTable<OHQDeviceManagerDelegate> *)[NSHashTable weakObjectsHashTable];
 		NSDictionary<NSString *,id> *options = @{CBCentralManagerOptionShowPowerAlertKey: @NO};
 		OHQLogD(@"-[CBCentralManager initWithDelegate:queue:options:] options:%@", options);
 
@@ -195,29 +193,7 @@ static CBUUID * _weightScaleServiceUUID = nil;
 	return self;
 }
 
-- (void)addDelegate:(NSObject<OHQDeviceManagerDelegate> *)delegate {
-	@synchronized (self) {
-		if(![self.delegates containsObject:delegate]) {
-			[self.delegates addObject:delegate];
-		}
-	}
-}
-
-- (void)removeDelegate:(NSObject<OHQDeviceManagerDelegate> *)delegate {
-	@synchronized (self) {
-		NSEnumerator *delegateEnumerator = [[self.delegates allObjects] reverseObjectEnumerator];
-
-		for(NSObject<OHQDeviceManagerDelegate> *existing in delegateEnumerator) {
-			if(existing == delegate) {
-				[self.delegates removeObject:existing];
-				break;
-			}
-		}
-	}
-}
-
 - (void)dealloc {
-	[_delegates removeAllObjects];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -688,22 +664,14 @@ static CBUUID * _weightScaleServiceUUID = nil;
 	}
 
 	if(deviceInfo.count) {
-		@synchronized (self) {
-			for(NSObject<OHQDeviceManagerDelegate> *delegate in self.delegates) {
-				[delegate deviceManager:self didDiscoverPeripheral:peripheral advertisementData:mutableAdvertisementData RSSI:RSSI];
-			}
-		}
+		[self.delegate deviceManager:self didDiscoverPeripheral:peripheral advertisementData:mutableAdvertisementData RSSI:RSSI];
 	}
 }
 
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
 	OHQFuncLogD(@"[IN] central:%@ peripheral:%@ error:%@", central, peripheral, error);
 
-	@synchronized (self) {
-		for(NSObject<OHQDeviceManagerDelegate> *delegate in self.delegates) {
-			[delegate deviceManager:self didFailToConnectPeripheral:peripheral error:error];
-		}
-	}
+	[self.delegate deviceManager:self didFailToConnectPeripheral:peripheral error:error];
 
 	OHQSessionInfo *sessionInfo = self.sessionInfoDictionary[peripheral.identifier];
 	if (!sessionInfo) {
@@ -721,11 +689,7 @@ static CBUUID * _weightScaleServiceUUID = nil;
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
 	OHQFuncLogD(@"[IN] central:%@ peripheral:%@ error:%@", central, peripheral, error);
 
-	@synchronized (self) {
-		for(NSObject<OHQDeviceManagerDelegate> *delegate in self.delegates) {
-			[delegate deviceManager:self didDisconnectPeripheral:peripheral error:error];
-		}
-	}
+	[self.delegate deviceManager:self didDisconnectPeripheral:peripheral error:error];
 
 	OHQSessionInfo *sessionInfo = self.sessionInfoDictionary[peripheral.identifier];
 	if (!sessionInfo) {
@@ -746,11 +710,8 @@ static CBUUID * _weightScaleServiceUUID = nil;
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
 	OHQFuncLogD(@"[IN] central:%@ peripheral:%@", central, peripheral);
-	@synchronized (self) {
-		for(NSObject<OHQDeviceManagerDelegate> *delegate in self.delegates) {
-			[delegate deviceManager:self didConnectPeripheral:peripheral];
-		}
-	}
+	[self.delegate deviceManager:self didConnectPeripheral:peripheral];
+
 	OHQSessionInfo *sessionInfo = self.sessionInfoDictionary[peripheral.identifier];
 	if (!sessionInfo) {
 		return;
@@ -764,18 +725,9 @@ static CBUUID * _weightScaleServiceUUID = nil;
 		localName = [self.dataSource deviceManager:self localNameForDevice:peripheral.identifier];
 	}
 	OHQLogI(@"Connected with %@ (%@)", peripheral.identifier, (localName ? localName : peripheral.name));
-	@synchronized (self) {
-		for(NSObject<OHQDeviceManagerDelegate> *delegate in self.delegates) {
-			if ([delegate respondsToSelector:@selector(deviceManager:shouldStartTransferForPeripherial:)]) {
-				BOOL result = [delegate deviceManager:self shouldStartTransferForPeripherial:peripheral];
-				if(result) {
-					sessionInfo.connectionObserverBlock(OHQConnectionStateConnected);
-					sessionInfo.device.delegate = self;
-					[sessionInfo.device startTransferWithDataObserverBlock:sessionInfo.dataObserverBlock options:sessionInfo.options];
-				}
-			}
-		}
-	}
+	sessionInfo.connectionObserverBlock(OHQConnectionStateConnected);
+	sessionInfo.device.delegate = self;
+	[sessionInfo.device startTransferWithDataObserverBlock:sessionInfo.dataObserverBlock options:sessionInfo.options];
 }
 
 ///---------------------------------------------------------------------------------------

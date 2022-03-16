@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (CBUUID *)weightScaleServiceUUID;
 
 @property (nonatomic, assign, readonly) OHQDeviceManagerState state;
+@property (nonatomic, weak, nullable) id<OHQDeviceManagerDelegate> delegate;
 @property (nonatomic, weak, nullable) id<OHQDeviceManagerDataSource> dataSource;
 
 /** Scan the device.
@@ -68,9 +69,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)connectPerpherial:(CBPeripheral *)peripheral withOptions:(nullable NSDictionary<NSString *, id> *)options;
 - (nullable NSDictionary<OHQDeviceInfoKey,id> *)deviceInfoForPeripheral:(CBPeripheral *)peripheral;
 - (nullable NSDictionary<OHQDeviceInfoKey,id> *)deviceInfoForIdentifier:(NSUUID *)identifier;
-
-- (void)addDelegate:(NSObject<OHQDeviceManagerDelegate> *) delegate NS_SWIFT_NAME(add(delegate:));
-- (void)removeDelegate:(NSObject<OHQDeviceManagerDelegate> *) delegate NS_SWIFT_NAME(remove(delegate:));
 @end
 
 ///---------------------------------------------------------------------------------------
@@ -87,7 +85,5 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)deviceManager:(OHQDeviceManager *)manager didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(nullable NSError *)error;
 - (void)deviceManager:(OHQDeviceManager *)manager didDisconnectPeripheral:(CBPeripheral *)peripheral error:(nullable NSError *)error;
 - (void)deviceManager:(OHQDeviceManager *)manager didConnectPeripheral:(CBPeripheral *)peripheral;
-- (BOOL)deviceManager:(OHQDeviceManager *)manager shouldStartTransferForPeripherial:(CBPeripheral *)peripheral;
-
 @end
 NS_ASSUME_NONNULL_END

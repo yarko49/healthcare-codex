@@ -19,6 +19,10 @@ class BPMPairingViewController: PairingViewController {
 		titleLabel.text = NSLocalizedString("BLOOD_PRESSURE_PAIRING", comment: "Blood Pressure Pairing")
 	}
 
+	deinit {
+		syncManager.start()
+	}
+
 	override var dicoveryServices: [CBUUID] {
 		GATTServiceBloodPressure.services
 	}
