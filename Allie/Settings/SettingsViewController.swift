@@ -66,10 +66,11 @@ class SettingsViewController: BaseViewController {
 		stackView.addArrangedSubview(tableView)
 		stackView.addArrangedSubview(settingsFooterView)
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.reuseIdentifier)
+		tableView.register(SettingCell.self, forCellReuseIdentifier: SettingCell.reuseIdentifier)
 		settingsFooterView.delegate = self
 		dataSource = UITableViewDiffableDataSource<Int, SettingsType>(tableView: tableView, cellProvider: { tableView, indexPath, type -> UITableViewCell? in
 			if indexPath.section == 0 {
-				if let cell = tableView.dequeueReusableCell(withIdentifier: SettingCell.cellID, for: indexPath) as? SettingCell {
+				if let cell = tableView.dequeueReusableCell(withIdentifier: SettingCell.reuseIdentifier, for: indexPath) as? SettingCell {
 					cell.selectionStyle = .none
 					cell.configureCell(type: type)
 					return cell

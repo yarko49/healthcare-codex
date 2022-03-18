@@ -225,14 +225,6 @@ class NewDailyTasksPageViewController: BaseViewController {
 					self?.showError(tasks: tasks)
 					return
 				}
-				careManager.process(carePlanResponse: carePlanResponse) { result in
-					switch result {
-					case .failure(let error):
-						ALog.error("Error inserting care plan into db", error: error)
-					case .success:
-						ALog.info("Added new careplan to db")
-					}
-				}
 				_ = try await careManager.process(newCarePlanResponse: carePlanResponse)
 				self?.isRefreshingCarePlan = false
 				self?.hud.dismiss(animated: true)
