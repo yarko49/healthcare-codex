@@ -54,8 +54,7 @@ extension CareManager {
 	}
 
 	func deleteAllPatients() async throws {
-		let dateInterval = DateInterval(start: Date.distantPast, end: Date.distantFuture)
-		let patientsQuery = OCKPatientQuery(dateInterval: dateInterval)
+		let patientsQuery = OCKPatientQuery(for: Date())
 		let allPatients = try await store.fetchAnyPatients(query: patientsQuery)
 		if !allPatients.isEmpty {
 			_ = try await store.deleteAnyPatients(allPatients)

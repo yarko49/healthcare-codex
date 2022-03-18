@@ -21,16 +21,16 @@ static const UInt16 OmronCompanyIdentifier = 0x020E;
 
 
 // Omron Manufacturer Data Type
-typedef NS_ENUM(UInt8, OmronManufacturerDataType) {
-    OmronManufacturerDataTypeUnknown = 0x00,
-    OmronManufacturerDataTypeEachUserData = 0x01,
+typedef NS_ENUM (UInt8, OmronManufacturerDataType) {
+	OmronManufacturerDataTypeUnknown = 0x00,
+	OmronManufacturerDataTypeEachUserData = 0x01,
 };
 
 // Omron Each User Data Flags
-typedef NS_OPTIONS(UInt8, OmronEachUserDataFlags) {
-    OmronEachUserDataFlagsNumberOfUser = 3,
-    OmronEachUserDataFlagsTimeNotConfigured = 1 << 2,
-    OmronEachUserDataFlagsIsPairable = 1 << 3,
+typedef NS_OPTIONS (UInt8, OmronEachUserDataFlags) {
+	OmronEachUserDataFlagsNumberOfUser = 3,
+	OmronEachUserDataFlagsTimeNotConfigured = 1 << 2,
+	OmronEachUserDataFlagsIsPairable = 1 << 3,
 };
 
 extern NSString * CompanyIdentifierDescription(UInt16 arg);

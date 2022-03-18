@@ -214,7 +214,7 @@ extension TaskView {
 				var formattedValue = outcomeValue.formattedValue
 				var context: String?
 
-				if linkage?.quantityIdentifier == .bloodPressureDiastolic {
+				if linkage?.quantityIdentifier == .bloodPressureDiastolic, outcomeValueIndex + 1 < outcomeValues.count {
 					// Fetch 2 values (systolic, diastolic)
 					let systolicValue: OCKOutcomeValue = outcomeValues[outcomeValueIndex]
 					let diastolicValue: OCKOutcomeValue = outcomeValues[outcomeValueIndex + 1]

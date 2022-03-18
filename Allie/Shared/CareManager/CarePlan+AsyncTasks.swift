@@ -69,6 +69,9 @@ extension CareManager {
 			if task.shouldDelete {
 				continue
 			}
+			if task.isHidden {
+				continue
+			}
 			// if the task exists and they are equal then we just skip it.
 			if let existingTask = existingTasks[task.id], existingTask == task {
 				continue
@@ -82,6 +85,17 @@ extension CareManager {
 			}
 		}
 		return updateTasks
+	}
+
+	func delete(tasks: [CHTask]) async throws {
+		for task in tasks {
+			do {
+				let existing = try await store.fetchAnyTasks(query: OCKTaskQuery(id: task.id))
+				_ = try await store.deleteAnyTasks(existing)
+			} catch {
+				ALog.error("Task Does not exist \(task.id)", error: error)
+			}
+		}
 	}
 
 	func deleteTasks(exclude: [String], carePlans: Set<String>) async throws {
@@ -114,15 +128,11 @@ extension CareManager {
 		}
 	}
 
-	func deleteHealthKitTasks(exclude: Set<String>, carePlans: Set<String>) async throws {
-		let tasksQuery = OCKTaskQuery(for: Date())
-		let allTasks = try await healthKitStore.fetchTasks(query: tasksQuery)
-		let filtered = allTasks.filter { task in
-			!exclude.contains(task.id)
-		}
-
-		if !filtered.isEmpty {
-			_ = try await healthKitStore.deleteTasks(filtered)
+	func deleteAllTasks() async throws {
+		let query = OCKTaskQuery(for: Date())
+		let allTasks = try await store.fetchAnyTasks(query: query)
+		if !allTasks.isEmpty {
+			_ = try await store.deleteAnyTasks(allTasks)
 		}
 	}
 }

@@ -8,3 +8,5 @@
 import Foundation
 
 public typealias VoidCompletionHandler = () -> Void
+public typealias BoolCompletionHandler = (Bool) -> Void
+public typealias ResultCompletionHandler<T> = (Result<T, Error>) -> Void

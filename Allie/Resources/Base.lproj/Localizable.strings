@@ -725,10 +725,10 @@
 "UNPAIR" = "Unpair";
 
 /* Failure Message */
-"STEP_FAILURE.message" = "Something went wrong in pairing your device. Please try again and follow the provided steps!";
+"STEP_FAILURE.message" = "Make sure the device is in range with your phone and try again.";
 
 /* Step Fail. */
-"STEP_FAILURE.title" = "Oops, something\nwent wrong!";
+"STEP_FAILURE.title" = "Pairing Unsuccessful!";
 
 /* Step 1 Message */
 "BGM_STEP_ONE.message" = "Make sure your meter is off and\nkeep it near your mobile device.";
@@ -905,10 +905,10 @@
 "BLOOD_PRESSURE_PAIRING" = "Blood Pressure Pairing";
 
 /* Step 1 Message */
-"BPM_STEP_ONE.message" = "Make sure your meter is off and\nkeep it near your mobile device.";
+"BPM_STEP_ONE.message" = "Press and hold the transfer or bluetooth button on your device for 3-5 seconds, until you see a flashing P on the device screen.";
 
 /* Step 2 Message */
-"BPM_STEP_TWO.message" = "Press and hold the sync button\n(Double Arrow) for 6 seconds until you see the\nblinking sync symbol.";
+"BPM_STEP_TWO.message" = "Make sure this is the device you want to pair.";
 
 /* Step 3 Message */
 "BPM_STEP_THREE.message" = "Pairing your device now";
@@ -930,4 +930,19 @@
 
 /* Invalid preferred name */
 "INVALID_PREFERRED_NAME" = "Invalid preferred name";
+
+/* Saving... */
+"SAVING_DOTS" = "Saving...";
+
+/* Start Pairing */
+"START_PAIRING" = "Start Pairing";
+
+/* Complete */
+"COMPLETE" = "Complete";
+
+/* Pairing */
+"PAIRING" = "Pairing";
+
+/* Active devices near you */
+"ACTIVE_DEVICES_NEAR_YOU" = "Active devices near you";
 

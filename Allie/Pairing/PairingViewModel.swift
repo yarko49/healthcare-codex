@@ -47,11 +47,45 @@ class PairingViewModel: NSObject, UIPageViewControllerDataSource {
 		}
 	}
 
+	func identifier(forPage page: Int) -> String? {
+		guard page < pages.count else {
+			return nil
+		}
+		return pages[page].id
+	}
+
+	func page(forIdentifier identifier: String) -> Int? {
+		let page = pages.firstIndex { item in
+			item.id == identifier
+		}
+
+		return page
+	}
+
+	var containsSuccess: Bool {
+		containsPage(forIdentifier: "success")
+	}
+
+	var containsFailure: Bool {
+		containsPage(forIdentifier: "failure")
+	}
+
+	func containsPage(forIdentifier identifier: String) -> Bool {
+		let item = pages.first { item in
+			item.id == identifier
+		}
+		return item != nil
+	}
+
 	func updateSuccess() {
-		pages.append(PairingItem.successItem)
+		if !containsSuccess {
+			pages.append(PairingItem.successItem)
+		}
 	}
 
 	func updateFailure() {
-		pages.append(PairingItem.failureItem)
+		if !containsFailure {
+			pages.append(PairingItem.failureItem)
+		}
 	}
 }

@@ -13,10 +13,14 @@ import UIKit
 
 class BPMPairingViewController: PairingViewController {
 	override func viewDidLoad() {
-		deviceCategory = .bloodPressureMonitor
+		deviceCategories = [.bloodPressureMonitor]
 		viewModel = PairingViewModel(pages: PairingItem.bloodPressureItems)
 		super.viewDidLoad()
 		titleLabel.text = NSLocalizedString("BLOOD_PRESSURE_PAIRING", comment: "Blood Pressure Pairing")
+	}
+
+	deinit {
+		syncManager.start()
 	}
 
 	override var dicoveryServices: [CBUUID] {
@@ -28,6 +32,7 @@ class BPMPairingViewController: PairingViewController {
 	}
 
 	override func peripheral(_ peripheral: Peripheral, readyWith characteristic: CBCharacteristic) {
+		ALog.info("\(#function) \(peripheral)")
 		if characteristic.uuid == GATTBloodPressureFeature.uuid, !isPairing {
 			isPairing = true
 			peripheral.read(characteristic: characteristic, isBatched: false)

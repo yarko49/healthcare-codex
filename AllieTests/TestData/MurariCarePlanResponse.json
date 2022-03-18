@@ -1,0 +1,1789 @@
+{
+  "patients": [
+    {
+      "id": "bJgSmTyQAYSiFwglIfsWGnfukPa2",
+      "uuid": "B3545F92-C943-4624-A87B-B138CD6B05A8",
+      "profile": {
+        "FHIRId": "7174145a-3237-40e2-8ab5-f58d81fe7242",
+        "userId": "bJgSmTyQAYSiFwglIfsWGnfukPa2",
+        "signUpCompleted": true,
+        "heightInches": 71,
+        "email": "murari.srinivasan@gmail.com",
+        "deviceManufacturer": "Apple",
+        "weightLbs": 160,
+        "patientId": "bJgSmTyQAYSiFwglIfsWGnfukPa2",
+        "deviceSoftwareVersion": "15.0.1"
+      },
+      "remoteId": "bJgSmTyQAYSiFwglIfsWGnfukPa2",
+      "sex": "male",
+      "createdDate": "2021-09-29T07:45:15Z",
+      "updatedDate": "2021-09-29T07:45:33Z",
+      "birthday": "1972-12-23T17:00:00Z",
+      "peripherals": [
+        {
+          "address": "",
+          "id": "BLEsmart_0000016028FFB22BFB15",
+          "localId": "B9DA33F9-2FA3-F507-F0A9-797188DB2BB4",
+          "lastSync": "",
+          "type": "bloodPressure",
+          "name": "BP5250",
+          "info": ""
+        },
+        {
+          "address": "",
+          "id": "016C8A80-6257-AB6D-734C-8F717EE22490",
+          "localId": "",
+          "lastSync": "1638885467196",
+          "type": "bloodGlucose",
+          "name": "Contour7830-2269936",
+          "info": ""
+        }
+      ],
+      "groupIdentifier": "",
+      "deletedDate": "9998-12-23T17:00:00Z",
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "effectiveDate": "2021-09-29T07:45:15Z",
+      "userInfo": {
+        "bgmLastSyncDate": "2021-12-07T13:57:47.196Z",
+        "bgmIdentifier": "016C8A80-6257-AB6D-734C-8F717EE22490",
+        "bgmName": "Contour7830-2269936",
+        "bgmLastSync": "1638885467196"
+      },
+      "name": { "familyName": "Srinivasan", "givenName": "Murari" }
+    }
+  ],
+  "carePlans": [
+    {
+      "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan",
+      "userInfo": {},
+      "deletedDate": "2022-01-14T06:59:04Z",
+      "remoteId": "defaultCarePlan",
+      "createdDate": "2021-08-05T07:00:00Z",
+      "title": "Default Care Plan",
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "updatedDate": "2022-01-14T06:59:04Z",
+      "groupIdentifier": "",
+      "tags": ["default"],
+      "effectiveDate": "2021-08-05T07:00:00Z"
+    },
+    {
+      "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/demo_uchealth-care-plan-update",
+      "deletedDate": "2022-01-14T07:01:59Z",
+      "remoteId": "demo_uchealth-care-plan-update",
+      "createdDate": "2022-01-13T08:00:00Z",
+      "title": "Demo test",
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "updatedDate": "2022-01-14T07:02:00Z",
+      "groupIdentifier": "",
+      "userInfo": {},
+      "effectiveDate": "2021-10-28T07:00:00Z"
+    },
+    {
+      "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/diabetesCarePlan",
+      "deletedDate": "9998-12-31T16:00:00Z",
+      "remoteId": "diabetesCarePlan",
+      "createdDate": "2021-09-14T07:00:00Z",
+      "title": "Diabetes Care Plan",
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "updatedDate": "2022-03-06T23:06:43Z",
+      "groupIdentifier": "",
+      "userInfo": {},
+      "effectiveDate": "2021-09-14T07:00:00Z"
+    },
+    {
+      "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/new-cp",
+      "deletedDate": "2022-01-14T07:22:07Z",
+      "remoteId": "new-cp",
+      "createdDate": "2022-01-13T08:00:00Z",
+      "title": "new cp",
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "updatedDate": "2022-01-14T07:22:08Z",
+      "groupIdentifier": "",
+      "userInfo": {},
+      "effectiveDate": "2021-11-08T08:00:00Z"
+    }
+  ],
+  "outcomes": [],
+  "tasks": [
+    {
+      "uuid": "C99FDA3D-1DC7-4A29-9658-4B529F0FA56F",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "start": "2021-08-05T07:00:00Z",
+          "hour": 0,
+          "daily": true,
+          "weekday": 0,
+          "text": "All day",
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "education-easy-and-healthy-recipes",
+      "createdDate": "2021-08-05T07:00:00Z",
+      "asset": "shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpeg",
+      "updatedDate": "2022-01-06T14:52:08Z",
+      "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan/Task/education-easy-and-healthy-recipes",
+      "title": "Easy & Healthy Recipes",
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "FEATURED_CONTENT",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "impactsAdherence": false,
+      "effectiveDate": "2021-08-05T07:00:00Z",
+      "userInfo": {
+        "detailViewAsset": "recipes-Everyday-Healthy-Meals-Cookbook.pdf",
+        "category": "education",
+        "priority": "4"
+      }
+    },
+    {
+      "uuid": "83388458-558D-4291-AEDD-40A7624D8A26",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "start": "2021-08-05T07:00:00Z",
+          "hour": 0,
+          "daily": true,
+          "weekday": 0,
+          "text": "all day",
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "education-easy-and-healthy-recipes-html",
+      "createdDate": "2021-08-05T07:00:00Z",
+      "asset": "shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpeg",
+      "updatedDate": "2021-11-03T11:43:43Z",
+      "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan/Task/education-easy-and-healthy-recipes-html",
+      "title": "Easy & Healthy Recipes",
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "FEATURED_CONTENT",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Instructions not to be displayed by Featured Content",
+      "impactsAdherence": false,
+      "effectiveDate": "2021-08-05T07:00:00Z",
+      "userInfo": {
+        "detailViewHTML": "<p>Codex found that It&#39s tough balancing a busy schedule. During the busiest of times, healthy routines are often the first things we sacrifice to \nmake more room in the day for work or family. But sacrificing healthy \nhabits will end up hurting us in the long run - They give us strength and energy to go about our day. Preparing healthy meals doesn&#39tq \nrequire exotic ingredients and endless time in the kitchen.</p> \n<br> \n<p class=\"headline\">Avocado Tomato Toast</p> \n<p class=\"subheadline\">10 minutes</p>n<br> \n<p>Avocados are everywhere these days, and for good reason. They&#39re incredibly filling and a great replacement for other foods that /nare high in fat. Sprinkle on some granulated garlic and a touch of red pepper if you&#39re feeling adventurous.</p>",
+        "detailViewImageLabel": "Some Ideas",
+        "priority": "4",
+        "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg",
+        "detailViewCSS": "\n.headline { \n    font-size: 23px; \n    font-weight: 700; \n}n.subheadline { \n    font-size: 15px; \n    font-weight: 300; \n} \np { \n    padding: 0px; \n    margin: 0px; \n}",
+        "category": "education"
+      }
+    },
+    {
+      "uuid": "0B24E142-F482-459E-A01D-394925EF5A23",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-08-05T07:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "education-links-uc-health",
+      "createdDate": "2021-08-05T07:00:00Z",
+      "updatedDate": "2022-01-06T14:52:08Z",
+      "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan/Task/education-links-uc-health",
+      "title": "Links",
+      "carePlanId": "defaultCarePlan",
+      "links": [
+        {
+          "type": "url",
+          "title": "UCHealth",
+          "url": "https://www.uchealth.org/"
+        },
+        {
+          "title": "UCHealth Hospital Address",
+          "latitude": "39.742332",
+          "type": "location",
+          "longitude": "-104.841487"
+        },
+        {
+          "type": "email",
+          "title": "Email Support",
+          "email": "support@codexhealth.com"
+        }
+      ],
+      "groupIdentifier": "LINK",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Helpful links",
+      "impactsAdherence": false,
+      "effectiveDate": "2021-08-05T07:00:00Z",
+      "userInfo": { "category": "links", "priority": "5" }
+    },
+    {
+      "uuid": "563FDD4C-EF64-496D-AF14-C10F7B98E47F",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 8,
+          "start": "2021-08-05T15:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "duration": 21600,
+          "minutes": 0,
+          "interval": 21600
+        }
+      ],
+      "remoteId": "lifestyle-30-minutes-of-morning-exercise",
+      "createdDate": "2021-08-05T07:00:00Z",
+      "updatedDate": "2022-01-06T14:52:08Z",
+      "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan/Task/lifestyle-30-minutes-of-morning-exercise",
+      "title": "30 Minutes of Morning Exercise",
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "SIMPLE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "impactsAdherence": false,
+      "effectiveDate": "2021-08-05T07:00:00Z",
+      "userInfo": { "category": "lifestyle", "priority": "3" }
+    },
+    {
+      "uuid": "340DC6A5-135F-4711-BED2-7119949921AC",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "start": "2021-08-05T15:00:00Z",
+          "hour": 8,
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "count",
+              "kind": "",
+              "type": "integer",
+              "value": 2000,
+              "index": 0
+            }
+          ],
+          "text": "Anytime",
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-activity",
+      "createdDate": "2021-08-05T07:00:00Z",
+      "updatedDate": "2022-01-06T14:52:08Z",
+      "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan/Task/measurements-activity",
+      "title": "Activity",
+      "healthKitLinkage": {
+        "quantityType": "cumulative",
+        "unitString": "count",
+        "quantityIdentifier": "HKQuantityTypeIdentifierStepCount"
+      },
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "NUMERIC_PROGRESS",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Your total steps today",
+      "impactsAdherence": true,
+      "effectiveDate": "2021-08-05T07:00:00Z",
+      "userInfo": { "category": "measurements", "priority": "1" }
+    },
+    {
+      "uuid": "C3B65905-EAD7-4F95-93E6-321308175AA6",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-10-26T07:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mmHg",
+              "kind": "systolic",
+              "type": "integer",
+              "value": 120,
+              "index": 0
+            },
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mmHg",
+              "kind": "diastolic",
+              "type": "integer",
+              "value": 80,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-blood-pressure",
+      "createdDate": "2021-10-26T07:00:00Z",
+      "updatedDate": "2022-01-06T14:52:08Z",
+      "title": "Blood Pressure",
+      "healthKitLinkage": {
+        "quantityType": "discrete",
+        "unitString": "mmHg",
+        "quantityIdentifier": "HKQuantityTypeIdentifierBloodPressureDiastolic"
+      },
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "LABELED_VALUE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Check your daily blood pressure",
+      "impactsAdherence": true,
+      "userInfo": { "category": "measurements", "priority": "1" },
+      "effectiveDate": "2021-10-26T07:00:00Z"
+    },
+    {
+      "uuid": "17A50112-B007-4E55-B050-D1197F80E08D",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-08-05T07:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mg/dL",
+              "kind": "bloodGlucose",
+              "type": "integer",
+              "value": 140,
+              "index": 0
+            },
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "",
+              "kind": "noprandial",
+              "type": "integer",
+              "value": 0,
+              "index": 0
+            },
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "",
+              "kind": "preprandial",
+              "type": "integer",
+              "value": 1,
+              "index": 0
+            },
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "",
+              "kind": "postprandial",
+              "type": "integer",
+              "value": 2,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-glucose-levels",
+      "createdDate": "2021-08-05T07:00:00Z",
+      "asset": "icon-blood-glucose",
+      "updatedDate": "2022-01-06T14:52:08Z",
+      "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan/Task/measurements-glucose-levels",
+      "title": "Glucose Levels",
+      "healthKitLinkage": {
+        "quantityType": "discrete",
+        "unitString": "mg/dL",
+        "quantityIdentifier": "HKQuantityTypeIdentifierBloodGlucose"
+      },
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "LABELED_VALUE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Monitor daily glucose levels",
+      "impactsAdherence": true,
+      "effectiveDate": "2021-08-05T07:00:00Z",
+      "userInfo": { "category": "measurements", "priority": "1" }
+    },
+    {
+      "uuid": "BE5F5FDC-C98E-4046-8C5D-7FF136784F11",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-08-05T07:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "IU/mL",
+              "kind": "",
+              "type": "integer",
+              "value": 5,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-insulin-levels",
+      "createdDate": "2021-08-05T07:00:00Z",
+      "updatedDate": "2022-01-06T14:52:08Z",
+      "title": "Insulin Dosing",
+      "healthKitLinkage": {
+        "quantityType": "discrete",
+        "unitString": "IU",
+        "quantityIdentifier": "HKQuantityTypeIdentifierInsulinDelivery"
+      },
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "LOG_INSULIN",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Monitor daily insulin levels",
+      "impactsAdherence": true,
+      "userInfo": { "category": "measurements", "priority": "1" },
+      "effectiveDate": "2021-08-05T07:00:00Z"
+    },
+    {
+      "uuid": "605E7095-2DEA-4D6C-9836-2249CBB01703",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-08-05T07:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "lb",
+              "kind": "",
+              "type": "double",
+              "value": 180,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-weight",
+      "createdDate": "2021-08-05T07:00:00Z",
+      "asset": "icon-weight",
+      "updatedDate": "2022-01-05T15:57:24Z",
+      "source": "HealthcareOrganization/Demo-Organization-hmbj3/CarePlan/defaultCarePlan/Task/measurements-weight",
+      "title": "Weight",
+      "healthKitLinkage": {
+        "quantityType": "discrete",
+        "unitString": "lb",
+        "quantityIdentifier": "HKQuantityTypeIdentifierBodyMass"
+      },
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "LABELED_VALUE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Check daily weight",
+      "impactsAdherence": true,
+      "effectiveDate": "2021-08-05T07:00:00Z",
+      "userInfo": { "category": "measurements", "priority": "1" }
+    },
+    {
+      "uuid": "DEC40C5C-6859-4540-82D3-8A988B2C7620",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2022-01-06T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mg",
+              "kind": "dosage",
+              "type": "double",
+              "value": 0,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        },
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2022-01-06T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mg",
+              "kind": "dosage",
+              "type": "double",
+              "value": 0,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "medications-actos",
+      "createdDate": "2021-08-05T07:00:00Z",
+      "updatedDate": "2022-01-06T14:52:08Z",
+      "title": "Actos",
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "GRID",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Monitoring daily Actos dosage",
+      "impactsAdherence": true,
+      "userInfo": { "category": "medications", "priority": "0" },
+      "effectiveDate": "2021-08-05T07:00:00Z"
+    },
+    {
+      "uuid": "9AE6FFCF-48E6-44D4-984B-8D48FFC3D5C3",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2022-01-05T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "medications-farxiga",
+      "createdDate": "2022-01-05T08:00:00Z",
+      "updatedDate": "2022-01-06T14:47:08Z",
+      "title": "Farxiga",
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "SIMPLE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Monitoring daily Farxiga dosage",
+      "impactsAdherence": true,
+      "userInfo": { "category": "medications", "priority": "0" },
+      "effectiveDate": "2021-08-05T07:00:00Z"
+    },
+    {
+      "uuid": "18E2DF0A-1326-4DEF-9ECF-CBA1C05974A5",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2022-01-05T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "medications-glimepiride",
+      "createdDate": "2022-01-05T08:00:00Z",
+      "updatedDate": "2022-01-06T14:47:08Z",
+      "title": "Glimepiride",
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "SIMPLE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Monitoring daily Glimepiride dosage",
+      "impactsAdherence": true,
+      "userInfo": { "category": "medications", "priority": "0" },
+      "effectiveDate": "2021-08-05T07:00:00Z"
+    },
+    {
+      "uuid": "2AE32DE2-F20D-49B4-B77D-520573E69355",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2022-01-06T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mg",
+              "kind": "dosage",
+              "type": "double",
+              "value": 0,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        },
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2022-01-06T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mg",
+              "kind": "dosage",
+              "type": "double",
+              "value": 0,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "medications-invokana",
+      "createdDate": "2021-08-05T07:00:00Z",
+      "updatedDate": "2022-01-06T14:52:08Z",
+      "title": "Invokana",
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "GRID",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Monitoring daily Invokana dosage",
+      "impactsAdherence": true,
+      "userInfo": { "category": "medications", "priority": "0" },
+      "effectiveDate": "2021-08-05T07:00:00Z"
+    },
+    {
+      "uuid": "92AF07B8-93B8-43E1-8CDF-3A8BE1628C5F",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-10-07T07:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mg",
+              "kind": "dosage",
+              "type": "double",
+              "value": 0,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "medications-ozempic",
+      "createdDate": "2021-08-05T07:00:00Z",
+      "updatedDate": "2021-11-03T11:43:43Z",
+      "title": "Ozempic",
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "SIMPLE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Record Weekly",
+      "impactsAdherence": true,
+      "userInfo": { "category": "medications", "priority": "0" },
+      "effectiveDate": "2021-08-05T07:00:00Z"
+    },
+    {
+      "uuid": "F013B170-DE51-4047-AB5A-D6F381E0835C",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-10-19T07:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "medications-trulicity",
+      "createdDate": "2021-10-19T07:00:00Z",
+      "updatedDate": "2021-11-03T11:43:43Z",
+      "title": "Trulicity",
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "SIMPLE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Monitoring daily Trulicity dosage",
+      "impactsAdherence": true,
+      "userInfo": { "category": "medications", "priority": "0" },
+      "effectiveDate": "2021-08-05T07:00:00Z"
+    },
+    {
+      "uuid": "D80F7416-6EAB-45F1-B357-AAA8F243AD93",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-10-29T07:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "",
+              "kind": "",
+              "type": "text",
+              "value": "Nausea",
+              "index": 0
+            },
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "",
+              "kind": "",
+              "type": "text",
+              "value": "Vomiting",
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "nausea,-vomiting",
+      "createdDate": "2021-10-29T07:00:00Z",
+      "updatedDate": "2022-01-06T14:52:08Z",
+      "title": "Diabetes Symptoms",
+      "carePlanId": "defaultCarePlan",
+      "groupIdentifier": "SYMPTOMS",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "impactsAdherence": false,
+      "effectiveDate": "2021-10-29T07:00:00Z",
+      "userInfo": { "category": "symptoms", "priority": "2" }
+    },
+    {
+      "uuid": "3AD4454D-1369-4DBB-B48A-0F4D33C88736",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-11-14T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "count",
+              "kind": "",
+              "type": "integer",
+              "value": 2000,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        },
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-11-14T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "count",
+              "kind": "",
+              "type": "integer",
+              "value": 2000,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-activity",
+      "createdDate": "2022-01-13T08:00:00Z",
+      "updatedDate": "2022-01-14T06:59:06Z",
+      "title": "Activity",
+      "healthKitLinkage": {
+        "quantityType": "cumulative",
+        "unitString": "count",
+        "quantityIdentifier": "HKQuantityTypeIdentifierStepCount"
+      },
+      "carePlanId": "demo_uchealth-care-plan-update",
+      "groupIdentifier": "NUMERIC_PROGRESS",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Your total steps today",
+      "impactsAdherence": true,
+      "userInfo": { "category": "measurements", "priority": "1" },
+      "effectiveDate": "2021-08-05T07:00:00Z"
+    },
+    {
+      "uuid": "C24E131B-2D43-4837-AAE8-C9B5A48171B2",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "start": "2021-09-14T07:00:00Z",
+          "hour": 0,
+          "daily": true,
+          "weekday": 0,
+          "text": "all day",
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "education-easy-and-healthy-recipes",
+      "createdDate": "2021-09-14T07:00:00Z",
+      "asset": "shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpeg",
+      "updatedDate": "2022-03-06T23:06:44Z",
+      "title": "Easy & Healthy Recipes",
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "FEATURED_CONTENT",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Instructions not to be displayed by Featured Content",
+      "impactsAdherence": false,
+      "userInfo": {
+        "detailViewText": "Healthy Recipes\nSpinach & Kale",
+        "priority": "4",
+        "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg",
+        "category": "education",
+        "detailViewImageLabel": "Some Ideas"
+      },
+      "effectiveDate": "2021-09-14T07:00:00Z"
+    },
+    {
+      "uuid": "8410DCB2-BD03-466C-9152-8184A5C6B1B3",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "start": "2021-09-14T07:00:00Z",
+          "hour": 0,
+          "daily": true,
+          "weekday": 0,
+          "text": "all day",
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "education-easy-and-healthy-recipes-html",
+      "createdDate": "2021-09-14T07:00:00Z",
+      "asset": "shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpeg",
+      "updatedDate": "2022-02-17T10:54:42Z",
+      "title": "Easy & Healthy Recipes",
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "FEATURED_CONTENT",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Instructions not to be displayed by Featured Content",
+      "impactsAdherence": false,
+      "userInfo": {
+        "detailViewHTML": "<p>Codex found that It&#39s tough balancing a busy schedule. During the busiest of times, healthy routines are often the first things we sacrifice to \nmake more room in the day for work or family. But sacrificing healthy \nhabits will end up hurting us in the long run - They give us strength and energy to go about our day. Preparing healthy meals doesn&#39tq \nrequire exotic ingredients and endless time in the kitchen.</p> \n<br> \n<p class=\"headline\">Avocado Tomato Toast</p> \n<p class=\"subheadline\">10 minutes</p>n<br> \n<p>Avocados are everywhere these days, and for good reason. They&#39re incredibly filling and a great replacement for other foods that /nare high in fat. Sprinkle on some granulated garlic and a touch of red pepper if you&#39re feeling adventurous.</p>",
+        "category": "education",
+        "detailViewCSS": "\n.headline { \n    font-size: 23px; \n    font-weight: 700; \n}n.subheadline { \n    font-size: 15px; \n    font-weight: 300; \n} \np { \n    padding: 0px; \n    margin: 0px; \n}",
+        "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg",
+        "priority": "4",
+        "detailViewImageLabel": "Some Ideas"
+      },
+      "effectiveDate": "2021-09-14T07:00:00Z"
+    },
+    {
+      "uuid": "225E8F00-9E06-4FD1-9D0B-71C02562284C",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "start": "2021-09-14T07:00:00Z",
+          "hour": 0,
+          "daily": true,
+          "weekday": 0,
+          "text": "all day",
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "education-easy-and-healthy-recipes-url",
+      "createdDate": "2021-09-14T07:00:00Z",
+      "asset": "shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpeg",
+      "updatedDate": "2022-02-17T10:54:42Z",
+      "title": "Easy & Healthy Recipes",
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "FEATURED_CONTENT",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Instructions not to be displayed by Featured Content",
+      "impactsAdherence": false,
+      "userInfo": {
+        "priority": "4",
+        "detailViewURL": "https://www.researchandcare.org/",
+        "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/shopping-bag-full-of-fresh-vegetables-and-fruits-royalty-free-image-1128687123-1564523576.jpg",
+        "category": "education",
+        "detailViewImageLabel": "Some Ideas"
+      },
+      "effectiveDate": "2021-09-14T07:00:00Z"
+    },
+    {
+      "uuid": "67A5F1B4-EA65-44E7-A658-37EF8CF695D0",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-09-14T07:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "education-links-stanford-medicine",
+      "createdDate": "2021-09-14T07:00:00Z",
+      "updatedDate": "2022-03-06T23:06:44Z",
+      "title": "Links",
+      "carePlanId": "diabetesCarePlan",
+      "links": [
+        {
+          "type": "url",
+          "title": "Stanford Medicine",
+          "url": "https://med.stanford.edu/"
+        },
+        {
+          "title": "Stanford Address",
+          "latitude": "37.4275",
+          "type": "location",
+          "longitude": "122.1697"
+        },
+        {
+          "type": "email",
+          "title": "Email Support",
+          "email": "support@codexhealth.com"
+        }
+      ],
+      "groupIdentifier": "LINK",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Helpful links",
+      "impactsAdherence": false,
+      "userInfo": { "category": "links", "priority": "5" },
+      "effectiveDate": "2021-09-14T07:00:00Z"
+    },
+    {
+      "uuid": "CACDA9B3-3A55-403E-8AA9-86F5B1783773",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 8,
+          "start": "2021-09-14T15:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "duration": 21600,
+          "minutes": 0,
+          "interval": 21600
+        }
+      ],
+      "remoteId": "lifestyle-15-minutes-of-morning-exercise",
+      "createdDate": "2021-09-14T07:00:00Z",
+      "updatedDate": "2022-03-06T23:06:44Z",
+      "title": "15 Minutes of Morning Exercise",
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "SIMPLE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "impactsAdherence": false,
+      "effectiveDate": "2021-09-14T07:00:00Z",
+      "userInfo": { "category": "lifestyle", "priority": "3" }
+    },
+    {
+      "uuid": "BB5C5801-F868-4D06-AEF4-BC0BF3B34D92",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 8,
+          "start": "2021-09-14T15:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "duration": 21600,
+          "minutes": 0,
+          "interval": 21600
+        }
+      ],
+      "remoteId": "lifestyle-30-minutes-of-morning-exercise",
+      "createdDate": "2021-09-14T07:00:00Z",
+      "updatedDate": "2022-02-17T10:53:46Z",
+      "title": "30 Minutes of Morning Exercise",
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "SIMPLE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "impactsAdherence": false,
+      "effectiveDate": "2021-09-14T07:00:00Z",
+      "userInfo": { "category": "lifestyle", "priority": "3" }
+    },
+    {
+      "uuid": "15D2D07D-1029-4FEC-ABEC-7E26BDF98A87",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 8,
+          "start": "2021-09-14T15:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "duration": 21600,
+          "minutes": 0,
+          "interval": 21600
+        }
+      ],
+      "remoteId": "lifestyle-45-minutes-of-morning-exercise",
+      "createdDate": "2021-09-14T07:00:00Z",
+      "updatedDate": "2022-02-17T10:53:46Z",
+      "title": "45 Minutes of Morning Exercise",
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "SIMPLE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "impactsAdherence": false,
+      "effectiveDate": "2021-09-14T07:00:00Z",
+      "userInfo": { "category": "lifestyle", "priority": "3" }
+    },
+    {
+      "uuid": "4546D6EA-FB9D-442F-9A1C-C3D7C783DF37",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "start": "2021-09-14T15:00:00Z",
+          "hour": 8,
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "",
+              "kind": "",
+              "type": "boolean",
+              "value": true,
+              "index": 0
+            }
+          ],
+          "text": "Breakfast",
+          "duration": 3600,
+          "minutes": 0,
+          "interval": 3600
+        },
+        {
+          "weekly": false,
+          "custom": false,
+          "start": "2021-09-14T19:00:00Z",
+          "hour": 12,
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "",
+              "kind": "",
+              "type": "boolean",
+              "value": true,
+              "index": 0
+            }
+          ],
+          "text": "Lunch",
+          "duration": 3600,
+          "minutes": 0,
+          "interval": 3600
+        },
+        {
+          "weekly": false,
+          "custom": false,
+          "start": "2021-09-15T01:00:00Z",
+          "hour": 18,
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "",
+              "kind": "",
+              "type": "boolean",
+              "value": true,
+              "index": 0
+            }
+          ],
+          "text": "Dinner",
+          "duration": 3600,
+          "minutes": 0,
+          "interval": 3600
+        }
+      ],
+      "remoteId": "lifestyle-food-dairy",
+      "createdDate": "2021-09-14T07:00:00Z",
+      "updatedDate": "2022-02-17T10:53:46Z",
+      "title": "Daily Food Diary",
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "CHECKLIST",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Record your daily meals",
+      "impactsAdherence": false,
+      "userInfo": { "category": "lifestyle", "priority": "3" },
+      "effectiveDate": "2021-09-14T07:00:00Z"
+    },
+    {
+      "uuid": "5D1B5781-1534-4B7B-88AC-7151D85CA418",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-11-14T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "count",
+              "kind": "",
+              "type": "integer",
+              "value": 2000,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-activity",
+      "createdDate": "2021-08-05T07:00:00Z",
+      "updatedDate": "2022-02-17T10:54:08Z",
+      "title": "Activity",
+      "healthKitLinkage": {
+        "quantityType": "cumulative",
+        "unitString": "count",
+        "quantityIdentifier": "HKQuantityTypeIdentifierStepCount"
+      },
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "NUMERIC_PROGRESS",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Your total steps today",
+      "impactsAdherence": true,
+      "userInfo": { "category": "measurements", "priority": "1" },
+      "effectiveDate": "2021-08-05T07:00:00Z"
+    },
+    {
+      "uuid": "6E5DD06F-68C1-4E1B-B335-938040249627",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-11-14T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mmHg",
+              "kind": "systolic",
+              "type": "integer",
+              "value": 120,
+              "index": 0
+            },
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mmHg",
+              "kind": "diastolic",
+              "type": "integer",
+              "value": 80,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        },
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-11-14T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mmHg",
+              "kind": "systolic",
+              "type": "integer",
+              "value": 120,
+              "index": 0
+            },
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mmHg",
+              "kind": "diastolic",
+              "type": "integer",
+              "value": 80,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-blood-pressure",
+      "createdDate": "2022-01-13T08:00:00Z",
+      "updatedDate": "2022-03-06T23:06:44Z",
+      "title": "Blood Pressure",
+      "healthKitLinkage": {
+        "quantityType": "discrete",
+        "unitString": "mmHg",
+        "quantityIdentifier": "HKQuantityTypeIdentifierBloodPressureDiastolic"
+      },
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "LABELED_VALUE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Check your daily blood pressure",
+      "impactsAdherence": true,
+      "userInfo": { "category": "measurements", "priority": "1" },
+      "effectiveDate": "2022-01-13T08:00:00Z"
+    },
+    {
+      "uuid": "5BBB82A0-7750-4640-899D-49EECA46FE64",
+      "schedules": [
+        {
+          "end": "9998-12-31T16:00:00Z",
+          "weekly": false,
+          "custom": false,
+          "start": "2021-12-31T08:00:00Z",
+          "daily": true,
+          "hour": 0,
+          "weekday": 0,
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-cgm",
+      "createdDate": "2022-03-06T08:00:00Z",
+      "updatedDate": "2022-03-06T23:06:46Z",
+      "source": "Codex Cloud",
+      "title": "",
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "CGM",
+      "hidden": true,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "impactsAdherence": false,
+      "effectiveDate": "2022-03-06T08:00:00Z",
+      "userInfo": {}
+    },
+    {
+      "uuid": "15270797-1821-462E-9139-B2CE02742E88",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2022-03-08T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mg/dL",
+              "kind": "bloodGlucose",
+              "type": "integer",
+              "value": 140,
+              "index": 0
+            },
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "",
+              "kind": "noprandial",
+              "type": "integer",
+              "value": 0,
+              "index": 0
+            },
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "",
+              "kind": "preprandial",
+              "type": "integer",
+              "value": 1,
+              "index": 0
+            },
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "",
+              "kind": "postprandial",
+              "type": "integer",
+              "value": 2,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-glucose-levels",
+      "createdDate": "2022-03-06T08:00:00Z",
+      "asset": "icon-blood-glucose",
+      "updatedDate": "2022-03-06T23:06:44Z",
+      "title": "Glucose Levels",
+      "healthKitLinkage": {
+        "quantityType": "discrete",
+        "unitString": "mg/dL",
+        "quantityIdentifier": "HKQuantityTypeIdentifierBloodGlucose"
+      },
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "LABELED_VALUE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Monitor daily glucose levels",
+      "impactsAdherence": true,
+      "userInfo": { "category": "measurements", "priority": "1" },
+      "effectiveDate": "2021-08-05T07:00:00Z"
+    },
+    {
+      "uuid": "5859C2EE-3F87-4307-9925-7DFE7ED98801",
+      "schedules": [
+        {
+          "end": "9998-12-31T16:00:00Z",
+          "weekly": false,
+          "custom": false,
+          "start": "2021-12-31T08:00:00Z",
+          "daily": true,
+          "hour": 0,
+          "weekday": 0,
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-heart-rate",
+      "createdDate": "2022-03-06T08:00:00Z",
+      "updatedDate": "2022-03-06T23:06:46Z",
+      "source": "Codex Cloud",
+      "title": "",
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "HEART_RATE",
+      "hidden": true,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "impactsAdherence": false,
+      "effectiveDate": "2022-03-06T08:00:00Z",
+      "userInfo": {}
+    },
+    {
+      "uuid": "49C3FF49-E42E-45BD-B3C0-4762D5454AE5",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "start": "2021-09-14T15:00:00Z",
+          "hour": 8,
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "bpm",
+              "kind": "",
+              "type": "integer",
+              "value": 70,
+              "index": 0
+            }
+          ],
+          "text": "string",
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-heart-rate-resting",
+      "createdDate": "2021-09-14T07:00:00Z",
+      "updatedDate": "2022-03-06T23:06:44Z",
+      "title": "Resting Heart Rate",
+      "healthKitLinkage": {
+        "quantityType": "discrete",
+        "unitString": "count/min",
+        "quantityIdentifier": "HKQuantityTypeIdentifierRestingHeartRate"
+      },
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "LABELED_VALUE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Most recent measurement",
+      "impactsAdherence": true,
+      "userInfo": { "category": "measurements", "priority": "1" },
+      "effectiveDate": "2021-09-14T07:00:00Z"
+    },
+    {
+      "uuid": "54062CB7-D5B1-4611-AA56-EF0974E67473",
+      "schedules": [
+        {
+          "end": "9998-12-31T16:00:00Z",
+          "weekly": false,
+          "custom": false,
+          "start": "2021-12-31T08:00:00Z",
+          "daily": true,
+          "hour": 0,
+          "weekday": 0,
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-irregular-heart-rhythm",
+      "createdDate": "2022-03-06T08:00:00Z",
+      "updatedDate": "2022-03-06T23:06:46Z",
+      "source": "Codex Cloud",
+      "title": "",
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "IRREGULAR_HEART_RHYTHM",
+      "hidden": true,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "impactsAdherence": false,
+      "effectiveDate": "2022-03-06T08:00:00Z",
+      "userInfo": {}
+    },
+    {
+      "uuid": "874A8BE9-0BD9-4084-95EF-41949810D83C",
+      "schedules": [
+        {
+          "end": "9998-12-31T16:00:00Z",
+          "weekly": false,
+          "custom": false,
+          "start": "2021-12-31T08:00:00Z",
+          "daily": true,
+          "hour": 0,
+          "weekday": 0,
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-resting-heart-rate",
+      "createdDate": "2022-03-06T08:00:00Z",
+      "updatedDate": "2022-03-06T23:06:46Z",
+      "source": "Codex Cloud",
+      "title": "",
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "RESTING_HEART_RATE",
+      "hidden": true,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "impactsAdherence": false,
+      "effectiveDate": "2022-03-06T08:00:00Z",
+      "userInfo": {}
+    },
+    {
+      "uuid": "7FF53F16-7A88-4254-91FD-2F3B0012C3B2",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2022-03-08T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "lb",
+              "kind": "",
+              "type": "double",
+              "value": 180,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-weight",
+      "createdDate": "2022-02-15T08:00:00Z",
+      "asset": "icon-weight",
+      "updatedDate": "2022-03-06T23:06:44Z",
+      "title": "Weight",
+      "healthKitLinkage": {
+        "quantityType": "discrete",
+        "unitString": "lb",
+        "quantityIdentifier": "HKQuantityTypeIdentifierBodyMass"
+      },
+      "carePlanId": "diabetesCarePlan",
+      "groupIdentifier": "LABELED_VALUE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Check daily weight",
+      "impactsAdherence": true,
+      "userInfo": { "category": "measurements", "priority": "1" },
+      "effectiveDate": "2021-08-05T07:00:00Z"
+    },
+    {
+      "uuid": "C45D6CBC-3E6A-4342-9670-356A0A97379B",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-11-08T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "a-thing-with-skeletons",
+      "createdDate": "2022-01-13T08:00:00Z",
+      "asset": "04293926.jpg",
+      "updatedDate": "2022-01-14T07:22:03Z",
+      "title": "A thing with skeletons",
+      "carePlanId": "new-cp",
+      "groupIdentifier": "FEATURED_CONTENT",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "impactsAdherence": false,
+      "effectiveDate": "2021-11-08T08:00:00Z",
+      "userInfo": {
+        "detailViewURL": "www.what.gr",
+        "priority": "4",
+        "category": "education",
+        "detailViewAsset": "PrintableHeroes_Undead_Set_01.pdf"
+      }
+    },
+    {
+      "uuid": "7D9B53D5-3FFF-4155-AB69-78F13B61B298",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "start": "2022-01-13T16:00:00Z",
+          "hour": 8,
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "count",
+              "kind": "",
+              "type": "integer",
+              "value": 2000,
+              "index": 0
+            }
+          ],
+          "text": "Anytime",
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-activity",
+      "createdDate": "2022-01-13T08:00:00Z",
+      "updatedDate": "2022-01-14T07:22:03Z",
+      "title": "Activity",
+      "healthKitLinkage": {
+        "quantityType": "cumulative",
+        "unitString": "count",
+        "quantityIdentifier": "HKQuantityTypeIdentifierStepCount"
+      },
+      "carePlanId": "new-cp",
+      "groupIdentifier": "NUMERIC_PROGRESS",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Your total steps today",
+      "impactsAdherence": true,
+      "userInfo": { "category": "measurements", "priority": "1" },
+      "effectiveDate": "2021-08-05T07:00:00Z"
+    },
+    {
+      "uuid": "DAA1EB9E-07DD-44EE-9BEE-AC281D3ED970",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-11-08T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mmHg",
+              "kind": "systolic",
+              "type": "integer",
+              "value": 120,
+              "index": 0
+            },
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mmHg",
+              "kind": "diastolic",
+              "type": "integer",
+              "value": 80,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        },
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-11-08T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mmHg",
+              "kind": "systolic",
+              "type": "integer",
+              "value": 120,
+              "index": 0
+            },
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mmHg",
+              "kind": "diastolic",
+              "type": "integer",
+              "value": 80,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "measurements-blood-pressure",
+      "createdDate": "2022-01-13T08:00:00Z",
+      "updatedDate": "2022-01-14T07:22:03Z",
+      "title": "Blood Pressure",
+      "healthKitLinkage": {
+        "quantityType": "discrete",
+        "unitString": "mmHg",
+        "quantityIdentifier": "HKQuantityTypeIdentifierBloodPressureDiastolic"
+      },
+      "carePlanId": "new-cp",
+      "groupIdentifier": "LABELED_VALUE",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Check your daily blood pressure",
+      "impactsAdherence": true,
+      "userInfo": { "category": "measurements", "priority": "1" },
+      "effectiveDate": "2021-11-08T08:00:00Z"
+    },
+    {
+      "uuid": "92FBEC13-E10B-4EA7-B7E6-CB1D518FE4A8",
+      "schedules": [
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-11-08T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mg",
+              "kind": "dosage",
+              "type": "double",
+              "value": 0,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        },
+        {
+          "weekly": false,
+          "custom": false,
+          "hour": 0,
+          "start": "2021-11-08T08:00:00Z",
+          "daily": true,
+          "weekday": 0,
+          "targetValues": [
+            {
+              "createdDate": "2022-03-09T04:51:25Z",
+              "units": "mg",
+              "kind": "dosage",
+              "type": "double",
+              "value": 0,
+              "index": 0
+            }
+          ],
+          "duration": 0,
+          "minutes": 0,
+          "interval": 0
+        }
+      ],
+      "remoteId": "medications-actos",
+      "createdDate": "2022-01-13T08:00:00Z",
+      "updatedDate": "2022-01-14T07:22:03Z",
+      "title": "Actos",
+      "carePlanId": "new-cp",
+      "groupIdentifier": "GRID",
+      "hidden": false,
+      "timezone": { "identifier": "America/Los_Angeles" },
+      "instructions": "Monitoring daily Actos dosage",
+      "impactsAdherence": true,
+      "userInfo": { "category": "medications", "priority": "0" },
+      "effectiveDate": "2021-08-05T07:00:00Z"
+    }
+  ],
+  "vectorClock": 2140
+}

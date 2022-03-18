@@ -103,7 +103,6 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 
 	var cancellables: Set<AnyCancellable> = []
 
-	@MainActor
 	override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController, prepare listViewController: OCKListViewController, for date: Date) {
 		var query = OCKTaskQuery(for: date)
 		query.excludesTasksWithNoEvents = true
@@ -117,7 +116,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 			case .success(let tasks):
 				let filtered = tasks.filter { task in
 					if let chTask = self.careManager.tasks[task.id] {
-						return !chTask.isDeleted(for: date) && task.schedule.exists(onDay: date)
+						return !chTask.isDeleted(for: date) && task.schedule.exists(onDay: date) && !chTask.isHidden
 					} else if let ockTask = task as? OCKTask {
 						return !ockTask.isDeleted(for: date) && task.schedule.exists(onDay: date)
 					} else if let hkTask = task as? OCKHealthKitTask, let deletedDate = hkTask.deletedDate {
@@ -184,7 +183,7 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						viewController.controller.fetchAndObserveEvents(forTasks: [updatedTask], eventQuery: eventQuery)
 						listViewController.appendViewController(viewController, animated: self.insertViewsAnimated)
 
-					case .labeledValue:
+					case .labeledValue, .restingHeartRate, .heartRate:
 						if (updatedTask as? OCKHealthKitTask)?.healthKitLinkage != nil {
 							let viewController = GeneralizedLogTaskViewController(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 							viewController.view.tintColor = .allieGray
@@ -193,12 +192,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 						} else {
 							let view = LabeledValueTaskView(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 								.accentColor(Color(.allieGray))
-							listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
+							listViewController.appendViewController(view.iOS15FormattedHostingController(), animated: self.insertViewsAnimated)
 						}
-					case .restingHeartRate:
-						let view = LabeledValueTaskView(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
-							.accentColor(Color(.allieGray))
-						listViewController.appendViewController(view.formattedHostingController(), animated: self.insertViewsAnimated)
 					case .numericProgress:
 						let view = NumericProgressTaskView(task: updatedTask, eventQuery: eventQuery, storeManager: self.storeManager)
 						listViewController.appendViewController(view.iOS15FormattedHostingController(), animated: self.insertViewsAnimated)
@@ -260,17 +255,8 @@ class DailyTasksPageViewController: OCKDailyTasksPageViewController {
 				let carePlanResponse = try await networkAPI.getCarePlan(option: .carePlan)
 				if let tasks = carePlanResponse.faultyTasks, !tasks.isEmpty {
 					self?.showError(tasks: tasks)
-					return
 				}
-				careManager.process(carePlanResponse: carePlanResponse) { result in
-					switch result {
-					case .failure(let error):
-						ALog.error("Error inserting care plan into db", error: error)
-					case .success:
-						ALog.info("Added new careplan to db")
-					}
-				}
-				_ = try await careManager.process(newCarePlanResponse: carePlanResponse)
+				_ = try await careManager.process(newCarePlanResponse: carePlanResponse, forceReset: false)
 				self?.isRefreshingCarePlan = false
 				self?.hud.dismiss(animated: true)
 				completion(true)

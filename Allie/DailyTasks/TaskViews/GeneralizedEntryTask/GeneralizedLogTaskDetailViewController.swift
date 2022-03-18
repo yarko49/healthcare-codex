@@ -448,10 +448,10 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 		let endDate = startDate
 		let systolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureSystolic)!
 		let systolicQuantity = HKQuantity(unit: HKUnit.millimeterOfMercury(), doubleValue: Double(systolic))
-		let systolicSample = HKQuantitySample(type: systolicType, quantity: systolicQuantity, start: startDate, end: endDate)
+		let systolicSample = HKDiscreteQuantitySample(type: systolicType, quantity: systolicQuantity, start: startDate, end: endDate)
 		let diastolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureDiastolic)!
 		let diastolicQuantity = HKQuantity(unit: HKUnit.millimeterOfMercury(), doubleValue: Double(diastolic))
-		let diastolicSample = HKQuantitySample(type: diastolicType, quantity: diastolicQuantity, start: startDate, end: endDate)
+		let diastolicSample = HKDiscreteQuantitySample(type: diastolicType, quantity: diastolicQuantity, start: startDate, end: endDate)
 		let bloodPressureCorrelationType = HKCorrelationType.correlationType(forIdentifier: .bloodPressure)!
 		let bloodPressureCorrelation = Set<HKSample>(arrayLiteral: systolicSample, diastolicSample)
 
@@ -530,11 +530,13 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 	}
 
 	private func saveHealthKit() {
+		footerView.isSaveButtonEnabled = false
 		hud.show(in: tabBarController?.view ?? view)
 		do {
 			let sample = try createHealthKitSample()
 			healthKitSampleHandler?(sample)
 			hud.dismiss(animated: true)
+			footerView.isSaveButtonEnabled = true
 		} catch {
 			hud.dismiss(animated: true)
 			let title = NSLocalizedString("HEALTHKIT_ERROR_SAVE_DATA", comment: "Error saving data!")
@@ -550,15 +552,18 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 				showSettings = true
 			}
 			showAlert(title: title, message: message, showSettings: showSettings)
+			footerView.isSaveButtonEnabled = true
 		}
 	}
 
 	func saveOutcomeValue() {
+		footerView.isSaveButtonEnabled = false
 		hud.show(in: tabBarController?.view ?? view)
 		do {
 			let outcomeValue = try createOutcomeValue()
 			outcomeValueHandler?(outcomeValue)
 			hud.dismiss(animated: true)
+			footerView.isSaveButtonEnabled = true
 		} catch {
 			hud.dismiss(animated: true)
 			let title = NSLocalizedString("ERROR_SAVING_OUTCOME", comment: "Error saving outcome!")
@@ -574,6 +579,7 @@ class GeneralizedLogTaskDetailViewController: UIViewController {
 				showSettings = true
 			}
 			showAlert(title: title, message: message, showSettings: showSettings)
+			footerView.isSaveButtonEnabled = true
 		}
 	}
 }

@@ -7,6 +7,7 @@
 
 @testable import Allie
 import CareKitStore
+import CareModel
 import XCTest
 
 class ScheduleElementTests: XCTestCase {
