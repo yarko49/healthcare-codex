@@ -14,34 +14,6 @@ protocol HeightPickerViewDelegate: AnyObject {
 class HeightPickerView: UIViewController {
 	weak var delegate: HeightPickerViewDelegate?
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
-
-		title = NSLocalizedString("HEIGHT", comment: "Height")
-		let effect = UIBlurEffect(style: .light)
-		let effectView = UIVisualEffectView(effect: effect)
-		effectView.translatesAutoresizingMaskIntoConstraints = false
-		view.addSubview(effectView)
-		NSLayoutConstraint.activate([effectView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 0.0),
-		                             effectView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: effectView.trailingAnchor, multiplier: 0.0),
-		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: effectView.bottomAnchor, multiplier: 0.0)])
-		view.addSubview(heightPickerView)
-		NSLayoutConstraint.activate([heightPickerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-		                             heightPickerView.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
-		let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))
-		navigationItem.leftBarButtonItem = cancelButton
-
-		let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save(_:)))
-		navigationItem.rightBarButtonItem = saveButton
-
-		let feetIndex = heightData[0].firstIndex(of: heightInInches / 12)
-		let inchesIndex = heightData[1].firstIndex(of: heightInInches % 12)
-		heightPickerView.selectRow(feetIndex ?? 2, inComponent: 0, animated: false)
-		heightPickerView.selectRow(inchesIndex ?? 6, inComponent: 1, animated: false)
-		fixLabelsInPlace()
-	}
-
 	let heightData = [Array(3 ... 8), Array(0 ... 12)]
 	var heightInInches: Int = 66
 
@@ -52,6 +24,63 @@ class HeightPickerView: UIViewController {
 		picker.delegate = self
 		return picker
 	}()
+
+	private let doneButton: BottomButton = {
+		let doneButton = BottomButton()
+		doneButton.translatesAutoresizingMaskIntoConstraints = false
+		doneButton.backgroundColor = .black
+		doneButton.cornerRadius = 4.0
+		doneButton.setAttributedTitle(NSLocalizedString("DONE", comment: "Done").attributedString(style: .silkabold16, foregroundColor: UIColor.white), for: .normal)
+		return doneButton
+	}()
+
+	private let contentVStack: UIStackView = {
+		let contentVStack = UIStackView()
+		contentVStack.translatesAutoresizingMaskIntoConstraints = false
+		contentVStack.axis = .vertical
+		contentVStack.alignment = .fill
+		contentVStack.distribution = .fill
+		contentVStack.spacing = 20.0
+		return contentVStack
+	}()
+
+	private let contentView: UIView = {
+		let contentView = UIView()
+		contentView.translatesAutoresizingMaskIntoConstraints = false
+		contentView.backgroundColor = .white
+		return contentView
+	}()
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		view.backgroundColor = UIColor(hex: "#F7FBFF")?.withAlphaComponent(0.5)
+
+		setupViews()
+
+		let feetIndex = heightData[0].firstIndex(of: heightInInches / 12)
+		let inchesIndex = heightData[1].firstIndex(of: heightInInches % 12)
+		heightPickerView.selectRow(feetIndex ?? 2, inComponent: 0, animated: false)
+		heightPickerView.selectRow(inchesIndex ?? 6, inComponent: 1, animated: false)
+		fixLabelsInPlace()
+	}
+
+	private func setupViews() {
+		view.addSubview(contentView)
+		NSLayoutConstraint.activate([contentView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+		                             contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+		                             contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor)])
+
+		contentView.addSubview(contentVStack)
+		NSLayoutConstraint.activate([contentVStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+		                             contentVStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+		                             contentVStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+		                             contentVStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30)])
+
+		[heightPickerView, doneButton].forEach { contentVStack.addArrangedSubview($0) }
+		NSLayoutConstraint.activate([doneButton.heightAnchor.constraint(equalToConstant: 48)])
+
+		doneButton.addTarget(self, action: #selector(save), for: .touchUpInside)
+	}
 
 	private func fixLabelsInPlace() {
 		let picker = heightPickerView
@@ -73,10 +102,6 @@ class HeightPickerView: UIViewController {
 		label2.text = "in"
 		label2.textColor = .black
 		picker.addSubview(label2)
-	}
-
-	@IBAction private func cancel(_ sender: Any?) {
-		dismiss(animated: true, completion: nil)
 	}
 
 	@IBAction private func save(_ sender: Any?) {

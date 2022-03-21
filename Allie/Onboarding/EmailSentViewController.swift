@@ -12,32 +12,27 @@ class EmailSentViewController: SignupBaseViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		titleLabel.text = NSLocalizedString("EMAIL_SENT", comment: "Email Sent!")
+		view.backgroundColor = .mainBlue
+		titleLabel.attributedText = NSLocalizedString("EMAIL_SENT", comment: "Email Sent!").attributedString(style: .silkabold24, foregroundColor: .white)
+		subtitleLabel.attributedText = NSLocalizedString("CHECK_MAIL", comment: "Check your email and use the verify link").attributedString(style: .silkamedium20, foregroundColor: .white)
+		subtitleLabel.isHidden = false
 		view.addSubview(buttonStackView)
 		NSLayoutConstraint.activate([buttonStackView.widthAnchor.constraint(equalToConstant: buttonWidth),
 		                             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-		                             buttonStackView.topAnchor.constraint(equalToSystemSpacingBelow: labekStackView.bottomAnchor, multiplier: 8.0)])
+		                             buttonStackView.topAnchor.constraint(equalToSystemSpacingBelow: labekStackView.bottomAnchor, multiplier: 8.0),
+		                             buttonStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
 
-		let imageView = UIImageView(image: UIImage(named: "illustration4-1"))
+		let imageView = UIImageView(image: UIImage(named: "img-email-sent"))
+		imageView.contentMode = .scaleAspectFit
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		buttonStackView.alignment = .center
 		buttonStackView.addArrangedSubview(imageView)
-
-		view.addSubview(messageLabel)
-		NSLayoutConstraint.activate([messageLabel.widthAnchor.constraint(equalToConstant: buttonWidth),
-		                             messageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-		                             messageLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 30.0)])
 	}
 
-	let messageLabel: UILabel = {
-		let label = UILabel(frame: .zero)
-		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = UIFont.systemFont(ofSize: 16.0, weight: .regular)
-		label.textColor = .allieGray
-		label.textAlignment = .center
-		label.text = NSLocalizedString("CHECK_MAIL", comment: "Check your email and use the verify link")
-		return label
-	}()
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(true)
+		navigationController?.setNavigationBarHidden(true, animated: animated)
+	}
 
 	@IBAction func openMailAppTapped(_ sender: Any) {
 		openMailApp?()

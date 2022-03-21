@@ -53,7 +53,7 @@ class AuthCoordinator: BaseCoordinator {
 		parent?.hideHUD(animated: animated)
 	}
 
-	func gotoSignup(authorizationFlowType type: AuthorizationFlowType = .signUp) {
+	func gotoSignup(authorizationFlowType type: AuthorizationFlowType = .signIn) {
 		ALog.info("gotoSignup: \(type)")
 		authorizationFlowType = type
 		let signupViewController = SignupViewController()
@@ -261,14 +261,10 @@ class AuthCoordinator: BaseCoordinator {
 		let healthViewController = HealthViewController()
 		healthViewController.screenFlowType = screenFlowType
 		healthViewController.authorizationFlowType = authorizationFlowType
-		healthViewController.notNowAction = { [weak self] in
-			DispatchQueue.main.async { [weak self] in
-				self?.parent?.gotoMainApp()
-			}
-		}
 
 		healthViewController.activateAction = { [weak self] in
-			self?.authorizeHKForUpload()
+			//			self?.authorizeHKForUpload()
+			self?.connectProvider()
 		}
 
 		navigate(to: healthViewController, with: .push)
@@ -305,6 +301,21 @@ class AuthCoordinator: BaseCoordinator {
 					strongSelf.showAlert(title: "Unable to create Patient", detailText: error.localizedDescription, actions: [okAction])
 				})
 			}
+		}
+	}
+
+	func connectProvider() {
+		let connectProviderViewController = ConnectProviderViewController()
+		connectProviderViewController.showProviderList = { [weak self] in
+			self?.selectProvider()
+		}
+		navigate(to: connectProviderViewController, with: .push)
+	}
+
+	func selectProvider() {
+		let selectProviderController = SelectProviderViewController(collectionViewLayout: SelectProviderViewController.layout)
+		selectProviderController.doneAction = { [weak selectProviderController] _ in
+			selectProviderController?.dismiss(animated: true, completion: nil)
 		}
 	}
 

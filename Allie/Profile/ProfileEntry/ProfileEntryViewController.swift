@@ -28,9 +28,13 @@ class ProfileEntryViewController: SignupBaseViewController {
 
 	var doneAction: AllieActionHandler?
 	static var controlHeight: CGFloat = 48.0
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		title = NSLocalizedString("PROFILE", comment: "Profile")
+		navigationController?.setNavigationBarHidden(false, animated: true)
 		view.backgroundColor = .allieWhite
+		titleLabel.isHidden = true
 		var viewTopOffset: CGFloat = controllerViewMode == .onboarding ? 2.0 : 1.0
 		var bottomButtonOffset: CGFloat = 2.0
 		if UIScreen.main.bounds.height <= 667 {
@@ -61,6 +65,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 		mainStackView.addArrangedSubview(gendePickerView)
 		heightButton.button.addTarget(self, action: #selector(showHeightPicker), for: .touchUpInside)
 		weightButton.button.addTarget(self, action: #selector(showWeightPicker), for: .touchUpInside)
+		dateOfBirthView.actionButton.addTarget(self, action: #selector(showCalendarPicker), for: .touchUpInside)
 
 		view.addSubview(bottomButton)
 		NSLayoutConstraint.activate([bottomButton.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
@@ -68,6 +73,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: bottomButton.bottomAnchor, multiplier: bottomButtonOffset)])
 		bottomButton.addTarget(self, action: #selector(save(_:)), for: .touchUpInside)
 		bottomButton.setTitle(doneButtonTitle, for: .normal)
+		bottomButton.setAttributedTitle(doneButtonTitle?.attributedString(style: .silkabold16, foregroundColor: .white), for: .normal)
 		bottomButton.backgroundColor = .allieGray
 		firstNameTextField.addTarget(self, action: #selector(firstNameDidChange(_:)), for: .editingChanged)
 		lastNameTextField.addTarget(self, action: #selector(lastNameDidChange(_:)), for: .editingChanged)
@@ -75,17 +81,27 @@ class ProfileEntryViewController: SignupBaseViewController {
 		configureValues()
 	}
 
+	private var isValidName: Bool = false
+
 	private func configureValidation() {
 		validName
 			.receive(on: RunLoop.main)
-			.assign(to: \.isEnabled, on: bottomButton)
+			.sink(receiveValue: { validName in
+				self.isValidName = validName
+				if validName, self.dateOfBirth != nil {
+					self.bottomButton.isEnabled = true
+				} else {
+					self.bottomButton.isEnabled = false
+				}
+			})
 			.store(in: &cancellables)
 
 		bottomButton.publisher(for: \.isEnabled)
 			.receive(on: RunLoop.main)
 			.map { $0 }
 			.sink { enabled in
-				self.bottomButton.backgroundColor = enabled ? .allieGray : .allieGray.withAlphaComponent(0.5)
+				if self.dateOfBirth == nil { return }
+				self.bottomButton.backgroundColor = enabled ? .black : .allieGray.withAlphaComponent(0.5)
 			}.store(in: &cancellables)
 	}
 
@@ -143,7 +159,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 		didSet {
 			let heightInMeters = Double(heightInInches) * Constants.inchesToMeters
 			let heightString = heightFormatter.string(fromMeters: heightInMeters)
-			heightButton.button.setTitle(heightString, for: .normal)
+			heightButton.textField.text = heightString
 		}
 	}
 
@@ -151,18 +167,11 @@ class ProfileEntryViewController: SignupBaseViewController {
 		didSet {
 			let kilograms = Double(weightInPounds) * Constants.poundsToKilograms
 			let weightString = massFormatter.string(fromKilograms: kilograms)
-			weightButton.button.setTitle(weightString, for: .normal)
+			weightButton.textField.text = weightString
 		}
 	}
 
-	var dateOfBirth: Date {
-		get {
-			dateOfBirthView.datePicker.date
-		}
-		set {
-			dateOfBirthView.datePicker.date = newValue
-		}
-	}
+	var dateOfBirth: Date?
 
 	var sex: OCKBiologicalSex {
 		get {
@@ -180,6 +189,8 @@ class ProfileEntryViewController: SignupBaseViewController {
 		textField.lineColor = .allieSeparator
 		textField.selectedLineColor = .allieSeparator
 		textField.placeholder = placeholder
+		textField.titleFont = TextStyle.silkamedium14.font
+		textField.font = TextStyle.silkabold17.font
 		textField.selectedTitleColor = .allieSeparator
 		textField.selectedTitle = placeholder + (isRequired ? "*" : "")
 		textField.autocorrectionType = .no
@@ -187,6 +198,10 @@ class ProfileEntryViewController: SignupBaseViewController {
 		textField.autocapitalizationType = .none
 		textField.translatesAutoresizingMaskIntoConstraints = false
 		textField.heightAnchor.constraint(equalToConstant: controlHeight).isActive = true
+		textField.textColor = .black
+		textField.titleFormatter = { text in
+			text
+		}
 		return textField
 	}
 
@@ -253,16 +268,21 @@ class ProfileEntryViewController: SignupBaseViewController {
 		textField.heightAnchor.constraint(equalToConstant: 48.0).isActive = true
 		textField.placeholder = NSLocalizedString("EMAIL", comment: "Email")
 		textField.title = NSLocalizedString("EMAIL_ADDRESS", comment: "Email address")
+		textField.titleFont = TextStyle.silkamedium14.font
+		textField.font = TextStyle.silkabold17.font
 		textField.errorColor = .systemRed
 		textField.lineColor = .allieSeparator
 		textField.selectedLineColor = .allieLighterGray
 		textField.lineHeight = 1.0
 		textField.selectedLineHeight = 1.0
-		textField.textColor = .allieGray
+		textField.textColor = .black
 		textField.keyboardType = .emailAddress
 		textField.autocorrectionType = .no
 		textField.autocapitalizationType = .none
 		textField.selectedTitleColor = .allieLighterGray
+		textField.titleFormatter = { text in
+			text
+		}
 		return textField
 	}()
 
@@ -276,7 +296,6 @@ class ProfileEntryViewController: SignupBaseViewController {
 	let gendePickerView: GenderPickerView = {
 		let view = GenderPickerView(frame: .zero)
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.heightAnchor.constraint(equalToConstant: controlHeight).isActive = true
 		return view
 	}()
 
@@ -325,6 +344,9 @@ class ProfileEntryViewController: SignupBaseViewController {
 	}()
 
 	func configureValues() {
+		buttonStackView.axis = .horizontal
+		buttonStackView.spacing = 8.0
+		buttonStackView.distribution = .fillEqually
 		firstNameTextField.delegate = self
 		lastNameTextField.delegate = self
 		firstNameTextField.text = patient?.name.givenName
@@ -337,6 +359,9 @@ class ProfileEntryViewController: SignupBaseViewController {
 		sex = patient?.sex ?? .male
 		if let dob = patient?.birthday {
 			dateOfBirth = dob
+			dateOfBirthView.textField.text = "a"
+			dateOfBirthView.dateButton.isHidden = false
+			dateOfBirthView.dateButton.setAttributedTitle(dateOfBirth?.dateToString(dateFormatterString: "MMM dd, yyyy").attributedString(style: .silkabold17, foregroundColor: .white), for: .normal)
 		}
 	}
 
@@ -347,10 +372,30 @@ class ProfileEntryViewController: SignupBaseViewController {
 		let viewController = HeightPickerView()
 		viewController.heightInInches = heightInInches
 		viewController.delegate = self
-		let navigationController = UINavigationController(rootViewController: viewController)
-		navigationController.modalPresentationStyle = .overFullScreen
-		navigationController.modalTransitionStyle = .crossDissolve
-		showDetailViewController(navigationController, sender: self)
+		viewController.modalPresentationStyle = .overFullScreen
+		viewController.modalTransitionStyle = .crossDissolve
+		showDetailViewController(viewController, sender: self)
+	}
+
+	@objc func showCalendarPicker() {
+		[firstNameTextField, lastNameTextField].forEach { textField in
+			textField.resignFirstResponder()
+		}
+		let viewController = CalendarPicker()
+		if let dob = dateOfBirth {
+			viewController.epoch = dob
+		}
+		viewController.onClickDoneAction = { [weak self] selectedDate in
+			print("Date of birthday", selectedDate)
+			self?.dateOfBirth = selectedDate
+			self?.dateOfBirthView.textField.text = "a"
+			self?.dateOfBirthView.dateButton.isHidden = false
+			self?.dateOfBirthView.dateButton.setAttributedTitle(selectedDate.dateToString(dateFormatterString: "MMM dd, yyyy").attributedString(style: .silkabold17, foregroundColor: .white), for: .normal)
+			self?.bottomButton.isEnabled = self!.isValidName
+		}
+		viewController.modalPresentationStyle = .overFullScreen
+		viewController.modalTransitionStyle = .crossDissolve
+		showDetailViewController(viewController, sender: self)
 	}
 
 	@IBAction func showWeightPicker() {
@@ -360,10 +405,9 @@ class ProfileEntryViewController: SignupBaseViewController {
 		let viewController = WeightPickerView()
 		viewController.weightInPounds = weightInPounds
 		viewController.delegate = self
-		let navigationController = UINavigationController(rootViewController: viewController)
-		navigationController.modalPresentationStyle = .overFullScreen
-		navigationController.modalTransitionStyle = .crossDissolve
-		showDetailViewController(navigationController, sender: self)
+		viewController.modalPresentationStyle = .overFullScreen
+		viewController.modalTransitionStyle = .crossDissolve
+		showDetailViewController(viewController, sender: self)
 	}
 
 	@IBAction func save(_ sender: Any?) {
@@ -397,5 +441,13 @@ extension ProfileEntryViewController: HeightPickerViewDelegate {
 	func heightPickerViewDidSave(_ picker: HeightPickerView) {
 		heightInInches = picker.heightInInches
 		picker.dismiss(animated: true, completion: nil)
+	}
+}
+
+extension Date {
+	func dateToString(dateFormatterString: String) -> String {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = dateFormatterString
+		return dateFormatter.string(from: self)
 	}
 }

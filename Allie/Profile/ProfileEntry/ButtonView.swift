@@ -16,10 +16,16 @@ class ButtonView: UIView {
 		textField.lineColor = .allieSeparator
 		textField.selectedLineColor = .allieSeparator
 		textField.selectedTitleColor = .allieSeparator
+		textField.titleFont = TextStyle.silkamedium14.font
+		textField.font = TextStyle.silkabold17.font
+		textField.textColor = .black
 		textField.autocorrectionType = .no
 		textField.keyboardType = .default
 		textField.autocapitalizationType = .none
 		textField.isUserInteractionEnabled = false
+		textField.titleFormatter = { text in
+			text
+		}
 		return textField
 	}()
 
@@ -49,7 +55,7 @@ class ButtonView: UIView {
 		                             bottomAnchor.constraint(equalToSystemSpacingBelow: textField.bottomAnchor, multiplier: 0.0)])
 		button.translatesAutoresizingMaskIntoConstraints = false
 		addSubview(button)
-		NSLayoutConstraint.activate([button.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 10.0),
+		NSLayoutConstraint.activate([button.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 0.0),
 		                             trailingAnchor.constraint(equalToSystemSpacingAfter: button.trailingAnchor, multiplier: 0.0),
 		                             bottomAnchor.constraint(equalToSystemSpacingBelow: button.bottomAnchor, multiplier: 0.0)])
 	}

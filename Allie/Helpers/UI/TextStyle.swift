@@ -35,8 +35,11 @@ enum TextStyle {
 	case silkaregular26
 	case silkaregular28
 	case silkamedium13
+	case silkamedium14
 	case silkamedium17
+	case silkamedium20
 	case silkasemibold14
+	case silkasemibold16
 	case silkasemibold17
 	case silkasemibold20
 	case silkasemibold24
@@ -80,8 +83,11 @@ enum TextStyle {
 		case .silkaregular26: return UIFont(name: "Silka-Regular", size: 26.0)!
 		case .silkaregular28: return UIFont(name: "Silka-Regular", size: 28.0)!
 		case .silkamedium13: return UIFont(name: "Silka-Medium", size: 13.0)!
+		case .silkamedium14: return UIFont(name: "Silka-Medium", size: 14.0)!
 		case .silkamedium17: return UIFont(name: "Silka-Medium", size: 17.0)!
+		case .silkamedium20: return UIFont(name: "Silka-Medium", size: 20.0)!
 		case .silkasemibold14: return UIFont(name: "Silka-SemiBold", size: 14.0)!
+		case .silkasemibold16: return UIFont(name: "Silka-SemiBold", size: 16.0)!
 		case .silkasemibold17: return UIFont(name: "Silka-SemiBold", size: 17.0)!
 		case .silkasemibold20: return UIFont(name: "Silka-SemiBold", size: 20.0)!
 		case .silkasemibold24: return UIFont(name: "Silka-SemiBold", size: 24.0)!

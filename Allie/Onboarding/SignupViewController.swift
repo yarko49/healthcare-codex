@@ -6,6 +6,7 @@
 //
 
 import SafariServices
+import SwiftUI
 import UIKit
 
 struct IllustartionItem: Hashable {
@@ -13,9 +14,7 @@ struct IllustartionItem: Hashable {
 	var title: String
 
 	static var defaultItems: [IllustartionItem] {
-		[IllustartionItem(image: UIImage(named: "Logo"), title: String.slide1Title),
-		 IllustartionItem(image: UIImage(named: "illustration2"), title: String.slide2Title),
-		 IllustartionItem(image: UIImage(named: "illustration3"), title: String.slide3Title)]
+		[IllustartionItem(image: UIImage(named: "Logo"), title: String.slide1Title)]
 	}
 }
 
@@ -24,38 +23,35 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 		controllerViewMode = .settings
 		super.viewDidLoad()
 		updateLabels()
-		view.backgroundColor = .allieWhite
+		view.backgroundColor = .mainBackground
 		view.addSubview(buttonStackView)
 		NSLayoutConstraint.activate([buttonStackView.widthAnchor.constraint(greaterThanOrEqualToConstant: buttonWidth),
-		                             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: buttonStackView.bottomAnchor, multiplier: 2.0)])
+		                             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
 
-		pageControl.numberOfPages = IllustartionItem.defaultItems.count
-		pageControl.currentPage = 0
-		buttonStackView.addArrangedSubview(pageControl)
 		buttonStackView.addArrangedSubview(appleIdButton)
 		buttonStackView.addArrangedSubview(googleSignInButton)
 		buttonStackView.addArrangedSubview(emailSignInButton)
 		textView.translatesAutoresizingMaskIntoConstraints = false
+		view.addSubview(textView)
 		textView.delegate = self
-		buttonStackView.addArrangedSubview(textView)
-		buttonStackView.addArrangedSubview(separatorView)
-		buttonStackView.addArrangedSubview(loginFlowButton)
+		NSLayoutConstraint.activate([textView.topAnchor.constraint(equalTo: buttonStackView.bottomAnchor, constant: 80.0),
+		                             textView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80.0),
+		                             textView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+		                             textView.leadingAnchor.constraint(equalTo: buttonStackView.leadingAnchor)])
 
 		configureCollectionView()
-		loginFlowButton.addTarget(self, action: #selector(loginFlowButtonTapped(_:)), for: .touchUpInside)
 		emailSignInButton.addTarget(self, action: #selector(authenticateEmail(_:)), for: .touchUpInside)
 		title = nil
+	}
+
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		navigationController?.setNavigationBarHidden(true, animated: false)
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		AnalyticsManager.send(event: .pageView, properties: [.name: "OnboardingView"])
-	}
-
-	@IBAction func loginFlowButtonTapped(_ sender: Any) {
-		let newFlow: AuthorizationFlowType = .signIn
-		authorizationFlowChangedAction?(newFlow)
 	}
 
 	private let collectionView: UICollectionView = {
@@ -72,16 +68,18 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 
 	private let cellRegistration = UICollectionView.CellRegistration<IllustrationCollectionViewCell, IllustartionItem> { cell, _, item in
 		cell.illustrationView.imageView.image = item.image
-		cell.illustrationView.titleLabel.text = item.title
+		let mutuableAttributedString = NSMutableAttributedString()
+		var lines: [String] = []
+		item.title.enumerateLines { line, _ in
+			lines.append(line)
+		}
+		let firstLine = lines[0].attributedString(style: TextStyle.silkabold36, foregroundColor: UIColor.black)
+		let secondLine = lines[1].capitalized.attributedString(style: TextStyle.silkabold16, foregroundColor: UIColor.allieGray, letterSpacing: 0.026)
+		mutuableAttributedString.append(firstLine)
+		mutuableAttributedString.append(NSAttributedString(string: "\n"))
+		mutuableAttributedString.append(secondLine)
+		cell.illustrationView.titleLabel.attributedText = mutuableAttributedString
 	}
-
-	let pageControl: UIPageControl = {
-		let view = UIPageControl(frame: .zero)
-		view.pageIndicatorTintColor = .allieLighterGray
-		view.currentPageIndicatorTintColor = .allieBlack
-		view.translatesAutoresizingMaskIntoConstraints = false
-		return view
-	}()
 
 	override func updateLabels() {
 		super.updateLabels()
@@ -133,37 +131,22 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 		return layout
 	}
 
-	private(set) lazy var separatorView: SeparatorView = {
-		let view = SeparatorView(frame: .zero)
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
-		return view
-	}()
-
 	private(set) lazy var emailSignInButton: UIButton = {
 		let button = UIButton.emailSignInButton
+		button.backgroundColor = .white
 		button.layer.cornerRadius = 8.0
 		button.layer.cornerCurve = .continuous
 		button.layer.borderColor = UIColor.black.cgColor
-		button.layer.borderWidth = 0.8
+		button.layer.borderWidth = 0.0
 		let title = authorizationFlowType.emailButtonTitle
 		button.setTitle(title, for: .normal)
-		button.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: .regular)
+		button.titleLabel?.font = TextStyle.silkasemibold16.font
 		button.setTitleColor(.black, for: .normal)
 		button.translatesAutoresizingMaskIntoConstraints = false
+		button.setImage(UIImage(systemName: "envelope"), for: .normal)
+		button.tintColor = .black
 		button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
-		button.setShadow()
-		return button
-	}()
-
-	private(set) lazy var loginFlowButton: UIButton = {
-		let button = UIButton(frame: .zero)
-		let title = NSLocalizedString("PLEASE_LOGIN", comment: "Please, Login")
-		button.setTitle(title, for: .normal)
-		button.setTitleColor(.allieBlack, for: .normal)
-		button.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: .semibold)
-		button.translatesAutoresizingMaskIntoConstraints = false
-		button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+		button.setShadow(shadowColor: .mainShadow, opacity: 0.7)
 		return button
 	}()
 
@@ -174,7 +157,7 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 		view.isScrollEnabled = false
 		view.textColor = .allieGray
 		view.dataDetectorTypes = [.link]
-		view.font = UIFont.systemFont(ofSize: 14.0)
+		view.font = TextStyle.silkamedium14.font
 		let message = NSLocalizedString("TERMS_OF_SERVICES_AND_PRIVACY_POLICY", comment: "Terms of Service & Privay Policy Message")
 		let mutableAttributedString = NSMutableAttributedString(string: message, attributes: [.foregroundColor: UIColor.allieGray, .font: UIFont.systemFont(ofSize: 14.0)])
 		var range = (message as NSString).range(of: NSLocalizedString("TERMS_OF_SERVICE", comment: "Terms of Service"))
@@ -197,9 +180,7 @@ class SignupViewController: SignupBaseViewController, UIViewControllerTransition
 }
 
 extension SignupViewController: UICollectionViewDelegate {
-	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-		pageControl.currentPage = indexPath.item
-	}
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {}
 }
 
 extension SignupViewController: UITextViewDelegate {

@@ -46,6 +46,9 @@ class NewDailyTasksPageViewModel: ObservableObject {
 				ALog.error("Fetching tasks for care plans", error: error)
 			case .success(let tasks):
 				let filtered = tasks.filter { task in
+					if task.groupIdentifierType == .link || task.groupIdentifierType == .featuredContent {
+						return false
+					}
 					if let chTask = self.careManager.tasks[task.id] {
 						return !chTask.isDeleted(for: date) && task.schedule.exists(onDay: date)
 					} else if let ockTask = task as? OCKTask {

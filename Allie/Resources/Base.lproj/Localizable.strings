@@ -38,7 +38,7 @@
 
 "SIGN_IN_WITH_APPLE" = "Sign in with Apple";
 
-"SIGN_IN_WITH_YOUR_EMAIL" = "Sign in with your email";
+"SIGN_IN_WITH_YOUR_EMAIL" = "Sign in with email";
 
 "SIGN_UP_WITH_GOOGLE" = "Sign up with Google";
 
@@ -579,6 +579,7 @@
 
 /* Activate Apple Health */
 "ACTIVATE_APPLE_HEALTH" = "Activate\nApple Health";
+"APPLE_HEALTH" = "Apple Health";
 
 /* This will allow Allie to compare different measurements to give you the right type of assistance. */
 "ACTIVATION_MESSAGE" = "This will allow Allie to access and store your Apple Health data and make it available to you in the Allie app";
@@ -615,6 +616,8 @@
 
 /* Choose your Healthcare Provider */
 "CHOOSE_PROVIDER.title" = "Choose your\nHealthcare Provider";
+
+"HEALTHCARE_PROVIDER" = "Healthcare Provider";
 
 /* Accept */
 "ACCEPT" = "Accept";

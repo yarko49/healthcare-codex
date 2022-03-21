@@ -8,9 +8,55 @@
 import UIKit
 
 class HealthViewController: SignupBaseViewController {
-	var notNowAction: AllieActionHandler?
 	var activateAction: AllieActionHandler?
 	var signInAction: AllieActionHandler?
+
+	let messageLabel: UILabel = {
+		let label = UILabel(frame: .zero)
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.textAlignment = .center
+		label.attributedText = NSLocalizedString("ACTIVATION_MESSAGE", comment: "This will allow Allie to access and store your Apple Health data and make it available to you in the Allie app").attributedString(style: .silkaregular17, foregroundColor: .black)
+		label.numberOfLines = 0
+		return label
+	}()
+
+	let centerLabel: UILabel = {
+		let label = UILabel(frame: .zero)
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.textAlignment = .center
+		label.attributedText = NSLocalizedString("APPLE_HEALTH", comment: "Apple Health").attributedString(style: .silkabold24, foregroundColor: .mainBlue)
+		label.numberOfLines = 0
+		return label
+	}()
+
+	let labelStackView: UIStackView = {
+		let stackView = UIStackView()
+		stackView.translatesAutoresizingMaskIntoConstraints = false
+		stackView.axis = .vertical
+		stackView.alignment = .center
+		stackView.distribution = .fill
+		stackView.spacing = 24
+		return stackView
+	}()
+
+	let imageView: UIImageView = {
+		let imageView = UIImageView()
+		imageView.translatesAutoresizingMaskIntoConstraints = false
+		imageView.contentMode = .scaleAspectFit
+		imageView.image = UIImage(named: "img-activate")
+		return imageView
+	}()
+
+	let activateButton: UIButton = {
+		let button = UIButton(type: .system)
+		button.translatesAutoresizingMaskIntoConstraints = false
+		let attrText = String.activate.attributedString(style: .silkabold16, foregroundColor: .allieWhite)
+		button.setAttributedTitle(attrText, for: .normal)
+		button.layer.cornerRadius = 8.0
+		button.layer.cornerCurve = .continuous
+		button.backgroundColor = .black
+		return button
+	}()
 
 	var screenFlowType: ScreenFlowType = .welcome {
 		didSet {
@@ -23,46 +69,23 @@ class HealthViewController: SignupBaseViewController {
 		navigationController?.setNavigationBarHidden(false, animated: false)
 		view.backgroundColor = .allieWhite
 
-		titleLabel.text = NSLocalizedString("ACTIVATE_APPLE_HEALTH", comment: "Activate\nApple Health")
-		titleLabel.numberOfLines = 2
-		view.addSubview(buttonStackView)
-		NSLayoutConstraint.activate([buttonStackView.widthAnchor.constraint(equalToConstant: buttonWidth),
-		                             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-		                             buttonStackView.topAnchor.constraint(equalToSystemSpacingBelow: labekStackView.bottomAnchor, multiplier: 5.0)])
+		title = String.activate
 
-		[appleHealthImageView, careKitImageView].forEach { view in
-			view.translatesAutoresizingMaskIntoConstraints = false
-			view.clipsToBounds = false
-			view.layer.shadowColor = UIColor(white: 0.0, alpha: 0.1).cgColor
-			view.layer.shadowOffset = CGSize(width: 0.0, height: 10.0)
-			view.layer.shadowRadius = 26.0
-			view.layer.shadowOpacity = 1
-		}
+		titleLabel.isHidden = true
 
-		view.addSubview(appleHealthImageView)
-		NSLayoutConstraint.activate([appleHealthImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -40),
-		                             appleHealthImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -75)])
+		[imageView, labelStackView, activateButton].forEach { view.addSubview($0) }
+		[centerLabel, messageLabel].forEach { labelStackView.addArrangedSubview($0) }
 
-		view.addSubview(careKitImageView)
-		NSLayoutConstraint.activate([careKitImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -40),
-		                             careKitImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 75)])
+		NSLayoutConstraint.activate([imageView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 20),
+		                             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
+		NSLayoutConstraint.activate([labelStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor),
+		                             labelStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+		                             labelStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50)])
+		NSLayoutConstraint.activate([activateButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+		                             activateButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+		                             activateButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24),
+		                             activateButton.heightAnchor.constraint(equalToConstant: 48)])
 
-		view.addSubview(messageLabel)
-		NSLayoutConstraint.activate([messageLabel.topAnchor.constraint(equalToSystemSpacingBelow: appleHealthImageView.bottomAnchor, multiplier: 5.0),
-		                             messageLabel.widthAnchor.constraint(equalToConstant: buttonWidth),
-		                             messageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
-
-		activationButtonsStackView.translatesAutoresizingMaskIntoConstraints = false
-		view.addSubview(activationButtonsStackView)
-		NSLayoutConstraint.activate([activationButtonsStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: activationButtonsStackView.trailingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: activationButtonsStackView.bottomAnchor, multiplier: 2.0)])
-
-		notNowButton.translatesAutoresizingMaskIntoConstraints = false
-		activationButtonsStackView.addArrangedSubview(notNowButton)
-		notNowButton.addTarget(self, action: #selector(notNowTapped(_:)), for: .touchUpInside)
-		activateButton.translatesAutoresizingMaskIntoConstraints = false
-		activationButtonsStackView.addArrangedSubview(activateButton)
 		activateButton.addTarget(self, action: #selector(activateTapped(_:)), for: .touchUpInside)
 	}
 
@@ -79,74 +102,8 @@ class HealthViewController: SignupBaseViewController {
 		AnalyticsManager.send(event: .pageView, properties: [.name: "HealthView", .screenFlowType: screenFlowType])
 	}
 
-	let messageLabel: UILabel = {
-		let label = UILabel(frame: .zero)
-		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = UIFont.systemFont(ofSize: 20.0, weight: .regular)
-		label.textColor = .allieGray
-		label.textAlignment = .center
-		label.text = NSLocalizedString("ACTIVATION_MESSAGE", comment: "This will allow Allie to access and store your Apple Health data and make it available to you in the Allie app")
-		label.numberOfLines = 0
-		return label
-	}()
-
-	let activationButtonsStackView: UIStackView = {
-		let view = UIStackView(frame: .zero)
-		view.axis = .horizontal
-		view.alignment = .center
-		view.distribution = .fillEqually
-		view.spacing = 16.0
-		return view
-	}()
-
-	let activateButton: UIButton = {
-		let button = UIButton(type: .system)
-		let attrText = String.activate.attributedString(style: .regular20, foregroundColor: .allieWhite, letterSpacing: 0.38)
-		button.setAttributedTitle(attrText, for: .normal)
-		button.layer.cornerRadius = 8.0
-		button.layer.cornerCurve = .continuous
-		button.backgroundColor = .allieGray
-		return button
-	}()
-
-	let notNowButton: UIButton = {
-		let button = UIButton(type: .system)
-		let attrText = String.notNow.attributedString(style: .regular20, foregroundColor: .allieGray, letterSpacing: 0.38)
-		button.setAttributedTitle(attrText, for: .normal)
-		button.layer.cornerRadius = 8.0
-		button.layer.cornerCurve = .continuous
-		button.layer.borderWidth = 1
-		button.layer.borderColor = UIColor.allieGray.cgColor
-		return button
-	}()
-
-	let appleHealthImageView: UIImageView = {
-		let image = UIImage(named: "AppleHealth")
-		let view = UIImageView(frame: .zero)
-		view.image = image
-		view.contentMode = .scaleAspectFill
-		view.heightAnchor.constraint(equalToConstant: 125.0).isActive = true
-		view.widthAnchor.constraint(equalToConstant: 125.0).isActive = true
-		return view
-	}()
-
-	let careKitImageView: UIImageView = {
-		let image = UIImage(named: "CareKit")
-		let view = UIImageView(frame: .zero)
-		view.image = image
-		view.contentMode = .scaleAspectFill
-		view.heightAnchor.constraint(equalToConstant: 125.0).isActive = true
-		view.widthAnchor.constraint(equalToConstant: 125.0).isActive = true
-		return view
-	}()
-
 	private func configureView() {
-		title = screenFlowType.viewTitle
-		activationButtonsStackView.isHidden = screenFlowType != .healthKit
-	}
-
-	@IBAction func notNowTapped(_ sender: Any) {
-		notNowAction?()
+		activateButton.isHidden = screenFlowType != .healthKit
 	}
 
 	@IBAction func activateTapped(_ sender: Any) {

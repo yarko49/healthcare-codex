@@ -7,62 +7,79 @@
 
 import UIKit
 
-class ConnectProviderViewController: UIViewController {
+class ConnectProviderViewController: SignupBaseViewController {
 	var showProviderList: AllieVoidCompletion?
+
+	let messageLabel: UILabel = {
+		let label = UILabel(frame: .zero)
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.textAlignment = .center
+		label.attributedText = NSLocalizedString("CONNECT_PROVIDER.title", comment: "Connect to your healthcare provider to get the full benefits of Allie").attributedString(style: .silkaregular17, foregroundColor: .black)
+		label.numberOfLines = 0
+		return label
+	}()
+
+	let centerLabel: UILabel = {
+		let label = UILabel(frame: .zero)
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.textAlignment = .center
+		label.attributedText = NSLocalizedString("HEALTHCARE_PROVIDER", comment: "Healthcare Provider").attributedString(style: .silkabold24, foregroundColor: .mainBlue)
+		label.numberOfLines = 0
+		return label
+	}()
+
+	let labelStackView: UIStackView = {
+		let stackView = UIStackView()
+		stackView.translatesAutoresizingMaskIntoConstraints = false
+		stackView.axis = .vertical
+		stackView.alignment = .center
+		stackView.distribution = .fill
+		stackView.spacing = 24
+		return stackView
+	}()
+
+	let imageView: UIImageView = {
+		let imageView = UIImageView()
+		imageView.translatesAutoresizingMaskIntoConstraints = false
+		imageView.contentMode = .scaleAspectFit
+		imageView.image = UIImage(named: "img-connect")
+		return imageView
+	}()
+
+	let activateButton: UIButton = {
+		let button = UIButton(type: .system)
+		button.translatesAutoresizingMaskIntoConstraints = false
+		let attrText = NSLocalizedString("CONNECT", comment: "Connect").attributedString(style: .silkabold16, foregroundColor: .allieWhite)
+		button.setAttributedTitle(attrText, for: .normal)
+		button.layer.cornerRadius = 8.0
+		button.layer.cornerCurve = .continuous
+		button.backgroundColor = .black
+		return button
+	}()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .allieWhite
-		titleLabel.translatesAutoresizingMaskIntoConstraints = false
-		view.addSubview(titleLabel)
-		NSLayoutConstraint.activate([titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 3.0),
-		                             titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 2.0)])
+		titleLabel.isHidden = true
+		navigationController?.setNavigationBarHidden(false, animated: false)
 
-		containerView.translatesAutoresizingMaskIntoConstraints = false
-		view.addSubview(containerView)
-		NSLayoutConstraint.activate([containerView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 6.0),
-		                             containerView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: containerView.trailingAnchor, multiplier: 2.0)])
-		connectView.translatesAutoresizingMaskIntoConstraints = false
-		view.addSubview(connectView)
-		NSLayoutConstraint.activate([connectView.topAnchor.constraint(equalToSystemSpacingBelow: containerView.topAnchor, multiplier: 2.0),
-		                             connectView.leadingAnchor.constraint(equalToSystemSpacingAfter: containerView.leadingAnchor, multiplier: 2.0),
-		                             containerView.trailingAnchor.constraint(equalToSystemSpacingAfter: connectView.trailingAnchor, multiplier: 2.0),
-		                             containerView.bottomAnchor.constraint(equalToSystemSpacingBelow: connectView.bottomAnchor, multiplier: 2.0)])
-		connectView.connectButton.addTarget(self, action: #selector(showProviderSelector(_:)), for: .touchUpInside)
+		title = NSLocalizedString("CONNECT", comment: "Connect")
+
+		activateButton.addTarget(self, action: #selector(showProviderSelector(_:)), for: .touchUpInside)
+
+		[imageView, labelStackView, activateButton].forEach { view.addSubview($0) }
+		[centerLabel, messageLabel].forEach { labelStackView.addArrangedSubview($0) }
+
+		NSLayoutConstraint.activate([imageView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 20),
+		                             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
+		NSLayoutConstraint.activate([labelStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor),
+		                             labelStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+		                             labelStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50)])
+		NSLayoutConstraint.activate([activateButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+		                             activateButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+		                             activateButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24),
+		                             activateButton.heightAnchor.constraint(equalToConstant: 48)])
 	}
-
-	let titleLabel: UILabel = {
-		let label = UILabel(frame: .zero)
-		label.textAlignment = .center
-		label.text = NSLocalizedString("WELCOME_TO_ALLIE", comment: "Welcome to Allie")
-		label.textColor = .allieGray
-		label.font = UIFont.systemFont(ofSize: 20.0, weight: .bold)
-		return label
-	}()
-
-	let containerView: UIView = {
-		let view = UIView(frame: .zero)
-		view.backgroundColor = .allieWhite
-		view.heightAnchor.constraint(equalToConstant: 380.0).isActive = true
-		view.layer.cornerCurve = .continuous
-		view.layer.cornerRadius = 11.0
-		view.layer.shadowColor = UIColor.black.cgColor
-		view.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
-		view.layer.shadowRadius = 5.0
-		view.layer.shadowOpacity = 0.2
-		view.layer.masksToBounds = false
-		return view
-	}()
-
-	let connectView: ConnectProviderView = {
-		let view = ConnectProviderView(frame: .zero)
-		view.axis = .vertical
-		view.distribution = .fill
-		view.alignment = .fill
-		return view
-	}()
 
 	@objc func showProviderSelector(_ sender: Any?) {
 		showProviderList?()

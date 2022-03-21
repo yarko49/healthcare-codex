@@ -11,16 +11,12 @@ import UIKit
 class EmailSignupViewController: SignupBaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		titleLabel.text = NSLocalizedString("SIGN_UP", comment: "Sign up")
+		titleLabel.isHidden = true
+		title = "Sign in with email"
 		view.addSubview(buttonStackView)
 		NSLayoutConstraint.activate([buttonStackView.widthAnchor.constraint(equalToConstant: buttonWidth),
 		                             buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 		                             buttonStackView.topAnchor.constraint(equalToSystemSpacingBelow: labekStackView.bottomAnchor, multiplier: 8.0)])
-
-		let imageView = UIImageView(image: UIImage(named: "icon-email-circle"))
-		imageView.translatesAutoresizingMaskIntoConstraints = false
-		buttonStackView.alignment = .center
-		buttonStackView.addArrangedSubview(imageView)
 
 		view.addSubview(emailTextField)
 		NSLayoutConstraint.activate([emailTextField.widthAnchor.constraint(equalToConstant: buttonWidth),
@@ -33,7 +29,7 @@ class EmailSignupViewController: SignupBaseViewController {
 		                             bottomButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: bottomButton.bottomAnchor, multiplier: 2.0)])
 		bottomButton.addTarget(self, action: #selector(signupWithEmail(_:)), for: .touchUpInside)
-		bottomButton.setTitle(NSLocalizedString("SIGN_UP", comment: "Sign Up"), for: .normal)
+		bottomButton.setAttributedTitle(NSLocalizedString("LOGIN", comment: "LOGIN").attributedString(style: .silkabold16, foregroundColor: .white), for: .normal)
 	}
 
 	let emailTextField: SkyFloatingLabelTextField = {
@@ -41,17 +37,22 @@ class EmailSignupViewController: SignupBaseViewController {
 		textField.translatesAutoresizingMaskIntoConstraints = false
 		textField.heightAnchor.constraint(equalToConstant: 48.0).isActive = true
 		textField.placeholder = NSLocalizedString("EMAIL", comment: "Email")
-		textField.title = NSLocalizedString("EMAIL_ADDRESS", comment: "Email address")
+		textField.title = NSLocalizedString("EMAIL", comment: "Email")
+		textField.titleFont = TextStyle.silkamedium14.font
+		textField.font = TextStyle.silkabold17.font
 		textField.errorColor = .systemRed
 		textField.lineColor = .allieSeparator
 		textField.selectedLineColor = .allieLighterGray
 		textField.lineHeight = 1.0
 		textField.selectedLineHeight = 1.0
-		textField.textColor = .allieGray
+		textField.textColor = .black
 		textField.keyboardType = .emailAddress
 		textField.autocorrectionType = .no
 		textField.autocapitalizationType = .none
 		textField.selectedTitleColor = .allieLighterGray
+		textField.titleFormatter = { text in
+			text
+		}
 		return textField
 	}()
 
@@ -60,6 +61,11 @@ class EmailSignupViewController: SignupBaseViewController {
 			return
 		}
 		authorizeWithEmail?(email, .signUp)
+	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		navigationController?.setNavigationBarHidden(false, animated: true)
 	}
 
 	@IBAction func textFieldDidChange(_ textField: UITextField) {
@@ -75,6 +81,6 @@ class EmailSignupViewController: SignupBaseViewController {
 			}
 		}
 
-		bottomButton.backgroundColor = bottomButton.isEnabled ? .allieGray : UIColor.allieGray.withAlphaComponent(0.5)
+		bottomButton.backgroundColor = bottomButton.isEnabled ? .black : UIColor.allieGray.withAlphaComponent(0.5)
 	}
 }

@@ -50,6 +50,9 @@ class LoginViewController: SignupBaseViewController {
 		textField.autocorrectionType = .no
 		textField.autocapitalizationType = .none
 		textField.selectedTitleColor = .allieLighterGray
+		textField.titleFormatter = { text in
+			text
+		}
 		return textField
 	}()
 

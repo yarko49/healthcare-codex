@@ -7,6 +7,7 @@
 
 import AuthenticationServices
 import Combine
+import SwiftUI
 import UIKit
 
 enum ControllerViewMode {
@@ -38,7 +39,7 @@ class SignupBaseViewController: UIViewController {
 	var emailAuthorizationAction: ((AuthorizationFlowType) -> Void)?
 	var authorizationFlowChangedAction: ((AuthorizationFlowType) -> Void)?
 
-	var authorizationFlowType: AuthorizationFlowType = .signUp {
+	var authorizationFlowType: AuthorizationFlowType = .signIn {
 		didSet {
 			updateLabels()
 		}
@@ -107,14 +108,26 @@ class SignupBaseViewController: UIViewController {
 
 		appleIdButton.addTarget(self, action: #selector(authenticateApple(_:)), for: .touchUpInside)
 		googleSignInButton.addTarget(self, action: #selector(authenticateGoogle(_:)), for: .touchUpInside)
+
+		setupNavigationView()
 	}
 
-	private(set) lazy var appleIdButton: ASAuthorizationAppleIDButton = {
-		let button = ASAuthorizationAppleIDButton(type: self.authorizationFlowType.appleAuthButtonType, style: .whiteOutline)
-		button.cornerRadius = 8.0
+	private(set) lazy var appleIdButton: UIButton = {
+		let button = UIButton.googleSignInButton
+		button.backgroundColor = .white
+		button.layer.cornerRadius = 8.0
 		button.layer.cornerCurve = .continuous
+		let title = authorizationFlowType.appleButtonTitle
+		button.setTitle(title, for: .normal)
+		button.titleLabel?.font = TextStyle.silkasemibold16.font
+		button.setTitleColor(.black, for: .normal)
+		button.translatesAutoresizingMaskIntoConstraints = false
 		button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
-		button.setShadow()
+		button.layer.borderColor = UIColor.black.cgColor
+		button.layer.borderWidth = 0
+		button.setImage(UIImage(systemName: "applelogo"), for: .normal)
+		button.tintColor = .black
+		button.setShadow(shadowColor: .mainShadow, opacity: 0.7)
 		return button
 	}()
 
@@ -124,17 +137,18 @@ class SignupBaseViewController: UIViewController {
 
 	private(set) lazy var googleSignInButton: UIButton = {
 		let button = UIButton.googleSignInButton
+		button.backgroundColor = .white
 		button.layer.cornerRadius = 8.0
 		button.layer.cornerCurve = .continuous
 		let title = authorizationFlowType.googleButtonTitle
 		button.setTitle(title, for: .normal)
-		button.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: .regular)
+		button.titleLabel?.font = TextStyle.silkasemibold16.font
 		button.setTitleColor(.black, for: .normal)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
 		button.layer.borderColor = UIColor.black.cgColor
-		button.layer.borderWidth = 0.8
-		button.setShadow()
+		button.layer.borderWidth = 0
+		button.setShadow(shadowColor: .mainShadow, opacity: 0.7)
 		return button
 	}()
 
@@ -156,5 +170,34 @@ class SignupBaseViewController: UIViewController {
 
 	func updateLabels() {
 		googleSignInButton.setTitle(authorizationFlowType.googleButtonTitle, for: .normal)
+		appleIdButton.setTitle(authorizationFlowType.appleButtonTitle, for: .normal)
+	}
+
+	private func setupNavigationView() {
+		let navBar = UINavigationBar.appearance()
+		let appearance = UINavigationBarAppearance()
+		appearance.configureWithOpaqueBackground()
+		appearance.shadowColor = .clear
+		appearance.shadowImage = UIImage()
+		appearance.backgroundColor = .white
+		appearance.titleTextAttributes = [.font: TextStyle.silkabold24.font, .foregroundColor: UIColor.black]
+		navBar.tintColor = .white
+		navBar.barTintColor = .white
+		navBar.scrollEdgeAppearance = appearance
+		navBar.standardAppearance = appearance
+
+		let backButton = UIButton()
+		backButton.frame = CGRect(x: 0, y: -6, width: 44, height: 44)
+		backButton.backgroundColor = .mainBlue
+		backButton.layer.cornerRadius = 22.0
+		backButton.setImage(UIImage(systemName: "arrow.left"), for: .normal)
+		backButton.tintColor = .white
+		backButton.addTarget(self, action: #selector(onClickBackButton), for: .touchUpInside)
+
+		navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+	}
+
+	@objc func onClickBackButton() {
+		navigationController?.popViewController()
 	}
 }

@@ -28,23 +28,23 @@ class AppCoordinator: BaseCoordinator {
 
 		let todayController: UIViewController
 		let chatController: UIViewController
-		if let organizations = keychain.organizations, organizations.registered.isEmpty {
-			var controller = Self.connectProviderController
-			controller.showProviderList = { [weak self] in
-				self?.showProviderList()
-			}
-			todayController = controller
-			// second Instance
-			controller = Self.connectProviderController
-			controller.showProviderList = { [weak self] in
-				self?.showProviderList()
-			}
-			chatController = controller
-		} else {
+//		if let organizations = keychain.organizations, organizations.registered.isEmpty {
+//			var controller = Self.connectProviderController
+//			controller.showProviderList = { [weak self] in
+//				self?.showProviderList()
+//			}
+//			todayController = controller
+//			// second Instance
+//			controller = Self.connectProviderController
+//			controller.showProviderList = { [weak self] in
+//				self?.showProviderList()
+//			}
+//			chatController = controller
+//		} else {
 //			todayController = Self.dailyTasksController
-			todayController = Self.newDailyTasksController
-			chatController = Self.conversationsListViewController
-		}
+		todayController = Self.newDailyTasksController
+		chatController = Self.conversationsListViewController
+//		}
 		self.todayNavController = Self.todayNavController(rootViewController: todayController)
 		self.conversationsNavController = Self.conversationsNavController(rootViewController: chatController)
 //		self.tabBarController = UITabBarController()
@@ -145,32 +145,32 @@ class AppCoordinator: BaseCoordinator {
 	}
 
 	func updateControllers(organizations: CMOrganizations?) {
-		guard let organizations = organizations else {
-			return
-		}
+//		guard let organizations = organizations else {
+//			return
+//		}
 
-		if organizations.registered.isEmpty {
-			let todayController = Self.connectProviderController
-			todayController.showProviderList = { [weak self] in
-				self?.showProviderList()
-			}
-			// second Instance
-			let chatController = Self.connectProviderController
-			chatController.showProviderList = { [weak self] in
-				self?.showProviderList()
-			}
-			// swap chat/today view controller to select organization
-			todayNavController?.setViewControllers([todayController], animated: true)
-			conversationsNavController?.setViewControllers([chatController], animated: true)
-		} else {
+//		if organizations.registered.isEmpty {
+//			let todayController = Self.connectProviderController
+//			todayController.showProviderList = { [weak self] in
+//				self?.showProviderList()
+//			}
+//			// second Instance
+//			let chatController = Self.connectProviderController
+//			chatController.showProviderList = { [weak self] in
+//				self?.showProviderList()
+//			}
+//			// swap chat/today view controller to select organization
+//			todayNavController?.setViewControllers([todayController], animated: true)
+//			conversationsNavController?.setViewControllers([chatController], animated: true)
+//		} else {
 //			let todayViewController = Self.dailyTasksController
-			let todayViewController = Self.newDailyTasksController
-			todayNavController?.setViewControllers([todayViewController], animated: true)
-			DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) { [weak todayViewController] in
-				todayViewController?.reload()
-			}
-			conversationsNavController?.setViewControllers([Self.conversationsListViewController], animated: true)
+		let todayViewController = Self.newDailyTasksController
+		todayNavController?.setViewControllers([todayViewController], animated: true)
+		DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) { [weak todayViewController] in
+			todayViewController?.reload()
 		}
+		conversationsNavController?.setViewControllers([Self.conversationsListViewController], animated: true)
+//		}
 	}
 
 	func showProviderList() {

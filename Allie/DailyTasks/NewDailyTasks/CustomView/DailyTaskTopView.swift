@@ -5,6 +5,9 @@
 //  Created by Onseen on 1/25/22.
 //
 
+import CareKit
+import CareModel
+import CodexFoundation
 import UIKit
 
 protocol DailyTaskTopViewDelegate: AnyObject {
@@ -14,6 +17,8 @@ protocol DailyTaskTopViewDelegate: AnyObject {
 }
 
 class DailyTaskTopView: UIView {
+	@Injected(\.careManager) var careManager: CareManager
+
 	weak var delegate: DailyTaskTopViewDelegate?
 	private var selectedDate: Date = .init()
 
@@ -35,7 +40,6 @@ class DailyTaskTopView: UIView {
 	private var greetingLabel: UILabel = {
 		let greetingLabel = UILabel()
 		greetingLabel.translatesAutoresizingMaskIntoConstraints = false
-		greetingLabel.attributedText = "Good morning Susan!".attributedString(style: .silkabold20, foregroundColor: .black)
 		return greetingLabel
 	}()
 
@@ -129,6 +133,12 @@ class DailyTaskTopView: UIView {
 		greetingLabel.centerXAnchor.constraint(equalTo: greetingView.centerXAnchor).isActive = true
 		greetingLabel.leadingAnchor.constraint(equalTo: greetingView.leadingAnchor, constant: 32).isActive = true
 
+		var greetingPatient = ""
+		if let patientName = careManager.patient?.displayName {
+			greetingPatient = "\(patientName)!"
+		}
+		greetingLabel.attributedText = "\(getDateState()) \(greetingPatient)".attributedString(style: .silkabold20, foregroundColor: .black)
+
 		helloLabel.topAnchor.constraint(equalTo: greetingLabel.bottomAnchor, constant: 12.0).isActive = true
 		helloLabel.leadingAnchor.constraint(equalTo: greetingView.leadingAnchor, constant: 32).isActive = true
 		helloLabel.centerXAnchor.constraint(equalTo: greetingView.centerXAnchor).isActive = true
@@ -217,6 +227,20 @@ class DailyTaskTopView: UIView {
 					}
 				}
 			}
+		}
+	}
+
+	private func getDateState() -> String {
+		let hour = Calendar.current.component(.hour, from: Date())
+		switch hour {
+		case 0 ..< 12:
+			return DateState.morning.greetings
+		case 12 ..< 16:
+			return DateState.afternoon.greetings
+		case 16 ..< 24:
+			return DateState.evening.greetings
+		default:
+			return DateState.morning.greetings
 		}
 	}
 
@@ -349,5 +373,20 @@ class FeelingButton: UIControl {
 		isSelectedControl = true
 		imageView.image = selectedImage
 		clickCallback()
+	}
+}
+
+enum DateState {
+	case morning, afternoon, evening
+
+	var greetings: String {
+		switch self {
+		case .morning:
+			return "Good morning"
+		case .afternoon:
+			return "Good afternoon"
+		case .evening:
+			return "Good evening"
+		}
 	}
 }

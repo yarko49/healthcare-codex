@@ -27,6 +27,15 @@ extension AuthorizationFlowType {
 		}
 	}
 
+	var appleButtonTitle: String {
+		switch self {
+		case .signIn:
+			return String.signInWithApple
+		case .signUp:
+			return String.signUpWithApple
+		}
+	}
+
 	var emailButtonTitle: String {
 		switch self {
 		case .signIn:
