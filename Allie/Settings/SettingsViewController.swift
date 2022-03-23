@@ -15,7 +15,7 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 	let rowHeight: CGFloat = 74
-	let footerHeight: CGFloat = 160
+	let footerHeight: CGFloat = 180
 
 	private let hud: JGProgressHUD = {
 		let view = JGProgressHUD(style: .dark)
@@ -45,6 +45,7 @@ class SettingsViewController: UIViewController {
 		return view
 	}()
 
+    /// Head
 	private var navigationView: UIView!
 
 	private var navTitle: UILabel = {
@@ -52,6 +53,16 @@ class SettingsViewController: UIViewController {
 		navTitle.translatesAutoresizingMaskIntoConstraints = false
 		navTitle.attributedText = NSLocalizedString("SETTINGS", comment: "Settings").attributedString(style: .silkabold24, foregroundColor: .mainBlue)
 		return navTitle
+    }()
+    
+    /// Origin
+	var stackView: UIStackView = {
+		let view = UIStackView()
+		view.spacing = 0
+		view.axis = .vertical
+		view.distribution = .fill
+		view.alignment = .fill
+		return view
 	}()
 
 	var dataSource: UITableViewDiffableDataSource<Int, SettingsType>!
@@ -61,30 +72,30 @@ class SettingsViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		title = String.settings
 		view.backgroundColor = .mainBackground
-		tableView.translatesAutoresizingMaskIntoConstraints = false
-		view.addSubview(tableView)
-		NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-		                             tableView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
-		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: tableView.trailingAnchor, multiplier: 0.0),
-		                             tableView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.bottomAnchor, multiplier: 0.0)])
-		tableView.register(SettingCell.self, forCellReuseIdentifier: SettingCell.cellID)
+
+		[settingsFooterView, tableView, stackView].forEach { view in
+			view.translatesAutoresizingMaskIntoConstraints = false
+		}
+		view.addSubview(stackView)
+		NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 0.0),
+		                             stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 0.0),
+		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 0.0),
+		                             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: stackView.bottomAnchor, multiplier: 10.0)])
+
+		settingsFooterView.heightAnchor.constraint(equalToConstant: footerHeight).isActive = true
+		stackView.addArrangedSubview(tableView)
+		stackView.addArrangedSubview(settingsFooterView)
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.reuseIdentifier)
+		tableView.register(SettingCell.self, forCellReuseIdentifier: SettingCell.reuseIdentifier)
 		settingsFooterView.delegate = self
+
 		dataSource = UITableViewDiffableDataSource<Int, SettingsType>(tableView: tableView, cellProvider: { tableView, indexPath, type -> UITableViewCell? in
-			if indexPath.section == 0 {
-				if let cell = tableView.dequeueReusableCell(withIdentifier: SettingCell.cellID, for: indexPath) as? SettingCell {
-					cell.selectionStyle = .none
-					cell.configureCell(type: type)
-					return cell
-				}
-				fatalError("could not dequee cell")
-			} else {
-				let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.reuseIdentifier, for: indexPath)
-				cell.selectionStyle = .none
-				cell.backgroundColor = .clear
-				return cell
-			}
+			let cell = tableView.dequeueReusableCell(withIdentifier: SettingCell.reuseIdentifier, for: indexPath) as? SettingCell
+			cell?.selectionStyle = .none
+			cell?.configureCell(type: type)
+			return cell
 		})
 		tableView.rowHeight = rowHeight
 		tableView.delegate = self
@@ -201,18 +212,6 @@ extension SettingsViewController: UITableViewDelegate {
 			showOrganizations()
 		case .logging:
 			showLogging()
-		}
-	}
-
-	func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-		if section == 0 {
-			let footerView = settingsFooterView
-			settingsFooterView.delegate = self
-			return footerView
-		} else {
-			let footerView = UIView()
-			footerView.backgroundColor = .clear
-			return footerView
 		}
 	}
 

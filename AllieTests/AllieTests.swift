@@ -7,6 +7,7 @@
 
 @testable import Allie
 import CareKitStore
+import CareModel
 import CodexFoundation
 import Combine
 import Foundation
@@ -17,23 +18,8 @@ class AllieTests: XCTestCase {
 	var client: APIClient?
 	var cancellables: Set<AnyCancellable> = []
 	static func loadTestData(fileName: String) -> Data? {
-		let components = fileName.components(separatedBy: ".")
-		assert(components.count == 2)
-		guard let url = Bundle(for: AllieTests.self).url(forResource: components[0], withExtension: components[1]) else {
-			return nil
-		}
-		guard let data = try? Data(contentsOf: url) else {
-			return nil
-		}
-		return data
-	}
-
-	static func loadTestData(fileName: String, withExtension: String) throws -> Data {
-		guard let url = Bundle(for: AllieTests.self).url(forResource: fileName, withExtension: withExtension) else {
-			throw AllieError.missing("File does not exist")
-		}
-		let data = try Data(contentsOf: url)
-		return data
+		let bundle = Bundle(for: AllieTests.self)
+		return try? bundle.loadTestData(fileName: fileName)
 	}
 
 	override func setUpWithError() throws {
@@ -148,7 +134,7 @@ class AllieTests: XCTestCase {
 		let decoder = CHFJSONDecoder()
 		let carePlanResponse = try decoder.decode(CHCarePlanResponse.self, from: carePlanResponseData!)
 		let storeManager = CareManager.shared
-		_ = try await storeManager.process(carePlanResponse: carePlanResponse)
+		_ = try await storeManager.process(newCarePlanResponse: carePlanResponse)
 	}
 
 	func testImageDownload() throws {

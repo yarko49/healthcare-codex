@@ -84,9 +84,16 @@ class SettingsFooterView: UIView {
 	}
 
 	private func localize() {
+		let attributedString = NSMutableAttributedString()
+
 		if let version = Bundle.main.ch_appVersion {
-			appVersionLabel.attributedText = String.version(version).attributedString(style: .regular17, foregroundColor: UIColor.mainBlue, letterSpacing: -0.41)
+			attributedString.append(String.version(version).attributedString(style: .regular17, foregroundColor: UIColor.mainBlue, letterSpacing: -0.41))
 		}
+
+		if let buildNumber = Bundle.main.ch_buildNumber {
+			attributedString.append(" (\(buildNumber))".attributedString(style: .regular17, foregroundColor: UIColor.mainBlue, letterSpacing: -0.41))
+		}
+		appVersionLabel.attributedText = attributedString
 	}
 
 	func setup() {

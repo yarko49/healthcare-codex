@@ -10,12 +10,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /** Log Level */
-typedef NS_ENUM(NSUInteger, OHQLogLevel) {
-    OHQLogLevelError,
-    OHQLogLevelWarning,
-    OHQLogLevelInfo,
-    OHQLogLevelDebug,
-    OHQLogLevelVerbose,
+typedef NS_ENUM (NSUInteger, OHQLogLevel) {
+	OHQLogLevelError,
+	OHQLogLevelWarning,
+	OHQLogLevelInfo,
+	OHQLogLevelDebug,
+	OHQLogLevelVerbose,
 };
 
 @interface OHQLogStore : NSObject

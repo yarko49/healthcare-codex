@@ -7,6 +7,7 @@
 
 @testable import Allie
 import BluetoothService
+import CareModel
 import CodexFoundation
 import CoreBluetooth
 import XCTest

@@ -159,7 +159,8 @@ public struct CHTask: Codable, Identifiable, AnyUserInfoExtensible, AnyItemDelet
 	public static func == (lhs: CHTask, rhs: CHTask) -> Bool {
 		lhs.id == rhs.id && lhs.title == rhs.title && lhs.instructions == rhs.instructions && lhs.impactsAdherence == rhs.impactsAdherence &&
 			lhs.scheduleElements == rhs.scheduleElements && lhs.groupIdentifier == rhs.groupIdentifier && lhs.userInfo == rhs.userInfo && lhs.asset == rhs.asset &&
-			lhs.notes == rhs.notes && lhs.healthKitLinkage == rhs.healthKitLinkage && lhs.schedule == rhs.schedule && rhs.links == rhs.links && lhs.isHidden == rhs.isHidden
+			lhs.notes == rhs.notes && lhs.healthKitLinkage == rhs.healthKitLinkage && lhs.schedule == rhs.schedule && rhs.links == rhs.links && lhs.isHidden == rhs.isHidden &&
+			lhs.effectiveDate == rhs.effectiveDate
 	}
 
 	private enum CodingKeys: String, CodingKey {

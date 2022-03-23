@@ -43,6 +43,7 @@ class HealthKitManager {
 	var sequenceNumbers = BGMSequenceNumbers<Int>()
 
 	typealias SampleCompletion = (Result<[HKSample], Error>) -> Void
+
 	func authorizeHealthKit(completion: @escaping (Bool, Error?) -> Void) {
 		guard HKHealthStore.isHealthDataAvailable() else {
 			completion(false, HealthKitManagerError.notAvailableOnDevice)
@@ -61,7 +62,7 @@ class HealthKitManager {
 			return
 		}
 
-		let healthKitTypesToWrite: Set<HKSampleType> = [bodyMass, heartRate, bloodPressureSystolic, bloodPressureDiastolic, bloodGloucose, insulinDelivery]
+		let healthKitTypesToWrite: Set<HKSampleType> = [bodyMass, heartRate, restingHeartRate, bloodPressureSystolic, bloodPressureDiastolic, bloodGloucose, insulinDelivery, stepCount]
 		let healthKitTypesToRead: Set<HKQuantityType> = [bodyMass, heartRate, restingHeartRate, bloodPressureDiastolic, bloodPressureSystolic, stepCount, bloodGloucose, insulinDelivery]
 		healthStore.requestAuthorization(toShare: healthKitTypesToWrite, read: healthKitTypesToRead) { [weak self] success, error in
 			if success {

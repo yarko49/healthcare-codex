@@ -9,8 +9,6 @@ import Foundation
 import UIKit
 
 class SettingCell: UITableViewCell {
-	static let cellID: String = "SettingCell"
-
 	private var container: UIView = {
 		let container = UIView()
 		container.translatesAutoresizingMaskIntoConstraints = false

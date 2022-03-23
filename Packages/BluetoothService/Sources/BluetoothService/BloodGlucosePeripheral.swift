@@ -13,7 +13,7 @@ import os.log
 private extension OSLog {
 	static let device = {
 		#if DEBUG
-		OSLog(subsystem: Bundle(for: BloodGlucosePeripheral.self).bundleIdentifier!, category: "AKDeviceManager")
+		OSLog(subsystem: Bundle(for: BloodGlucosePeripheral.self).bundleIdentifier!, category: "BloodGlucosePeripheral")
 		#else
 		OSLog.disabled
 		#endif
@@ -21,12 +21,15 @@ private extension OSLog {
 }
 
 public protocol BloodGlucosePeripheralDataSource {
-	func peripheralStartSequenceNumber(_ peripheral: Peripheral) async -> Int?
+	func peripheralStartSequenceNumber(_ peripheral: Peripheral, completion: @escaping (Result<Int, Error>) -> Void)
 	func device(_ device: BloodGlucosePeripheral, didReceive readings: [Int: BloodGlucoseReading])
 }
 
 public extension BloodGlucosePeripheralDataSource {
-	func peripheralStartSequenceNumber(_ peripheral: Peripheral) async -> Int? { nil }
+	func peripheralStartSequenceNumber(_ peripheral: Peripheral, completion: @escaping (Result<Int, Error>) -> Void) {
+		completion(.failure(URLError(.unknown)))
+	}
+
 	func device(_ device: BloodGlucosePeripheral, didReceive readings: [Int: BloodGlucoseReading]) {}
 }
 
@@ -101,13 +104,18 @@ public class BloodGlucosePeripheral: Peripheral {
 
 			if characteristic.uuid == GATTRecordAccessControlPoint.uuid {
 				racpCharacteristic = characteristic
-				Task.detached(priority: .userInitiated) { [weak self] in
+				dataSource?.peripheralStartSequenceNumber(self, completion: { [weak self] result in
 					guard let strongSelf = self else {
 						return
 					}
-					let startIndex = await strongSelf.dataSource?.peripheralStartSequenceNumber(strongSelf)
-					strongSelf.fetchRecords(startSequenceNumber: startIndex)
-				}
+
+					switch result {
+					case .failure(let error):
+						os_log(.error, "Error fetching sequence number %@", error.localizedDescription)
+					case .success(let startIndex):
+						strongSelf.fetchRecords(startSequenceNumber: startIndex)
+					}
+				})
 			}
 		}
 	}

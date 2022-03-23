@@ -20,7 +20,7 @@ class CloudDevicesTests: XCTestCase {
 	}
 
 	func testExample() throws {
-		let downloaded = try AllieTests.loadTestData(fileName: "CloudDevices", withExtension: "json")
+		let downloaded = try Bundle(for: CloudDevicesTests.self).loadTestData(fileName: "CloudDevices", withExtension: "json")
 		let cloudDevices = try CHFJSONDecoder().decode(CMCloudDevices.self, from: downloaded)
 		XCTAssertEqual(cloudDevices.devices.count, 2)
 		XCTAssertEqual(cloudDevices.registrations.count, 1)
