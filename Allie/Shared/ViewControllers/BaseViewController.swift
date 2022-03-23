@@ -148,8 +148,6 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 	}
 
 	func setupNavigationView() {
-		UINavigationBar.applyAppearance()
-
 		navigationView = UIView(frame: CGRect(x: 16, y: 0, width: view.frame.size.width - 32, height: navigationController!.navigationBar.frame.size.height))
 		navigationController!.navigationBar.addSubview(navigationView)
 		navigationView.addSubview(leadingHStack)
@@ -184,6 +182,7 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 		onlineView.heightAnchor.constraint(equalToConstant: 10.0).isActive = true
 
 		navigationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onNavBarClick)))
+		navigationController?.navigationBar.applyAppearnce(type: .main)
 	}
 
 	func setLeadingButton() {

@@ -53,8 +53,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		Self.configureZendesk()
 		UNUserNotificationCenter.current().delegate = self
 		Messaging.messaging().delegate = self
-		UserDefaults.zendeskChatNotificationCount = 12
-		UserDefaults.chatNotificationsCount = 9
 		ALog.trace("-----------------------> Start of the App <-----------------------")
 		return true
 	}
@@ -98,7 +96,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	}
 
 	func applyAppearance() {
-		UINavigationBar.applyAppearance()
 		UITabBar.applyAppearance()
 		UICollectionView.applyAppearance()
 	}

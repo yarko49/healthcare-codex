@@ -35,12 +35,10 @@ class ProfileEntryViewController: SignupBaseViewController {
 		navigationController?.setNavigationBarHidden(false, animated: true)
 		view.backgroundColor = .allieWhite
 		titleLabel.isHidden = true
-		var viewTopOffset: CGFloat = controllerViewMode == .onboarding ? 2.0 : 1.0
 		var bottomButtonOffset: CGFloat = 2.0
 		if UIScreen.main.bounds.height <= 667 {
 			Self.controlHeight = 45.0
 			mainStackView.spacing = 5.0
-			viewTopOffset = 0.0
 			bottomButtonOffset = 0.0
 		}
 		configureValidation()
@@ -48,8 +46,7 @@ class ProfileEntryViewController: SignupBaseViewController {
 			view.translatesAutoresizingMaskIntoConstraints = false
 		}
 		view.addSubview(mainStackView)
-		let viewTopAnchor = controllerViewMode == .onboarding ? labekStackView.bottomAnchor : view.safeAreaLayoutGuide.topAnchor
-		NSLayoutConstraint.activate([mainStackView.topAnchor.constraint(equalToSystemSpacingBelow: viewTopAnchor, multiplier: viewTopOffset),
+		NSLayoutConstraint.activate([mainStackView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 60),
 		                             mainStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.0),
 		                             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: mainStackView.trailingAnchor, multiplier: 2.0)])
 		namesStackView.addArrangedSubview(firstNameTextField)

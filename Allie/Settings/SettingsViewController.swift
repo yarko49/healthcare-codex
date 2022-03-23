@@ -1,7 +1,9 @@
 import CareModel
 import CodexFoundation
+import Combine
 import Firebase
 import FirebaseAuth
+import JGProgressHUD
 import KeychainAccess
 import MessageUI
 import MessagingSDK
@@ -11,11 +13,20 @@ import SupportSDK
 import SwiftUI
 import UIKit
 
-class SettingsViewController: BaseViewController {
+class SettingsViewController: UIViewController {
 	let rowHeight: CGFloat = 74
 	let footerHeight: CGFloat = 160
 
+	private let hud: JGProgressHUD = {
+		let view = JGProgressHUD(style: .dark)
+		view.vibrancyEnabled = true
+		view.textLabel.text = NSLocalizedString("LOADING", comment: "Loading")
+		return view
+	}()
+
 	@Injected(\.careManager) var careManager: CareManager
+
+	private var cancellables = Set<AnyCancellable>()
 
 	// MARK: - IBOutlets
 
@@ -32,6 +43,15 @@ class SettingsViewController: BaseViewController {
 	let settingsFooterView: SettingsFooterView = {
 		let view = SettingsFooterView(frame: .zero)
 		return view
+	}()
+
+	private var navigationView: UIView!
+
+	private var navTitle: UILabel = {
+		let navTitle = UILabel()
+		navTitle.translatesAutoresizingMaskIntoConstraints = false
+		navTitle.attributedText = NSLocalizedString("SETTINGS", comment: "Settings").attributedString(style: .silkabold24, foregroundColor: .mainBlue)
+		return navTitle
 	}()
 
 	var dataSource: UITableViewDiffableDataSource<Int, SettingsType>!
@@ -94,6 +114,21 @@ class SettingsViewController: BaseViewController {
 			getZendDeskUnReadTicket()
 		}
 		NotificationCenter.default.addObserver(self, selector: #selector(didUpdateFeedBackCell), name: .didReceiveZendDeskNotification, object: nil)
+		setupNavigationView()
+	}
+
+	private func setupNavigationView() {
+		navigationController?.navigationBar.applyAppearnce(type: .setting)
+		navigationView = UIView(frame: CGRect(x: 16, y: 0, width: view.frame.size.width - 32, height: navigationController!.navigationBar.frame.size.height))
+		navigationController!.navigationBar.addSubview(navigationView)
+		navigationView.addSubview(navTitle)
+		navTitle.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor).isActive = true
+		navTitle.centerYAnchor.constraint(equalTo: navigationView.centerYAnchor).isActive = true
+	}
+
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		navigationView.removeFromSuperview()
 	}
 
 	deinit {

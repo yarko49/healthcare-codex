@@ -174,18 +174,7 @@ class SignupBaseViewController: UIViewController {
 	}
 
 	private func setupNavigationView() {
-		let navBar = UINavigationBar.appearance()
-		let appearance = UINavigationBarAppearance()
-		appearance.configureWithOpaqueBackground()
-		appearance.shadowColor = .clear
-		appearance.shadowImage = UIImage()
-		appearance.backgroundColor = .white
-		appearance.titleTextAttributes = [.font: TextStyle.silkabold24.font, .foregroundColor: UIColor.black]
-		navBar.tintColor = .white
-		navBar.barTintColor = .white
-		navBar.scrollEdgeAppearance = appearance
-		navBar.standardAppearance = appearance
-
+		navigationController?.navigationBar.applyAppearnce(type: .onboarding)
 		let backButton = UIButton()
 		backButton.frame = CGRect(x: 0, y: -6, width: 44, height: 44)
 		backButton.backgroundColor = .mainBlue

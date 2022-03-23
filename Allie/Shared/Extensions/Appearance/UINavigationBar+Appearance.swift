@@ -7,18 +7,57 @@
 
 import UIKit
 
+enum NavigationBarType {
+	case onboarding, main, setting
+
+	var navigationBarBackgroundColor: UIColor {
+		switch self {
+		case .main:
+			return .mainBlue!
+		case .onboarding, .setting:
+			return .white
+		}
+	}
+
+	var navigationBarTintColor: UIColor {
+		switch self {
+		case .main:
+			return .mainBlue!
+		case .onboarding, .setting:
+			return .white
+		}
+	}
+
+	var tintColor: UIColor {
+		switch self {
+		case .main:
+			return .allieWhite
+		case .onboarding, .setting:
+			return .white
+		}
+	}
+
+	var fontColor: UIColor {
+		switch self {
+		case .main:
+			return .allieWhite
+		case .setting, .onboarding:
+			return .black
+		}
+	}
+}
+
 extension UINavigationBar {
-	override class func applyAppearance() {
-		let navBar = UINavigationBar.appearance()
+	func applyAppearnce(type: NavigationBarType) {
 		let appearance = UINavigationBarAppearance()
 		appearance.configureWithOpaqueBackground()
 		appearance.shadowColor = .clear
 		appearance.shadowImage = UIImage()
-		appearance.backgroundColor = .mainBlue
-		appearance.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 17.0, weight: .semibold), .foregroundColor: UIColor.allieWhite]
-		navBar.tintColor = .allieWhite
-		navBar.barTintColor = .mainBlue
-		navBar.scrollEdgeAppearance = appearance
-		navBar.standardAppearance = appearance
+		appearance.backgroundColor = type.navigationBarBackgroundColor
+		tintColor = type.tintColor
+		barTintColor = type.navigationBarTintColor
+		appearance.titleTextAttributes = [.font: TextStyle.silkabold24.font, .foregroundColor: type.fontColor]
+		scrollEdgeAppearance = appearance
+		standardAppearance = appearance
 	}
 }
