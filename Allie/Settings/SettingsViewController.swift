@@ -349,8 +349,6 @@ extension SettingsViewController: UITableViewDelegate {
 		let selectProviderController = SelectProviderViewController(collectionViewLayout: SelectProviderViewController.layout)
 		selectProviderController.isModel = false
 		selectProviderController.hidesBottomBarWhenPushed = true
-		selectProviderController.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-		backButton.addTarget(self, action: #selector(Self.onClickBackButton), for: .touchUpInside)
 		navigationController?.show(selectProviderController, sender: self)
 	}
 

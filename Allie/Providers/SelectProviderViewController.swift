@@ -29,22 +29,30 @@ class SelectProviderViewController: UICollectionViewController {
 		return view
 	}()
 
-	var doneAction: AllieBoolCompletion?
+	private let backButton: UIButton = {
+		let backButton = UIButton()
+		backButton.frame = CGRect(x: 0, y: -6, width: 44, height: 44)
+		backButton.backgroundColor = .mainBlue
+		backButton.layer.cornerRadius = 22.0
+		backButton.setImage(UIImage(systemName: "arrow.left"), for: .normal)
+		backButton.tintColor = .white
+		return backButton
+	}()
+
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
 	var showDetailAction: ((CMOrganization) -> Void)?
 	private var cancellables: Set<AnyCancellable> = []
 	var dataSource: UICollectionViewDiffableDataSource<Int, CMOrganization>!
 	var isModel = true
+	var registerProviderAction: AllieBoolCompletion?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.back"), style: .plain, target: nil, action: nil)
-		if isModel {
-			let doneBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done(_:)))
-			navigationItem.rightBarButtonItem = doneBarButtonItem
-			let cancelBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))
-			navigationItem.leftBarButtonItem = cancelBarButtonItem
-		}
+
+		title = "Select Provider"
+
+		navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+		backButton.addTarget(self, action: #selector(Self.onClickBackButton), for: .touchUpInside)
 
 		let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, CMOrganization> { [weak self] cell, _, item in
 			var configuration = cell.defaultContentConfiguration()
@@ -63,11 +71,11 @@ class SelectProviderViewController: UICollectionViewController {
 
 		let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { headerView, _, _ in
 			var configuration = headerView.defaultContentConfiguration()
-			configuration.text = NSLocalizedString("CHOOSE_PROVIDER.title", comment: "Choose your Healthcare Provider")
+			configuration.text = ""
 			configuration.textProperties.font = .boldSystemFont(ofSize: 26.0)
 			configuration.textProperties.color = .allieGray
 			configuration.textProperties.alignment = .center
-			configuration.directionalLayoutMargins = .init(top: 50.0, leading: 20.0, bottom: 50.0, trailing: 20.0)
+			configuration.directionalLayoutMargins = .init(top: 10.0, leading: 20.0, bottom: 10.0, trailing: 20.0)
 			headerView.backgroundColor = .allieWhite
 			headerView.contentConfiguration = configuration
 		}
@@ -94,6 +102,10 @@ class SelectProviderViewController: UICollectionViewController {
 			cancellable.cancel()
 		}
 		cancellables.removeAll()
+	}
+
+	@objc func onClickBackButton() {
+		navigationController?.popViewController()
 	}
 
 	override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -205,6 +217,7 @@ class SelectProviderViewController: UICollectionViewController {
 					let updateOrganizations = CMOrganizations(available: strongSelf.organizations.available, registered: [organization])
 					strongSelf.process(organizations: updateOrganizations)
 					NotificationCenter.default.post(name: .didRegisterOrganization, object: nil, userInfo: nil)
+					strongSelf.registerProviderAction?(success)
 				}
 			}.store(in: &cancellables)
 	}
@@ -225,14 +238,6 @@ class SelectProviderViewController: UICollectionViewController {
 			} receiveValue: { [weak self] response in
 				self?.process(organizations: response)
 			}.store(in: &cancellables)
-	}
-
-	@objc func cancel(_ sender: Any?) {
-		doneAction?(true)
-	}
-
-	@objc func done(_ sender: Any?) {
-		doneAction?(false)
 	}
 }
 

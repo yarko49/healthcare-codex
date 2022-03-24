@@ -314,9 +314,13 @@ class AuthCoordinator: BaseCoordinator {
 
 	func selectProvider() {
 		let selectProviderController = SelectProviderViewController(collectionViewLayout: SelectProviderViewController.layout)
-		selectProviderController.doneAction = { [weak selectProviderController] _ in
-			selectProviderController?.dismiss(animated: true, completion: nil)
+//		selectProviderController.doneAction = { [weak selectProviderController] _ in
+//			selectProviderController?.dismiss(animated: true, completion: nil)
+//		}
+		selectProviderController.registerProviderAction = { _ in
+			self.authorizeHKForUpload()
 		}
+		navigate(to: selectProviderController, with: .push)
 	}
 
 	func authorizeHKForUpload() {

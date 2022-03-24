@@ -175,9 +175,9 @@ class AppCoordinator: BaseCoordinator {
 
 	func showProviderList() {
 		let selectProviderController = SelectProviderViewController(collectionViewLayout: SelectProviderViewController.layout)
-		selectProviderController.doneAction = { [weak selectProviderController] _ in
-			selectProviderController?.dismiss(animated: true, completion: nil)
-		}
+//		selectProviderController.doneAction = { [weak selectProviderController] _ in
+//			selectProviderController?.dismiss(animated: true, completion: nil)
+//		}
 		let navController = UINavigationController(rootViewController: selectProviderController)
 		tabBarController?.showDetailViewController(navController, sender: navigationController)
 	}

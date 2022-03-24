@@ -26,6 +26,7 @@ struct ProviderDetailViewBody: View {
 	@EnvironmentObject var hudCoordinator: JGProgressHUDCoordinator
 	var shouldShowAlert: Bool
 	@State var showAlert = false
+	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
 	var body: some View {
 		VStack(spacing: 20) {
@@ -34,7 +35,7 @@ struct ProviderDetailViewBody: View {
 				.indicator(.activity)
 				.transition(.fade(duration: 0.5))
 				.padding(.vertical, 100.0)
-			Text("PROVIDER_CONSENT.message")
+			Text(viewModel.organization.message ?? "")
 				.multilineTextAlignment(.center)
 				.foregroundColor(.allieButtons)
 				.font(.body)
@@ -63,10 +64,26 @@ struct ProviderDetailViewBody: View {
 				Alert(title: Text("CANNOT_REGISTER"), message: Text("UNREGISTER_FIRST.message"), dismissButton: .cancel())
 			})
 			.frame(minWidth: 100.0, maxWidth: .infinity, minHeight: 40.0, maxHeight: .infinity, alignment: .center)
-			.background(Color.allieButtons)
-			.foregroundColor(.allieWhite)
+			.background(Color.black)
+			.foregroundColor(Color.white)
+			.font(.custom("Silka-Bold", size: 16))
 			.cornerRadius(8)
-			.frame(width: 340.0, height: 48.0, alignment: .center)
+			.frame(maxWidth: .infinity)
+			.frame(height: 48, alignment: .center)
+			.padding()
+		}
+		.navigationBarBackButtonHidden(true)
+		.toolbar {
+			ToolbarItem(placement: .navigationBarLeading) {
+				Image(systemName: "arrow.backward")
+					.foregroundColor(Color.white)
+					.frame(width: 44, height: 44, alignment: .center)
+					.background(Color(.mainBlue!))
+					.cornerRadius(22)
+					.onTapGesture {
+						presentationMode.wrappedValue.dismiss()
+					}
+			}
 		}
 	}
 }
