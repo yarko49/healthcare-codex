@@ -40,12 +40,21 @@ class SettingsViewController: UIViewController {
 		return view
 	}()
 
+	private let backButton: UIButton = {
+		let backButton = UIButton()
+		backButton.frame = CGRect(x: 0, y: -6, width: 44, height: 44)
+		backButton.backgroundColor = .mainBlue
+		backButton.layer.cornerRadius = 22.0
+		backButton.setImage(UIImage(systemName: "arrow.left"), for: .normal)
+		backButton.tintColor = .white
+		return backButton
+	}()
+
 	let settingsFooterView: SettingsFooterView = {
 		let view = SettingsFooterView(frame: .zero)
 		return view
 	}()
 
-    /// Head
 	private var navigationView: UIView!
 
 	private var navTitle: UILabel = {
@@ -53,9 +62,8 @@ class SettingsViewController: UIViewController {
 		navTitle.translatesAutoresizingMaskIntoConstraints = false
 		navTitle.attributedText = NSLocalizedString("SETTINGS", comment: "Settings").attributedString(style: .silkabold24, foregroundColor: .mainBlue)
 		return navTitle
-    }()
-    
-    /// Origin
+	}()
+
 	var stackView: UIStackView = {
 		let view = UIStackView()
 		view.spacing = 0
@@ -72,7 +80,6 @@ class SettingsViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		title = String.settings
 		view.backgroundColor = .mainBackground
 
 		[settingsFooterView, tableView, stackView].forEach { view in
@@ -126,6 +133,10 @@ class SettingsViewController: UIViewController {
 		}
 		NotificationCenter.default.addObserver(self, selector: #selector(didUpdateFeedBackCell), name: .didReceiveZendDeskNotification, object: nil)
 		setupNavigationView()
+	}
+
+	@objc func onClickBackButton() {
+		navigationController?.popViewController()
 	}
 
 	private func setupNavigationView() {
@@ -256,12 +267,16 @@ extension SettingsViewController: UITableViewDelegate {
 	func showConnectedDevices() {
 		let viewController = ConnectedDevicesViewController(style: .plain)
 		viewController.hidesBottomBarWhenPushed = true
+		viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+		backButton.addTarget(self, action: #selector(Self.onClickBackButton), for: .touchUpInside)
 		navigationController?.show(viewController, sender: self)
 	}
 
 	func showNotifications() {
 		let notificationSettingsController = NotificationSettingsController()
 		notificationSettingsController.hidesBottomBarWhenPushed = true
+		notificationSettingsController.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+		backButton.addTarget(self, action: #selector(Self.onClickBackButton), for: .touchUpInside)
 		navigationController?.show(notificationSettingsController, sender: self)
 	}
 
@@ -274,6 +289,8 @@ extension SettingsViewController: UITableViewDelegate {
 	func showFeedback() {
 		let requestListController = RequestUi.buildRequestList(with: [])
 		requestListController.hidesBottomBarWhenPushed = true
+		requestListController.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+		backButton.addTarget(self, action: #selector(Self.onClickBackButton), for: .touchUpInside)
 		navigationController?.show(requestListController, sender: self)
 	}
 
@@ -332,6 +349,8 @@ extension SettingsViewController: UITableViewDelegate {
 		let selectProviderController = SelectProviderViewController(collectionViewLayout: SelectProviderViewController.layout)
 		selectProviderController.isModel = false
 		selectProviderController.hidesBottomBarWhenPushed = true
+		selectProviderController.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+		backButton.addTarget(self, action: #selector(Self.onClickBackButton), for: .touchUpInside)
 		navigationController?.show(selectProviderController, sender: self)
 	}
 
@@ -339,6 +358,8 @@ extension SettingsViewController: UITableViewDelegate {
 		let viewController = FileLoggingViewController()
 		viewController.title = SettingsType.logging.title
 		viewController.hidesBottomBarWhenPushed = true
+		viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+		backButton.addTarget(self, action: #selector(Self.onClickBackButton), for: .touchUpInside)
 		navigationController?.show(viewController, sender: self)
 	}
 
