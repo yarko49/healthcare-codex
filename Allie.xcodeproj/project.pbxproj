@@ -127,9 +127,6 @@
 		25F39CCD27DFE30200C5B4B1 /* CalendarPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F39CCC27DFE30100C5B4B1 /* CalendarPicker.swift */; };
 		25F39CCE27DFE30200C5B4B1 /* CalendarPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F39CCC27DFE30100C5B4B1 /* CalendarPicker.swift */; };
 		25F39CCF27DFE30200C5B4B1 /* CalendarPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F39CCC27DFE30100C5B4B1 /* CalendarPicker.swift */; };
-		47221E9327D89AB000017EA4 /* CarePlanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47221E9227D89AB000017EA4 /* CarePlanManager.swift */; };
-		47221E9427D89AB000017EA4 /* CarePlanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47221E9227D89AB000017EA4 /* CarePlanManager.swift */; };
-		47221E9527D89AB000017EA4 /* CarePlanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47221E9227D89AB000017EA4 /* CarePlanManager.swift */; };
 		47124EA827DB3F8C008C5853 /* CareManager+Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47124EA727DB3F8C008C5853 /* CareManager+Persistence.swift */; };
 		47124EA927DB3F8C008C5853 /* CareManager+Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47124EA727DB3F8C008C5853 /* CareManager+Persistence.swift */; };
 		47124EAA27DB3F8C008C5853 /* CareManager+Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47124EA727DB3F8C008C5853 /* CareManager+Persistence.swift */; };
@@ -1177,7 +1174,6 @@
 		25DD5D7327D2C7F200C32282 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		25E68B6C27DB8A90003B3364 /* CarePlanLastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlanLastCell.swift; sourceTree = "<group>"; };
 		25F39CCC27DFE30100C5B4B1 /* CalendarPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPicker.swift; sourceTree = "<group>"; };
-		47221E9227D89AB000017EA4 /* CarePlanManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarePlanManager.swift; sourceTree = "<group>"; };
 		47124EA727DB3F8C008C5853 /* CareManager+Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CareManager+Persistence.swift"; sourceTree = "<group>"; };
 		47221E9627D8A03F00017EA4 /* HKSample+RestingHeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKSample+RestingHeartRate.swift"; sourceTree = "<group>"; };
 		47221E9A27D8A3E500017EA4 /* CHOutcome+IrregularRhythm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CHOutcome+IrregularRhythm.swift"; sourceTree = "<group>"; };
@@ -3570,7 +3566,6 @@
 				257C7D3327B324C200251BC5 /* LinkCell.swift in Sources */,
 				848CD8B82696CBF2008B675F /* EntryMultiValueEntryView.swift in Sources */,
 				842DFC1325BBDA5900066A07 /* HealthViewController.swift in Sources */,
-				8450848F271AA93A0014764A /* CareManager+Persistance.swift in Sources */,
 				25E68B6D27DB8A90003B3364 /* CarePlanLastCell.swift in Sources */,
 				84C517F525B7E55F00D684E5 /* BottomButton.swift in Sources */,
 				2515505F27A00E4400C40BC5 /* DailyTaskTopView.swift in Sources */,
@@ -4666,7 +4661,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4697,7 +4692,7 @@
 				CODE_SIGN_ENTITLEMENTS = Allie/Allie.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 29P9H8TMND;
 				INFOPLIST_FILE = "Allie/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
