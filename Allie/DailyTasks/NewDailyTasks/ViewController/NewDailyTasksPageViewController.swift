@@ -26,8 +26,6 @@ class NewDailyTasksPageViewController: BaseViewController {
 	@Injected(\.remoteConfig) var remoteConfig: RemoteConfigManager
 	@Injected(\.syncManager) var syncManager: BluetoothSyncManager
 
-	var addCellIndex: Int?
-
 	@ObservedObject var viewModel: NewDailyTasksPageViewModel = .init()
 
 	var timeInterval: TimeInterval = 60 * 10
@@ -90,10 +88,7 @@ class NewDailyTasksPageViewController: BaseViewController {
 		collectionView.backgroundColor = .mainBackground
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		collectionView.register(RiseSleepCell.self, forCellWithReuseIdentifier: RiseSleepCell.cellID)
-		collectionView.register(HealthAddCell.self, forCellWithReuseIdentifier: HealthAddCell.cellID)
 		collectionView.register(HealthLastCell.self, forCellWithReuseIdentifier: HealthLastCell.cellID)
-		collectionView.register(LinkCell.self, forCellWithReuseIdentifier: LinkCell.cellID)
-		collectionView.register(FeaturedCell.self, forCellWithReuseIdentifier: FeaturedCell.cellID)
 		collectionView.register(NumericProgressCell.self, forCellWithReuseIdentifier: NumericProgressCell.cellID)
 		collectionView.register(HealthCell.self, forCellWithReuseIdentifier: HealthCell.cellID)
 		return collectionView
@@ -115,9 +110,8 @@ class NewDailyTasksPageViewController: BaseViewController {
 		}
 		.store(in: &subscriptions)
 
-		viewModel.$timelineItemViewModels.sink { [weak self] timelineItemViewModels in
+		viewModel.$timelineItemViewModels.sink { [weak self] _ in
 			DispatchQueue.main.async {
-				self?.addCellIndex = timelineItemViewModels.firstIndex { $0.cellType == .future }
 				self?.collectionView.reloadData()
 			}
 		}

@@ -107,10 +107,11 @@ class NewDailyTasksPageViewModel: ObservableObject {
 				} else {
 					let timelineItemModel = TimelineItemModel(outcomeValues: nil, event: event)
 					items.append(TimelineItemViewModel(timelineItemModel: timelineItemModel, eventDate: eventDate))
+					break
 				}
 			}
 		}
-		timelineItemViewModels = items.sorted { lhs, rhs in
+		let sortedItemViewModels = items.sorted { lhs, rhs in
 			let date1 = lhs.dateTime
 			let date2 = rhs.dateTime
 			if lhs.hasOutcomeValue(), !rhs.hasOutcomeValue() {
@@ -124,6 +125,55 @@ class NewDailyTasksPageViewModel: ObservableObject {
 			}
 			return date1 < date2
 		}
+		print("sortedItemsCount==>", sortedItemViewModels.count)
+
+		let completedCurrentItemViewModels = sortedItemViewModels
+			.filter { $0.cellType == .completed }
+		print("completedCurrentItemViewModels==>", completedCurrentItemViewModels.count)
+
+		let currentItemViewModelsWithoutMeasurement = sortedItemViewModels
+			.filter { $0.cellType == .current }
+			.filter { item in
+				guard let task = item.timelineItemModel.event.task as? AnyTaskExtensible else {
+					return false
+				}
+				return task.category != "measurements"
+			}
+		print("currentItemViewModelsWithoutMeasurement==>", currentItemViewModelsWithoutMeasurement.count)
+
+		var measurementItemViewModels = items.filter { item in
+			guard let task = item.timelineItemModel.event.task as? AnyTaskExtensible else {
+				return false
+			}
+			return task.category == "measurements"
+		}
+
+		var uniqueMeasurementItemViewModels = [TimelineItemViewModel]()
+		var ids = [String]()
+		for index in 0 ..< measurementItemViewModels.count {
+			measurementItemViewModels[index].cellType = .current
+			measurementItemViewModels[index].tapCount = 1
+			if !ids.contains(measurementItemViewModels[index].timelineItemModel.event.task.id) {
+				uniqueMeasurementItemViewModels.append(measurementItemViewModels[index])
+				ids.append(measurementItemViewModels[index].timelineItemModel.event.task.id)
+			}
+		}
+
+		print("uniqueMeasurementItemViewModels==>", uniqueMeasurementItemViewModels.count)
+
+		let futureItemViewModelsWithoutMeasurement = sortedItemViewModels
+			.filter { $0.cellType == .future }
+			.filter { item in
+				guard let task = item.timelineItemModel.event.task as? AnyTaskExtensible else {
+					return false
+				}
+				return task.category != "measurements"
+			}
+		print("futureItemViewModelsWithoutMeasurement==>", futureItemViewModelsWithoutMeasurement.count)
+
+		print("sortedItemsCountAfterAction==>", sortedItemViewModels.count)
+
+		timelineItemViewModels = completedCurrentItemViewModels + currentItemViewModelsWithoutMeasurement + uniqueMeasurementItemViewModels + futureItemViewModelsWithoutMeasurement
 	}
 
 	func generateSymptomData(events: [[OCKAnyEvent]]) {

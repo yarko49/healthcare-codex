@@ -27,7 +27,7 @@ struct TimelineItemModel {
 	}
 }
 
-class TimelineItemViewModel {
+struct TimelineItemViewModel {
 	var timelineItemModel: TimelineItemModel
 	var tapCount: Int = 0
 	var eventDate: Date = .init()
@@ -42,7 +42,7 @@ class TimelineItemViewModel {
 
 	// MARK: - Computed Properties
 
-	func setTempDateAndType() {
+	mutating func setTempDateAndType() {
 		if let outcomeValue = timelineItemModel.outcomeValues?.first {
 			cellType = .completed
 			dateTime = outcomeValue.createdDate

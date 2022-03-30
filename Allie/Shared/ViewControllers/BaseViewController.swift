@@ -70,21 +70,6 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 		return greetingLabel
 	}()
 
-	private var onlineView: UIView = {
-		let onlineView = UIView()
-		onlineView.translatesAutoresizingMaskIntoConstraints = false
-		onlineView.backgroundColor = .mainLightGreen
-		onlineView.layer.cornerRadius = 5.0
-		return onlineView
-	}()
-
-	private var onlineLabel: UILabel = {
-		let onlineLabel = UILabel()
-		onlineLabel.translatesAutoresizingMaskIntoConstraints = false
-		onlineLabel.attributedText = "ONLINE".attributedString(style: .silkabold14, foregroundColor: .mainLightGreen)
-		return onlineLabel
-	}()
-
 	private var chatImageView: UIImageView = {
 		let chatImageView = UIImageView()
 		chatImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -170,16 +155,6 @@ class BaseViewController: UIViewController, ViewControllerInitializable {
 
 		chatImageView.widthAnchor.constraint(equalToConstant: 24.0).isActive = true
 		chatImageView.heightAnchor.constraint(equalToConstant: 24.0).isActive = true
-
-		navigationView.addSubview(onlineLabel)
-		onlineLabel.centerYAnchor.constraint(equalTo: greetingLabel.centerYAnchor).isActive = true
-		onlineLabel.trailingAnchor.constraint(equalTo: badgeView.leadingAnchor, constant: -12.0).isActive = true
-
-		navigationView.addSubview(onlineView)
-		onlineView.centerYAnchor.constraint(equalTo: greetingLabel.centerYAnchor).isActive = true
-		onlineView.trailingAnchor.constraint(equalTo: onlineLabel.leadingAnchor, constant: -8.0).isActive = true
-		onlineView.widthAnchor.constraint(equalToConstant: 10.0).isActive = true
-		onlineView.heightAnchor.constraint(equalToConstant: 10.0).isActive = true
 
 		navigationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onNavBarClick)))
 		navigationController?.navigationBar.applyAppearnce(type: .main)
