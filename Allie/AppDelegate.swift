@@ -46,6 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		applyAppearance()
+		Thread.sleep(forTimeInterval: 3.0)
 		FirebaseConfiguration.shared.setLoggerLevel(.min)
 		FirebaseApp.configure()
 		IQKeyboardManager.shared.enable = true
