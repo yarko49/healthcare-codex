@@ -18,6 +18,8 @@ enum CarePlanLoadingState {
 
 class CarePlanViewModel: ObservableObject {
 	@Injected(\.networkAPI) var networkAPI: AllieAPI
+
+	private let date = Date()
 	private let cancellables: Set<AnyCancellable> = []
 
 	@Published var loadingState: CarePlanLoadingState = .loading
@@ -32,7 +34,7 @@ class CarePlanViewModel: ObservableObject {
 					loadingState = .failed
 					return
 				}
-				let tasks = carePlanResponse.tasks
+				let tasks = carePlanResponse.tasks.filter { !$0.isHidden }
 				let groupedTasks = Dictionary(grouping: tasks) { (element: CHTask) in
 					element.category
 				}.sorted { lhs, rhs in
